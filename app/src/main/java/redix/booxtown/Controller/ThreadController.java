@@ -39,6 +39,23 @@ public class ThreadController {
         return null;
     }
 
+    public List<Thread> getthreadbyid(String id){
+        Call<ThreadResult> getbyid = service.getthreadbyid(id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            ThreadResult str = getbyid.execute().body();
+            if (str.getCode()==200){
+                return str.getListThread();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
     public List<Thread> threadGetTop(String session_id,String topic_id, int top, int from){
         Call<ThreadResult> getTop = service.threadGetTop(session_id, topic_id, top, from);
         try {

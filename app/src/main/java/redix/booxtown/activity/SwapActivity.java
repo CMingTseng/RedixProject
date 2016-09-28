@@ -62,6 +62,7 @@ public class SwapActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
         //------------------------------------------------------------
         listSwap.add("Any");
         listSwap.add("The Last Painting of Sara de Vos");
