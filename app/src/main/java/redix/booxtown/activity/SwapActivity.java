@@ -1,10 +1,14 @@
 package redix.booxtown.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -31,7 +35,11 @@ import redix.booxtown.adapter.AdapterExplore;
 import redix.booxtown.adapter.AdapterInteractThreadDetails;
 import redix.booxtown.adapter.AdapterSwap;
 import redix.booxtown.adapter.CustomPagerAdapter;
+import redix.booxtown.adapter.ListBookAdapter;
+import redix.booxtown.controller.BookController;
 import redix.booxtown.custom.MenuBottomCustom;
+import redix.booxtown.model.Book;
+import redix.booxtown.model.BookSwap;
 import redix.booxtown.model.Explore;
 import redix.booxtown.model.InteractComment;
 
@@ -40,7 +48,7 @@ import redix.booxtown.model.InteractComment;
  */
 public class SwapActivity extends AppCompatActivity {
 
-    ArrayList<String> listSwap= new ArrayList<>();
+    ArrayList<BookSwap> listSwap= new ArrayList<>();
     ListView listView;
 
     @Override
@@ -64,21 +72,19 @@ public class SwapActivity extends AppCompatActivity {
         });
 
         //------------------------------------------------------------
-        listSwap.add("Any");
-        listSwap.add("The Last Painting of Sara de Vos");
-        listSwap.add("The Last Painting");
-        listSwap.add("Never a Dull Moment");
-        listSwap.add("A Nation on the Brink");
-        listSwap.add("1634 the Baltic War");
-        listSwap.add("Any");
-        listSwap.add("The Last Painting of Sara de Vos");
-        listSwap.add("The Last Painting");
-        listSwap.add("Never a Dull Moment");
-        listSwap.add("A Nation on the Brink");
-        listSwap.add("1634 the Baltic War");
-        AdapterSwap adapter = new AdapterSwap(SwapActivity.this,listSwap);
-        listView=(ListView) findViewById(R.id.listView_swap);
-        listView.setAdapter(adapter);
+//        listSwap.add("Any");
+//        listSwap.add("The Last Painting of Sara de Vos");
+//        listSwap.add("The Last Painting");
+//        listSwap.add("Never a Dull Moment");
+//        listSwap.add("A Nation on the Brink");
+//        listSwap.add("1634 the Baltic War");
+//        listSwap.add("Any");
+//        listSwap.add("The Last Painting of Sara de Vos");
+//        listSwap.add("The Last Painting");
+//        listSwap.add("Never a Dull Moment");
+//        listSwap.add("A Nation on the Brink");
+//        listSwap.add("1634 the Baltic War");
+
 
 
         TextView btn_Swap=(TextView) findViewById(R.id.btn_swap);
@@ -120,6 +126,60 @@ public class SwapActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        listingAsync listingAsync = new listingAsync(SwapActivity.this);
+        SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor  = pref.edit();
+        String session_id = pref.getString("session_id", null);
+        listingAsync.execute(session_id);
+    }
+
+    class listingAsync extends AsyncTask<String,Void,List<Book>> {
+
+        Context context;
+        ProgressDialog dialog;
+        List<Book> listemp;
+        public listingAsync(Context context){
+            this.context = context;
+        }
+
+        @Override
+        protected List<Book> doInBackground(String... strings) {
+            listemp = new ArrayList<>();
+            BookController bookController = new BookController();
+            listemp = bookController.getAllBookById(strings[0]);
+            return listemp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(List<Book> books) {
+            if (books == null){
+                dialog.dismiss();
+            }else {
+                BookSwap book;
+                for(int i=0; i<books.size(); i++){
+                    book= new BookSwap();
+                    book.setIscheck(false);
+                    book.setValue(books.get(i).getTitle());
+                    book.setBook_id(books.get(i).getId());
+                    listSwap.add(book);
+                }
+                AdapterSwap adapter = new AdapterSwap(SwapActivity.this,listSwap);
+                listView=(ListView) findViewById(R.id.listView_swap);
+                listView.setAdapter(adapter);
+                dialog.dismiss();
+            }
+            super.onPostExecute(books);
+        }
     }
 
 }
