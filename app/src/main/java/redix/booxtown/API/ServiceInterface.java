@@ -11,6 +11,7 @@ import redix.booxtown.model.NotificationResult;
 import redix.booxtown.model.Profile;
 import redix.booxtown.model.Result;
 import redix.booxtown.model.BookResult;
+import redix.booxtown.model.SettingResult;
 import redix.booxtown.model.Thread;
 import redix.booxtown.model.ThreadResult;
 import redix.booxtown.model.TopicResult;
@@ -67,8 +68,7 @@ public interface ServiceInterface {
     Call<Result> updateprofile(@Body Object user);
 
     @POST("/booxtown/rest/user/changepassword")
-    Call<Result> changepassword(@Query("session_id") String session_id, @Query("pwd_old") String pwd_old,
-                                @Query("pwd_new") String pwd_new);
+    Call<Result> changepassword(@Body Object user);
 
     @POST("/booxtown/rest/user/logout")
     Call<Result> logout(@Body Object user);
@@ -159,4 +159,9 @@ public interface ServiceInterface {
     @POST("/booxtown/rest/transaction/transaction_insert")
     Call<Result> transactionInsert(@Body Object transaction);
     // end Transaction
+    @POST("/booxtown/rest/setting/setting_update")
+    Call<Result> updateSetting(@Body Object setting);
+
+    @GET("/booxtown/rest/setting/getSettingByUserId")
+    Call<SettingResult> getSettingByUserId(@Query("session_id") String session_id);
 }
