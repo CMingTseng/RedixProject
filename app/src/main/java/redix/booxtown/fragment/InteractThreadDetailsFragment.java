@@ -52,6 +52,7 @@ public class InteractThreadDetailsFragment extends Fragment
     TextView txt_count_thread;
     String type_fragment;
     AdapterInteractThreadDetails adapter;
+    List<String> listUser= new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,6 +120,8 @@ public class InteractThreadDetailsFragment extends Fragment
             btn_send_comment_interact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    List<String> ss= listUser;
+
                     insertComment insertComment1 = new insertComment(getContext());
                     insertComment1.execute(session_id,edit_message.getText().toString(),threads.getId());
                     edit_message.setText("");
@@ -165,6 +168,12 @@ public class InteractThreadDetailsFragment extends Fragment
                 if(comments.size() >0){
                     adapter = new AdapterInteractThreadDetails(context,comments);
                     listView.setAdapter(adapter);
+                    listUser.add(threads.getUser_id());
+                    for(int i=0; i< comments.size(); i++){
+                        if(!listUser.contains(comments.get(i).getUser_id())){
+                            listUser.add(comments.get(i).getUser_id());
+                        }
+                    }
                     dialog.dismiss();
                 }else {
                     //Toast.makeText(context,"no data",Toast.LENGTH_SHORT).show();
@@ -292,12 +301,14 @@ public class InteractThreadDetailsFragment extends Fragment
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     String username = pref.getString("username", null);
                     List<Hashtable> list = new ArrayList<>();
-                    Notification notification = new Notification("Comment from thread ","thread_comment",topic.getId()+"::"+threads.getId());
-                    Hashtable obj= ObjectCommon.ObjectDymanic(notification);
-                    obj.put("user_id",threads.getUser_id());
-                    obj.put("messages","Comment thread "+ threads.getTitle()+" by: "+ username);
+                    for(int i=0; i<listUser.size(); i++) {
+                        Notification notification = new Notification("Comment from thread ", "thread_comment", topic.getId() + "::" + threads.getId());
+                        Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                        obj.put("user_id", listUser.get(i));
+                        obj.put("messages", "Comment thread " + threads.getTitle() + " by: " + username);
 
-                    list.add(obj);
+                        list.add(obj);
+                    }
 
                     NotificationController controller = new NotificationController();
                     controller.sendNotification(list);
