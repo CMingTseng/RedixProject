@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="12dp"
+        android:background="@drawable/customborder">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buy"
+            android:id="@+id/textView134"
+            android:gravity="center"
+            android:layout_marginTop="45dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/dot_light_screen1"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Are you sure you want to buy this book"
+            android:id="@+id/textView135"
+            android:textColor="@color/dot_light_screen1"
+            android:textSize="16sp"
+            android:layout_below="@+id/textView134"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;The Last Painting of Sara de Vos&quot;"
+            android:id="@+id/textView136"
+            android:layout_below="@+id/textView135"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="224dp"
+            android:layout_height="36dp"
+            android:text="Confirm"
+            android:id="@+id/btn_confirm_buy_listing"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/textView136"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_white_popup"
+            android:gravity="center"
+            android:textColor="@color/color_text"
+            android:textSize="20sp"
+            android:layout_marginBottom="60dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/close_buy_listings"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="btn_signin">140dp</dimen>
+    <dimen name="btn_signin_maginleft">15dp</dimen>
+</resources>

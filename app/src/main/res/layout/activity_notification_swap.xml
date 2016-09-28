@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="redix.booxtown.activity.NotificationSwapActivity">
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/include" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_title_notification"
+        android:id="@+id/menu_title_notification"
+        android:layout_below="@+id/include"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/menu_title_notification"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <include layout="@layout/menu_notification_infor1"
+            android:id="@+id/menu_notification_infor1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Evil Queen:The last paintings"
+            android:id="@+id/textView22"
+            android:layout_below="@+id/menu_notification_infor1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ayn rand"
+            android:id="@+id/textView23"
+            android:layout_below="@+id/textView22"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView23"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#ffffff">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A e thấy mấy bộ này thế nào 3 loại 65k 75"
+                android:id="@+id/textView24"
+                android:layout_alignParentTop="true"
+                android:paddingTop="5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Donimic&apos;s swap list"
+                android:id="@+id/textView25"
+                android:layout_below="@+id/textView24"
+                android:layout_centerHorizontal="true"
+                android:textColor="#f25d5d" />
+
+            <Button
+                android:layout_width="223dp"
+                android:layout_height="36dp"
+                android:textAllCaps="false"
+                android:text="Didn&apos;t like any book"
+                android:id="@+id/btn_notification_not_like"
+                android:background="@drawable/bg_btn_sign_in"
+                android:textColor="#ffffff"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="50dp" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lv_notification_swap"
+                android:layout_below="@+id/textView25"
+                android:layout_alignLeft="@+id/textView24"
+                android:layout_alignStart="@+id/textView24"
+                android:layout_above="@+id/btn_notification_not_like"
+                android:layout_alignRight="@+id/textView24"
+                android:layout_alignEnd="@+id/textView24"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/menu_bottom_noti_swap" />
+</RelativeLayout>

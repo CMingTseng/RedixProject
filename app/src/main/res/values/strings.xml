@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">BooxTown</string>
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Hello Food!</string>
+    <string name="slide_1_desc">Welcome to the first specialized marketplace and cominunity for fre-loved books!</string>
+
+    <string name="slide_2_title">Movie Tickets</string>
+    <string name="slide_2_desc">Join us and share you passion for books and reading.\n\nListing books is always for free.</string>
+
+    <string name="slide_3_title">Great Discounts</string>
+    <string name="slide_3_desc">Upgrade your membership for AED 25/month and enjoy connecting with other readers,locate your favorite books nearby,find easily what book are available for sale,swap and ever free and even if you can\'t find your favorite book right now,and it to the Wishboard.No limits at all  </string>
+    <!--<string name="slide_3_desc"></string>-->
+
+    <string name="slide_4_title">World Travel</string>
+    <string name="slide_4_desc">Start your 14 days trial period now and check out the cool features of Booxtown.\n\nAnd thought we will be sad to see you go,you can stop your membership at anytime</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="SignInWith">Sign in with</string>
+    <string name="SignUp">Sign up</string>
+    <string name="SignIn">Sign in</string>
+    <string name="forgotpassword">Forgot Password?</string>
+    <string name="youforgotpassword">Forgot Your Password ?</string>
+    <string name="labelemail">Enter your email to find password</string>
+    <string name="Confirm">Submit</string>
+    <string name="Back">Back</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_loacte">Locate</string>
+    <string name="title_activity_activity_notification">activity_notification</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="RequestSend">Request sent</string>
+    <string name="titlepopp_screen78">Your request has been sent successfully. Let\'s wait for Domonic\'s reply</string>
+    <string name="backtohome">Back to home</string>
+    <string name="valueListings">layoutValue</string>
+</resources>

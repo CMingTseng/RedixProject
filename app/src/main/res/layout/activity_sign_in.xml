@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dot_light_screen2">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:weightSum="1">
+        <ImageView
+            android:id="@+id/btn_back_sigin"
+            android:layout_width="14dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+             />
+        <ImageView
+            android:layout_width="178dp"
+            android:layout_height="45dp"
+            android:id="@+id/icon_sign_in_home"
+            android:layout_marginLeft="65dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.05" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        >
+        <EditText
+            android:id="@+id/username_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:maxLines="1"
+            android:fontFamily="sans-serif-thin"
+            android:textColorHint="@color/color_text_hint"
+            android:backgroundTint="@color/color_hint_interact" />
+        <EditText
+            android:id="@+id/password_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:fontFamily="sans-serif-thin"
+            android:maxLines="1"
+            android:textColorHint="@color/color_text_hint"
+            android:backgroundTint="@color/color_hint_interact"
+            android:password="true" />
+        <TextView
+            android:id="@+id/btn_sigin"
+            android:layout_width="223dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="Sign In"
+            android:fontFamily="sans-serif-light"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_btn_sign_in"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <Button
+            android:id="@+id/btn_forgotpass"
+            android:layout_width="match_parent"
+            android:textAllCaps="false"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:text="@string/forgotpassword"
+            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/color_text_hint"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

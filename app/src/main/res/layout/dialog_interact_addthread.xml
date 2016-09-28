@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/customborder">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add new thread"
+            android:id="@+id/textView67"
+            android:layout_marginTop="43dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:textColor="@color/dot_light_screen2"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_title_insert_thread"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="63dp"
+            android:layout_alignRight="@+id/textView67"
+            android:layout_alignEnd="@+id/textView67"
+            android:hint="Title *"
+            android:textColorHint="@color/dot_light_screen2"
+            android:shadowColor="@color/dot_light_screen1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/dot_light_screen2"
+            android:backgroundTint="@color/dot_light_screen1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_description_insert_thread"
+            android:layout_marginTop="120dp"
+            android:layout_alignRight="@+id/edit_title_insert_thread"
+            android:layout_alignEnd="@+id/edit_title_insert_thread"
+            android:layout_alignLeft="@+id/edit_title_insert_thread"
+            android:layout_alignStart="@+id/edit_title_insert_thread"
+            android:hint="Description"
+            android:textColorHint="@color/dot_light_screen2"
+            android:textColor="@color/dot_light_screen2"
+            android:backgroundTint="@color/dot_light_screen1" />
+
+        <Button
+            android:layout_width="223dp"
+            android:layout_height="36dp"
+            android:text="Submit"
+            android:id="@+id/btn_dialog_interact_submit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="172dp"
+            android:background="@drawable/bg_interact_bt_popup"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/color_text"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:id="@+id/imv_dialog_interacr_close"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+</RelativeLayout>

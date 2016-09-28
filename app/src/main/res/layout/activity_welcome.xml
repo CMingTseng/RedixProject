@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:showIn="@layout/activity_welcome"
+    >
+    <redix.booxtown.autoviewpager.AutoScrollViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutDots"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        />
+
+    <Button
+        android:id="@+id/btn_sigup_wellcome"
+        android:layout_width="@dimen/btn_signin"
+        android:textSize="20sp"
+        android:layout_height="36dp"
+        android:textAllCaps="false"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="175dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/btn_signin_maginleft"
+        android:text="@string/SignUp"
+        android:background="@drawable/bg_btn_welcome"
+        android:textColor="@color/backgroung_signin" />
+
+    <Button
+        android:id="@+id/btn_sigin_wellcome"
+        android:layout_width="@dimen/btn_signin"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="175dp"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/btn_signin_maginleft"
+        android:text="@string/SignIn"
+        android:background="@drawable/bg_btn_welcome"
+        android:textColor="@color/backgroung_signin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="140dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:text="@string/SignInWith"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/signin_fb"
+            />
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/signin_twitter"/>
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/signin_google"/>
+    </LinearLayout>
+</RelativeLayout>

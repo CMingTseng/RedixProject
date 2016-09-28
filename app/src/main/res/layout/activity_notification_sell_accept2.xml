@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.NotificationSellAccept">
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/include35" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_title_notification"
+        android:layout_below="@+id/include35"
+        android:layout_alignLeft="@+id/include35"
+        android:layout_alignStart="@+id/include35"
+        android:id="@+id/include36" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_notification_title2"
+        android:layout_below="@+id/include36"
+        android:layout_alignLeft="@+id/include36"
+        android:layout_alignStart="@+id/include36"
+        android:id="@+id/include37" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_notification_infor3_phone"
+        android:layout_below="@+id/include37"
+        android:layout_alignLeft="@+id/include37"
+        android:layout_alignStart="@+id/include37"
+        android:id="@+id/include38" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Evil Queen:The last painting"
+        android:id="@+id/textView57"
+        android:layout_below="@+id/include38"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ayn rand"
+        android:id="@+id/textView59"
+        android:layout_below="@+id/textView57"
+        android:textColor="@color/color_text_hint"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="AED 220"
+        android:id="@+id/txt_notification_sell_accept_money"
+        android:layout_below="@+id/textView59"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/menu_bottom_noti_sell_accept2" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txt_notification_sell_accept_money"
+        android:layout_alignLeft="@+id/include38"
+        android:layout_alignStart="@+id/include38"
+        android:layout_above="@+id/menu_bottom_noti_sell_accept2"
+        android:background="@color/dot_light_screen2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Best time to be contacted"
+            android:id="@+id/txt_notification_dominic_besttime"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#55eb82"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:00 PM - 11:00 AM"
+            android:id="@+id/txt_notification_dominic_time"
+            android:layout_below="@+id/txt_notification_dominic_besttime"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</RelativeLayout>

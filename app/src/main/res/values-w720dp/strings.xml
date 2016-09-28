@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="RequestSend">Request sent</string>
+    <string name="titlepopp_screen78">Your request has been sent successfully. Let\'s wait for Domonic\'s reply</string>
+    <string name="backtohome">Back to home</string>
+    <string name="valueListings">layoutValue</string>
+</resources>

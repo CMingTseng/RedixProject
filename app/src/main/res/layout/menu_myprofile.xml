@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundnavigation"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:id="@+id/imv_menu_profile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/icon_test"
+        app:siBorderColor="@color/dot_light_screen2"
+        app:siBorderWidth="1dp"
+        android:layout_margin="10dp"
+        android:paddingBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thuyet bk"
+        android:id="@+id/txt_profile_username"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imv_menu_profile"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/dot_light_screen1"/>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar3"
+        android:theme="@style/RatingBar"
+        android:rating="2.5"
+        android:numStars="5"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_below="@+id/txt_profile_username"
+        android:layout_alignLeft="@+id/txt_profile_username"
+        android:layout_alignStart="@+id/txt_profile_username"
+        android:layout_marginTop="5dp" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/imv_close_dialog_dashboard_status"
+        android:layout_below="@+id/ratingBar3"
+        android:layout_alignLeft="@+id/ratingBar3"
+        android:layout_alignStart="@+id/ratingBar3"
+        android:layout_marginTop="5dp" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/imageView26"
+        android:layout_alignTop="@+id/imv_close_dialog_dashboard_status"
+        android:layout_toRightOf="@+id/imv_close_dialog_dashboard_status"
+        android:layout_toEndOf="@+id/imv_close_dialog_dashboard_status"
+        android:layout_marginLeft="9dp"
+        android:layout_marginStart="9dp" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/imageView27"
+        android:layout_alignTop="@+id/imageView26"
+        android:layout_toRightOf="@+id/imageView26"
+        android:layout_toEndOf="@+id/imageView26"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
+
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dot_light_screen1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:id="@+id/textView119"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/img_menu_dashboard_bottom_status"
+        android:layout_alignTop="@+id/img_menu_dashboard_bottom_status"
+        android:gravity="center_vertical" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/img_menu_dashboard_bottom_status"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textView119"
+        android:layout_toEndOf="@+id/textView119"
+        android:src="@drawable/myprofile_tick"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp" />
+
+    <Button
+        android:layout_width="281dp"
+        android:layout_height="36dp"
+        android:textAllCaps="false"
+        android:text="Rate  this transaction"
+        android:id="@+id/btn_menu_dashboard_bottom_rate"
+        android:layout_below="@+id/textView119"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_btn_add_book_2"
+        android:textColor="@color/dot_light_screen1"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:layout_width="281dp"
+        android:layout_height="36dp"
+        android:textAllCaps="false"
+        android:text="Cancle this transaction"
+        android:id="@+id/btn_menu_dashboard_bottom_cancel"
+        android:layout_below="@+id/btn_menu_dashboard_bottom_rate"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_btn_add_book_2"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/dot_light_screen1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Transaction cancel"
+        android:id="@+id/txt_menu_dashboard_cancel"
+        android:layout_below="@+id/btn_menu_dashboard_bottom_cancel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/color_text"
+        android:layout_marginBottom="10dp" />
+</RelativeLayout>

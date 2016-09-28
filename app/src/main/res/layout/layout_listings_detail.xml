@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:fillColor="@color/color_text"
+        app:pageColor="#ffffff"
+        app:radius="5dp"
+        app:strokeColor="@color/color_text"
+        android:padding="2dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/pager"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The last painting of Sara de Vos"
+        android:id="@+id/txt_title_listings_detail"
+        android:layout_below="@+id/indicator"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:textColor="@color/color_text"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="by Dominic Smith"
+        android:id="@+id/txt_author_listings_detail"
+        android:layout_below="@+id/txt_title_listings_detail"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text_hint" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AED 246"
+        android:id="@+id/txt_price_listings_detail"
+        android:layout_below="@+id/txt_author_listings_detail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/color_title_book" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_price_listings_detail"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:background="@color/color_hint_interact"
+        android:id="@+id/layout_user">
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/icon_user_listing_detail"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_test"
+            app:siBorderColor="@color/dot_light_screen2"
+            app:siBorderWidth="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listed by"
+            android:id="@+id/txt_view"
+            android:textColor="@color/color_text_hint"
+            android:textSize="11dp"
+            android:layout_alignTop="@+id/icon_user_listing_detail"
+            android:layout_alignLeft="@+id/txt_listed_by"
+            android:layout_alignStart="@+id/txt_listed_by" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gandalf"
+            android:id="@+id/txt_listed_by"
+            android:layout_alignBottom="@+id/icon_user_listing_detail"
+            android:layout_toRightOf="@+id/icon_user_listing_detail"
+            android:layout_toEndOf="@+id/icon_user_listing_detail" />
+
+        <RatingBar
+            android:theme="@style/RatingBar"
+            android:id="@+id/myRatingBar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="2.5"
+            android:isIndicator="false"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="11dp"
+            android:layout_alignBottom="@+id/txt_listed_by"
+            android:layout_toRightOf="@+id/txt_listed_by"
+            android:layout_toEndOf="@+id/txt_listed_by" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/img_rank3_listings"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+
+            android:layout_marginRight="10dp" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/img_rank2_listings"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/img_rank3_listings"
+            android:layout_toStartOf="@+id/img_rank3_listings"
+            android:layout_marginRight="10dp"
+
+            android:layout_marginLeft="10dp" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/img_rank1_listings"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/img_rank2_listings"
+            android:layout_toStartOf="@+id/img_rank2_listings"
+             />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posted on 29-08-2016"
+        android:id="@+id/txt_time_post_listings"
+        android:layout_below="@+id/layout_user"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/color_text_hint"
+        android:textSize="11sp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Genre: "
+        android:id="@+id/txt_dialog_delete_editlisting1"
+        android:layout_below="@+id/txt_time_post_listings"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Novel, Drama"
+        android:id="@+id/txt_genre_listing_detail"
+        android:textColor="@color/color_text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignTop="@+id/txt_dialog_delete_editlisting1"
+        android:layout_toRightOf="@+id/txt_dialog_delete_editlisting1"
+        android:layout_toEndOf="@+id/txt_dialog_delete_editlisting1"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book Condition:"
+        android:id="@+id/textView69"
+        android:layout_below="@+id/txt_dialog_delete_editlisting1"
+        android:layout_alignLeft="@+id/txt_dialog_delete_editlisting1"
+        android:layout_alignStart="@+id/txt_dialog_delete_editlisting1"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/custom_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:maxHeight="10dip"
+        android:minHeight="10dip"
+        android:max="100"
+        android:indeterminate="false"
+        android:layout_alignBottom="@+id/textView69"
+        android:layout_toRightOf="@+id/textView69"
+        android:layout_toEndOf="@+id/textView69"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="3dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_text_hint"
+
+        android:layout_below="@+id/textView69"
+        android:layout_alignLeft="@+id/textView69"
+        android:layout_alignStart="@+id/textView69"
+        android:layout_marginTop="10dp"
+        android:id="@+id/view3"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="# Novel, # Dominic Smith"
+        android:id="@+id/txt_tag"
+        android:layout_below="@+id/view3"
+        android:layout_alignLeft="@+id/view3"
+        android:layout_alignStart="@+id/view3"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_text_hint"
+
+        android:layout_below="@+id/txt_tag"
+        android:layout_alignLeft="@+id/txt_tag"
+        android:layout_alignStart="@+id/txt_tag"
+        android:layout_marginRight="10dp"
+        android:id="@+id/view4" />
+
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_below="@+id/view4"
+        android:layout_alignLeft="@+id/view4"
+        android:layout_alignStart="@+id/view4"
+        android:layout_marginTop="10dp"
+        android:layout_alignRight="@+id/view4"
+        android:layout_alignEnd="@+id/view4"
+        android:id="@+id/fragment3"
+        android:layout_marginBottom="5dp" />
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment3"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/row_type_book"
+        android:weightSum="1"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="40dp"
+            android:id="@+id/img_swap_listing"
+            android:src="@drawable/explore_btn_buy_active"
+            android:layout_weight="0.8"
+            android:layout_marginRight="10dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="22dp"
+            android:id="@+id/img_free_listings"
+            android:src="@drawable/explore_btn_free_active"
+            android:layout_margin="10dp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="40dp"
+            android:id="@+id/img_buy_listing"
+            android:src="@drawable/explore_btn_swap_active"
+            android:layout_weight="0.80"
+            android:layout_marginLeft="10dp" />
+    </TableRow>
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_height="285dp"
+        layout="@layout/layout_comments"
+        android:layout_below="@+id/row_type_book"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/layout_comment" />
+
+
+</RelativeLayout>

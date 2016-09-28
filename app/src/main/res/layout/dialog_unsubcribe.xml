@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/customborder">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView142"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_marginTop="30dp"
+            android:text="We are sad to see you go," />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="but we will be waiting for you"
+            android:layout_below="@+id/textView142"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/dot_light_screen1"
+            android:gravity="center"
+            android:id="@+id/textView143" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView144"
+            android:text="to join us again anytime"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_below="@+id/textView143"
+            android:gravity="center"/>
+
+        <Button
+            android:layout_width="224dp"
+            android:layout_height="36dp"
+            android:id="@+id/btn_unsubcribe"
+            android:background="@drawable/bg_white_popup"
+            android:text="Unsubscribe"
+            android:textColor="@color/color_text"
+            android:layout_below="@+id/textView144"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/img_close_dialog_unsubcribe"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+</RelativeLayout>

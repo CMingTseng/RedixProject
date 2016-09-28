@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_top"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/menu_top_swap" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select from"
+        android:id="@+id/textView132"
+        android:layout_below="@+id/menu_top_swap"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="your booklist what you would like"
+        android:id="@+id/textView137"
+        android:layout_below="@+id/textView132"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text"
+        android:textSize="18sp"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="to swap in return"
+        android:id="@+id/textView139"
+        android:layout_below="@+id/textView137"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text"
+        android:textSize="18sp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableRow5"
+        android:layout_marginBottom="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:layout_width="145dp"
+            android:layout_height="36dp"
+            android:text="Swap"
+            android:id="@+id/btn_swap"
+            android:background="@drawable/bg_btn_add_book"
+            android:gravity="center"
+            android:textColor="@color/dot_light_screen1"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:layout_width="145dp"
+            android:layout_height="36dp"
+            android:text="Add a book"
+            android:id="@+id/btn_add_book"
+            android:textSize="18dp"
+            android:textColor="@color/dot_light_screen1"
+            android:gravity="center"
+            android:background="@drawable/bg_btn_add_book"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/tableRow6">
+
+    </TableRow>
+
+    <TextView
+        android:layout_width="292dp"
+        android:layout_height="36dp"
+        android:text="Manage your swap list"
+        android:id="@+id/btn_manager"
+        android:background="@drawable/bg_btn_add_book_2"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/tableRow6"
+        android:layout_alignStart="@+id/tableRow6"
+        android:layout_alignRight="@+id/tableRow5"
+        android:layout_alignEnd="@+id/tableRow5"
+        android:layout_marginBottom="20dp" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView_swap"
+        android:layout_below="@+id/textView139"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/tableRow5"
+        android:layout_margin="10dp" />
+
+</RelativeLayout>

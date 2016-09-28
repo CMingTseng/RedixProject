@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="163dp"
+            android:layout_height="36dp"
+            android:text="Accept"
+            android:textAllCaps="false"
+            android:id="@+id/btn_menu_notification_dominic_accept"
+            android:gravity="center"
+            android:background="@drawable/bg_notification_popup"
+            android:textColor="@color/dot_light_screen2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="163dp"
+            android:layout_height="36dp"
+            android:text="reject"
+            android:textAllCaps="false"
+            android:id="@+id/btn_menu_notification_dominic_reject"
+            android:background="@drawable/bg_notification_popup"
+            android:textColor="@color/dot_light_screen2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp" />
+    </LinearLayout>
+</LinearLayout>

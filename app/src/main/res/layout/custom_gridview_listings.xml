@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="270dp"
+    android:background="@color/dot_light_screen2"
+    android:padding="10dp"
+    >
+
+    <ImageView
+        android:layout_width="85dp"
+        android:layout_height="127dp"
+        android:id="@+id/img_book"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_text_hint"
+        android:id="@+id/view"
+        android:layout_below="@+id/img_book"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The Las Painting of Sara de Vos"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:id="@+id/txt_title_book_listings"
+        android:paddingLeft="5dp"
+        android:textColor="@color/color_title_book"
+        android:textSize="18sp"
+        android:paddingTop="10dp"
+        android:layout_below="@+id/view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:editable="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:text="by Gandalf"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:id="@+id/txt_author_book_listings"
+        android:layout_below="@+id/txt_title_book_listings"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:id="@+id/tableRow"
+        android:weightSum="1"
+        android:layout_below="@+id/txt_price_listings"
+        android:layout_toLeftOf="@+id/img_listings_edit"
+        android:layout_toStartOf="@+id/img_listings_edit">
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="25dp"
+            android:id="@+id/img_explore_swap_listings"
+            android:src="@drawable/explore_btn_swap_active" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_text_hint"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="22dp"
+            android:id="@+id/img_explore_free_listings"
+            android:src="@drawable/explore_btn_free_dis_active"
+            android:layout_alignTop="@+id/tableRow"
+            android:layout_toRightOf="@+id/tableRow"
+            android:layout_toEndOf="@+id/tableRow"
+            android:layout_marginTop="3dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_text_hint"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/img_explore_buy_listing"
+            android:src="@drawable/listing_btn_buy" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_text_hint"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="AED 299"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_title_book"
+            android:textSize="12sp"
+            android:id="@+id/txt_pricebook" />
+
+    </TableRow>
+
+    <ImageView
+        android:layout_width="26dp"
+        android:layout_height="27dp"
+        android:id="@+id/img_listings_edit"
+        android:src="@drawable/tab_book_listings_edit"
+        android:layout_alignTop="@+id/tableRow"
+        android:layout_alignRight="@+id/view"
+        android:layout_alignEnd="@+id/view"
+        android:layout_alignBottom="@+id/tableRow" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AED 299"
+        android:id="@+id/txt_price_listings"
+        android:layout_below="@+id/txt_author_book_listings"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignStart="@+id/view"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/color_title_book" />
+
+
+</RelativeLayout>

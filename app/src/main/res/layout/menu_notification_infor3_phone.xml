@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imv_nitification_infor3_phone"
+            android:src="@drawable/img_temp1"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/textView37"
+            android:layout_toStartOf="@+id/textView37"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thuyet"
+            android:id="@+id/textView37"
+            android:layout_centerHorizontal="true"
+            android:layout_alignTop="@+id/imv_nitification_infor3_phone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar2"
+            android:theme="@style/RatingBar"
+            android:rating="2.5"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_below="@+id/textView37"
+            android:layout_alignLeft="@+id/textView37"
+            android:layout_alignStart="@+id/textView37" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/imageView23"
+            android:src="@drawable/btn_rank_one"
+            android:layout_alignTop="@+id/ratingBar2"
+            android:layout_toRightOf="@+id/ratingBar2"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:layout_marginLeft="5dp" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/imageView24"
+            android:layout_alignTop="@+id/imageView23"
+            android:layout_toRightOf="@+id/imageView23"
+            android:layout_toEndOf="@+id/imageView23"
+            android:src="@drawable/btn_rank_two"
+            android:layout_marginLeft="5dp" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/imageView25"
+            android:layout_alignTop="@+id/imageView24"
+            android:layout_toRightOf="@+id/imageView24"
+            android:layout_toEndOf="@+id/imageView24"
+            android:src="@drawable/btn_rank_three"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone : 0972781395"
+            android:id="@+id/txt_notification_infor3_phone"
+            android:layout_below="@+id/imv_nitification_infor3_phone"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:text="New Text"
+            android:id="@+id/textView58"
+            android:layout_below="@+id/txt_notification_infor3_phone"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="#f27373"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="accepted your swap request for"
+            android:id="@+id/txt_menu_notification_infor3_title"
+            android:layout_below="@+id/textView58"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="#e97575"
+            android:layout_marginBottom="10dp" />
+    </RelativeLayout>
+</RelativeLayout>

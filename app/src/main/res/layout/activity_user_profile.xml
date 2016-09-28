@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_top"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/menu_top_profile" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_myprofile"
+        android:layout_below="@+id/menu_top_profile"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/include55"
+        android:layout_marginTop="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Listings"
+        android:id="@+id/textView71"
+        android:layout_below="@+id/include55"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:textColor="@color/color_text"
+        android:textSize="20sp" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/custom_tabbar"
+        android:layout_below="@+id/textView71"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/tab_bar_profile" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/menu_bottom_profile" />
+
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/grid_view_profile"
+        android:layout_below="@+id/tab_bar_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/menu_bottom_profile"
+        android:layout_margin="10dp"
+        android:numColumns="2"
+        android:gravity="center"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
+        />
+
+</RelativeLayout>

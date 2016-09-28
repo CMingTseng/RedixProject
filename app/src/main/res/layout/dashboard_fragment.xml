@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.DashboardStatusFragment">
+
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/menu_top_detail_listings"
+        android:layout_alignLeft="@+id/menu_top_detail_listings"
+        android:layout_alignStart="@+id/menu_top_detail_listings">
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_dashboard_top"
+        android:id="@+id/menu_bottom_listing_detail"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_dashboard_middle"
+        android:layout_below="@+id/menu_bottom_listing_detail"
+        android:layout_alignLeft="@+id/menu_bottom_listing_detail"
+        android:layout_alignStart="@+id/menu_bottom_listing_detail"
+        android:layout_alignRight="@+id/menu_bottom_listing_detail"
+        android:layout_alignEnd="@+id/menu_bottom_listing_detail"
+        android:id="@+id/include54" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_dashboard_bottom"
+        android:layout_below="@+id/include54"
+        android:layout_alignLeft="@+id/include54"
+        android:layout_alignStart="@+id/include54"
+        android:layout_alignRight="@+id/include54"
+        android:layout_alignEnd="@+id/include54" />
+    </RelativeLayout>
+</ScrollView>
+
+</FrameLayout>

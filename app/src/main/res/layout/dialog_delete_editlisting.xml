@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="12dp"
+        android:background="@drawable/customborder"
+        android:id="@+id/relativeLayout8">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Are you sure you want to delete "
+        android:id="@+id/txt_dialog_delete_edit1"
+        android:gravity="center"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginRight="41dp"
+        android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="&quot;The last painting&quot;"
+            android:id="@+id/textView2"
+            android:gravity="center"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_below="@+id/txt_dialog_delete_edit1"
+            android:layout_alignLeft="@+id/txt_dialog_delete_edit1"
+            android:layout_alignStart="@+id/txt_dialog_delete_edit1"
+            android:layout_alignRight="@+id/txt_dialog_delete_edit1"
+            android:layout_alignEnd="@+id/txt_dialog_delete_edit1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="from your list"
+            android:id="@+id/textView64"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:id="@+id/btn_delete_editlisting"
+            android:layout_below="@+id/textView64"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/change_pass"
+            android:textColor="@color/color_text"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imv_close_dialog_editlist"
+            android:src="@drawable/close_popup"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

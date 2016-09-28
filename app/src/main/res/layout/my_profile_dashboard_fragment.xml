@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.MyProfileDashboardFragment">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_myprofile"
+        android:id="@+id/include50" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Dashboard"
+        android:id="@+id/textView89"
+        android:layout_below="@+id/include50"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:textColor="@color/color_text"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:text="New Text"
+        android:id="@+id/textView98"
+        android:layout_below="@+id/textView89"
+        android:background="@color/color_text_hint"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView98"
+        android:layout_alignParentTop="false"
+        android:gravity="top"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentBottom="false"
+        android:orientation="horizontal"
+        android:background="@color/dot_light_screen1"
+        android:id="@+id/linearLayout2">
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Book"
+                android:id="@+id/textView90"
+                android:layout_margin="5dp"
+                android:textColor="@color/color_title_book"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:text="New Text"
+                android:id="@+id/textView94"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/color_text_hint"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Offering"
+                android:id="@+id/textView91"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textColor="@color/color_title_book"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:text="New Text"
+                android:id="@+id/textView95"
+                android:gravity="right"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/color_text_hint"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:id="@+id/textView92"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textColor="@color/color_title_book"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:text="New Text"
+                android:id="@+id/textView96"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/color_text_hint"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ratting"
+                android:id="@+id/textView93"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textColor="@color/color_title_book"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:text="New Text"
+                android:id="@+id/textView97"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/color_text_hint"
+                android:layout_marginRight="2dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_myprofile_dashboard"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false" />
+</RelativeLayout>
+</FrameLayout>

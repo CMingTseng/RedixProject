@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/customborder">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Request sent!"
+            android:id="@+id/textView131"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:textColor="@color/dot_light_screen1"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your request had been sent successfully"
+            android:id="@+id/textView128"
+
+            android:layout_below="@+id/textView131"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Let&apos;s wait for Gandalf&apos;s reply"
+            android:id="@+id/textView133"
+            android:layout_below="@+id/textView128"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:layout_width="236dp"
+            android:layout_height="36dp"
+            android:text="Back to home"
+            android:id="@+id/btn_back_home"
+
+            android:layout_marginTop="50dp"
+            android:background="@drawable/bg_white_popup"
+            android:gravity="center"
+            android:textColor="@color/color_text"
+            android:textSize="18sp"
+            android:layout_below="@+id/textView133"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="60dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/close_sent_request_lising"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/btn_close_filter" />
+
+    </RelativeLayout>
+</RelativeLayout>

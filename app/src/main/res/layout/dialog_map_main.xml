@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_map2"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_map1"
+            android:padding="1dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="The last painting of Sara"
+                android:id="@+id/textView131"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="by Sara"
+                android:id="@+id/btn_back_home"
+                android:layout_below="@+id/textView131"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/img_map_main"
+                android:layout_below="@+id/btn_back_home"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/img_temp1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sara"
+                android:id="@+id/textView133"
+                android:layout_alignTop="@+id/img_map_main"
+                android:layout_toRightOf="@+id/img_map_main"
+                android:layout_toEndOf="@+id/img_map_main"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar6"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_below="@+id/textView133"
+                android:rating="3"
+                android:layout_alignLeft="@+id/textView133"
+                android:layout_alignStart="@+id/textView133"
+                android:layout_marginRight="20dp" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:id="@+id/close_sent_request_lising"
+                android:layout_alignBottom="@+id/ratingBar6"
+                android:layout_toRightOf="@+id/ratingBar6"
+                android:layout_toEndOf="@+id/ratingBar6"
+                android:src="@drawable/explore_btn_swap_active"
+                android:layout_marginRight="10dp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:id="@+id/close_buy_listings"
+                android:layout_alignBottom="@+id/ratingBar6"
+                android:layout_toRightOf="@+id/close_sent_request_lising"
+                android:layout_toEndOf="@+id/close_sent_request_lising"
+                android:src="@drawable/explore_btn_free_dis_active"
+                android:layout_marginRight="5dp"
+                android:layout_alignTop="@+id/close_sent_request_lising" />
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="27dp"
+                android:id="@+id/imageView42"
+                android:layout_alignBottom="@+id/close_buy_listings"
+                android:layout_toRightOf="@+id/close_buy_listings"
+                android:layout_toEndOf="@+id/close_buy_listings"
+                android:src="@drawable/explore_btn_buy_dis_active"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

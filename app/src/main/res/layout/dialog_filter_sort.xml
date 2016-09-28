@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_margin="12dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="false"
+        android:background="@drawable/customboderfilter">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter/Sort"
+            android:id="@+id/textView126"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:background="@drawable/customborderfiltertitle"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/dot_light_screen2"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView126"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/dot_light_screen2"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/layout_user">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter by"
+                android:id="@+id/txt_dialog_delete_editlisting1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/color_text"
+                android:background="@color/color_hint_interact"
+                android:layout_margin="5dp"
+                android:padding="5dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Price range"
+                android:id="@+id/textView127"
+                android:layout_below="@+id/txt_dialog_delete_editlisting1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp"
+                android:layout_alignRight="@+id/txt_dialog_delete_editlisting1"
+                android:layout_alignEnd="@+id/txt_dialog_delete_editlisting1" />
+            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                android:id="@+id/rangeSeekbar3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:corner_radius="10"
+                app:min_value="0"
+                app:max_value="1000"
+                app:gap="0"
+                app:bar_color="@color/color_text_hint"
+                app:bar_highlight_color="@color/color_text"
+                app:left_thumb_image="@drawable/btn_filter_standar"
+                app:right_thumb_image="@drawable/btn_filter_standar"
+                app:left_thumb_image_pressed="@drawable/btn_filter_standar"
+                app:right_thumb_image_pressed="@drawable/btn_filter_standar"
+                app:data_type="_integer"
+                android:layout_below="@+id/textView127"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_margin="5dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/txt_filter_rangemin"
+                android:layout_alignLeft="@+id/rangeSeekbar3"
+                android:layout_alignStart="@+id/rangeSeekbar3"
+                android:gravity="left"
+                android:layout_alignRight="@+id/txt_filter_rangemax"
+                android:layout_alignEnd="@+id/txt_filter_rangemax"
+                android:layout_below="@+id/rangeSeekbar3" />
+            <com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar
+                android:id="@+id/rangeSeekbar8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:min_value="0"
+                app:max_value="10"
+                app:steps="1"
+                app:bar_color="@color/color_text_hint"
+                app:bar_highlight_color="@color/color_text"
+                app:left_thumb_image="@drawable/btn_filter_standar"
+                app:left_thumb_image_pressed="@drawable/btn_filter_standar"
+                app:data_type="_integer"
+                android:layout_below="@+id/textView75"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="5dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1000"
+                android:id="@+id/txt_filter_rangemax"
+                android:gravity="right"
+                android:layout_below="@+id/rangeSeekbar3"
+                android:layout_alignRight="@+id/rangeSeekbar3"
+                android:layout_alignEnd="@+id/rangeSeekbar3"
+                android:layout_alignLeft="@+id/rangeSeekbar3"
+                android:layout_alignStart="@+id/rangeSeekbar3"
+                android:layout_above="@+id/textView75"
+                android:layout_marginRight="5dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 KM"
+                android:id="@+id/textView71"
+                android:layout_below="@+id/rangeSeekbar8"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 KM"
+                android:id="@+id/txt_filter_proximity"
+                android:layout_below="@+id/rangeSeekbar8"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:layout_alignRight="@+id/rangeSeekbar8"
+                android:layout_alignEnd="@+id/rangeSeekbar8"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Proximity"
+                android:id="@+id/textView75"
+                android:layout_below="@+id/txt_filter_rangemin"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp" />
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_dialog_filter"
+                android:layout_below="@+id/txt_filter_proximity"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:spinnerMode="dropdown" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:id="@+id/textView76"
+                android:layout_below="@+id/spinner_dialog_filter"
+                android:layout_alignLeft="@+id/spinner_dialog_filter"
+                android:layout_alignStart="@+id/spinner_dialog_filter"
+                android:layout_alignRight="@+id/txt_filter_rangemax"
+                android:layout_alignEnd="@+id/txt_filter_rangemax"
+                android:background="@color/color_text_hint"
+                android:layout_marginBottom="10dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by"
+            android:id="@+id/textView72"
+            android:layout_below="@+id/layout_user"
+            android:layout_alignLeft="@+id/layout_user"
+            android:layout_alignStart="@+id/layout_user"
+            android:layout_alignRight="@+id/layout_user"
+            android:layout_alignEnd="@+id/layout_user"
+            android:padding="5dp"
+            android:textColor="@color/color_text"
+            android:background="@color/color_hint_interact"
+            android:layout_margin="5dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView72"
+            android:layout_alignRight="@+id/textView72"
+            android:layout_alignEnd="@+id/textView72"
+            android:layout_alignLeft="@+id/textView72"
+            android:layout_alignStart="@+id/textView72"
+            android:layout_marginTop="5dp">
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="140dp"
+                android:id="@+id/lv_dialog_filter"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+            <Button
+                android:layout_width="223dp"
+                android:layout_height="36dp"
+                android:text="Submit"
+                android:id="@+id/btn_dialog_filter_submit"
+                android:background="@drawable/bg_btn_sign_in"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/lv_dialog_filter"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/imv_dialog_filter_close"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
+</RelativeLayout>
+
+

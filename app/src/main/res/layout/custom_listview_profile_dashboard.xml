@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="30dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="0.6">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="New Text"
+            android:id="@+id/txt_listview_profiledashboard"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="false"
+            android:gravity="clip_horizontal"
+            android:layout_toLeftOf="@+id/textView99"
+            android:layout_toStartOf="@+id/textView99"
+            android:padding="5dp" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:text="New Text"
+            android:id="@+id/textView99"
+            android:layout_alignTop="@+id/txt_listview_profiledashboard"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/color_text_hint"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:id="@+id/img_listview_profiledashboard_offer"
+            android:src="@drawable/myprofile_buy_come"
+            android:padding="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/textView100"
+            android:layout_toStartOf="@+id/textView100" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:text="New Text"
+            android:id="@+id/textView100"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/color_text_hint"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:id="@+id/img_listview_profiledashboard_status"
+            android:src="@drawable/myprofile_tick"
+            android:padding="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:text="New Text"
+            android:id="@+id/textView101"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/color_text_hint"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="0.9"
+        android:gravity="center">
+
+        <RatingBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ratingBar4"
+            style="?android:attr/ratingBarStyleSmall"
+            android:numStars="5"
+            android:theme="@style/RatingBar"
+            android:rating="2.5"
+            android:padding="5dp" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView102"
+            android:background="@color/color_text_hint"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</LinearLayout>
