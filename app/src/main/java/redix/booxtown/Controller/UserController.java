@@ -146,7 +146,11 @@ public class UserController {
     }
 
     public boolean changePassword(String session_id,String pwd_old,String pwd_new){
-        Call<Result> profile = service.changepassword(session_id,pwd_old,pwd_new);
+        Hashtable obj = new Hashtable();
+        obj.put("session_id",session_id);
+        obj.put("pwd_old",pwd_old);
+        obj.put("pwd_new",pwd_new);
+        Call<Result> profile = service.changepassword(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

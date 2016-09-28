@@ -459,15 +459,18 @@ public class ExploreFragment extends Fragment
 
         @Override
         protected void onPostExecute(List<Book> list) {
-            super.onPostExecute(list);
-            listExplore.addAll(list);
-            Collections.sort(listExplore,Book.asid);
-            adapter = new AdapterExplore(getActivity(),listExplore,2);
-            grid.setAdapter(adapter);
-            tab_all_count.setText("("+filterExplore(1).size()+")");
-            tab_swap_count.setText("("+filterExplore(2).size()+")");
-            tab_free_count.setText("("+filterExplore(3).size()+")");
-            tab_cart_count.setText("("+filterExplore(4).size()+")");
+            try {
+                listExplore.addAll(list);
+                Collections.sort(listExplore, Book.asid);
+                adapter = new AdapterExplore(getActivity(), listExplore, 2);
+                grid.setAdapter(adapter);
+                tab_all_count.setText("(" + filterExplore(1).size() + ")");
+                tab_swap_count.setText("(" + filterExplore(2).size() + ")");
+                tab_free_count.setText("(" + filterExplore(3).size() + ")");
+                tab_cart_count.setText("(" + filterExplore(4).size() + ")");
+            }catch (Exception e){
+
+            }
         }
     }
 
@@ -495,14 +498,17 @@ public class ExploreFragment extends Fragment
 
         @Override
         protected void onPostExecute(List<Book> list) {
-            super.onPostExecute(list);
-            listExplore.addAll(list);
-            Collections.sort(listExplore,Book.asid);
-            adapter.notifyDataSetChanged();
-            tab_all_count.setText("("+filterExplore(1).size()+")");
-            tab_swap_count.setText("("+filterExplore(2).size()+")");
-            tab_free_count.setText("("+filterExplore(3).size()+")");
-            tab_cart_count.setText("("+filterExplore(4).size()+")");
+            try {
+                listExplore.addAll(list);
+                Collections.sort(listExplore, Book.asid);
+                adapter.notifyDataSetChanged();
+                tab_all_count.setText("(" + filterExplore(1).size() + ")");
+                tab_swap_count.setText("(" + filterExplore(2).size() + ")");
+                tab_free_count.setText("(" + filterExplore(3).size() + ")");
+                tab_cart_count.setText("(" + filterExplore(4).size() + ")");
+            }catch (Exception e){
+
+            }
         }
     }
 
