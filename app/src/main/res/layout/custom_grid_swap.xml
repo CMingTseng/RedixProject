@@ -19,6 +19,7 @@
             android:visibility="gone"
             android:src="@drawable/check_box" />
         <CheckBox
+            android:button="@drawable/img_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/color_text"
@@ -29,7 +30,7 @@
             android:text="Any"
             android:id="@+id/txt_content_swap_select"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
             android:gravity="center_horizontal" />
