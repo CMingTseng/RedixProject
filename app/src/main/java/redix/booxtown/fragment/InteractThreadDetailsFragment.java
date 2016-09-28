@@ -66,11 +66,17 @@ public class InteractThreadDetailsFragment extends Fragment
             @Override
             public void onClick(View v) {
                 if(topic !=null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("thread", topic);
-                    ThreadFragment fragment = new ThreadFragment();
-                    fragment.setArguments(bundle);
-                    callFragment(fragment);
+                    if (type_fragment.equals("NotificationFragment")){
+
+                        HomeActivity homeActivity = (HomeActivity) getActivity();
+                        homeActivity.callFragment(new NotificationFragment());
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("thread", topic);
+                        ThreadFragment fragment = new ThreadFragment();
+                        fragment.setArguments(bundle);
+                        callFragment(fragment);
+                    }
                 }
                 else {
                     MainAllActivity mainAllActivity = (MainAllActivity) getActivity();

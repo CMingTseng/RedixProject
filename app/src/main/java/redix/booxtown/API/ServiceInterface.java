@@ -147,6 +147,12 @@ public interface ServiceInterface {
 
     @POST("/booxtown/rest/notification/notification_removestatus")
     Call<Result> changeStatusUnreadNotification(@Body Object thread);
+
+    @GET("/booxtown/rest/thread/get_threadbyid")
+    Call<ThreadResult> getthreadbyid(@Query("id") String id);
+
+    @GET("/booxtown/rest/topic/get_topicbyid")
+    Call<TopicResult> gettopicbyid(@Query("id") String id);
     // end Notification
 
     // Transaction

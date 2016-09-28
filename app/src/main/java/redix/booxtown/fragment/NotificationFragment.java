@@ -27,6 +27,8 @@ import java.util.List;
 import redix.booxtown.R;
 import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ThreadController;
+import redix.booxtown.controller.TopicController;
 import redix.booxtown.listener.OnLoadMoreListener;
 import redix.booxtown.model.Notification;
 import redix.booxtown.model.Thread;
@@ -50,6 +52,10 @@ public class NotificationFragment extends Fragment {
     RecyclerView lv_notification;
     List<Notification> listnoNotifications;
     Custom_ListView_Notification adapter;
+    List<Topic> topic;
+    List<Thread> item;
+    String[] s;
+    Bundle bundle;
     ArrayList<InteractThread> listInteractThreads= new ArrayList<>();
 
     @Override
@@ -79,7 +85,7 @@ public class NotificationFragment extends Fragment {
         lv_notification.setLayoutManager(layoutManager);
         adapter = new Custom_ListView_Notification(getActivity(),listnoNotifications,lv_notification);
 
-        Gettop_notifi gettop_notifi = new Gettop_notifi(session_id,100,0);
+        final Gettop_notifi gettop_notifi = new Gettop_notifi(session_id,100,0);
         gettop_notifi.execute();
         lv_notification.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -88,19 +94,14 @@ public class NotificationFragment extends Fragment {
                         Notification notification = (Notification) adapter.getlist().get(i);
                         Toast.makeText(getContext(),"djshjdhsj"+notification.getId(),Toast.LENGTH_LONG).show();
                         if (notification.getKey_screen().equals("BTNotiCommented")){
-                            String[] s = notification.getId_screen().split("::");
-                            Topic topic = new Topic();
-                            Thread item = new Thread();
-                            item.setId(s[1]);
-                            topic.setId(s[0]);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("thread", item);
-                            bundle.putSerializable("interact", topic);
-                            bundle.putString("type_fragment","NotificationFragment");
-                            InteractThreadDetailsFragment fragment= new InteractThreadDetailsFragment();
-                            fragment.setArguments(bundle);
-                            HomeActivity mainAllActivity = (HomeActivity) getActivity();
-                            mainAllActivity.callFragment(fragment);
+                            s = notification.getId_screen().split("::");
+                            Getthreadbyid getthreadbyid = new Getthreadbyid();
+                            getthreadbyid.execute(s[1]);
+                            Gettopicbyid gettopicbyid = new Gettopicbyid();
+                            gettopicbyid.execute(s[0]);
+                            gotoScreen gotoScreen = new gotoScreen();
+                            gotoScreen.execute();
+
                         }
 //                        if(i==0){
 //                            InteractThread interact1= new InteractThread();
@@ -132,6 +133,68 @@ public class NotificationFragment extends Fragment {
         );
         return view;
     }
+
+
+    public class gotoScreen extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            bundle = new Bundle();
+            bundle.putSerializable("thread", item.get(0));
+            bundle.putSerializable("interact", topic.get(0));
+            bundle.putString("type_fragment","NotificationFragment");
+            InteractThreadDetailsFragment fragment= new InteractThreadDetailsFragment();
+            fragment.setArguments(bundle);
+            HomeActivity mainAllActivity = (HomeActivity) getActivity();
+            mainAllActivity.callFragment(fragment);
+            return null;
+        }
+    }
+
+    public class Gettopicbyid extends AsyncTask<String,Void,List<Topic>>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected List<Topic> doInBackground(String... params) {
+            topic = new ArrayList<>();
+            TopicController topicController = new TopicController();
+            topic = topicController.gettopicbyid(params[0]);
+            return topic;
+        }
+
+        @Override
+        protected void onPostExecute(List<Topic> topics) {
+            super.onPostExecute(topics);
+        }
+    }
+
+
+    public class Getthreadbyid extends AsyncTask<String,Void,List<Thread>>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected List<Thread> doInBackground(String... params) {
+            item = new ArrayList<>();
+            ThreadController threadController = new ThreadController();
+            item =  threadController.getthreadbyid(params[0]);
+            return item;
+        }
+
+        @Override
+        protected void onPostExecute(List<Thread> threads) {
+            super.onPostExecute(threads);
+        }
+    }
+
+
     public void callFragment(Fragment fragment ){
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
