@@ -242,11 +242,6 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                         .isProviderEnabled(LocationManager.GPS_PROVIDER);
                 isNetworkEnabled = service
                         .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-
-                System.out.print("GPS:"+isGPSEnabled);
-                Toast.makeText(getActivity(),"ha"+isGPSEnabled +"net"+isNetworkEnabled,Toast.LENGTH_LONG).show();
-                System.out.print("net:"+isNetworkEnabled);
                 if(isGPSEnabled){
                     location = service
                             .getLastKnownLocation(LocationManager.GPS_PROVIDER);
