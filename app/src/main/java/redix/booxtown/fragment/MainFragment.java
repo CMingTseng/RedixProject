@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import redix.booxtown.R;
@@ -78,6 +80,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     private MenuBottomCustom bottom;
     private LatLng latLngBounds;
     MarkerOptions marker;
+    private HashMap<Marker, Book> mMarkersHashMap = new HashMap<>();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -243,7 +246,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     }
 
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-
+        TextView txt_title_marker,txt_author_marker,txt_user_marker;
+        RatingBar ratingBar_marker;
+        ImageView img_swap_marker,img_free_marker,img_buy_marker;
         private final View myContentsView;
 
         MyInfoWindowAdapter(){
@@ -252,6 +257,57 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         @Override
         public View getInfoContents(Marker marker) {
+            Book books = mMarkersHashMap.get(marker);
+            txt_title_marker = (TextView)myContentsView.findViewById(R.id.txt_title_marker);
+            txt_author_marker = (TextView)myContentsView.findViewById(R.id.txt_author_marker);
+            txt_user_marker = (TextView)myContentsView.findViewById(R.id.txt_user_marker);
+            ratingBar_marker = (RatingBar)myContentsView.findViewById(R.id.ratingBar_marker);
+            img_swap_marker =(ImageView)myContentsView.findViewById(R.id.img_swap_marker);
+            img_free_marker =(ImageView)myContentsView.findViewById(R.id.img_free_marker);
+            img_buy_marker =(ImageView)myContentsView.findViewById(R.id.img_buy_marker);
+            txt_title_marker.setText(books.getTitle());
+            txt_author_marker.setText("By "+books.getAuthor());
+            txt_user_marker.setText(books.getUsername());
+            char array[] = books.getAction().toCharArray();
+            String swap = String.valueOf(array[0]);
+            String free = String.valueOf(array[1]);
+            String buy = String.valueOf(array[2]);
+            String icon = IconMapController.iconExplorer(swap,free,buy);
+            if(icon.equals("icon_swap")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+            }
+            if(icon.equals("icon_free")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+            }
+            if(icon.equals("icon_buy")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_buy_marker);
+            }
+            if(icon.equals("swapfree")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+            }
+            if(icon.equals("swapbuy")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_buy_marker);
+            }
+            if(icon.equals("freebuy")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_buy_marker);
+            }
+            if(icon.equals("option")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_buy_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_active).into(img_swap_marker);
+            }
             return myContentsView;
         }
 
@@ -308,7 +364,6 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     if (icon!=null){
                         marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,110, 150)));
                         // adding marker
-                        mMap.addMarker(marker);
                         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                             @Override
                             public void onInfoWindowClick(Marker marker) {
@@ -324,7 +379,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                             }
                         });
                     }
-
+                    Marker m_marker = mMap.addMarker(marker);
+                    mMarkersHashMap.put(m_marker,book);
                 }
                 dialog.dismiss();
             }
