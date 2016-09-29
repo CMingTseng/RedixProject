@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,8 +25,17 @@ import redix.booxtown.model.Explore;
 public class AdapterSwap  extends BaseAdapter {
     private Context mContext;
     ArrayList<BookSwap> list;
+    ArrayList<BookSwap> listTmp;
 
-    public AdapterSwap(Context c,ArrayList<BookSwap> listS) {
+    public ArrayList<BookSwap> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<BookSwap> list) {
+        this.list = list;
+    }
+
+    public AdapterSwap(Context c, ArrayList<BookSwap> listS) {
         mContext = c;
         this.list=listS;
 
@@ -57,21 +67,18 @@ public class AdapterSwap  extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.custom_grid_swap, null);
         TextView txt_content=(TextView) convertView.findViewById(R.id.txt_content_swap_select);
-        final ImageView img_check=(ImageView) convertView.findViewById(R.id.check_box_swap);
+        final CheckBox ck= (CheckBox) convertView.findViewById(R.id.checkBox2);
         BookSwap book= list.get(position);
         txt_content.setText(book.getValue());
-        Drawable d = mContext.getResources().getDrawable(R.drawable.check_box_not);
-        if(!book.ischeck()){
-           img_check.setBackgroundDrawable(d);
-        }
-        img_check.setOnClickListener(new View.OnClickListener() {
+        ck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Drawable d_not = mContext.getResources().getDrawable(R.drawable.check_box_not);
-                img_check.setBackgroundDrawable(d_not);
-                list.get(position).setIscheck(true);
+                if(ck.isChecked()) {
+                    list.get(position).setIscheck(true);
+                }
             }
         });
+
 
         return convertView;
     }

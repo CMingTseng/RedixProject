@@ -221,6 +221,7 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             public void onClick(View v) {
                 if(String.valueOf(array[0]).contains("1")&& type!=0) {
                     Intent intent = new Intent(mContext, SwapActivity.class);
+                    intent.putExtra("Book", ex);
                     mContext.startActivity(intent);
                 }
             }
