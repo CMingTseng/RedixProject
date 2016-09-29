@@ -3,10 +3,14 @@ package redix.booxtown.controller;
 import android.os.StrictMode;
 
 import java.util.Hashtable;
+import java.util.List;
 
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.api.ServiceInterface;
+import redix.booxtown.model.Book;
 import redix.booxtown.model.Result;
+import redix.booxtown.model.Transaction;
+import redix.booxtown.model.TransactionResult;
 import retrofit2.Call;
 
 /**
@@ -66,5 +70,23 @@ public class TransactionController {
             result = null;
         }
         return result;
+    }
+
+    public Transaction getTransactionId(String tranhisid){
+        Call<TransactionResult> getall = service.getBookTransaction(tranhisid);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            TransactionResult str = getall.execute().body();
+            if (str.getCode() == 200){
+                return str.getTransaction();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+
     }
 }

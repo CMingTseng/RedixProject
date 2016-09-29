@@ -16,6 +16,7 @@ import redix.booxtown.model.SettingResult;
 import redix.booxtown.model.Thread;
 import redix.booxtown.model.ThreadResult;
 import redix.booxtown.model.TopicResult;
+import redix.booxtown.model.TransactionResult;
 import redix.booxtown.model.User;
 import redix.booxtown.model.UserResult;
 import redix.booxtown.model.WishboardResult;
@@ -89,8 +90,8 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/book/getallbookbyuser")
     Call<BookResult> getAllBookByUser(@Query("session_id") String session_id);
 
-    @GET("/booxtown/transactionhistory/tranhis_getbook_byidtrans")
-    Call<BookResult> getBookTransaction(@Query("tranhisid") String tranhisid);
+    @GET("/booxtown/rest/transactionhistory/tranhis_getTransactionById")
+    Call<TransactionResult> getBookTransaction(@Query("transaction_id") String tranhisid);
 
     @POST("/booxtown/rest/book/book_delete")
     Call<Result> deletebook(@Body Object book);

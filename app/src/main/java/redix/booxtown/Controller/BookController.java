@@ -15,6 +15,7 @@ import redix.booxtown.fragment.ExploreFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.BookResult;
 import redix.booxtown.model.Result;
+import redix.booxtown.model.TransactionResult;
 import retrofit2.Call;
 
 /**
@@ -146,16 +147,16 @@ public class BookController {
     }
 
     public List<Book> bookTransactionId(String tranhisid){
-        Call<BookResult> getall = service.getBookTransaction(tranhisid);
+        Call<TransactionResult> getall = service.getBookTransaction(tranhisid);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =
                         new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
             }
-            BookResult str = getall.execute().body();
+            TransactionResult str = getall.execute().body();
             if (str.getCode() == 200){
-                return str.getBook();
+                return str.getTransaction().getBook();
             }
         } catch (Exception ex) {
         }

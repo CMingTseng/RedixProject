@@ -28,10 +28,12 @@ import java.util.List;
 import redix.booxtown.R;
 import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.controller.BookController;
+import redix.booxtown.controller.TransactionController;
 import redix.booxtown.custom.BorderImage;
 import redix.booxtown.custom.CustomListviewNotificationSwap;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
+import redix.booxtown.model.Transaction;
 
 public class NotificationSwapActivity extends AppCompatActivity implements View.OnClickListener {
     public static String [] prgmNameList={"Home","Notifications","FAQ"};
@@ -52,8 +54,8 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
         // lấy được list sách swap đẻ đổ vào listview
         String trans_id= getIntent().getStringExtra("trans_id");
-        bookAsync bookAsync= new bookAsync(NotificationSwapActivity.this,trans_id);
-        bookAsync.execute();
+        transAsync transAsync= new transAsync(NotificationSwapActivity.this,trans_id);
+        transAsync.execute();
 
         Button btn_notification_not_like= (Button)findViewById(R.id.btn_notification_not_like);
         btn_notification_not_like.setOnClickListener(new View.OnClickListener() {
@@ -153,23 +155,24 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         }
     }
 
-    class bookAsync extends AsyncTask<String,Void,List<Book>> {
+    class transAsync extends AsyncTask<String,Void,Transaction> {
 
         Context context;
         ProgressDialog dialog;
         List<Book> listemp;
         String trans_id;
-        public bookAsync(Context context, String trans_id){
+        public transAsync(Context context, String trans_id){
             this.context = context;
             this.trans_id=trans_id;
+            listemp = new ArrayList<>();
         }
 
         @Override
-        protected List<Book> doInBackground(String... strings) {
-            listemp = new ArrayList<>();
-            BookController bookController = new BookController();
-            listemp = bookController.bookTransactionId(trans_id);
-            return listemp;
+        protected Transaction doInBackground(String... strings) {
+
+            TransactionController bookController = new TransactionController();
+            listemp= bookController.getTransactionId(trans_id).getBook();
+            return bookController.getTransactionId(trans_id);
         }
 
         @Override
@@ -182,15 +185,15 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         }
 
         @Override
-        protected void onPostExecute(List<Book> books) {
-            if (books == null){
+        protected void onPostExecute(Transaction transaction) {
+            if (transaction == null){
                 dialog.dismiss();
             }else {
                 ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
-                listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, books, trans_id));
+                listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, transaction.getBook(), trans_id));
                 dialog.dismiss();
             }
-            super.onPostExecute(books);
+            super.onPostExecute(transaction);
         }
     }
 }

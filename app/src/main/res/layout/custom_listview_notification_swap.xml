@@ -72,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Book codition :"
+            android:text="Book codition: "
             android:id="@+id/textView30"
             android:layout_below="@+id/textView28"
             android:layout_alignParentLeft="true"
@@ -94,9 +94,10 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="60dp"
-            android:layout_height="20dp"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
             android:text="Swap"
+            android:textAllCaps="false"
             android:id="@+id/btn_notification_swap_listview"
             android:layout_below="@+id/textView30"
             android:layout_alignParentLeft="true"
@@ -105,7 +106,8 @@
             android:layout_marginBottom="5dp"
             android:background="#f57070"
             android:textSize="10dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:focusableInTouchMode="true" />
 
     </RelativeLayout>
 
