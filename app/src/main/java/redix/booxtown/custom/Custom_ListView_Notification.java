@@ -1,6 +1,7 @@
 package redix.booxtown.custom;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -82,6 +83,11 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RecyclerViewHolder) {
             Notification notification = list.get(position);
+            if (notification.getIs_read() == 0 ){
+                ((RecyclerViewHolder) holder).tv.setTextColor(Color.RED);
+            }else {
+                ((RecyclerViewHolder) holder).tv.setTextColor(Color.BLACK);
+            }
             ((RecyclerViewHolder) holder).tv.setText(notification.getTitle_notifi());
             ((RecyclerViewHolder) holder).tv_content.setText(notification.getCreate_date());
 

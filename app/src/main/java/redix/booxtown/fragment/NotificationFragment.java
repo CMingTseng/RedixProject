@@ -79,6 +79,8 @@ public class NotificationFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        Log.d("bhjbjbjb","oncreate");
         //listview content notification
         lv_notification=(RecyclerView) view.findViewById(R.id.lv_content_notification);
         RecyclerView.LayoutManager  layoutManager = new LinearLayoutManager(getActivity());
@@ -90,6 +92,13 @@ public class NotificationFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        Log.d("bhjbjbjb","onresum");
+        final Gettop_notifi gettop_notifi = new Gettop_notifi(session_id,100,0);
+        gettop_notifi.execute();
+        super.onResume();
+    }
 
     public class gotoScreen extends AsyncTask<Void,Void,Void>{
 
@@ -196,6 +205,8 @@ public class NotificationFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int i) {
                                 Notification notification = (Notification) adapter.getlist().get(i);
+                                ChangeStatusNotification changeStatusNotification = new ChangeStatusNotification(session_id,Integer.parseInt(notification.getId()));
+                                changeStatusNotification.execute();
                                 if (notification.getKey_screen().equals("BTNotiCommented")){
                                     s = notification.getId_screen().split("::");
                                     Getthreadbyid getthreadbyid = new Getthreadbyid();
@@ -244,6 +255,25 @@ public class NotificationFragment extends Fragment {
                 }
             }
             super.onPostExecute(notifications);
+        }
+    }
+
+
+    public class ChangeStatusNotification extends AsyncTask<Void,Void,Void>{
+        int notificationId;
+        String sessionid;
+
+        public ChangeStatusNotification(String sessionid,int notificationId){
+            this.sessionid = sessionid;
+            this.notificationId = notificationId;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            NotificationController notificationController = new NotificationController();
+            notificationController.changeStatusNotification(sessionid,notificationId);
+            return null;
         }
     }
 
