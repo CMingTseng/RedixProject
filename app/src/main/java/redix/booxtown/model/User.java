@@ -21,10 +21,13 @@ public class User {
     private String password;
     @Expose
     private String session_id;
+    @Expose
+    private int user_id;
+    @Expose
+    private String photo;
 
 
-
-    public User(String first_name, String last_name, String username, String email, String birthday, String phone, String password,String session_id) {
+    public User(String first_name, String last_name, String username, String email, String birthday, String phone, String password, String session_id, int user_id, String photo) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -32,10 +35,28 @@ public class User {
         this.birthday = birthday;
         this.phone = phone;
         this.password = password;
-        this.session_id= session_id;
+        this.session_id = session_id;
+        this.user_id = user_id;
+        this.photo = photo;
     }
 
     public User() {
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getFirst_name() {

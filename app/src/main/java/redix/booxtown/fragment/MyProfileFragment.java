@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import redix.booxtown.adapter.ListBookAdapter;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.R;
@@ -47,7 +48,7 @@ public class MyProfileFragment extends Fragment {
     List<Book> listEx= new ArrayList<>();
     GridView grid;
     ListBookAdapter adapter;
-    ImageView img_component;
+    ImageView imv_menu_profile;
     TextView txt_profile_phone,txt_profile_birthday,txt_profile_email,txt_profile_username;
     String username;
     TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
@@ -69,6 +70,8 @@ public class MyProfileFragment extends Fragment {
 
             }
         });
+
+        imv_menu_profile = (ImageView)view.findViewById(R.id.imv_menu_profile);
 
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Glide.with(getActivity()).load(R.drawable.btn_menu_locate).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView_back);
@@ -244,9 +247,9 @@ public class MyProfileFragment extends Fragment {
                     txt_profile_birthday.setText(userResult.get(0).getBirthday().substring(0,10));
                     txt_profile_username.setText(userResult.get(0).getUsername());
                     username = userResult.get(0).getUsername();
-
-
-
+                    Glide.with(context). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + userResult.get(0).getUsername() + "&image=" +  userResult.get(0).getPhoto()  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                            into(imv_menu_profile);
+                    Picasso.with(context).load("").into(imv_menu_profile);
                     dialog.dismiss();
                 }
                 super.onPostExecute(userResult);

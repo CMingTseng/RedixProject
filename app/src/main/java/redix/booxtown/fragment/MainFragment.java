@@ -1,12 +1,10 @@
 package redix.booxtown.fragment;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,17 +13,13 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,9 +220,6 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Location location;
-        Boolean isGPSEnabled;
-        Boolean isNetworkEnabled;
         // Add a marker in Sydney and move the camera
         // latitude and longitude
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
@@ -241,35 +232,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.setTrafficEnabled(true);
-
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return  ;
-        }
-        LocationManager service = (LocationManager)getActivity().getSystemService(getContext().LOCATION_SERVICE);
-        // getting GPS status
-        isGPSEnabled = service
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
-        isNetworkEnabled = service
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if(isGPSEnabled){
-            location = service
-                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (location != null) {
-                LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-            }
-
-        }
-        if(isNetworkEnabled){
-            location = service
-                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (location != null) {
-                LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-            }
-        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(new GPSTracker(getActivity()).getLatitude(),new GPSTracker(getActivity()).getLongitude()),10));
         //mMap.setOnMapLongClickListener(this);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
 
