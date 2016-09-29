@@ -50,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.activity.MenuActivity;
 import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.Information;
@@ -60,7 +61,7 @@ import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Setting;
 
-public class SettingFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback{
+public class SettingFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback,View.OnClickListener{
 
     TextView besttime1, besttime2;
     public static String time1="",time2="";
@@ -80,6 +81,15 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
     Setting setting_old;
     Setting setting_new;
+
+    //menu bottom
+    ImageView img_menu_bottom_location;
+    ImageView img_menu_bottom_comment;
+    ImageView img_menu_bottom_camera;
+    ImageView img_menu_bottom_bag;
+    ImageView img_menu_bottom_user;
+    String session_id;
+    //end
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,7 +101,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         switch_seting_location = (Switch) view.findViewById(R.id.switch_seting_location);
 
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        final String session_id = pref.getString("session_id", null);
+        session_id = pref.getString("session_id", null);
 
         getSetting setting = new getSetting(getContext());
         setting.execute(session_id);
@@ -110,8 +120,6 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                 }
             }
         });
-
-
         //end
 
         ImageView imv_setting_pass = (ImageView)view.findViewById(R.id.imv_setting_editpass);
@@ -291,7 +299,62 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                 }
             }
         });
+
+        //menu bottom
+
+        img_menu_bottom_location = (ImageView)getActivity().findViewById(R.id.img_menu_bottom_location);
+        img_menu_bottom_comment = (ImageView)getActivity().findViewById(R.id.img_menu_bottom_comment);
+        img_menu_bottom_camera = (ImageView)getActivity().findViewById(R.id.img_menu_bottom_camera);
+        img_menu_bottom_bag = (ImageView)getActivity().findViewById(R.id.img_menu_bottom_bag);
+        img_menu_bottom_user = (ImageView)getActivity().findViewById(R.id.img_menu_bottom_user);
+
+        img_menu_bottom_location.setOnClickListener(this);
+        img_menu_bottom_comment.setOnClickListener(this);
+        img_menu_bottom_camera.setOnClickListener(this);
+        img_menu_bottom_bag.setOnClickListener(this);
+        img_menu_bottom_user.setOnClickListener(this);
+        //end
         return view;
+    }
+
+    public void saveSetting(Setting old, Setting new_setting, final String type){
+        if(old.getIs_notification()!=new_setting.getIs_notification()
+                || old.getIs_best_time() != new_setting.getIs_best_time()
+                || old.getIs_current_location() != new_setting.getIs_current_location()
+                || !old.getTime_start().equals(new_setting.getTime_start())
+                || !old.getTime_to().equals(new_setting.getTime_to())) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+            builder1.setMessage("Do you want to save setting ?");
+            builder1.setCancelable(true);
+            builder1.setPositiveButton(
+                    "Yes",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            updateSetting update = new updateSetting(getContext(), session_id, id_setting, is_notification, is_best_time, is_current_location,
+                                    time1, time2);
+                            update.execute();
+                            getSetting setting = new getSetting(getContext());
+                            setting.execute(session_id);
+                            dialog.cancel();
+                        }
+                    });
+            builder1.setNegativeButton(
+                    "No",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent1 = new Intent(getActivity(),MainAllActivity.class);
+                            intent1.putExtra("key",type);
+                            startActivity(intent1);
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }else {
+            Intent intent1 = new Intent(getActivity(),MainAllActivity.class);
+            intent1.putExtra("key",type);
+            startActivity(intent1);
+        }
     }
 
     public String showTime(int hour, int min) {
@@ -368,6 +431,33 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.setTrafficEnabled(true);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_menu_bottom_location:
+                setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
+                saveSetting(setting_old,setting_new,"1");
+                break;
+            case R.id.img_menu_bottom_comment:
+                setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
+                saveSetting(setting_old,setting_new,"2");
+                break;
+            case R.id.img_menu_bottom_camera:
+                setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
+                saveSetting(setting_old,setting_new,"3");
+                break;
+            case R.id.img_menu_bottom_bag:
+                setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
+                saveSetting(setting_old,setting_new,"4");
+                break;
+            case R.id.img_menu_bottom_user:
+
+                saveSetting(setting_old,setting_new,"5");
+                break;
+
+        }
     }
 
     class changePass extends AsyncTask<String,Void,Boolean>{
