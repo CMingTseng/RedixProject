@@ -56,28 +56,18 @@ import redix.booxtown.R;
 import redix.booxtown.activity.ListingsDetailActivity;
 import redix.booxtown.activity.MenuActivity;
 import redix.booxtown.adapter.AdapterFilter;
-import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
+import redix.booxtown.controller.GetAllGenreAsync;
 import redix.booxtown.controller.IconMapController;
-import redix.booxtown.controller.NotificationController;
-import redix.booxtown.custom.CustomSearch;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Filter;
-import redix.booxtown.model.Notification;
 
 public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener,OnMapReadyCallback {
     private GoogleMap mMap;
     final int RQS_GooglePlayServices = 1;
-
-    ListView lv;
-    Context context;
-    ImageView close_menu;
-    public static int [] prgmImages={R.drawable.home,R.drawable.notification,R.drawable.faq,R.drawable.invited,R.drawable.rate,R.drawable.about,R.drawable.contact1,R.drawable.setting,R.drawable.logout,R.drawable.unsub};
-    public static String [] prgmNameList={"Nearest distance","Price low to high","Price high to low","Recently added","Nearest distance","Price low to high","Price high to low","Recently added","Nearest distance","Price low to high"};
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
-    private MenuBottomCustom bottom;
     private LatLng latLngBounds;
     MarkerOptions marker;
     private HashMap<Marker, Book> mMarkersHashMap = new HashMap<>();
@@ -113,6 +103,10 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 //        controller.sendNotification(list);
 
 
+        //get genre
+        GetAllGenreAsync getAllGenreAsync = new GetAllGenreAsync(getContext());
+        getAllGenreAsync.execute();
+        //end
         return view;
     }
 
@@ -229,7 +223,6 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         // Add a marker in Sydney and move the camera
         // latitude and longitude
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         String session_id = pref.getString("session_id", null);
         listingAsync listingAsync = new listingAsync(getContext());
         listingAsync.execute(session_id);

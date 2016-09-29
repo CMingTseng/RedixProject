@@ -6,6 +6,7 @@ import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.CommentResult;
+import redix.booxtown.model.GenreValueResult;
 import redix.booxtown.model.Notification;
 import redix.booxtown.model.NotificationResult;
 import redix.booxtown.model.Profile;
@@ -168,4 +169,7 @@ public interface ServiceInterface {
 
     @GET("/booxtown/rest/setting/getSettingByUserId")
     Call<SettingResult> getSettingByUserId(@Query("session_id") String session_id);
+
+    @GET("/booxtown/rest/book/getAllGenre")
+    Call<GenreValueResult> getAllGenre();
 }

@@ -74,6 +74,7 @@ import redix.booxtown.R;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
+import redix.booxtown.controller.GetAllGenreAsync;
 import redix.booxtown.controller.ResizeImage;
 import redix.booxtown.controller.UploadFileController;
 
@@ -111,10 +112,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     public int numclick = 0;
     public int numimageclick = 0;
     String listeditimage;
-    String[] genravalue = {"Architecture", "Business and Economics", "Boy,Mid and Spirit", "Children", "Computers and Technology",
-            "Crafts and Hobbies", "Education", "Family,Parenting and Relationships", "Fiction and Literature", "Food and Drink",
-            "Health and Fitness","History and Politics","Homes Gaedens and DIY","Humor and Comedy","Languages","Manuals and Guides"
-    };
+//    String[] genravalue = {"Architecture", "Business and Economics", "Boy,Mid and Spirit", "Children", "Computers and Technology",
+//            "Crafts and Hobbies", "Education", "Family,Parenting and Relationships", "Fiction and Literature", "Food and Drink",
+//            "Health and Fitness","History and Politics","Homes Gaedens and DIY","Humor and Comedy","Languages","Manuals and Guides"
+//    };
 
 
     int PICK_IMAGE_MULTIPLE = 1;
@@ -173,9 +174,9 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         s = getArguments().getString("activity");
         listTag = new ArrayList<>();
         genre = new ArrayList<>();
-        for (int i = 0; i < genravalue.length; i++) {
+        for (int i = 0; i < GetAllGenreAsync.list.size(); i++) {
             Genre genrel = new Genre();
-            genrel.setValue(genravalue[i]);
+            genrel.setValue(GetAllGenreAsync.list.get(i));
             genre.add(genrel);
         }
         btn_sellectimage = (ImageView) v.findViewById(R.id.imageView32);

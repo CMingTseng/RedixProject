@@ -60,6 +60,7 @@ import redix.booxtown.adapter.AdapterListings;
 import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
+import redix.booxtown.controller.GetAllGenreAsync;
 import redix.booxtown.custom.CustomSearch;
 import redix.booxtown.custom.CustomTabbarExplore;
 import redix.booxtown.custom.MenuBottomCustom;
@@ -317,18 +318,20 @@ public class ExploreFragment extends Fragment
                     }
                 });
                 spinner2 = (Spinner) dialog.findViewById(R.id.spinner_dialog_filter);
-                String[] genravalue = {"All","Architecture", "Business and Economics", "Boy,Mid and Spirit", "Children", "Computers and Technology",
-                        "Crafts and Hobbies", "Education", "Family,Parenting and Relationships", "Fiction and Literature", "Food and Drink",
-                        "Health and Fitness","History and Politics","Homes Gaedens and DIY","Humor and Comedy","Languages","Manuals and Guides"
-                };
+//              String[] genravalue = {"All","Architecture", "Business and Economics", "Boy,Mid and Spirit", "Children", "Computers and Technology",
+//                        "Crafts and Hobbies", "Education", "Family,Parenting and Relationships", "Fiction and Literature", "Food and Drink",
+//                        "Health and Fitness","History and Politics","Homes Gaedens and DIY","Humor and Comedy","Languages","Manuals and Guides"
+//                };
                 List<String> list = new ArrayList<String>();
-                for (int i = 0; i < genravalue.length;i++){
-                    list.add(genravalue[i]);
-                }
+//                for (int i = 0; i < genravalue.length;i++){
+//                    list.add(genravalue[i]);
+//                }
 
+
+                list = GetAllGenreAsync.list;
 
                 dataAdapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_spinner_item, list);
+                        android.R.layout.simple_spinner_item, GetAllGenreAsync.list);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner2.setAdapter(dataAdapter);
 
