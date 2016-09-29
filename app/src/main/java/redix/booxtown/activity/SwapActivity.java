@@ -24,10 +24,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
@@ -37,19 +39,23 @@ import redix.booxtown.adapter.AdapterSwap;
 import redix.booxtown.adapter.CustomPagerAdapter;
 import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.controller.BookController;
+import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ObjectCommon;
+import redix.booxtown.controller.TransactionController;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.BookSwap;
 import redix.booxtown.model.Explore;
 import redix.booxtown.model.InteractComment;
+import redix.booxtown.model.Notification;
 
-/**
- * Created by Administrator on 30/08/2016.
- */
 public class SwapActivity extends AppCompatActivity {
 
-    ArrayList<BookSwap> listSwap= new ArrayList<>();
+    ArrayList<BookSwap> listSwap = new ArrayList<>();
     ListView listView;
+    AdapterSwap adapter;
+    Book bookIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +68,7 @@ public class SwapActivity extends AppCompatActivity {
         txtTitle.setGravity(Gravity.CENTER_VERTICAL);
         ImageView img_component = (ImageView) findViewById(R.id.img_menu_component);
         img_component.setVisibility(View.INVISIBLE);
-        ImageView imageView_back=(ImageView) findViewById(R.id.img_menu);
+        ImageView imageView_back = (ImageView) findViewById(R.id.img_menu);
         imageView_back.setImageResource(R.drawable.btn_sign_in_back);
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,29 +76,14 @@ public class SwapActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        //------------------------------------------------------------
-//        listSwap.add("Any");
-//        listSwap.add("The Last Painting of Sara de Vos");
-//        listSwap.add("The Last Painting");
-//        listSwap.add("Never a Dull Moment");
-//        listSwap.add("A Nation on the Brink");
-//        listSwap.add("1634 the Baltic War");
-//        listSwap.add("Any");
-//        listSwap.add("The Last Painting of Sara de Vos");
-//        listSwap.add("The Last Painting");
-//        listSwap.add("Never a Dull Moment");
-//        listSwap.add("A Nation on the Brink");
-//        listSwap.add("1634 the Baltic War");
-
-
-
-        TextView btn_Swap=(TextView) findViewById(R.id.btn_swap);
-        TextView btn_add_book=(TextView) findViewById(R.id.btn_add_book);
+        TextView btn_Swap = (TextView) findViewById(R.id.btn_swap);
+        TextView btn_add_book = (TextView) findViewById(R.id.btn_add_book);
+        bookIntent = (Book) getIntent().getSerializableExtra("Book");
 
         btn_Swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 final Dialog dialog = new Dialog(SwapActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -113,33 +104,50 @@ public class SwapActivity extends AppCompatActivity {
                 btnbacktohome.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent iten = new Intent(SwapActivity.this,MainAllActivity.class);
-                        startActivity(iten);
+                        SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        String session_id = pref.getString("session_id", null);
+
+                        UserID us = new UserID(SwapActivity.this);
+                        us.execute(session_id);
+
                     }
                 });
             }
         });
+
         btn_add_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(SwapActivity.this, AddbookActivity.class);
+                Intent intent = new Intent(SwapActivity.this, AddbookActivity.class);
                 startActivity(intent);
             }
         });
 
         listingAsync listingAsync = new listingAsync(SwapActivity.this);
-        SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
+        SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
         String session_id = pref.getString("session_id", null);
         listingAsync.execute(session_id);
     }
 
-    class listingAsync extends AsyncTask<String,Void,List<Book>> {
+    public ArrayList<BookSwap> getFilteredList(List<BookSwap> bookList) {
+        ArrayList<BookSwap> filterList = new ArrayList<>();
+        for (BookSwap bw : bookList) {
+            if (bw.ischeck()) {
+                filterList.add(bw);
+            }
+        }
+        return filterList;
+    }
+
+    class listingAsync extends AsyncTask<String, Void, List<Book>> {
 
         Context context;
         ProgressDialog dialog;
         List<Book> listemp;
-        public listingAsync(Context context){
+
+        public listingAsync(Context context) {
             this.context = context;
         }
 
@@ -162,23 +170,130 @@ public class SwapActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Book> books) {
-            if (books == null){
+            if (books == null) {
                 dialog.dismiss();
-            }else {
+            } else {
                 BookSwap book;
-                for(int i=0; i<books.size(); i++){
-                    book= new BookSwap();
+                for (int i = 0; i < books.size(); i++) {
+                    book = new BookSwap();
                     book.setIscheck(false);
                     book.setValue(books.get(i).getTitle());
                     book.setBook_id(books.get(i).getId());
                     listSwap.add(book);
                 }
-                AdapterSwap adapter = new AdapterSwap(SwapActivity.this,listSwap);
-                listView=(ListView) findViewById(R.id.listView_swap);
+                adapter = new AdapterSwap(SwapActivity.this, listSwap);
+                listView = (ListView) findViewById(R.id.listView_swap);
                 listView.setAdapter(adapter);
                 dialog.dismiss();
             }
             super.onPostExecute(books);
+        }
+    }
+
+    class transactionInsert extends AsyncTask<Void, Void, String> {
+
+        Context context;
+        ProgressDialog dialog;
+        List<Book> listemp;
+        String session_id, buyUserID, sellUserID, buyBookID, sellBookID, action;
+
+        public transactionInsert(Context context, String session_id, String buyUserID, String sellUserID, String buyBookID, String sellBookID, String action) {
+            this.context = context;
+            this.session_id = session_id;
+            this.buyBookID = buyBookID;
+            this.sellUserID = sellUserID;
+            this.buyUserID = buyUserID;
+            this.sellBookID = sellBookID;
+            this.action = action;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String transactionID = "";
+            TransactionController transactionController = new TransactionController();
+            transactionID = transactionController.transactionInsert(buyUserID, sellUserID, buyBookID, sellBookID, action,session_id);
+            return transactionID;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String transactionID) {
+            if (transactionID == "") {
+                dialog.dismiss();
+            } else {
+                List<Hashtable> list = new ArrayList<>();
+                Notification notification = new Notification("Request Swap book", "BTNotiSwapRequest", transactionID);
+                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                obj.put("user_id", sellUserID);
+                obj.put("messages", "Request Swap book by " + buyUserID);
+                list.add(obj);
+                NotificationController controller = new NotificationController();
+                controller.sendNotification(list);
+                dialog.dismiss();
+
+                Intent iten = new Intent(SwapActivity.this, MainAllActivity.class);
+                startActivity(iten);
+            }
+            super.onPostExecute(transactionID);
+        }
+    }
+
+    class UserID extends AsyncTask<String, Void, String> {
+        Context context;
+
+        public UserID(Context context) {
+            this.context = context;
+        }
+
+        ProgressDialog dialog;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            UserController userController = new UserController();
+            String user_id = userController.getUserID(strings[0]);
+            return user_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(SwapActivity.this);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String user_ID) {
+            try {
+                SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                String session_id = pref.getString("session_id", null);
+                ArrayList<BookSwap> filterList = getFilteredList(adapter.getList());
+                String buyBookID = "";
+                for (int i = 0; i < filterList.size(); i++) {
+                    if (i == 0) {
+                        buyBookID = filterList.get(i).getBook_id();
+                    } else {
+                        buyBookID = buyBookID + "_+_" + filterList.get(i).getBook_id();
+                    }
+                }
+                transactionInsert transactionInsert = new transactionInsert(SwapActivity.this, session_id, user_ID, bookIntent.getUser_id(), buyBookID, bookIntent.getId(), "swap");
+                transactionInsert.execute();
+                //}
+            } catch (Exception e) {
+                String ssss = e.getMessage();
+                Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
+            }
+            dialog.dismiss();
         }
     }
 
