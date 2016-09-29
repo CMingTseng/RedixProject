@@ -101,18 +101,21 @@ public class SwapActivity extends AppCompatActivity {
                     }
                 });
 
-                btnbacktohome.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = pref.edit();
-                        String session_id = pref.getString("session_id", null);
+                ArrayList<BookSwap> filterList = getFilteredList(adapter.getList());
+                if(filterList.size()>0) {
+                    btnbacktohome.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            String session_id = pref.getString("session_id", null);
 
-                        UserID us = new UserID(SwapActivity.this);
-                        us.execute(session_id);
+                            UserID us = new UserID(SwapActivity.this);
+                            us.execute(session_id);
 
-                    }
-                });
+                        }
+                    });
+                }
             }
         });
 
@@ -179,6 +182,7 @@ public class SwapActivity extends AppCompatActivity {
                     book.setIscheck(false);
                     book.setValue(books.get(i).getTitle());
                     book.setBook_id(books.get(i).getId());
+                    book.setUser_name(books.get(i).getUsername());
                     listSwap.add(book);
                 }
                 adapter = new AdapterSwap(SwapActivity.this, listSwap);
@@ -230,7 +234,8 @@ public class SwapActivity extends AppCompatActivity {
                 dialog.dismiss();
             } else {
                 List<Hashtable> list = new ArrayList<>();
-                Notification notification = new Notification("Request Swap book", "BTNotiSwapRequest", transactionID);
+                ArrayList<BookSwap> filterList = getFilteredList(adapter.getList());
+                Notification notification = new Notification(filterList.get(0).getUser_name().toLowerCase()+" sent a swap request", "BTNotiSwapRequest", transactionID);
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", sellUserID);
                 obj.put("messages", "Request Swap book by " + buyUserID);

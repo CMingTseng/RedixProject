@@ -87,50 +87,6 @@ public class NotificationFragment extends Fragment {
 
         final Gettop_notifi gettop_notifi = new Gettop_notifi(session_id,100,0);
         gettop_notifi.execute();
-        lv_notification.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int i) {
-                        Notification notification = (Notification) adapter.getlist().get(i);
-                        Toast.makeText(getContext(),"djshjdhsj"+notification.getId(),Toast.LENGTH_LONG).show();
-                        if (notification.getKey_screen().equals("BTNotiCommented")){
-                            s = notification.getId_screen().split("::");
-                            Getthreadbyid getthreadbyid = new Getthreadbyid();
-                            getthreadbyid.execute(s[1]);
-                            Gettopicbyid gettopicbyid = new Gettopicbyid();
-                            gettopicbyid.execute(s[0]);
-                            gotoScreen gotoScreen = new gotoScreen();
-                            gotoScreen.execute();
-
-                        }
-//                        if(i==0){
-//                            InteractThread interact1= new InteractThread();
-//                            interact1.setInteractThreadTitle("Thread one text");
-//                            interact1.setInteractThreadCount("20");
-//                            interact1.setStatus(true);
-//                            interact1.setInteractThreadContent("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
-//                            interact1.setInteractThreadAddBy("Derek Jarma");
-//                            listInteractThreads.add(interact1);
-//                            InteractThread item = (InteractThread) listInteractThreads.get(0);
-//                            InteractThreadDetailsFragment fragment= new InteractThreadDetailsFragment();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable("thread", item);
-//                            fragment.setArguments(bundle);
-//                            main.callFragment(fragment);
-
-//                        }else if(i==1){
-//                            Intent intent = new Intent(getActivity(),NotificationSwapActivity.class);
-//                            startActivity(intent);
-//                        }else if(i==2){
-//                            Intent intent1 = new Intent(getActivity(),NotificationSellActivity.class);
-//                            startActivity(intent1);
-//                        }else if(i==3){
-//                            Intent intent2 = new Intent(getActivity(),NotificationDominicActivity.class);
-//                            startActivity(intent2);
-//                        }
-                    }
-                })
-        );
         return view;
     }
 
@@ -235,6 +191,33 @@ public class NotificationFragment extends Fragment {
                 Collections.sort(listnoNotifications,Notification.aseid);
                 adapter = new Custom_ListView_Notification(getActivity(),notifications,lv_notification);
                 lv_notification.setAdapter(adapter);
+                lv_notification.addOnItemTouchListener(
+                        new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int i) {
+                                Notification notification = (Notification) adapter.getlist().get(i);
+                                if (notification.getKey_screen().equals("BTNotiCommented")){
+                                    s = notification.getId_screen().split("::");
+                                    Getthreadbyid getthreadbyid = new Getthreadbyid();
+                                    getthreadbyid.execute(s[1]);
+                                    Gettopicbyid gettopicbyid = new Gettopicbyid();
+                                    gettopicbyid.execute(s[0]);
+                                    gotoScreen gotoScreen = new gotoScreen();
+                                    gotoScreen.execute();
+
+                                }else if (notification.getKey_screen().equals("BTNotiSellRequest")){
+                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+                                    startActivity(intent);
+                                }else if (notification.getKey_screen().equals("BTNotiSwapRequest")){
+                                    Intent intent = new Intent(getActivity(),NotificationSwapActivity.class);
+                                    startActivity(intent);
+                                }else if (notification.getKey_screen().equals("BTNotiSwapResultPartnerRejected")){
+                                    Intent intent2 = new Intent(getActivity(),NotificationDominicActivity.class);
+                                    startActivity(intent2);
+                                }
+                            }
+                        })
+                );
                 if (listnoNotifications.size()>=20){
                     adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
                         @Override
@@ -248,7 +231,8 @@ public class NotificationFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     Log.e("haint", "Load More 2");
-
+                                    listnoNotifications.remove(listnoNotifications.size() - 1);
+                                    adapter.notifyItemRemoved(listnoNotifications.size());
                                     //Remove loading item
                                     Gettop_notifi getalltopic = new Gettop_notifi(session_id,100,Integer.parseInt(listnoNotifications.get(listnoNotifications.size()-1).getId()));
                                     getalltopic.execute();
