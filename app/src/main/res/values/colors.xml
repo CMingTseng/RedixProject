@@ -23,7 +23,7 @@
     <!--Color line-->
     <color name="color_line">#DBDBDB</color>
     <!--Color Text Hint-->
-    <color name="color_text_hint">#C8C8C8</color>
+    <color name="color_text_hint">#c8c8c8</color>
     <color name="color_text">#F06667</color>
     <color name="color_bg_explore">#f06667</color>
     <color name="color_title_book">#38bfc3</color>

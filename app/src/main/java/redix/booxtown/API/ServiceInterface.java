@@ -89,6 +89,9 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/book/getallbookbyuser")
     Call<BookResult> getAllBookByUser(@Query("session_id") String session_id);
 
+    @GET("/booxtown/transactionhistory/tranhis_getbook_byidtrans")
+    Call<BookResult> getBookTransaction(@Query("tranhisid") String tranhisid);
+
     @POST("/booxtown/rest/book/book_delete")
     Call<Result> deletebook(@Body Object book);
 
