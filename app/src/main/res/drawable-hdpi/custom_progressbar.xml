@@ -24,6 +24,7 @@
                     android:endColor="@color/color_text"
                     android:angle="270"
                     />
+
             </shape>
         </clip>
     </item>

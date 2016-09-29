@@ -1,6 +1,7 @@
 package redix.booxtown.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,10 +22,16 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import redix.booxtown.R;
+import redix.booxtown.adapter.ListBookAdapter;
+import redix.booxtown.controller.BookController;
 import redix.booxtown.custom.BorderImage;
 import redix.booxtown.custom.CustomListviewNotificationSwap;
 import redix.booxtown.custom.MenuBottomCustom;
+import redix.booxtown.model.Book;
 
 public class NotificationSwapActivity extends AppCompatActivity implements View.OnClickListener {
     public static String [] prgmNameList={"Home","Notifications","FAQ"};
@@ -43,8 +51,9 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
         img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
         // lấy được list sách swap đẻ đổ vào listview
-        ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
-        listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, prgmNameList));
+        String trans_id= getIntent().getStringExtra("trans_id");
+        bookAsync bookAsync= new bookAsync(NotificationSwapActivity.this,trans_id);
+        bookAsync.execute();
 
         Button btn_notification_not_like= (Button)findViewById(R.id.btn_notification_not_like);
         btn_notification_not_like.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +150,47 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                 startActivity(intent5);
                 break;
 
+        }
+    }
+
+    class bookAsync extends AsyncTask<String,Void,List<Book>> {
+
+        Context context;
+        ProgressDialog dialog;
+        List<Book> listemp;
+        String trans_id;
+        public bookAsync(Context context, String trans_id){
+            this.context = context;
+            this.trans_id=trans_id;
+        }
+
+        @Override
+        protected List<Book> doInBackground(String... strings) {
+            listemp = new ArrayList<>();
+            BookController bookController = new BookController();
+            listemp = bookController.bookTransactionId(trans_id);
+            return listemp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(List<Book> books) {
+            if (books == null){
+                dialog.dismiss();
+            }else {
+                ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
+                listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, books, trans_id));
+                dialog.dismiss();
+            }
+            super.onPostExecute(books);
         }
     }
 }

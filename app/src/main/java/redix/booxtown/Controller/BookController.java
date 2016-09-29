@@ -145,6 +145,24 @@ public class BookController {
 
     }
 
+    public List<Book> bookTransactionId(String tranhisid){
+        Call<BookResult> getall = service.getBookTransaction(tranhisid);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            BookResult str = getall.execute().body();
+            if (str.getCode() == 200){
+                return str.getBook();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+
+    }
+
     public Comparator<Book> distance = new Comparator<Book>() {
         @Override
         public int compare(Book lhs, Book rhs) {

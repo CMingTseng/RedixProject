@@ -221,6 +221,7 @@ public class NotificationFragment extends Fragment {
                                     startActivity(intent);
                                 }else if (notification.getKey_screen().equals("BTNotiSwapRequest")){
                                     Intent intent = new Intent(getActivity(),NotificationSwapActivity.class);
+                                    intent.putExtra("trans_id",notification.getId_screen());
                                     startActivity(intent);
                                 }else if (notification.getKey_screen().equals("BTNotiSwapResultPartnerRejected")){
                                     Intent intent2 = new Intent(getActivity(),NotificationDominicActivity.class);
