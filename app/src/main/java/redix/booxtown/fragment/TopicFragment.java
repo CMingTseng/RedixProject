@@ -131,7 +131,8 @@ public class TopicFragment extends Fragment
                                     @Override
                                     public void run() {
                                         Log.e("haint", "Load More 2");
-
+                                        listtopic.remove(listtopic.size() - 1);
+                                        interact.notifyItemRemoved(listtopic.size());
                                         //Remove loading item
                                         topicSync1 getalltopic = new topicSync1(getContext(),session_id,100,Integer.parseInt(listemp.get(listemp.size()-1).getId()));
                                         getalltopic.execute();
