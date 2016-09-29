@@ -221,28 +221,25 @@ public class SwapActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(context);
-            dialog.setMessage("Please wait...");
-            dialog.setIndeterminate(true);
-            dialog.show();
+
             super.onPreExecute();
         }
 
         @Override
         protected void onPostExecute(String transactionID) {
             if (transactionID == "") {
-                dialog.dismiss();
+
             } else {
                 List<Hashtable> list = new ArrayList<>();
                 ArrayList<BookSwap> filterList = getFilteredList(adapter.getList());
-                Notification notification = new Notification(filterList.get(0).getUser_name()+" sent a swap request", "BTNotiSwapRequest", transactionID);
+                Notification notification = new Notification(filterList.get(0).getUser_name().toUpperCase()+" sent a swap request", "BTNotiSwapRequest", transactionID);
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", sellUserID);
-                obj.put("messages", "Request Swap book by " + buyUserID);
+                obj.put("messages", "Request Swap book by " + filterList.get(0).getUser_name().toUpperCase());
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
-                dialog.dismiss();
+
 
                 Intent iten = new Intent(SwapActivity.this, MainAllActivity.class);
                 startActivity(iten);
