@@ -322,13 +322,10 @@ public class ExploreFragment extends Fragment
 //                        "Crafts and Hobbies", "Education", "Family,Parenting and Relationships", "Fiction and Literature", "Food and Drink",
 //                        "Health and Fitness","History and Politics","Homes Gaedens and DIY","Humor and Comedy","Languages","Manuals and Guides"
 //                };
-                List<String> list = new ArrayList<String>();
+                //List<String> list = new ArrayList<String>();
 //                for (int i = 0; i < genravalue.length;i++){
 //                    list.add(genravalue[i]);
 //                }
-
-
-                list = GetAllGenreAsync.list;
 
                 dataAdapter = new ArrayAdapter<String>(getActivity(),
                         android.R.layout.simple_spinner_item, GetAllGenreAsync.list);
@@ -389,7 +386,6 @@ public class ExploreFragment extends Fragment
         Log.d("dsgjfgkjsnkfndknkfbd",String.valueOf(filterList.get(3).getCheck()));
         AdapterExplore adapter = new AdapterExplore(getActivity(),lisfilter_temp,2);
         grid.setAdapter(adapter);
-
     }
 
 

@@ -38,6 +38,7 @@ public class GetAllGenreAsync extends AsyncTask<Void,Void,List<GenreValue>>{
     protected void onPostExecute(List<GenreValue> genreValues) {
         try {
             if(genreValues.size() >0){
+                list.add("All");
                 for (int i=0;i<genreValues.size();i++){
                     list.add(genreValues.get(i).getTitle());
                 }

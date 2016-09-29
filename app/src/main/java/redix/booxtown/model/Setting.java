@@ -31,6 +31,14 @@ public class Setting {
         this.user_id = user_id;
     }
 
+    public Setting(int is_notification, int is_best_time, int is_current_location, String time_start, String time_to) {
+        this.is_notification = is_notification;
+        this.is_best_time = is_best_time;
+        this.is_current_location = is_current_location;
+        this.time_start = time_start;
+        this.time_to = time_to;
+    }
+
     public int getId() {
         return id;
     }

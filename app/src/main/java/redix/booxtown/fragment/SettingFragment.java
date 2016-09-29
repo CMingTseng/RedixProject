@@ -63,7 +63,7 @@ import redix.booxtown.model.Setting;
 public class SettingFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback{
 
     TextView besttime1, besttime2;
-    String time1,time2;
+    public static String time1="",time2="";
     private SupportMapFragment mMapFragment;
     TextView txt_setting_besttime;
     GoogleMap mMap;
@@ -76,7 +76,9 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
     Switch switch_setting_noti,switch_seting_location,switch_setting_besttime;
     private Dialog dialogtime;
     public int count = 0;
-    int id_setting = 0,is_notification = 0,is_best_time = 0,is_current_location=0;
+    public static int id_setting = 0,is_notification = 0,is_best_time = 0,is_current_location=0;
+    Setting setting_old;
+    Setting setting_new;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,41 +92,26 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         final String session_id = pref.getString("session_id", null);
 
+        getSetting setting = new getSetting(getContext());
+        setting.execute(session_id);
+
         ImageView img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(img_menu);
-        img_menu.setOnClickListener(new View.OnClickListener() {
+
+        //switch notìication
+        switch_setting_noti.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-//                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
-//                builder1.setMessage("Do you want to save setting ?");
-//                builder1.setCancelable(true);
-//
-//                builder1.setPositiveButton(
-//                        "Yes",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                updateSetting update = new updateSetting(getContext(),session_id,id_setting,is_notification,is_best_time,is_current_location,
-//                                        besttime1.getText().toString(),besttime2.getText().toString());
-//                                update.execute();
-//                                dialog.cancel();
-//                            }
-//                        });
-//
-//                builder1.setNegativeButton(
-//                        "No",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//
-//                                dialog.cancel();
-//                            }
-//                        });
-//
-//                AlertDialog alert11 = builder1.create();
-//                alert11.show();
-                Intent intent = new Intent(getActivity(),MenuActivity.class);
-                startActivity(intent);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked == true){
+                    is_notification =1;
+                }else{
+                    is_notification = 0;
+                }
             }
         });
+
+
+        //end
 
         ImageView imv_setting_pass = (ImageView)view.findViewById(R.id.imv_setting_editpass);
         imv_setting_pass.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +160,9 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                 if (b == false) {
                     dialogtime.dismiss();
                     txt_setting_besttime.setVisibility(View.GONE);
+                    is_best_time = 0;
                 } else {
+                    is_best_time = 1;
                     count += 1;
                     if (count > 1) {
                         dialogtime.show();
@@ -243,28 +232,61 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
             }
         });
 
-        getSetting setting = new getSetting(getContext());
-        setting.execute(session_id);
-
         //end
-        Switch switch_location = (Switch)view. findViewById(R.id.switch_seting_location);
         mMapFragment = ((SupportMapFragment)this.getChildFragmentManager().findFragmentById(R.id.fragment));
         mMapFragment.getMapAsync(this);
-        switch_location.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switch_seting_location.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b == false) {
                     getActivity().getSupportFragmentManager().beginTransaction().hide(mMapFragment).commit();
+                    is_current_location = 0;
                 } else {
                     getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
+                    is_current_location = 1;
+                }
+            }
+        });
+
+        setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
+
+        img_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!setting_old.equals(setting_new)) {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                    builder1.setMessage("Do you want to save setting ?");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    updateSetting update = new updateSetting(getContext(), session_id, id_setting, is_notification, is_best_time, is_current_location,
+                                            besttime1.getText().toString(), besttime2.getText().toString());
+                                    update.execute();
+                                    dialog.cancel();
+                                }
+                            });
+
+                    builder1.setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }else {
+                    Intent intent = new Intent(getActivity(), MenuActivity.class);
+                    startActivity(intent);
                 }
             }
         });
         return view;
-    }
-
-    public void settingNotification(){
-
     }
 
     public String showTime(int hour, int min) {
@@ -424,11 +446,14 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                         time2 = settings.get(0).getTime_to();
                     }else {
                         switch_setting_besttime.setChecked(false);
+                        time1 = "";
+                        time2 = "";
                     }
                     id_setting = settings.get(0).getId();
                     is_notification = settings.get(0).getIs_notification();
                     is_current_location = settings.get(0).getIs_current_location();
                     is_best_time = settings.get(0).getIs_best_time();
+                    setting_old=new Setting(is_notification,is_best_time,is_current_location,time1,time2);
                 }else {
                     Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                 }

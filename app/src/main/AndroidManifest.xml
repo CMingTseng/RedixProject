@@ -33,7 +33,8 @@ package="redix.booxtown">
     <activity android:name=".activity.ForgotPassword_Activity" android:screenOrientation="portrait" />
     <activity android:name=".activity.MainAllActivity" android:screenOrientation="portrait" />
 
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDXAeA_d9RTQ72CeXvhLr0O37hzLZLgzCA" />
+    <meta-data android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBN4rdozjYTxjEm_coEEjVcypH7Xd1Xqbc" />
     <activity android:name=".activity.Faq_content" />
     <!-- activity for Explore -->
 
