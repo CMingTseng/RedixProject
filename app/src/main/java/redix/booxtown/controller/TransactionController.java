@@ -45,26 +45,26 @@ public class TransactionController {
         return result;
     }
 
-//    public String transactionUpdateStatus( String session_id, String transaction_id, String status_id){
-//        Hashtable obj= new Hashtable();
-//        obj.put("session_id",session_id);
-//        obj.put("trans_id",transaction_id);
-//        obj.put("status_id",status_id);
-//
-//        Call<Result> transactionInsert = service.transactionUpdateStatus(obj);
-//        try {
-//            if (android.os.Build.VERSION.SDK_INT > 9) {
-//                StrictMode.ThreadPolicy policy =
-//                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//                StrictMode.setThreadPolicy(policy);
-//            }
-//            Result str = transactionInsert.execute().body();
-//            if (str.getCode() == 200){
-//                result= str.getSession_id();
-//            }
-//        } catch (Exception ex) {
-//            result = null;
-//        }
-//        return result;
-//    }
+    public String transactionUpdateStatus( String session_id, String transaction_id, String status_id){
+        Hashtable obj= new Hashtable();
+        obj.put("session_id",session_id);
+        obj.put("trans_id",transaction_id);
+        obj.put("status_id",status_id);
+
+        Call<Result> transactionInsert = service.transactionUpdateStatus(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = transactionInsert.execute().body();
+            if (str.getCode() == 200){
+                result= str.getSession_id();
+            }
+        } catch (Exception ex) {
+            result = null;
+        }
+        return result;
+    }
 }

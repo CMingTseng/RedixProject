@@ -186,8 +186,8 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                                 mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                                     @Override
                                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-
                                         besttime1.setText(convertTime(i) + ":" + convertTime(i1) + " " + showTime(i, i1));
+                                        time1 = convertTime(i) + ":" + convertTime(i1) + " " + showTime(i, i1);
                                     }
                                 }, hour, minute, true);
                                 mTimePicker.setTitle("");
@@ -204,12 +204,13 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                                 mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                                     @Override
                                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-
+                                        time2 = convertTime(i) + ":" + convertTime(i1) + " " + showTime(i, i1);
                                         besttime2.setText(convertTime(i) + ":" + convertTime(i1) + " " + showTime(i, i1));
                                     }
                                 }, hour, minute, true);
                                 mTimePicker.setTitle("");
                                 mTimePicker.show();
+
                             }
                         });
                         ImageView imageView = (ImageView) dialogtime.findViewById(R.id.imv_close_dialog_submit);
