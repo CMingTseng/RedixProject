@@ -42,7 +42,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
         img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
         img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
-
+        // lấy được list sách swap đẻ đổ vào listview
         ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
         listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, prgmNameList));
 

@@ -78,6 +78,10 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                 btn_notification_swapdialog_confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        //xử lý đổi sách ở đấy
+
+
                         Intent intent = new Intent(context, NotificationRejectActivity.class);
                         context.startActivity(intent);
                         dialog.dismiss();
