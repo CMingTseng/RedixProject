@@ -187,7 +187,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                 dialog.dismiss();
             }else {
                 ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
-                listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, books));
+                listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, books, trans_id));
                 dialog.dismiss();
             }
             super.onPostExecute(books);

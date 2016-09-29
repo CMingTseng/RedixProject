@@ -1,10 +1,13 @@
 package redix.booxtown.custom;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +22,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.activity.NotificationRejectActivity;
 import redix.booxtown.api.ServiceGenerator;
+import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ObjectCommon;
+import redix.booxtown.controller.TransactionController;
 import redix.booxtown.model.Book;
+import redix.booxtown.model.BookSwap;
+import redix.booxtown.model.Notification;
 
 /**
  * Created by thuyetpham94 on 27/08/2016.
@@ -32,12 +43,14 @@ import redix.booxtown.model.Book;
 public class CustomListviewNotificationSwap extends BaseAdapter {
     List<Book> list;
     Context context;
+    String trans_id;
     private static LayoutInflater inflater = null;
 
-    public CustomListviewNotificationSwap(Context context,List<Book> list) {
+    public CustomListviewNotificationSwap(Context context,List<Book> list, String trans_id) {
         // TODO Auto-generated constructor stub
         this.list = list;
         this.context = context;
+        this.trans_id=trans_id;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -109,6 +122,11 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                     @Override
                     public void onClick(View view) {
 
+                        SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        String session_id = pref.getString("session_id", null);
+                        transactionChangeStatus trans= new transactionChangeStatus(context,session_id,trans_id,"1");
+                        trans.execute();
                         Intent intent = new Intent(context, NotificationRejectActivity.class);
                         context.startActivity(intent);
                         dialog.dismiss();
@@ -126,5 +144,48 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
         });
 
         return rowView;
+    }
+
+    class transactionChangeStatus extends AsyncTask<Void, Void, String> {
+
+        Context context;
+        ProgressDialog dialog;
+        List<Book> listemp;
+        String session_id,trans_id,status_id;
+
+        public transactionChangeStatus(Context context, String session_id, String trans_id, String status_id) {
+            this.context = context;
+            this.session_id = session_id;
+            this.trans_id = trans_id;
+            this.status_id = status_id;
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String transactionID = "";
+            TransactionController transactionController = new TransactionController();
+            transactionID = transactionController.transactionUpdateStatus(session_id,trans_id,status_id);
+            return transactionID;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String transactionID) {
+            if (transactionID == "") {
+                dialog.dismiss();
+            } else {
+
+            }
+            super.onPostExecute(transactionID);
+        }
     }
 }
