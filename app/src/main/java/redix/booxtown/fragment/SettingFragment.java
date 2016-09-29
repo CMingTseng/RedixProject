@@ -51,6 +51,7 @@ import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.activity.MenuActivity;
+import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.ResizeImage;
 import redix.booxtown.controller.SettingController;
@@ -94,33 +95,34 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
-                builder1.setMessage("Do you want to save setting ?");
-                builder1.setCancelable(true);
-
-                builder1.setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                updateSetting update = new updateSetting(getContext(),session_id,id_setting,is_notification,is_best_time,is_current_location,
-                                        besttime1.getText().toString(),besttime2.getText().toString());
-                                update.execute();
-                                dialog.cancel();
-                            }
-                        });
-
-                builder1.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(getActivity(),MenuActivity.class);
-                                startActivity(intent);
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+//                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+//                builder1.setMessage("Do you want to save setting ?");
+//                builder1.setCancelable(true);
+//
+//                builder1.setPositiveButton(
+//                        "Yes",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                updateSetting update = new updateSetting(getContext(),session_id,id_setting,is_notification,is_best_time,is_current_location,
+//                                        besttime1.getText().toString(),besttime2.getText().toString());
+//                                update.execute();
+//                                dialog.cancel();
+//                            }
+//                        });
+//
+//                builder1.setNegativeButton(
+//                        "No",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//
+//                                dialog.cancel();
+//                            }
+//                        });
+//
+//                AlertDialog alert11 = builder1.create();
+//                alert11.show();
+                Intent intent = new Intent(getActivity(),MenuActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -300,27 +302,30 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                 ContextCompat.checkSelfPermission( getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return  ;
         }
-        LocationManager service = (LocationManager)getActivity().getSystemService(getContext().LOCATION_SERVICE);
-        // getting GPS status
-        isGPSEnabled = service
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
-        isNetworkEnabled = service
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if(isGPSEnabled){
-            location = service
-                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (location != null) {
-                addMaker(location);
-            }
 
-        }
-        if(isNetworkEnabled){
-            location = service
-                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (location != null) {
-                addMaker(location);
-            }
-        }
+        GPSTracker gpsTracker = new GPSTracker(getContext());
+        addMaker(gpsTracker.getLocation());
+//        LocationManager service = (LocationManager)getActivity().getSystemService(getContext().LOCATION_SERVICE);
+//        // getting GPS status
+//        isGPSEnabled = service
+//                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+//        isNetworkEnabled = service
+//                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//        if(isGPSEnabled){
+//            location = service
+//                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//            if (location != null) {
+//                addMaker(location);
+//            }
+//
+//        }
+//        if(isNetworkEnabled){
+//            location = service
+//                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//            if (location != null) {
+//                addMaker(location);
+//            }
+//        }
     }
     public void addMaker(Location location){
         // create marker
@@ -420,8 +425,6 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     }else {
                         switch_setting_besttime.setChecked(false);
                     }
-                    besttime1.setText(settings.get(0).getTime_start());
-                    besttime2.setText(settings.get(0).getTime_to());
                     id_setting = settings.get(0).getId();
                     is_notification = settings.get(0).getIs_notification();
                     is_current_location = settings.get(0).getIs_current_location();

@@ -55,7 +55,6 @@ public class TopicFragment extends Fragment
 //        imageView_back.setImageResource(R.drawable.btn_menu_locate);
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         String session_id = pref.getString("session_id", null);
         topicSync getalltopic = new topicSync(getContext(),session_id,100,0);
         getalltopic.execute();
