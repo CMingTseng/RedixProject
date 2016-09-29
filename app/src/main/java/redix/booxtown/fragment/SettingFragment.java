@@ -77,6 +77,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
     private Dialog dialogtime;
     public int count = 0;
     public static int id_setting = 0,is_notification = 0,is_best_time = 0,is_current_location=0;
+
     Setting setting_old;
     Setting setting_new;
     @Override
@@ -249,36 +250,39 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
             }
         });
 
-        setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
-
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!setting_old.equals(setting_new)) {
+                setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
+                if(setting_old.getIs_notification()!=setting_new.getIs_notification()
+                        || setting_old.getIs_best_time() != setting_new.getIs_best_time()
+                        || setting_old.getIs_current_location() != setting_new.getIs_current_location()
+                        || !setting_old.getTime_start().equals(setting_new.getTime_start())
+                        || !setting_old.getTime_to().equals(setting_new.getTime_to())) {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
                     builder1.setMessage("Do you want to save setting ?");
                     builder1.setCancelable(true);
-
                     builder1.setPositiveButton(
                             "Yes",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     updateSetting update = new updateSetting(getContext(), session_id, id_setting, is_notification, is_best_time, is_current_location,
-                                            besttime1.getText().toString(), besttime2.getText().toString());
+                                            time1, time2);
                                     update.execute();
+                                    getSetting setting = new getSetting(getContext());
+                                    setting.execute(session_id);
                                     dialog.cancel();
                                 }
                             });
-
                     builder1.setNegativeButton(
                             "No",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-
+                                    Intent intent = new Intent(getActivity(), MenuActivity.class);
+                                    startActivity(intent);
                                     dialog.cancel();
                                 }
                             });
-
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
                 }else {
