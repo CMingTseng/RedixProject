@@ -497,8 +497,10 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
     public void addMarker(final List<Book> books){
         mMap.clear();
-        //LatLng latLng = new LatLng(books.get(0).getLocation_latitude(),books.get(0).getLocation_longitude());
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,9));
+        if(books.size() >0) {
+            LatLng latLng = new LatLng(books.get(0).getLocation_latitude(), books.get(0).getLocation_longitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
+        }
         for(int i = 0;i<books.size();i++) {
             marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(),books.get(i).getLocation_longitude())).title("Hello Maps");
             latLngBounds = new LatLng(books.get(i).getLocation_latitude(),books.get(i).getLocation_longitude());

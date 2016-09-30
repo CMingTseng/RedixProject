@@ -102,11 +102,10 @@ public class ExploreFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.explore_fragment, container, false);
-
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         session_id = pref.getString("session_id", null);
         ImageView img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
+        Picasso.with(getActivity()).load(R.drawable.btn_menu_locate).into(img_menu);
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +117,9 @@ public class ExploreFragment extends Fragment
         grid=(GridView)view.findViewById(R.id.gridView);
         View view_search= (View)view.findViewById(R.id.explore_search);
         new CustomSearch(view_search,getActivity());
+
+        TextView txtTitle = (TextView) getActivity().findViewById(R.id.txt_title);
+        txtTitle.setText("Explore");
 
         //-----------------------------------------------------------
         Getallbook getallbook = new Getallbook(session_id,0,100);
@@ -147,7 +149,7 @@ public class ExploreFragment extends Fragment
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    adapter.getFilter().filter(s);
+                adapter.getFilter().filter(s);
             }
 
             @Override
@@ -266,7 +268,7 @@ public class ExploreFragment extends Fragment
                 adaper = new AdapterFilter(getActivity(),filterList);
                 lv_dialog_filter.setAdapter(adaper);
 
-                 rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
+                rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
                 Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
                 Bitmap thumb=Bitmap.createBitmap(38,38, Bitmap.Config.ARGB_8888);
@@ -535,13 +537,13 @@ public class ExploreFragment extends Fragment
                 }
             }
 //            if (listExplore.size()>=15){
-                if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                    // I load the next page of gigs using a background task,
-                    // but you can call any function here.
-                    Getallbook1 getallbook1 = new Getallbook1(session_id,Long.parseLong(listExplore.get(listExplore.size()-1).getId()),100);
-                    getallbook1.execute();
-                    Log.d("hihihihi","lilil"+listExplore.get(listExplore.size()-1).getId());
-                    loading = true;
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                // I load the next page of gigs using a background task,
+                // but you can call any function here.
+                Getallbook1 getallbook1 = new Getallbook1(session_id,Long.parseLong(listExplore.get(listExplore.size()-1).getId()),100);
+                getallbook1.execute();
+                Log.d("hihihihi","lilil"+listExplore.get(listExplore.size()-1).getId());
+                loading = true;
 //                }
             }
 
