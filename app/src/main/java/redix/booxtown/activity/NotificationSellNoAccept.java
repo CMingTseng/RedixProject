@@ -45,7 +45,7 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
     TextView txt_notification_sell_accept_money;
     TextView txt_notification_dominic_time;
 
-
+    TextView txt_menu_notification_title2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,8 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
         txt_author_book_buy_accept=(TextView) findViewById(R.id.txt_author_book_buy_accept);
         txt_notification_sell_accept_money=(TextView) findViewById(R.id.txt_notification_sell_accept_money);
         txt_notification_dominic_time=(TextView) findViewById(R.id.txt_notification_dominic_time);
-
+        txt_menu_notification_title2=(TextView) findViewById(R.id.txt_menu_notification_title2);
+        txt_menu_notification_title2.setText("you accepted a request from");
         TextView txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
         txt_menu_notification_title2.setVisibility(View.GONE);
 
