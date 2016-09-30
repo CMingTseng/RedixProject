@@ -194,6 +194,18 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             }
         });
 
+        hoder.img_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListingsDetailActivity fragment = new ListingsDetailActivity();
+                Bundle bundle = new Bundle();
+                bundle.putString(String.valueOf(R.string.valueListings),"2");
+                bundle.putSerializable("bookedit",ex);
+                fragment.setArguments(bundle);
+                callFragment(fragment);
+            }
+        });
+
         return convertView;
     }
 

@@ -75,6 +75,7 @@ import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.GetAllGenreAsync;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.ResizeImage;
 import redix.booxtown.controller.UploadFileController;
 
@@ -1047,7 +1048,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(getActivity());
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
             super.onPreExecute();
@@ -1065,11 +1066,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean == true) {
                 dialog.dismiss();
-                Toast.makeText(getActivity(), "Update Success", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),Information.noti_update_success, Toast.LENGTH_LONG).show();
                 callFragment(new ListingsFragment());
             } else {
                 dialog.dismiss();
-                Toast.makeText(getActivity(), "Update Faile", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),Information.noti_update_fail, Toast.LENGTH_LONG).show();
             }
             super.onPostExecute(aBoolean);
         }
@@ -1095,9 +1096,9 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean ==true){
-                Toast.makeText(getActivity(),"Delete Succsess",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),Information.noti_delete_success,Toast.LENGTH_LONG).show();
             }else {
-                Toast.makeText(getActivity(),"Delete Faile",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),Information.noti_delete_fail,Toast.LENGTH_LONG).show();
             }
         }
     }

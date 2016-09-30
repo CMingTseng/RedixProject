@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import redix.booxtown.R;
+import redix.booxtown.controller.GetAllGenreAsync;
 import redix.booxtown.custom.CustomListviewGenre;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.fragment.MyProfileFragment;
@@ -54,10 +55,10 @@ public class EditListingActivity extends AppCompatActivity implements LocationLi
     private ImageView btn_user;
 
     ArrayList<Genre> genre;
-    String[] genravalue = {"Architecture","Business and Economics","Boy,Mid and Spirit","Children","Computers and Technology",
-            "Crafts and Hobbies","Education","Family,Parenting and Relationships","Fiction and Literature","Food and Drink"
-            ,"Family,Parenting and Relationships","Fiction and Literature","Food and Drink"
-    };
+//    String[] genravalue = {"Architecture","Business and Economics","Boy,Mid and Spirit","Children","Computers and Technology",
+//            "Crafts and Hobbies","Education","Family,Parenting and Relationships","Fiction and Literature","Food and Drink"
+//            ,"Family,Parenting and Relationships","Fiction and Literature","Food and Drink"
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +77,9 @@ public class EditListingActivity extends AppCompatActivity implements LocationLi
 
         //sửa sau
         //end
-        for (int i = 0;i<genravalue.length;i++){
+        for (int i = 0; i< GetAllGenreAsync.list.size(); i++){
             Genre genrel = new Genre();
-            genrel.setValue(genravalue[i]);
+            genrel.setValue(GetAllGenreAsync.list.get(i));
             genre.add(genrel);
         }
         mMapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map_editlisting));

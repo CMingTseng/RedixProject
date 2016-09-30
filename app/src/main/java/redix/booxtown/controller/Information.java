@@ -8,6 +8,7 @@ public class Information {
     public final static String noti_fill_username = "Please fill username";
     public final static String noti_fill_password = "Please fill password";
     public final static String noti_wrong_login = "Username or password wrong, please try again";
+    public final static String noti_check_mail = "Please check email";
     public final static String noti_fill_firstname = "Please fill firstname";
     public final static String noti_fill_lastname = "Please fill lastname";
     public final static String noti_fill_phone = "Please fill phone field";
@@ -37,4 +38,5 @@ public class Information {
     public final static String noti_nochange_pass = "Old password not match";
     public final static String noti_update_setting = "Update setting success";
     public final static String noti_update_nosetting = "Update setting no success";
+    public final static String noti_update_fail = "Update Fail";
 }

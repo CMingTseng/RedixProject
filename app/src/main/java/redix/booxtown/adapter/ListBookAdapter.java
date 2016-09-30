@@ -190,18 +190,6 @@ public class ListBookAdapter extends BaseAdapter implements Filterable{
         });
 
 
-        hoder.img_book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListingsDetailActivity fragment = new ListingsDetailActivity();
-                Bundle bundle = new Bundle();
-                bundle.putString(String.valueOf(R.string.valueListings),"2");
-                bundle.putSerializable("bookedit",ex);
-                fragment.setArguments(bundle);
-                callFragment(fragment);
-            }
-        });
-
         hoder.txt_title_book.setText(ex.getTitle().toString());
         hoder.txt_author_book.setText(ex.getAuthor().toString());
 
