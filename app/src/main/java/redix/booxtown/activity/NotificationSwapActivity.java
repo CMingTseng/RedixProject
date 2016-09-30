@@ -80,7 +80,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         transAsync transAsync= new transAsync(NotificationSwapActivity.this,trans_id);
         transAsync.execute();
 
-        Button btn_notification_not_like= (Button)findViewById(R.id.btn_notification_not_like);
+        btn_notification_not_like= (Button)findViewById(R.id.btn_notification_not_like);
 
 
         //infor
@@ -165,9 +165,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
 
         @Override
         protected Transaction doInBackground(String... strings) {
-
             TransactionController bookController = new TransactionController();
-            listemp= bookController.getTransactionId(trans_id).getBook();
             return bookController.getTransactionId(trans_id);
         }
 

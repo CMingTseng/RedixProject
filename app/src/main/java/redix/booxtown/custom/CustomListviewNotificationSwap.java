@@ -187,10 +187,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(context);
-            dialog.setMessage("Please wait...");
-            dialog.setIndeterminate(true);
-            dialog.show();
+
             super.onPreExecute();
         }
 

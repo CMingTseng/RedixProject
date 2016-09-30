@@ -73,18 +73,19 @@ public class TransactionController {
     }
 
     public Transaction getTransactionId(String tranhisid){
-        Call<TransactionResult> getall = service.getBookTransaction(tranhisid);
+        Call<TransactionResult> getalls = service.getBookTransaction(tranhisid);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =
                         new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
             }
-            TransactionResult str = getall.execute().body();
+            TransactionResult str = getalls.execute().body();
             if (str.getCode() == 200){
                 return str.getTransaction();
             }
         } catch (Exception ex) {
+            String exxx= ex.getMessage();
         }
         return null;
 

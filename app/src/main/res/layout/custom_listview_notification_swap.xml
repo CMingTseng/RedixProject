@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/imageView11"
-        android:background="@drawable/blank_image"
+        android:src="@drawable/blank_image"
         android:layout_margin="10dp" />
 
     <RelativeLayout

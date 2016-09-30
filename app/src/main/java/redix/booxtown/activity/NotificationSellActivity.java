@@ -1,19 +1,42 @@
 package redix.booxtown.activity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+
 import redix.booxtown.R;
+import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ObjectCommon;
+import redix.booxtown.controller.TransactionController;
+import redix.booxtown.custom.CustomListviewNotificationSwap;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.custom.NotificationAccept;
+import redix.booxtown.model.Book;
+import redix.booxtown.model.Notification;
+import redix.booxtown.model.Transaction;
 
 public class NotificationSellActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView img_menu_bottom_location;
@@ -21,6 +44,12 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
     ImageView img_menu_bottom_camera;
     ImageView img_menu_bottom_bag;
     ImageView img_menu_bottom_user;
+
+    TextView txt_author_info3;
+    TextView txt_user_hi;
+    TextView txt_title_book_buy;
+    TextView txt_author_book_buy;
+    TextView txt_price_book_buy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +66,12 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
         img_menu_bottom_camera.setOnClickListener(this);
         img_menu_bottom_bag.setOnClickListener(this);
         img_menu_bottom_user.setOnClickListener(this);
+
+        txt_author_info3=(TextView) findViewById(R.id.txt_author_info3);
+        txt_user_hi=(TextView) findViewById(R.id.txt_user_hi);
+        txt_title_book_buy=(TextView) findViewById(R.id.txt_title_book_buy);
+        txt_author_book_buy=(TextView) findViewById(R.id.txt_author_book_buy);
+        txt_price_book_buy=(TextView) findViewById(R.id.txt_price_book_buy);
 
         TextView txt_notification_infor3_phone = (TextView)findViewById(R.id.txt_notification_infor3_phone);
         txt_notification_infor3_phone.setVisibility(View.GONE);
@@ -93,6 +128,11 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
         //bottom
 
         //---------------------------------------------------------------
+
+        // lấy được list sách swap đẻ đổ vào listview
+        String trans_id= getIntent().getStringExtra("trans_id");
+        transAsync transAsync= new transAsync(NotificationSellActivity.this,trans_id);
+        transAsync.execute();
     }
 
     @Override
@@ -124,6 +164,55 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 startActivity(intent5);
                 break;
 
+        }
+    }
+
+    class transAsync extends AsyncTask<String,Void,Transaction> {
+
+        Context context;
+        ProgressDialog dialog;
+        List<Book> listemp;
+        String trans_id;
+        public transAsync(Context context, String trans_id){
+            this.context = context;
+            this.trans_id=trans_id;
+            listemp = new ArrayList<>();
+        }
+
+        @Override
+        protected Transaction doInBackground(String... strings) {
+            TransactionController bookController = new TransactionController();
+            return bookController.getTransactionId(trans_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(final Transaction transaction) {
+            if (transaction == null){
+                dialog.dismiss();
+            }else {
+
+                SharedPreferences pref = NotificationSellActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor  = pref.edit();
+                String userName = pref.getString("username", null);
+                txt_user_hi.setText("Hi "+ userName+",");
+
+                txt_price_book_buy.setText("AED "+transaction.getBook_price());
+                txt_author_info3.setText(transaction.getUser_buy()+"");
+                txt_title_book_buy.setText(transaction.getBook_name());
+                txt_author_book_buy.setText(transaction.getBook_author());
+
+                dialog.dismiss();
+            }
+            super.onPostExecute(transaction);
         }
     }
 }

@@ -215,17 +215,19 @@ public class NotificationFragment extends Fragment {
                                     gotoScreen gotoScreen = new gotoScreen();
                                     gotoScreen.execute();
 
-                                }else if (notification.getKey_screen().equals("4")){
-                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
-                                    startActivity(intent);
-                                }else if (notification.getKey_screen().equals("9")){
+                                }else if (notification.getId_screen().equals("9")){
                                     Intent intent = new Intent(getActivity(),NotificationSwapActivity.class);
-                                    intent.putExtra("trans_id",notification.getId_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen());
                                     startActivity(intent);
-                                }else if (notification.getKey_screen().equals("3")){
+                                }else if (notification.getId_screen().equals("3")){
                                     Intent intent2 = new Intent(getActivity(),NotificationDominicActivity.class);
                                     startActivity(intent2);
+                                }else if (notification.getId_screen().equals("4")){
+                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
                                 }
+
                             }
                         })
                 );
