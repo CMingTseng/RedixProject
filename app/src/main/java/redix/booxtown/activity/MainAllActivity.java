@@ -59,8 +59,6 @@ public class MainAllActivity extends AppCompatActivity{
         txtTitle.setText("Locate");
         flag=true;
         Intent intent = getIntent();
-        Intent intent1 = new Intent(this, DeleteTokenService.class);
-        startService(intent1);
         Splash_Activity.value = true;
         if(intent.getStringExtra("key")!=null){
             int i =Integer.parseInt(intent.getStringExtra("key"));
