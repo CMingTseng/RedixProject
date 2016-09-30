@@ -192,7 +192,7 @@ public class NotificationFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<Notification> notifications) {
+        protected void onPostExecute(final List<Notification> notifications) {
 
             if (notifications.size()>0){
                 listnoNotifications.addAll(notifications);
@@ -204,8 +204,10 @@ public class NotificationFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int i) {
                                 Notification notification = (Notification) adapter.getlist().get(i);
-                                ChangeStatusNotification changeStatusNotification = new ChangeStatusNotification(session_id,Integer.parseInt(notification.getId()));
-                                changeStatusNotification.execute();
+                                if (notification.getIs_read()==0){
+                                    ChangeStatusNotification changeStatusNotification = new ChangeStatusNotification(session_id,Integer.parseInt(notification.getId()));
+                                    changeStatusNotification.execute();
+                                }
                                 if (notification.getId_screen().equals("10")){
                                     s = notification.getKey_screen().split("::");
                                     Getthreadbyid getthreadbyid = new Getthreadbyid();
