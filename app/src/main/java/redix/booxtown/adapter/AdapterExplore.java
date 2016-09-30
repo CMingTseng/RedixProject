@@ -2,11 +2,13 @@ package redix.booxtown.adapter;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,22 +22,31 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.activity.ListingCollectionActivity;
 import redix.booxtown.activity.ListingsDetailActivity;
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.activity.SwapActivity;
 import redix.booxtown.api.ServiceGenerator;
+import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ObjectCommon;
+import redix.booxtown.controller.TransactionController;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.fragment.MainFragment;
 import redix.booxtown.model.Book;
+import redix.booxtown.model.BookSwap;
 import redix.booxtown.model.Explore;
+import redix.booxtown.model.Notification;
 
 /**
  * Created by Administrator on 26/08/2016.
@@ -168,62 +179,18 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         hoder.img_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(mContext);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_buy_listing);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(),1,ex);
+                userID.execute();
 
-                ImageView btn_dialog_notification_swap = (ImageView) dialog.findViewById(R.id.close_buy_listings);
-                btn_dialog_notification_swap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        dialog.dismiss();
-                    }
-                });
-
-
-                TextView btn_confirm=(TextView) dialog.findViewById(R.id.btn_confirm_buy_listing);
-                btn_confirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        final Dialog dialog1 = new Dialog(mContext);
-                        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog1.setContentView(R.layout.dialog_request_sent_listing);
-                        dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog1.show();
-
-                        ImageView btn_close = (ImageView) dialog1.findViewById(R.id.close_sent_request_lising);
-                        btn_close.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog1.dismiss();
-//                                    getActivity().finish();
-                            }
-                        });
-                        TextView btn_back=(TextView) dialog1.findViewById(R.id.btn_back_home);
-                        btn_back.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog1.dismiss();
-                                callFragment(new MainFragment());
-                            }
-                        });
-                    }
-                });
             }
         });
 
         hoder.img_swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(String.valueOf(array[0]).contains("1")&& type!=0) {
-                    Intent intent = new Intent(mContext, SwapActivity.class);
-                    intent.putExtra("Book", ex);
-                    mContext.startActivity(intent);
-                }
+                UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(), 2, ex);
+                userID.execute();
+
             }
         });
 
@@ -292,6 +259,175 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         ImageView img_buy ;
         ImageView img_edit ;
 
+    }
+
+    class transactionInsert extends AsyncTask<Void, Void, String> {
+
+        Context context;
+        ProgressDialog dialog;
+        List<Book> listemp;
+        String session_id, buyUserID, sellUserID, buyBookID, sellBookID, action;
+
+        public transactionInsert(Context context, String session_id, String buyUserID, String sellUserID, String buyBookID, String sellBookID, String action) {
+            this.context = context;
+            this.session_id = session_id;
+            this.buyBookID = buyBookID;
+            this.sellUserID = sellUserID;
+            this.buyUserID = buyUserID;
+            this.sellBookID = sellBookID;
+            this.action = action;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String transactionID = "";
+            TransactionController transactionController = new TransactionController();
+            transactionID = transactionController.transactionInsert(buyUserID, sellUserID, buyBookID, sellBookID, action,session_id);
+            return transactionID;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String transactionID) {
+            if (transactionID == "") {
+
+            } else {
+
+                SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                String username = pref.getString("username", null);
+
+                List<Hashtable> list = new ArrayList<>();
+                Notification notification = new Notification(username+" wants to buy your book", transactionID ,"4");
+                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                obj.put("user_id", sellUserID);
+                obj.put("messages", "Request want to your book "+ username.toUpperCase());
+                list.add(obj);
+                NotificationController controller = new NotificationController();
+                controller.sendNotification(list);
+
+            }
+            super.onPostExecute(transactionID);
+        }
+    }
+
+    class UserID extends AsyncTask<String, Void, String> {
+        Context context;
+        String bookID;
+        String bookUserID;
+        int type;
+        Book book;
+        public UserID(Context context, String bookID, String bookUserID, int type, Book book)
+        {
+            this.context = context;
+            this.bookID=bookID;
+            this.bookUserID=bookUserID;
+            this.type= type;
+            this.book= book;
+        }
+
+        ProgressDialog dialog;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            String session_id = pref.getString("session_id", null);
+            UserController userController = new UserController();
+            String user_id = userController.getUserID(session_id);
+            return user_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(final String user_ID) {
+            try {
+                SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                final String session_id = pref.getString("session_id", null);
+
+                if(!user_ID.equals(bookUserID)) {
+                    if(type==1) {
+                        final Dialog dialog = new Dialog(mContext);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_buy_listing);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+
+                        ImageView btn_dialog_notification_swap = (ImageView) dialog.findViewById(R.id.close_buy_listings);
+                        btn_dialog_notification_swap.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                        TextView btn_confirm=(TextView) dialog.findViewById(R.id.btn_confirm_buy_listing);
+                        btn_confirm.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                                // sent notification buy
+                                transactionInsert transactionInsert = new transactionInsert(context, session_id, user_ID, bookUserID, "", bookID, "buy");
+                                transactionInsert.execute();
+
+                                final Dialog dialog1 = new Dialog(mContext);
+                                dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                dialog1.setContentView(R.layout.dialog_request_sent_listing);
+                                dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                dialog1.show();
+
+                                ImageView btn_close = (ImageView) dialog1.findViewById(R.id.close_sent_request_lising);
+                                btn_close.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog1.dismiss();
+//                                    getActivity().finish();
+                                    }
+                                });
+                                TextView btn_back=(TextView) dialog1.findViewById(R.id.btn_back_home);
+                                btn_back.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog1.dismiss();
+                                        callFragment(new MainFragment());
+                                    }
+                                });
+                            }
+                        });
+
+
+                    }
+                    else{
+                        final char array[]=book.getAction().toCharArray();
+                        if(String.valueOf(array[0]).contains("1")&& type!=0) {
+
+                            Intent intent = new Intent(mContext, SwapActivity.class);
+                            intent.putExtra("Book", book);
+                            mContext.startActivity(intent);
+                        }
+
+                    }
+                }
+                else{
+                    Toast.makeText(context, "Can't buy book", Toast.LENGTH_LONG).show();
+                }
+                //}
+            } catch (Exception e) {
+                String ssss = e.getMessage();
+               // Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 }
 

@@ -196,10 +196,10 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
 
         @Override
         protected void onPostExecute(String transactionID) {
-            Intent intent = new Intent(context, NotificationAcceptActivity.class);
-            intent.putExtra("trans", trans);
-            intent.putExtra("book", book);
-            context.startActivity(intent);
+            //Intent intent = new Intent(context, NotificationAcceptActivity.class);
+            //intent.putExtra("trans", trans);
+            //intent.putExtra("book", book);
+            //context.startActivity(intent);
             // send notifi user buy
             List<Hashtable> list = new ArrayList<>();
             Notification notification = new Notification(trans.getUser_sell().toUpperCase() + " accepted for a swap book request", trans.getId()+"","2" );
