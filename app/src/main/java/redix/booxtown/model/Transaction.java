@@ -2,13 +2,14 @@ package redix.booxtown.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 30/09/2016.
  */
-public class Transaction {
+public class Transaction  implements Serializable {
     @Expose
     private int id;
     @Expose
@@ -41,12 +42,20 @@ public class Transaction {
     private String book_name;
 
     @Expose
+    private String book_author;
+
+    @Expose
+    private String user_buy;
+
+    @Expose
+    private String user_sell;
+    @Expose
     private List<Book> book = new ArrayList<Book>();
 
     public Transaction() {
     }
 
-    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, int book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, List<Book> book) {
+    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, int book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, String book_author, String user_buy, String user_sell, List<Book> book) {
         this.id = id;
         this.user_buyer_id = user_buyer_id;
         this.user_seller_id = user_seller_id;
@@ -62,7 +71,34 @@ public class Transaction {
         this.user_cour = user_cour;
         this.user_quality = user_quality;
         this.book_name = book_name;
+        this.book_author = book_author;
+        this.user_buy = user_buy;
+        this.user_sell = user_sell;
         this.book = book;
+    }
+
+    public String getUser_sell() {
+        return user_sell;
+    }
+
+    public void setUser_sell(String user_sell) {
+        this.user_sell = user_sell;
+    }
+
+    public String getUser_buy() {
+        return user_buy;
+    }
+
+    public void setUser_buy(String user_buy) {
+        this.user_buy = user_buy;
+    }
+
+    public String getBook_author() {
+        return book_author;
+    }
+
+    public void setBook_author(String book_author) {
+        this.book_author = book_author;
     }
 
     public int getId() {

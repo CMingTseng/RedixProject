@@ -36,6 +36,7 @@ import redix.booxtown.controller.TransactionController;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.BookSwap;
 import redix.booxtown.model.Notification;
+import redix.booxtown.model.Transaction;
 
 /**
  * Created by thuyetpham94 on 27/08/2016.
@@ -44,13 +45,17 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
     List<Book> list;
     Context context;
     String trans_id;
+    String bookNameMe;
+    Transaction trans;
     private static LayoutInflater inflater = null;
 
-    public CustomListviewNotificationSwap(Context context,List<Book> list, String trans_id) {
+    public CustomListviewNotificationSwap(Context context,List<Book> list, String trans_id, String bookNameMe,Transaction trans) {
         // TODO Auto-generated constructor stub
         this.list = list;
         this.context = context;
         this.trans_id=trans_id;
+        this.bookNameMe= bookNameMe;
+        this.trans= trans;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -87,7 +92,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
         // TODO Auto-generated method stub
         Holder holder = new Holder();
         View rowView;
-        Book book= list.get(position);
+        final Book book= list.get(position);
         rowView = inflater.inflate(R.layout.custom_listview_notification_swap, null);
         holder.tv = (TextView) rowView.findViewById(R.id.txt_notification_swap_title);
         holder.tv_byAuthor=(TextView) rowView.findViewById(R.id.textView27);
@@ -104,7 +109,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
             String img = image[0].substring(index+3, image[0].length());
             Glide.with(context). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + book.getUsername() + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
                     into(holder.img_book);
-            //Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" + img + "").placeholder(R.drawable.blank_image).into(hoder.img_book);
+
         }
 
         holder.btn_confirm = (Button) rowView.findViewById(R.id.btn_notification_swap_listview);
@@ -117,6 +122,14 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
+                TextView confirm_dialog_noti_swap= (TextView) dialog.findViewById(R.id.confirm_dialog_noti_swap);
+                TextView txt_title_book_you_noti_swap=(TextView) dialog.findViewById(R.id.txt_title_book_you_noti_swap);
+                TextView txt_title_book_buy_noti_swap=(TextView) dialog.findViewById(R.id.txt_title_book_buy_noti_swap);
+
+                confirm_dialog_noti_swap.setText("Confirm swap with "+ book.getUsername());
+                txt_title_book_you_noti_swap.setText(bookNameMe);
+                txt_title_book_buy_noti_swap.setText(book.getTitle());
+
                 Button btn_notification_swapdialog_confirm = (Button)dialog.findViewById(R.id.btn_notification_swapdialog_confirm);
                 btn_notification_swapdialog_confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -125,10 +138,9 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
                         String session_id = pref.getString("session_id", null);
-                        transactionChangeStatus trans= new transactionChangeStatus(context,session_id,trans_id,"1");
+                        transactionChangeStatus trans= new transactionChangeStatus(context,session_id,trans_id,"1",book.getId(),book);
                         trans.execute();
-                        Intent intent = new Intent(context, NotificationRejectActivity.class);
-                        context.startActivity(intent);
+
                         dialog.dismiss();
                     }
                 });
@@ -150,22 +162,24 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
 
         Context context;
         ProgressDialog dialog;
-        List<Book> listemp;
+        Book book;
         String session_id,trans_id,status_id;
+        String book_id;
 
-        public transactionChangeStatus(Context context, String session_id, String trans_id, String status_id) {
+        public transactionChangeStatus(Context context, String session_id, String trans_id, String status_id, String book_id,Book book) {
             this.context = context;
             this.session_id = session_id;
             this.trans_id = trans_id;
             this.status_id = status_id;
-
+            this.book_id= book_id;
+            this.book= book;
         }
 
         @Override
         protected String doInBackground(Void... voids) {
             String transactionID = "";
             TransactionController transactionController = new TransactionController();
-            transactionID = transactionController.transactionUpdateStatus(session_id,trans_id,status_id);
+            transactionID = transactionController.transactionUpdateStatus(session_id,trans_id,status_id,book_id);
             return transactionID;
         }
 
@@ -180,11 +194,10 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
 
         @Override
         protected void onPostExecute(String transactionID) {
-            if (transactionID == "") {
-                dialog.dismiss();
-            } else {
-
-            }
+                Intent intent = new Intent(context, NotificationRejectActivity.class);
+                intent.putExtra("trans", trans);
+                intent.putExtra("book",book);
+                context.startActivity(intent);
             super.onPostExecute(transactionID);
         }
     }

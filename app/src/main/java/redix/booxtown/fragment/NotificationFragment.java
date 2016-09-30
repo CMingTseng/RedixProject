@@ -197,6 +197,7 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Notification> notifications) {
+
             if (notifications.size()>0){
                 listnoNotifications.addAll(notifications);
                 Collections.sort(listnoNotifications,Notification.aseid);

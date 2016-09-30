@@ -49,12 +49,12 @@ public class TransactionController {
         return result;
     }
 
-    public String transactionUpdateStatus( String session_id, String transaction_id, String status_id){
+    public String transactionUpdateStatus( String session_id, String transaction_id, String status_id, String book_seller_id){
         Hashtable obj= new Hashtable();
         obj.put("session_id",session_id);
         obj.put("trans_id",transaction_id);
         obj.put("status_id",status_id);
-
+        obj.put("book_seller_id",book_seller_id);
         Call<Result> transactionInsert = service.transactionUpdateStatus(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {

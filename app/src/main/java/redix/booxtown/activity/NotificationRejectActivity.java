@@ -1,6 +1,8 @@
 package redix.booxtown.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import redix.booxtown.R;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.custom.NotificationAccept;
+import redix.booxtown.model.Book;
+import redix.booxtown.model.Transaction;
 
 public class NotificationRejectActivity extends AppCompatActivity implements View.OnClickListener{
     ImageView img_menu_bottom_location;
@@ -20,6 +24,14 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
     ImageView img_menu_bottom_camera;
     ImageView img_menu_bottom_bag;
     ImageView img_menu_bottom_user;
+
+    TextView txt_author_info3;
+    TextView txt_user_hi;
+    TextView txt_book_sell_notifi_reject;
+    TextView txt_book_author_sell_notifi_reject;
+    TextView txt_book_buy_notifi_reject;
+    TextView txt_book_author_buy_notifi_reject;
+    Transaction trans;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +43,25 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
         img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
         img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
         img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+
+        txt_author_info3=(TextView) findViewById(R.id.txt_author_info3);
+        txt_user_hi= (TextView) findViewById(R.id.txt_user_hi) ;
+        txt_book_sell_notifi_reject= (TextView) findViewById(R.id.txt_book_sell_notifi_reject) ;
+        txt_book_author_sell_notifi_reject= (TextView) findViewById(R.id.txt_book_author_sell_notifi_reject) ;
+        txt_book_buy_notifi_reject= (TextView) findViewById(R.id.txt_book_buy_notifi_reject) ;
+        txt_book_author_buy_notifi_reject= (TextView) findViewById(R.id.txt_book_author_buy_notifi_reject) ;
+
+        trans= (Transaction) getIntent().getSerializableExtra("trans");
+        Book book= (Book) getIntent().getSerializableExtra("book");
+        SharedPreferences pref = NotificationRejectActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor  = pref.edit();
+        String userName = pref.getString("username", null);
+        txt_user_hi.setText("Hi "+ userName+",");
+        txt_book_sell_notifi_reject.setText(trans.getBook_name());
+        txt_book_author_sell_notifi_reject.setText(trans.getBook_author());
+        txt_book_buy_notifi_reject.setText(book.getTitle());
+        txt_book_author_buy_notifi_reject.setText(book.getAuthor());
+        txt_author_info3.setText(trans.getUser_sell());
 
         TextView txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
         txt_menu_notification_title2.setText("with your book");
@@ -45,7 +76,7 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
         txtTitle.setText("Notifications");
 
         ImageView img_menu = (ImageView)findViewById(R.id.img_menu);
-        img_menu.setImageResource(R.drawable.back);
+        img_menu.setImageResource(R.drawable.btn_sign_in_back);
 
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,15 +14,15 @@
             android:id="@+id/imv_nitification_infor3_phone"
             android:src="@drawable/img_temp1"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/textView37"
-            android:layout_toStartOf="@+id/textView37"
+            android:layout_toLeftOf="@+id/txt_author_info3"
+            android:layout_toStartOf="@+id/txt_author_info3"
             android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thuyet"
-            android:id="@+id/textView37"
+            android:id="@+id/txt_author_info3"
             android:layout_centerHorizontal="true"
             android:layout_alignTop="@+id/imv_nitification_infor3_phone"
             android:layout_marginLeft="10dp"
@@ -35,9 +35,9 @@
             android:theme="@style/RatingBar"
             android:rating="2.5"
             style="?android:attr/ratingBarStyleSmall"
-            android:layout_below="@+id/textView37"
-            android:layout_alignLeft="@+id/textView37"
-            android:layout_alignStart="@+id/textView37" />
+            android:layout_below="@+id/txt_author_info3"
+            android:layout_alignLeft="@+id/txt_author_info3"
+            android:layout_alignStart="@+id/txt_author_info3" />
 
         <ImageView
             android:layout_width="15dp"
