@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.R;
 
@@ -67,7 +68,7 @@ Button mButtonBackForgot;
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(ForgotPassword_Activity.this);
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
             super.onPreExecute();
@@ -77,7 +78,7 @@ Button mButtonBackForgot;
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean == true){
-                Toast.makeText(getApplicationContext(), "Check Email Please", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),Information.noti_check_mail, Toast.LENGTH_LONG).show();
 
             }
             dialog.dismiss();

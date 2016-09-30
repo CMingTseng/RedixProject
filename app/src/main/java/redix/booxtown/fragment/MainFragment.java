@@ -16,7 +16,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,7 +34,6 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
@@ -47,7 +45,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
@@ -61,13 +58,12 @@ import java.util.List;
 import redix.booxtown.R;
 import redix.booxtown.activity.ListingsDetailActivity;
 import redix.booxtown.activity.MenuActivity;
-import redix.booxtown.adapter.AdapterExplore;
 import redix.booxtown.adapter.AdapterFilter;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.GetAllGenreAsync;
 import redix.booxtown.controller.IconMapController;
-import redix.booxtown.custom.MenuBottomCustom;
+import redix.booxtown.controller.Information;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Filter;
 
@@ -114,20 +110,19 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         listExplore = new ArrayList<>();
 
-
-
-
-
         View view_search= view.findViewById(R.id.custom_search);
         editSearch = (EditText)view_search.findViewById(R.id.editSearch);
         btn_search = (ImageView)view_search.findViewById(R.id.btn_search);
+        ImageView img_menu_component = (ImageView)getActivity().findViewById(R.id.img_menu_component);
+        img_menu_component.setVisibility(View.VISIBLE);
+
+        TextView txtTitle = (TextView) getActivity().findViewById(R.id.txt_title);
+        txtTitle.setText("Locate");
 
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -210,13 +205,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             Collections.sort(lisfilter_temp,bookController.distance);
         }
         else if (filterList.get(1).getCheck()== true){
-            Collections.sort(lisfilter_temp,Book.priceasen);
+            Collections.sort(lisfilter_temp, Book.priceasen);
         }
         else if (filterList.get(2).getCheck()== true){
-            Collections.sort(lisfilter_temp,Book.pricedcen);
+            Collections.sort(lisfilter_temp, Book.pricedcen);
         }
         else{
-            Collections.sort(lisfilter_temp,Book.recently);
+            Collections.sort(lisfilter_temp, Book.recently);
         }
         return lisfilter_temp;
     }
@@ -342,7 +337,16 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
+        Book books = mMarkersHashMap.get(marker);
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        Bundle bundle = new Bundle();
+        bundle.putString(String.valueOf(R.string.valueListings),"1");
+        bundle.putSerializable("item",books);
+        FragmentTransaction transaction = manager.beginTransaction();
+        ListingsDetailActivity fra = new ListingsDetailActivity();
+        fra.setArguments(bundle);
+        transaction.replace(R.id.map,fra);
+        transaction.commit();
     }
 
     @Override
@@ -372,7 +376,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         mMap.setTrafficEnabled(true);
         GPSTracker gpsTracker = new GPSTracker(getContext());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(),gpsTracker.getLongitude()),9));
-        //mMap.setOnMapLongClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
 
     }
@@ -471,7 +475,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(context);
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
             super.onPreExecute();
@@ -491,7 +495,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         }
     }
 
-    public void addMarker(List<Book> books){
+    public void addMarker(final List<Book> books){
         mMap.clear();
         //LatLng latLng = new LatLng(books.get(0).getLocation_latitude(),books.get(0).getLocation_longitude());
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,9));
@@ -504,27 +508,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             String free = String.valueOf(array[1]);
             String buy = String.valueOf(array[2]);
             String icon = IconMapController.icon(swap,free,buy);
-            final Book book = books.get(i);
             if (icon!=null){
                 marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,110, 150)));
-                // adding marker
-                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                        FragmentManager manager = getActivity().getSupportFragmentManager();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(String.valueOf(R.string.valueListings),"1");
-                        bundle.putSerializable("item",book);
-                        FragmentTransaction transaction = manager.beginTransaction();
-                        ListingsDetailActivity fra = new ListingsDetailActivity();
-                        fra.setArguments(bundle);
-                        transaction.replace(R.id.map,fra);
-                        transaction.commit();
-                    }
-                });
             }
             Marker m_marker = mMap.addMarker(marker);
-            mMarkersHashMap.put(m_marker,book);
+            mMarkersHashMap.put(m_marker,books.get(i));
         }
     }
 }
