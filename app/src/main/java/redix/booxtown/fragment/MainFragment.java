@@ -47,8 +47,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +66,7 @@ import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.GetAllGenreAsync;
 import redix.booxtown.controller.IconMapController;
 import redix.booxtown.controller.Information;
+import redix.booxtown.controller.MyFirebaseMessagingService;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Filter;
 
@@ -104,6 +107,17 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 startActivity(intent);
             }
         });
+
+
+        try {
+            Log.d("ahgdjhhshjhd","dsd___"+ FirebaseInstanceId.getInstance().getToken());
+            FirebaseInstanceId.getInstance().deleteInstanceId();
+            Intent refreshTokenFirebase = new Intent(getActivity(),MyFirebaseMessagingService.class);
+            getActivity().startService(refreshTokenFirebase);
+            Log.d("ahgdjhhshjhd","dsd___"+FirebaseInstanceId.getInstance().getToken());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         GetAllGenreAsync getAllGenreAsync = new GetAllGenreAsync(getContext());
         getAllGenreAsync.execute();

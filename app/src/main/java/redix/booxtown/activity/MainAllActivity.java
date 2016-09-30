@@ -59,16 +59,6 @@ public class MainAllActivity extends AppCompatActivity{
         flag=true;
         Intent intent = getIntent();
 
-        try {
-            Log.d("ahgdjhhshjhd","dsd___"+FirebaseInstanceId.getInstance().getToken());
-            FirebaseInstanceId.getInstance().deleteInstanceId();
-            Intent refreshTokenFirebase = new Intent(getApplicationContext(),MyFirebaseMessagingService.class);
-            startService(refreshTokenFirebase);
-            Log.d("ahgdjhhshjhd","dsd___"+FirebaseInstanceId.getInstance().getToken());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         Splash_Activity.value = true;
         if(intent.getStringExtra("key")!=null){
             int i =Integer.parseInt(intent.getStringExtra("key"));
