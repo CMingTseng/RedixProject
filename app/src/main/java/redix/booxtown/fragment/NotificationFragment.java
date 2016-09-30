@@ -16,16 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import redix.booxtown.R;
-import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ThreadController;
 import redix.booxtown.controller.TopicController;
@@ -210,8 +206,8 @@ public class NotificationFragment extends Fragment {
                                 Notification notification = (Notification) adapter.getlist().get(i);
                                 ChangeStatusNotification changeStatusNotification = new ChangeStatusNotification(session_id,Integer.parseInt(notification.getId()));
                                 changeStatusNotification.execute();
-                                if (notification.getKey_screen().equals("BTNotiCommented")){
-                                    s = notification.getId_screen().split("::");
+                                if (notification.getId_screen().equals("10")){
+                                    s = notification.getKey_screen().split("::");
                                     Getthreadbyid getthreadbyid = new Getthreadbyid();
                                     getthreadbyid.execute(s[1]);
                                     Gettopicbyid gettopicbyid = new Gettopicbyid();
@@ -219,14 +215,14 @@ public class NotificationFragment extends Fragment {
                                     gotoScreen gotoScreen = new gotoScreen();
                                     gotoScreen.execute();
 
-                                }else if (notification.getKey_screen().equals("BTNotiSellRequest")){
+                                }else if (notification.getKey_screen().equals("4")){
                                     Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
                                     startActivity(intent);
-                                }else if (notification.getKey_screen().equals("BTNotiSwapRequest")){
+                                }else if (notification.getKey_screen().equals("9")){
                                     Intent intent = new Intent(getActivity(),NotificationSwapActivity.class);
                                     intent.putExtra("trans_id",notification.getId_screen());
                                     startActivity(intent);
-                                }else if (notification.getKey_screen().equals("BTNotiSwapResultPartnerRejected")){
+                                }else if (notification.getKey_screen().equals("3")){
                                     Intent intent2 = new Intent(getActivity(),NotificationDominicActivity.class);
                                     startActivity(intent2);
                                 }
@@ -249,7 +245,7 @@ public class NotificationFragment extends Fragment {
                                     listnoNotifications.remove(listnoNotifications.size() - 1);
                                     adapter.notifyItemRemoved(listnoNotifications.size());
                                     //Remove loading item
-                                    Gettop_notifi getalltopic = new Gettop_notifi(session_id,100,Integer.parseInt(listnoNotifications.get(listnoNotifications.size()-1).getId()));
+                                    Getttop_notifi1 getalltopic = new Getttop_notifi1(session_id,100,Integer.parseInt(listnoNotifications.get(listnoNotifications.size()-1).getId()));
                                     getalltopic.execute();
                                     adapter.setLoaded();
                                 }
@@ -278,6 +274,33 @@ public class NotificationFragment extends Fragment {
             NotificationController notificationController = new NotificationController();
             notificationController.changeStatusNotification(sessionid,notificationId);
             return null;
+        }
+    }
+
+    public class Getttop_notifi1 extends AsyncTask<Void, Void, List<Notification>> {
+        String session_id;
+        int top;
+        int from;
+
+        public Getttop_notifi1(String session_id,int top,int from){
+            this.session_id = session_id;
+            this.top = top;
+            this.from = from;
+        }
+
+
+        @Override
+        protected List<Notification> doInBackground(Void... params) {
+            NotificationController notificationController = new NotificationController();
+
+            return notificationController.getALllNotificationTop(session_id,top,from);
+        }
+
+        @Override
+        protected void onPostExecute(List<Notification> notifications) {
+            listnoNotifications.addAll(notifications);
+            adapter.notifyDataSetChanged();
+            super.onPostExecute(notifications);
         }
     }
 
