@@ -73,6 +73,9 @@ package="redix.booxtown">
             <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>
     </service>
+    <service android:name=".controller.DeleteTokenService">
+
+    </service>
 </application>
 
 </manifest>

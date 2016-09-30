@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.NotificationSellNoAccept;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ThreadController;
 import redix.booxtown.controller.TopicController;
@@ -192,7 +193,7 @@ public class NotificationFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<Notification> notifications) {
+        protected void onPostExecute(final List<Notification> notifications) {
 
             if (notifications.size()>0){
                 listnoNotifications.addAll(notifications);
@@ -204,8 +205,10 @@ public class NotificationFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int i) {
                                 Notification notification = (Notification) adapter.getlist().get(i);
-                                ChangeStatusNotification changeStatusNotification = new ChangeStatusNotification(session_id,Integer.parseInt(notification.getId()));
-                                changeStatusNotification.execute();
+                                if (notification.getIs_read()==0){
+                                    ChangeStatusNotification changeStatusNotification = new ChangeStatusNotification(session_id,Integer.parseInt(notification.getId()));
+                                    changeStatusNotification.execute();
+                                }
                                 if (notification.getId_screen().equals("10")){
                                     s = notification.getKey_screen().split("::");
                                     Getthreadbyid getthreadbyid = new Getthreadbyid();
@@ -226,6 +229,27 @@ public class NotificationFragment extends Fragment {
                                     Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
                                     intent.putExtra("trans_id",notification.getKey_screen());
                                     startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("5")){
+
+                                    Intent intent = new Intent(getActivity(),NotificationSellNoAccept.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("6")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("7")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("8")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
                                 }
 
                             }

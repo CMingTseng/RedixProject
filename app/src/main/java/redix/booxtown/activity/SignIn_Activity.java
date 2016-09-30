@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Hashtable;
 
 import redix.booxtown.R;
+import redix.booxtown.controller.DeleteTokenService;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.UserController;
@@ -54,6 +55,8 @@ Button mButtonForgotPass;
         Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(mimgBack);
         //end
 
+        Intent intent1 = new Intent(this, DeleteTokenService.class);
+        startService(intent1);
         mimgBack.setOnClickListener(this);
         mButtonBackSignIn.setOnClickListener(this);
         mButtonForgotPass.setOnClickListener(this);
@@ -68,6 +71,7 @@ Button mButtonForgotPass;
             Toast.makeText(getApplicationContext(), Information.checkNetwork,Toast.LENGTH_LONG).show();
         }
     }
+
 
     @Override
     public void onClick(View v) {

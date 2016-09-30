@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 
 import redix.booxtown.R;
+import redix.booxtown.controller.DeleteTokenService;
 import redix.booxtown.controller.MyFirebaseMessagingService;
 import redix.booxtown.fragment.ExploreFragment;
 import redix.booxtown.fragment.TopicFragment;
@@ -58,7 +59,6 @@ public class MainAllActivity extends AppCompatActivity{
         txtTitle.setText("Locate");
         flag=true;
         Intent intent = getIntent();
-
         Splash_Activity.value = true;
         if(intent.getStringExtra("key")!=null){
             int i =Integer.parseInt(intent.getStringExtra("key"));

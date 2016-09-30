@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
+import redix.booxtown.controller.DeleteTokenService;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.R;
@@ -75,6 +76,8 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         edt_confirmpass = (EditText) findViewById(R.id.confirmpassword);
         checkSignup = (CheckBox) findViewById(R.id.checksignup);
         edt_birthday.setOnClickListener(this);
+        Intent intent1 = new Intent(this, DeleteTokenService.class);
+        startService(intent1);
         session_id = FirebaseInstanceId.getInstance().getToken().toString();
 
 
