@@ -57,7 +57,7 @@ public class MainAllActivity extends AppCompatActivity{
         Intent intent = getIntent();
 
 
-
+        Splash_Activity.value = true;
         if(intent.getStringExtra("key")!=null){
             int i =Integer.parseInt(intent.getStringExtra("key"));
             if(i==1){

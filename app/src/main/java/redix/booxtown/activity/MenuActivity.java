@@ -103,6 +103,7 @@ public class MenuActivity extends AppCompatActivity {
                             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                             SharedPreferences.Editor editor  = pref.edit();
                             editor.remove("session_id").commit();
+                            Splash_Activity.value = false;
                             finish();
                             LogoutAsynTask logoutAsynTask = new LogoutAsynTask();
                             logoutAsynTask.execute(session_id);

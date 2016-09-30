@@ -3,6 +3,7 @@ package redix.booxtown.controller;
 import android.app.Activity;
 import android.os.StrictMode;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class NotificationController {
     private ServiceInterface service;
     Boolean success;
     Activity mActivity;
+    List<Notification> list = new ArrayList<>();
     public NotificationController(){
         service = ServiceGenerator.GetInstance();
     }
@@ -63,6 +65,7 @@ public class NotificationController {
                 return str.getNotifi();
             }
         } catch (Exception ex) {
+            return list;
         }
         return null;
     }
