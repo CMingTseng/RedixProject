@@ -137,7 +137,7 @@ public class TopicFragment extends Fragment
                                         topicSync1 getalltopic = new topicSync1(getContext(),session_id,100,Integer.parseInt(listemp.get(listemp.size()-1).getId()));
                                         getalltopic.execute();
                                         interact.notifyDataSetChanged();
-                                        interact.setLoaded();
+//                                        interact.setLoaded();
                                     }
                                 }, 500);
                             }

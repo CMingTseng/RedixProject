@@ -249,7 +249,7 @@ public class NotificationFragment extends Fragment {
                                     //Remove loading item
                                     Getttop_notifi1 getalltopic = new Getttop_notifi1(session_id,100,Integer.parseInt(listnoNotifications.get(listnoNotifications.size()-1).getId()));
                                     getalltopic.execute();
-                                    adapter.setLoaded();
+//                                    adapter.setLoaded();
                                 }
                             }, 2000);
                         }
