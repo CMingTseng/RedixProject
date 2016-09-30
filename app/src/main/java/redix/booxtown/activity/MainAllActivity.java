@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 
 import redix.booxtown.R;
+import redix.booxtown.controller.DeleteTokenService;
 import redix.booxtown.controller.MyFirebaseMessagingService;
 import redix.booxtown.fragment.ExploreFragment;
 import redix.booxtown.fragment.TopicFragment;
@@ -58,17 +59,8 @@ public class MainAllActivity extends AppCompatActivity{
         txtTitle.setText("Locate");
         flag=true;
         Intent intent = getIntent();
-
-        try {
-            Log.d("ahgdjhhshjhd","dsd___"+FirebaseInstanceId.getInstance().getToken());
-            FirebaseInstanceId.getInstance().deleteInstanceId();
-            Intent refreshTokenFirebase = new Intent(getApplicationContext(),MyFirebaseMessagingService.class);
-            startService(refreshTokenFirebase);
-            Log.d("ahgdjhhshjhd","dsd___"+FirebaseInstanceId.getInstance().getToken());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        Intent intent1 = new Intent(this, DeleteTokenService.class);
+        startService(intent1);
         Splash_Activity.value = true;
         if(intent.getStringExtra("key")!=null){
             int i =Integer.parseInt(intent.getStringExtra("key"));
