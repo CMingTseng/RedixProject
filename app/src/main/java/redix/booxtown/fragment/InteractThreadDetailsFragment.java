@@ -306,7 +306,7 @@ public class InteractThreadDetailsFragment extends Fragment
                     for(int i=0; i<listUser.size(); i++) {
                         String s= listUser.get(i);
                         if(!listUser.get(i).equals(user_ID)) {
-                            Notification notification = new Notification("Comment from thread ", "BTNotiCommented", topic.getId() + "::" + threads.getId());
+                            Notification notification = new Notification("Comment from thread ",topic.getId() + "::" + threads.getId() , "10");
                             Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                             obj.put("user_id", listUser.get(i));
                             obj.put("messages", "Comment thread " + threads.getTitle() + " by: " + username);

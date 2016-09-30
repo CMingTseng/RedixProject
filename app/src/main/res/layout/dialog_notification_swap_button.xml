@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Are you sure you want reject Thuyet&apos;s swap request"
-            android:id="@+id/textView35"
+            android:id="@+id/txt_dialog_reject_swap"
             android:layout_alignParentTop="false"
             android:textColor="#ffffff"
             android:layout_alignParentRight="false"
@@ -33,7 +33,7 @@
             android:id="@+id/btn_dialog_notification_swap"
             android:background="@drawable/bg_white_popup"
             android:textColor="#f76565"
-            android:layout_below="@+id/textView35"
+            android:layout_below="@+id/txt_dialog_reject_swap"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="60dp"
             android:layout_marginTop="20dp" />

@@ -28,6 +28,7 @@ import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.activity.MainAllActivity;
+import redix.booxtown.activity.NotificationAcceptActivity;
 import redix.booxtown.activity.NotificationRejectActivity;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.NotificationController;
@@ -49,13 +50,13 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
     Transaction trans;
     private static LayoutInflater inflater = null;
 
-    public CustomListviewNotificationSwap(Context context,List<Book> list, String trans_id, String bookNameMe,Transaction trans) {
+    public CustomListviewNotificationSwap(Context context, List<Book> list, String trans_id, String bookNameMe, Transaction trans) {
         // TODO Auto-generated constructor stub
         this.list = list;
         this.context = context;
-        this.trans_id=trans_id;
-        this.bookNameMe= bookNameMe;
-        this.trans= trans;
+        this.trans_id = trans_id;
+        this.bookNameMe = bookNameMe;
+        this.trans = trans;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -92,22 +93,22 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
         // TODO Auto-generated method stub
         Holder holder = new Holder();
         View rowView;
-        final Book book= list.get(position);
+        final Book book = list.get(position);
         rowView = inflater.inflate(R.layout.custom_listview_notification_swap, null);
         holder.tv = (TextView) rowView.findViewById(R.id.txt_notification_swap_title);
-        holder.tv_byAuthor=(TextView) rowView.findViewById(R.id.textView27);
-        holder.txt_genre=(TextView) rowView.findViewById(R.id.textView29);
-        holder.seekBar=(ProgressBar) rowView.findViewById(R.id.seekBar) ;
+        holder.tv_byAuthor = (TextView) rowView.findViewById(R.id.textView27);
+        holder.txt_genre = (TextView) rowView.findViewById(R.id.textView29);
+        holder.seekBar = (ProgressBar) rowView.findViewById(R.id.seekBar);
         holder.tv.setText(book.getTitle());
-        holder.img_book=(ImageView) rowView.findViewById(R.id.imageView11);
+        holder.img_book = (ImageView) rowView.findViewById(R.id.imageView11);
         holder.tv_byAuthor.setText(book.getAuthor());
         holder.txt_genre.setText(book.getGenre());
         holder.seekBar.setProgress(Integer.parseInt(book.getCondition()));
         String[] image = book.getPhoto().split(";");
-        int index=image[0].indexOf("_+_");
-        if(index>0 && image[0].length() >3 ) {
-            String img = image[0].substring(index+3, image[0].length());
-            Glide.with(context). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + book.getUsername() + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+        int index = image[0].indexOf("_+_");
+        if (index > 0 && image[0].length() > 3) {
+            String img = image[0].substring(index + 3, image[0].length());
+            Glide.with(context).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getUsername() + "&image=" + img + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
                     into(holder.img_book);
 
         }
@@ -122,15 +123,15 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
-                TextView confirm_dialog_noti_swap= (TextView) dialog.findViewById(R.id.confirm_dialog_noti_swap);
-                TextView txt_title_book_you_noti_swap=(TextView) dialog.findViewById(R.id.txt_title_book_you_noti_swap);
-                TextView txt_title_book_buy_noti_swap=(TextView) dialog.findViewById(R.id.txt_title_book_buy_noti_swap);
+                TextView confirm_dialog_noti_swap = (TextView) dialog.findViewById(R.id.confirm_dialog_noti_swap);
+                TextView txt_title_book_you_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_you_noti_swap);
+                TextView txt_title_book_buy_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_buy_noti_swap);
 
-                confirm_dialog_noti_swap.setText("Confirm swap with "+ book.getUsername());
+                confirm_dialog_noti_swap.setText("Confirm swap with " + book.getUsername());
                 txt_title_book_you_noti_swap.setText(bookNameMe);
                 txt_title_book_buy_noti_swap.setText(book.getTitle());
 
-                Button btn_notification_swapdialog_confirm = (Button)dialog.findViewById(R.id.btn_notification_swapdialog_confirm);
+                Button btn_notification_swapdialog_confirm = (Button) dialog.findViewById(R.id.btn_notification_swapdialog_confirm);
                 btn_notification_swapdialog_confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -138,14 +139,14 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                         SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
                         String session_id = pref.getString("session_id", null);
-                        transactionChangeStatus trans= new transactionChangeStatus(context,session_id,trans_id,"1",book.getId(),book);
+                        transactionChangeStatus trans = new transactionChangeStatus(context, session_id, trans_id, "1", book.getId(), book);
                         trans.execute();
 
                         dialog.dismiss();
                     }
                 });
 
-                ImageView imageView =(ImageView)dialog.findViewById(R.id.img_dialog_close_swap_listview_notification);
+                ImageView imageView = (ImageView) dialog.findViewById(R.id.img_dialog_close_swap_listview_notification);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -163,23 +164,23 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
         Context context;
         ProgressDialog dialog;
         Book book;
-        String session_id,trans_id,status_id;
+        String session_id, trans_id, status_id;
         String book_id;
 
-        public transactionChangeStatus(Context context, String session_id, String trans_id, String status_id, String book_id,Book book) {
+        public transactionChangeStatus(Context context, String session_id, String trans_id, String status_id, String book_id, Book book) {
             this.context = context;
             this.session_id = session_id;
             this.trans_id = trans_id;
             this.status_id = status_id;
-            this.book_id= book_id;
-            this.book= book;
+            this.book_id = book_id;
+            this.book = book;
         }
 
         @Override
         protected String doInBackground(Void... voids) {
             String transactionID = "";
             TransactionController transactionController = new TransactionController();
-            transactionID = transactionController.transactionUpdateStatus(session_id,trans_id,status_id,book_id);
+            transactionID = transactionController.transactionUpdateStatus(session_id, trans_id, status_id, book_id);
             return transactionID;
         }
 
@@ -194,10 +195,32 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
 
         @Override
         protected void onPostExecute(String transactionID) {
-                Intent intent = new Intent(context, NotificationRejectActivity.class);
-                intent.putExtra("trans", trans);
-                intent.putExtra("book",book);
-                context.startActivity(intent);
+            Intent intent = new Intent(context, NotificationAcceptActivity.class);
+            intent.putExtra("trans", trans);
+            intent.putExtra("book", book);
+            context.startActivity(intent);
+            // send notifi user buy
+            List<Hashtable> list = new ArrayList<>();
+            Notification notification = new Notification(trans.getUser_sell().toUpperCase() + " accepted for a swap book request", trans.getId()+"","2" );
+            Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+            obj.put("user_id", book.getUser_id());
+            obj.put("messages", "Accepted your swap request for " + trans.getBook_name().toUpperCase());
+            list.add(obj);
+            NotificationController controller = new NotificationController();
+            controller.sendNotification(list);
+            // end
+
+            // send notifi user seller
+
+            List<Hashtable> listSeller = new ArrayList<>();
+            Notification notificationSeller = new Notification("you accepted swapping your book", trans.getId()+"","0" );
+            Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
+            objSeller.put("user_id", trans.getUser_seller_id());
+            objSeller.put("messages", "you accepted swapping your book " + trans.getBook_name().toUpperCase());
+            listSeller.add(objSeller);
+            NotificationController controllerSeller = new NotificationController();
+            controllerSeller.sendNotification(listSeller);
+            // end
             super.onPostExecute(transactionID);
         }
     }

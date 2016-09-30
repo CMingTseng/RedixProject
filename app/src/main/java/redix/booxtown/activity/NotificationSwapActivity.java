@@ -52,6 +52,8 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
     TextView title_book_notification_swap;
     TextView description_notification_swap;
     TextView author_list_notification_swap;
+
+    Button btn_notification_not_like;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,34 +77,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         transAsync.execute();
 
         Button btn_notification_not_like= (Button)findViewById(R.id.btn_notification_not_like);
-        btn_notification_not_like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Dialog dialog = new Dialog(NotificationSwapActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_notification_swap_button);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
 
-                Button btn_dialog_notification_swap = (Button)dialog.findViewById(R.id.btn_dialog_notification_swap);
-                btn_dialog_notification_swap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(NotificationSwapActivity.this,Notification_Swap_Accept_Like.class);
-                        startActivity(intent);
-                        dialog.dismiss();
-                    }
-                });
-
-                ImageView imageView =(ImageView)dialog.findViewById(R.id.imv_clode_dialog_not_like);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });
 
         //infor
         ImageView imv_menu_notification_infor1 = (ImageView)findViewById(R.id.imv_menu_notification_infor1);
@@ -202,10 +177,41 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         }
 
         @Override
-        protected void onPostExecute(Transaction transaction) {
+        protected void onPostExecute(final Transaction transaction) {
             if (transaction == null){
                 dialog.dismiss();
             }else {
+                btn_notification_not_like.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final Dialog dialog = new Dialog(NotificationSwapActivity.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_notification_swap_button);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+
+                        TextView description= (TextView) dialog.findViewById(R.id.txt_dialog_reject_swap);
+                        description.setText("Are you sure you want reject "+ transaction.getUser_buy()+"'s swap request ?");
+                        Button btn_dialog_notification_swap = (Button)dialog.findViewById(R.id.btn_dialog_notification_swap);
+                        btn_dialog_notification_swap.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(NotificationSwapActivity.this,Notification_Swap_Accept_Like.class);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
+
+                        ImageView imageView =(ImageView)dialog.findViewById(R.id.imv_clode_dialog_not_like);
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                });
+
                 ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
                 listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, transaction.getBook(), trans_id, transaction.getBook_name(), transaction));
 
