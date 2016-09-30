@@ -191,21 +191,21 @@ public class MyProfileFragment extends Fragment {
         }
         else if(type==2){
             for (int i=0; i<listEx.size(); i++){
-                if(listEx.get(i).getAction().equals("100")){
+                if(listEx.get(i).getAction().substring(0,1).equals("1")){
                     list.add(listEx.get(i));
                 }
             }
         }
         else if(type==3){
             for (int i=0; i<listEx.size(); i++){
-                if(listEx.get(i).getAction().equals("010")){
+                if(listEx.get(i).getAction().substring(1,2).equals("1")){
                     list.add(listEx.get(i));
                 }
             }
         }
         else{
             for (int i=0; i<listEx.size(); i++){
-                if(listEx.get(i).getAction().equals("001")){
+                if(listEx.get(i).getAction().substring(2,3).equals("1")){
                     list.add(listEx.get(i));
                 }
             }
@@ -314,6 +314,7 @@ public class MyProfileFragment extends Fragment {
                     tab_swap_count.setText(" ("+filterBook(2).size()+")");
                     tab_free_count.setText(" ("+filterBook(3).size()+")");
                     tab_cart_count.setText(" ("+filterBook(4).size()+")");
+                    dialog.dismiss();
                 }
             }catch (Exception e){
                 Toast.makeText(context, Information.noti_no_data, Toast.LENGTH_LONG).show();

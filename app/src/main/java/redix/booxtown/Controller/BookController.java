@@ -14,6 +14,8 @@ import redix.booxtown.api.ServiceInterface;
 import redix.booxtown.fragment.ExploreFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.BookResult;
+import redix.booxtown.model.CommentBook;
+import redix.booxtown.model.CommentBookResult;
 import redix.booxtown.model.Result;
 import redix.booxtown.model.TransactionResult;
 import retrofit2.Call;
@@ -167,7 +169,6 @@ public class BookController {
     public Comparator<Book> distance = new Comparator<Book>() {
         @Override
         public int compare(Book lhs, Book rhs) {
-
             ExploreFragment exploreFragment = new ExploreFragment();
             LatLng latLng1 = new LatLng(new GPSTracker(mActivity).getLatitude(),new GPSTracker(mActivity).getLongitude());
             LatLng latLng1_2 = new LatLng(lhs.getLocation_latitude(),lhs.getLocation_longitude());
@@ -179,5 +180,22 @@ public class BookController {
             return i2 - i1;
         }
     };
+
+    public List<CommentBook> getCommnetBook(String book_id){
+        Call<CommentBookResult> getall = service.getCommentBook(book_id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            CommentBookResult str = getall.execute().body();
+            if (str.getCode() == 200){
+                return str.getComment();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
 
 }
