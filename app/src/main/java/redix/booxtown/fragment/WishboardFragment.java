@@ -31,6 +31,7 @@ import redix.booxtown.R;
 import redix.booxtown.activity.MenuActivity;
 import redix.booxtown.adapter.AdapterExplore;
 import redix.booxtown.adapter.AdapterListviewWishboard;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.WishboardController;
 import redix.booxtown.custom.CustomSearch;
 import redix.booxtown.custom.CustomTabbarExplore;
@@ -111,7 +112,7 @@ public class WishboardFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("please waiting....");
+            progressDialog.setMessage(Information.noti_dialog);
             progressDialog.show();
         }
 
@@ -128,7 +129,7 @@ public class WishboardFragment extends Fragment {
                     lv_wishboard.setAdapter(new AdapterListviewWishboard(getActivity(),wishboards));
                     progressDialog.dismiss();
                 }else {
-                    Toast.makeText(context,"no data",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }catch (Exception e){
@@ -148,7 +149,7 @@ public class WishboardFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("please waiting....");
+            progressDialog.setMessage(Information.noti_dialog);
             progressDialog.show();
         }
 
@@ -162,14 +163,14 @@ public class WishboardFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if (aBoolean == true){
-                    Toast.makeText(context,"insert wishboard success",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_insert_wishboard,Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }else {
-                    Toast.makeText(context,"insert wishboard no success",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_no_insert_wishboard,Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }catch (Exception e){
-                Toast.makeText(context,"insert error",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,Information.noti_no_insert_wishboard,Toast.LENGTH_SHORT).show();
             }
             progressDialog.dismiss();
         }

@@ -27,6 +27,8 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
+import redix.booxtown.controller.DeleteTokenService;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.R;
 import redix.booxtown.model.User;
@@ -74,11 +76,13 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         edt_confirmpass = (EditText) findViewById(R.id.confirmpassword);
         checkSignup = (CheckBox) findViewById(R.id.checksignup);
         edt_birthday.setOnClickListener(this);
+        Intent intent1 = new Intent(this, DeleteTokenService.class);
+        startService(intent1);
         session_id = FirebaseInstanceId.getInstance().getToken().toString();
 
 
         if (isOnline() == false){
-            Toast.makeText(getApplicationContext(), "Check network state please", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
         }
 //        birthday = String.valueOf(edt_birthday.getYear()) + String.valueOf(edt_birthday.getMonth()) + String.valueOf(edt_birthday.getDayOfMonth());
 
@@ -113,23 +117,23 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 user.setPassword(edt_password.getText().toString());
                 user.setSession_id(session_id);
                 if (edt_name.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"User name not null",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_fill_username,Toast.LENGTH_LONG).show();
                 }else if(edt_lastname.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"Last name not null",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_fill_lastname,Toast.LENGTH_LONG).show();
                 }else if(edt_firtname.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"First name not null",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_fill_firstname,Toast.LENGTH_LONG).show();
                 }else if(edt_phone.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"Phone not null",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_fill_phone,Toast.LENGTH_LONG).show();
                 }else if(edt_birthday.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"Birthday not null",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_fill_birthday,Toast.LENGTH_LONG).show();
                 }else if(checkEmail(edt_mail.getText().toString()) == false){
-                    Toast.makeText(getApplicationContext(),"invalid email address",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_validate_email,Toast.LENGTH_LONG).show();
                 }else if(edt_password.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"Password not null",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_fill_password,Toast.LENGTH_LONG).show();
                 }else if(!edt_password.getText().toString().equals(edt_confirmpass.getText().toString())){
-                    Toast.makeText(getApplicationContext(),"Password not match",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_match_pass,Toast.LENGTH_LONG).show();
                 }else if (checkSignup.isChecked() == false) {
-                    Toast.makeText(getApplicationContext(), "Please agree Term and Condition before signup", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), Information.noti_check_term, Toast.LENGTH_LONG).show();
 
                 }else {
                     SignupAsyntask signupAsyntask = new SignupAsyntask();
@@ -190,7 +194,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(SigUp_Activity.this);
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
             super.onPreExecute();
@@ -214,7 +218,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 editor.commit();
                 dialog.dismiss();
             }else if (aBoolean ==false){
-                Toast.makeText(getApplicationContext(), "Username has already been taken", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),Information.noti_username_taken, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
             super.onPostExecute(aBoolean);

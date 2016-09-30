@@ -34,6 +34,7 @@ import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.adapter.AdapterThread;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.ThreadController;
 import redix.booxtown.controller.TopicController;
 import redix.booxtown.listener.OnLoadMoreListener;
@@ -162,7 +163,7 @@ public class ThreadFragment extends Fragment
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(context);
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
             super.onPreExecute();
@@ -307,7 +308,7 @@ public class ThreadFragment extends Fragment
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(context);
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
             super.onPreExecute();
@@ -351,7 +352,7 @@ public class ThreadFragment extends Fragment
         @Override
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("please waiting....");
+            progressDialog.setMessage(Information.noti_dialog);
             progressDialog.show();
         }
 
@@ -365,9 +366,9 @@ public class ThreadFragment extends Fragment
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if (aBoolean == true){
-                    Toast.makeText(context,"success",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_insert_thread,Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(context,"no success",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_no_insert_thread,Toast.LENGTH_SHORT).show();
                 }
             }catch (Exception e){
 

@@ -31,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -39,7 +41,10 @@ import java.util.ArrayList;
 import redix.booxtown.R;
 import redix.booxtown.adapter.AdapterInteractThreadDetails;
 import redix.booxtown.adapter.CustomPagerAdapter;
+import redix.booxtown.api.ServiceGenerator;
+import redix.booxtown.controller.IconMapController;
 import redix.booxtown.custom.MenuBottomCustom;
+import redix.booxtown.fragment.ExploreFragment;
 import redix.booxtown.fragment.ListingsFragment;
 import redix.booxtown.fragment.MainFragment;
 import redix.booxtown.fragment.MyProfileFragment;
@@ -50,7 +55,7 @@ import redix.booxtown.model.InteractComment;
 /**
  * Created by Administrator on 29/08/2016.
  */
-public class ListingsDetailActivity extends Fragment implements View.OnClickListener
+public class ListingsDetailActivity extends Fragment
 {
     private  ListView listView;
     private TextView txt_add_book;
@@ -70,22 +75,24 @@ public class ListingsDetailActivity extends Fragment implements View.OnClickList
     TextView txt_price_listings_detail;
     TextView txt_time_post_listings;
     TextView txt_genre_listing_detail;
+    ImageView icon_user_listing_detail;
+    TextView txt_listed_by;
     ProgressBar progressBar;
     TextView txt_tag;
+    ImageView imageView_back;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_listings_detail,container,false);
 
-        ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
+        imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_sign_in_back).into(imageView_back);
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callFragment(new ListingsFragment());
+                callFragment(new ExploreFragment());
             }
         });
-
         init(v);
 
         //btn_rank
@@ -98,68 +105,47 @@ public class ListingsDetailActivity extends Fragment implements View.OnClickList
         ImageView btn_rank_three = (ImageView)v.findViewById(R.id.img_rank3_listings);
         Picasso.with(getContext()).load(R.drawable.btn_rank_three).into(btn_rank_three);
         //end
-//        RelativeLayout menu_search = (RelativeLayout)getActivity().findViewById(R.id.custom_search);
-//        menu_search.setVisibility(View.GONE);
 
         TableRow tbTypebook = (TableRow) v.findViewById(R.id.row_type_book);
         EditText editText11 = (EditText) v.findViewById(R.id.editText11);
         String type = getArguments().getString(String.valueOf(R.string.valueListings));
         Log.d("dksdksdslkd",type.toString());
-
         MainAllActivity activity = (MainAllActivity) getActivity();
-
         imBuy = (ImageView) v.findViewById(R.id.img_buy_listing);
-        imBuy.setOnClickListener(this);
         imFree = (ImageView) v.findViewById(R.id.img_free_listings);
         imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
-        imSwap.setOnClickListener(this);
+        txt_listed_by = (TextView)v.findViewById(R.id.txt_listed_by);
+        icon_user_listing_detail = (ImageView)v.findViewById(R.id.icon_user_listing_detail);
         activity.gettitle().setText("Listings");
+        final Book book = (Book)getArguments().getSerializable("item");
+        Glide.with(getContext())
+                .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+book.getUsername()+"&image="+book.getPhoto().substring(book.getUsername().length()+3,book.getPhoto().length()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.blank_image).
+                into(icon_user_listing_detail);
+        txt_listed_by.setText(book.getUsername());
         if (type.equals("1")){
-            Book book = (Book)getArguments().getSerializable("item");
-            imFree.setVisibility(View.GONE);
+            View view_search = (View)getActivity().findViewById(R.id.custom_search) ;
+            //RelativeLayout menu_search = (RelativeLayout)view_search.findViewById(R.id.relativeLayout);
+            view_search.setVisibility(View.GONE);
+            ImageView img_menu_component = (ImageView)getActivity().findViewById(R.id.img_menu_component);
+            img_menu_component.setVisibility(View.GONE);
             ImageView img_close_dialog_unsubcribe = (ImageView) v.findViewById(R.id.img_close_dialog_unsubcribe);
             Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
             editText11.setVisibility(View.GONE);
             img_close_dialog_unsubcribe.setVisibility(View.GONE);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)tbTypebook.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            ImageView img_menu_component = (ImageView)getActivity().findViewById(R.id.img_menu_component);
-            img_menu_component.setVisibility(View.GONE);
             tbTypebook.setLayoutParams(params);
-            txt_title_listings_detail.setText(book.getTitle());
-            txt_author_listings_detail.setText(book.getAuthor());
-            txt_price_listings_detail.setText("AED "+book.getPrice());
-            txt_time_post_listings.setText(book.getCreate_date());
-            txt_genre_listing_detail.setText(book.getGenre());
-            txt_tag.setText(book.getHash_tag());
-           // progressBar.setProgress(Integer.valueOf(book.getCondition()));
-        }else {
-            Book book = (Book) getArguments().getSerializable("bookedit");
-            Log.d("dksdksdslkd",book.toString());
 
+            imageView_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callFragment(new MainFragment());
+                }
+            });
         }
-        View view=(View) v.findViewById(R.id.layout_details);
-        CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(getActivity());
-        ViewPager mViewPager = (ViewPager) view.findViewById(R.id.pager);
-        mViewPager.setAdapter(mCustomPagerAdapter);
-
-        CirclePageIndicator indicator = (CirclePageIndicator)v.findViewById(R.id.indicator);
-        indicator.setViewPager(mViewPager);
-
-        ArrayList<InteractComment> list= new ArrayList<>();
-        InteractComment interactComment1= new InteractComment(2.5f,true,false,true,"Gandalf","If you want to buy best books order us1","June 12 at 5:14 pm");
-        InteractComment interactComment2= new InteractComment(3.0f,true,true,true,"Gandalf2","If you want to buy best books order us2","June 12 at 5:14 pm");
-        InteractComment interactComment3= new InteractComment(4.0f,false,false,true,"Gandalf3","If you want to buy best books order us3","June 12 at 5:14 pm");
-        InteractComment interactComment4= new InteractComment(3.5f,true,false,false,"Gandalf4","If you want to buy best books order us4","June 12 at 5:14 pm");
-        InteractComment interactComment5= new InteractComment(5.0f,true,false,false,"Gandalf5","If you want to buy best books order us5","June 12 at 5:14 pm");
-
-        list.add(interactComment1);
-        list.add(interactComment2);
-        list.add(interactComment3);
-        list.add(interactComment4);
-        list.add(interactComment5);
-
-
+        setData(book,v);
         //-----------------------------------------------------------
         //final AdapterInteractThreadDetails adapter = new AdapterInteractThreadDetails(getActivity(),list);
         RelativeLayout.LayoutParams paramslist = (RelativeLayout.LayoutParams)tbTypebook.getLayoutParams();
@@ -174,7 +160,74 @@ public class ListingsDetailActivity extends Fragment implements View.OnClickList
             }
         });
         return v;
+    }
 
+    public void setData(final Book book, View v){
+        txt_title_listings_detail.setText(book.getTitle());
+        txt_author_listings_detail.setText(book.getAuthor());
+        txt_price_listings_detail.setText("AED "+book.getPrice());
+        txt_time_post_listings.setText(book.getCreate_date());
+        txt_genre_listing_detail.setText(book.getGenre());
+        txt_tag.setText(book.getHash_tag());
+        View view=(View) v.findViewById(R.id.layout_details);
+        String[] image = book.getPhoto().split(";");
+        CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(getActivity(),image,book.getUsername());
+        ViewPager mViewPager = (ViewPager) view.findViewById(R.id.pager);
+        mViewPager.setAdapter(mCustomPagerAdapter);
+        CirclePageIndicator indicator = (CirclePageIndicator)v.findViewById(R.id.indicator);
+        indicator.setViewPager(mViewPager);
+        progressBar.setProgress(Integer.valueOf(book.getCondition()));
+        char array[] = book.getAction().toCharArray();
+        final String swap = String.valueOf(array[0]);
+        final String free = String.valueOf(array[1]);
+        final String buy = String.valueOf(array[2]);
+        String icon = IconMapController.iconExplorer(swap,free,buy);
+        if(icon.equals("icon_swap")){
+            imFree.setVisibility(View.GONE);
+            imBuy.setVisibility(View.GONE);
+            imSwap.setVisibility(View.VISIBLE);
+        }
+        if(icon.equals("icon_free")){
+            imBuy.setVisibility(View.GONE);
+            imSwap.setVisibility(View.GONE);
+            imFree.setVisibility(View.VISIBLE);
+        }
+        if(icon.equals("icon_buy")){
+            imSwap.setVisibility(View.GONE);
+            imFree.setVisibility(View.GONE);
+            imBuy.setVisibility(View.VISIBLE);
+        }
+        if(icon.equals("swapfree")){
+            imSwap.setVisibility(View.VISIBLE);
+            imFree.setVisibility(View.VISIBLE);
+            imBuy.setVisibility(View.GONE);
+        }
+        if(icon.equals("swapbuy")){
+            imSwap.setVisibility(View.VISIBLE);
+            imFree.setVisibility(View.GONE);
+            imBuy.setVisibility(View.VISIBLE);
+        }
+        if(icon.equals("freebuy")){
+            imFree.setVisibility(View.VISIBLE);
+            imSwap.setVisibility(View.GONE);
+            imBuy.setVisibility(View.VISIBLE);
+        }if(icon.equals("option")){
+            imFree.setVisibility(View.VISIBLE);
+            imSwap.setVisibility(View.VISIBLE);
+            imBuy.setVisibility(View.VISIBLE);
+        }
+        imSwap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                swap(book);
+            }
+        });
+        imBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buy();
+            }
+        });
     }
 
     public void init(View view){
@@ -187,83 +240,56 @@ public class ListingsDetailActivity extends Fragment implements View.OnClickList
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.img_swap_listing:
-                swap();
-                break;
-            case R.id.img_free_listings:
-                break;
-            case R.id.img_buy_listing:
-                buy();
-                break;
-        }
-    }
-
     public void buy() {
-
         final Dialog dialog = new Dialog(getActivity());
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.dialog_buy_listing);
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.show();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_buy_listing);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
 
-                    ImageView btn_dialog_notification_swap = (ImageView) dialog.findViewById(R.id.close_buy_listings);
-                    Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(btn_dialog_notification_swap);
-                    btn_dialog_notification_swap.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            dialog.dismiss();
-                        }
-                    });
-
-
+        ImageView btn_dialog_notification_swap = (ImageView) dialog.findViewById(R.id.close_buy_listings);
+        Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(btn_dialog_notification_swap);
+        btn_dialog_notification_swap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         TextView btn_confirm=(TextView) dialog.findViewById(R.id.btn_confirm_buy_listing);
-                    btn_confirm.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                            final Dialog dialog1 = new Dialog(getActivity());
-                            dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog1.setContentView(R.layout.dialog_request_sent_listing);
-                            dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            dialog1.show();
-
-                            ImageView btn_close = (ImageView) dialog1.findViewById(R.id.close_sent_request_lising);
-
-                            btn_close.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    dialog1.dismiss();
+        btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                final Dialog dialog1 = new Dialog(getActivity());
+                dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog1.setContentView(R.layout.dialog_request_sent_listing);
+                dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog1.show();
+                ImageView btn_close = (ImageView) dialog1.findViewById(R.id.close_sent_request_lising);
+                btn_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog1.dismiss();
 //                                    getActivity().finish();
-                                }
-                            });
-                            TextView btn_back=(TextView) dialog1.findViewById(R.id.btn_back_home);
-                            btn_back.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog1.dismiss();
-                                    callFragment(new MainFragment());
-                                }
-                            });
-                        }
-                    });
-
-
+                    }
+                });
+                TextView btn_back=(TextView) dialog1.findViewById(R.id.btn_back_home);
+                btn_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog1.dismiss();
+                        callFragment(new MainFragment());
+                    }
+                });
+            }
+        });
     }
 
-
-
-    public void swap(){
+    public void swap(Book book){
         Intent intent= new Intent(getActivity(), SwapActivity.class);
+        intent.putExtra("Book", book);
         startActivity(intent);
-
     }
-
-
 
     public void callFragment(Fragment fragment ){
         android.support.v4.app.FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -271,7 +297,6 @@ public class ListingsDetailActivity extends Fragment implements View.OnClickList
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
     }
-
 
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -492,7 +517,7 @@ public class ListingsDetailActivity extends Fragment implements View.OnClickList
 //                }
 //            }
 //        });
-    }
+}
 
 //    @Override
 //    protected void onRestart() {

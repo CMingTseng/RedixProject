@@ -29,6 +29,7 @@ import java.util.List;
 import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.R;
 import redix.booxtown.activity.MenuActivity;
@@ -52,6 +53,9 @@ public class MyProfileFragment extends Fragment {
     TextView txt_profile_phone,txt_profile_birthday,txt_profile_email,txt_profile_username;
     String username;
     TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
+
+
+    int PICK_IMAGE_MULTIPLE = 1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,7 +76,12 @@ public class MyProfileFragment extends Fragment {
         });
 
         imv_menu_profile = (ImageView)view.findViewById(R.id.imv_menu_profile);
-
+        imv_menu_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                choseImage();
+            }
+        });
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Glide.with(getActivity()).load(R.drawable.btn_menu_locate).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView_back);
 
@@ -102,7 +111,7 @@ public class MyProfileFragment extends Fragment {
         listingAsync listingAsync = new listingAsync(getContext());
         listingAsync.execute(session_id);
         //end
-       // imageView_back.setImageResource(R.drawable.btn_menu_locate);
+        // imageView_back.setImageResource(R.drawable.btn_menu_locate);
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,35 +238,42 @@ public class MyProfileFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(getActivity());
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
         }
-
         @Override
         protected void onPostExecute(List<User> userResult) {
             try {
                 if(userResult.size() == 0){
-                    Toast.makeText(context,"No data",Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_LONG).show();
                     dialog.dismiss();
                 }else {
-
                     txt_profile_email.setText(userResult.get(0).getEmail());
                     txt_profile_phone.setText(userResult.get(0).getPhone());
                     txt_profile_birthday.setText(userResult.get(0).getBirthday().substring(0,10));
                     txt_profile_username.setText(userResult.get(0).getUsername());
                     username = userResult.get(0).getUsername();
-                    Glide.with(context). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + userResult.get(0).getUsername() + "&image=" +  userResult.get(0).getPhoto()  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                    Glide.with(context)
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getUsername()+"&image="+userResult.get(0).getPhoto().substring(userResult.get(0).getUsername().length()+3,userResult.get(0).getPhoto().length()))
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.blank_image).
                             into(imv_menu_profile);
-                    Picasso.with(context).load("").into(imv_menu_profile);
                     dialog.dismiss();
                 }
                 super.onPostExecute(userResult);
             }catch (Exception e){
-                Toast.makeText(context,"no data",Toast.LENGTH_LONG).show();
             }
-
+            dialog.dismiss();
         }
+    }
+
+    public void choseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_MULTIPLE);
     }
 
     class listingAsync extends AsyncTask<String,Void,List<Book>>{
@@ -280,7 +296,7 @@ public class MyProfileFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(context);
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
             super.onPreExecute();
@@ -293,16 +309,15 @@ public class MyProfileFragment extends Fragment {
                     adapter = new ListBookAdapter(getActivity(), books,1);
                     grid.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-
                     listEx = books;
                     tab_all_count.setText(" ("+filterBook(1).size()+")");
                     tab_swap_count.setText(" ("+filterBook(2).size()+")");
                     tab_free_count.setText(" ("+filterBook(3).size()+")");
                     tab_cart_count.setText(" ("+filterBook(4).size()+")");
                 }
-                super.onPostExecute(books);
             }catch (Exception e){
-                Toast.makeText(context, "No Data", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, Information.noti_no_data, Toast.LENGTH_LONG).show();
+                dialog.dismiss();
             }
             dialog.dismiss();
         }
