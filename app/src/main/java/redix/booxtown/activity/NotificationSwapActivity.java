@@ -27,16 +27,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.controller.BookController;
+import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.TransactionController;
 import redix.booxtown.custom.BorderImage;
 import redix.booxtown.custom.CustomListviewNotificationSwap;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
+import redix.booxtown.model.Notification;
 import redix.booxtown.model.Transaction;
 
 public class NotificationSwapActivity extends AppCompatActivity implements View.OnClickListener {
@@ -196,8 +200,29 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                         btn_dialog_notification_swap.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent = new Intent(NotificationSwapActivity.this,Notification_Swap_Accept_Like.class);
-                                startActivity(intent);
+
+                                // send notifi user seller
+                                List<Hashtable> listSeller = new ArrayList<>();
+                                Notification notificationSeller = new Notification(" you rejected swapping your book", transaction.getId()+"","1" );
+                                Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
+                                objSeller.put("user_id", transaction.getUser_seller_id());
+                                objSeller.put("messages", "You rejected swapping your book " + transaction.getBook_name().toUpperCase());
+                                listSeller.add(objSeller);
+                                NotificationController controllerSeller = new NotificationController();
+                                controllerSeller.sendNotification(listSeller);
+                                // end
+
+                                List<Hashtable> list = new ArrayList<>();
+                                Notification notification = new Notification("Reject your swap request", transaction.getId()+"","3" );
+                                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                                obj.put("user_id", transaction.getUser_buyer_id());
+                                obj.put("messages", "Reject your swap request " + transaction.getBook_name().toUpperCase());
+                                list.add(obj);
+                                NotificationController controller = new NotificationController();
+                                controller.sendNotification(list);
+
+//                                Intent intent = new Intent(NotificationSwapActivity.this,Notification_Swap_Accept_Like.class);
+ //                               startActivity(intent);
                                 dialog.dismiss();
                             }
                         });

@@ -112,49 +112,50 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                     into(holder.img_book);
 
         }
+        if(trans.getIs_accept()==0 || trans.getIs_cancel()==0|| trans.getIs_reject()==0) {
+            holder.btn_confirm = (Button) rowView.findViewById(R.id.btn_notification_swap_listview);
+            holder.btn_confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Dialog dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_swap_listview_notification);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
 
-        holder.btn_confirm = (Button) rowView.findViewById(R.id.btn_notification_swap_listview);
-        holder.btn_confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Dialog dialog = new Dialog(context);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_swap_listview_notification);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                    TextView confirm_dialog_noti_swap = (TextView) dialog.findViewById(R.id.confirm_dialog_noti_swap);
+                    TextView txt_title_book_you_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_you_noti_swap);
+                    TextView txt_title_book_buy_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_buy_noti_swap);
 
-                TextView confirm_dialog_noti_swap = (TextView) dialog.findViewById(R.id.confirm_dialog_noti_swap);
-                TextView txt_title_book_you_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_you_noti_swap);
-                TextView txt_title_book_buy_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_buy_noti_swap);
+                    confirm_dialog_noti_swap.setText("Confirm swap with " + book.getUsername());
+                    txt_title_book_you_noti_swap.setText(bookNameMe);
+                    txt_title_book_buy_noti_swap.setText(book.getTitle());
 
-                confirm_dialog_noti_swap.setText("Confirm swap with " + book.getUsername());
-                txt_title_book_you_noti_swap.setText(bookNameMe);
-                txt_title_book_buy_noti_swap.setText(book.getTitle());
+                    Button btn_notification_swapdialog_confirm = (Button) dialog.findViewById(R.id.btn_notification_swapdialog_confirm);
+                    btn_notification_swapdialog_confirm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-                Button btn_notification_swapdialog_confirm = (Button) dialog.findViewById(R.id.btn_notification_swapdialog_confirm);
-                btn_notification_swapdialog_confirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            String session_id = pref.getString("session_id", null);
+                            transactionChangeStatus trans = new transactionChangeStatus(context, session_id, trans_id, "1", book.getId(), book);
+                            trans.execute();
 
-                        SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = pref.edit();
-                        String session_id = pref.getString("session_id", null);
-                        transactionChangeStatus trans = new transactionChangeStatus(context, session_id, trans_id, "1", book.getId(), book);
-                        trans.execute();
+                            dialog.dismiss();
+                        }
+                    });
 
-                        dialog.dismiss();
-                    }
-                });
-
-                ImageView imageView = (ImageView) dialog.findViewById(R.id.img_dialog_close_swap_listview_notification);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });
+                    ImageView imageView = (ImageView) dialog.findViewById(R.id.img_dialog_close_swap_listview_notification);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            });
+        }
 
         return rowView;
     }
