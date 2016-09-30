@@ -16,8 +16,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
+import redix.booxtown.controller.DeleteTokenService;
 import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.R;
@@ -107,6 +111,8 @@ public class MenuActivity extends AppCompatActivity {
                             finish();
                             LogoutAsynTask logoutAsynTask = new LogoutAsynTask();
                             logoutAsynTask.execute(session_id);
+                            Intent intent1 = new Intent(getApplication(), DeleteTokenService.class);
+                            startService(intent1);
                         }else if(i==9){
                             final Dialog dialog = new Dialog(MenuActivity.this);
                             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
