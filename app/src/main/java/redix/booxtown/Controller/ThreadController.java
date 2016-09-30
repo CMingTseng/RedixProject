@@ -2,6 +2,7 @@ package redix.booxtown.controller;
 
 import android.os.StrictMode;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import retrofit2.Call;
 public class ThreadController {
     private ServiceInterface service;
     Boolean success;
+    List<Thread> list = new ArrayList<>();
     public ThreadController(){
         service = ServiceGenerator.GetInstance();
     }
@@ -35,6 +37,7 @@ public class ThreadController {
                 return str.getListThread();
             }
         } catch (Exception ex) {
+            return list;
         }
         return null;
     }
@@ -52,6 +55,7 @@ public class ThreadController {
                 return str.getListThread();
             }
         } catch (Exception ex) {
+            return list;
         }
         return null;
     }
@@ -69,6 +73,7 @@ public class ThreadController {
                 return str.getListThread();
             }
         } catch (Exception ex) {
+            return list;
         }
         return null;
     }

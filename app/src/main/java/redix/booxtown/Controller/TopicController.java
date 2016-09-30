@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import retrofit2.Call;
 public class TopicController {
     private ServiceInterface service;
     Boolean success;
+    List<Topic> list = new ArrayList<>();
     public TopicController(){
         service = ServiceGenerator.GetInstance();
     }
@@ -39,6 +41,7 @@ public class TopicController {
                 return str.getTopic();
             }
         } catch (Exception ex) {
+            return list;
         }
         return null;
     }
@@ -57,6 +60,7 @@ public class TopicController {
                 return str.getTopic();
             }
         } catch (Exception ex) {
+            return list;
         }
         return null;
     }
@@ -74,6 +78,7 @@ public class TopicController {
                 return str.getTopic();
             }
         } catch (Exception ex) {
+            return list;
         }
         return null;
     }
