@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.TopicController;
 import redix.booxtown.listener.OnLoadMoreListener;
 import redix.booxtown.model.Topic;
@@ -95,7 +96,7 @@ public class TopicFragment extends Fragment
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(context);
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
             super.onPreExecute();
@@ -159,7 +160,7 @@ public class TopicFragment extends Fragment
 
                     //end
                 }else {
-                    Toast.makeText(context,"No data",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                 }
             }catch (Exception e){
 
@@ -202,7 +203,7 @@ public class TopicFragment extends Fragment
                     Collections.sort(listemp,Topic.aseid);
                     Collections.sort(listtopic,Topic.aseid);
                 }else {
-                    Toast.makeText(context,"No data",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                 }
             }catch (Exception e){
 

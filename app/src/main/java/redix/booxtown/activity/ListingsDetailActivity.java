@@ -31,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -73,6 +75,8 @@ public class ListingsDetailActivity extends Fragment
     TextView txt_price_listings_detail;
     TextView txt_time_post_listings;
     TextView txt_genre_listing_detail;
+    ImageView icon_user_listing_detail;
+    TextView txt_listed_by;
     ProgressBar progressBar;
     TextView txt_tag;
     ImageView imageView_back;
@@ -110,8 +114,16 @@ public class ListingsDetailActivity extends Fragment
         imBuy = (ImageView) v.findViewById(R.id.img_buy_listing);
         imFree = (ImageView) v.findViewById(R.id.img_free_listings);
         imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
+        txt_listed_by = (TextView)v.findViewById(R.id.txt_listed_by);
+        icon_user_listing_detail = (ImageView)v.findViewById(R.id.icon_user_listing_detail);
         activity.gettitle().setText("Listings");
         final Book book = (Book)getArguments().getSerializable("item");
+        Glide.with(getContext())
+                .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+book.getUsername()+"&image="+book.getPhoto().substring(book.getUsername().length()+3,book.getPhoto().length()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.blank_image).
+                into(icon_user_listing_detail);
+        txt_listed_by.setText(book.getUsername());
         if (type.equals("1")){
             View view_search = (View)getActivity().findViewById(R.id.custom_search) ;
             //RelativeLayout menu_search = (RelativeLayout)view_search.findViewById(R.id.relativeLayout);
