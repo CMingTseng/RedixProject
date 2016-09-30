@@ -51,6 +51,7 @@ public class NotificationFragment extends Fragment {
     String session_id;
     RecyclerView lv_notification;
     List<Notification> listnoNotifications;
+    List<Notification> listNotifications;
     Custom_ListView_Notification adapter;
     List<Topic> topic;
     List<Thread> item;
@@ -95,8 +96,9 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onResume() {
         Log.d("bhjbjbjb","onresum");
-        final Gettop_notifi gettop_notifi = new Gettop_notifi(session_id,100,0);
-        gettop_notifi.execute();
+//        final Gettop_notifi gettop_notifi = new Gettop_notifi(session_id,100,0);
+//        gettop_notifi.execute();
+        //adapter.notifyDataSetChanged();
         super.onResume();
     }
 

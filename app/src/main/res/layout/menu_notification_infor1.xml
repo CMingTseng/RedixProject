@@ -23,13 +23,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/imv_menu_notification_infor1"
             android:src="@drawable/img_temp1"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dominic"
-            android:id="@+id/textView16"
+            android:id="@+id/txt_userbuy_notification_swap"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imv_menu_notification_infor1"
             android:layout_marginLeft="10dp"
@@ -46,16 +47,16 @@
             android:theme="@style/RatingBar"
             android:rating="2.5"
             android:isIndicator="false"
-            android:layout_below="@+id/textView16"
-            android:layout_alignLeft="@+id/textView16"
-            android:layout_alignStart="@+id/textView16"
+            android:layout_below="@+id/txt_userbuy_notification_swap"
+            android:layout_alignLeft="@+id/txt_userbuy_notification_swap"
+            android:layout_alignStart="@+id/txt_userbuy_notification_swap"
             android:layout_marginRight="20dp" />
 
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:id="@+id/img_comment_rank1"
-            android:layout_below="@+id/textView16"
+            android:layout_below="@+id/txt_userbuy_notification_swap"
             android:layout_toRightOf="@+id/myRatingBar"
             android:layout_toEndOf="@+id/myRatingBar"
             android:src="@drawable/btn_rank_one"
@@ -65,7 +66,7 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:id="@+id/img_comment_rank2"
-            android:layout_below="@+id/textView16"
+            android:layout_below="@+id/txt_userbuy_notification_swap"
             android:layout_toRightOf="@+id/img_comment_rank1"
             android:layout_toEndOf="@+id/img_comment_rank1"
             android:src="@drawable/btn_rank_two"
@@ -75,7 +76,7 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:id="@+id/img_comment_rank3"
-            android:layout_below="@+id/textView16"
+            android:layout_below="@+id/txt_userbuy_notification_swap"
             android:layout_toRightOf="@+id/img_comment_rank2"
             android:layout_toEndOf="@+id/img_comment_rank2"
             android:src="@drawable/btn_rank_three"

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,9 @@ import android.os.AsyncTask;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -42,6 +46,12 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
     ImageView img_menu_bottom_camera;
     ImageView img_menu_bottom_bag;
     ImageView img_menu_bottom_user;
+
+    TextView txt_userbuy_notification_swap;
+    TextView txt_user_hi;
+    TextView title_book_notification_swap;
+    TextView description_notification_swap;
+    TextView author_list_notification_swap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +62,13 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
         img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
         img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+
+        txt_userbuy_notification_swap= (TextView) findViewById(R.id.txt_userbuy_notification_swap);
+        txt_user_hi= (TextView) findViewById(R.id.txt_user_hi);
+        title_book_notification_swap= (TextView) findViewById(R.id.title_book_notification_swap);
+        description_notification_swap= (TextView) findViewById(R.id.description_notification_swap);
+        author_list_notification_swap= (TextView) findViewById(R.id.author_list_notification_swap);
+
         // lấy được list sách swap đẻ đổ vào listview
         String trans_id= getIntent().getStringExtra("trans_id");
         transAsync transAsync= new transAsync(NotificationSwapActivity.this,trans_id);
@@ -191,6 +208,20 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
             }else {
                 ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
                 listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, transaction.getBook(), trans_id));
+
+                SharedPreferences pref = NotificationSwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor  = pref.edit();
+                String userName = pref.getString("username", null);
+                txt_user_hi.setText("Hi "+ userName+",");
+                txt_userbuy_notification_swap.setText(transaction.getBook().get(0).getUsername()+"");
+                title_book_notification_swap.setText(transaction.getBook_name());
+
+                Spannable wordtoSpan1 = new SpannableString("and good like to swap with you. Choose a book from "+transaction.getBook().get(0).getUsername()+"'s swap list to complete the swap" );
+                wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED),51, 53+ transaction.getBook().get(0).getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                description_notification_swap.setText(wordtoSpan1);
+
+                author_list_notification_swap.setText((transaction.getBook().get(0).getUsername()+"'s").toUpperCase()+" swap list");
+
                 dialog.dismiss();
             }
             super.onPostExecute(transaction);

@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hi Thuyết"
-        android:id="@+id/textView36"
+        android:id="@+id/txt_user_hi"
         android:layout_alignParentTop="true"
         android:textColor="@color/dot_light_screen2"
         android:padding="15dp"

@@ -38,12 +38,15 @@ public class Transaction {
     @Expose
     private int user_quality;
     @Expose
+    private String book_name;
+
+    @Expose
     private List<Book> book = new ArrayList<Book>();
 
     public Transaction() {
     }
 
-    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, int book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, List<Book> book) {
+    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, int book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, List<Book> book) {
         this.id = id;
         this.user_buyer_id = user_buyer_id;
         this.user_seller_id = user_seller_id;
@@ -58,6 +61,7 @@ public class Transaction {
         this.user_promp = user_promp;
         this.user_cour = user_cour;
         this.user_quality = user_quality;
+        this.book_name = book_name;
         this.book = book;
     }
 
@@ -171,6 +175,14 @@ public class Transaction {
 
     public void setUser_quality(int user_quality) {
         this.user_quality = user_quality;
+    }
+
+    public String getBook_name() {
+        return book_name;
+    }
+
+    public void setBook_name(String book_name) {
+        this.book_name = book_name;
     }
 
     public List<Book> getBook() {
