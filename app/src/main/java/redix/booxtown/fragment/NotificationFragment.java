@@ -251,6 +251,21 @@ public class NotificationFragment extends Fragment {
 //                                    intent.putExtra("trans_id",notification.getKey_screen());
 //                                    startActivity(intent);
                                 }
+                                else if (notification.getId_screen().equals("0")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("1")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("2")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
+                                }
 
                             }
                         })
