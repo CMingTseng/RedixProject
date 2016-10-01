@@ -56,6 +56,22 @@ public class BookController {
         return false;
     }
 
+    public List<Book> getBookByID(String book_id){
+        Call<BookResult> profile = service.getBookByID(book_id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            BookResult str = profile.execute().body();
+            if (str.getCode() == 200){
+                return str.getBook();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
     public List<Book> getAllBookById(String session_id){
         Call<BookResult> profile = service.getAllBookByUser(session_id);
         try {

@@ -92,6 +92,9 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/book/getallbookbyuser")
     Call<BookResult> getAllBookByUser(@Query("session_id") String session_id);
 
+    @GET("/booxtown/rest/book/book_getBookByBookId")
+    Call<BookResult> getBookByID(@Query("book_id") String book_id);
+
     @GET("/booxtown/rest/transactionhistory/tranhis_getTransactionById")
     Call<TransactionResult> getBookTransaction(@Query("transaction_id") String tranhisid);
 
