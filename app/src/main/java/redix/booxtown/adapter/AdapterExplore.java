@@ -115,7 +115,7 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             int index=image[0].indexOf("_+_");
             if(index>0 && image[0].length() >3 ) {
                 String img = image[0].substring(index+3, image[0].length());
-                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
                         into(hoder.img_book);
                 //Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" + img + "").placeholder(R.drawable.blank_image).into(hoder.img_book);
             }
