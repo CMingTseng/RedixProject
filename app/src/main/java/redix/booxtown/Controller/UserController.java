@@ -182,4 +182,27 @@ public class UserController {
         }
         return null;
     }
+
+    public boolean updateprofile(String email,String phone,String birthday,String photo,String session_id){
+        Hashtable obj = new Hashtable();
+        obj.put("email",email);
+        obj.put("phone",phone);
+        obj.put("birthday",birthday);
+        obj.put("photo",photo);
+        obj.put("session_id",session_id);
+        Call<Result> profile = service.updateprofile(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = profile.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+        } catch (Exception ex) {
+        }
+        return false;
+    }
 }
