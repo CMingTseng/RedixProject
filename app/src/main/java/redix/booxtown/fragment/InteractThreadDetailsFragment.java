@@ -47,6 +47,7 @@ public class InteractThreadDetailsFragment extends Fragment
     ListView listView;
     private MenuBottomCustom menu_bottom;
     Thread threads;
+    TextView txt_author_thread;
     Topic topic;
     TextView txt_title;
     TextView txt_count_thread;
@@ -96,7 +97,7 @@ public class InteractThreadDetailsFragment extends Fragment
         TextView txt_title_thread=(TextView) view.findViewById(R.id.txt_title_thread_detail);
         txt_count_thread=(TextView) view.findViewById(R.id.txt_count_thread_detail);
         TextView txt_content_thread=(TextView) view.findViewById(R.id.txt_contern_thread_details);
-        TextView txt_author_thread=(TextView) view.findViewById(R.id.txt_author_interact_thread_detail);
+        txt_author_thread=(TextView) view.findViewById(R.id.txt_author_interact_thread_detail);
         txt_title_thread.setText(threads.getTitle()+"");
         txt_content_thread.setText(threads.getDescription());
         txt_author_thread.setText("Added by "+threads.getUsername());
@@ -165,7 +166,6 @@ public class InteractThreadDetailsFragment extends Fragment
         protected void onPostExecute(List<Comment> comments) {
             try {
                 if(comments.size() >0){
-                    txt_count_thread.setText("("+comments.size()+")");
                     adapter = new AdapterInteractThreadDetails(context,comments);
                     listView.setAdapter(adapter);
                     if(!listUser.contains(threads.getUser_id())) {
