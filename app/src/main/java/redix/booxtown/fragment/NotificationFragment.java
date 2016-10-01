@@ -227,51 +227,51 @@ public class NotificationFragment extends Fragment {
 
                                 }else if (notification.getId_screen().equals("9")){
                                     Intent intent = new Intent(getActivity(),NotificationSwapActivity.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }else if (notification.getId_screen().equals("3")){
                                     Intent intent = new Intent(getActivity(),Notification_Swap_Accept_Like.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }else if (notification.getId_screen().equals("4")){
                                     Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("5")){
 
                                     Intent intent = new Intent(getActivity(),NotificationSellAccept.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("6")){
                                     Intent intent = new Intent(getActivity(),NotificationSellNoReject.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("7")){
                                     Intent intent = new Intent(getActivity(),NotificationSellNoAccept.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("8")){
                                     Intent intent = new Intent(getActivity(),NotificationSellReject.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("0")){
                                     Intent intent = new Intent(getActivity(),NotificationAcceptActivity.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("1")){
                                     Intent intent = new Intent(getActivity(),Notification_Swap_Accept_NoLike.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("2")){
                                     Intent intent = new Intent(getActivity(),NotificationRejectActivity.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
                                     startActivity(intent);
                                 }
 

@@ -36,6 +36,7 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
     TextView txt_author_book;
     TextView txt_author_info3;
 
+    String trans;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +97,10 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
         txt_title_book = (TextView) findViewById(R.id.txt_title_book);
         txt_author_book = (TextView) findViewById(R.id.txt_author_book);
         txt_author_info3 = (TextView) findViewById(R.id.txt_author_info3);
+
+        trans = getIntent().getStringExtra("trans_id");
+        transAsync transAsync= new transAsync(Notification_Swap_Accept_Like.this, trans);
+        transAsync.execute();
     }
 
     @Override
