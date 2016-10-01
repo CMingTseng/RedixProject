@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/textView20"
+        android:id="@+id/txt_title_book_sell_not_swap"
         android:layout_below="@+id/include27"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
@@ -46,8 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView60"
-        android:layout_below="@+id/textView20"
+        android:id="@+id/txt_author_book_sell_not_swap"
+        android:layout_below="@+id/txt_title_book_sell_not_swap"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp" />
 
@@ -55,16 +55,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         layout="@layout/menu_notification_title2"
-        android:layout_below="@+id/textView60"
+        android:layout_below="@+id/txt_author_book_sell_not_swap"
         android:layout_centerHorizontal="true"
-        android:id="@+id/include28" />
+        android:id="@+id/include28"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/textView61"
+        android:id="@+id/txt_title_book_buy_not_swap"
         android:layout_below="@+id/include28"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
@@ -73,8 +74,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView62"
-        android:layout_below="@+id/textView61"
+        android:id="@+id/txt_author_book_buy_not_swap"
+        android:layout_below="@+id/txt_title_book_buy_not_swap"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp" />
 
@@ -82,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         layout="@layout/menu_notification_infor2"
-        android:layout_below="@+id/textView62"
+        android:layout_below="@+id/txt_author_book_buy_not_swap"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/menu_bottom_swapnolike" />
 
