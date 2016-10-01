@@ -166,58 +166,58 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
             if (transaction == null) {
 
             } else {
-//                getBookByID getBookByID= new getBookByID(context, transaction);
-//                getBookByID.execute();
+                getBookByID getBookByID= new getBookByID(context, transaction);
+                getBookByID.execute();
 
             }
             super.onPostExecute(transaction);
         }
     }
 
-//    class getBookByID extends AsyncTask<Void, Void, List<Book>> {
-//        Transaction trans;
-//        Context ctx;
-//        ProgressDialog dialog;
-//        public getBookByID(Context ctx, Transaction trans) {
-//            this.trans = trans;
-//            this.ctx = ctx;
-//        }
-//
-//        @Override
-//        protected List<Book> doInBackground(Void... params) {
-//            BookController bookController = new BookController();
-//
-//            return bookController.getBookByID(trans.getBook_swap_id());
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            dialog = new ProgressDialog(ctx);
-//            dialog.setMessage("Please wait...");
-//            dialog.setIndeterminate(true);
-//            dialog.show();
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<Book> list) {
-//            try {
-//                if (list.size() > 0) {
-//                    SharedPreferences pref = NotificationRejectActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor  = pref.edit();
-//                    String userName = pref.getString("username", null);
-//                    txt_user_hi.setText("Hi "+ userName+",");
-//                    txt_book_sell_notifi_reject.setText(trans.getBook_name());
-//                    txt_book_author_sell_notifi_reject.setText(trans.getBook_author());
-//                    txt_book_buy_notifi_reject.setText(list.get(0).getTitle());
-//                    txt_book_author_buy_notifi_reject.setText(list.get(0).getAuthor());
-//                    txt_author_info3.setText(trans.getUser_sell());
-//
-//                    dialog.dismiss();
-//                }
-//            } catch (Exception e) {
-//            }
-//
-//        }
-//    }
+    class getBookByID extends AsyncTask<Void, Void, List<Book>> {
+        Transaction trans;
+        Context ctx;
+        ProgressDialog dialog;
+        public getBookByID(Context ctx, Transaction trans) {
+            this.trans = trans;
+            this.ctx = ctx;
+        }
+
+        @Override
+        protected List<Book> doInBackground(Void... params) {
+            BookController bookController = new BookController();
+
+            return bookController.getBookByID(trans.getBook_swap_id());
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(ctx);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(List<Book> list) {
+            try {
+                if (list.size() > 0) {
+                    SharedPreferences pref = NotificationRejectActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor  = pref.edit();
+                    String userName = pref.getString("username", null);
+                    txt_user_hi.setText("Hi "+ userName+",");
+                    txt_book_sell_notifi_reject.setText(trans.getBook_name());
+                    txt_book_author_sell_notifi_reject.setText(trans.getBook_author());
+                    txt_book_buy_notifi_reject.setText(list.get(0).getTitle());
+                    txt_book_author_buy_notifi_reject.setText(list.get(0).getAuthor());
+                    txt_author_info3.setText(trans.getUser_sell());
+
+                    dialog.dismiss();
+                }
+            } catch (Exception e) {
+            }
+
+        }
+    }
 }

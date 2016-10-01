@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Evil Queen:the last paintings"
-        android:id="@+id/textView43"
+        android:id="@+id/txt_title_book"
         android:layout_below="@+id/include33"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
@@ -52,8 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ayn rand"
-        android:id="@+id/textView63"
-        android:layout_below="@+id/textView43"
+        android:id="@+id/txt_author_book"
+        android:layout_below="@+id/txt_title_book"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
 
@@ -69,7 +69,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView63"
+        android:layout_below="@+id/txt_author_book"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/menu_bottom_noti_swaplike"
