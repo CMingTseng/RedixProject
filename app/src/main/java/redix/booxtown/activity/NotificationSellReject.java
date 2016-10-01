@@ -49,7 +49,7 @@ public class NotificationSellReject extends AppCompatActivity {
         setContentView(R.layout.activity_notification_sell_accept2);
 
         txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
-        txt_menu_notification_title2.setText("you accepted a request form");
+        txt_menu_notification_title2.setText("you rejected a request form");
 
         TextView txt_notification_infor3_phone = (TextView)findViewById(R.id.txt_notification_infor3_phone);
         txt_notification_infor3_phone.setVisibility(View.GONE);
