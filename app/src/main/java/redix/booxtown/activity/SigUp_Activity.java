@@ -169,7 +169,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
             EditText textview = (EditText) getActivity().findViewById(R.id.birthday);
 
-            textview.setText(day + "/" + (month+1) + "/" + year);
+            textview.setText(year + "/" + (month+1) + "/" + day);
 
         }
     }

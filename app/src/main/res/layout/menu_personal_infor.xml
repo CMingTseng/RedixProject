@@ -135,6 +135,7 @@
         android:layout_above="@+id/textView86"
         android:layout_below="@+id/textView83"
         android:layout_marginTop="7dp"
+        android:textSize="12sp"
         />
     <TextView
         android:layout_width="wrap_content"

@@ -80,6 +80,7 @@ public class MyProfileFragment extends Fragment {
     Bitmap bitmap_profile;
     ImageView imageView_update_profile;
     String img_photo;
+    String photoOrigin="";
     boolean flag = false;
     UploadFileController uploadFileController;
 
@@ -273,16 +274,25 @@ public class MyProfileFragment extends Fragment {
                 if(checkEmail(txt_profile_email.getText().toString()) == false){
                     Toast.makeText(getContext(),Information.noti_validate_email,Toast.LENGTH_LONG).show();
                 }else {
-                    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
-                    bitmaps.add(bitmap_profile);
-                    List<String> filename = new ArrayList<String>();
-                    filename.add(username + "_+_" + img_photo);
-                    if(img_photo != null) {
-                        addImages(bitmaps, filename);
+                    try {
+                        ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                        bitmaps.add(bitmap_profile);
+                        List<String> filename = new ArrayList<String>();
+                        filename.add(username + "_+_" + img_photo);
+                        if(img_photo != null) {
+                            addImages(bitmaps, filename);
+                            updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                                    txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), username + "_+_" + img_photo, first_name, last_name);
+                            updateProfile.execute();
+                        }
+                        else {
+                            updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                                    txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), photoOrigin, first_name, last_name);
+                            updateProfile.execute();
+                        }
+                    }catch (Exception e){
+
                     }
-                    updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                            txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), username + "_+_" + img_photo, first_name, last_name);
-                    updateProfile.execute();
                 }
             }
         });
@@ -384,6 +394,7 @@ public class MyProfileFragment extends Fragment {
                     user_id = userResult.get(0).getUser_id();
                     first_name = userResult.get(0).getFirst_name();
                     last_name = userResult.get(0).getLast_name();
+                    photoOrigin= userResult.get(0).getPhoto();
                     SharedPreferences pref2 = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref2.edit();
                     editor.putString("user_id", String.valueOf(user_id));
