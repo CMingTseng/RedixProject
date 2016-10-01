@@ -41,7 +41,6 @@
             android:layout_width="19dp"
             android:layout_height="19dp"
             android:id="@+id/img_listview_profiledashboard_offer"
-            android:src="@drawable/myprofile_buy_come"
             android:padding="5dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
@@ -99,7 +98,7 @@
         <RatingBar
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/ratingBar4"
+            android:id="@+id/ratingBar_dashboard"
             style="?android:attr/ratingBarStyleSmall"
             android:numStars="5"
             android:theme="@style/RatingBar"

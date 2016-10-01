@@ -124,7 +124,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_profile_birthday"
@@ -135,7 +135,7 @@
         android:layout_above="@+id/textView86"
         android:layout_below="@+id/textView83"
         android:layout_marginTop="7dp"
-        android:inputType="datetime"/>
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"

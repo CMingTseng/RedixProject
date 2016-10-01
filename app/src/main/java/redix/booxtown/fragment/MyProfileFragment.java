@@ -68,8 +68,8 @@ public class MyProfileFragment extends Fragment {
     GridView grid;
     ListBookAdapter adapter;
     CircularImageView imv_menu_profile;
-    EditText txt_profile_phone,txt_profile_birthday,txt_profile_email;
-    TextView txt_profile_username;
+    EditText txt_profile_phone,txt_profile_email;
+    TextView txt_profile_username,txt_profile_birthday;
     String username,first_name,last_name;
     TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
     RatingBar ratingBar_userprofile;
@@ -139,7 +139,7 @@ public class MyProfileFragment extends Fragment {
         //profile
         txt_profile_email = (EditText) view.findViewById(R.id.txt_profile_email);
         txt_profile_phone = (EditText) view.findViewById(R.id.txt_profile_phone);
-        txt_profile_birthday = (EditText) view.findViewById(R.id.txt_profile_birthday);
+        txt_profile_birthday = (TextView) view.findViewById(R.id.txt_profile_birthday);
         txt_profile_username = (TextView)view.findViewById(R.id.txt_profile_username);
         ratingBar_userprofile = (RatingBar)view.findViewById(R.id.ratingBar_userprofile);
         imageView_update_profile = (ImageView)view.findViewById(R.id.imageView_update_profile);
@@ -251,20 +251,12 @@ public class MyProfileFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-        txt_profile_birthday.addTextChangedListener(new TextWatcher() {
+        txt_profile_birthday.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onClick(View view) {
+                Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
                 DialogFragment dialogfragment = new DatePickerDialogClass();
                 dialogfragment.show(getActivity().getFragmentManager(), "Date Time");
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
             }
         });
         //end
@@ -278,7 +270,9 @@ public class MyProfileFragment extends Fragment {
                     bitmaps.add(bitmap_profile);
                     List<String> filename = new ArrayList<String>();
                     filename.add(username + "_+_" + img_photo);
-                    addImages(bitmaps, filename);
+                    if(img_photo != null) {
+                        addImages(bitmaps, filename);
+                    }
                     updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
                             txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), username + "_+_" + img_photo, first_name, last_name);
                     updateProfile.execute();
@@ -305,8 +299,8 @@ public class MyProfileFragment extends Fragment {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day){
-            EditText textview = (EditText) getActivity().findViewById(R.id.txt_profile_birthday);
-            textview.setText(day + "/" + (month+1) + "/" + year);
+            TextView textview = (TextView) getActivity().findViewById(R.id.txt_profile_birthday);
+            textview.setText(year + "/" + (month+1) + "/" + day);
         }
     }
 
@@ -388,7 +382,6 @@ public class MyProfileFragment extends Fragment {
                             .into(imv_menu_profile);
                     dialog.dismiss();
                     ratingBar_userprofile.setRating(userResult.get(0).getRating());
-
                 }
                 super.onPostExecute(userResult);
             }catch (Exception e){

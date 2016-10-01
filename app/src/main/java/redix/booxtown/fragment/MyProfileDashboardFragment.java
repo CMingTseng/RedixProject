@@ -1,5 +1,8 @@
 package redix.booxtown.fragment;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,9 +17,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import redix.booxtown.R;
 import redix.booxtown.adapter.AdapterProfileDashboard;
+import redix.booxtown.controller.DashBoardController;
+import redix.booxtown.controller.Information;
 import redix.booxtown.custom.MenuBottomCustom;
+import redix.booxtown.model.DashBoard;
 
 public class MyProfileDashboardFragment extends Fragment {
 
@@ -24,27 +32,14 @@ public class MyProfileDashboardFragment extends Fragment {
     public static int [] imgstatus={R.drawable.myprofile_tick,R.drawable.myprofile_not,R.drawable.myprofile_all_not,R.drawable.myprofile_not};
     public static String [] txtbook={"Nearest distance","Price low to high","Price high to low","Price high to low"};
     TextView txt_username;
-
+    ListView lv_myprofile_dashboard;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.my_profile_dashboard_fragment, container, false);
-        ListView lv_myprofile_dashboard = (ListView)view.findViewById(R.id.lv_myprofile_dashboard);
-        lv_myprofile_dashboard.setAdapter(new AdapterProfileDashboard(getActivity(),txtbook,imgoffer,imgstatus));
+        lv_myprofile_dashboard = (ListView)view.findViewById(R.id.lv_myprofile_dashboard);
 
-        lv_myprofile_dashboard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==0){
-                    callFragment(new DashboardStatusFragment());
-                }else if(i==1) {
-                    callFragment(new DashboardStopFragment());
-                }else if(i==2){
-                    callFragment(new DashboardDeleteFragment());
-                }
-            }
-        });
         ImageView img_menu_component = (ImageView)getActivity().findViewById(R.id.img_menu_component);
         img_menu_component.setVisibility(View.GONE);
 
@@ -82,5 +77,59 @@ public class MyProfileDashboardFragment extends Fragment {
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
+    }
+
+    class getDashBoard extends AsyncTask<Void,Void,List<DashBoard>>{
+
+        Context context;
+        String session_id;
+        int top;
+        int from;
+        ProgressDialog dialog;
+        public getDashBoard(Context context,String session_id,int top,int from){
+            this.context = context;
+            this.session_id = session_id;
+            this.top = top;
+            this.from = from;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(getActivity());
+            dialog.setMessage(Information.noti_dialog);
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+
+        @Override
+        protected List<DashBoard> doInBackground(Void... voids) {
+            DashBoardController dashBoardController = new DashBoardController();
+            return dashBoardController.getDashBoard(session_id,top,from);
+        }
+
+        @Override
+        protected void onPostExecute(List<DashBoard> dashBoards) {
+            try {
+                if(dashBoards.size() > 0){
+                    //lv_myprofile_dashboard.setAdapter(new AdapterProfileDashboard(getActivity(),txtbook,imgoffer,imgstatus));
+                    lv_myprofile_dashboard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            if(i==0){
+                                callFragment(new DashboardStatusFragment());
+                            }else if(i==1) {
+                                callFragment(new DashboardStopFragment());
+                            }else if(i==2){
+                                callFragment(new DashboardDeleteFragment());
+                            }
+                        }
+                    });
+                }else{
+                    dialog.dismiss();
+                }
+            }catch (Exception e){
+            }
+            dialog.dismiss();
+        }
     }
 }
