@@ -2,6 +2,7 @@ package redix.booxtown.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -55,11 +57,12 @@ public class MyProfileDashboardFragment extends Fragment {
 
         ImageView imageView27 = (ImageView)view.findViewById(R.id.imageView27);
         Picasso.with(getContext()).load(R.drawable.btn_rank_three).into(imageView27);
-
+        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        final String session_id =  pref.getString("session_id", null);
+        final String user_name = pref.getString("username",null);
+        user_id = Integer.valueOf(pref.getString("user_id",null));
         txt_username = (TextView)view.findViewById(R.id.txt_profile_username);
-        String username = (String)getArguments().getString("username");
-        txt_username.setText(username);
-        user_id = (Integer)getArguments().getInt("user_id");
+        txt_username.setText(user_name);
 
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +70,8 @@ public class MyProfileDashboardFragment extends Fragment {
                 callFragment(new MyProfileFragment());
             }
         });
+        getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,100,0);
+        getDashBoard.execute();
         return view;
     }
 
@@ -107,19 +112,37 @@ public class MyProfileDashboardFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<DashBoard> dashBoards) {
+        protected void onPostExecute(final List<DashBoard> dashBoards) {
             try {
                 if(dashBoards.size() > 0){
-                    lv_myprofile_dashboard.setAdapter(new AdapterProfileDashboard(getActivity(),dashBoards,user_id));
+                    final AdapterProfileDashboard adapterProfileDashboard = new AdapterProfileDashboard(getActivity(),dashBoards,user_id);
+//                    lv_myprofile_dashboard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                            if(i==0){
+//                                callFragment(new DashboardStatusFragment());
+//                            }else if(i==1) {
+//                                callFragment(new DashboardStopFragment());
+//                            }else if(i==2){
+//                                callFragment(new DashboardDeleteFragment());
+//                            }
+//                        }
+//                    });
+                    lv_myprofile_dashboard.setAdapter(adapterProfileDashboard);
                     lv_myprofile_dashboard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            if(i==0){
-                                callFragment(new DashboardStatusFragment());
-                            }else if(i==1) {
-                                callFragment(new DashboardStopFragment());
-                            }else if(i==2){
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            DashBoard dashBoard = dashBoards.get(position);
+                            if (dashBoard.getIs_accept() == 1 || dashBoard.getIs_reject() == 1){
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("dashboard", dashBoard);
+                                DashboardStatusFragment fragment= new DashboardStatusFragment();
+                                fragment.setArguments(bundle);
+                                callFragment(fragment);
+                            }else if(dashBoard.getIs_cancel() == 1){
                                 callFragment(new DashboardDeleteFragment());
+                            }else if(dashBoard.getIs_reject() == 0 && dashBoard.getIs_cancel()==0 && dashBoard.getIs_accept()==0){
+                                callFragment(new DashboardStopFragment());
                             }
                         }
                     });

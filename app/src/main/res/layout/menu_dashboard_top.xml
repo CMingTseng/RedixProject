@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="The last painting"
-        android:id="@+id/textView69"
+        android:id="@+id/textView_namebook_seller"
         android:layout_below="@+id/img_free_listings"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp" />
@@ -27,8 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="smith"
-        android:id="@+id/textView71"
-        android:layout_below="@+id/textView69"
+        android:id="@+id/textView_nameauthor_seller"
+        android:layout_below="@+id/textView_namebook_seller"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:text="with"
         android:id="@+id/textView72"
-        android:layout_below="@+id/textView71"
+        android:layout_below="@+id/textView_nameauthor_seller"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:textColor="@color/color_title_book"/>
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="The queen:The last paiting"
-        android:id="@+id/textView75"
+        android:id="@+id/textView_namebook_buyer"
         android:layout_below="@+id/textView72"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
@@ -55,8 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thuyết"
-        android:id="@+id/textView76"
-        android:layout_below="@+id/textView75"
+        android:id="@+id/textView_nameauthor_buyer"
+        android:layout_below="@+id/textView_namebook_buyer"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
 

@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
@@ -99,14 +100,15 @@ public class MyProfileFragment extends Fragment {
         final View view = inflater.inflate(R.layout.my_profile_fragment, container, false);
         uploadFileController = new UploadFileController();
         ImageView img_menu_personal_dashboard = (ImageView)view.findViewById(R.id.img_menu_personal_dashboard);
+
         img_menu_personal_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("username",username);
-                bundle.putInt("user_id",user_id);
-                profile.setArguments(bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("username",username);
+//                bundle.putInt("user_id",user_id);
+//                profile.setArguments(bundle);
                 callFragment(profile);
 
             }
@@ -131,11 +133,15 @@ public class MyProfileFragment extends Fragment {
         ImageView imageView27 = (ImageView)view.findViewById(R.id.imageView27);
         Picasso.with(getContext()).load(R.drawable.btn_rank_three).into(imageView27);
 
-        Profile profile = new Profile(getContext());
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
         final String session_id =  pref.getString("session_id", null);
+        Profile profile = new Profile(getContext());
         profile.execute(session_id);
+
+//        SharedPreferences mypref = PreferenceManager.getDefaultSharedPreferences(getContext());
+//        SharedPreferences.Editor prefsEditr = mypref.edit();
+//        prefsEditr.putString("user_id", String.valueOf(2));
+//        prefsEditr.commit();
 
         //profile
         txt_profile_email = (EditText) view.findViewById(R.id.txt_profile_email);
@@ -378,6 +384,10 @@ public class MyProfileFragment extends Fragment {
                     user_id = userResult.get(0).getUser_id();
                     first_name = userResult.get(0).getFirst_name();
                     last_name = userResult.get(0).getLast_name();
+                    SharedPreferences pref2 = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref2.edit();
+                    editor.putString("user_id", String.valueOf(user_id));
+                    editor.commit();
                     Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getUsername()+"&image="+userResult.get(0).getPhoto().substring(userResult.get(0).getUsername().length()+3,userResult.get(0).getPhoto().length()))
                             .error(R.drawable.blank_image)

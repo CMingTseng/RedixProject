@@ -69,7 +69,6 @@ public class InteractThreadDetailsFragment extends Fragment
             public void onClick(View v) {
                 if(topic !=null) {
                     if (type_fragment.equals("NotificationFragment")){
-
                         HomeActivity homeActivity = (HomeActivity) getActivity();
                         homeActivity.callFragment(new NotificationFragment());
                     }else {

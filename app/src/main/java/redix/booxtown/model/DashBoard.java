@@ -2,10 +2,12 @@ package redix.booxtown.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+
 /**
  * Created by thuyetpham94 on 01/10/2016.
  */
-public class DashBoard {
+public class DashBoard implements Serializable{
     @Expose
     private int id;
     @Expose
@@ -35,17 +37,16 @@ public class DashBoard {
     @Expose
     private int user_quality;
     @Expose
-    private String book_swap_id;
+    private int book_swap_id;
     @Expose
     private String book_seller;
     @Expose
     private float rating;
+    @Expose
+    private String author;
 
-    public DashBoard(int id, int user_buyer_id, int user_seller_id, String create_date,
-                     String book_buyer_id, int book_seller_id, String action,
-                     int is_accept, int is_reject, String notification_id,
-                     int is_cancel, int user_promp, int user_cour,
-                     int user_quality, String book_swap_id, String book_seller, float rating) {
+
+    public DashBoard(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, String notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, int book_swap_id, String book_seller, float rating, String author) {
         this.id = id;
         this.user_buyer_id = user_buyer_id;
         this.user_seller_id = user_seller_id;
@@ -63,6 +64,15 @@ public class DashBoard {
         this.book_swap_id = book_swap_id;
         this.book_seller = book_seller;
         this.rating = rating;
+        this.author = author;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public int getId() {
@@ -177,11 +187,11 @@ public class DashBoard {
         this.user_quality = user_quality;
     }
 
-    public String getBook_swap_id() {
+    public int getBook_swap_id() {
         return book_swap_id;
     }
 
-    public void setBook_swap_id(String book_swap_id) {
+    public void setBook_swap_id(int book_swap_id) {
         this.book_swap_id = book_swap_id;
     }
 
