@@ -829,9 +829,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_MULTIPLE);
-        Log.d("lisststst",String.valueOf(lisImmage.size()));
-        Log.d("lisststst",String.valueOf(numclick));
-        Log.d("lisststst",String.valueOf(numimageclick));
     }
 
     ArrayList<Uri> lisImmage = new ArrayList<>();
@@ -954,7 +951,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
     public void addImages(){
         uploadFileController.uploadFile(bmap,listFileName);
-
     }
 
 //    public class Addbook extends AsyncTask<Void, Void, Boolean> {

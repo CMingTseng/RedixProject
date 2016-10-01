@@ -19,7 +19,7 @@
     <ImageView
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:id="@+id/imageView22"
+        android:id="@+id/imageView_update_profile"
         android:layout_alignTop="@+id/textView74"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -33,11 +33,11 @@
         android:layout_alignLeft="@+id/textView74"
         android:layout_alignStart="@+id/textView74"
         android:layout_below="@+id/textView74"
-        android:layout_alignRight="@+id/imageView22"
-        android:layout_alignEnd="@+id/imageView22"
+        android:layout_alignRight="@+id/imageView_update_profile"
+        android:layout_alignEnd="@+id/imageView_update_profile"
         android:layout_marginTop="5dp"
         android:background="@color/color_text_hint"
-        android:layout_marginBottom="5dp" />
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,11 +47,11 @@
         android:layout_below="@+id/textView77"
         android:layout_alignLeft="@+id/textView77"
         android:layout_alignStart="@+id/textView77"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_profile_email"
         android:layout_below="@+id/textView77"
@@ -63,7 +63,8 @@
         android:gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:textColor="@color/color_text"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,7 +75,6 @@
         android:layout_alignStart="@+id/textView78"
         android:layout_alignRight="@+id/textView77"
         android:layout_alignEnd="@+id/textView77"
-        android:layout_marginTop="5dp"
         android:background="@color/color_text_hint"/>
 
     <TextView
@@ -85,21 +85,21 @@
         android:layout_below="@+id/textView80"
         android:layout_alignLeft="@+id/textView80"
         android:layout_alignStart="@+id/textView80"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_profile_phone"
         android:layout_below="@+id/textView80"
         android:layout_toRightOf="@+id/textView81"
         android:layout_alignRight="@+id/textView80"
-        android:layout_alignEnd="@+id/textView80"
         android:gravity="center_vertical"
+        android:textColor="@color/color_text"
         android:layout_marginTop="5dp"
-        android:layout_alignBottom="@+id/textView81"
-        android:textColor="@color/color_text"/>
+        android:background="@android:color/transparent"
+        android:layout_alignBottom="@+id/textView81" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -110,31 +110,29 @@
         android:layout_alignStart="@+id/textView81"
         android:layout_alignRight="@+id/textView80"
         android:layout_alignEnd="@+id/textView80"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:background="@color/color_text_hint"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Birthday :  "
+        android:text="Birthday: "
         android:id="@+id/textView84"
         android:layout_below="@+id/textView83"
         android:layout_alignLeft="@+id/textView83"
-        android:layout_alignStart="@+id/textView83"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_profile_birthday"
-        android:layout_alignTop="@+id/textView84"
         android:layout_toRightOf="@+id/textView84"
         android:layout_alignRight="@+id/textView83"
-        android:layout_alignEnd="@+id/textView83"
-        android:textColor="@color/color_text"/>
-
+        android:textColor="@color/color_text"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/textView86"
+        android:layout_below="@+id/textView83"
+        android:layout_marginTop="7dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
@@ -144,7 +142,6 @@
         android:layout_alignStart="@+id/textView84"
         android:layout_alignRight="@+id/textView83"
         android:layout_alignEnd="@+id/textView83"
-        android:layout_marginTop="5dp"
         android:background="@color/color_text_hint"/>
 
     <TextView
