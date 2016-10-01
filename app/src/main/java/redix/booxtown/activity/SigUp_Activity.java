@@ -134,10 +134,8 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(getApplicationContext(),Information.noti_match_pass,Toast.LENGTH_LONG).show();
                 }else if (checkSignup.isChecked() == false) {
                     Toast.makeText(getApplicationContext(), Information.noti_check_term, Toast.LENGTH_LONG).show();
-
                 }else {
                     SignupAsyntask signupAsyntask = new SignupAsyntask();
-
                     signupAsyntask.execute(user);
                 }
 
@@ -148,7 +146,6 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
             case R.id.birthday:
                 DialogFragment dialogfragment = new DatePickerDialogClass();
-
                 dialogfragment.show(getFragmentManager(), "Date Time");
                 break;
             default:
@@ -164,9 +161,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-
             DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),this,year,month,day);
-
             return datepickerdialog;
         }
 

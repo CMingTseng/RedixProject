@@ -183,8 +183,10 @@ public class UserController {
         return null;
     }
 
-    public boolean updateprofile(String email,String phone,String birthday,String photo,String session_id){
+    public boolean updateprofile(String first_name,String last_name,String email,String phone,String birthday,String photo,String session_id){
         Hashtable obj = new Hashtable();
+        obj.put("first_name",first_name);
+        obj.put("last_name",last_name);
         obj.put("email",email);
         obj.put("phone",phone);
         obj.put("birthday",birthday);

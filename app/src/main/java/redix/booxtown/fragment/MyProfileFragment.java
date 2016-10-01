@@ -1,5 +1,8 @@
 package redix.booxtown.fragment;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -35,7 +39,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.api.ServiceGenerator;
@@ -64,7 +70,7 @@ public class MyProfileFragment extends Fragment {
     CircularImageView imv_menu_profile;
     EditText txt_profile_phone,txt_profile_birthday,txt_profile_email;
     TextView txt_profile_username;
-    String username;
+    String username,first_name,last_name;
     TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
     RatingBar ratingBar_userprofile;
 
@@ -74,8 +80,18 @@ public class MyProfileFragment extends Fragment {
     ImageView imageView_update_profile;
     String img_photo;
     boolean flag = false;
-
     UploadFileController uploadFileController;
+
+    public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -238,7 +254,8 @@ public class MyProfileFragment extends Fragment {
         txt_profile_birthday.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                DialogFragment dialogfragment = new DatePickerDialogClass();
+                dialogfragment.show(getActivity().getFragmentManager(), "Date Time");
             }
 
             @Override
@@ -254,18 +271,43 @@ public class MyProfileFragment extends Fragment {
         imageView_update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
-                bitmaps.add(bitmap_profile);
-                List<String> filename = new ArrayList<String>();
-                filename.add(username+"_+_"+img_photo);
-                addImages(bitmaps,filename);
-                updateProfile updateProfile = new updateProfile(getContext(),session_id,txt_profile_email.getText().toString(),
-                        txt_profile_phone.getText().toString(),txt_profile_birthday.getText().toString(),username+"_+_"+img_photo);
-                updateProfile.execute();
+                if(checkEmail(txt_profile_email.getText().toString()) == false){
+                    Toast.makeText(getContext(),Information.noti_validate_email,Toast.LENGTH_LONG).show();
+                }else {
+                    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                    bitmaps.add(bitmap_profile);
+                    List<String> filename = new ArrayList<String>();
+                    filename.add(username + "_+_" + img_photo);
+                    addImages(bitmaps, filename);
+                    updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                            txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), username + "_+_" + img_photo, first_name, last_name);
+                    updateProfile.execute();
+                }
             }
         });
 
         return view;
+    }
+    public boolean checkEmail(String email) {
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
+
+    public static class DatePickerDialogClass extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),this,year,month,day);
+            return datepickerdialog;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day){
+            EditText textview = (EditText) getActivity().findViewById(R.id.txt_profile_birthday);
+            textview.setText(day + "/" + (month+1) + "/" + year);
+        }
     }
 
     public List<Book> filterBook(int type){
@@ -338,6 +380,8 @@ public class MyProfileFragment extends Fragment {
                     txt_profile_birthday.setText(userResult.get(0).getBirthday().substring(0,10));
                     txt_profile_username.setText(userResult.get(0).getUsername());
                     username = userResult.get(0).getUsername();
+                    first_name = userResult.get(0).getFirst_name();
+                    last_name = userResult.get(0).getLast_name();
                     Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getUsername()+"&image="+userResult.get(0).getPhoto().substring(userResult.get(0).getUsername().length()+3,userResult.get(0).getPhoto().length()))
                             .error(R.drawable.blank_image)
@@ -454,14 +498,16 @@ public class MyProfileFragment extends Fragment {
     class updateProfile extends AsyncTask<Void,Void,Boolean>{
         ProgressDialog dialog;
         Context context;
-        String email,phone,birthday,photo,session_id;
-        public updateProfile(Context context,String session_id,String email,String phone,String birthday,String photo){
+        String email,phone,birthday,photo,session_id,first_name,last_name;
+        public updateProfile(Context context,String session_id,String email,String phone,String birthday,String photo,String first_name,String last_name){
             this.context = context;
             this.session_id = session_id;
             this.email = email;
             this.phone = phone;
             this.birthday = birthday;
             this.photo = photo;
+            this.first_name = first_name;
+            this.last_name = last_name;
         }
         @Override
         protected void onPreExecute() {
@@ -474,7 +520,7 @@ public class MyProfileFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... voids) {
             UserController userController = new UserController();
-            return userController.updateprofile(email,phone,birthday,photo,session_id);
+            return userController.updateprofile(first_name,last_name,email,phone,birthday,photo,session_id);
         }
 
         @Override
