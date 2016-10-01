@@ -165,6 +165,7 @@ public class InteractThreadDetailsFragment extends Fragment
         protected void onPostExecute(List<Comment> comments) {
             try {
                 if(comments.size() >0){
+                    txt_count_thread.setText("("+comments.size()+")");
                     adapter = new AdapterInteractThreadDetails(context,comments);
                     listView.setAdapter(adapter);
                     if(!listUser.contains(threads.getUser_id())) {
@@ -252,8 +253,7 @@ public class InteractThreadDetailsFragment extends Fragment
             try {
                 if(aBoolean == true){
                     Toast.makeText(context,"success",Toast.LENGTH_SHORT).show();
-                    int count= threads.getNum_comment()+1;
-                    txt_count_thread.setText("("+count+")");
+//                    int count= threads.getNum_comment()+1;
 
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     String session_id = pref.getString("session_id", null);
