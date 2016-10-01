@@ -5,6 +5,8 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import redix.booxtown.model.Book;
+import redix.booxtown.model.CommentBook;
+import redix.booxtown.model.CommentBookResult;
 import redix.booxtown.model.CommentResult;
 import redix.booxtown.model.GenreValueResult;
 import redix.booxtown.model.Notification;
@@ -177,4 +179,7 @@ public interface ServiceInterface {
 
     @GET("/booxtown/rest/book/getAllGenre")
     Call<GenreValueResult> getAllGenre();
+
+    @GET("/booxtown/rest/comment/comment_getByBookId")
+    Call<CommentBookResult> getCommentBook(@Query("book_id") String book_id);
 }

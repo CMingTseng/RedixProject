@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.NotificationSellNoAccept;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ThreadController;
 import redix.booxtown.controller.TopicController;
@@ -228,6 +229,27 @@ public class NotificationFragment extends Fragment {
                                     Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
                                     intent.putExtra("trans_id",notification.getKey_screen());
                                     startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("5")){
+
+                                    Intent intent = new Intent(getActivity(),NotificationSellNoAccept.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("6")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("7")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("8")){
+//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
+//                                    intent.putExtra("trans_id",notification.getKey_screen());
+//                                    startActivity(intent);
                                 }
 
                             }

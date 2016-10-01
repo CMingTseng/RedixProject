@@ -245,7 +245,7 @@ public class InteractThreadDetailsFragment extends Fragment
         @Override
         protected Boolean doInBackground(String... strings) {
             CommentController comment = new CommentController();
-            return comment.insertComment(strings[0],strings[1],strings[2]);
+            return comment.insertComment(strings[0],strings[1],strings[2],"0");
         }
 
         @Override

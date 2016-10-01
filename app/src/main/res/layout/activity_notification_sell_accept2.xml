@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Evil Queen:The last painting"
-        android:id="@+id/textView57"
+        android:id="@+id/txt_title_book_buy_accept"
         android:layout_below="@+id/include38"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
@@ -54,8 +54,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ayn rand"
-        android:id="@+id/textView59"
-        android:layout_below="@+id/textView57"
+        android:id="@+id/txt_author_book_buy_accept"
+        android:layout_below="@+id/txt_title_book_buy_accept"
         android:textColor="@color/color_text_hint"
         android:layout_centerHorizontal="true" />
 
@@ -65,7 +65,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="AED 220"
         android:id="@+id/txt_notification_sell_accept_money"
-        android:layout_below="@+id/textView59"
+        android:layout_below="@+id/txt_author_book_buy_accept"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
 
