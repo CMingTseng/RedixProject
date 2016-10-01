@@ -18,11 +18,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -76,8 +78,8 @@ public class ListingsDetailActivity extends Fragment
     ProgressBar progressBar;
     TextView txt_tag;
     ImageView imageView_back;
-
     AdapterCommentBook adapter;
+    RatingBar ratingBar_userprofile;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -118,6 +120,7 @@ public class ListingsDetailActivity extends Fragment
         imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
         txt_listed_by = (TextView)v.findViewById(R.id.txt_listed_by);
         icon_user_listing_detail = (ImageView)v.findViewById(R.id.icon_user_listing_detail);
+        ratingBar_userprofile = (RatingBar)v.findViewById(R.id.ratingBar_userprofile);
         activity.gettitle().setText("Listings");
         final Book book = (Book)getArguments().getSerializable("item");
         Glide.with(getContext())
@@ -126,6 +129,7 @@ public class ListingsDetailActivity extends Fragment
                 .placeholder(R.drawable.blank_image).
                 into(icon_user_listing_detail);
         txt_listed_by.setText(book.getUsername());
+        //ratingBar_userprofile.setRating(book.get);
         if (type.equals("1")){
             View view_search = (View)getActivity().findViewById(R.id.custom_search) ;
             //RelativeLayout menu_search = (RelativeLayout)view_search.findViewById(R.id.relativeLayout);
@@ -162,6 +166,7 @@ public class ListingsDetailActivity extends Fragment
 
         getComment comment = new getComment(getContext(),book.getId());
         comment.execute();
+
         return v;
     }
 
@@ -305,6 +310,7 @@ public class ListingsDetailActivity extends Fragment
 
         Context context;
         String book_id;
+        int top,from;
         ProgressDialog progressDialog;
         public getComment(Context context,String book_id){
             this.context = context;

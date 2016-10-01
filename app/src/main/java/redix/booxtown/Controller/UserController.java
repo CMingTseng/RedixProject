@@ -165,4 +165,21 @@ public class UserController {
         }
         return false;
     }
+
+    public List<User> getByUserId(int user_id){
+        Call<UserResult> profile = service.getProfileByUserId(user_id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            UserResult str = profile.execute().body();
+            if (str.getCode() == 200){
+                return str.getUser();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
 }

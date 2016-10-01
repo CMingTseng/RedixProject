@@ -382,10 +382,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             if (String.valueOf(array[0]).contains("1")) {
                 swap.setChecked(true);
             }
-            if (String.valueOf(array[2]).contains("1")) {
+            if (String.valueOf(array[1]).contains("1")) {
                 free.setChecked(true);
             }
-            if (String.valueOf(array[1]).contains("1")) {
+            if (String.valueOf(array[2]).contains("1")) {
                 sell.setChecked(true);
                 edt_editlisting_sell.setVisibility(View.VISIBLE);
                 if (bookedit.getPrice()!=0){

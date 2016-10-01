@@ -25,9 +25,11 @@ public class User {
     private int user_id;
     @Expose
     private String photo;
+    @Expose
+    private float rating;
 
 
-    public User(String first_name, String last_name, String username, String email, String birthday, String phone, String password, String session_id, int user_id, String photo) {
+    public User(String first_name, String last_name, String username, String email, String birthday, String phone, String password, String session_id, int user_id, String photo, float rating) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -38,6 +40,15 @@ public class User {
         this.session_id = session_id;
         this.user_id = user_id;
         this.photo = photo;
+        this.rating = rating;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public User() {

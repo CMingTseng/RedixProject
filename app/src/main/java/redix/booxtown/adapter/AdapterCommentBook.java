@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -64,31 +66,31 @@ public class AdapterCommentBook extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Hoder hoder = new Hoder();
 
-        CommentBook Comments= listComments.get(position);
+        final CommentBook Comments= listComments.get(position);
         convertView = inflater.inflate(R.layout.custom_commnents_interact, null);
 
-        hoder.img_icon=(ImageView) convertView.findViewById(R.id.icon_user_listing_detail);
+        hoder.img_icon=(CircularImageView) convertView.findViewById(R.id.icon_user_listing_detail);
         hoder.img_rank_one=(ImageView) convertView.findViewById(R.id.img_comment_rank1);
         hoder.img_rank_two=(ImageView) convertView.findViewById(R.id.img_comment_rank2);
         hoder.img_rank_three=(ImageView) convertView.findViewById(R.id.img_comment_rank3);
         hoder.txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
         hoder.txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
         hoder.txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
-        Picasso.with(mContext).load(R.drawable.icon_test).into(hoder.img_icon);
+        //Picasso.with(mContext).load(R.drawable.icon_test).into(hoder.img_icon);
 
 //        hoder.img_icon.setImageResource(R.drawable.icon_test);
         hoder.img_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(mContext,UserProfileActivity.class);
+                    intent.putExtra("user",Comments.getUser_id());
                     mContext.startActivity(intent);
                 }
             });
-        Glide.with(mContext)
+        Picasso.with(mContext)
                 .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+Comments.getUsername()+"&image="+Comments.getPhoto().substring(Comments.getUsername().length()+3,Comments.getPhoto().length()))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.blank_image).
-                into(hoder.img_icon);
+                .error(R.drawable.blank_image)
+                .into(hoder.img_icon);
 
 //            Resources mResources = mContext.getResources();
 //            Bitmap mBitmap = BitmapFactory.decodeResource(mResources, R.drawable.icon_test);
@@ -124,7 +126,7 @@ public class AdapterCommentBook extends BaseAdapter {
     }
 
     public class Hoder{
-        ImageView img_icon;
+        CircularImageView img_icon;
         ImageView img_rank_one;
         ImageView img_rank_two;
         ImageView img_rank_three;
