@@ -129,59 +129,59 @@ public class NotificationAcceptActivity extends AppCompatActivity {
             if (transaction == null) {
 
             } else {
-                getBookByID getBookByID= new getBookByID(context, transaction);
-                getBookByID.execute();
+//                getBookByID getBookByID= new getBookByID(context, transaction);
+//                getBookByID.execute();
 
             }
             super.onPostExecute(transaction);
         }
     }
 
-    class getBookByID extends AsyncTask<Void, Void, List<Book>> {
-        Transaction trans;
-        Context ctx;
-        ProgressDialog dialog;
-        public getBookByID(Context ctx, Transaction trans) {
-            this.trans = trans;
-            this.ctx = ctx;
-        }
-
-        @Override
-        protected List<Book> doInBackground(Void... params) {
-            BookController bookController = new BookController();
-
-            return bookController.getBookByID(trans.getBook_swap_id());
-        }
-
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(ctx);
-            dialog.setMessage("Please wait...");
-            dialog.setIndeterminate(true);
-            dialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(List<Book> list) {
-            try {
-                if (list.size() > 0) {
-                    SharedPreferences pref = NotificationAcceptActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    String userName = pref.getString("username", null);
-                    txt_user_hi.setText("Hi " + userName + ",");
-
-                    txt_title_book_sell_noti_accept.setText(trans.getBook_name());
-                    txt_author_book_sell_noti_accept.setText(trans.getBook_author());
-                    txt_title_book_buy_noti_accept.setText(list.get(0).getTitle());
-                    txt_author_book_buy_noti_accept.setText(list.get(0).getAuthor());
-                    txt_author_info2.setText(trans.getUser_buy());
-
-                    dialog.dismiss();
-                }
-            } catch (Exception e) {
-            }
-
-        }
-    }
+//    class getBookByID extends AsyncTask<Void, Void, List<Book>> {
+//        Transaction trans;
+//        Context ctx;
+//        ProgressDialog dialog;
+//        public getBookByID(Context ctx, Transaction trans) {
+//            this.trans = trans;
+//            this.ctx = ctx;
+//        }
+//
+//        @Override
+//        protected List<Book> doInBackground(Void... params) {
+//            BookController bookController = new BookController();
+//
+//            return bookController.getBookByID(trans.getBook_swap_id());
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            dialog = new ProgressDialog(ctx);
+//            dialog.setMessage("Please wait...");
+//            dialog.setIndeterminate(true);
+//            dialog.show();
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Book> list) {
+//            try {
+//                if (list.size() > 0) {
+//                    SharedPreferences pref = NotificationAcceptActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = pref.edit();
+//                    String userName = pref.getString("username", null);
+//                    txt_user_hi.setText("Hi " + userName + ",");
+//
+//                    txt_title_book_sell_noti_accept.setText(trans.getBook_name());
+//                    txt_author_book_sell_noti_accept.setText(trans.getBook_author());
+//                    txt_title_book_buy_noti_accept.setText(list.get(0).getTitle());
+//                    txt_author_book_buy_noti_accept.setText(list.get(0).getAuthor());
+//                    txt_author_info2.setText(trans.getUser_buy());
+//
+//                    dialog.dismiss();
+//                }
+//            } catch (Exception e) {
+//            }
+//
+//        }
+//    }
 }
