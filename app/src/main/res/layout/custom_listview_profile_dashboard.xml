@@ -69,7 +69,6 @@
             android:layout_width="19dp"
             android:layout_height="19dp"
             android:id="@+id/img_listview_profiledashboard_status"
-            android:src="@drawable/myprofile_tick"
             android:padding="5dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
