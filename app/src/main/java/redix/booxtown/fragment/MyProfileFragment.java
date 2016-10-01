@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,11 +51,11 @@ public class MyProfileFragment extends Fragment {
     List<Book> listEx= new ArrayList<>();
     GridView grid;
     ListBookAdapter adapter;
-    ImageView imv_menu_profile;
+    CircularImageView imv_menu_profile;
     TextView txt_profile_phone,txt_profile_birthday,txt_profile_email,txt_profile_username;
     String username;
     TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
-
+    RatingBar ratingBar_userprofile;
 
     int PICK_IMAGE_MULTIPLE = 1;
     @Override
@@ -75,7 +77,7 @@ public class MyProfileFragment extends Fragment {
             }
         });
 
-        imv_menu_profile = (ImageView)view.findViewById(R.id.imv_menu_profile);
+        imv_menu_profile = (CircularImageView)view.findViewById(R.id.imv_menu_profile);
         imv_menu_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +107,7 @@ public class MyProfileFragment extends Fragment {
         txt_profile_phone = (TextView)view.findViewById(R.id.txt_profile_phone);
         txt_profile_birthday = (TextView)view.findViewById(R.id.txt_profile_birthday);
         txt_profile_username = (TextView)view.findViewById(R.id.txt_profile_username);
+        ratingBar_userprofile = (RatingBar)view.findViewById(R.id.ratingBar_userprofile);
         //end
 
         //list book
@@ -191,21 +194,21 @@ public class MyProfileFragment extends Fragment {
         }
         else if(type==2){
             for (int i=0; i<listEx.size(); i++){
-                if(listEx.get(i).getAction().equals("100")){
+                if(listEx.get(i).getAction().substring(0,1).equals("1")){
                     list.add(listEx.get(i));
                 }
             }
         }
         else if(type==3){
             for (int i=0; i<listEx.size(); i++){
-                if(listEx.get(i).getAction().equals("010")){
+                if(listEx.get(i).getAction().substring(1,2).equals("1")){
                     list.add(listEx.get(i));
                 }
             }
         }
         else{
             for (int i=0; i<listEx.size(); i++){
-                if(listEx.get(i).getAction().equals("001")){
+                if(listEx.get(i).getAction().substring(2,3).equals("1")){
                     list.add(listEx.get(i));
                 }
             }
@@ -254,12 +257,12 @@ public class MyProfileFragment extends Fragment {
                     txt_profile_birthday.setText(userResult.get(0).getBirthday().substring(0,10));
                     txt_profile_username.setText(userResult.get(0).getUsername());
                     username = userResult.get(0).getUsername();
-                    Glide.with(context)
+                    Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getUsername()+"&image="+userResult.get(0).getPhoto().substring(userResult.get(0).getUsername().length()+3,userResult.get(0).getPhoto().length()))
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .placeholder(R.drawable.blank_image).
-                            into(imv_menu_profile);
+                            .error(R.drawable.blank_image)
+                            .into(imv_menu_profile);
                     dialog.dismiss();
+                    ratingBar_userprofile.setRating(userResult.get(0).getRating());
                 }
                 super.onPostExecute(userResult);
             }catch (Exception e){
@@ -314,6 +317,7 @@ public class MyProfileFragment extends Fragment {
                     tab_swap_count.setText(" ("+filterBook(2).size()+")");
                     tab_free_count.setText(" ("+filterBook(3).size()+")");
                     tab_cart_count.setText(" ("+filterBook(4).size()+")");
+                    dialog.dismiss();
                 }
             }catch (Exception e){
                 Toast.makeText(context, Information.noti_no_data, Toast.LENGTH_LONG).show();

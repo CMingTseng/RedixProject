@@ -1,56 +1,54 @@
 package redix.booxtown.activity;
 
 import android.app.Dialog;
-import android.app.FragmentManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
-
 import java.util.ArrayList;
-
+import java.util.List;
 import redix.booxtown.R;
+import redix.booxtown.adapter.AdapterCommentBook;
 import redix.booxtown.adapter.AdapterInteractThreadDetails;
 import redix.booxtown.adapter.CustomPagerAdapter;
 import redix.booxtown.api.ServiceGenerator;
+import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.IconMapController;
+import redix.booxtown.controller.Information;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.fragment.ExploreFragment;
-import redix.booxtown.fragment.ListingsFragment;
 import redix.booxtown.fragment.MainFragment;
-import redix.booxtown.fragment.MyProfileFragment;
 import redix.booxtown.model.Book;
+import redix.booxtown.model.CommentBook;
 import redix.booxtown.model.Explore;
-import redix.booxtown.model.InteractComment;
 
 /**
  * Created by Administrator on 29/08/2016.
@@ -80,6 +78,8 @@ public class ListingsDetailActivity extends Fragment
     ProgressBar progressBar;
     TextView txt_tag;
     ImageView imageView_back;
+    AdapterCommentBook adapter;
+    RatingBar ratingBar_userprofile;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,7 +93,11 @@ public class ListingsDetailActivity extends Fragment
                 callFragment(new ExploreFragment());
             }
         });
+        ImageView img_component=(ImageView) getActivity().findViewById(R.id.img_menu_component);
+        img_component.setVisibility(View.GONE);
         init(v);
+
+
 
         //btn_rank
         ImageView btn_rank_one = (ImageView)v.findViewById(R.id.img_rank1_listings);
@@ -116,20 +120,20 @@ public class ListingsDetailActivity extends Fragment
         imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
         txt_listed_by = (TextView)v.findViewById(R.id.txt_listed_by);
         icon_user_listing_detail = (ImageView)v.findViewById(R.id.icon_user_listing_detail);
+        ratingBar_userprofile = (RatingBar)v.findViewById(R.id.ratingBar_userprofile);
         activity.gettitle().setText("Listings");
         final Book book = (Book)getArguments().getSerializable("item");
         Glide.with(getContext())
-                .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+book.getUsername()+"&image="+book.getPhoto().substring(book.getUsername().length()+3,book.getPhoto().length()))
+                .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+book.getAuthor()+"&image="+book.getPhoto().substring(book.getUsername().length()+3,book.getPhoto().length()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.blank_image).
                 into(icon_user_listing_detail);
         txt_listed_by.setText(book.getUsername());
+        //ratingBar_userprofile.setRating(book.get);
         if (type.equals("1")){
             View view_search = (View)getActivity().findViewById(R.id.custom_search) ;
             //RelativeLayout menu_search = (RelativeLayout)view_search.findViewById(R.id.relativeLayout);
             view_search.setVisibility(View.GONE);
-            ImageView img_menu_component = (ImageView)getActivity().findViewById(R.id.img_menu_component);
-            img_menu_component.setVisibility(View.GONE);
             ImageView img_close_dialog_unsubcribe = (ImageView) v.findViewById(R.id.img_close_dialog_unsubcribe);
             Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
             editText11.setVisibility(View.GONE);
@@ -159,6 +163,10 @@ public class ListingsDetailActivity extends Fragment
                 return false;
             }
         });
+
+        getComment comment = new getComment(getContext(),book.getId());
+        comment.execute();
+
         return v;
     }
 
@@ -296,6 +304,48 @@ public class ListingsDetailActivity extends Fragment
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
+    }
+
+    class getComment extends AsyncTask<Void,Void,List<CommentBook>>{
+
+        Context context;
+        String book_id;
+        int top,from;
+        ProgressDialog progressDialog;
+        public getComment(Context context,String book_id){
+            this.context = context;
+            this.book_id = book_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<CommentBook> doInBackground(Void... voids) {
+            BookController bookController = new BookController();
+            return bookController.getCommnetBook(book_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<CommentBook> commentBooks) {
+            try {
+                if (commentBooks.size() > 0){
+                    adapter= new AdapterCommentBook(context,commentBooks);
+                    listView.setAdapter(adapter);
+                    progressDialog.dismiss();
+                }else {
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
+            }
+            progressDialog.dismiss();
+        }
     }
 
     //    @Override

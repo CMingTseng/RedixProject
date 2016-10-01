@@ -9,7 +9,7 @@
         android:id="@+id/imv_menu_profile"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/icon_test"
+        android:src="@drawable/blank_image"
         app:siBorderColor="@color/dot_light_screen2"
         app:siBorderWidth="1dp"
         android:layout_margin="10dp"
@@ -31,7 +31,7 @@
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar3"
+        android:id="@+id/ratingBar_userprofile"
         android:theme="@style/RatingBar"
         android:rating="2.5"
         android:numStars="5"
@@ -45,9 +45,9 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:id="@+id/imv_close_dialog_dashboard_status"
-        android:layout_below="@+id/ratingBar3"
-        android:layout_alignLeft="@+id/ratingBar3"
-        android:layout_alignStart="@+id/ratingBar3"
+        android:layout_below="@+id/ratingBar_userprofile"
+        android:layout_alignLeft="@+id/ratingBar_userprofile"
+        android:layout_alignStart="@+id/ratingBar_userprofile"
         android:layout_marginTop="5dp" />
 
     <ImageView
