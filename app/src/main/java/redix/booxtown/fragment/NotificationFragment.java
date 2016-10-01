@@ -22,7 +22,14 @@ import java.util.Collections;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.NotificationAcceptActivity;
+import redix.booxtown.activity.NotificationRejectActivity;
+import redix.booxtown.activity.NotificationSellAccept;
 import redix.booxtown.activity.NotificationSellNoAccept;
+import redix.booxtown.activity.NotificationSellNoReject;
+import redix.booxtown.activity.NotificationSellReject;
+import redix.booxtown.activity.Notification_Swap_Accept_Like;
+import redix.booxtown.activity.Notification_Swap_Accept_NoLike;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ThreadController;
 import redix.booxtown.controller.TopicController;
@@ -223,8 +230,9 @@ public class NotificationFragment extends Fragment {
                                     intent.putExtra("trans_id",notification.getKey_screen());
                                     startActivity(intent);
                                 }else if (notification.getId_screen().equals("3")){
-                                    Intent intent2 = new Intent(getActivity(),NotificationDominicActivity.class);
-                                    startActivity(intent2);
+                                    Intent intent = new Intent(getActivity(),Notification_Swap_Accept_Like.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
                                 }else if (notification.getId_screen().equals("4")){
                                     Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
                                     intent.putExtra("trans_id",notification.getKey_screen());
@@ -232,24 +240,39 @@ public class NotificationFragment extends Fragment {
                                 }
                                 else if (notification.getId_screen().equals("5")){
 
-                                    Intent intent = new Intent(getActivity(),NotificationSellNoAccept.class);
+                                    Intent intent = new Intent(getActivity(),NotificationSellAccept.class);
                                     intent.putExtra("trans_id",notification.getKey_screen());
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("6")){
-//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
-//                                    intent.putExtra("trans_id",notification.getKey_screen());
-//                                    startActivity(intent);
+                                    Intent intent = new Intent(getActivity(),NotificationSellNoReject.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("7")){
-//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
-//                                    intent.putExtra("trans_id",notification.getKey_screen());
-//                                    startActivity(intent);
+                                    Intent intent = new Intent(getActivity(),NotificationSellNoAccept.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("8")){
-//                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
-//                                    intent.putExtra("trans_id",notification.getKey_screen());
-//                                    startActivity(intent);
+                                    Intent intent = new Intent(getActivity(),NotificationSellReject.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("0")){
+                                    Intent intent = new Intent(getActivity(),NotificationAcceptActivity.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("1")){
+                                    Intent intent = new Intent(getActivity(),Notification_Swap_Accept_NoLike.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("2")){
+                                    Intent intent = new Intent(getActivity(),NotificationRejectActivity.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen());
+                                    startActivity(intent);
                                 }
 
                             }

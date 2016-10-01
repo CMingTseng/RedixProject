@@ -51,6 +51,13 @@ public class Transaction  implements Serializable {
     private String user_sell;
     @Expose
     private String book_price;
+    @Expose
+    private String book_swap_id;
+    @Expose
+    private String session_user_buy;
+    @Expose
+    private String session_user_sell;
+
 
     @Expose
     private List<Book> book = new ArrayList<Book>();
@@ -58,29 +65,7 @@ public class Transaction  implements Serializable {
     public Transaction() {
     }
 
-    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, String book_author, String user_buy, String user_sell, List<Book> book) {
-        this.id = id;
-        this.user_buyer_id = user_buyer_id;
-        this.user_seller_id = user_seller_id;
-        this.create_date = create_date;
-        this.book_buyer_id = book_buyer_id;
-        this.book_seller_id = book_seller_id;
-        this.action = action;
-        this.is_accept = is_accept;
-        this.is_reject = is_reject;
-        this.notification_id = notification_id;
-        this.is_cancel = is_cancel;
-        this.user_promp = user_promp;
-        this.user_cour = user_cour;
-        this.user_quality = user_quality;
-        this.book_name = book_name;
-        this.book_author = book_author;
-        this.user_buy = user_buy;
-        this.user_sell = user_sell;
-        this.book = book;
-    }
-
-    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, String book_author, String user_buy, String user_sell, String book_price, List<Book> book) {
+    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, String book_author, String user_buy, String user_sell, String book_price, String book_swap_id, String session_user_buy, String session_user_sell, List<Book> book) {
         this.id = id;
         this.user_buyer_id = user_buyer_id;
         this.user_seller_id = user_seller_id;
@@ -100,7 +85,34 @@ public class Transaction  implements Serializable {
         this.user_buy = user_buy;
         this.user_sell = user_sell;
         this.book_price = book_price;
+        this.book_swap_id = book_swap_id;
+        this.session_user_buy = session_user_buy;
+        this.session_user_sell = session_user_sell;
         this.book = book;
+    }
+
+    public String getSession_user_buy() {
+        return session_user_buy;
+    }
+
+    public void setSession_user_buy(String session_user_buy) {
+        this.session_user_buy = session_user_buy;
+    }
+
+    public String getSession_user_sell() {
+        return session_user_sell;
+    }
+
+    public void setSession_user_sell(String session_user_sell) {
+        this.session_user_sell = session_user_sell;
+    }
+
+    public String getBook_swap_id() {
+        return book_swap_id;
+    }
+
+    public void setBook_swap_id(String book_swap_id) {
+        this.book_swap_id = book_swap_id;
     }
 
     public String getBook_price() {

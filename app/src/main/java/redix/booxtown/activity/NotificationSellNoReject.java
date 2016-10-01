@@ -1,18 +1,31 @@
 package redix.booxtown.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import redix.booxtown.R;
+import redix.booxtown.controller.Information;
+import redix.booxtown.controller.SettingController;
+import redix.booxtown.controller.TransactionController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.custom.NotificationAccept;
+import redix.booxtown.model.Book;
+import redix.booxtown.model.Setting;
+import redix.booxtown.model.Transaction;
 
 /**
  * Created by thuyetpham94 on 28/08/2016.
@@ -23,6 +36,16 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
     ImageView img_menu_bottom_camera;
     ImageView img_menu_bottom_bag;
     ImageView img_menu_bottom_user;
+
+    TextView txt_user_hi;
+    TextView txt_author_info3;
+    TextView txt_title_book_buy_accept;
+    TextView txt_author_book_buy_accept;
+    TextView txt_notification_sell_accept_money;
+    TextView txt_notification_dominic_time;
+
+    TextView txt_menu_notification_title2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +63,7 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
         img_menu_bottom_bag.setOnClickListener(this);
         img_menu_bottom_user.setOnClickListener(this);
 
-        TextView txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
+        txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
         txt_menu_notification_title2.setText("Sorry!");
 
         TextView txt_notification_infor3_phone = (TextView)findViewById(R.id.txt_notification_infor3_phone);
@@ -84,7 +107,18 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
         });
         //bottom
         //--------------------------------------------------------------
+        txt_user_hi=(TextView) findViewById(R.id.txt_user_hi);
+        txt_author_info3=(TextView) findViewById(R.id.txt_author_info3);
+        txt_title_book_buy_accept=(TextView) findViewById(R.id.txt_title_book_buy_accept);
+        txt_author_book_buy_accept=(TextView) findViewById(R.id.txt_author_book_buy_accept);
+        txt_notification_sell_accept_money=(TextView) findViewById(R.id.txt_notification_sell_accept_money);
+        txt_notification_dominic_time=(TextView) findViewById(R.id.txt_notification_dominic_time);
+        //---------------------------------------------------------------
 
+        // lấy được list sách swap đẻ đổ vào listview
+        String trans_id= getIntent().getStringExtra("trans_id");
+        transAsync transAsync= new transAsync(NotificationSellNoReject.this,trans_id);
+        transAsync.execute();
         //---------------------------------------------------------------
     }
 
@@ -117,6 +151,105 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
                 startActivity(intent5);
                 break;
 
+        }
+    }
+
+    class transAsync extends AsyncTask<String,Void,Transaction> {
+
+        Context context;
+        ProgressDialog dialog;
+        List<Book> listemp;
+        String trans_id;
+        public transAsync(Context context, String trans_id){
+            this.context = context;
+            this.trans_id=trans_id;
+            listemp = new ArrayList<>();
+        }
+
+        @Override
+        protected Transaction doInBackground(String... strings) {
+            TransactionController bookController = new TransactionController();
+            return bookController.getTransactionId(trans_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(final Transaction transaction) {
+            if (transaction == null){
+                dialog.dismiss();
+            }else {
+                SharedPreferences pref = NotificationSellNoReject.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor  = pref.edit();
+                String session_id = pref.getString("session_id", null);
+                getSetting gt= new getSetting(NotificationSellNoReject.this, transaction);
+                gt.execute(transaction.getSession_user_sell());
+                dialog.dismiss();
+            }
+            super.onPostExecute(transaction);
+        }
+    }
+
+    class getSetting extends AsyncTask<String,Void,List<Setting>>{
+
+        Context context;
+        ProgressDialog progressDialog;
+        Transaction trans;
+        public getSetting(Context context, Transaction trans){
+            this.trans= trans;
+            this.context=context;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<Setting> doInBackground(String... strings) {
+            SettingController settingController = new SettingController();
+            return settingController.getSettingByUserId(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<Setting> settings) {
+            try {
+                SharedPreferences pref = NotificationSellNoReject.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor  = pref.edit();
+                String userName = pref.getString("username", null);
+                txt_user_hi.setText("Hi "+ userName+",");
+
+                txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
+                txt_author_info3.setText(trans.getUser_sell()+"");
+                txt_title_book_buy_accept.setText(trans.getBook_name());
+                txt_author_book_buy_accept.setText(trans.getBook_author());
+                String []timeStart=settings.get(0).getTime_start().split(":");
+                String timeS="";
+                if(Integer.parseInt(timeStart[0])<=12){
+                    timeS=timeStart[0]+":"+ timeStart[1]+ " AM";
+                }else{
+                    timeS=timeStart[0]+":"+ timeStart[1]+ " PM";
+                }
+
+                String []timeTo=settings.get(0).getTime_to().split(":");
+                String timeT="";
+                if(Integer.parseInt(timeTo[0])<=12){
+                    timeT=timeTo[0]+":"+ timeTo[1]+ " AM";
+                }else{
+                    timeT=timeTo[0]+":"+ timeTo[1]+ " PM";
+                }
+                txt_notification_dominic_time.setText(timeS+"-"+timeT);
+            }catch (Exception e){
+            }
+            progressDialog.dismiss();
         }
     }
 }

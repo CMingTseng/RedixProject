@@ -70,9 +70,8 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
         txt_author_book_buy_accept=(TextView) findViewById(R.id.txt_author_book_buy_accept);
         txt_notification_sell_accept_money=(TextView) findViewById(R.id.txt_notification_sell_accept_money);
         txt_notification_dominic_time=(TextView) findViewById(R.id.txt_notification_dominic_time);
-        txt_menu_notification_title2=(TextView) findViewById(R.id.txt_menu_notification_title2);
-        txt_menu_notification_title2.setText("you accepted a request from");
-        TextView txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
+
+        txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
         txt_menu_notification_title2.setVisibility(View.GONE);
 
         TextView txt_menu_notification_infor3_title = (TextView)findViewById(R.id.txt_menu_notification_infor3_title);
@@ -182,7 +181,7 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
                 SharedPreferences.Editor editor  = pref.edit();
                 String session_id = pref.getString("session_id", null);
                 getSetting gt= new getSetting(NotificationSellNoAccept.this, transaction);
-                gt.execute(session_id);
+                gt.execute(transaction.getSession_user_sell());
                 dialog.dismiss();
             }
             super.onPostExecute(transaction);
@@ -220,7 +219,7 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
                 txt_user_hi.setText("Hi "+ userName+",");
 
                 txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
-                txt_author_info3.setText(trans.getUser_buy()+"");
+                txt_author_info3.setText(trans.getUser_sell()+"");
                 txt_title_book_buy_accept.setText(trans.getBook_name());
                 txt_author_book_buy_accept.setText(trans.getBook_author());
                 String []timeStart=settings.get(0).getTime_start().split(":");
