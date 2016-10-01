@@ -59,7 +59,6 @@ import redix.booxtown.model.Explore;
 import redix.booxtown.model.User;
 
 public class MyProfileFragment extends Fragment {
-    public final static String user_id=null;
     private LinearLayout linear_all;
     private LinearLayout linear_swap;
     private LinearLayout linear_free;
@@ -71,6 +70,7 @@ public class MyProfileFragment extends Fragment {
     EditText txt_profile_phone,txt_profile_email;
     TextView txt_profile_username,txt_profile_birthday;
     String username,first_name,last_name;
+    int user_id;
     TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
     RatingBar ratingBar_userprofile;
 
@@ -105,6 +105,7 @@ public class MyProfileFragment extends Fragment {
                 MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("username",username);
+                bundle.putInt("user_id",user_id);
                 profile.setArguments(bundle);
                 callFragment(profile);
 
@@ -374,6 +375,7 @@ public class MyProfileFragment extends Fragment {
                     txt_profile_birthday.setText(userResult.get(0).getBirthday().substring(0,10));
                     txt_profile_username.setText(userResult.get(0).getUsername());
                     username = userResult.get(0).getUsername();
+                    user_id = userResult.get(0).getUser_id();
                     first_name = userResult.get(0).getFirst_name();
                     last_name = userResult.get(0).getLast_name();
                     Picasso.with(context)

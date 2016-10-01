@@ -8,6 +8,7 @@ import redix.booxtown.model.Book;
 import redix.booxtown.model.CommentBook;
 import redix.booxtown.model.CommentBookResult;
 import redix.booxtown.model.CommentResult;
+import redix.booxtown.model.DashBoardResult;
 import redix.booxtown.model.GenreValueResult;
 import redix.booxtown.model.Notification;
 import redix.booxtown.model.NotificationResult;
@@ -188,4 +189,7 @@ public interface ServiceInterface {
 
     @GET("/booxtown/rest/user/getProfileByUserId")
     Call<UserResult> getProfileByUserId(@Query("user_id") int user_id);
+
+    @GET("/booxtown/rest/transactionhistory/tranhis_getTopTransaction")
+    Call<DashBoardResult> getDashBoard(@Query("session_id") String session_id,@Query("top") int top,@Query("from") int from);
 }
