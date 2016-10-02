@@ -171,7 +171,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Novel, Drama"
         android:id="@+id/txt_genre_listing_detail"
@@ -181,7 +181,9 @@
         android:layout_alignTop="@+id/txt_dialog_delete_editlisting1"
         android:layout_toRightOf="@+id/txt_dialog_delete_editlisting1"
         android:layout_toEndOf="@+id/txt_dialog_delete_editlisting1"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:ellipsize="end"
+        android:singleLine="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -300,6 +302,37 @@
         android:layout_below="@+id/row_type_book"
         android:layout_centerHorizontal="true"
         android:id="@+id/layout_comment" />
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_comment"
+        android:id="@+id/row_type_book2"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
 
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="40dp"
+            android:id="@+id/img_swap_listing2"
+            android:src="@drawable/explore_btn_swap_active"
+            android:layout_weight="0.8"
+            android:layout_marginRight="10dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="22dp"
+            android:id="@+id/img_free_listings2"
+            android:src="@drawable/explore_btn_free_active"
+            android:layout_margin="10dp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="40dp"
+            android:id="@+id/img_buy_listing2"
+            android:src="@drawable/explore_btn_buy_active"
+            android:layout_weight="0.80"
+            android:layout_marginLeft="10dp" />
+    </TableRow>
 
 </RelativeLayout>

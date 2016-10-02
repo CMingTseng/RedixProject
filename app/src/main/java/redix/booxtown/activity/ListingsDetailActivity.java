@@ -61,10 +61,11 @@ public class ListingsDetailActivity extends Fragment
     private TextView txt_my_book;
 
     private ImageView imSwap;
-
+    private ImageView imSwap2;
     private ImageView imFree;
-
+    private ImageView imFree2;
     private ImageView imBuy;
+    private ImageView imBuy2;
     ArrayList<Explore> listEx= new ArrayList<>();
     GridView grid;
     private MenuBottomCustom bottomListings;
@@ -107,13 +108,19 @@ public class ListingsDetailActivity extends Fragment
         //end
 
         TableRow tbTypebook = (TableRow) v.findViewById(R.id.row_type_book);
+        TableRow tbTypebook2 = (TableRow) v.findViewById(R.id.row_type_book2);
         EditText editText11 = (EditText) v.findViewById(R.id.editText11);
         final String type = getArguments().getString(String.valueOf(R.string.valueListings));
+
+        RelativeLayout layout_comments= (RelativeLayout) v.findViewById(R.id.layout_comment);
 
         MainAllActivity activity = (MainAllActivity) getActivity();
         imBuy = (ImageView) v.findViewById(R.id.img_buy_listing);
         imFree = (ImageView) v.findViewById(R.id.img_free_listings);
         imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
+        imBuy2 = (ImageView) v.findViewById(R.id.img_buy_listing2);
+        imFree2 = (ImageView) v.findViewById(R.id.img_free_listings2);
+        imSwap2 = (ImageView) v.findViewById(R.id.img_swap_listing2);
         txt_listed_by = (TextView)v.findViewById(R.id.txt_listed_by);
         icon_user_listing_detail = (ImageView)v.findViewById(R.id.icon_user_listing_detail);
         ratingBar_userprofile = (RatingBar)v.findViewById(R.id.ratingBar_userprofile);
@@ -151,10 +158,22 @@ public class ListingsDetailActivity extends Fragment
             Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
             editText11.setVisibility(View.GONE);
             img_close_dialog_unsubcribe.setVisibility(View.GONE);
-            //tbTypebook.setVisibility(View.GONE);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)tbTypebook.getLayoutParams();
+            tbTypebook.setVisibility(View.GONE);
+            tbTypebook2.setVisibility(View.VISIBLE);
+
+
+        }
+        else{
+            tbTypebook.setVisibility(View.VISIBLE);
+            tbTypebook2.setVisibility(View.GONE);
+
+            final float scale = getContext().getResources().getDisplayMetrics().density;
+            int pixelsMargin = (int) (-50 * scale + 0.5f);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout_comments.getLayoutParams();
+
+            params.topMargin = pixelsMargin;
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            tbTypebook.setLayoutParams(params);
+            layout_comments.setLayoutParams(params);
 
         }
         setData(book,v);
@@ -163,6 +182,7 @@ public class ListingsDetailActivity extends Fragment
         RelativeLayout.LayoutParams paramslist = (RelativeLayout.LayoutParams)tbTypebook.getLayoutParams();
         listView=(ListView) v.findViewById(R.id.listView_comment);
         listView.setDivider(null);
+
 
 
         //listView.setAdapter(adapter);
@@ -204,35 +224,64 @@ public class ListingsDetailActivity extends Fragment
             imFree.setVisibility(View.GONE);
             imBuy.setVisibility(View.GONE);
             imSwap.setVisibility(View.VISIBLE);
+
+            imFree2.setVisibility(View.GONE);
+            imBuy2.setVisibility(View.GONE);
+            imSwap2.setVisibility(View.VISIBLE);
+
         }
         if(icon.equals("icon_free")){
             imBuy.setVisibility(View.GONE);
             imSwap.setVisibility(View.GONE);
             imFree.setVisibility(View.VISIBLE);
+
+            imBuy2.setVisibility(View.GONE);
+            imSwap2.setVisibility(View.GONE);
+            imFree2.setVisibility(View.VISIBLE);
         }
         if(icon.equals("icon_buy")){
             imSwap.setVisibility(View.GONE);
             imFree.setVisibility(View.GONE);
             imBuy.setVisibility(View.VISIBLE);
+
+            imSwap2.setVisibility(View.GONE);
+            imFree2.setVisibility(View.GONE);
+            imBuy2.setVisibility(View.VISIBLE);
         }
         if(icon.equals("swapfree")){
             imSwap.setVisibility(View.VISIBLE);
             imFree.setVisibility(View.VISIBLE);
             imBuy.setVisibility(View.GONE);
+
+            imSwap2.setVisibility(View.VISIBLE);
+            imFree2.setVisibility(View.VISIBLE);
+            imBuy2.setVisibility(View.GONE);
         }
         if(icon.equals("swapbuy")){
             imSwap.setVisibility(View.VISIBLE);
             imFree.setVisibility(View.GONE);
             imBuy.setVisibility(View.VISIBLE);
+
+            imSwap2.setVisibility(View.VISIBLE);
+            imFree2.setVisibility(View.GONE);
+            imBuy2.setVisibility(View.VISIBLE);
         }
         if(icon.equals("freebuy")){
             imFree.setVisibility(View.VISIBLE);
             imSwap.setVisibility(View.GONE);
             imBuy.setVisibility(View.VISIBLE);
+
+            imFree2.setVisibility(View.VISIBLE);
+            imSwap2.setVisibility(View.GONE);
+            imBuy2.setVisibility(View.VISIBLE);
         }if(icon.equals("option")){
             imFree.setVisibility(View.VISIBLE);
             imSwap.setVisibility(View.VISIBLE);
             imBuy.setVisibility(View.VISIBLE);
+
+            imFree2.setVisibility(View.VISIBLE);
+            imSwap2.setVisibility(View.VISIBLE);
+            imBuy2.setVisibility(View.VISIBLE);
         }
         imSwap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,6 +290,19 @@ public class ListingsDetailActivity extends Fragment
             }
         });
         imBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buy();
+            }
+        });
+
+        imSwap2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                swap(book);
+            }
+        });
+        imBuy2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 buy();
