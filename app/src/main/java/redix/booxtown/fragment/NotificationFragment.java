@@ -1,5 +1,6 @@
 package redix.booxtown.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.ListingsDetailActivity;
 import redix.booxtown.activity.NotificationAcceptActivity;
 import redix.booxtown.activity.NotificationRejectActivity;
 import redix.booxtown.activity.NotificationSellAccept;
@@ -30,10 +32,13 @@ import redix.booxtown.activity.NotificationSellNoReject;
 import redix.booxtown.activity.NotificationSellReject;
 import redix.booxtown.activity.Notification_Swap_Accept_Like;
 import redix.booxtown.activity.Notification_Swap_Accept_NoLike;
+import redix.booxtown.controller.BookController;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ThreadController;
 import redix.booxtown.controller.TopicController;
 import redix.booxtown.listener.OnLoadMoreListener;
+import redix.booxtown.model.Book;
 import redix.booxtown.model.Notification;
 import redix.booxtown.model.Thread;
 import redix.booxtown.model.Topic;
@@ -232,6 +237,7 @@ public class NotificationFragment extends Fragment {
                                 }else if (notification.getId_screen().equals("3")){
                                     Intent intent = new Intent(getActivity(),Notification_Swap_Accept_Like.class);
                                     intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                    intent.putExtra("key","1");
                                     startActivity(intent);
                                 }else if (notification.getId_screen().equals("4")){
                                     Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
@@ -272,6 +278,18 @@ public class NotificationFragment extends Fragment {
                                 else if (notification.getId_screen().equals("2")){
                                     Intent intent = new Intent(getActivity(),NotificationRejectActivity.class);
                                     intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                    startActivity(intent);
+                                }
+                                else if(notification.getId_screen().equals("11")){
+                                    // comment in book post
+                                    getBookByID getBookByID= new getBookByID(getContext(),notification.getKey_screen()+"" );
+                                    getBookByID.execute();
+                                }
+                                else if(notification.getId_screen().equals("12")){
+                                    // set cho Cancel transaction in DashBoad
+                                    Intent intent = new Intent(getActivity(),Notification_Swap_Accept_Like.class);
+                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                    intent.putExtra("key","2");
                                     startActivity(intent);
                                 }
 
@@ -350,6 +368,51 @@ public class NotificationFragment extends Fragment {
             listnoNotifications.addAll(notifications);
             adapter.notifyDataSetChanged();
             super.onPostExecute(notifications);
+        }
+    }
+
+    class getBookByID extends AsyncTask<Void, Void, List<Book>> {
+        String id;
+        Context ctx;
+        ProgressDialog dialog;
+        public getBookByID(Context ctx,String id) {
+            this.id = id;
+            this.ctx = ctx;
+        }
+
+        @Override
+        protected List<Book> doInBackground(Void... params) {
+            BookController bookController = new BookController();
+            return bookController.getBookByID(id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(ctx);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(List<Book> list) {
+            try {
+                if (list.size() > 0) {
+                    ListingsDetailActivity fragment = new ListingsDetailActivity();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(String.valueOf(R.string.valueListings),"4");
+                    bundle.putSerializable("item",list.get(0));
+                    fragment.setArguments(bundle);
+                    HomeActivity mainAllActivity = (HomeActivity) getActivity();
+                    mainAllActivity.callFragment(fragment);
+
+                    dialog.dismiss();
+                }
+            } catch (Exception e) {
+                dialog.dismiss();
+            }
+            dialog.dismiss();
+
         }
     }
 

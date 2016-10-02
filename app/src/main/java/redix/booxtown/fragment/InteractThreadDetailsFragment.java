@@ -70,6 +70,7 @@ public class InteractThreadDetailsFragment extends Fragment
                 if(topic !=null) {
                     if (type_fragment.equals("NotificationFragment")){
                         HomeActivity homeActivity = (HomeActivity) getActivity();
+                        homeActivity.getTxtTitle().setText("Notifications");
                         homeActivity.callFragment(new NotificationFragment());
                     }else {
                         Bundle bundle = new Bundle();
@@ -80,9 +81,9 @@ public class InteractThreadDetailsFragment extends Fragment
                     }
                 }
                 else {
-                    MainAllActivity mainAllActivity = (MainAllActivity) getActivity();
-                    mainAllActivity.callFragment(new NotificationFragment());
-                    txt_title.setText("Notifications");
+                    HomeActivity homeActivity = (HomeActivity) getActivity();
+                    homeActivity.getTxtTitle().setText("Notifications");
+                    homeActivity.callFragment(new NotificationFragment());
                 }
 
             }

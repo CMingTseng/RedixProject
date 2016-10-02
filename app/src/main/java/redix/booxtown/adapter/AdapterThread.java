@@ -95,6 +95,9 @@ public class AdapterThread extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(listThread.get(position).getIs_read()==0){
                 ((RecyclerViewHolder) holder).txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_text));
             }
+            else{
+                ((RecyclerViewHolder) holder).txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
+            }
 
 //        holder.txt_title_interact.setOnClickListener(new View.OnClickListener() {
 //            @Override

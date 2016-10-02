@@ -173,6 +173,8 @@ public interface ServiceInterface {
     @POST("/booxtown/rest/transaction/transaction_updateStatus")
     Call<Result> transactionUpdateStatus(@Body Object transaction);
 
+    @POST("/booxtown/rest/transactionhistory/tranhis_updateRating")
+    Call<Result> updateRating(@Body Object transaction);
 
     // end Transaction
     @POST("/booxtown/rest/setting/setting_update")

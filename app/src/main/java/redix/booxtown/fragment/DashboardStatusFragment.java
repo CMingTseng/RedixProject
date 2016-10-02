@@ -136,7 +136,7 @@ public class DashboardStatusFragment extends Fragment {
             getUser.execute();
         }else {
             textView_namebook_buyer.setVisibility(View.GONE);
-            textView_nameauthor_buyer.setText(View.GONE);
+            textView_nameauthor_buyer.setVisibility(View.GONE);
         }
         getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
         getUser.execute();

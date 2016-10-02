@@ -37,6 +37,7 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
     TextView txt_author_info3;
 
     String trans;
+    String key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +100,12 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
         txt_author_info3 = (TextView) findViewById(R.id.txt_author_info3);
 
         trans = getIntent().getStringExtra("trans_id");
+        key = getIntent().getStringExtra("key");
+
+        if(key.equals("2")){
+            txt_menu_notification_infor3_title.setText("has cancelled the transaction related to this book");
+        }
+
         transAsync transAsync= new transAsync(Notification_Swap_Accept_Like.this, trans);
         transAsync.execute();
     }
@@ -171,6 +178,7 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
                 txt_title_book.setText(transaction.getBook_name());
                 txt_author_book.setText(transaction.getBook_author());
                 txt_author_info3.setText(transaction.getUser_sell());
+
 
             }
             super.onPostExecute(transaction);

@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import redix.booxtown.R;
 import redix.booxtown.api.ServiceGenerator;
+import redix.booxtown.model.Book;
 
 /**
  * Created by Administrator on 29/08/2016.
@@ -22,16 +23,16 @@ public class CustomPagerAdapter extends PagerAdapter {
     Context mContext;
     String username;
     LayoutInflater mLayoutInflater;
-
-    public CustomPagerAdapter(Context context,String[] url,String username) {
+    Book book;
+    public CustomPagerAdapter(Context context,Book book) {
         mContext = context;
-        this.url = url;
-        this.username = username;
+        this.book= book;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
     public int getCount() {
-        return url.length;
+
+        return book.getPhoto().split(";").length;
     }
 
     @Override
@@ -44,10 +45,18 @@ public class CustomPagerAdapter extends PagerAdapter {
         View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
         try {
-            Glide.with(mContext)
-                    .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+username+"&image="+url[position].substring(username.length()+3,url[position].length()))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imageView);
+            String[] image= book.getPhoto().split(";");
+            int index=image[position].indexOf("_+_");
+            if(index>0 && image[position].length() >3 ) {
+                String img = image[position].substring(index+3, image[position].length());
+                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[position].substring(0,index) + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                        into(imageView);
+            }
+            else{
+                Glide.with(mContext). load(R.drawable.blank_image).diskCacheStrategy(DiskCacheStrategy.ALL).
+                        into(imageView);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
