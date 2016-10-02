@@ -88,6 +88,27 @@ public class TransactionController {
             String exxx= ex.getMessage();
         }
         return null;
+    }
 
+    public Boolean updateRating(int trans_id,float user_promp,float user_cour,float user_quality){
+        Hashtable obj = new Hashtable();
+        obj.put("trans_id",trans_id);
+        obj.put("user_promp",user_promp);
+        obj.put("user_cour",user_cour);
+        obj.put("user_quality",user_quality);
+        Call<Result> rating = service.updateRating(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = rating.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+        } catch (Exception ex) {
+        }
+        return false;
     }
 }

@@ -134,15 +134,23 @@ public class MyProfileDashboardFragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             DashBoard dashBoard = dashBoards.get(position);
                             if (dashBoard.getIs_accept() == 1 || dashBoard.getIs_reject() == 1){
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("dashboard", dashBoard);
+                                    DashboardStatusFragment fragment= new DashboardStatusFragment();
+                                    fragment.setArguments(bundle);
+                                    callFragment(fragment);
+                            }else if(dashBoard.getIs_cancel() == 1){
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("dashboard", dashBoard);
-                                DashboardStatusFragment fragment= new DashboardStatusFragment();
+                                DashboardDeleteFragment fragment= new DashboardDeleteFragment();
                                 fragment.setArguments(bundle);
                                 callFragment(fragment);
-                            }else if(dashBoard.getIs_cancel() == 1){
-                                callFragment(new DashboardDeleteFragment());
                             }else if(dashBoard.getIs_reject() == 0 && dashBoard.getIs_cancel()==0 && dashBoard.getIs_accept()==0){
-                                callFragment(new DashboardStopFragment());
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("dashboard", dashBoard);
+                                DashboardStopFragment fragment= new DashboardStopFragment();
+                                fragment.setArguments(bundle);
+                                callFragment(fragment);
                             }
                         }
                     });
