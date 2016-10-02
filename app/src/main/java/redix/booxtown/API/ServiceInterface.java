@@ -194,4 +194,11 @@ public interface ServiceInterface {
 
     @GET("/booxtown/rest/transactionhistory/tranhis_getTopTransaction")
     Call<DashBoardResult> getDashBoard(@Query("session_id") String session_id,@Query("top") int top,@Query("from") int from);
+
+    @POST("/booxtown/rest/transactionhistory/tranhis_updateRating")
+    Call<Result> updateRating (@Body Object rating);
+
+    @POST("/booxtown/rest/user/inviteFriend")
+    Call<Result> inviteFriend(@Body Object email);
+
 }

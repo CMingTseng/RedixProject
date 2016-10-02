@@ -12,7 +12,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:id="@+id/editText_email_friend"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -30,8 +30,8 @@
         android:id="@+id/imv_search_invite"
         android:src="@drawable/invented_add"
         android:layout_gravity="right|top"
-        android:layout_alignRight="@+id/editText2"
-        android:layout_alignEnd="@+id/editText2"
+        android:layout_alignRight="@+id/editText_email_friend"
+        android:layout_alignEnd="@+id/editText_email_friend"
         android:layout_marginTop="5dp" />
 
     <RelativeLayout
