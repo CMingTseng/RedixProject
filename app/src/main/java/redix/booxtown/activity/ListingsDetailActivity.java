@@ -45,6 +45,7 @@ import redix.booxtown.controller.IconMapController;
 import redix.booxtown.controller.Information;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.fragment.ExploreFragment;
+import redix.booxtown.fragment.ListingsFragment;
 import redix.booxtown.fragment.MainFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.CommentBook;
@@ -87,12 +88,7 @@ public class ListingsDetailActivity extends Fragment
 
         imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_sign_in_back).into(imageView_back);
-        imageView_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callFragment(new ExploreFragment());
-            }
-        });
+
         ImageView img_component=(ImageView) getActivity().findViewById(R.id.img_menu_component);
         img_component.setVisibility(View.GONE);
         init(v);
@@ -112,8 +108,8 @@ public class ListingsDetailActivity extends Fragment
 
         TableRow tbTypebook = (TableRow) v.findViewById(R.id.row_type_book);
         EditText editText11 = (EditText) v.findViewById(R.id.editText11);
-        String type = getArguments().getString(String.valueOf(R.string.valueListings));
-        Log.d("dksdksdslkd",type.toString());
+        final String type = getArguments().getString(String.valueOf(R.string.valueListings));
+
         MainAllActivity activity = (MainAllActivity) getActivity();
         imBuy = (ImageView) v.findViewById(R.id.img_buy_listing);
         imFree = (ImageView) v.findViewById(R.id.img_free_listings);
@@ -129,6 +125,23 @@ public class ListingsDetailActivity extends Fragment
                 .placeholder(R.drawable.blank_image).
                 into(icon_user_listing_detail);
         txt_listed_by.setText(book.getUsername());
+
+        imageView_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(type.equals("1")) {
+                    callFragment(new MainFragment());
+
+                }
+                else if(type.equals("2")){
+                    callFragment(new ExploreFragment());
+                }
+                else{
+                    callFragment(new ListingsFragment());
+                }
+            }
+        });
+
         //ratingBar_userprofile.setRating(book.get);
         if (type.equals("1")){
             View view_search = (View)getActivity().findViewById(R.id.custom_search) ;
@@ -138,16 +151,11 @@ public class ListingsDetailActivity extends Fragment
             Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
             editText11.setVisibility(View.GONE);
             img_close_dialog_unsubcribe.setVisibility(View.GONE);
+            //tbTypebook.setVisibility(View.GONE);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)tbTypebook.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             tbTypebook.setLayoutParams(params);
 
-            imageView_back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callFragment(new MainFragment());
-                }
-            });
         }
         setData(book,v);
         //-----------------------------------------------------------
@@ -155,6 +163,8 @@ public class ListingsDetailActivity extends Fragment
         RelativeLayout.LayoutParams paramslist = (RelativeLayout.LayoutParams)tbTypebook.getLayoutParams();
         listView=(ListView) v.findViewById(R.id.listView_comment);
         listView.setDivider(null);
+
+
         //listView.setAdapter(adapter);
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -176,7 +186,7 @@ public class ListingsDetailActivity extends Fragment
         txt_price_listings_detail.setText("AED "+book.getPrice());
         txt_time_post_listings.setText(book.getCreate_date());
         txt_genre_listing_detail.setText(book.getGenre());
-        txt_tag.setText(book.getHash_tag());
+        txt_tag.setText("Hash tag: "+book.getHash_tag());
         View view=(View) v.findViewById(R.id.layout_details);
         String[] image = book.getPhoto().split(";");
         CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(getActivity(),image,book.getUsername());

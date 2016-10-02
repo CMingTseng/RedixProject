@@ -134,7 +134,7 @@
         android:background="@android:color/transparent"
         android:layout_above="@+id/textView86"
         android:layout_below="@+id/textView83"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="9dp"
         android:textSize="15sp"
         />
     <TextView

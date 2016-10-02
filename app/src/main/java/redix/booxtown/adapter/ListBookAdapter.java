@@ -172,9 +172,13 @@ public class ListBookAdapter extends BaseAdapter implements Filterable{
         hoder.img_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(mContext, ListingsDetailActivity.class);
+                ListingsDetailActivity fragment = new ListingsDetailActivity();
                 Bundle bundle = new Bundle();
-                bundle.putString("type","1");
+                bundle.putString(String.valueOf(R.string.valueListings),"3");
+                bundle.putSerializable("item",ex);
+                fragment.setArguments(bundle);
+                callFragment(fragment);
+
             }
         });
         hoder.img_edit.setOnClickListener(new View.OnClickListener() {

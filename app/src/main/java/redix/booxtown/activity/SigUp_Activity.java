@@ -38,7 +38,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
     EditText edt_name,edt_firtname,edt_phone,edt_mail,edt_password,edt_confirmpass,edt_lastname;
     CheckBox checkSignup;
     EditText edt_birthday;
-    String birthday;
+    //String birthday;
     TextView signUp;
     String session_id;
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
@@ -108,7 +108,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
             case R.id.signup:
                 UserController userController = new UserController();
                 User user  = new User();
-                user.setBirthday(birthday);
+                user.setBirthday(edt_birthday.getText().toString());
                 user.setEmail(edt_mail.getText().toString());
                 user.setFirst_name(edt_firtname.getText().toString());
                 user.setLast_name(edt_lastname.getText().toString());
@@ -169,7 +169,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
             EditText textview = (EditText) getActivity().findViewById(R.id.birthday);
 
-            textview.setText(year + "/" + (month+1) + "/" + day);
+            textview.setText(year + "-" + (month+1) + "-" + day);
 
         }
     }
