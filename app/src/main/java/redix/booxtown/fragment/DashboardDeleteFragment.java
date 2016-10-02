@@ -2,6 +2,7 @@ package redix.booxtown.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,15 +20,20 @@ import android.widget.Toast;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.Information;
+import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.DashBoard;
+import redix.booxtown.model.Notification;
 import redix.booxtown.model.User;
 
 /**
@@ -201,4 +207,5 @@ public class DashboardDeleteFragment extends Fragment {
 
         }
     }
+
 }

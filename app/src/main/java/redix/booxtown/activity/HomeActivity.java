@@ -30,6 +30,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     ImageView img_menu_bottom_camera;
     ImageView img_menu_bottom_bag;
     ImageView img_menu_bottom_user;
+    TextView txtTitle;
+
+    public TextView getTxtTitle() {
+        return txtTitle;
+    }
+
+    public void setTxtTitle(TextView txtTitle) {
+        this.txtTitle = txtTitle;
+    }
+
     private MenuBottomCustom menu_bottom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +75,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         int position = Integer.parseInt(i);
         if(position==1){
             callFragment(new NotificationFragment());
-            TextView txtTitle=(TextView)findViewById(R.id.txt_title);
+            txtTitle=(TextView)findViewById(R.id.txt_title);
             txtTitle.setText("Notifications");
         } else if(position == 2){
             callFragment(new FaqFragment());

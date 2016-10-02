@@ -40,6 +40,7 @@ import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.DashBoard;
 import redix.booxtown.model.Notification;
+import redix.booxtown.model.Transaction;
 import redix.booxtown.model.User;
 
 /**
@@ -126,7 +127,7 @@ public class DashboardStopFragment extends Fragment {
             getUser.execute();
         }else {
             textView_namebook_buyer.setVisibility(View.GONE);
-            textView_nameauthor_buyer.setText(View.GONE);
+            textView_nameauthor_buyer.setVisibility(View.GONE);
         }
 
         textView_namebook_seller.setText(dashBoard.getBook_seller());
@@ -290,10 +291,7 @@ public class DashboardStopFragment extends Fragment {
             }catch (Exception e){
 
             }
-            //Intent intent = new Intent(context, NotificationAcceptActivity.class);
-            //intent.putExtra("trans", trans);
-            //intent.putExtra("book", book);
-            //context.startActivity(intent);
+
             // send notifi user buy
 //            List<Hashtable> list = new ArrayList<>();
 //            Notification notification = new Notification(trans.getUser_sell().toUpperCase() + " accepted for a swap book request", trans.getId()+"","2" );
@@ -316,6 +314,68 @@ public class DashboardStopFragment extends Fragment {
 //            NotificationController controllerSeller = new NotificationController();
 //            controllerSeller.sendNotification(listSeller);
             // end
+        }
+    }
+
+    class UserID extends AsyncTask<String,Void,String>{
+        Context context;
+
+        ProgressDialog dialog;
+        Transaction trans;
+
+        public UserID(Context context,Transaction trans ){
+            this.context=context;
+            this.trans= trans;
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            UserController userController  = new UserController();
+            String user_id = userController.getUserID(strings[0]);
+            return user_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(getActivity());
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String user_ID) {
+            try {
+                //if(!threads.getUser_id().equals(user_ID)) {
+                SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                String username = pref.getString("username", null);
+
+                List<Hashtable> list = new ArrayList<>();
+                if(user_ID.equals(trans.getUser_buyer_id()+"")) {
+                    Notification notification = new Notification("Cancel transactions",trans.getId()+"", "12");
+                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                    obj.put("user_id", trans.getUser_seller_id());
+                    obj.put("messages", "Cancel transactions by: " + username);
+
+                    list.add(obj);
+                }else{
+                    Notification notification = new Notification("Comment transactions", trans.getId()+"", "12");
+                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                    obj.put("user_id", trans.getUser_buyer_id());
+                    obj.put("messages", "Cancel transactions by:" + username);
+
+                    list.add(obj);
+                }
+
+                NotificationController controller = new NotificationController();
+                controller.sendNotification(list);
+
+                //}
+            }catch (Exception e){
+                String ssss= e.getMessage();
+                Toast.makeText(context,"no data",Toast.LENGTH_LONG).show();
+            }
+            dialog.dismiss();
         }
     }
 }

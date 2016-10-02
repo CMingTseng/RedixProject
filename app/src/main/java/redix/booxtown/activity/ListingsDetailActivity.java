@@ -54,6 +54,7 @@ import redix.booxtown.fragment.ExploreFragment;
 import redix.booxtown.fragment.InteractThreadDetailsFragment;
 import redix.booxtown.fragment.ListingsFragment;
 import redix.booxtown.fragment.MainFragment;
+import redix.booxtown.fragment.NotificationFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.CommentBook;
 import redix.booxtown.model.Explore;
@@ -125,7 +126,7 @@ public class ListingsDetailActivity extends Fragment
         RelativeLayout layout_comments= (RelativeLayout) v.findViewById(R.id.layout_comment);
         ImageView img_close_dialog_unsubcribe = (ImageView) v.findViewById(R.id.img_close_dialog_unsubcribe);
 
-        MainAllActivity activity = (MainAllActivity) getActivity();
+
         imBuy = (ImageView) v.findViewById(R.id.img_buy_listing);
         imFree = (ImageView) v.findViewById(R.id.img_free_listings);
         imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
@@ -135,15 +136,29 @@ public class ListingsDetailActivity extends Fragment
         txt_listed_by = (TextView)v.findViewById(R.id.txt_listed_by);
         icon_user_listing_detail = (ImageView)v.findViewById(R.id.icon_user_listing_detail);
         ratingBar_userprofile = (RatingBar)v.findViewById(R.id.ratingBar_userprofile);
-        activity.gettitle().setText("Listings");
-        book = (Book)getArguments().getSerializable("item");
-        Glide.with(getContext())
-                .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+book.getAuthor()+"&image="+book.getPhoto().substring(book.getUsername().length()+3,book.getPhoto().length()))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.blank_image).
-                into(icon_user_listing_detail);
-        txt_listed_by.setText(book.getUsername());
 
+        book = (Book)getArguments().getSerializable("item");
+        if(book.getPhoto().length()>3) {
+            Glide.with(getContext())
+                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getAuthor() + "&image=" + book.getPhoto().substring(book.getUsername().length() + 3, book.getPhoto().length()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.blank_image).
+                    into(icon_user_listing_detail);
+        }else{
+            Glide.with(getContext())
+                    .load(R.drawable.blank_image)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).
+                    into(icon_user_listing_detail);
+        }
+        txt_listed_by.setText(book.getUsername());
+        if(type.equals("4")){
+            HomeActivity activity= (HomeActivity) getActivity();
+            activity.getTxtTitle().setText("Listings");
+        }
+        else{
+            MainAllActivity activity = (MainAllActivity) getActivity();
+            activity.gettitle().setText("Listings");
+        }
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,8 +169,13 @@ public class ListingsDetailActivity extends Fragment
                 else if(type.equals("2")){
                     callFragment(new ExploreFragment());
                 }
-                else{
+                else if(type.equals("3")){
                     callFragment(new ListingsFragment());
+                }
+                else {
+                    HomeActivity homeActivity = (HomeActivity) getActivity();
+                    homeActivity.getTxtTitle().setText("Notifications");
+                    homeActivity.callFragment(new NotificationFragment());
                 }
             }
         });
@@ -216,6 +236,10 @@ public class ListingsDetailActivity extends Fragment
                 insertComment insertComment1 = new insertComment(getContext());
                 insertComment1.execute(session_id,editText11.getText().toString(),book.getId());
                 editText11.setText("");
+
+                getComment comment = new getComment(getContext(),book.getId());
+                comment.execute();
+
             }
         });
 
@@ -232,9 +256,11 @@ public class ListingsDetailActivity extends Fragment
         txt_tag.setText("Hash tag: "+book.getHash_tag());
         View view=(View) v.findViewById(R.id.layout_details);
         String[] image = book.getPhoto().split(";");
-        CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(getActivity(),image,book.getUsername());
+
+        CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(getActivity(),book);
         ViewPager mViewPager = (ViewPager) view.findViewById(R.id.pager);
         mViewPager.setAdapter(mCustomPagerAdapter);
+
         CirclePageIndicator indicator = (CirclePageIndicator)v.findViewById(R.id.indicator);
         indicator.setViewPager(mViewPager);
         progressBar.setProgress(Integer.valueOf(book.getCondition()));
