@@ -67,7 +67,7 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
         txtTitle.setText("Notifications");
 
         ImageView img_menu = (ImageView) findViewById(R.id.img_menu);
-        img_menu.setImageResource(R.drawable.back);
+        img_menu.setImageResource(R.drawable.btn_sign_in_back);
 
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
