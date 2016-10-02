@@ -21,7 +21,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText3"
+        android:id="@+id/editText_message"
         android:layout_below="@+id/textView6"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -36,12 +36,12 @@
     <Button
         android:layout_width="223dp"
         android:layout_height="36dp"
-        android:id="@+id/imageView15"
+        android:id="@+id/btn_send_message"
        android:background="@drawable/bg_btn_sign_in"
         android:textColor="@color/dot_light_screen2"
         android:textAllCaps="false"
         android:text="Send message"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/editText_message"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
 </FrameLayout>
