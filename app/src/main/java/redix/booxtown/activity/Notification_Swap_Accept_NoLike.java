@@ -70,7 +70,7 @@ public class Notification_Swap_Accept_NoLike extends AppCompatActivity {
         bottomListings = new MenuBottomCustom(view_bottom, this, 0);
         bottomListings.setDefaut(0);
         //---------------------------------------------------------------
-
+        
 
 
         include27= (RelativeLayout) findViewById(R.id.include27);
