@@ -19,11 +19,11 @@ public class CommentBook {
     @Expose
     private int book_id;
     @Expose
-    private int rating;
+    private float rating;
     @Expose
     private String photo;
 
-    public CommentBook(int id, String content, String create_date, String username, int user_id, int book_id, int rating, String photo) {
+    public CommentBook(int id, String content, String create_date, String username, int user_id, int book_id, float rating, String photo) {
         this.id = id;
         this.content = content;
         this.create_date = create_date;
@@ -82,11 +82,11 @@ public class CommentBook {
         this.book_id = book_id;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

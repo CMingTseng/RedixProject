@@ -210,6 +210,7 @@ public class BookController {
                 return str.getComment();
             }
         } catch (Exception ex) {
+            String sss= ex.getMessage();
         }
         return null;
     }
