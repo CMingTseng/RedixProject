@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="with"
-        android:id="@+id/textView72"
+        android:id="@+id/textView_with"
         android:layout_below="@+id/textView_nameauthor_seller"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textView_namebook_buyer"
-        android:layout_below="@+id/textView72"
+        android:layout_below="@+id/textView_with"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
 

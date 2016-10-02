@@ -50,8 +50,9 @@ public class DashboardStatusFragment extends Fragment {
 
     //user profile
     CircularImageView img_menu_dashboard_middle,imageView_username_rating;
-    TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_username_rating;
+    TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_username_rating,textView_with;
     RatingBar ratingBar_user_dashboard_middle;
+    ImageView img_free_listings;
     String img_username,username;
     //end
 
@@ -132,11 +133,18 @@ public class DashboardStatusFragment extends Fragment {
         if(dashBoard.getAction().equals("swap")){
             getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
             getBookByID.execute();
-            getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
-            getUser.execute();
-        }else {
+            textView_namebook_buyer.setVisibility(View.VISIBLE);
+            textView_nameauthor_buyer.setVisibility(View.VISIBLE);
+        }else if(dashBoard.getAction().equals("buy")){
             textView_namebook_buyer.setVisibility(View.GONE);
             textView_nameauthor_buyer.setVisibility(View.GONE);
+            Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_free_listings);
+            textView_with.setVisibility(View.GONE);
+        }else if(dashBoard.getAction().equals("free")){
+            textView_namebook_buyer.setVisibility(View.GONE);
+            textView_nameauthor_buyer.setVisibility(View.GONE);
+            Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_listings);
+            textView_with.setVisibility(View.GONE);
         }
         getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
         getUser.execute();
@@ -148,6 +156,7 @@ public class DashboardStatusFragment extends Fragment {
     }
 
     public void init(View view){
+        img_free_listings = (ImageView)view.findViewById(R.id.img_free_listings);
         btn_menu_dashboard_bottom_rate = (Button)view.findViewById(R.id.btn_menu_dashboard_bottom_rate);
         title_menu = (TextView)getActivity().findViewById(R.id.txt_title);
         img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
@@ -158,6 +167,7 @@ public class DashboardStatusFragment extends Fragment {
         textView_nameauthor_seller = (TextView)view.findViewById(R.id.textView_nameauthor_seller);
         textView_namebook_buyer = (TextView)view.findViewById(R.id.textView_namebook_buyer);
         textView_nameauthor_buyer = (TextView)view.findViewById(R.id.textView_nameauthor_buyer);
+        textView_with = (TextView)view.findViewById(R.id.textView_with);
 
         //user profile
         img_menu_dashboard_middle = (CircularImageView)view.findViewById(R.id.img_menu_dashboard_middle);

@@ -46,9 +46,10 @@ public class DashboardDeleteFragment extends Fragment {
 
     //user profile
     CircularImageView img_menu_dashboard_middle,imageView_username_rating;
-    TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_username_rating;
+    TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_with;
     RatingBar ratingBar_user_dashboard_middle;
     String img_username,username;
+    ImageView img_free_listings;
     DashBoard dashBoard;
     //end
 
@@ -74,19 +75,24 @@ public class DashboardDeleteFragment extends Fragment {
 
         title_menu.setText("Dashboard");
         img_menu_component.setVisibility(View.GONE);
-
+        getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
+        getUser.execute();
         if(dashBoard.getAction().equals("swap")){
             getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
             getBookByID.execute();
-            getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
-            getUser.execute();
-        }else {
+            textView_namebook_buyer.setVisibility(View.VISIBLE);
+            textView_nameauthor_buyer.setVisibility(View.VISIBLE);
+        }else if(dashBoard.getAction().equals("buy")){
             textView_namebook_buyer.setVisibility(View.GONE);
-            textView_nameauthor_buyer.setText(View.GONE);
+            textView_nameauthor_buyer.setVisibility(View.GONE);
+            Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_free_listings);
+            textView_with.setVisibility(View.GONE);
+        }else if(dashBoard.getAction().equals("free")){
+            textView_namebook_buyer.setVisibility(View.GONE);
+            textView_nameauthor_buyer.setVisibility(View.GONE);
+            Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_listings);
+            textView_with.setVisibility(View.GONE);
         }
-
-        getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
-        getUser.execute();
 
         textView_namebook_seller.setText(dashBoard.getBook_seller());
         textView_nameauthor_seller.setText(dashBoard.getAuthor());
@@ -105,7 +111,8 @@ public class DashboardDeleteFragment extends Fragment {
         btn_menu_dashboard_bottom_cancel = (Button)view.findViewById(R.id.btn_menu_dashboard_bottom_cancel);
         btn_menu_dashboard_bottom_rate = (Button)view.findViewById(R.id.btn_menu_dashboard_bottom_rate);
         img_menu_dashboard_bottom_status = (ImageView)view.findViewById(R.id.img_menu_dashboard_bottom_status);
-
+        textView_with = (TextView)view.findViewById(R.id.textView_with);
+        img_free_listings = (ImageView)view.findViewById(R.id.img_free_listings);
         //user profile
         img_menu_dashboard_middle = (CircularImageView)view.findViewById(R.id.img_menu_dashboard_middle);
         textView_username_dashboard_middle = (TextView)view.findViewById(R.id.textView_username_dashboard_middle);
