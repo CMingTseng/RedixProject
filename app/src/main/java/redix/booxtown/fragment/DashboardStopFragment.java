@@ -3,6 +3,7 @@ package redix.booxtown.fragment;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -23,16 +24,22 @@ import android.widget.Toast;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.Information;
+import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ObjectCommon;
+import redix.booxtown.controller.TransactionController;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.DashBoard;
+import redix.booxtown.model.Notification;
 import redix.booxtown.model.User;
 
 /**
@@ -57,12 +64,12 @@ public class DashboardStopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
         init(view);
+        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        final String session_id = pref.getString("session_id", null);
+
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
-
         txt_menu_dashboard_cancel.setVisibility(View.GONE);
-
         btn_menu_dashboard_bottom_rate.setBackgroundResource(R.drawable.btn_xam);
-
         img_menu_dashboard_bottom_status.setImageResource(R.drawable.icon_stop_profile);
 
         btn_menu_dashboard_bottom_cancel.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +90,10 @@ public class DashboardStopFragment extends Fragment {
                         DashboardDeleteFragment fragment= new DashboardDeleteFragment();
                         fragment.setArguments(bundle);
                         callFragment(fragment);
+
+                        transactionChangeStatus updatestatus = new transactionChangeStatus(getContext(),session_id,
+                                String.valueOf(dashBoard.getId()),"2",String.valueOf(dashBoard.getBook_swap_id()));
+                        updatestatus.execute();
                         dialog.dismiss();
                     }
                 });
@@ -108,13 +119,15 @@ public class DashboardStopFragment extends Fragment {
         title_menu.setText("Dashboard");
         img_menu_component.setVisibility(View.GONE);
 
-        if(dashBoard.getBook_swap_id() != 0){
+        if(dashBoard.getAction().equals("swap")){
             getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
             getBookByID.execute();
+            getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
+            getUser.execute();
+        }else {
+            textView_namebook_buyer.setVisibility(View.GONE);
+            textView_nameauthor_buyer.setText(View.GONE);
         }
-
-        getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
-        getUser.execute();
 
         textView_namebook_seller.setText(dashBoard.getBook_seller());
         textView_nameauthor_seller.setText(dashBoard.getAuthor());
@@ -237,6 +250,72 @@ public class DashboardStopFragment extends Fragment {
             }
             dialog.dismiss();
 
+        }
+    }
+
+    class transactionChangeStatus extends AsyncTask<Void, Void, String> {
+
+        Context context;
+        ProgressDialog dialog;
+        Book book;
+        String session_id, trans_id, status_id;
+        String book_id;
+        public transactionChangeStatus(Context context, String session_id, String trans_id, String status_id, String book_id) {
+            this.context = context;
+            this.session_id = session_id;
+            this.trans_id = trans_id;
+            this.status_id = status_id;
+            this.book_id = book_id;
+            this.book = book;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            TransactionController transactionController = new TransactionController();
+            return transactionController.transactionUpdateStatus(session_id, trans_id, status_id, book_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String transactionID) {
+            dialog.dismiss();
+            try {
+
+            }catch (Exception e){
+
+            }
+            //Intent intent = new Intent(context, NotificationAcceptActivity.class);
+            //intent.putExtra("trans", trans);
+            //intent.putExtra("book", book);
+            //context.startActivity(intent);
+            // send notifi user buy
+//            List<Hashtable> list = new ArrayList<>();
+//            Notification notification = new Notification(trans.getUser_sell().toUpperCase() + " accepted for a swap book request", trans.getId()+"","2" );
+//            Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+//            obj.put("user_id", book.getUser_id());
+//            obj.put("messages", "Accepted your swap request for " + trans.getBook_name().toUpperCase());
+//            list.add(obj);
+//            NotificationController controller = new NotificationController();
+//            controller.sendNotification(list);
+            // end
+
+            // send notifi user seller
+
+//            List<Hashtable> listSeller = new ArrayList<>();
+//            Notification notificationSeller = new Notification("you accepted swapping your book", trans.getId()+"","0" );
+//            Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
+//            objSeller.put("user_id", trans.getUser_seller_id());
+//            objSeller.put("messages", "you accepted swapping your book " + trans.getBook_name().toUpperCase());
+//            listSeller.add(objSeller);
+//            NotificationController controllerSeller = new NotificationController();
+//            controllerSeller.sendNotification(listSeller);
+            // end
         }
     }
 }

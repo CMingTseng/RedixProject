@@ -129,9 +129,14 @@ public class DashboardStatusFragment extends Fragment {
             });
 
         //end
-        if(dashBoard.getBook_swap_id() != 0){
+        if(dashBoard.getAction().equals("swap")){
             getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
             getBookByID.execute();
+            getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
+            getUser.execute();
+        }else {
+            textView_namebook_buyer.setVisibility(View.GONE);
+            textView_nameauthor_buyer.setText(View.GONE);
         }
         getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
         getUser.execute();

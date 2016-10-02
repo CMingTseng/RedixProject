@@ -134,11 +134,11 @@ public class MyProfileDashboardFragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             DashBoard dashBoard = dashBoards.get(position);
                             if (dashBoard.getIs_accept() == 1 || dashBoard.getIs_reject() == 1){
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("dashboard", dashBoard);
-                                DashboardStatusFragment fragment= new DashboardStatusFragment();
-                                fragment.setArguments(bundle);
-                                callFragment(fragment);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("dashboard", dashBoard);
+                                    DashboardStatusFragment fragment= new DashboardStatusFragment();
+                                    fragment.setArguments(bundle);
+                                    callFragment(fragment);
                             }else if(dashBoard.getIs_cancel() == 1){
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("dashboard", dashBoard);
