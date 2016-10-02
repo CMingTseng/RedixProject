@@ -141,6 +141,9 @@ public class InteractThreadDetailsFragment extends Fragment
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
     }
+
+
+
     class commentAsync extends AsyncTask<String,Void,List<Comment>>{
 
         Context context;

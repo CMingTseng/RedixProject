@@ -14,18 +14,42 @@ public class Comment {
     private String create_date;
     @Expose
     private String thread_id;
+
     @Expose
     private String user_id;
     @Expose
     private String username;
 
-    public Comment(String id, String content, String create_date, String thread_id, String user_id, String username) {
+    @Expose
+    private float rating;
+    @Expose
+    private String photo;
+
+    public Comment(String id, String content, String create_date, String thread_id, String user_id, String username, float rating, String photo) {
         this.id = id;
         this.content = content;
         this.create_date = create_date;
         this.thread_id = thread_id;
         this.user_id = user_id;
         this.username = username;
+        this.rating = rating;
+        this.photo = photo;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getUsername() {

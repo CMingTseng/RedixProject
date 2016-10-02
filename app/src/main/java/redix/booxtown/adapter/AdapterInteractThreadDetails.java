@@ -20,6 +20,7 @@ import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.activity.UserProfileActivity;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.model.Comment;
 import redix.booxtown.model.InteractComment;
 
@@ -83,6 +84,20 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
                     mContext.startActivity(intent);
                 }
             });
+
+        if(Comments.getPhoto().length()>3) {
+            Picasso.with(mContext)
+                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length()))
+                    .error(R.mipmap.user_empty)
+                    .into(hoder.img_icon);
+        }
+        else
+        {
+            Picasso.with(mContext)
+                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=")
+                    .error(R.mipmap.user_empty)
+                    .into(hoder.img_icon);
+        }
 
 //            Resources mResources = mContext.getResources();
 //            Bitmap mBitmap = BitmapFactory.decodeResource(mResources, R.drawable.icon_test);
