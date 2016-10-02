@@ -140,9 +140,17 @@ public class MyProfileDashboardFragment extends Fragment {
                                 fragment.setArguments(bundle);
                                 callFragment(fragment);
                             }else if(dashBoard.getIs_cancel() == 1){
-                                callFragment(new DashboardDeleteFragment());
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("dashboard", dashBoard);
+                                DashboardDeleteFragment fragment= new DashboardDeleteFragment();
+                                fragment.setArguments(bundle);
+                                callFragment(fragment);
                             }else if(dashBoard.getIs_reject() == 0 && dashBoard.getIs_cancel()==0 && dashBoard.getIs_accept()==0){
-                                callFragment(new DashboardStopFragment());
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("dashboard", dashBoard);
+                                DashboardStopFragment fragment= new DashboardStopFragment();
+                                fragment.setArguments(bundle);
+                                callFragment(fragment);
                             }
                         }
                     });

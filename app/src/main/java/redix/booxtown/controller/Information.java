@@ -39,4 +39,6 @@ public class Information {
     public final static String noti_update_setting = "Update setting success";
     public final static String noti_update_nosetting = "Update setting no success";
     public final static String noti_update_fail = "Update Fail";
+    public final static String noti_tran_done = "Transaction is done";
+
 }

@@ -31,6 +31,7 @@ import redix.booxtown.R;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.Information;
+import redix.booxtown.controller.TransactionController;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
@@ -48,9 +49,14 @@ public class DashboardStatusFragment extends Fragment {
     TextView textView_namebook_seller,textView_nameauthor_seller,textView_namebook_buyer,textView_nameauthor_buyer;
 
     //user profile
-    CircularImageView img_menu_dashboard_middle;
-    TextView textView_username_dashboard_middle,textView_phone_dashboard_middle;
+    CircularImageView img_menu_dashboard_middle,imageView_username_rating;
+    TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_username_rating;
     RatingBar ratingBar_user_dashboard_middle;
+    String img_username,username;
+    //end
+
+    //dialog rating
+    RatingBar rating_promp,rating_cour,rating_quality;
     //end
 
     @Override
@@ -75,33 +81,53 @@ public class DashboardStatusFragment extends Fragment {
         });
 
         img_menu_component.setVisibility(View.GONE);
-        btn_menu_dashboard_bottom_rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_dashboard_status);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
 
-                Button btn_rate_dashboard_status = (Button)dialog.findViewById(R.id.btn_rate_dashboard_status);
-                btn_rate_dashboard_status.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
+            btn_menu_dashboard_bottom_rate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(dashBoard.getUser_promp() != 0 || dashBoard.getUser_cour() != 0 || dashBoard.getUser_quality() !=0){
+                        Toast.makeText(getContext(),Information.noti_tran_done,Toast.LENGTH_SHORT).show();
+                    }else{
+                    final Dialog dialog = new Dialog(getActivity());
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_dashboard_status);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+
+                    //int rating dialog
+                    rating_promp = (RatingBar)dialog.findViewById(R.id.rating_promp);
+                    rating_cour = (RatingBar)dialog.findViewById(R.id.rating_cour);
+                    rating_quality = (RatingBar)dialog.findViewById(R.id.rating_quality);
+                    imageView_username_rating = (CircularImageView)dialog.findViewById(R.id.imageView_username_rating);
+                    textView_username_rating = (TextView)dialog.findViewById(R.id.textView_username_rating);
+                    //end
+                    Picasso.with(getContext())
+                            .load(img_username)
+                            .error(R.drawable.user)
+                            .into(imageView_username_rating);
+                    textView_username_rating.setText(username);
+                    Button btn_rate_dashboard_status = (Button)dialog.findViewById(R.id.btn_rate_dashboard_status);
+                    btn_rate_dashboard_status.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ratingAsync ratingAsync = new ratingAsync(getContext(),dashBoard.getId(),rating_promp.getRating(),
+                                    rating_cour.getRating(),rating_quality.getRating());
+                            ratingAsync.execute();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    ImageView imv_close_dialog_dashboard_status = (ImageView)dialog.findViewById(R.id.imv_close_dialog_dashboard_status);
+                    imv_close_dialog_dashboard_status.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
                     }
-                });
+                }
+            });
 
-                ImageView imv_close_dialog_dashboard_status = (ImageView)dialog.findViewById(R.id.imv_close_dialog_dashboard_status);
-                imv_close_dialog_dashboard_status.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-
-            }
-        });
         //end
         if(dashBoard.getBook_swap_id() != 0){
             getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
@@ -211,9 +237,12 @@ public class DashboardStatusFragment extends Fragment {
                 if (user.size() > 0){
                     Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
-                            .error(R.drawable.blank_image)
+                            .error(R.drawable.user)
                             .into(img_menu_dashboard_middle);
                     textView_username_dashboard_middle.setText(user.get(0).getUsername());
+                    img_username = ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length());
+                    username = user.get(0).getUsername();
+
                     ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
                     textView_phone_dashboard_middle.setText(user.get(0).getPhone());
                     progressDialog.dismiss();
@@ -223,6 +252,44 @@ public class DashboardStatusFragment extends Fragment {
                 }
             }catch (Exception e){
 
+            }
+            progressDialog.dismiss();
+        }
+    }
+
+    class ratingAsync extends AsyncTask<Void,Void,Boolean>{
+        Context context;
+        int trans_id;
+        float user_promp,user_cour,user_quality;
+        ProgressDialog progressDialog;
+
+        public ratingAsync(Context context,int trans_id,float user_promp,float user_cour,float user_quality){
+            this.context = context;
+            this.trans_id = trans_id;
+            this.user_promp = user_promp;
+            this.user_cour = user_cour;
+            this.user_quality = user_quality;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            TransactionController transactionController = new TransactionController();
+            return transactionController.updateRating(trans_id,user_promp,user_cour,user_quality);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if (aBoolean == true) {
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(),Information.noti_update_success, Toast.LENGTH_LONG).show();
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(getActivity(),Information.noti_update_fail, Toast.LENGTH_LONG).show();
             }
             progressDialog.dismiss();
         }
