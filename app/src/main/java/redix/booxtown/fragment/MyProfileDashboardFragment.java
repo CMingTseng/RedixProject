@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,7 +16,9 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
@@ -39,6 +42,9 @@ public class MyProfileDashboardFragment extends Fragment {
     AdapterProfileDashboard adapterProfileDashboard;
     ImageView img_menu_component,img_menu,imv_close_dialog_dashboard_status,imageView26,imageView27;
     TextView title_menu;
+    private static RelativeLayout bottomLayout;
+    boolean userScrolled = false;
+    private static ArrayList<DashBoard> listArrayList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,29 +71,15 @@ public class MyProfileDashboardFragment extends Fragment {
                 callFragment(new MyProfileFragment());
             }
         });
-//        getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,5,0);
-//        getDashBoard.execute();
-
-        lv_myprofile_dashboard.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                int lastitem = i+i1;
-                if(lastitem == i2){
-                    getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,lastitem+5,lastitem);
-                    getDashBoard.execute();
-                    adapterProfileDashboard.notifyDataSetChanged();
-                }
-            }
-        });
+        populatRecyclerView(user_id,session_id);
+        implementScrollListener(session_id);
 
         return view;
     }
 
     public void init(View view){
+        bottomLayout = (RelativeLayout) view
+                .findViewById(R.id.loadItemsLayout_listView);
         txt_username = (TextView)view.findViewById(R.id.txt_profile_username);
         imageView27 = (ImageView)view.findViewById(R.id.imageView27);
         imv_close_dialog_dashboard_status = (ImageView)view.findViewById(R.id.imv_close_dialog_dashboard_status);
@@ -106,13 +98,80 @@ public class MyProfileDashboardFragment extends Fragment {
         transaction.commit();
     }
 
+    private void populatRecyclerView(int user_id,String session_id) {
+        getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,30,0);
+        getDashBoard.execute();
+        listArrayList = new ArrayList<DashBoard>();
+        adapterProfileDashboard = new AdapterProfileDashboard(getActivity(), listArrayList,user_id);
+        // set adapter over recyclerview
+        lv_myprofile_dashboard.setAdapter(adapterProfileDashboard);
+        adapterProfileDashboard.notifyDataSetChanged();
+        lv_myprofile_dashboard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DashBoard dashBoard = listArrayList.get(position);
+                if (dashBoard.getIs_accept() == 1 || dashBoard.getIs_reject() == 1){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("dashboard", dashBoard);
+                    DashboardStatusFragment fragment= new DashboardStatusFragment();
+                    fragment.setArguments(bundle);
+                    callFragment(fragment);
+                }else if(dashBoard.getIs_cancel() == 1){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("dashboard", dashBoard);
+                    DashboardDeleteFragment fragment= new DashboardDeleteFragment();
+                    fragment.setArguments(bundle);
+                    callFragment(fragment);
+                }else if(dashBoard.getIs_reject() == 0 && dashBoard.getIs_cancel()==0 && dashBoard.getIs_accept()==0){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("dashboard", dashBoard);
+                    DashboardStopFragment fragment= new DashboardStopFragment();
+                    fragment.setArguments(bundle);
+                    callFragment(fragment);
+                }
+            }
+        });
+    }
+
+    private void implementScrollListener(final String session_id) {
+
+        lv_myprofile_dashboard.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView arg0, int scrollState) {
+                // If scroll state is touch scroll then set userScrolled
+                // true
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    userScrolled = true;
+
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                // Now check if userScrolled is true and also check if
+                // the item is end then update list view and set
+                // userScrolled to false
+                if (userScrolled
+                        && firstVisibleItem + visibleItemCount == totalItemCount) {
+                    userScrolled = false;
+                    DashBoard dashBoard_lv = listArrayList.get(listArrayList.size()-1);
+                    getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,30,dashBoard_lv.getId());
+                    getDashBoard.execute();
+                }
+            }
+        });
+    }
+
+
     class getDashBoard extends AsyncTask<Void,Void,List<DashBoard>>{
 
         Context context;
         String session_id;
         int top;
         int from;
-        ProgressDialog dialog;
         public getDashBoard(Context context,String session_id,int top,int from){
             this.context = context;
             this.session_id = session_id;
@@ -122,10 +181,7 @@ public class MyProfileDashboardFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(getActivity());
-            dialog.setMessage(Information.noti_dialog);
-            dialog.setIndeterminate(true);
-            dialog.show();
+            bottomLayout.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -138,42 +194,15 @@ public class MyProfileDashboardFragment extends Fragment {
         protected void onPostExecute(final List<DashBoard> dashBoards) {
             try {
                 if(dashBoards.size() > 0){
-                    for (int i=0;i<dashBoards.size();i++){
-                        dashBoards_new.add(dashBoards.get(i));
-                    }
-                    adapterProfileDashboard = new AdapterProfileDashboard(getActivity(),dashBoards_new,user_id);
-                    lv_myprofile_dashboard.setAdapter(adapterProfileDashboard);
-                    lv_myprofile_dashboard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            DashBoard dashBoard = dashBoards.get(position);
-                            if (dashBoard.getIs_accept() == 1 || dashBoard.getIs_reject() == 1){
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable("dashboard", dashBoard);
-                                    DashboardStatusFragment fragment= new DashboardStatusFragment();
-                                    fragment.setArguments(bundle);
-                                    callFragment(fragment);
-                            }else if(dashBoard.getIs_cancel() == 1){
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("dashboard", dashBoard);
-                                DashboardDeleteFragment fragment= new DashboardDeleteFragment();
-                                fragment.setArguments(bundle);
-                                callFragment(fragment);
-                            }else if(dashBoard.getIs_reject() == 0 && dashBoard.getIs_cancel()==0 && dashBoard.getIs_accept()==0){
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("dashboard", dashBoard);
-                                DashboardStopFragment fragment= new DashboardStopFragment();
-                                fragment.setArguments(bundle);
-                                callFragment(fragment);
-                            }
-                        }
-                    });
+                    listArrayList.addAll(dashBoards);
+                    adapterProfileDashboard.notifyDataSetChanged();
+                    bottomLayout.setVisibility(View.GONE);
                 }else{
-                    dialog.dismiss();
+                    bottomLayout.setVisibility(View.GONE);
                 }
             }catch (Exception e){
             }
-            dialog.dismiss();
+            bottomLayout.setVisibility(View.GONE);
         }
     }
 }

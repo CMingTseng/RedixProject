@@ -158,6 +158,14 @@
         android:id="@+id/lv_myprofile_dashboard"
         android:layout_below="@+id/linearLayout2"
         android:layout_alignParentLeft="true"
+        android:layout_above="@+id/loadItemsLayout_listView"
         android:layout_alignParentStart="false" />
+    <include
+        android:id="@+id/loadItemsLayout_listView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/progress_layout"
+        android:visibility="gone" />
 </RelativeLayout>
 </FrameLayout>
