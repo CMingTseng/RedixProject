@@ -17,20 +17,28 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.siyamed.shapeimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
+import redix.booxtown.controller.Information;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.DashBoard;
+import redix.booxtown.model.User;
 
 public class DashboardStatusFragment extends Fragment {
     DashBoard dashBoard;
-    List<Book> list_bookname;
     ImageView img_menu;
     TextView txt_menu_dashboard_cancel;
     Button btn_menu_dashboard_bottom_cancel;
@@ -38,13 +46,19 @@ public class DashboardStatusFragment extends Fragment {
     TextView title_menu;
     Button btn_menu_dashboard_bottom_rate;
     TextView textView_namebook_seller,textView_nameauthor_seller,textView_namebook_buyer,textView_nameauthor_buyer;
+
+    //user profile
+    CircularImageView img_menu_dashboard_middle;
+    TextView textView_username_dashboard_middle,textView_phone_dashboard_middle;
+    RatingBar ratingBar_user_dashboard_middle;
+    //end
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
         init(view);
-        list_bookname = new ArrayList<>();
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
         //menu
         btn_menu_dashboard_bottom_cancel.setVisibility(View.GONE);
@@ -89,18 +103,16 @@ public class DashboardStatusFragment extends Fragment {
             }
         });
         //end
-        getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_seller_id()));
-        getBookByID.execute();
-        getBookByID getBookByID1 = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
-        getBookByID1.execute();
-
-        if (list_bookname.size() ==2){
-            textView_namebook_seller.setText(list_bookname.get(0).getTitle());
-            textView_nameauthor_seller.setText(list_bookname.get(0).getAuthor());
-
-            textView_namebook_buyer.setText(list_bookname.get(1).getTitle());
-            textView_nameauthor_buyer.setText(list_bookname.get(1).getAuthor());
+        if(dashBoard.getBook_swap_id() != 0){
+            getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
+            getBookByID.execute();
         }
+        getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
+        getUser.execute();
+
+        textView_namebook_seller.setText(dashBoard.getBook_seller());
+        textView_nameauthor_seller.setText(dashBoard.getAuthor());
+
         return view;
     }
 
@@ -115,6 +127,13 @@ public class DashboardStatusFragment extends Fragment {
         textView_nameauthor_seller = (TextView)view.findViewById(R.id.textView_nameauthor_seller);
         textView_namebook_buyer = (TextView)view.findViewById(R.id.textView_namebook_buyer);
         textView_nameauthor_buyer = (TextView)view.findViewById(R.id.textView_nameauthor_buyer);
+
+        //user profile
+        img_menu_dashboard_middle = (CircularImageView)view.findViewById(R.id.img_menu_dashboard_middle);
+        textView_username_dashboard_middle = (TextView)view.findViewById(R.id.textView_username_dashboard_middle);
+        textView_phone_dashboard_middle = (TextView)view.findViewById(R.id.textView_phone_dashboard_middle);
+        ratingBar_user_dashboard_middle = (RatingBar)view.findViewById(R.id.ratingBar_user_dashboard_middle);
+        //end
     }
 
     public void callFragment(Fragment fragment ){
@@ -143,7 +162,7 @@ public class DashboardStatusFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(ctx);
-            dialog.setMessage("Please wait...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
         }
@@ -152,13 +171,60 @@ public class DashboardStatusFragment extends Fragment {
         protected void onPostExecute(List<Book> list) {
             try {
                 if (list.size() > 0) {
-                    list_bookname.add(list.get(0));
+                    textView_namebook_buyer.setText(list.get(0).getTitle()+"");
+                    textView_nameauthor_buyer.setText(list.get(0).getAuthor());
                     dialog.dismiss();
                 }
             } catch (Exception e) {
+                dialog.dismiss();
             }
             dialog.dismiss();
 
+        }
+    }
+
+    class getUser extends AsyncTask<Void,Void,List<User>>{
+
+        Context context;
+        int user_id;
+        ProgressDialog progressDialog;
+        public getUser(Context context,int user_id){
+            this.context = context;
+            this.user_id = user_id;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            UserController userController = new UserController();
+            return userController.getByUserId(user_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> user) {
+            try {
+                if (user.size() > 0){
+                    Picasso.with(context)
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .error(R.drawable.blank_image)
+                            .into(img_menu_dashboard_middle);
+                    textView_username_dashboard_middle.setText(user.get(0).getUsername());
+                    ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
+                    textView_phone_dashboard_middle.setText(user.get(0).getPhone());
+                    progressDialog.dismiss();
+                }else {
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
+            }
+            progressDialog.dismiss();
         }
     }
 }

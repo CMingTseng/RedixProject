@@ -88,7 +88,7 @@ public class AdapterProfileDashboard extends BaseAdapter {
         }
 
         //xử lý status
-        if (dashBoard.getIs_accept() == 1 || dashBoard.getIs_reject() == 1){
+        if (dashBoard.getIs_accept() == 1){
             Glide.with(context).load(R.drawable.myprofile_tick).into(holder.img_status);
         }else if(dashBoard.getIs_cancel() == 1){
             Glide.with(context).load(R.drawable.myprofile_all_not).into(holder.img_status);

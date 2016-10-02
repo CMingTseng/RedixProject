@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Mabrook"
-        android:id="@+id/textView117"
+        android:id="@+id/textView_username_dashboard_middle"
         android:layout_below="@+id/img_menu_dashboard_middle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
@@ -25,11 +25,11 @@
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
+        android:id="@+id/ratingBar_user_dashboard_middle"
         android:theme="@style/RatingBar"
         android:rating="2.5"
         android:numStars="5"
-        android:layout_below="@+id/textView117"
+        android:layout_below="@+id/textView_username_dashboard_middle"
         android:layout_centerHorizontal="true"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_marginTop="5dp"
@@ -39,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/img_buy_listing"
-        android:layout_alignTop="@+id/ratingBar"
-        android:layout_toRightOf="@+id/textView117"
-        android:layout_toEndOf="@+id/textView117"
+        android:layout_alignTop="@+id/ratingBar_user_dashboard_middle"
+        android:layout_toRightOf="@+id/textView_username_dashboard_middle"
+        android:layout_toEndOf="@+id/textView_username_dashboard_middle"
         android:src="@drawable/icon_notification_infor2"
         android:layout_marginRight="5dp" />
 
@@ -68,8 +68,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Phone : 0972781395"
-        android:id="@+id/textView118"
-        android:layout_below="@+id/ratingBar"
+        android:id="@+id/textView_phone_dashboard_middle"
+        android:layout_below="@+id/ratingBar_user_dashboard_middle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp" />

@@ -45,7 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="The queen:The last paiting"
         android:id="@+id/textView_namebook_buyer"
         android:layout_below="@+id/textView72"
         android:layout_centerHorizontal="true"
