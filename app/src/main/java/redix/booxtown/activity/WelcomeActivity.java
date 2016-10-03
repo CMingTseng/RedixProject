@@ -71,11 +71,11 @@ public class WelcomeActivity extends AppCompatActivity {
         btnsignin = (Button) findViewById(R.id.btn_sigin_wellcome);
 
         //font
-        btnsigup.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Futura_Light_BT.ttf"));
-        btnsigup.setText("Sign up");
-
-        btnsignin.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Futura_Light_BT.ttf"));
-        btnsignin.setText("Sign in");
+//        btnsigup.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Futura_Light_BT.ttf"));
+//        btnsigup.setText("Sign up");
+//
+//        btnsignin.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Futura_Light_BT.ttf"));
+//        btnsignin.setText("Sign in");
         //end
 
         // layouts of all welcome sliders
