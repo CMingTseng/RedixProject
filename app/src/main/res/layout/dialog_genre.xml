@@ -13,7 +13,9 @@ android:id="@+id/popup_screen78">
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginBottom="20dp"
-    android:background="@drawable/customborder">
+    android:background="@drawable/customborder"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
     <ListView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -21,9 +23,9 @@ android:id="@+id/popup_screen78">
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginBottom="50dp"
-    android:layout_marginTop="70dp"/>
+        android:paddingBottom="10dp" />
 
-    <Button
+    <redix.booxtown.custom.CustomButton
         android:layout_width="223dp"
         android:layout_height="36dp"
         android:text="Done"
@@ -32,7 +34,10 @@ android:id="@+id/popup_screen78">
         android:background="@drawable/bg_interact_bt_popup"
         android:singleLine="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp" />
+        android:layout_marginBottom="60dp"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="@color/color_text" />
 </RelativeLayout>
 
 <RelativeLayout
@@ -49,6 +54,7 @@ android:id="@+id/popup_screen78">
         android:layout_marginTop="30dp"
         android:layout_marginRight="0dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/btn_wishbroad_close" />
 </RelativeLayout>
 </RelativeLayout>

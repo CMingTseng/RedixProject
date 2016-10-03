@@ -238,7 +238,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
                 ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.img_close_dialoggenre);
 //                Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialoggenre);
-                        img_close_dialoggenre.setImageResource(R.drawable.close_popup);
+                        img_close_dialoggenre.setImageResource(R.drawable.btn_close_filter);
                 img_close_dialoggenre.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

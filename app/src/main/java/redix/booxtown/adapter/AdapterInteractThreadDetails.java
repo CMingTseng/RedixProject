@@ -15,7 +15,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import redix.booxtown.R;
@@ -74,8 +78,15 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         hoder.txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
         hoder.txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
         hoder.txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
-        Picasso.with(mContext).load(R.drawable.icon_test).into(hoder.img_icon);
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd hh:mm");
+        try {
+            Date date = format.parse(Comments.getCreate_date()+"");
+            String stringDate = DateFormat.getDateTimeInstance().format(date);
+            hoder.txt_datetime.setText(stringDate);
+        } catch (ParseException e) {
+            hoder.txt_datetime.setText(Comments.getCreate_date());
 
+        }
 //        hoder.img_icon.setImageResource(R.drawable.icon_test);
         hoder.img_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,7 +138,7 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
 //
         hoder.txt_userName.setText(Comments.getUsername());
         hoder.txt_contents.setText(Comments.getContent());
-        hoder.txt_datetime.setText(Comments.getCreate_date());
+       // hoder.txt_datetime.setText(Comments.getCreate_date());
         //hoder.txt_userName.setText(Comments.);
         return convertView;
     }
