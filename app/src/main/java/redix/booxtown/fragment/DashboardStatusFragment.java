@@ -88,6 +88,7 @@ public class DashboardStatusFragment extends Fragment {
                 public void onClick(View view) {
                     if(dashBoard.getUser_promp() != 0 || dashBoard.getUser_cour() != 0 || dashBoard.getUser_quality() !=0){
                         Toast.makeText(getContext(),Information.noti_tran_done,Toast.LENGTH_SHORT).show();
+
                     }else{
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

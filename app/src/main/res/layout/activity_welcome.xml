@@ -22,14 +22,13 @@
     <Button
         android:id="@+id/btn_sigup_wellcome"
         android:layout_width="@dimen/btn_signin"
-        android:textSize="20sp"
+        android:textSize="@dimen/slide_desc"
         android:layout_height="36dp"
         android:textAllCaps="false"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="175dp"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/btn_signin_maginleft"
-        android:text="@string/SignUp"
         android:background="@drawable/bg_btn_welcome"
         android:textColor="@color/backgroung_signin" />
 
@@ -40,20 +39,20 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="175dp"
         android:textAllCaps="false"
-        android:textSize="20sp"
+        android:textSize="@dimen/slide_desc"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/btn_signin_maginleft"
-        android:text="@string/SignIn"
         android:background="@drawable/bg_btn_welcome"
         android:textColor="@color/backgroung_signin" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="140dp"
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"
+        android:textSize="@dimen/slide_desc"
         android:text="@string/SignInWith"/>
     <LinearLayout
         android:layout_width="wrap_content"

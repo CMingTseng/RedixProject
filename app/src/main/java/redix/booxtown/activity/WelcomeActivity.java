@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -63,14 +64,19 @@ public class WelcomeActivity extends AppCompatActivity {
         Picasso.with(WelcomeActivity.this).load(R.mipmap.twetter).into(signin_twitter);
         ImageView signin_google = (ImageView)findViewById(R.id.signin_google);
         Picasso.with(WelcomeActivity.this).load(R.mipmap.g).into(signin_google);
-
         //end
-
         viewPager = (AutoScrollViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnsigup = (Button) findViewById(R.id.btn_sigup_wellcome);
         btnsignin = (Button) findViewById(R.id.btn_sigin_wellcome);
 
+        //font
+        btnsigup.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Futura_Light_BT.ttf"));
+        btnsigup.setText("Sign up");
+
+        btnsignin.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Futura_Light_BT.ttf"));
+        btnsignin.setText("Sign in");
+        //end
 
         // layouts of all welcome sliders
         // add few more layouts if you want
@@ -84,12 +90,9 @@ public class WelcomeActivity extends AppCompatActivity {
 //        ImageView imageView1_icon_booxtown_intro = (ImageView)findViewById(R.id.imageView1_icon_booxtown_intro);
 //        Picasso.with(getApplicationContext()).load(String.valueOf(getResources().getDrawable(R.drawable.icon_booxtown_intro))).into(imageView1_icon_booxtown_intro);
 //
-
         addBottomDots(0);
-
         // making notification bar transparent
         changeStatusBarColor();
-
         myViewPagerAdapter = new MyViewPagerAdapter(layouts);
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
@@ -100,7 +103,6 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent itent = new Intent(WelcomeActivity.this,SigUp_Activity.class);
                 startActivity(itent);
-
             }
         });
 
@@ -109,7 +111,6 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent itent = new Intent(WelcomeActivity.this,SignIn_Activity.class);
                 startActivity(itent);
-                
             }
         });
 
@@ -120,16 +121,12 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(WelcomeActivity.this, MainAllActivity.class);
             startActivity(intent);
         }
-
-
     }
 
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
-
         int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
-
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
@@ -138,18 +135,14 @@ public class WelcomeActivity extends AppCompatActivity {
             dots[i].setTextColor(colorsInactive[currentPage]);
             dotsLayout.addView(dots[i]);
         }
-
         if (dots.length > 0)
             dots[currentPage].setTextColor(colorsActive[currentPage]);
     }
-
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
     }
-
     //	viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
         @Override
         public void onPageSelected(int position) {
             addBottomDots(position);
