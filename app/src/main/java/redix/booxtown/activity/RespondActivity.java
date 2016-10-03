@@ -33,6 +33,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     ImageView img_menu_bottom_bag;
     ImageView img_menu_bottom_user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -71,7 +71,7 @@ public class AdapterListviewWishboard  extends BaseAdapter {
         holder.name = (TextView)rowView.findViewById(R.id.txt_name_custom_listview_wishboard);
         holder.date = (TextView)rowView.findViewById(R.id.txt_date_customlistview_wishboard);
         holder.title.setText(list.get(position).getTitle());
-        holder.name.setText(list.get(position).getUsername());
+        holder.name.setText("by "+list.get(position).getUsername());
         holder.date.setText(list.get(position).getCreate_date().substring(0,10));
 
         ImageView imgv_listview_respond = (ImageView)rowView.findViewById(R.id.imgv_listview_respond);

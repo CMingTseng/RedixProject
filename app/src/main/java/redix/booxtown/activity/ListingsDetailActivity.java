@@ -165,7 +165,6 @@ public class ListingsDetailActivity extends Fragment
             public void onClick(View v) {
                 if(type.equals("1")) {
                     callFragment(new MainFragment());
-
                 }
                 else if(type.equals("2")){
                     callFragment(new ExploreFragment());
@@ -191,8 +190,6 @@ public class ListingsDetailActivity extends Fragment
             img_close_dialog_unsubcribe.setVisibility(View.GONE);
             tbTypebook.setVisibility(View.GONE);
             tbTypebook2.setVisibility(View.VISIBLE);
-
-
         }
         else{
             tbTypebook.setVisibility(View.VISIBLE);
@@ -205,7 +202,6 @@ public class ListingsDetailActivity extends Fragment
             params.topMargin = pixelsMargin;
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             layout_comments.setLayoutParams(params);
-
         }
         setData(book,v);
         //-----------------------------------------------------------
@@ -213,8 +209,6 @@ public class ListingsDetailActivity extends Fragment
         RelativeLayout.LayoutParams paramslist = (RelativeLayout.LayoutParams)tbTypebook.getLayoutParams();
         listView=(ListView) v.findViewById(R.id.listView_comment);
         listView.setDivider(null);
-
-
 
         //listView.setAdapter(adapter);
         listView.setOnTouchListener(new View.OnTouchListener() {
@@ -250,7 +244,7 @@ public class ListingsDetailActivity extends Fragment
 
     public void setData(final Book book, View v){
         txt_title_listings_detail.setText(book.getTitle());
-        txt_author_listings_detail.setText(book.getAuthor());
+        txt_author_listings_detail.setText("by "+book.getAuthor());
         txt_price_listings_detail.setText("AED "+book.getPrice());
         txt_time_post_listings.setText(book.getCreate_date());
         txt_genre_listing_detail.setText(book.getGenre());

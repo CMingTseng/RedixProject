@@ -45,7 +45,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@color/color_text_hint"
-                    android:text="New Text" />
+                     />
 
             </RelativeLayout>
 
@@ -73,7 +73,7 @@
                     android:layout_alignParentTop="true"
                     android:background="@color/color_text_hint"
                     android:gravity="right"
-                    android:text="New Text" />
+                    />
             </RelativeLayout>
 
             <RelativeLayout

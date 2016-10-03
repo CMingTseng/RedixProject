@@ -40,7 +40,7 @@
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="by Dominic Smith"
+        android:text="Dominic Smith"
         android:id="@+id/txt_author_listings_detail"
         android:layout_below="@+id/txt_title_listings_detail"
         android:layout_centerHorizontal="true"

@@ -12,7 +12,8 @@
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@+id/img_menu_dashboard_bottom_status"
         android:layout_alignTop="@+id/img_menu_dashboard_bottom_status"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"/>
 
     <ImageView
         android:layout_width="40dp"
@@ -37,7 +38,7 @@
         android:textColor="@color/dot_light_screen1"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="20sp"/>
+        android:textSize="@dimen/slide_desc"/>
 
     <redix.booxtown.custom.CustomButton
         android:layout_width="281dp"
@@ -50,18 +51,18 @@
         android:background="@drawable/bg_btn_add_book_2"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="20sp"
+        android:textSize="@dimen/slide_desc"
         android:textColor="@color/dot_light_screen1"/>
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Transaction cancel"
         android:id="@+id/txt_menu_dashboard_cancel"
         android:layout_below="@+id/btn_menu_dashboard_bottom_cancel"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:textColor="@color/color_text"
+        android:textSize="@dimen/slide_desc"
         android:layout_marginBottom="10dp" />
 </RelativeLayout>
