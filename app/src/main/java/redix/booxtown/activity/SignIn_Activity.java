@@ -89,7 +89,10 @@ Button mButtonForgotPass;
                 Toast.makeText(getApplicationContext(),Information.noti_fill_password,Toast.LENGTH_LONG).show();
                 }else {
                     SiginAsystask siginAsystask = new SiginAsystask();
-                    session_id = FirebaseInstanceId.getInstance().getToken().toString();
+                    try {
+                        session_id = FirebaseInstanceId.getInstance().getToken().toString();
+                    }catch (Exception e) {
+                    }
                     siginAsystask.execute(edt_username.getText().toString(), edt_pass.getText().toString(), "iphonecuatung",session_id);
                 }
             default:
