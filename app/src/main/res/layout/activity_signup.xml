@@ -41,27 +41,25 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
         android:id="@+id/linearLayout6">
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/firstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLines="1"
-            android:fontFamily="sans-serif-thin"
             android:hint="First name"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme" />
 
-        <EditText
-
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/lastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-thin"
             android:hint="Last name"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme" />
@@ -78,75 +76,75 @@
         android:paddingBottom="10dp"
         android:layout_below="@+id/linearLayout6">
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
             android:hint="Username"
             android:maxLines="1"
             android:textColorHint="@color/color_text_hint"
-            android:theme="@style/MyEditTextTheme" />
+            android:theme="@style/MyEditTextTheme"
+            android:layout_marginBottom="5dp" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
             android:hint="Email"
             android:textColorHint="@color/color_text_hint"
-            android:theme="@style/MyEditTextTheme" />
+            android:theme="@style/MyEditTextTheme"
+            android:layout_marginBottom="5dp" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/birthday"
             android:layout_width="match_parent"
             android:inputType="none"
             android:maxLines="1"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
             android:focusable="false"
             android:hint="Birthday"
             android:textColorHint="@color/color_text_hint"
-            android:theme="@style/MyEditTextTheme">
+            android:theme="@style/MyEditTextTheme"
+            android:layout_marginBottom="5dp">
 
-        </EditText>
+        </redix.booxtown.custom.CustomEdittext>
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
             android:hint="Phone"
             android:maxLines="1"
             android:phoneNumber="true"
             android:textColorHint="@color/color_text_hint"
-            android:theme="@style/MyEditTextTheme" />
+            android:theme="@style/MyEditTextTheme"
+            android:layout_marginBottom="5dp" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
             android:maxLines="1"
             android:hint="Password"
             android:password="true"
             android:textColorHint="@color/color_text_hint"
-            android:theme="@style/MyEditTextTheme" />
+            android:theme="@style/MyEditTextTheme"
+            android:layout_marginBottom="5dp" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/confirmpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
             android:maxLines="1"
             android:hint="Confirm Password"
             android:password="true"
             android:textColorHint="@color/color_text_hint"
-            android:theme="@style/MyEditTextTheme" />
+            android:theme="@style/MyEditTextTheme"
+            android:layout_marginBottom="5dp" />
 
-        <TextView
+        <redix.booxtown.custom.CustomEdittext
             android:id="@+id/signup"
             android:layout_width="223dp"
             android:layout_height="36dp"
@@ -154,7 +152,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/bg_btn_sign_in"
-            android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:text="Sign up"
             android:textColor="@android:color/white"
@@ -170,18 +167,17 @@
         android:layout_below="@+id/linearLayout5"
         android:layout_centerHorizontal="true">
 
-        <CheckBox
+        <redix.booxtown.custom.CustomCheckBox
             android:id="@+id/checksignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/colorCheckbox"
-            android:fontFamily="sans-serif-thin"
             android:text="I Agree"
-
+            android:textColor="@color/color_checkbox"
+            android:button="@drawable/img_checkbox"
             android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <redix.booxtown.custom.CustomTextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:fontFamily="sans-serif-thin"

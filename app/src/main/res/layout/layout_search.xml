@@ -13,7 +13,7 @@
         android:background="@color/background_listing"
         android:id="@+id/relativeLayout">
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/editSearch"
@@ -25,7 +25,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:hint="Search"
-            android:fontFamily="sans-serif-thin"
             android:textColorHint="@color/color_text_hint"
             android:paddingRight="35dp"
             android:layout_alignParentTop="false"

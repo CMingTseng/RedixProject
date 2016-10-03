@@ -14,15 +14,14 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             />
-        <TextView
+        <redix.booxtown.custom.CustomTextviewBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Explore"
             android:gravity="center_vertical"
             android:id="@+id/txt_title"
+            android:textSize="@dimen/text_size_locate"
             android:textColor="@color/color_text"
-
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/view2" />

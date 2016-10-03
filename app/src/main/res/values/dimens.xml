@@ -23,6 +23,6 @@
     <dimen name="btn_w_181">181dp</dimen>
     <dimen name="btn_signin">140dp</dimen>
     <dimen name="btn_signin_maginleft">20dp</dimen>
-
+    <dimen name="text_size_locate">20sp</dimen>
 
 </resources>

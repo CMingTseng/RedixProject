@@ -78,7 +78,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         edt_birthday.setOnClickListener(this);
         Intent intent1 = new Intent(this, DeleteTokenService.class);
         startService(intent1);
-        session_id = FirebaseInstanceId.getInstance().getToken().toString();
+
 
 
         if (isOnline() == false){
@@ -106,6 +106,10 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.signup:
+                try {
+                    session_id = FirebaseInstanceId.getInstance().getToken().toString();
+                }catch (Exception e){
+                }
                 UserController userController = new UserController();
                 User user  = new User();
                 user.setBirthday(edt_birthday.getText().toString());
