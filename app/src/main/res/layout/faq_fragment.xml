@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.FaqFragment">
 
-    <EditText
+    <redix.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/editSearch"
@@ -19,6 +19,8 @@
         android:layout_marginRight="10dp"
         android:layout_below="@+id/include2"
         android:layout_marginTop="10dp"
+        android:textSize="@dimen/search"
+        android:textColorHint="@color/color_text_hint"
         android:paddingLeft="15dp" />
 
 

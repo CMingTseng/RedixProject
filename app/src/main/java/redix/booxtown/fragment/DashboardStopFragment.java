@@ -72,7 +72,7 @@ public class DashboardStopFragment extends Fragment {
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
         txt_menu_dashboard_cancel.setVisibility(View.GONE);
         btn_menu_dashboard_bottom_rate.setBackgroundResource(R.drawable.btn_xam);
-        img_menu_dashboard_bottom_status.setImageResource(R.drawable.icon_stop_profile);
+        img_menu_dashboard_bottom_status.setImageResource(R.drawable.myprofile_not);
 
         btn_menu_dashboard_bottom_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +111,7 @@ public class DashboardStopFragment extends Fragment {
         });
 
         //menu
-        img_menu.setImageResource(R.drawable.back);
+        img_menu.setImageResource(R.drawable.btn_sign_in_back);
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

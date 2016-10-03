@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/dot_light_screen1">
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Status"
@@ -23,9 +23,9 @@
         android:layout_toEndOf="@+id/textView119"
         android:src="@drawable/myprofile_tick"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="10dp" />
 
-    <Button
+    <redix.booxtown.custom.CustomButton
         android:layout_width="281dp"
         android:layout_height="36dp"
         android:textAllCaps="false"
@@ -35,23 +35,25 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/bg_btn_add_book_2"
         android:textColor="@color/dot_light_screen1"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="20sp"/>
 
-    <Button
+    <redix.booxtown.custom.CustomButton
         android:layout_width="281dp"
         android:layout_height="36dp"
         android:textAllCaps="false"
-        android:text="Cancle this transaction"
+        android:text="Cancel this transaction"
         android:id="@+id/btn_menu_dashboard_bottom_cancel"
         android:layout_below="@+id/btn_menu_dashboard_bottom_rate"
         android:layout_centerHorizontal="true"
         android:background="@drawable/bg_btn_add_book_2"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:textSize="20sp"
         android:textColor="@color/dot_light_screen1"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -59,7 +61,7 @@
         android:id="@+id/txt_menu_dashboard_cancel"
         android:layout_below="@+id/btn_menu_dashboard_bottom_cancel"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:textColor="@color/color_text"
         android:layout_marginBottom="10dp" />
 </RelativeLayout>

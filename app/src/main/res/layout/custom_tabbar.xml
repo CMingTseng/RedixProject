@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         android:layout_margin="1dp"
         android:id="@+id/linear_all">
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"

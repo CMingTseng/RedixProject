@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import redix.booxtown.R;
 import redix.booxtown.custom.MenuBottomCustom;
@@ -24,7 +25,7 @@ public class ContactFragment extends Fragment {
         btn_send_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(getContext(),"Send message success", Toast.LENGTH_SHORT).show();
             }
         });
         return view;

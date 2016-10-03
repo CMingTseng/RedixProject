@@ -5,9 +5,9 @@
     android:background="#ffffff"
     android:clickable="true"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+     >
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:id="@+id/txt_expland_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

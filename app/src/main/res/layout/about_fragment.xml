@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.AboutFragment">
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="Create new project in your Eclipse IDE and fill all the details.
@@ -19,5 +19,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:textColor="@color/color_topic_interact"
         android:padding="15dp" />
 </FrameLayout>

@@ -40,7 +40,7 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
         setGroupData();
         setChildGroupData();
 
-        NewAdapter mNewAdapter = new NewAdapter(groupItem, childItem);
+        NewAdapter mNewAdapter = new NewAdapter(getAssets(),groupItem, childItem);
         mNewAdapter
                 .setInflater(
                         (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),

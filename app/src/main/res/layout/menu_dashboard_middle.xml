@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -28,49 +28,53 @@
         android:theme="@style/RatingBar"
         android:rating="2.5"
         android:numStars="5"
-        android:layout_below="@+id/textView_username_dashboard_middle"
-        android:layout_centerHorizontal="true"
         style="?android:attr/ratingBarStyleSmall"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_below="@+id/textView_username_dashboard_middle"
+        android:layout_toLeftOf="@+id/img_buy_listing"
+        android:layout_toStartOf="@+id/img_buy_listing" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:id="@+id/img_buy_listing"
-        android:layout_alignTop="@+id/ratingBar_user_dashboard_middle"
-        android:layout_toRightOf="@+id/textView_username_dashboard_middle"
-        android:layout_toEndOf="@+id/textView_username_dashboard_middle"
-        android:src="@drawable/icon_notification_infor2"
-        android:layout_marginRight="5dp" />
+        android:src="@drawable/btn_rank_one"
+        android:layout_alignBottom="@+id/ratingBar_user_dashboard_middle"
+        android:layout_alignRight="@+id/textView_username_dashboard_middle"
+        android:layout_alignEnd="@+id/textView_username_dashboard_middle" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:id="@+id/imageView35"
+        android:src="@drawable/btn_rank_two"
         android:layout_alignTop="@+id/img_buy_listing"
         android:layout_toRightOf="@+id/img_buy_listing"
         android:layout_toEndOf="@+id/img_buy_listing"
-        android:src="@drawable/icon_notification_infor3"
-        android:layout_marginRight="5dp" />
+        android:layout_marginLeft="5dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:id="@+id/imageView36"
         android:layout_alignTop="@+id/imageView35"
         android:layout_toRightOf="@+id/imageView35"
         android:layout_toEndOf="@+id/imageView35"
-        android:src="@drawable/icon_notification_infor1" />
+        android:src="@drawable/btn_rank_three"
+        android:layout_marginLeft="5dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <redix.booxtown.custom.CustomTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Phone : 0972781395"
         android:id="@+id/textView_phone_dashboard_middle"
+        android:layout_marginTop="7dp"
+        android:gravity="center"
         android:layout_below="@+id/ratingBar_user_dashboard_middle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp" />
+
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

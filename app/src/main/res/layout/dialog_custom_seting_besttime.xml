@@ -23,13 +23,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Best time to be connected"
+                android:text="Best time to be contacted"
                 android:id="@+id/textView8"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
                 android:layout_marginBottom="20dp"
                 android:textColor="#ffffff"
+                android:textSize="22sp"
                 android:layout_marginTop="20dp" />
 
             <redix.booxtown.custom.CustomTextView
@@ -98,6 +99,7 @@
                 android:background="@drawable/bg_white_popup"
                 android:textColor="#f56767"
                 android:layout_marginTop="30dp"
+                android:textSize="20sp"
                 android:layout_marginBottom="20dp" />
 
         </RelativeLayout>

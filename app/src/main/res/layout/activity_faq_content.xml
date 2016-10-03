@@ -22,20 +22,24 @@
             android:gravity="center"
             android:padding="10dp"
             android:background="#f65f5f"
-            android:id="@+id/relativeLayout2">
+            android:id="@+id/relativeLayout2"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="SELL"
+                android:text="Sell"
                 android:id="@+id/textView"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:textColor="@color/dot_light_screen1" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -43,9 +47,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativeLayout2"
             android:id="@+id/relativeLayout3"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginRight="-5dp">
 
-            <EditText
+            <redix.booxtown.custom.CustomEdittext
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:id="@+id/editSearch"
@@ -56,6 +62,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:textColorHint="@color/color_text_hint"
+                android:textSize="@dimen/search"
                 android:paddingLeft="10dp" />
 
             <ImageView
@@ -88,7 +96,9 @@
             android:longClickable="false"
             android:groupIndicator="@null"
             android:layout_marginBottom="36dp"
-            android:background="@color/dot_light_screen1"/>
+            android:background="@color/dot_light_screen1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
     </RelativeLayout>
     <include layout="@layout/menu_bottom"
         android:layout_alignParentBottom="true"

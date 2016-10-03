@@ -99,9 +99,9 @@ public class AdapterProfileDashboard extends BaseAdapter {
         holder.ratingBar_dashboard.setRating(dashBoard.getRating());
 
         if(position %2==0){
-            rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.color_myprofile_list_databroad));
+            rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.color_hint_interact));
         }else{
-            rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.color_myprofile_list_databroad));
+            rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.dot_light_screen1));
         }
         return rowView;
     }

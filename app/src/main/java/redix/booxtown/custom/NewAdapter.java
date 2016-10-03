@@ -1,6 +1,8 @@
 package redix.booxtown.custom;
 
 import android.app.Activity;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,10 +23,11 @@ public class NewAdapter extends BaseExpandableListAdapter {
 	public ArrayList<Object> Childtem = new ArrayList<Object>();
 	public LayoutInflater minflater;
 	public Activity activity;
-
-	public NewAdapter(ArrayList<String> grList, ArrayList<Object> childItem) {
+	AssetManager as;
+	public NewAdapter(AssetManager as,ArrayList<String> grList, ArrayList<Object> childItem) {
 		groupItem = grList;
 		this.Childtem = childItem;
+		this.as= as;
 	}
 
 	public void setInflater(LayoutInflater mInflater, Activity act) {
@@ -93,6 +96,8 @@ public class NewAdapter extends BaseExpandableListAdapter {
 		}
 		((CheckedTextView) convertView).setText(groupItem.get(groupPosition));
 		((CheckedTextView) convertView).setChecked(isExpanded);
+		((CheckedTextView) convertView).setTypeface(Typeface.createFromAsset(as,"fonts/Futura_Light_BT.ttf"));
+
 		return convertView;
 	}
 
