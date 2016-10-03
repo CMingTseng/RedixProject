@@ -3,12 +3,13 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/txt_content_faq"
+        android:textColor="@color/color_text_hint"
         android:padding="10dp"/>
 
     <ImageView
@@ -29,5 +30,6 @@
         android:layout_below="@+id/img_listview_faq_next"
         android:layout_height="1dp"
         android:layout_marginBottom="1dp"
+        android:textColor="@color/color_hint_interact"
         android:background="#acacac"/>
 </RelativeLayout>

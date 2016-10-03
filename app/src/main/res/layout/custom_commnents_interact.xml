@@ -33,7 +33,7 @@
 
 
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Username "
@@ -45,7 +45,7 @@
         android:layout_toEndOf="@+id/myRatingBar"
         android:layout_marginLeft="2dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="If you want to buy best books order us"
@@ -57,10 +57,10 @@
         android:layout_alignLeft="@+id/txt_user_comment"
         android:layout_alignStart="@+id/txt_user_comment" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="June 12 ad 5:41 pm"
+        android:text="June 12 at 5:41 pm"
         android:id="@+id/txt_date_thread_comment"
         android:layout_below="@+id/txt_content_thread_comments"
         android:layout_alignLeft="@+id/txt_content_thread_comments"

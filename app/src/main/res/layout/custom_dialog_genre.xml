@@ -13,11 +13,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:checked="false"
-        android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
         app:buttonTint="@color/dot_light_screen1" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
@@ -32,7 +31,7 @@
         android:textColor="@color/dot_light_screen1"
         android:layout_marginRight="10dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:text="New Text"
@@ -43,5 +42,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@color/dot_light_screen1"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp" />
 </RelativeLayout>

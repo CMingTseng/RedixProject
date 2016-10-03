@@ -4,11 +4,11 @@
     android:layout_height="wrap_content"
     android:background="@color/dot_light_screen1">
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Personal infor"
+        android:text="Personal Info"
         android:id="@+id/textView74"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -26,7 +26,7 @@
         android:src="@drawable/btn_edit_profile"
         android:layout_marginRight="5dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:id="@+id/textView77"
@@ -39,7 +39,7 @@
         android:background="@color/color_text_hint"
         />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email :"
@@ -50,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
 
-    <EditText
+    <redix.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_profile_email"
@@ -67,7 +67,7 @@
         android:inputType="textEmailAddress"
         android:background="@android:color/transparent"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:id="@+id/textView80"
@@ -78,7 +78,7 @@
         android:layout_alignEnd="@+id/textView77"
         android:background="@color/color_text_hint"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Phone :"
@@ -89,7 +89,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
 
-    <EditText
+    <redix.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_profile_phone"
@@ -103,7 +103,7 @@
         android:background="@android:color/transparent"
         android:layout_alignBottom="@+id/textView81" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:id="@+id/textView83"
@@ -114,7 +114,7 @@
         android:layout_alignEnd="@+id/textView80"
         android:background="@color/color_text_hint"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Birthday: "
@@ -124,7 +124,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_profile_birthday"
@@ -137,7 +137,7 @@
         android:layout_marginTop="9dp"
         android:textSize="15sp"
         />
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:id="@+id/textView86"
@@ -148,7 +148,7 @@
         android:layout_alignEnd="@+id/textView83"
         android:background="@color/color_text_hint"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -172,7 +172,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:id="@+id/textView88"

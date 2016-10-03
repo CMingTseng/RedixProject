@@ -101,7 +101,7 @@
             android:layout_alignStart="@+id/listview_comments"
             android:layout_toLeftOf="@+id/btn_send_comment_interact"
             android:layout_toStartOf="@+id/btn_send_comment_interact"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="15dp" />
 
         <ImageView
             android:id="@+id/btn_send_comment_interact"
@@ -110,7 +110,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/listview_comments"
             android:layout_alignEnd="@+id/listview_comments"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="15dp"
             android:src="@drawable/btn_interact_sent" />
 
         <ListView

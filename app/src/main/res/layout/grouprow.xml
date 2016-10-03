@@ -7,8 +7,8 @@
     android:drawableRight="@drawable/plusminus"
     android:gravity="center_vertical"
     android:text="hello"
-    android:textColor="#6cd1b3"
+    android:textColor="@color/color_title_book"
     android:padding="10dp"
     android:textSelectHandleLeft="@string/title_loacte"
-    android:textSize="14sp"
+    android:textSize="18sp"
     android:textStyle="bold" />

@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -89,6 +90,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
     ImageView img_menu_bottom_bag;
     ImageView img_menu_bottom_user;
     String session_id;
+    TextView txtFindLocation;
     //end
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,6 +110,8 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
         ImageView img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(img_menu);
+
+        txtFindLocation=(TextView) view.findViewById(R.id.find_location);
 
         //switch notìication
         switch_setting_noti.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -180,10 +184,25 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                         besttime1 = (TextView) dialogtime.findViewById(R.id.txt_seting_besttime1);
                         besttime2 = (TextView) dialogtime.findViewById(R.id.txt_seting_besttime2);
                         if(time1 != null){
-                            besttime1.setText(time1);
+
+                            String[] time1Tmp=time1.split(":");
+                            if(Integer.parseInt(time1Tmp[0])<12){
+                                besttime1.setText(time1Tmp[0]+":"+ time1Tmp[1]+" AM");
+                            }else{
+                                besttime1.setText(time1Tmp[0]+":"+ time1Tmp[1]+" PM");
+                            }
+
+
                         }
                         if(time2 != null){
-                            besttime2.setText(time2);
+
+                            String[] time2Tmp=time2.split(":");
+                            if(Integer.parseInt(time2Tmp[0])<12){
+                                besttime2.setText(time2Tmp[0]+":"+ time2Tmp[1]+" AM");
+                            }else{
+                                besttime2.setText(time2Tmp[0]+":"+ time2Tmp[1]+" PM");
+                            }
+
                         }
                         besttime1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -248,10 +267,12 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         switch_seting_location.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b == false) {
+                if (b == true) {
                     getActivity().getSupportFragmentManager().beginTransaction().hide(mMapFragment).commit();
                     is_current_location = 0;
+                    txtFindLocation.setVisibility(View.GONE);
                 } else {
+
                     getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
                     is_current_location = 1;
                 }
@@ -536,7 +557,24 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
                     if (settings.get(0).getIs_best_time() == 1){
                         switch_setting_besttime.setChecked(true);
-                        txt_setting_besttime.setText(settings.get(0).getTime_start() +" - "+ settings.get(0).getTime_to());
+
+
+                        String[] time1Tmp=settings.get(0).getTime_start().split(":");
+                        String time_start="";
+                        String time_end="";
+                        if(Integer.parseInt(time1Tmp[0])<12){
+                            time_start=time1Tmp[0]+":"+ time1Tmp[1]+" AM";
+                        }else{
+                            time_start=time1Tmp[0]+":"+ time1Tmp[1]+" PM";
+                        }
+
+                        String[] time2Tmp= settings.get(0).getTime_to().split(":");
+                        if(Integer.parseInt(time2Tmp[0])<12){
+                            time_end=time2Tmp[0]+":"+ time2Tmp[1]+" AM";
+                        }else{
+                            time_end=time2Tmp[0]+":"+ time2Tmp[1]+" PM";
+                        }
+                        txt_setting_besttime.setText(time_start +" - "+ time_end);
                         time1 = settings.get(0).getTime_start();
                         time2 = settings.get(0).getTime_to();
                     }else {
@@ -547,6 +585,10 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     id_setting = settings.get(0).getId();
                     is_notification = settings.get(0).getIs_notification();
                     is_current_location = settings.get(0).getIs_current_location();
+                    if(is_current_location==0){
+                        txtFindLocation.setVisibility(View.VISIBLE);
+                    }
+
                     is_best_time = settings.get(0).getIs_best_time();
                     setting_old=new Setting(is_notification,is_best_time,is_current_location,time1,time2);
                 }else {

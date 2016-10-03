@@ -8,17 +8,19 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="We love to hear from you"
         android:id="@+id/textView6"
         android:layout_alignParentTop="true"
+        android:textColor="@color/color_topic_interact"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="20dp" />
+        android:paddingBottom="20dp"
+        android:layout_marginTop="15dp" />
 
-    <EditText
+    <redix.booxtown.custom.CustomEdittext
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_message"
@@ -31,9 +33,12 @@
         android:backgroundTint="@color/color_text_hint"
         android:lines="6"
         android:hint="Message"
-        android:gravity="left"/>
+        android:textColorHint="@color/color_text_hint"
+        android:gravity="left"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
-    <Button
+    <redix.booxtown.custom.CustomButton
         android:layout_width="223dp"
         android:layout_height="36dp"
         android:id="@+id/btn_send_message"
@@ -42,6 +47,8 @@
         android:textAllCaps="false"
         android:text="Send message"
         android:layout_below="@+id/editText_message"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:layout_marginTop="15dp" />
 </RelativeLayout>
 </FrameLayout>

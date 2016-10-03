@@ -19,19 +19,21 @@
             android:layout_height="wrap_content"
             android:padding="15dp">
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Best time to be connected"
+                android:text="Best time to be contacted"
                 android:id="@+id/textView8"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
                 android:layout_marginBottom="20dp"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="22sp"
+                android:layout_marginTop="20dp" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -45,9 +47,9 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/dot_light_screen1"
                 android:text="Set time"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="30dp" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -60,10 +62,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:textColor="@color/dot_light_screen1" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:text="New Text"
@@ -75,7 +77,7 @@
                 android:layout_alignParentEnd="true"
                 android:background="@color/dot_light_screen1" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:text="New Text"
@@ -86,15 +88,19 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="20dp" />
 
-            <Button
+            <redix.booxtown.custom.CustomButton
                 android:layout_width="224dp"
                 android:layout_height="36dp"
                 android:text="Submit"
+                android:textAllCaps="false"
                 android:id="@+id/btn_setingdialog_time"
                 android:layout_below="@+id/textView10"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/bg_white_popup"
-                android:textColor="#f56767" />
+                android:textColor="#f56767"
+                android:layout_marginTop="30dp"
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp" />
 
         </RelativeLayout>
     </RelativeLayout>

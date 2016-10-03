@@ -102,6 +102,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
+            android:background="@color/dot_light_screen1"
             android:layout_below="@+id/linearLayout2" />
     </RelativeLayout>
 </FrameLayout>
