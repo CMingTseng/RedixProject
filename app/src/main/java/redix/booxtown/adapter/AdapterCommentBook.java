@@ -76,7 +76,7 @@ public class AdapterCommentBook extends BaseAdapter {
         hoder.txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
         hoder.txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
         hoder.txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
-        //Picasso.with(mContext).load(R.drawable.icon_test).into(hoder.img_icon);
+
 
 //        hoder.img_icon.setImageResource(R.drawable.icon_test);
         hoder.img_icon.setOnClickListener(new View.OnClickListener() {
@@ -88,10 +88,11 @@ public class AdapterCommentBook extends BaseAdapter {
                 }
             });
         if(Comments.getPhoto().length()>3) {
-            Glide.with(mContext). load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length())).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.user_empty).
-                    into(hoder.img_icon);
+            Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length())).into(hoder.img_icon);
+//            Glide.with(mContext). load().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.user_empty).
+//                    into(hoder.img_icon);
         }else{
-            Glide.with(mContext). load(R.mipmap.user_empty).diskCacheStrategy(DiskCacheStrategy.ALL).
+            Picasso.with(mContext). load(R.mipmap.user_empty).
                     into(hoder.img_icon);
 
         }
