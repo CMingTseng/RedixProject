@@ -132,6 +132,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     String[] image;
     String imageOrigin;
 
+    int back;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -1117,6 +1119,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             super.onPostExecute(aBoolean);
             if (aBoolean ==true){
                 Toast.makeText(getActivity(),Information.noti_delete_success,Toast.LENGTH_LONG).show();
+                MainAllActivity main = (MainAllActivity) getActivity();
+                main.callFragment(new ListingsFragment());
             }else {
                 Toast.makeText(getActivity(),Information.noti_delete_fail,Toast.LENGTH_LONG).show();
             }

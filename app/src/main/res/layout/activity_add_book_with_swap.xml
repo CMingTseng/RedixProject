@@ -17,7 +17,8 @@
         android:id="@+id/scrollView3"
         android:layout_below="@+id/menu_top_add_book_with_swap"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/menu_bottom_add_book_swap">
+        android:layout_above="@+id/menu_bottom_add_book_swap"
+        android:layout_marginBottom="10dp">
 
         <include
             android:layout_width="wrap_content"

@@ -186,7 +186,6 @@ public class MainAllActivity extends AppCompatActivity{
             }
         });
         //-------------------------------------------------------
-
     }
 
     public TextView gettitle(){

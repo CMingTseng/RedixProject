@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class ListingsDetailActivity extends Fragment
     TextView txt_price_listings_detail;
     TextView txt_time_post_listings;
     TextView txt_genre_listing_detail;
-    ImageView icon_user_listing_detail;
+    CircularImageView icon_user_listing_detail;
     TextView txt_listed_by;
     ProgressBar progressBar;
     TextView txt_tag;
@@ -134,7 +135,7 @@ public class ListingsDetailActivity extends Fragment
         imFree2 = (ImageView) v.findViewById(R.id.img_free_listings2);
         imSwap2 = (ImageView) v.findViewById(R.id.img_swap_listing2);
         txt_listed_by = (TextView)v.findViewById(R.id.txt_listed_by);
-        icon_user_listing_detail = (ImageView)v.findViewById(R.id.icon_user_listing_detail);
+        icon_user_listing_detail = (CircularImageView) v.findViewById(R.id.icon_user_listing_detail);
         ratingBar_userprofile = (RatingBar)v.findViewById(R.id.ratingBar_userprofile);
 
         book = (Book)getArguments().getSerializable("item");

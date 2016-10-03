@@ -54,4 +54,5 @@
     <color name="backgroung_signin">#38BFC3</color>
     <color name="background_listing">#F6F6F6</color>
     <color name="color_checkbox">#808284</color>
+    <color name="color_filter_price">#5D5D5D</color>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/RequestSend"
@@ -22,18 +22,22 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textColor="@color/dot_light_screen1"
-            android:textSize="22sp" />
+            android:textSize="@dimen/text_request_swap"/>
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/titlepopp_screen78"
             android:id="@+id/tv_author"
             android:layout_below="@+id/tv_title"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:textSize="@dimen/slide_desc"
+            />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="@dimen/btn_w"
             android:layout_height="@dimen/btn_h"
             android:text="@string/backtohome"
@@ -44,7 +48,7 @@
             android:background="@drawable/change_pass"
             android:gravity="center"
             android:textColor="@color/color_text"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_book_exploer"
             android:layout_marginBottom="10dp" />
     </RelativeLayout>
 

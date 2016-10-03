@@ -368,9 +368,15 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     }
 
     public Bitmap resizeMapIcons(String icon,int width, int height){
-        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(icon, "drawable", getActivity().getPackageName()));
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
-        return resizedBitmap;
+        Bitmap imageBitmap;
+        Bitmap resizedBitmap;
+        try {
+            imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(icon, "drawable", getActivity().getPackageName()));
+            resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+            return resizedBitmap;
+        }catch (Exception e){
+        }
+        return null;
     }
 
     @Override
@@ -497,38 +503,44 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         @Override
         protected void onPostExecute(final List<Book> books) {
-            if (books == null){
-                dialog.dismiss();
-            }else {
-                listExplore = books;
-                // create marker
-                addMarker(books);
-                dialog.dismiss();
+            try {
+                if (books == null) {
+                    dialog.dismiss();
+                } else {
+                    listExplore = books;
+                    // create marker
+                    addMarker(books);
+                    dialog.dismiss();
+                }
+            }catch (Exception e){
             }
-            super.onPostExecute(books);
         }
     }
 
     public void addMarker(final List<Book> books){
-        mMap.clear();
-        if(books.size() >0) {
-            LatLng latLng = new LatLng(books.get(0).getLocation_latitude(), books.get(0).getLocation_longitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
-        }
-        for(int i = 0;i<books.size();i++) {
-            marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(),books.get(i).getLocation_longitude())).title("Hello Maps");
-            latLngBounds = new LatLng(books.get(i).getLocation_latitude(),books.get(i).getLocation_longitude());
-            // Changing marker icon
-            char array[] = books.get(i).getAction().toCharArray();
-            String swap = String.valueOf(array[0]);
-            String free = String.valueOf(array[1]);
-            String buy = String.valueOf(array[2]);
-            String icon = IconMapController.icon(swap,free,buy);
-            if (icon!=null){
-                marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,110, 150)));
+        try {
+            mMap.clear();
+            if (books.size() > 0) {
+                LatLng latLng = new LatLng(books.get(0).getLocation_latitude(), books.get(0).getLocation_longitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
             }
-            Marker m_marker = mMap.addMarker(marker);
-            mMarkersHashMap.put(m_marker,books.get(i));
+            for (int i = 0; i < books.size(); i++) {
+                marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Hello Maps");
+                latLngBounds = new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude());
+                // Changing marker icon
+                char array[] = books.get(i).getAction().toCharArray();
+                String swap = String.valueOf(array[0]);
+                String free = String.valueOf(array[1]);
+                String buy = String.valueOf(array[2]);
+                String icon = IconMapController.icon(swap, free, buy);
+                if (icon != null) {
+                    marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, 110, 150)));
+                }
+                Marker m_marker = mMap.addMarker(marker);
+                mMarkersHashMap.put(m_marker, books.get(i));
+            }
+        }catch (Exception e){
+
         }
     }
 }

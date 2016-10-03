@@ -32,9 +32,6 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     ImageView img_menu_bottom_camera;
     ImageView img_menu_bottom_bag;
     ImageView img_menu_bottom_user;
-    ArrayList<Interact> listInteract= new ArrayList<>();
-    ListView listView;
-    private MenuBottomCustom menu_bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +76,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         btn_add_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(RespondActivity.this,AddbookActivity.class);
-                startActivity(intent);
+//                Intent intent=new Intent(RespondActivity.this,AddbookActivity.class);
+//                startActivity(intent);
             }
         });
 

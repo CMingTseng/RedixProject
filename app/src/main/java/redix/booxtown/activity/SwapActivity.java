@@ -123,13 +123,15 @@ public class SwapActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SwapActivity.this, AddbookActivity.class);
+                intent.putExtra("book",bookIntent);
                 startActivity(intent);
+                finish();
+
             }
         });
 
         listingAsync listingAsync = new listingAsync(SwapActivity.this);
         SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
         String session_id = pref.getString("session_id", null);
         listingAsync.execute(session_id);
     }

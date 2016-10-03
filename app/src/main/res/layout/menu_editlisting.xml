@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/dot_light_screen2">
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Photos "
@@ -17,7 +17,7 @@
         android:padding="5dp"
         android:layout_marginLeft="5dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="(Max 3)"
@@ -94,7 +94,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <EditText
+    <redix.booxtown.custom.CustomEdittext
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText8"
@@ -103,14 +103,13 @@
         android:layout_alignStart="@+id/view"
         android:hint="The last paiting"
         android:background="@android:color/transparent"
-        android:fontFamily="sans-serif-thin"
         android:textColorHint="@color/color_text_hint"
         android:layout_marginTop="10dp"
         android:layout_alignRight="@+id/view"
         android:layout_alignEnd="@+id/view"
         android:layout_marginBottom="5dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:text="New Text"
@@ -123,7 +122,7 @@
         android:background="@color/color_line"
         android:layout_marginTop="5dp" />
 
-    <EditText
+    <redix.booxtown.custom.CustomEdittext
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -134,7 +133,6 @@
         android:layout_alignStart="@+id/textView106"
         android:layout_alignRight="@+id/textView106"
         android:layout_alignEnd="@+id/textView106"
-        android:fontFamily="sans-serif-thin"
         android:textColorHint="@color/color_text_hint"
         android:hint="Author"
         android:background="@android:color/transparent"
@@ -154,7 +152,7 @@
         android:background="@color/color_line"
         android:layout_marginTop="5dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txt_menu_genre1"
@@ -163,7 +161,6 @@
         android:layout_alignStart="@+id/textView107"
         android:layout_marginTop="10dp"
         android:text="Genre"
-        android:fontFamily="sans-serif-thin"
         android:layout_marginBottom="5dp"
         android:textColorHint="@color/color_text_hint"
         android:background="@android:color/transparent"
@@ -171,7 +168,7 @@
         android:layout_toStartOf="@+id/img_menu_genre"
         android:textSize="17sp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:text="New Text"
@@ -184,11 +181,10 @@
         android:background="@color/color_line"
         android:layout_marginTop="5dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Book condition"
-        android:fontFamily="sans-serif-thin"
         android:textColorHint="@color/color_text_hint"
         android:background="@android:color/transparent"
         android:id="@+id/textView109"
@@ -214,7 +210,7 @@
         android:thumb="@drawable/btn_filter_standar"
         android:max="100"
         />
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Poor"
@@ -229,7 +225,7 @@
         android:layout_alignStart="@+id/textView109"
         />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Good"
@@ -243,7 +239,7 @@
         android:layout_alignRight="@+id/img_menu_genre"
         android:layout_alignEnd="@+id/img_menu_genre" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:text="New Text"
@@ -256,7 +252,7 @@
         android:layout_marginTop="5dp"
         android:background="@color/color_line"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="#Tags  "
@@ -266,7 +262,7 @@
         android:layout_alignStart="@+id/textView112"
         android:layout_marginTop="5dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="(Max 3)"
@@ -278,7 +274,7 @@
 
 
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:text="New Text"
@@ -292,7 +288,7 @@
         android:background="@color/color_line"
         android:layout_marginRight="10dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Find your location on map"
@@ -354,7 +350,9 @@
         android:layout_below="@+id/fragment_map_editlisting"
         android:layout_alignLeft="@+id/fragment_map_editlisting"
         android:layout_alignStart="@+id/fragment_map_editlisting"
-        android:checked="false" />
+        android:checked="false"
+        android:button="@drawable/img_checkbox"
+        />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -363,6 +361,7 @@
         android:id="@+id/ck_sell_editlisting"
         android:layout_alignTop="@+id/checkBox"
         android:layout_centerHorizontal="true"
+        android:button="@drawable/img_checkbox"
         />
 
     <CheckBox
@@ -373,9 +372,10 @@
         android:layout_alignTop="@+id/ck_sell_editlisting"
         android:checked="false"
         android:layout_alignRight="@+id/img_menu_genre"
-        android:layout_alignEnd="@+id/img_menu_genre" />
+        android:layout_alignEnd="@+id/img_menu_genre"
+        android:button="@drawable/img_checkbox"/>
 
-    <EditText
+    <redix.booxtown.custom.CustomEdittext
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/edt_editlisting_sell"
@@ -396,7 +396,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         >
-    <Button
+    <redix.booxtown.custom.CustomButton
         android:layout_width="145dp"
         android:layout_height="36dp"
         android:text="Delete book"
@@ -411,7 +411,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp" />
 
-    <Button
+    <redix.booxtown.custom.CustomButton
         android:layout_width="145dp"
         android:layout_height="36dp"
         android:text="Update"
@@ -426,7 +426,7 @@
         android:visibility="visible"
         android:layout_marginLeft="10dp" />
 </TableRow>
-    <Button
+    <redix.booxtown.custom.CustomButton
         android:layout_width="@dimen/btn_w_181"
         android:layout_height="@dimen/btn_h"
         android:text="Add a book"
@@ -460,7 +460,7 @@
         android:layout_alignStart="@+id/textView113"
         android:layout_marginBottom="5dp">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -471,7 +471,7 @@
             android:background="@drawable/border_image"
             android:gravity="center_vertical"
             android:layout_below="@+id/textView113" />
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -485,7 +485,7 @@
             android:layout_marginRight="5dp"
             android:layout_below="@+id/textView113"
             android:layout_toRightOf="@+id/tag1" />
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -498,7 +498,7 @@
             android:layout_below="@+id/textView113"
             android:layout_toRightOf="@+id/tag2" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/editText10"

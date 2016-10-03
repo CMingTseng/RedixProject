@@ -24,5 +24,8 @@
     <dimen name="btn_signin">140dp</dimen>
     <dimen name="btn_signin_maginleft">20dp</dimen>
     <dimen name="text_size_locate">20sp</dimen>
-
+    <dimen name="text_size_search">16sp</dimen>
+    <dimen name="text_by_exploer">12sp</dimen>
+    <dimen name="text_book_exploer">18sp</dimen>
+    <dimen name="text_request_swap">24sp</dimen>
 </resources>

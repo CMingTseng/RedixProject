@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentTop="false"
         android:background="@drawable/customboderfilter">
-        <TextView
+        <redix.booxtown.custom.CustomTextviewBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Filter/Sort"
@@ -26,6 +26,7 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:textSize="@dimen/slide_desc"
             />
         <RelativeLayout
             android:layout_width="match_parent"
@@ -37,7 +38,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:id="@+id/layout_user">
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Filter by"
@@ -49,20 +50,25 @@
                 android:textColor="@color/color_text"
                 android:background="@color/color_hint_interact"
                 android:layout_margin="5dp"
-                android:padding="5dp" />
-            <TextView
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/slide_desc"/>
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Price range"
                 android:id="@+id/textView127"
+                android:textColor="@color/color_filter_price"
                 android:layout_below="@+id/txt_dialog_delete_editlisting1"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="5dp"
                 android:layout_alignRight="@+id/txt_dialog_delete_editlisting1"
-                android:layout_alignEnd="@+id/txt_dialog_delete_editlisting1" />
+                android:layout_alignEnd="@+id/txt_dialog_delete_editlisting1"
+                android:textSize="@dimen/slide_desc"/>
+
             <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                 android:id="@+id/rangeSeekbar3"
                 android:layout_width="match_parent"
@@ -82,7 +88,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_margin="5dp" />
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -92,7 +98,8 @@
                 android:gravity="left"
                 android:layout_alignRight="@+id/txt_filter_rangemax"
                 android:layout_alignEnd="@+id/txt_filter_rangemax"
-                android:layout_below="@+id/rangeSeekbar3" />
+                android:layout_below="@+id/rangeSeekbar3"
+                android:textSize="@dimen/text_size_search"/>
             <com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar
                 android:id="@+id/rangeSeekbar8"
                 android:layout_width="match_parent"
@@ -109,7 +116,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="5dp" />
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1000"
@@ -121,8 +128,9 @@
                 android:layout_alignLeft="@+id/rangeSeekbar3"
                 android:layout_alignStart="@+id/rangeSeekbar3"
                 android:layout_above="@+id/textView75"
-                android:layout_marginRight="5dp" />
-            <TextView
+                android:layout_marginRight="5dp"
+                android:textSize="@dimen/text_size_search"/>
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1 KM"
@@ -131,28 +139,33 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp" />
-            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/text_size_search"/>
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10 KM"
                 android:id="@+id/txt_filter_proximity"
                 android:layout_below="@+id/rangeSeekbar8"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="right"
                 android:layout_alignRight="@+id/rangeSeekbar8"
                 android:layout_alignEnd="@+id/rangeSeekbar8"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-            <TextView
+                android:layout_alignParentStart="true"
+                android:textSize="@dimen/text_size_search"/>
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Proximity"
+                android:textColor="@color/color_filter_price"
                 android:id="@+id/textView75"
                 android:layout_below="@+id/txt_filter_rangemin"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/slide_desc"
+                />
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -164,7 +177,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:spinnerMode="dropdown" />
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:id="@+id/textView76"
@@ -177,10 +190,11 @@
                 android:layout_marginBottom="10dp" />
         </RelativeLayout>
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sort by"
+            android:textSize="@dimen/slide_desc"
             android:id="@+id/textView72"
             android:layout_below="@+id/layout_user"
             android:layout_alignLeft="@+id/layout_user"
@@ -205,11 +219,13 @@
                 android:layout_height="140dp"
                 android:id="@+id/lv_dialog_filter"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-            <Button
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"/>
+            <redix.booxtown.custom.CustomButton
                 android:layout_width="223dp"
                 android:layout_height="36dp"
                 android:text="Submit"
+
                 android:id="@+id/btn_dialog_filter_submit"
                 android:background="@drawable/bg_btn_sign_in"
                 android:textColor="#ffffff"
