@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.fragment.TopicFragment;
 import redix.booxtown.fragment.ListingsFragment;
 import redix.booxtown.fragment.MainFragment;
@@ -71,6 +72,7 @@ public class MenuBottomCustom{
             @Override
             public void onClick(View v) {
                 if(type!=4){
+
                     Intent itent = new Intent(context, WishboardFragment.class);
                     context.startActivity(itent);
                 }

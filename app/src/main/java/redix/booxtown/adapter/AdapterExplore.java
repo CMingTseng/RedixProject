@@ -171,34 +171,34 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         hoder.txt_title_book.setText(ex.getTitle().toString());
         hoder.txt_author_book.setText(ex.getAuthor().toString());
 
-        hoder.img_buy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(),1,ex);
-                userID.execute();
+            hoder.img_buy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(),1,ex);
+                    userID.execute();
 
-            }
-        });
+                }
+            });
 
-        hoder.img_swap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(), 2, ex);
-                userID.execute();
-            }
-        });
+            hoder.img_swap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(), 2, ex);
+                    userID.execute();
+                }
+            });
 
-        hoder.img_book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListingsDetailActivity fragment = new ListingsDetailActivity();
-                Bundle bundle = new Bundle();
-                bundle.putString(String.valueOf(R.string.valueListings),"2");
-                bundle.putSerializable("item",ex);
-                fragment.setArguments(bundle);
-                callFragment(fragment);
-            }
-        });
+            hoder.img_book.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ListingsDetailActivity fragment = new ListingsDetailActivity();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(String.valueOf(R.string.valueListings), "2");
+                    bundle.putSerializable("item", ex);
+                    fragment.setArguments(bundle);
+                    callFragment(fragment);
+                }
+            });
 
         return convertView;
     }

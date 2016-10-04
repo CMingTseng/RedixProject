@@ -209,7 +209,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             layout_comments.setLayoutParams(params);
         }
-        setData(book,v);
+        setData(book,v,type);
         //-----------------------------------------------------------
         //final AdapterInteractThreadDetails adapter = new AdapterInteractThreadDetails(getActivity(),list);
         RelativeLayout.LayoutParams paramslist = (RelativeLayout.LayoutParams)tbTypebook.getLayoutParams();
@@ -248,7 +248,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         return v;
     }
 
-    public void setData(final Book book, View v){
+    public void setData(final Book book, View v,String type){
         txt_title_listings_detail.setText(book.getTitle());
         txt_author_listings_detail.setText("by "+book.getAuthor());
         txt_price_listings_detail.setText("AED "+book.getPrice());
@@ -333,31 +333,33 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             imSwap2.setVisibility(View.VISIBLE);
             imBuy2.setVisibility(View.VISIBLE);
         }
-        imSwap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                swap(book);
-            }
-        });
-        imBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buy();
-            }
-        });
+        if(type.equals("2")) {
+            imSwap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    swap(book);
+                }
+            });
+            imBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    buy();
+                }
+            });
 
-        imSwap2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                swap(book);
-            }
-        });
-        imBuy2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buy();
-            }
-        });
+            imSwap2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    swap(book);
+                }
+            });
+            imBuy2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    buy();
+                }
+            });
+        }
     }
 
     public void init(View view){

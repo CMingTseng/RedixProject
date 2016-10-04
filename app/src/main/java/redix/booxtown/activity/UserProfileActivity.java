@@ -30,6 +30,7 @@ import redix.booxtown.controller.Information;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.CustomTabbarExplore;
 import redix.booxtown.custom.MenuBottomCustom;
+import redix.booxtown.fragment.MainFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Explore;
 import redix.booxtown.model.User;
@@ -37,7 +38,7 @@ import redix.booxtown.model.User;
 /**
  * Created by Administrator on 29/08/2016.
  */
-public class UserProfileActivity extends AppCompatActivity
+public class UserProfileActivity extends AppCompatActivity implements View.OnClickListener
 {
     private LinearLayout linear_all;
     private LinearLayout linear_swap;
@@ -52,12 +53,27 @@ public class UserProfileActivity extends AppCompatActivity
     RatingBar ratingBar_userprofile;
     AdapterExplore adapter;
 
+    //-----------------------------
+    private ImageView btn_location;
+    private ImageView btn_commnet;
+    private ImageView btn_camera;
+    private ImageView btn_bag;
+    private ImageView btn_user;
+    //-----------------------------
+
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+
+        //bottom menu
+        btn_location = (ImageView) findViewById(R.id.img_menu_bottom_location);
+        btn_commnet = (ImageView) findViewById(R.id.img_menu_bottom_comment);
+        btn_camera = (ImageView) findViewById(R.id.img_menu_bottom_camera);
+        btn_bag = (ImageView) findViewById(R.id.img_menu_bottom_bag);
+        btn_user = (ImageView) findViewById(R.id.img_menu_bottom_user);
         //--------------------------------------------------
         View view=(View) findViewById(R.id.menu_top_profile);
         TextView txtTitle=(TextView) view.findViewById(R.id.txt_title);
@@ -92,8 +108,8 @@ public class UserProfileActivity extends AppCompatActivity
         });
         //--------------------------------------------------
         View view_bottom = (View)findViewById(R.id.menu_bottom_profile);
-        menu_bottom=new MenuBottomCustom(view_bottom,this,0);
-        menu_bottom.setDefaut(0);
+        //menu_bottom=new MenuBottomCustom(view_bottom,this,0);
+       // menu_bottom.setDefaut(0);
         //---------------------------------------------------------------
 
         //---------------------------------------------------------------
@@ -124,7 +140,6 @@ public class UserProfileActivity extends AppCompatActivity
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(2),0);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
                 grid.setAdapter(adapter);
-
                 tab_custom.setDefault(2);
             }
         });
@@ -156,6 +171,8 @@ public class UserProfileActivity extends AppCompatActivity
 
         getTopBook getTopBook = new getTopBook(UserProfileActivity.this,user_id,100,0);
         getTopBook.execute();
+
+        //btn_location.setOnClickListener(this);
     }
 
     public List<Book> filterExplore(int type){
@@ -193,6 +210,15 @@ public class UserProfileActivity extends AppCompatActivity
         super.onRestart();
 
         menu_bottom.setDefaut(0);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.img_menu_bottom_location:
+                MainAllActivity mainAllActivity = (MainAllActivity)getApplicationContext();
+                mainAllActivity.callFragment(new MainFragment());
+        }
     }
 
     class getUser extends AsyncTask<Void,Void,List<User>>{
@@ -269,6 +295,9 @@ public class UserProfileActivity extends AppCompatActivity
         protected void onPostExecute(List<Book> books) {
             try {
                 if (books.size() >0){
+                    for(int i=0; i<books.size(); i++){
+                        books.get(i).setUser_id(user_id+"");
+                    }
                     listEx = books;
                     adapter = new AdapterExplore(UserProfileActivity.this,books,0);
                     grid=(GridView)findViewById(R.id.grid_view_profile);
@@ -286,5 +315,7 @@ public class UserProfileActivity extends AppCompatActivity
             progressDialog.dismiss();
         }
     }
+
+
 }
 
