@@ -27,9 +27,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="12dp"
         android:textColor="@color/dot_light_screen1"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingTop="4dp" />
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"

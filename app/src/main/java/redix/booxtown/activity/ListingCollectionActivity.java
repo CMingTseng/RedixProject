@@ -209,7 +209,13 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         imagebook2 = (ImageView) v.findViewById(R.id.imageView30);
         imagebook3 = (ImageView) v.findViewById(R.id.imageView31);
         seekbar = (SeekBar) v.findViewById(R.id.seekBar2);
-
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
+        Bitmap thumb=Bitmap.createBitmap(44,44, Bitmap.Config.ARGB_8888);
+        Canvas canvas=new Canvas(thumb);
+        canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
+                new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
+        Drawable drawable = new BitmapDrawable(getResources(),thumb);
+        seekbar.setThumb(drawable);
         listUserName= new ArrayList<>();
 
                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -311,17 +317,17 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         btn_menu_listing_addbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(),ListingsFragment.class);
-//                startActivity(intent);
+                try {
+                    if(addbook(0)) {
+                        addImages();
+                        uploaddata uploaddata = new uploaddata();
+                        uploaddata.execute();
+                        MainAllActivity mainAllActivity = (MainAllActivity) getActivity();
+                        mainAllActivity.callFragment(new ListingsFragment());
+                    }
+                }catch (Exception exx){
 
-                addbook();
-//                Addbook addbook = new Addbook();
-//                addbook.execute();
-                addImages();
-                uploaddata uploaddata  = new uploaddata();
-                uploaddata.execute();
-                MainAllActivity mainAllActivity = (MainAllActivity) getActivity();
-                mainAllActivity.callFragment(new ListingsFragment());
+                }
             }
         });
 
@@ -514,7 +520,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
             }
         });
-        addbook();
+        addbook(1);
         return v;
     }
 
@@ -528,52 +534,66 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         transaction.commit();
     }
 
-    public void addbook() {
-        GPSTracker gps = new GPSTracker(getActivity());
-        for (int i = 0; i < lisImmage.size(); i++) {
-            try {
-                long time = System.currentTimeMillis();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), lisImmage.get(i).getUri());
-                Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap,250,270, true);
-                bmap.add(photoBitMap);
-                listFileName.add(lisImmage.get(i).getKey());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        ArrayList<String> listvalueGenre = new ArrayList<>();
-        for (int i = 0; i < genre.size(); i++) {
-            if (genre.get(i).ischeck() == true) {
-                listvalueGenre.add(genre.get(i).getValue());
-            }
-        }
+    public boolean addbook(int type) {
 
-        String auth = edt_author.getText().toString();
-        titl = edt_tilte.getText().toString();
-        String tag = "";
-        if (listTag.size() != 0) {
-            for (int i = 0; i < listTag.size(); i++) {
-                if (i != listTag.size() - 1) {
-                    tag = tag + listTag.get(i).replace("|","") + ";";
-                } else {
-                    tag = tag + listTag.get(i).replace("|","");
+        if(edt_tilte.getText().toString().equals("") || edt_tilte.getText().toString()== null){
+            if(type==0) {
+                Toast.makeText(getContext(), "Please enter valid book title", Toast.LENGTH_SHORT).show();
+            }
+            return  false;
+        }
+        else if(edt_author.getText().toString().equals("") || edt_author.getText().toString()== null){
+            if(type==0) {
+                Toast.makeText(getContext(), "Please enter valid book author", Toast.LENGTH_SHORT).show();
+            }
+            return  false;
+        }
+        else {
+            GPSTracker gps = new GPSTracker(getActivity());
+            for (int i = 0; i < lisImmage.size(); i++) {
+                try {
+                    long time = System.currentTimeMillis();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), lisImmage.get(i).getUri());
+                    Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, 270, true);
+                    bmap.add(photoBitMap);
+                    listFileName.add(lisImmage.get(i).getKey());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        }
-
-        String genrel = "";
-
-        if (listvalueGenre.size() != 0) {
-            for (int i = 0; i < listvalueGenre.size(); i++) {
-                if (i != listvalueGenre.size() - 1) {
-                    genrel = genrel + listvalueGenre.get(i) + ";";
-                } else {
-                    genrel = genrel + listvalueGenre.get(i);
+            ArrayList<String> listvalueGenre = new ArrayList<>();
+            for (int i = 0; i < genre.size(); i++) {
+                if (genre.get(i).ischeck() == true) {
+                    listvalueGenre.add(genre.get(i).getValue());
                 }
             }
-        }
 
-        String action = getAction();
+            String auth = edt_author.getText().toString();
+            titl = edt_tilte.getText().toString();
+            String tag = "";
+            if (listTag.size() != 0) {
+                for (int i = 0; i < listTag.size(); i++) {
+                    if (i != listTag.size() - 1) {
+                        tag = tag + listTag.get(i).replace("|", "") + ";";
+                    } else {
+                        tag = tag + listTag.get(i).replace("|", "");
+                    }
+                }
+            }
+
+            String genrel = "";
+
+            if (listvalueGenre.size() != 0) {
+                for (int i = 0; i < listvalueGenre.size(); i++) {
+                    if (i != listvalueGenre.size() - 1) {
+                        genrel = genrel + listvalueGenre.get(i) + ";";
+                    } else {
+                        genrel = genrel + listvalueGenre.get(i);
+                    }
+                }
+            }
+
+            String action = getAction();
 
 //        seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
 //            @Override
@@ -581,72 +601,74 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 //                condition = String.valueOf(minValue);
 //            }
 //        });
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            int progress = 0;
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                //            int progress = 0;
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 //                progress = i;
-                //Toast.makeText(getContext(),"p111:"+i,Toast.LENGTH_LONG).show();
-                condition = String.valueOf(i);
+                    //Toast.makeText(getContext(),"p111:"+i,Toast.LENGTH_LONG).show();
+                    condition = String.valueOf(i);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    condition = String.valueOf(seekBar.getProgress());
+                    //Toast.makeText(getContext(),"p"+progress,Toast.LENGTH_LONG).show();
+                }
+            });
+
+            String imagename = "";
+            if (listFileName.size() != 0) {
+                for (int i = 0; i < listFileName.size(); i++) {
+                    if (i != listFileName.size() - 1) {
+                        imagename = imagename + listFileName.get(i) + ";";
+                    } else {
+                        imagename = imagename + listFileName.get(i);
+                    }
+                }
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                condition = String.valueOf(seekBar.getProgress());
-                //Toast.makeText(getContext(),"p"+progress,Toast.LENGTH_LONG).show();
-            }
-        });
-
-        String imagename = "";
-        if (listFileName.size() != 0) {
-            for (int i = 0; i < listFileName.size(); i++) {
-                if (i != listFileName.size() - 1) {
-                    imagename = imagename + listFileName.get(i) + ";";
+            book = new Book();
+            book.setAction(action);
+            book.setAuthor(auth);
+            book.setTitle(titl);
+            book.setCondition(String.valueOf(seekbar.getProgress()));
+            book.setGenre(genrel);
+            book.setHash_tag(tag);
+            book.setLocation_latitude(Float.valueOf(String.valueOf(gps.getLatitude())));
+            book.setLocation_longitude(Float.valueOf(String.valueOf(gps.getLongitude())));
+            if (numclick != 0 || numimageclick != 0) {
+                if (!s.equals("edit")) {
+                    book.setPhoto(imagename);
                 } else {
-                    imagename = imagename + listFileName.get(i);
+                    String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
+                    book.setPhoto(imageupdate);
+                    book.setId(bookedit.getId());
+                }
+            } else {
+                if (s.equals("edit")) {
+                    book.setId(bookedit.getId());
+                    if (imageOrigin.equals("")) {
+                        book.setPhoto(imageOrigin);
+                    }
+                }
+            }
+            if (sell.isChecked()) {
+                if (edt_editlisting_sell.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter valid price", Toast.LENGTH_LONG).show();
+                    return false;
+                } else {
+                    price = Float.valueOf(edt_editlisting_sell.getText().toString());
+                    book.setPrice(price);
                 }
             }
         }
-
-        book = new Book();
-        book.setAction(action);
-        book.setAuthor(auth);
-        book.setTitle(titl);
-        book.setCondition(String.valueOf(seekbar.getProgress()));
-        book.setGenre(genrel);
-        book.setHash_tag(tag);
-        book.setLocation_latitude(Float.valueOf(String.valueOf(gps.getLatitude())));
-        book.setLocation_longitude(Float.valueOf(String.valueOf(gps.getLongitude())));
-        if (numclick!=0||numimageclick!=0){
-            if (!s.equals("edit")){
-                book.setPhoto(imagename);
-            }else {
-                String imageupdate = imgOne+";"+ imgTwo+";"+imgThree;
-                book.setPhoto(imageupdate);
-                book.setId(bookedit.getId());
-            }
-        }else {
-            if (s.equals("edit")){
-                book.setId(bookedit.getId());
-                if(imageOrigin.equals("")) {
-                    book.setPhoto(imageOrigin);
-                }
-            }
-        }
-        if (sell.isChecked()){
-            if (edt_editlisting_sell.getText().toString().isEmpty()){
-                Toast.makeText(getActivity(),"Price no fill",Toast.LENGTH_LONG).show();
-                return;
-            }else {
-                price = Float.valueOf(edt_editlisting_sell.getText().toString());
-                book.setPrice(price);
-            }
-        }
+        return true;
     }
 
     public String getAction() {
@@ -739,14 +761,15 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 showdialog(1);
                 break;
             case R.id.btn_menu_editlisting_update:
-                addbook();
-                if (numclick!=0 || numimageclick!=0){
+                if(addbook(0)) {
+                    if (numclick != 0 || numimageclick != 0) {
 //                    Addbook addbook1 = new Addbook();
 //                    addbook1.execute();
-                    addImages();
+                        addImages();
+                    }
+                    editbook editbook = new editbook();
+                    editbook.execute();
                 }
-                editbook editbook = new editbook();
-                editbook.execute();
                 break;
             case R.id.imageView33:
                 if (listTag.size() < 3) {

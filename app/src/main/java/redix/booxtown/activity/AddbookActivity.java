@@ -304,15 +304,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             btn_menu_listing_addbook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(),ListingsFragment.class);
-//                startActivity(intent);
-
-                    addbook();
-//                Addbook addbook = new Addbook();
-//                addbook.execute();
-                    addImages();
-                    uploaddata uploaddata = new uploaddata();
-                    uploaddata.execute();
+                    if(addbook(0)) {
+                        addImages();
+                        uploaddata uploaddata = new uploaddata();
+                        uploaddata.execute();
+                    }
                 }
             });
             tb_menu = (TableRow) findViewById(R.id.tableRow5);
@@ -352,57 +348,72 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
                 }
             });
-            addbook();
+            addbook(1);
         }catch (Exception e){
         }
     }
 
-    public void addbook() {
-        GPSTracker gps = new GPSTracker(AddbookActivity.this);
-        for (int i = 0; i < lisImmage.size(); i++) {
-            try {
-                long time = System.currentTimeMillis();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), lisImmage.get(i).getUri());
-                Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap,250,270, true);
-                bmap.add(photoBitMap);
-                listFileName.add(lisImmage.get(i).getKey());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        ArrayList<String> listvalueGenre = new ArrayList<>();
-        for (int i = 0; i < genre.size(); i++) {
-            if (genre.get(i).ischeck() == true) {
-                listvalueGenre.add(genre.get(i).getValue());
-            }
-        }
+    public boolean addbook(int type) {
 
-        String auth = edt_author.getText().toString();
-        titl = edt_tilte.getText().toString();
-        String tag = "";
-        if (listTag.size() != 0) {
-            for (int i = 0; i < listTag.size(); i++) {
-                if (i != listTag.size() - 1) {
-                    tag = tag + listTag.get(i).replace("|","") + ";";
-                } else {
-                    tag = tag + listTag.get(i).replace("|","");
+        if(edt_tilte.getText().toString().equals("")){
+            if(type==0) {
+                Toast.makeText(AddbookActivity.this, "Please enter valid book title", Toast.LENGTH_SHORT).show();
+            }
+            return  false;
+        }
+        else if(edt_author.getText().toString().equals("")){
+            if(type==0) {
+                Toast.makeText(AddbookActivity.this, "Please enter valid book author", Toast.LENGTH_SHORT).show();
+            }
+            return  false;
+        }
+        else {
+
+            GPSTracker gps = new GPSTracker(AddbookActivity.this);
+            for (int i = 0; i < lisImmage.size(); i++) {
+                try {
+                    long time = System.currentTimeMillis();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), lisImmage.get(i).getUri());
+                    Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, 270, true);
+                    bmap.add(photoBitMap);
+                    listFileName.add(lisImmage.get(i).getKey());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        }
-
-        String genrel = "";
-
-        if (listvalueGenre.size() != 0) {
-            for (int i = 0; i < listvalueGenre.size(); i++) {
-                if (i != listvalueGenre.size() - 1) {
-                    genrel = genrel + listvalueGenre.get(i) + ";";
-                } else {
-                    genrel = genrel + listvalueGenre.get(i);
+            ArrayList<String> listvalueGenre = new ArrayList<>();
+            for (int i = 0; i < genre.size(); i++) {
+                if (genre.get(i).ischeck() == true) {
+                    listvalueGenre.add(genre.get(i).getValue());
                 }
             }
-        }
 
-        String action = getAction();
+            String auth = edt_author.getText().toString();
+            titl = edt_tilte.getText().toString();
+            String tag = "";
+            if (listTag.size() != 0) {
+                for (int i = 0; i < listTag.size(); i++) {
+                    if (i != listTag.size() - 1) {
+                        tag = tag + listTag.get(i).replace("|", "") + ";";
+                    } else {
+                        tag = tag + listTag.get(i).replace("|", "");
+                    }
+                }
+            }
+
+            String genrel = "";
+
+            if (listvalueGenre.size() != 0) {
+                for (int i = 0; i < listvalueGenre.size(); i++) {
+                    if (i != listvalueGenre.size() - 1) {
+                        genrel = genrel + listvalueGenre.get(i) + ";";
+                    } else {
+                        genrel = genrel + listvalueGenre.get(i);
+                    }
+                }
+            }
+
+            String action = getAction();
 
 //        seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
 //            @Override
@@ -410,61 +421,63 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 //                condition = String.valueOf(minValue);
 //            }
 //        });
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            //            int progress = 0;
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                //            int progress = 0;
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 //                progress = i;
-                //Toast.makeText(getContext(),"p111:"+i,Toast.LENGTH_LONG).show();
-                condition = String.valueOf(i);
-            }
+                    //Toast.makeText(getContext(),"p111:"+i,Toast.LENGTH_LONG).show();
+                    condition = String.valueOf(i);
+                }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
 
-            }
+                }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                condition = String.valueOf(seekBar.getProgress());
-                //Toast.makeText(getContext(),"p"+progress,Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    condition = String.valueOf(seekBar.getProgress());
+                    //Toast.makeText(getContext(),"p"+progress,Toast.LENGTH_LONG).show();
+                }
+            });
 
-        String imagename = "";
-        if (listFileName.size() != 0) {
-            for (int i = 0; i < listFileName.size(); i++) {
-                if (i != listFileName.size() - 1) {
-                    imagename = imagename + listFileName.get(i) + ";";
-                } else {
-                    imagename = imagename + listFileName.get(i);
+            String imagename = "";
+            if (listFileName.size() != 0) {
+                for (int i = 0; i < listFileName.size(); i++) {
+                    if (i != listFileName.size() - 1) {
+                        imagename = imagename + listFileName.get(i) + ";";
+                    } else {
+                        imagename = imagename + listFileName.get(i);
+                    }
                 }
             }
-        }
 
-        book = new Book();
-        book.setAction(action);
-        book.setAuthor(auth);
-        book.setTitle(titl);
-        book.setCondition(String.valueOf(seekbar.getProgress()));
-        book.setGenre(genrel);
-        book.setHash_tag(tag);
-        book.setLocation_latitude(Float.valueOf(String.valueOf(gps.getLatitude())));
-        book.setLocation_longitude(Float.valueOf(String.valueOf(gps.getLongitude())));
-        if (numclick!=0||numimageclick!=0){
+            book = new Book();
+            book.setAction(action);
+            book.setAuthor(auth);
+            book.setTitle(titl);
+            book.setCondition(String.valueOf(seekbar.getProgress()));
+            book.setGenre(genrel);
+            book.setHash_tag(tag);
+            book.setLocation_latitude(Float.valueOf(String.valueOf(gps.getLatitude())));
+            book.setLocation_longitude(Float.valueOf(String.valueOf(gps.getLongitude())));
+            if (numclick != 0 || numimageclick != 0) {
 
                 book.setPhoto(imagename);
 
-        }
-        if (sell.isChecked()){
-            if (edt_editlisting_sell.getText().toString().isEmpty()){
-                Toast.makeText(AddbookActivity.this,"Price no fill",Toast.LENGTH_LONG).show();
-                return;
-            }else {
-                price = Float.valueOf(edt_editlisting_sell.getText().toString());
-                book.setPrice(price);
+            }
+            if (sell.isChecked()) {
+                if (edt_editlisting_sell.getText().toString().isEmpty()) {
+                    Toast.makeText(AddbookActivity.this, "Please enter valid price", Toast.LENGTH_LONG).show();
+                    return false;
+                } else {
+                    price = Float.valueOf(edt_editlisting_sell.getText().toString());
+                    book.setPrice(price);
+                }
             }
         }
+        return true;
     }
 
     public String getAction() {

@@ -207,7 +207,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="-10dp"
         android:layout_marginRight="-10dp"
-        android:thumb="@drawable/btn_filter_standar"
+        android:progressDrawable="@drawable/styled_progress"
+        android:maxHeight="3dip"
         android:max="100"
         />
     <redix.booxtown.custom.CustomTextView
@@ -310,7 +311,7 @@
     android:layout_alignStart="@+id/textView116"
     android:weightSum="2"
     android:orientation="horizontal">
-    <android.support.v7.widget.AppCompatRadioButton
+    <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User current location"
@@ -319,15 +320,20 @@
         android:layout_alignLeft="@+id/textView116"
         android:layout_alignStart="@+id/textView116"
         android:layout_weight="1"
-        style="@style/colorradio"
+        android:layout_marginTop="3dp"
+        android:button="@drawable/radio_button"
+        android:textColor="@color/color_text_hint"
         android:checked="true" />
 
-    <android.support.v7.widget.AppCompatRadioButton
+    <redix.booxtown.custom.CustomRadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="choose another"
+        android:text="  Choose another"
         android:id="@+id/radioButton2"
         android:layout_weight="1"
+        android:layout_marginTop="3dp"
+        android:textColor="@color/color_text_hint"
+        android:button="@drawable/radio_button"
         android:checked="false" />
 </RadioGroup>
     <fragment
@@ -471,8 +477,7 @@
             android:text="#tag"
             android:background="@drawable/border_image"
             android:gravity="center_vertical"
-            android:layout_below="@+id/textView113"
-            android:visibility="visible"/>
+            android:layout_below="@+id/textView113" />
         <redix.booxtown.custom.CustomTextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
@@ -486,8 +491,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_below="@+id/textView113"
-            android:layout_toRightOf="@+id/tag1"
-            android:visibility="visible"/>
+            android:layout_toRightOf="@+id/tag1" />
         <redix.booxtown.custom.CustomTextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
@@ -499,8 +503,7 @@
             android:background="@drawable/border_image"
             android:gravity="center_vertical"
             android:layout_below="@+id/textView113"
-            android:layout_toRightOf="@+id/tag2"
-            android:visibility="visible"/>
+            android:layout_toRightOf="@+id/tag2" />
 
         <redix.booxtown.custom.CustomEdittext
             android:layout_width="100dp"
