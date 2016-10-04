@@ -145,7 +145,7 @@
             android:theme="@style/MyEditTextTheme"
             android:paddingBottom="15dp" />
 
-        <redix.booxtown.custom.CustomEdittext
+        <redix.booxtown.custom.CustomTextView
             android:id="@+id/signup"
             android:layout_width="223dp"
             android:layout_height="36dp"
