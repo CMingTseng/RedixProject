@@ -61,7 +61,7 @@
                 android:textColor="@color/dot_light_screen1" />
 
             <redix.booxtown.custom.CustomTextView
-                android:id="@+id/textView129"
+                android:id="@+id/txt_author_book_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txt_title_book_respond"
@@ -74,10 +74,10 @@
                 android:textColor="@color/color_hint_interact" />
 
             <redix.booxtown.custom.CustomTextView
-                android:id="@+id/textView130"
+                android:id="@+id/txt_content_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView129"
+                android:layout_below="@+id/txt_author_book_post"
                 android:layout_centerHorizontal="true"
                 android:background="@color/color_title_book"
                 android:gravity="center"
@@ -89,7 +89,7 @@
                 android:id="@+id/txt_add_book_respond"
                 android:layout_width="181dp"
                 android:layout_height="36dp"
-                android:layout_below="@+id/textView130"
+                android:layout_below="@+id/txt_content_post"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/btn_wishbroad_popup"

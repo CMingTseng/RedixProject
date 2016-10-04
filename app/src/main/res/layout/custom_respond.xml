@@ -13,7 +13,7 @@
         app:siBorderColor="@color/dot_light_screen2"
         app:siBorderWidth="1dp"
         android:paddingBottom="10dp"
-        android:id="@+id/view5"
+        android:id="@+id/photo_author_post"
         android:layout_marginLeft="73dp"
         android:layout_marginStart="73dp"
         android:layout_alignParentTop="true"
@@ -24,12 +24,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gandalf"
-        android:id="@+id/textView64"
+        android:id="@+id/txt_author_post"
         android:layout_marginLeft="10dp"
         android:textColor="@color/color_title_book"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/view5"
-        android:layout_toEndOf="@+id/view5"
+        android:layout_toRightOf="@+id/photo_author_post"
+        android:layout_toEndOf="@+id/photo_author_post"
         android:layout_marginTop="10dp" />
     <RatingBar
         android:layout_width="wrap_content"
@@ -37,9 +37,9 @@
 
         android:rating="2"
         style="?android:attr/ratingBarStyleSmall"
-        android:layout_below="@+id/textView64"
-        android:layout_alignLeft="@+id/textView64"
-        android:layout_alignStart="@+id/textView64"
+        android:layout_below="@+id/txt_author_post"
+        android:layout_alignLeft="@+id/txt_author_post"
+        android:layout_alignStart="@+id/txt_author_post"
         android:layout_marginTop="5dp"
         android:id="@+id/ratingBar5" />
 

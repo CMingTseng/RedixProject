@@ -22,6 +22,9 @@ public class Wishboard implements Serializable{
     private String username;
     @Expose
     private String id;
+    @Expose
+    private String photo;
+
 
     public Wishboard(String title, String author, String comment, String create_date, int user_id, String username) {
         this.title = title;
@@ -30,6 +33,14 @@ public class Wishboard implements Serializable{
         this.create_date = create_date;
         this.user_id = user_id;
         this.username = username;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getId() {

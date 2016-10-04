@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.List;
 import redix.booxtown.R;
 import redix.booxtown.adapter.AdapterCommentBook;
 import redix.booxtown.adapter.AdapterInteractThreadDetails;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.CommentController;
 import redix.booxtown.controller.Information;
@@ -50,6 +52,12 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     List<String> listUser = new ArrayList<>();
     Wishboard wishboard;
 
+    CircularImageView photo_author_post;
+    TextView txt_author_post;
+    TextView txt_title_book_respond;
+    TextView txt_author_book_post;
+    TextView txt_content_post;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +71,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         //rank
         ImageView btn_rank_one = (ImageView) findViewById(R.id.imageView10);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_rank_one).into(btn_rank_one);
-
         ImageView btn_rank_two = (ImageView) findViewById(R.id.imageView28);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_rank_two).into(btn_rank_two);
-
         ImageView btn_rank_three = (ImageView) findViewById(R.id.imageView39);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_rank_three).into(btn_rank_three);
         //end
@@ -94,21 +100,36 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
             }
         });
+        photo_author_post=(CircularImageView) findViewById(R.id.photo_author_post);
+        txt_author_post=(TextView) findViewById(R.id.txt_author_post) ;
+        txt_title_book_respond=(TextView) findViewById(R.id.txt_title_book_respond) ;
+        txt_author_book_post=(TextView) findViewById(R.id.txt_author_book_post) ;
+        txt_content_post=(TextView) findViewById(R.id.txt_content_post) ;
+        try {
+            wishboard = (Wishboard) getIntent().getSerializableExtra("wishboard");
 
-        ArrayList<InteractComment> list = new ArrayList<>();
-        InteractComment interactComment1 = new InteractComment(2.5f, true, false, true, "Gandalf", "If you want to buy best books order us1", "June 12 at 5:14 pm");
-        InteractComment interactComment2 = new InteractComment(3.0f, true, true, true, "Gandalf2", "If you want to buy best books order us2", "June 12 at 5:14 pm");
-        InteractComment interactComment3 = new InteractComment(4.0f, false, false, true, "Gandalf3", "If you want to buy best books order us3", "June 12 at 5:14 pm");
-        InteractComment interactComment4 = new InteractComment(3.5f, true, false, false, "Gandalf4", "If you want to buy best books order us4", "June 12 at 5:14 pm");
-        InteractComment interactComment5 = new InteractComment(5.0f, true, false, false, "Gandalf5", "If you want to buy best books order us5", "June 12 at 5:14 pm");
+            if(wishboard.getPhoto().length()>3) {
+                Picasso.with(RespondActivity.this).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + wishboard.getUsername() + "&image=" + wishboard.getPhoto().substring(wishboard.getUsername().length() + 3, wishboard.getPhoto().length())).error(R.mipmap.user_empty).into(photo_author_post);
+//            Glide.with(mContext). load().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.user_empty).
+//                    into(hoder.img_icon);
+            }else{
+                Picasso.with(RespondActivity.this). load(R.mipmap.user_empty).
+                        into(photo_author_post);
 
-        list.add(interactComment1);
-        list.add(interactComment2);
-        list.add(interactComment3);
-        list.add(interactComment4);
-        list.add(interactComment5);
+            }
 
-        wishboard = (Wishboard) getIntent().getSerializableExtra("wishboard");
+            txt_author_post.setText(wishboard.getUsername());
+            txt_title_book_respond.setText("Book: "+ wishboard.getTitle());
+            txt_author_book_post.setText("Author: "+ wishboard.getAuthor());
+            txt_content_post.setText(wishboard.getComment());
+        }catch (Exception ex){
+
+        }
+
+        photo_author_post= (CircularImageView) findViewById(R.id.photo_author_post);
+
+
+
 
         //-----------------------------------------------------------
 

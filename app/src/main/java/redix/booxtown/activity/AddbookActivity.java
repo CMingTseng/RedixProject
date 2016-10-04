@@ -206,7 +206,15 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             imgBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onBackPressed();
+
+                    if(type == 0){
+                        Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
+                        intent.putExtra("Book",bookedit);
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        onBackPressed();
+                    }
                 }
             });
 
