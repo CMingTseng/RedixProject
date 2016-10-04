@@ -207,7 +207,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="-10dp"
         android:layout_marginRight="-10dp"
-        android:thumb="@drawable/btn_filter_standar"
+        android:progressDrawable="@drawable/styled_progress"
+        android:maxHeight="3dip"
         android:max="100"
         />
     <redix.booxtown.custom.CustomTextView
@@ -323,7 +324,7 @@
         android:layout_weight="1"
         android:layout_marginTop="3dp"
         android:button="@drawable/radio_button"
-        android:textColor="@color/color_hint_interact"
+        android:textColor="@color/color_text_hint"
         android:checked="true" />
 
     <redix.booxtown.custom.CustomRadioButton
@@ -333,7 +334,7 @@
         android:id="@+id/radioButton2"
         android:layout_weight="1"
         android:layout_marginTop="3dp"
-        android:textColor="@color/color_hint_interact"
+        android:textColor="@color/color_text_hint"
         android:button="@drawable/radio_button"
         android:checked="false" />
 </RadioGroup>
