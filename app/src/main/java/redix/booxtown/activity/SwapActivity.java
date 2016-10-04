@@ -229,9 +229,7 @@ public class SwapActivity extends AppCompatActivity {
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
 
-
-                Intent iten = new Intent(SwapActivity.this, MainAllActivity.class);
-                startActivity(iten);
+                onBackPressed();
             }
             super.onPostExecute(transactionID);
         }
@@ -266,7 +264,6 @@ public class SwapActivity extends AppCompatActivity {
         protected void onPostExecute(String user_ID) {
             try {
                 SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
                 String session_id = pref.getString("session_id", null);
                 ArrayList<BookSwap> filterList = getFilteredList(adapter.getList());
                 String buyBookID = "";

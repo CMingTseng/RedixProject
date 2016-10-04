@@ -310,7 +310,7 @@
     android:layout_alignStart="@+id/textView116"
     android:weightSum="2"
     android:orientation="horizontal">
-    <RadioButton
+    <android.support.v7.widget.AppCompatRadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User current location"
@@ -319,9 +319,10 @@
         android:layout_alignLeft="@+id/textView116"
         android:layout_alignStart="@+id/textView116"
         android:layout_weight="1"
+        style="@style/colorradio"
         android:checked="true" />
 
-    <RadioButton
+    <android.support.v7.widget.AppCompatRadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="choose another"
@@ -470,7 +471,8 @@
             android:text="#tag"
             android:background="@drawable/border_image"
             android:gravity="center_vertical"
-            android:layout_below="@+id/textView113" />
+            android:layout_below="@+id/textView113"
+            android:visibility="visible"/>
         <redix.booxtown.custom.CustomTextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
@@ -484,7 +486,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_below="@+id/textView113"
-            android:layout_toRightOf="@+id/tag1" />
+            android:layout_toRightOf="@+id/tag1"
+            android:visibility="visible"/>
         <redix.booxtown.custom.CustomTextView
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
@@ -496,7 +499,8 @@
             android:background="@drawable/border_image"
             android:gravity="center_vertical"
             android:layout_below="@+id/textView113"
-            android:layout_toRightOf="@+id/tag2" />
+            android:layout_toRightOf="@+id/tag2"
+            android:visibility="visible"/>
 
         <redix.booxtown.custom.CustomEdittext
             android:layout_width="100dp"

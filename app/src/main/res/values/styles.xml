@@ -27,13 +27,6 @@
         <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
     </style>
 
-    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/ratingstars</item>
-
-        <item name="android:minHeight">14dp</item>
-        <item name="android:maxHeight">14dp</item>
-    </style>
-
     <style name="RatingStatus" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingstars2</item>
         <item name="android:minHeight">25dp</item>
@@ -49,5 +42,8 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="colorradio" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:background">@color/color_text</item>
     </style>
 </resources>

@@ -168,6 +168,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         tag1 = (TextView) v.findViewById(R.id.tag1);
         tag2 = (TextView) v.findViewById(R.id.tag2);
         tag3 = (TextView) v.findViewById(R.id.tag3);
+
+        tag1.setVisibility(View.GONE);
+        tag2.setVisibility(View.GONE);
+        tag3.setVisibility(View.GONE);
+
         tag1.setOnClickListener(this);
         tag2.setOnClickListener(this);
         tag3.setOnClickListener(this);
@@ -830,19 +835,35 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
     public void settag(){
         if (listTag.size()==0){
+            tag1.setVisibility(View.GONE);
+            tag2.setVisibility(View.GONE);
+            tag3.setVisibility(View.GONE);
             tag1.setText("");
             tag2.setText("");
             tag3.setText("");
         }
         else if (listTag.size()==1){
+            tag1.setVisibility(View.VISIBLE);
+            tag2.setVisibility(View.GONE);
+            tag3.setVisibility(View.GONE);
+
             tag1.setText(listTag.get(0));
             tag2.setText("");
             tag3.setText("");
         }else if(listTag.size()==2){
+            tag1.setVisibility(View.VISIBLE);
+            tag2.setVisibility(View.VISIBLE);
+            tag3.setVisibility(View.GONE);
+
+
             tag1.setText(listTag.get(0));
             tag2.setText(listTag.get(1));
             tag3.setText("");
         }else {
+
+            tag1.setVisibility(View.VISIBLE);
+            tag2.setVisibility(View.VISIBLE);
+            tag3.setVisibility(View.VISIBLE);
             tag1.setText(listTag.get(0));
             tag2.setText(listTag.get(1));
             tag3.setText(listTag.get(2));

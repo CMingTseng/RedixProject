@@ -58,10 +58,8 @@ public class InteractThreadDetailsFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.interact_thread_detail_fragment, container, false);
-
         txt_title=(TextView) getActivity().findViewById(R.id.txt_title);
         txt_title.setText("Interact");
-
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         imageView_back.setImageResource(R.drawable.btn_sign_in_back);
         imageView_back.setOnClickListener(new View.OnClickListener() {
@@ -85,10 +83,8 @@ public class InteractThreadDetailsFragment extends Fragment
                     homeActivity.getTxtTitle().setText("Notifications");
                     homeActivity.callFragment(new NotificationFragment());
                 }
-
             }
         });
-
         //----------------------------------------------
         threads = (Thread) getArguments().getSerializable("thread");
         topic = (Topic) getArguments().getSerializable("interact");
@@ -112,16 +108,12 @@ public class InteractThreadDetailsFragment extends Fragment
         commentAsync1.execute(threads.getId());
 
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         final String session_id = pref.getString("session_id", null);
-
         final EditText edit_message = (EditText)view.findViewById(R.id.edit_message);
-
         final ImageView btn_send_comment_interact = (ImageView)view.findViewById(R.id.btn_send_comment_interact);
             btn_send_comment_interact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     insertComment insertComment1 = new insertComment(getContext());
                     insertComment1.execute(session_id,edit_message.getText().toString(),threads.getId());
                     edit_message.setText("");
@@ -129,8 +121,6 @@ public class InteractThreadDetailsFragment extends Fragment
                     commentAsync1.execute(threads.getId());
                 }
             });
-
-
         //---------------------------------------------------------------
 
         return view;

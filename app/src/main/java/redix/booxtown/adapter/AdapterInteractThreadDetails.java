@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -70,7 +71,7 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
 
         Comment Comments= listComments.get(position);
         convertView = inflater.inflate(R.layout.custom_commnents_interact, null);
-
+        hoder.myRatingBar = (RatingBar)convertView.findViewById(R.id.myRatingBar);
         hoder.img_icon=(ImageView) convertView.findViewById(R.id.icon_user_listing_detail);
         hoder.img_rank_one=(ImageView) convertView.findViewById(R.id.img_comment_rank1);
         hoder.img_rank_two=(ImageView) convertView.findViewById(R.id.img_comment_rank2);
@@ -138,8 +139,7 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
 //
         hoder.txt_userName.setText(Comments.getUsername());
         hoder.txt_contents.setText(Comments.getContent());
-       // hoder.txt_datetime.setText(Comments.getCreate_date());
-        //hoder.txt_userName.setText(Comments.);
+        hoder.myRatingBar.setRating(Comments.getRating());
         return convertView;
     }
 
@@ -151,7 +151,7 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         TextView txt_userName;
         TextView txt_contents;
         TextView txt_datetime;
-
+        RatingBar myRatingBar;
     }
 
 

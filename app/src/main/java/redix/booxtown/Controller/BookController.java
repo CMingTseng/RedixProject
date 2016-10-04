@@ -215,4 +215,21 @@ public class BookController {
         return null;
     }
 
+    public List<Book> getTopBookByID(int user_id,int to,int from){
+        Call<BookResult> profile = service.getTopBookById(user_id,to,from);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            BookResult str = profile.execute().body();
+            if (str.getCode() == 200){
+                return str.getBook();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
 }

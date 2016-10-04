@@ -201,4 +201,7 @@ public interface ServiceInterface {
     @POST("/booxtown/rest/user/inviteFriend")
     Call<Result> inviteFriend(@Body Object email);
 
+    @GET("/booxtown/rest/book/book_gettopbyuserid")
+    Call<BookResult> getTopBookById(@Query("user_id") int user_id,@Query("top") int top,@Query("from") int from);
+
 }

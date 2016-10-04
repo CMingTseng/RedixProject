@@ -424,7 +424,6 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
                     else{
                         final char array[]=book.getAction().toCharArray();
                         if(String.valueOf(array[0]).contains("1")&& type!=0) {
-
                             Intent intent = new Intent(mContext, SwapActivity.class);
                             intent.putExtra("Book", book);
                             mContext.startActivity(intent);

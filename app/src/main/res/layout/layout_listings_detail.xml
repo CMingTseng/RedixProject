@@ -100,7 +100,9 @@
 
         <RatingBar
             android:id="@+id/myRatingBar"
-            style="@style/foodRatingBar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:progressTint="@color/color_star_select"
+            android:theme="@style/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
