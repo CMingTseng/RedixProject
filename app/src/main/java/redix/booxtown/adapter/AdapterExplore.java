@@ -1,6 +1,5 @@
 package redix.booxtown.adapter;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,7 +32,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
-import redix.booxtown.activity.ListingCollectionActivity;
 import redix.booxtown.activity.ListingsDetailActivity;
 import redix.booxtown.activity.SwapActivity;
 import redix.booxtown.api.ServiceGenerator;
@@ -43,7 +41,6 @@ import redix.booxtown.controller.TransactionController;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.fragment.MainFragment;
 import redix.booxtown.model.Book;
-import redix.booxtown.model.Explore;
 import redix.booxtown.model.Notification;
 
 /**
@@ -407,7 +404,7 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
 //                                    getActivity().finish();
                                     }
                                 });
-                                TextView btn_back=(TextView) dialog1.findViewById(R.id.btn_back_home);
+                                TextView btn_back=(TextView) dialog1.findViewById(R.id.btn_yes);
                                 btn_back.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {

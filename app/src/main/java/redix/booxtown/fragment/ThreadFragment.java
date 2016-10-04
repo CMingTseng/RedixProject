@@ -104,18 +104,24 @@ public class ThreadFragment extends Fragment
                     @Override
                     public void onClick(View view) {
                         //submit dialog add thread
-                        insertthreadAsync insertthread = new insertthreadAsync(getContext());
-                        insertthread.execute(edit_title_insert_thread.getText().toString(),edit_description_insert_thread.getText().toString(),
-                                topic.getId(),session_id);
-                        SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor  = pref.edit();
-                        String session_id = pref.getString("session_id", null);
-                        threadAsync threadAsync = new threadAsync(getContext(),session_id,100,0);
-                        threadAsync.execute(topic.getId());
 
-                        ThreadSync changeStatus = new ThreadSync(getContext(), session_id,Integer.parseInt(topic.getId()),1);
-                        changeStatus.execute();
-                        dialog.dismiss();
+                        if(edit_title_insert_thread.getText().equals("")){
+                            Toast.makeText(getContext(),"You must provide a title", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            insertthreadAsync insertthread = new insertthreadAsync(getContext());
+                            insertthread.execute(edit_title_insert_thread.getText().toString(), edit_description_insert_thread.getText().toString(),
+                                    topic.getId(), session_id);
+                            SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            String session_id = pref.getString("session_id", null);
+                            threadAsync threadAsync = new threadAsync(getContext(), session_id, 100, 0);
+                            threadAsync.execute(topic.getId());
+
+                            ThreadSync changeStatus = new ThreadSync(getContext(), session_id, Integer.parseInt(topic.getId()), 1);
+                            changeStatus.execute();
+                            dialog.dismiss();
+                        }
                     }
                 });
                 dialog.show();

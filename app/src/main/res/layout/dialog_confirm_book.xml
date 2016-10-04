@@ -9,50 +9,45 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Request sent!"
-            android:id="@+id/textView131"
+            android:text="Are you sure to delete this book?"
+            android:id="@+id/txt_title_dialog"
 
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:textColor="@color/dot_light_screen1"
             android:textSize="18dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your request had been sent successfully"
-            android:id="@+id/textView128"
-
-            android:layout_below="@+id/textView131"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Let&apos;s wait for Gandalf&apos;s reply"
-            android:id="@+id/textView133"
-            android:layout_below="@+id/textView128"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp" />
-
-        <TextView
-            android:layout_width="236dp"
-            android:layout_height="36dp"
-            android:text="Back to home"
+        <redix.booxtown.custom.CustomTextView
+            android:layout_width="110dp"
+            android:layout_height="30dp"
+            android:text="Yes"
             android:id="@+id/btn_yes"
 
             android:layout_marginTop="50dp"
-            android:background="@drawable/bg_white_popup"
+            android:background="@drawable/btn_confirm"
             android:gravity="center"
             android:textColor="@color/color_text"
             android:textSize="18sp"
-            android:layout_below="@+id/textView133"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="60dp" />
+            android:layout_marginBottom="60dp"
+            android:layout_below="@+id/txt_title_dialog"
+            android:layout_marginLeft="30dp" />
+
+        <redix.booxtown.custom.CustomTextView
+            android:layout_width="110dp"
+            android:layout_height="30dp"
+            android:text="No"
+            android:id="@+id/btn_no"
+            android:background="@drawable/btn_confirm"
+            android:gravity="center"
+            android:textColor="@color/color_text"
+            android:textSize="18sp"
+            android:layout_alignTop="@+id/btn_yes"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,7 +57,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/close_sent_request_lising"
+            android:id="@+id/close_confirm_lising"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

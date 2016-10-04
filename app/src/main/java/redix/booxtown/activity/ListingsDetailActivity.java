@@ -15,15 +15,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AbsListView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -41,7 +38,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -50,26 +46,21 @@ import java.util.Hashtable;
 import java.util.List;
 import redix.booxtown.R;
 import redix.booxtown.adapter.AdapterCommentBook;
-import redix.booxtown.adapter.AdapterInteractThreadDetails;
 import redix.booxtown.adapter.CustomPagerAdapter;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.CommentController;
-import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.IconMapController;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.UserController;
-import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.fragment.ExploreFragment;
-import redix.booxtown.fragment.InteractThreadDetailsFragment;
 import redix.booxtown.fragment.ListingsFragment;
 import redix.booxtown.fragment.MainFragment;
 import redix.booxtown.fragment.NotificationFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.CommentBook;
-import redix.booxtown.model.Explore;
 import redix.booxtown.model.Notification;
 
 /**
@@ -412,7 +403,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 //                                    getActivity().finish();
                     }
                 });
-                TextView btn_back=(TextView) dialog1.findViewById(R.id.btn_back_home);
+                TextView btn_back=(TextView) dialog1.findViewById(R.id.btn_yes);
                 btn_back.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

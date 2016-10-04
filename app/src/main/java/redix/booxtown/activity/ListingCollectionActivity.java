@@ -346,8 +346,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 main.callFragment(new ListingsFragment());
             }
         });
-
-        txt_my_listings.setText("My listings"+"("+getArguments().getInt("num_list")+")");
+        if(getArguments().getInt("num_list") ==0){
+            txt_my_listings.setText("My listings"+"("+ListingsFragment.num_list+")");
+        }else {
+            txt_my_listings.setText("My listings" + "(" + getArguments().getInt("num_list") + ")");
+        }
         tb_menu = (TableRow) v.findViewById(R.id.tableRow5);
         imageView_back = (ImageView) getActivity().findViewById(R.id.img_menu);
         imageOrigin="";
@@ -738,7 +741,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
                 break;
             case R.id.btn_menu_editlist_delete:
-                showdialog();
+                showdialog(1);
                 break;
             case R.id.btn_menu_editlisting_update:
                 addbook();
@@ -784,29 +787,49 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         }).show();
     }
 
-    public void showdialog(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setTitle("You want to delete this book?");
-        alertDialogBuilder
-                .setMessage("Click yes to delete!")
-                .setCancelable(false)
-                .setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                deletebook deletebook =new deletebook();
-                                deletebook.execute();
-                            }
-                        })
+    public void showdialog(final int type){
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_confirm_book);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+        TextView txt_title_dialog=(TextView) dialog.findViewById(R.id.txt_title_dialog);
+//        if(type==0){
+//            txt_title_dialog.setText("Are you sure to update this book?");
+//        }
+        TextView button_yes = (TextView) dialog.findViewById(R.id.btn_yes);
+        button_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(type==1) {
+                    deletebook deletebook = new deletebook();
+                    deletebook.execute();
+                    dialog.dismiss();
+                }
+//                else{
+//                    editbook editbook = new editbook();
+//                    editbook.execute();
+//                }
+            }
+        });
 
-                        dialog.cancel();
-                    }
-                });
+        TextView button_no = (TextView) dialog.findViewById(R.id.btn_no);
+        button_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.close_confirm_lising);
+        img_close_dialoggenre.setImageResource(R.drawable.btn_close_filter);
+        img_close_dialoggenre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public void addTag() {
