@@ -19,6 +19,8 @@ public class CommentBook {
     @Expose
     private int book_id;
     @Expose
+    private int post_id;
+    @Expose
     private float rating;
     @Expose
     private String photo;
@@ -32,6 +34,14 @@ public class CommentBook {
         this.book_id = book_id;
         this.rating = rating;
         this.photo = photo;
+    }
+
+    public int getPost_id() {
+        return post_id;
+    }
+
+    public void setPost_id(int post_id) {
+        this.post_id = post_id;
     }
 
     public int getId() {

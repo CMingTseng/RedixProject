@@ -189,6 +189,9 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/comment/comment_getByBookId")
     Call<CommentBookResult> getCommentBook(@Query("book_id") String book_id);
 
+    @GET("/booxtown/rest/comment/comment_getTopByWishboardId")
+    Call<CommentBookResult> getCommentWishboard(@Query("post_id") String post_id,@Query("top") int top, @Query("from") int from);
+
     @GET("/booxtown/rest/user/getProfileByUserId")
     Call<UserResult> getProfileByUserId(@Query("user_id") int user_id);
 

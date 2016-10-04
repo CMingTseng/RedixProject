@@ -2,10 +2,12 @@ package redix.booxtown.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+
 /**
  * Created by thuyetpham94 on 27/09/2016.
  */
-public class Wishboard {
+public class Wishboard implements Serializable{
     @Expose
     private String title;
     @Expose
@@ -18,6 +20,11 @@ public class Wishboard {
     private int user_id;
     @Expose
     private String username;
+    @Expose
+    private String id;
+    @Expose
+    private String photo;
+
 
     public Wishboard(String title, String author, String comment, String create_date, int user_id, String username) {
         this.title = title;
@@ -26,6 +33,22 @@ public class Wishboard {
         this.create_date = create_date;
         this.user_id = user_id;
         this.username = username;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {

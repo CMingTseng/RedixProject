@@ -106,9 +106,16 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.signup:
+                ProgressDialog dialog = new ProgressDialog(SigUp_Activity.this);
                 try {
+                    dialog.setMessage(Information.noti_dialog);
+                    dialog.show();
+                    java.lang.Thread.sleep(3000);
                     session_id = FirebaseInstanceId.getInstance().getToken().toString();
-                }catch (Exception e){
+                    dialog.dismiss();
+                }catch (Exception e) {
+                    dialog.dismiss();
+                    Toast.makeText(SigUp_Activity.this, "Could not connect to server. Please try again", Toast.LENGTH_SHORT).show();
                 }
                 UserController userController = new UserController();
                 User user  = new User();
