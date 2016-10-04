@@ -207,16 +207,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         listUserName= new ArrayList<>();
 
-//        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-//        Bitmap thumb=Bitmap.createBitmap(64,64, Bitmap.Config.ARGB_8888);
-//        Canvas canvas=new Canvas(thumb);
-//        canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
-//                new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
-//        Drawable drawable = new BitmapDrawable(getResources(),thumb);
-        //seekbar.setLeftThumbDrawable(drawable);
-
-        //seekbar.setLeftThumbHighlightDrawable(drawable);
-
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

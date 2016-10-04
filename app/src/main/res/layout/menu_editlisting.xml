@@ -437,11 +437,9 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/btn_wishbroad_popup"
         android:textColor="@color/dot_light_screen1"
-        android:layout_marginBottom="15dp"
         android:layout_below="@+id/edt_editlisting_sell"
         android:visibility="gone"
         />
-
     <ImageView
         android:layout_width="13dp"
         android:layout_height="10dp"
