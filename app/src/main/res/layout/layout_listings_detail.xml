@@ -84,7 +84,7 @@
             android:text="Listed by"
             android:id="@+id/txt_view"
             android:textColor="@color/color_text_hint"
-            android:textSize="11dp"
+            android:textSize="@dimen/text_by_exploer"
             android:layout_alignTop="@+id/icon_user_listing_detail"
             android:layout_alignLeft="@+id/txt_listed_by"
             android:layout_alignStart="@+id/txt_listed_by" />
@@ -99,19 +99,18 @@
             android:layout_toEndOf="@+id/icon_user_listing_detail" />
 
         <RatingBar
-            android:theme="@style/RatingBar"
             android:id="@+id/myRatingBar"
-            style="?android:attr/ratingBarStyleSmall"
+            style="@style/foodRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
             android:rating="2.5"
-            android:isIndicator="false"
+            android:isIndicator="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="11dp"
             android:layout_alignBottom="@+id/txt_listed_by"
             android:layout_toRightOf="@+id/txt_listed_by"
-            android:layout_toEndOf="@+id/txt_listed_by" />
+            android:layout_alignTop="@+id/txt_listed_by"
+            android:layout_marginBottom="2dp" />
 
         <ImageView
             android:layout_width="15dp"
@@ -155,7 +154,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="15dp"
         android:textColor="@color/color_text_hint"
-        android:textSize="11sp"
+        android:textSize="@dimen/text_by_exploer"
         android:layout_marginTop="5dp" />
 
     <redix.booxtown.custom.CustomTextView
@@ -258,13 +257,13 @@
         android:layout_marginTop="10dp"
         android:layout_alignRight="@+id/view4"
         android:layout_alignEnd="@+id/view4"
-        android:id="@+id/fragment3"
+        android:id="@+id/fragment_detail"
         android:layout_marginBottom="5dp" />
 
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment3"
+        android:layout_below="@+id/fragment_detail"
         android:layout_centerHorizontal="true"
         android:id="@+id/row_type_book"
         android:weightSum="1"

@@ -25,7 +25,6 @@ import redix.booxtown.model.Explore;
 public class AdapterSwap  extends BaseAdapter {
     private Context mContext;
     ArrayList<BookSwap> list;
-    ArrayList<BookSwap> listTmp;
 
     public ArrayList<BookSwap> getList() {
         return list;

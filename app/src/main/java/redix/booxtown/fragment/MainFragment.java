@@ -72,7 +72,6 @@ import redix.booxtown.model.Filter;
 
 public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener,OnMapReadyCallback {
     private GoogleMap mMap;
-    final int RQS_GooglePlayServices = 1;
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
     private LatLng latLngBounds;
     MarkerOptions marker;
