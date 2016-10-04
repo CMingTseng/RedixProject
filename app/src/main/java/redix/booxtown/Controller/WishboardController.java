@@ -7,6 +7,10 @@ import java.util.List;
 
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.api.ServiceInterface;
+import redix.booxtown.model.Book;
+import redix.booxtown.model.BookResult;
+import redix.booxtown.model.CommentBook;
+import redix.booxtown.model.CommentBookResult;
 import redix.booxtown.model.Result;
 import redix.booxtown.model.Wishboard;
 import redix.booxtown.model.WishboardResult;
@@ -61,4 +65,23 @@ public class WishboardController {
         }
         return false;
     }
+
+    public List<CommentBook> getCommnetWishboard(String post_id,int top, int from ){
+        Call<CommentBookResult> getall = service.getCommentWishboard(post_id, top,from);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            CommentBookResult str = getall.execute().body();
+            if (str.getCode() == 200){
+                return str.getComment();
+            }
+        } catch (Exception ex) {
+            String sss= ex.getMessage();
+        }
+        return null;
+    }
+
 }

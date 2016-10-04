@@ -122,7 +122,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     ImageView imageView_back;
     SupportMapFragment mapFragment;
     String imageOrigin;
-
+    int type=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +145,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED), 7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             edt_author.setHint(wordtoSpan1);
 
+            try{
+                type= Integer.parseInt(getIntent().getStringExtra("type"));
+            }catch (Exception ex){
+
+            }
 
             edt_tilte = (EditText) findViewById(R.id.editText8);
             Spannable wordtoSpan = new SpannableString("Book Title *");
@@ -191,6 +196,19 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             imagebook2 = (ImageView) findViewById(R.id.imageView30);
             imagebook3 = (ImageView) findViewById(R.id.imageView31);
             seekbar = (SeekBar) findViewById(R.id.seekBar2);
+
+            TextView title=(TextView) findViewById(R.id.txt_title);
+            title.setText("Add a book");
+
+
+            ImageView imgBack=(ImageView) findViewById(R.id.img_menu);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(imgBack);
+            imgBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
 
             listUserName = new ArrayList<>();
 
@@ -749,10 +767,16 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if(aBoolean == true){
-                    Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
-                    intent.putExtra("Book",bookedit);
-                    startActivity(intent);
-                    finish();
+                    if(type == 0){
+                        Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
+                        intent.putExtra("Book",bookedit);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        onBackPressed();
+                    }
+
                 }
             }catch (Exception e){
 

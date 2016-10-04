@@ -38,12 +38,13 @@ public class CommentController {
         return null;
     }
 
-    public Boolean insertComment(String session_id,String content,String thread_id, String book_id){
+    public Boolean insertComment(String session_id,String content,String thread_id, String book_id, String post_id){
         Hashtable obj = new Hashtable();
         obj.put("session_id",session_id);
         obj.put("content",content);
         obj.put("thread_id",thread_id);
         obj.put("book_id",book_id);
+        obj.put("post_id",post_id);
         Call<Result> insertComment = service.inser_comment_thread(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {

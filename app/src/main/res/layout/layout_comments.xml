@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp">
 
     <redix.booxtown.custom.CustomEdittext
         android:layout_width="281dp"
@@ -17,10 +18,12 @@
         android:textColor="@color/color_text_time_update_interact"
         android:ellipsize="start"
         android:id="@+id/editText11"
+        android:layout_marginBottom="0dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/img_close_dialog_unsubcribe"
         android:layout_alignLeft="@+id/listView_comment"
-        android:layout_alignStart="@+id/listView_comment" />
+        android:layout_alignStart="@+id/listView_comment"
+        android:layout_toLeftOf="@+id/img_close_dialog_unsubcribe"
+        android:layout_toStartOf="@+id/img_close_dialog_unsubcribe" />
 
     <ImageView
         android:layout_width="44dp"
@@ -38,12 +41,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView_comment"
-        android:layout_above="@+id/editText11"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/view6"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_above="@+id/editText11" />
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"

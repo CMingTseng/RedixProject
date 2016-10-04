@@ -21,6 +21,8 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.Hashtable;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import redix.booxtown.R;
 import redix.booxtown.controller.DeleteTokenService;
@@ -28,6 +30,7 @@ import redix.booxtown.controller.Information;
 import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.model.Result;
+import redix.booxtown.model.Thread;
 import redix.booxtown.model.User;
 
 public class SignIn_Activity extends AppCompatActivity implements View.OnClickListener{
@@ -89,10 +92,18 @@ Button mButtonForgotPass;
                 Toast.makeText(getApplicationContext(),Information.noti_fill_password,Toast.LENGTH_LONG).show();
                 }else {
                     SiginAsystask siginAsystask = new SiginAsystask();
+                    ProgressDialog dialog = new ProgressDialog(SignIn_Activity.this);
                     try {
+                        dialog.setMessage(Information.noti_dialog);
+                        dialog.show();
+                        java.lang.Thread.sleep(3000);
                         session_id = FirebaseInstanceId.getInstance().getToken().toString();
+                        dialog.dismiss();
                     }catch (Exception e) {
+                        dialog.dismiss();
+                        Toast.makeText(SignIn_Activity.this, "Could not connect to server. Please try again", Toast.LENGTH_SHORT).show();
                     }
+
                     siginAsystask.execute(edt_username.getText().toString(), edt_pass.getText().toString(), "iphonecuatung",session_id);
                 }
             default:

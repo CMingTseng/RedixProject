@@ -88,7 +88,7 @@ public class AdapterCommentBook extends BaseAdapter {
                 }
             });
         if(Comments.getPhoto().length()>3) {
-            Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length())).into(hoder.img_icon);
+            Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length())).error(R.mipmap.user_empty).into(hoder.img_icon);
 //            Glide.with(mContext). load().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.user_empty).
 //                    into(hoder.img_icon);
         }else{

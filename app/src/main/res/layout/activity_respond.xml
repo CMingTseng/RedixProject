@@ -118,8 +118,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+
                 android:layout_below="@+id/txt_checkout_respond"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="5dp" />
         </RelativeLayout>
     </ScrollView>
 

@@ -29,6 +29,7 @@ import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.activity.MenuActivity;
+import redix.booxtown.adapter.AdapterCommentBook;
 import redix.booxtown.adapter.AdapterExplore;
 import redix.booxtown.adapter.AdapterListviewWishboard;
 import redix.booxtown.controller.Information;

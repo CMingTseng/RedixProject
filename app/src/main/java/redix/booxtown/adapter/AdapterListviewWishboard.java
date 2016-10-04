@@ -80,6 +80,9 @@ public class AdapterListviewWishboard  extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, RespondActivity.class);
+
+                intent.putExtra("wishboard",list.get(position));
+
                 context.startActivity(intent);
             }
         });
