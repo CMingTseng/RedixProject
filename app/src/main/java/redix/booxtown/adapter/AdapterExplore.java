@@ -370,6 +370,10 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
                         final Dialog dialog = new Dialog(mContext);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_buy_listing);
+
+                        TextView textView_namebook_buy =(TextView)dialog.findViewById(R.id.textView_namebook_buy);
+                        textView_namebook_buy.setText("\""+book.getTitle()+"\"");
+
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.show();
 

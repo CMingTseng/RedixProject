@@ -19,7 +19,7 @@
             android:textColor="@android:color/white"
             android:layout_gravity="center_vertical"
             android:text="All"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_search"
             android:id="@+id/tab_all"
             />
 
@@ -27,10 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:fontFamily="sans-serif-thin"
             android:textColorHint="@color/color_text_hint"
             android:textColor="@android:color/white"
             android:id="@+id/tab_all_count"
+            android:textSize="@dimen/text_size_search"
             />
     </LinearLayout>
 
@@ -44,8 +44,8 @@
         android:layout_margin="1dp"
         android:id="@+id/linear_swap">
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_gravity="center_vertical"
@@ -56,11 +56,11 @@
         <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
             android:textColorHint="@color/color_text_hint"
             android:textColor="@android:color/white"
             android:layout_gravity="center_vertical"
             android:id="@+id/tab_swap_count"
+            android:textSize="@dimen/text_size_search"
             />
     </LinearLayout>
     <LinearLayout
@@ -73,8 +73,8 @@
         android:layout_margin="1dp"
         android:id="@+id/linear_free">
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@android:color/white"
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:fontFamily="sans-serif-thin"
+            android:textSize="@dimen/text_size_search"
             android:textColorHint="@color/color_text_hint"
             android:textColor="@android:color/white"
             android:id="@+id/tab_free_count"
@@ -102,8 +102,8 @@
         android:layout_margin="1dp"
         android:id="@+id/linear_cart">
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@android:color/white"
@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:fontFamily="sans-serif-thin"
+            android:textSize="@dimen/text_size_search"
             android:textColorHint="@color/color_text_hint"
             android:textColor="@android:color/white"
             android:id="@+id/tab_cart_count"

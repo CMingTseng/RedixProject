@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -16,22 +17,24 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_height="wrap_content">
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Is this "
                 android:id="@+id/textView120"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1"/>
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Transaction Complete ?"
                 android:id="@+id/textView121"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1"/>
             <RadioGroup
                 android:layout_width="match_parent"
@@ -50,7 +53,6 @@
                     android:text="Yes"
                     android:id="@+id/radioButton3"
                     android:buttonTint="@android:color/white"
-
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
 
@@ -67,11 +69,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#d24040"
+            android:background="#d85c5e"
             android:layout_weight="1"
             android:id="@+id/layout_user">
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -79,7 +81,8 @@
                 android:id="@+id/textView122"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
-                android:paddingTop="5dp"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1"/>
 
             <com.github.siyamed.shapeimageview.CircularImageView
@@ -89,9 +92,9 @@
                 android:src="@drawable/img_temp1"
                 android:layout_below="@+id/textView122"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="10dp" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -100,9 +103,10 @@
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/imageView_username_rating"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="5dp" />
 
         </RelativeLayout>
 
@@ -111,29 +115,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="2">
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:paddingTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Promptness"
+                android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1" />
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:theme="@style/RatingBar"
-                android:rating="0"
+                style="@style/RatingStatus"
+                android:rating="2"
                 android:isIndicator="false"
                 android:id="@+id/rating_promp"
-                style="?android:attr/ratingBarStyleIndicator"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp" />
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Courtesy"
+                android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1" />
             <RatingBar
                 android:layout_width="wrap_content"
@@ -143,14 +148,15 @@
                 android:rating="0"
                 android:isIndicator="false"
                 android:id="@+id/rating_cour"
-                style="?android:attr/ratingBarStyleIndicator"
+                style="@style/RatingStatus"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp" />
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Quality of Book"
+                android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1" />
             <RatingBar
                 android:layout_width="wrap_content"
@@ -160,10 +166,10 @@
                 android:rating="0"
                 android:isIndicator="false"
                 android:id="@+id/rating_quality"
-                style="?android:attr/ratingBarStyleIndicator"
+                style="@style/RatingStatus"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp" />
-            <Button
+            <redix.booxtown.custom.CustomButton
                 android:layout_width="234dp"
                 android:layout_height="37dp"
                 android:id="@+id/btn_rate_dashboard_status"

@@ -4,17 +4,18 @@
     android:layout_height="wrap_content"
     android:background="@color/dot_light_screen1">
 
-    <redix.booxtown.custom.CustomTextView
+    <redix.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="21sp"
         android:text="Personal Info"
         android:id="@+id/textView74"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="@color/color_text"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        />
 
     <ImageView
         android:layout_width="18dp"
@@ -48,7 +49,8 @@
         android:layout_alignLeft="@+id/textView77"
         android:layout_alignStart="@+id/textView77"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/slide_desc"/>
 
     <redix.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
@@ -61,11 +63,12 @@
         android:layout_alignEnd="@+id/textView77"
         android:layout_alignWithParentIfMissing="false"
         android:gravity="center_vertical"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="7dp"
         android:textColor="@color/color_text"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:inputType="textEmailAddress"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent"
+        android:textSize="@dimen/slide_desc"/>
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -87,7 +90,8 @@
         android:layout_alignLeft="@+id/textView80"
         android:layout_alignStart="@+id/textView80"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/slide_desc"/>
 
     <redix.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
@@ -98,10 +102,11 @@
         android:layout_alignRight="@+id/textView80"
         android:gravity="center_vertical"
         android:textColor="@color/color_text"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:inputType="phone"
         android:background="@android:color/transparent"
-        android:layout_alignBottom="@+id/textView81" />
+        android:layout_alignBottom="@+id/textView81"
+        android:textSize="@dimen/slide_desc"/>
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -122,7 +127,8 @@
         android:layout_below="@+id/textView83"
         android:layout_alignLeft="@+id/textView83"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/slide_desc"/>
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
@@ -134,8 +140,8 @@
         android:background="@android:color/transparent"
         android:layout_above="@+id/textView86"
         android:layout_below="@+id/textView83"
-        android:layout_marginTop="9dp"
-        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/slide_desc"
         />
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -148,38 +154,29 @@
         android:layout_alignEnd="@+id/textView83"
         android:background="@color/color_text_hint"/>
 
-    <redix.booxtown.custom.CustomTextView
+    <redix.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="21sp"
         android:text="My Dashboard"
         android:id="@+id/textView87"
-        android:layout_below="@+id/textView86"
         android:layout_alignLeft="@+id/textView86"
         android:layout_alignStart="@+id/textView86"
         android:textColor="@color/color_text"
-        android:layout_marginTop="5dp"
-        android:layout_alignBottom="@+id/img_menu_personal_dashboard" />
+        android:layout_alignBottom="@+id/img_menu_personal_dashboard"
+        android:layout_below="@+id/textView86"
+        android:layout_marginTop="5dp" />
 
     <ImageView
         android:layout_width="11dp"
         android:layout_height="20dp"
         android:id="@+id/img_menu_personal_dashboard"
-        android:layout_below="@+id/textView86"
         android:layout_alignRight="@+id/textView86"
         android:layout_alignEnd="@+id/textView86"
         android:src="@drawable/btn_interact_next"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/textView86"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
-    <redix.booxtown.custom.CustomTextView
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:id="@+id/textView88"
-        android:layout_below="@+id/textView87"
-        android:layout_alignLeft="@+id/textView87"
-        android:layout_alignStart="@+id/textView87"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/color_text_hint"/>
 </RelativeLayout>

@@ -30,5 +30,6 @@
     <dimen name="text_wishboard_date">14sp</dimen>
     <dimen name="text_by_exploer">12sp</dimen>
     <dimen name="text_book_exploer">18sp</dimen>
+    <dimen name="text_22sp">22sp</dimen>
     <dimen name="text_request_swap">24sp</dimen>
 </resources>

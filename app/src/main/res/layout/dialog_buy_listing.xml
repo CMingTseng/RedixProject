@@ -11,7 +11,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buy"
@@ -21,35 +21,36 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textColor="@color/dot_light_screen1"
-            android:textSize="22sp" />
+            android:textSize="@dimen/text_22sp" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Are you sure you want to buy this book"
             android:id="@+id/textView135"
             android:textColor="@color/dot_light_screen1"
-            android:textSize="16sp"
+            android:textSize="@dimen/slide_desc"
             android:layout_below="@+id/textView134"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="&quot;The Last Painting of Sara de Vos&quot;"
-            android:id="@+id/textView136"
+            android:id="@+id/textView_namebook_buy"
             android:layout_below="@+id/textView135"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/slide_desc"/>
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="224dp"
             android:layout_height="36dp"
             android:text="Confirm"
             android:id="@+id/btn_confirm_buy_listing"
             android:layout_marginTop="50dp"
-            android:layout_below="@+id/textView136"
+            android:layout_below="@+id/textView_namebook_buy"
             android:layout_centerHorizontal="true"
             android:background="@drawable/bg_white_popup"
             android:gravity="center"
