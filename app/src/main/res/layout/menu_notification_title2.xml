@@ -4,14 +4,15 @@
     android:layout_height="wrap_content"
     android:background="#ffffff">
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You accepted swapping your book"
         android:id="@+id/txt_menu_notification_title2"
         android:layout_alignParentTop="true"
         android:padding="10dp"
-        android:textColor="#ee7a7a"
+        android:textSize="@dimen/slide_desc"
+        android:textColor="@color/color_bg_explore"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"

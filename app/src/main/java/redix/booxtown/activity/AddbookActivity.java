@@ -228,8 +228,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     dialog.setContentView(R.layout.dialog_genre);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                    final ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
-                    final CustomListviewGenre adapter = new CustomListviewGenre(getApplicationContext(), genre);
+                    ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
+                    CustomListviewGenre adapter = new CustomListviewGenre(AddbookActivity.this, genre);
                     listView_genre.setAdapter(adapter);
                     dialog.show();
 
@@ -263,10 +263,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_genre);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
                     ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
-                    listView_genre.setAdapter(new CustomListviewGenre(getApplicationContext(), genre));
-
+                    listView_genre.setAdapter(new CustomListviewGenre(AddbookActivity.this, genre));
                     dialog.show();
 
                     Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
@@ -276,7 +274,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                             dialog.dismiss();
                         }
                     });
-
                     ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.img_close_dialoggenre);
                     Picasso.with(getApplicationContext()).load(R.drawable.btn_close_filter).into(img_close_dialoggenre);
                     img_close_dialoggenre.setOnClickListener(new View.OnClickListener() {
