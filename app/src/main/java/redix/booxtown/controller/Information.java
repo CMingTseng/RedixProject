@@ -21,7 +21,7 @@ public class Information {
     public final static String noti_username_taken = "Username entered already exists. Please try another username";
     public final static String noti_quit_app = "Do you want quit application?";
     public final static String noti_input_email = "Please input email";
-    public final static String noti_update_success = "Update Success";
+    public final static String noti_update_success = "Update Successful";
     public final static String noti_no_data = "No Data Found !";
     public final static String noti_no_comment = "Please enter comment to be posted. ";
     public final static String noti_no_data_listing = "Please enter comment to be posted. ";
@@ -40,7 +40,7 @@ public class Information {
     public final static String noti_nochange_pass = "Old password not match";
     public final static String noti_update_setting = "Update setting success";
     public final static String noti_update_nosetting = "Update setting no success";
-    public final static String noti_update_fail = "Update Fail";
+    public final static String noti_update_fail = "Update Failed";
     public final static String noti_tran_done = "Transaction is done";
     public final static String noti_invite_success = "Invite friend success";
     public final static String noti_invite_fail = "Invite friend fail";
