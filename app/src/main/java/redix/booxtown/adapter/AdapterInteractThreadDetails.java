@@ -69,7 +69,7 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Hoder hoder = new Hoder();
 
-        Comment Comments= listComments.get(position);
+        final Comment Comments= listComments.get(position);
         convertView = inflater.inflate(R.layout.custom_commnents_interact, null);
         hoder.myRatingBar = (RatingBar)convertView.findViewById(R.id.myRatingBar);
         hoder.img_icon=(ImageView) convertView.findViewById(R.id.icon_user_listing_detail);
@@ -79,12 +79,10 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         hoder.txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
         hoder.txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
         hoder.txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd hh:mm");
+
         try {
-            Date date = format.parse(Comments.getCreate_date()+"");
-            String stringDate = DateFormat.getDateTimeInstance().format(date);
-            hoder.txt_datetime.setText(stringDate);
-        } catch (ParseException e) {
+            hoder.txt_datetime.setText(formatDatetime(Comments.getCreate_date().replaceAll("-",":").replace(" ",":")));
+        } catch (Exception e) {
             hoder.txt_datetime.setText(Comments.getCreate_date());
 
         }
@@ -93,6 +91,7 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(mContext,UserProfileActivity.class);
+                    intent.putExtra("user",Comments.getUser_id());
                     mContext.startActivity(intent);
                 }
             });
@@ -193,5 +192,82 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         }
 
         return inSampleSize;
+    }
+
+    public String formatDatetime(String input){
+        String outPut="";
+        String[] stringTmp=input.split(":");
+        if(stringTmp[1].equals("01")){
+            outPut="Jan";
+        }else if(stringTmp[1].equals("02")){
+            outPut="Feb";
+        }else if(stringTmp[1].equals("03")){
+            outPut="Mar";
+        }else if(stringTmp[1].equals("04")){
+            outPut="Apr";
+        }else if(stringTmp[1].equals("05")){
+            outPut="May";
+        }else if(stringTmp[1].equals("06")){
+            outPut="Jun";
+        }else if(stringTmp[1].equals("07")){
+            outPut="Jul";
+        }else if(stringTmp[1].equals("08")){
+            outPut="Aug";
+        }else if(stringTmp[1].equals("09")){
+            outPut="Sep";
+        }else if(stringTmp[1].equals("10")){
+            outPut="Oct";
+        }else if(stringTmp[1].equals("11")){
+            outPut="Nov";
+        }else if(stringTmp[1].equals("12")){
+            outPut="Dec";
+        }
+
+        outPut=outPut+" "+ stringTmp[2]+ " at ";
+
+        if(stringTmp[3].equals("12")){
+            outPut=outPut+ stringTmp[3]+" pm";
+        }
+        else if(stringTmp[3].equals("13")){
+            outPut=outPut+ "1:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("14")){
+            outPut=outPut+ "2:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("15")){
+            outPut=outPut+ "3:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("16")){
+            outPut=outPut+ "4:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("17")){
+            outPut=outPut+ "5:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("18")){
+            outPut=outPut+ "6:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("19")){
+            outPut=outPut+"7:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("20")){
+            outPut=outPut+"8:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("21")){
+            outPut=outPut+ "9:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("22")){
+            outPut=outPut+ "10:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("23")){
+            outPut=outPut+ "11:"+ stringTmp[4] +" pm";
+        }
+        else if(stringTmp[3].equals("24")){
+            outPut=outPut+ "0:"+ stringTmp[4] +" am";
+        }
+        else{
+            outPut=outPut+ stringTmp[3]+":"+ stringTmp[4] +" am";
+        }
+
+        return outPut;
     }
 }

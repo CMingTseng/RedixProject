@@ -43,26 +43,17 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Checking for first time launch - before calling setContentView()
-//        prefManager = new PrefManager(this);
-//        if (!prefManager.isFirstTimeLaunch()) {
-//            launchHomeScreen();
-//            finish();
-//        }
-
-        // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
         setContentView(R.layout.activity_welcome);
 
-        //get image by picaso
-        ImageView signin_fb = (ImageView)findViewById(R.id.signin_fb);
+        ImageView signin_fb = (ImageView) findViewById(R.id.signin_fb);
         Picasso.with(WelcomeActivity.this).load(R.mipmap.fb).into(signin_fb);
-        ImageView signin_twitter = (ImageView)findViewById(R.id.signin_twitter);
+        ImageView signin_twitter = (ImageView) findViewById(R.id.signin_twitter);
         Picasso.with(WelcomeActivity.this).load(R.mipmap.twetter).into(signin_twitter);
-        ImageView signin_google = (ImageView)findViewById(R.id.signin_google);
+        ImageView signin_google = (ImageView) findViewById(R.id.signin_google);
         Picasso.with(WelcomeActivity.this).load(R.mipmap.g).into(signin_google);
         //end
         viewPager = (AutoScrollViewPager) findViewById(R.id.view_pager);
@@ -70,38 +61,22 @@ public class WelcomeActivity extends AppCompatActivity {
         btnsigup = (Button) findViewById(R.id.btn_sigup_wellcome);
         btnsignin = (Button) findViewById(R.id.btn_sigin_wellcome);
 
-        //font
-//        btnsigup.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Futura_Light_BT.ttf"));
-//        btnsigup.setText("Sign up");
-//
-//        btnsignin.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Futura_Light_BT.ttf"));
-//        btnsignin.setText("Sign in");
-        //end
-
-        // layouts of all welcome sliders
-        // add few more layouts if you want
         layouts = new int[]{
                 R.layout.welcome_slide1,
                 R.layout.welcome_slide2,
                 R.layout.welcome_slide3,
                 R.layout.welcome_slide4};
-        // adding bottom dots
-
-//        ImageView imageView1_icon_booxtown_intro = (ImageView)findViewById(R.id.imageView1_icon_booxtown_intro);
-//        Picasso.with(getApplicationContext()).load(String.valueOf(getResources().getDrawable(R.drawable.icon_booxtown_intro))).into(imageView1_icon_booxtown_intro);
-//
         addBottomDots(0);
-        // making notification bar transparent
+
         changeStatusBarColor();
         myViewPagerAdapter = new MyViewPagerAdapter(layouts);
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-//        viewPager.setInterval(2000);
-//        viewPager.startAutoScroll();
+
         btnsigup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent itent = new Intent(WelcomeActivity.this,SigUp_Activity.class);
+                Intent itent = new Intent(WelcomeActivity.this, SigUp_Activity.class);
                 startActivity(itent);
             }
         });
@@ -109,17 +84,19 @@ public class WelcomeActivity extends AppCompatActivity {
         btnsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent itent = new Intent(WelcomeActivity.this,SignIn_Activity.class);
+                Intent itent = new Intent(WelcomeActivity.this, SignIn_Activity.class);
                 startActivity(itent);
             }
         });
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         String session_id = pref.getString("session_id", null);
-        if (session_id != null){
-            Intent intent = new Intent(WelcomeActivity.this, MainAllActivity.class);
-            startActivity(intent);
+        try {
+            if (session_id != null) {
+                Intent intent = new Intent(WelcomeActivity.this, MainAllActivity.class);
+                startActivity(intent);
+            }
+        } catch (Exception e) {
         }
     }
 
@@ -138,9 +115,11 @@ public class WelcomeActivity extends AppCompatActivity {
         if (dots.length > 0)
             dots[currentPage].setTextColor(colorsActive[currentPage]);
     }
+
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
     }
+
     //	viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
@@ -175,8 +154,9 @@ public class WelcomeActivity extends AppCompatActivity {
      */
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
-        int [] layouts1;
-        public MyViewPagerAdapter(int [] layouts) {
+        int[] layouts1;
+
+        public MyViewPagerAdapter(int[] layouts) {
             this.layouts1 = layouts;
         }
 
@@ -184,16 +164,28 @@ public class WelcomeActivity extends AppCompatActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(layouts1[position], container, false);
-            if(position == 0) {
+            ImageView iconbackground;
+            if (position == 0) {
+                iconbackground = (ImageView) view.findViewById(R.id.bg1);
+                Picasso.with(WelcomeActivity.this).load(R.drawable.bg1).fit().into(iconbackground);
                 ImageView imageView1_icon_booxtown_intro = (ImageView) view.findViewById(R.id.imageView1_icon_booxtown_intro);
                 Picasso.with(getApplicationContext()).load(R.drawable.icon_booxtown_intro).into(imageView1_icon_booxtown_intro);
-            }else if(position == 1) {
+            } else if (position == 1) {
+                iconbackground = (ImageView) view.findViewById(R.id.bg2);
+                Picasso.with(WelcomeActivity.this).load(R.drawable.bg2).fit().into(iconbackground);
+
                 ImageView imageView2_icon_booxtown_intro = (ImageView) view.findViewById(R.id.imageView2_icon_booxtown_intro);
                 Picasso.with(getApplicationContext()).load(R.drawable.icon_booxtown_intro).into(imageView2_icon_booxtown_intro);
-            }else if(position ==2) {
+            } else if (position == 2) {
+                iconbackground = (ImageView) view.findViewById(R.id.bg3);
+                Picasso.with(WelcomeActivity.this).load(R.drawable.bg3).fit().into(iconbackground);
+
                 ImageView imageView3_icon_booxtown_intro = (ImageView) view.findViewById(R.id.imageView3_icon_booxtown_intro);
                 Picasso.with(getApplicationContext()).load(R.drawable.icon_booxtown_intro).into(imageView3_icon_booxtown_intro);
-            }else if(position == 3) {
+            } else if (position == 3) {
+                iconbackground = (ImageView) view.findViewById(R.id.bg4);
+                Picasso.with(WelcomeActivity.this).load(R.drawable.bg4).fit().into(iconbackground);
+
                 ImageView imageView4_icon_booxtown_intro = (ImageView) view.findViewById(R.id.imageView4_icon_booxtown_intro);
                 Picasso.with(getApplicationContext()).load(R.drawable.icon_booxtown_intro).into(imageView4_icon_booxtown_intro);
             }

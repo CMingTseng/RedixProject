@@ -9,7 +9,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/txt_content_faq"
-        android:textColor="@color/color_text_hint"
+        android:textColor="#807B80"
         android:padding="10dp"/>
 
     <ImageView

@@ -13,7 +13,7 @@
         android:layout_marginLeft="17dp"
         android:layout_marginRight="5dp"
         android:src="@drawable/icon_test"
-        app:siBorderColor="@color/dot_light_screen2"
+        app:siBorderColor="@color/color_hint_interact"
         app:siBorderWidth="1dp"
         android:layout_marginTop="5dp" />
     <RatingBar

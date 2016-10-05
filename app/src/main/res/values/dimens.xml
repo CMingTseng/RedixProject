@@ -8,6 +8,7 @@
     <dimen name="img_width_height">120dp</dimen>
     <dimen name="slide_title">30sp</dimen>
     <dimen name="slide_desc">20sp</dimen>
+    <dimen name="slide_desc_welcome">18sp</dimen>
     <dimen name="setting">20sp</dimen>
     <dimen name="search">16sp</dimen>
     <dimen name="desc_padding">40dp</dimen>
@@ -24,7 +25,8 @@
     <dimen name="btn_h">36dp</dimen>
     <dimen name="btn_w_181">181dp</dimen>
     <dimen name="btn_signin">140dp</dimen>
-    <dimen name="btn_signin_maginleft">20dp</dimen>
+    <dimen name="btn_signin_maginleft">25dp</dimen>
+    <dimen name="btn_signin_maginright">25dp</dimen>
     <dimen name="text_size_locate">20sp</dimen>
     <dimen name="text_size_search">16sp</dimen>
     <dimen name="text_wishboard_date">14sp</dimen>

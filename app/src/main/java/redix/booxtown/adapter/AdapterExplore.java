@@ -114,17 +114,14 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
                 String img = image[0].substring(index+3, image[0].length());
                 Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
                         into(hoder.img_book);
-                //Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" + img + "").placeholder(R.drawable.blank_image).into(hoder.img_book);
             }
             else{
                 Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" +  image[0]  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
                         into(hoder.img_book);
-                //Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" + image[0] + "").placeholder(R.drawable.blank_image).into(hoder.img_book);
             }
         }else {
             Picasso.with(mContext).load(R.drawable.blank_image).into(hoder.img_book);
         }
-        //String action[] = ex.getAction().split("");
         final char array[]=ex.getAction().toCharArray();
 
         if(ex.getPrice() !=0) {
@@ -135,40 +132,32 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         }
         if(String.valueOf(array[0]).contains("1")){
             Picasso.with(mContext).load(R.drawable.explore_btn_swap_active).into(hoder.img_swap);
-            //img_swap.setImageResource((R.drawable.explore_btn_swap_active));
-            //Glide.with(mContext).load(R.drawable.explore_btn_swap_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_swap);
+
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_swap_dis_active).into(hoder.img_swap);
 
-//            Glide.with(mContext).load(R.drawable.explore_btn_swap_dis_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_swap);
-            //img_swap.setImageResource((R.drawable.explore_btn_swap_dis_active));
         }
         if(String.valueOf(array[1]).contains("1")){
             Picasso.with(mContext).load(R.drawable.explore_btn_free_active).into(hoder.img_free);
-//            Glide.with(mContext).load(R.drawable.explore_btn_free_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_free);
-            //img_free.setImageResource((R.drawable.explore_btn_free_active));
+
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_free_dis_active).into(hoder.img_free);
-//            Glide.with(mContext).load(R.drawable.explore_btn_free_dis_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_free);
-            //img_free.setImageResource((R.drawable.explore_btn_free_dis_active));
+
         }
         if(String.valueOf(array[2]).contains("1")){
             Picasso.with(mContext).load(R.drawable.explore_btn_buy_active).into(hoder.img_buy);
-//            Glide.with(mContext).load(R.drawable.listing_btn_buy).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_buy);
-            //img_buy.setImageResource((R.drawable.listing_btn_buy));
+
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_buy_dis_active).into(hoder.img_buy);
-//            Glide.with(mContext).load(R.drawable.explore_btn_buy_dis_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_buy);
-            //img_buy.setImageResource((R.drawable.explore_btn_buy_dis_active));
-        }
-        //hoder.img_edit.setVisibility(View.GONE);
-//        Glide.with(mContext).load(R.drawable.listing_btn_edit).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_edit);
-        //img_edit.setImageResource((R.drawable.listing_btn_edit));
 
-        hoder.txt_title_book.setText(ex.getTitle().toString());
+        }
+
+        if(ex.getTitle().toString().length()>0) {
+            hoder.txt_title_book.setText(ex.getTitle().toString().substring(0,1).toUpperCase()+ex.getTitle().toString().substring(1,ex.getTitle().toString().length()));
+        }
         hoder.txt_author_book.setText(ex.getAuthor().toString());
 
             hoder.img_buy.setOnClickListener(new View.OnClickListener() {

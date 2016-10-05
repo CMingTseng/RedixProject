@@ -183,6 +183,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         btn_menu_editlisting_update.setOnClickListener(this);
         row = (TableRow) v.findViewById(R.id.row_edit_book);
         s = getArguments().getString("activity");
+
         listTag = new ArrayList<>();
         genre = new ArrayList<>();
         for (int i = 0; i < GetAllGenreAsync.list.size(); i++) {
@@ -336,6 +337,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         txt_add_book.setTextColor(getResources().getColor(R.color.color_text));
         txt_add_book.setBackgroundColor(getResources().getColor(R.color.dot_light_screen1));
 
+        if(s.equals("edit")){
+            MainAllActivity.setTxtTitle("Edit Listing");
+            txt_add_book.setText("Edit a book");
+        }
         TextView txt_my_listings = (TextView) v.findViewById(R.id.txt_my_listings1);
         txt_my_listings.setTextColor(getResources().getColor(R.color.dot_light_screen1));
         txt_my_listings.setBackgroundColor(getResources().getColor(R.color.color_text));
@@ -391,6 +396,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 @Override
                 public void onClick(View v) {
                     callFragment(new ListingsFragment());
+                    MainAllActivity.setTxtTitle("Listings");
                 }
             });
 
@@ -812,9 +818,13 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         TextView txt_title_dialog=(TextView) dialog.findViewById(R.id.txt_title_dialog);
-//        if(type==0){
-//            txt_title_dialog.setText("Are you sure to update this book?");
-//        }
+
+        Spannable wordtoSpan1 = new SpannableString("Are you sure you want to delete \n the book "+ "\""+bookedit.getTitle()+"\" from your listings?" );
+        String ss="Are you sure you want to delete \n the book "+ "\""+bookedit.getTitle().trim()+"\" from your listings?";
+        int index= ss.indexOf(bookedit.getTitle().trim());
+        wordtoSpan1.setSpan(new ForegroundColorSpan(Color.WHITE),index-1, bookedit.getTitle().trim().length()+index, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        txt_title_dialog.setText(wordtoSpan1);
+
         TextView button_yes = (TextView) dialog.findViewById(R.id.btn_yes);
         button_yes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -824,18 +834,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     deletebook.execute();
                     dialog.dismiss();
                 }
-//                else{
-//                    editbook editbook = new editbook();
-//                    editbook.execute();
-//                }
-            }
-        });
 
-        TextView button_no = (TextView) dialog.findViewById(R.id.btn_no);
-        button_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
             }
         });
 
