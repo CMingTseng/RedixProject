@@ -80,7 +80,6 @@ public class AdapterTopic extends BaseAdapter {
 
             if (interact.getIs_read() == 0) {
                 holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_text));
-
             } else {
                 holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
             }
