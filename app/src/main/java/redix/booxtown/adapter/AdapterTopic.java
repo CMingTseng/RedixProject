@@ -113,7 +113,16 @@ public class AdapterTopic extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else {
                 ((RecyclerViewHolder) holder).txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
             }
-            ((RecyclerViewHolder) holder).txt_dateUpdate_interact.setText("Last Updated on " + interact.getCreate_date());
+            try {
+                String[] dates = interact.getCreate_date().substring(0, 10).split("-");
+                String resultDate = dates[2] +"-"+dates[1] +"-"+dates[0].substring(2,dates[0].length());
+                ((RecyclerViewHolder) holder).txt_dateUpdate_interact.setText("Last Updated on " + resultDate);
+
+            }catch (Exception exx) {
+                ((RecyclerViewHolder) holder).txt_dateUpdate_interact.setText("Last Updated on ");
+
+            }
+
         }   else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -190,7 +199,7 @@ public class AdapterTopic extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             try{
                 if(topics){
                     //RecyclerViewHolder holder=  new RecyclerViewHolder(itemView);
-                   // holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
+                    //holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
                 }
 
             }catch (Exception e){

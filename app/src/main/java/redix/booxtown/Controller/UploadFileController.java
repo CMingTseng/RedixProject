@@ -47,40 +47,43 @@ public class UploadFileController {
 
             }
         }
+        try {
+            MultipartBody.Part body, body1, body2;
+            Call<Result> req = null;
+            if (fileName.size() == 1) {
+                body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
+                req = service.postImage(body);
+            }
+            if (fileName.size() == 2) {
+                body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
+                body1 = MultipartBody.Part.createFormData("images", fileName.get(1), reqFile.get(1));
+                req = service.postImage1(body, body1);
+            }
+            if (fileName.size() == 3) {
+                body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
+                body1 = MultipartBody.Part.createFormData("images", fileName.get(1), reqFile.get(1));
+                body2 = MultipartBody.Part.createFormData("images", fileName.get(2), reqFile.get(2));
+                req = service.postImage2(body, body1, body2);
+            }
 
-        MultipartBody.Part body,body1,body2;
-        Call<Result> req = null;
-        if(fileName.size() ==1){
-            body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
-            req = service.postImage(body);
-        }
-        if(fileName.size() ==2){
-            body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
-            body1 = MultipartBody.Part.createFormData("images",fileName.get(1), reqFile.get(1));
-            req = service.postImage1(body,body1);
-        }
-        if(fileName.size() ==3){
-            body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
-            body1 = MultipartBody.Part.createFormData("images",fileName.get(1), reqFile.get(1));
-            body2 = MultipartBody.Part.createFormData("images",fileName.get(2), reqFile.get(2));
-            req = service.postImage2(body,body1,body2);
-        }
-
-        req.enqueue(new Callback<Result>() {
-            @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                int s = response.body().getCode();
-                if (s == 200){
-                    success = true;
+            req.enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    int s = response.body().getCode();
+                    if (s == 200) {
+                        success = true;
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-                t.printStackTrace();
-                success = false;
-            }
-        });
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+                    t.printStackTrace();
+                    success = false;
+                }
+            });
+        }catch (Exception exx){
+
+        }
         return success;
     }
 

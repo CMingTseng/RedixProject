@@ -340,6 +340,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         if(s.equals("edit")){
             MainAllActivity.setTxtTitle("Edit Listing");
             txt_add_book.setText("Edit a book");
+
+
         }
         TextView txt_my_listings = (TextView) v.findViewById(R.id.txt_my_listings1);
         txt_my_listings.setTextColor(getResources().getColor(R.color.dot_light_screen1));
@@ -378,13 +380,20 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             //settag();
             if (listtag.length==1){
                 tag1.setText(listtag[0]);
+                tag1.setVisibility(View.VISIBLE);
             }else if (listtag.length==2){
                 tag1.setText(listtag[0]+"");
                 tag2.setText(listtag[1]);
+                tag1.setVisibility(View.VISIBLE);
+                tag2.setVisibility(View.VISIBLE);
             }else {
                 tag1.setText(listtag[0]+"");
                 tag2.setText(listtag[1]+"");
                 tag3.setText(listtag[2]+"");
+                tag1.setVisibility(View.VISIBLE);
+                tag2.setVisibility(View.VISIBLE);
+                tag3.setVisibility(View.VISIBLE);
+
                 addtag.setVisibility(View.GONE);
                 edt_tag.setVisibility(View.GONE);
             }
@@ -771,7 +780,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     if (numclick != 0 || numimageclick != 0) {
 //                    Addbook addbook1 = new Addbook();
 //                    addbook1.execute();
-                        addImages();
+                        try {
+                            addImages();
+                        }catch (Exception exx){
+
+                        }
                     }
                     editbook editbook = new editbook();
                     editbook.execute();
@@ -1032,7 +1045,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     ArrayList<Bitmap> bmap = new ArrayList<>();
 
     public void addImages(){
-        uploadFileController.uploadFile(bmap,listFileName);
+        try {
+            uploadFileController.uploadFile(bmap, listFileName);
+        }catch (Exception exx){
+
+        }
     }
 
 //    public class Addbook extends AsyncTask<Void, Void, Boolean> {
