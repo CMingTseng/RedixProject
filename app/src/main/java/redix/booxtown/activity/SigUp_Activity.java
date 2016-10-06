@@ -135,7 +135,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 }else if (checkSignup.isChecked() == false) {
                     Toast.makeText(getApplicationContext(), Information.noti_check_term, Toast.LENGTH_LONG).show();
                 }else {
-                    if (CheckNetwork.isOnline(SigUp_Activity.this)){
+                    if (!CheckNetwork.isOnline(SigUp_Activity.this)){
                         Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
                     }else{
                         SignupAsyntask signupAsyntask = new SignupAsyntask();

@@ -12,7 +12,7 @@
     <color name="dot_dark_screen2">#2278d4</color>
     <color name="dot_dark_screen3">#2278d4</color>
     <color name="dot_dark_screen4">#2278d4</color>
-
+    <color name="transfer_backgroud"> #5057C3C4</color>
     <!-- dots active colors -->
     <color name="dot_light_screen1">#ffffff</color>
     <color name="dot_light_screen2">#ffffff</color>
