@@ -12,7 +12,7 @@
     <color name="dot_dark_screen2">#2278d4</color>
     <color name="dot_dark_screen3">#2278d4</color>
     <color name="dot_dark_screen4">#2278d4</color>
-
+    <color name="transfer_backgroud"> #5057C3C4</color>
     <!-- dots active colors -->
     <color name="dot_light_screen1">#ffffff</color>
     <color name="dot_light_screen2">#ffffff</color>
@@ -37,6 +37,7 @@
     <color name="color_myprofile_list_databroad">#F5F5F5</color>
     <!--Color sign in-->
     <color name="txt_color_forgot">#F06667</color>
+    <color name="txt_notification_delete_book">#9E4042</color>
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>

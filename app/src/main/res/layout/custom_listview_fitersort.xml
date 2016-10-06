@@ -20,4 +20,13 @@
         android:textSize="@dimen/slide_desc"
         android:layout_marginTop="14dp"
         />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_text_hint"
+        android:layout_alignBottom="@+id/checkBox_listview_filter"
+        android:layout_alignRight="@+id/txt_listview_filter"
+        android:layout_alignEnd="@+id/txt_listview_filter"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 </RelativeLayout>

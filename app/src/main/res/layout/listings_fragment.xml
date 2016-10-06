@@ -26,7 +26,7 @@
             android:layout_marginBottom="5dp"
             android:weightSum="2">
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:id="@+id/txt_add_book"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,9 +35,10 @@
                 android:gravity="center"
                 android:padding="9dp"
                 android:text="Add a book"
-                android:textColor="@color/dot_light_screen1" />
+                android:textColor="@color/dot_light_screen1"
+                android:layout_marginLeft="5dp" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:id="@+id/txt_my_listings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,7 +47,8 @@
                 android:gravity="center"
                 android:padding="9dp"
                 android:text="My listings (46)"
-                android:textColor="@color/color_text" />
+                android:textColor="@color/color_text"
+                android:layout_marginRight="5dp" />
         </TableRow>
 
         <GridView
@@ -56,8 +58,8 @@
             android:layout_below="@+id/tableRow4"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:horizontalSpacing="5dp"

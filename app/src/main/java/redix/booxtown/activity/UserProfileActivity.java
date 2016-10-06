@@ -165,12 +165,17 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             }
         });
         Bundle bundle=getIntent().getExtras();
-        int user_id=bundle.getInt("user");
-        getUser getUser = new getUser(UserProfileActivity.this,user_id);
-        getUser.execute();
+        try {
+            int user_id = bundle.getInt("user");
+            getUser getUser = new getUser(UserProfileActivity.this,user_id);
+            getUser.execute();
 
-        getTopBook getTopBook = new getTopBook(UserProfileActivity.this,user_id,100,0);
-        getTopBook.execute();
+            getTopBook getTopBook = new getTopBook(UserProfileActivity.this,user_id,100,0);
+            getTopBook.execute();
+        }catch (Exception ex){
+
+        }
+
 
         //btn_location.setOnClickListener(this);
     }
@@ -209,7 +214,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     protected void onRestart() {
         super.onRestart();
 
-        menu_bottom.setDefaut(0);
+        //menu_bottom.setDefaut(0);
     }
 
     @Override

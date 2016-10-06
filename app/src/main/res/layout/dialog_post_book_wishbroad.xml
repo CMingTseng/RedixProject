@@ -9,7 +9,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Post a book to Wishboard"
@@ -22,7 +22,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_title_wishboard"
@@ -32,9 +32,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:backgroundTint="@color/dot_light_screen2"
-            />
+            android:ellipsize="end"
+            android:singleLine="true" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_author_wishboard"
@@ -43,30 +44,38 @@
             android:layout_below="@+id/editText_title_wishboard"
             android:backgroundTint="@color/dot_light_screen2"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:singleLine="true"
+            android:ellipsize="end" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_comment_wishboard"
-            android:hint="Comment(50 character)"
+            android:hint="Comments (50 Character)"
             android:textColorHint="@color/dot_light_screen2"
             android:layout_below="@+id/editText_author_wishboard"
             android:layout_marginRight="10dp"
             android:backgroundTint="@color/dot_light_screen2"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:ellipsize="end"
+            android:singleLine="true"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            />
+
+        <redix.booxtown.custom.CustomTextView
+            android:layout_width="241dp"
+            android:layout_height="37dp"
             android:text="Submit"
-            android:background="@drawable/change_pass"
+            android:background="@drawable/bg_interact_bt_popup"
             android:id="@+id/btn_submit_dialog_post_book_wishbroad"
             android:gravity="center_vertical|center"
             android:layout_below="@+id/editText_comment_wishboard"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="60dp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp"
+            android:textSize="@dimen/slide_desc_welcome"
+            android:textColor="@color/color_text" />
 
     </RelativeLayout>
 

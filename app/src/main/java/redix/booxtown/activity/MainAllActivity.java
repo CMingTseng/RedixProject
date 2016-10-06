@@ -37,8 +37,7 @@ import redix.booxtown.fragment.WishboardFragment;
 public class MainAllActivity extends AppCompatActivity{
 
     View view_top;
-    View view_bottom;
-    TextView txtTitle;
+    public static TextView txtTitle;
     ImageView img_component;
     boolean flag;
 
@@ -49,6 +48,7 @@ public class MainAllActivity extends AppCompatActivity{
     private ImageView btn_bag;
     private ImageView btn_user;
     //-----------------------------
+    static ImageView img_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +115,7 @@ public class MainAllActivity extends AppCompatActivity{
             }
         });
 
-        ImageView img_menu = (ImageView)view_top.findViewById(R.id.img_menu);
+         img_menu = (ImageView)view_top.findViewById(R.id.img_menu);
         Picasso.with(MainAllActivity.this).load(R.drawable.btn_menu_locate).into(img_menu);
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,11 +248,6 @@ public class MainAllActivity extends AppCompatActivity{
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-//            btn_commnet.setImageResource(R.drawable.btn_locate_interact_not_active);
-//            btn_location.setImageResource(R.drawable.btn_locate_active);
-//            btn_camera.setImageResource(R.drawable.btn_locate_listing_not_active);
-//            btn_bag.setImageResource(R.drawable.btn_locate_wishbroad_not_active);
-//            btn_user.setImageResource(R.drawable.btn_locate_profile_not_active);
         }
         else if(i==2) {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_active).into(btn_commnet);
@@ -260,12 +255,6 @@ public class MainAllActivity extends AppCompatActivity{
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-
-//            btn_commnet.setImageResource(R.drawable.btn_locate_interact_active);
-//            btn_location.setImageResource(R.drawable.btn_locate_not_active);
-//            btn_camera.setImageResource(R.drawable.btn_locate_listing_not_active);
-//            btn_bag.setImageResource(R.drawable.btn_locate_wishbroad_not_active);
-//            btn_user.setImageResource(R.drawable.btn_locate_profile_not_active);
         }
         else if(i==3) {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(btn_commnet);
@@ -273,12 +262,6 @@ public class MainAllActivity extends AppCompatActivity{
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-
-//            btn_commnet.setImageResource(R.drawable.btn_locate_interact_not_active);
-//            btn_location.setImageResource(R.drawable.btn_locate_not_active);
-//            btn_camera.setImageResource(R.drawable.btn_locate_listing_active);
-//            btn_bag.setImageResource(R.drawable.btn_locate_wishbroad_not_active);
-//            btn_user.setImageResource(R.drawable.btn_locate_profile_not_active);
         }
         else if(i==4) {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(btn_commnet);
@@ -286,12 +269,6 @@ public class MainAllActivity extends AppCompatActivity{
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-
-//            btn_commnet.setImageResource(R.drawable.btn_locate_interact_not_active);
-//            btn_location.setImageResource(R.drawable.btn_locate_not_active);
-//            btn_camera.setImageResource(R.drawable.btn_locate_listing_not_active);
-//            btn_bag.setImageResource(R.drawable.btn_locate_wishbroad_active);
-//            btn_user.setImageResource(R.drawable.btn_locate_profile_not_active);
         }
         else {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(btn_commnet);
@@ -299,12 +276,6 @@ public class MainAllActivity extends AppCompatActivity{
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_active).into(btn_user);
-
-//            btn_commnet.setImageResource(R.drawable.btn_locate_interact_not_active);
-//            btn_location.setImageResource(R.drawable.btn_locate_not_active);
-//            btn_camera.setImageResource(R.drawable.btn_locate_listing_not_active);
-//            btn_bag.setImageResource(R.drawable.btn_locate_wishbroad_not_active);
-//            btn_user.setImageResource(R.drawable.btn_locate_profile_active);
         }
 
     }
@@ -336,4 +307,17 @@ public class MainAllActivity extends AppCompatActivity{
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
+    public static TextView getTxtTitle() {
+        return txtTitle;
+    }
+
+    public static void setTxtTitle(String title) {
+        txtTitle.setText(title);
+    }
+
+    public static ImageView getImg_menu() {
+        return img_menu;
+    }
+
 }

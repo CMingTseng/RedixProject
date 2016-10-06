@@ -17,6 +17,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginTop="40dp"
         />
 
     <redix.booxtown.custom.CustomButton

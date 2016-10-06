@@ -220,12 +220,13 @@
                 android:id="@+id/lv_dialog_filter"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
+                android:divider="@null"
                 android:layout_marginBottom="5dp"/>
             <redix.booxtown.custom.CustomButton
                 android:layout_width="223dp"
                 android:layout_height="36dp"
                 android:text="Submit"
-
+                android:textAllCaps="false"
                 android:id="@+id/btn_dialog_filter_submit"
                 android:background="@drawable/bg_btn_sign_in"
                 android:textColor="#ffffff"

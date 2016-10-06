@@ -25,6 +25,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 import redix.booxtown.R;
+import redix.booxtown.controller.CheckNetwork;
 import redix.booxtown.controller.DeleteTokenService;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.ObjectCommon;
@@ -38,8 +39,6 @@ Button mButtonForgotPass;
     EditText edt_username,edt_pass;
     TextView mButtonBackSignIn;
     ImageView mimgBack;
-    Button mButtonSigin;
-    Result result;
     String session_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,7 @@ Button mButtonForgotPass;
             Intent intent = new Intent(SignIn_Activity.this, MainAllActivity.class);
             startActivity(intent);
         }
-        if (isOnline() == false){
+        if (CheckNetwork.isOnline(SignIn_Activity.this) == false){
             Toast.makeText(getApplicationContext(), Information.checkNetwork,Toast.LENGTH_LONG).show();
         }
     }
@@ -87,10 +86,14 @@ Button mButtonForgotPass;
                 break;
             case R.id.btn_sigin:
                 if (edt_username.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),Information.noti_fill_username,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),Information.noti_fill_username,Toast.LENGTH_SHORT).show();
                 }else  if (edt_pass.getText().toString().equals("")){
-                Toast.makeText(getApplicationContext(),Information.noti_fill_password,Toast.LENGTH_LONG).show();
-                }else {
+                Toast.makeText(getApplicationContext(),Information.noti_fill_password,Toast.LENGTH_SHORT).show();
+                }
+                else if(CheckNetwork.isOnline(SignIn_Activity.this) == false){
+                    Toast.makeText(getApplicationContext(), Information.checkNetwork,Toast.LENGTH_SHORT).show();
+                }
+                else {
                     SiginAsystask siginAsystask = new SiginAsystask();
                     ProgressDialog dialog = new ProgressDialog(SignIn_Activity.this);
                     try {
@@ -137,35 +140,32 @@ Button mButtonForgotPass;
 
         @Override
         protected void onPostExecute(String aBoolean) {
-            if (aBoolean != null) {
-                Intent intent = new Intent(SignIn_Activity.this, MainAllActivity.class);
-                startActivity(intent);
-                String session_id = aBoolean.toString();
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id", session_id);
-                editor.putString("username",edt_username.getText().toString());
-                editor.commit();
-                dialog.dismiss();
-            }else{
-                Toast.makeText(getApplicationContext(),Information.noti_wrong_login,Toast.LENGTH_LONG).show();
-                dialog.dismiss();
+            try {
+                if (aBoolean != null) {
+                    Intent intent = new Intent(SignIn_Activity.this, MainAllActivity.class);
+                    startActivity(intent);
+                    String session_id = aBoolean.toString();
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", session_id);
+                    editor.putString("username", edt_username.getText().toString());
+                    editor.commit();
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(getApplicationContext(), Information.noti_wrong_login, Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            }catch (Exception e){
             }
-            super.onPostExecute(aBoolean);
         }
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @Override
     public void onBackPressed() {
-        Intent iten = new Intent(SignIn_Activity.this,WelcomeActivity.class);
-        startActivity(iten);
-        finish();
+        try {
+            Intent iten = new Intent(SignIn_Activity.this, WelcomeActivity.class);
+            startActivity(iten);
+            finish();
+        }catch (Exception e){}
     }
 }

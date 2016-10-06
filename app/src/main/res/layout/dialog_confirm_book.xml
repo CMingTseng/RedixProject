@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        android:background="@drawable/customborder">
+        android:background="@drawable/customborder"
+        android:paddingBottom="20dp">
 
         <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
@@ -17,37 +18,23 @@
 
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:textColor="@color/dot_light_screen1"
+            android:textColor="@color/txt_notification_delete_book"
             android:textSize="18dp" />
 
         <redix.booxtown.custom.CustomTextView
-            android:layout_width="110dp"
-            android:layout_height="30dp"
-            android:text="Yes"
+            android:layout_width="224dp"
+            android:layout_height="37dp"
+            android:text="Delete"
             android:id="@+id/btn_yes"
 
-            android:layout_marginTop="50dp"
-            android:background="@drawable/btn_confirm"
+            android:background="@drawable/bg_white_popup"
             android:gravity="center"
             android:textColor="@color/color_text"
             android:textSize="18sp"
-            android:layout_marginBottom="60dp"
             android:layout_below="@+id/txt_title_dialog"
-            android:layout_marginLeft="30dp" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp" />
 
-        <redix.booxtown.custom.CustomTextView
-            android:layout_width="110dp"
-            android:layout_height="30dp"
-            android:text="No"
-            android:id="@+id/btn_no"
-            android:background="@drawable/btn_confirm"
-            android:gravity="center"
-            android:textColor="@color/color_text"
-            android:textSize="18sp"
-            android:layout_alignTop="@+id/btn_yes"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="30dp" />
     </RelativeLayout>
 
     <RelativeLayout

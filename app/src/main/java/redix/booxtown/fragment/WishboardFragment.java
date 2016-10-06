@@ -12,10 +12,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,14 +86,19 @@ public class WishboardFragment extends Fragment {
                         dialog.dismiss();
                     }
                 });
+                final EditText editText_title_wishboard = (EditText)dialog.findViewById(R.id.editText_title_wishboard);
+                final EditText editText_author_wishboard = (EditText)dialog.findViewById(R.id.editText_author_wishboard);
+                final EditText editText_comment_wishboard = (EditText)dialog.findViewById(R.id.editText_comment_wishboard);
 
+                Spannable wordtoSpan = new SpannableString("Comments (50 Character)");
+                wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_text_hint)), 10, 23, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                editText_comment_wishboard.setHint(wordtoSpan);
                 TextView btn_submit_dialog_post_book_wishbroad = (TextView)dialog.findViewById(R.id.btn_submit_dialog_post_book_wishbroad);
                 btn_submit_dialog_post_book_wishbroad.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        TextView editText_title_wishboard = (TextView)dialog.findViewById(R.id.editText_title_wishboard);
-                        TextView editText_author_wishboard = (TextView)dialog.findViewById(R.id.editText_author_wishboard);
-                        TextView editText_comment_wishboard = (TextView)dialog.findViewById(R.id.editText_comment_wishboard);
+
+
                         insertWishboard insertWishboard = new insertWishboard(getContext());
                         insertWishboard.execute(editText_title_wishboard.getText().toString(),editText_author_wishboard.getText().toString(),
                                 editText_comment_wishboard.getText().toString(),session_id);

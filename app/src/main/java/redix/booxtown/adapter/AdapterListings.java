@@ -98,39 +98,25 @@ public class AdapterListings extends BaseAdapter {
         }
         if(ex.isSwap()){
             Picasso.with(mContext).load(R.drawable.explore_btn_swap_active).into(hoder.img_buy);
-            //img_swap.setImageResource((R.drawable.explore_btn_swap_active));
-            //Glide.with(mContext).load(R.drawable.explore_btn_swap_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_swap);
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_swap_dis_active).into(hoder.img_swap);
 
-//            Glide.with(mContext).load(R.drawable.explore_btn_swap_dis_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_swap);
-            //img_swap.setImageResource((R.drawable.explore_btn_swap_dis_active));
         }
         if(ex.isFree()){
             Picasso.with(mContext).load(R.drawable.explore_btn_free_active).into(hoder.img_buy);
-//            Glide.with(mContext).load(R.drawable.explore_btn_free_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_free);
-            //img_free.setImageResource((R.drawable.explore_btn_free_active));
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_free_dis_active).into(hoder.img_free);
-//            Glide.with(mContext).load(R.drawable.explore_btn_free_dis_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_free);
-            //img_free.setImageResource((R.drawable.explore_btn_free_dis_active));
         }
         if(ex.isBuy()){
             Picasso.with(mContext).load(R.drawable.listing_btn_buy).into(hoder.img_buy);
-//            Glide.with(mContext).load(R.drawable.listing_btn_buy).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_buy);
-            //img_buy.setImageResource((R.drawable.listing_btn_buy));
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_buy_dis_active).into(hoder.img_buy);
-//            Glide.with(mContext).load(R.drawable.explore_btn_buy_dis_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_buy);
-            //img_buy.setImageResource((R.drawable.explore_btn_buy_dis_active));
         }
 
         Picasso.with(mContext).load(R.drawable.listing_btn_edit).into(hoder.img_edit);
-//        Glide.with(mContext).load(R.drawable.listing_btn_edit).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_edit);
-        //img_edit.setImageResource((R.drawable.listing_btn_edit));
 
         hoder.img_book.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,9 +129,6 @@ public class AdapterListings extends BaseAdapter {
         hoder.img_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent= new Intent(mContext, ListingCollectionActivity.class);
-//
-//                mContext.startActivity(intent);
                Explore book = (Explore) listExplore.get(position);
                 Log.d("boooook",String.valueOf(book.getPrice_book()));
                 Bundle bundle = new Bundle();

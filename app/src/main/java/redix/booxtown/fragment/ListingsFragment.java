@@ -53,7 +53,7 @@ public class ListingsFragment extends Fragment
     ListBookAdapter adapter;
     EditText editSearch;
     public static int num_list;
-
+    public static TextView txt_add_book;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,7 +100,7 @@ public class ListingsFragment extends Fragment
 
         //------------------------------------------------------------
         //add book
-        TextView txt_add_book = (TextView)view.findViewById(R.id.txt_add_book);
+        txt_add_book = (TextView)view.findViewById(R.id.txt_add_book);
         txt_add_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +120,7 @@ public class ListingsFragment extends Fragment
         TextView txt_my_listings = (TextView)view.findViewById(R.id.txt_my_listings);
         txt_my_listings.setTextColor(getResources().getColor(R.color.color_text));
         txt_my_listings.setBackgroundColor(getResources().getColor(R.color.dot_light_screen1));
-
+        txt_add_book.setText("Add a book");
         txt_add_book.setTextColor(getResources().getColor(R.color.dot_light_screen1));
         txt_add_book.setBackgroundColor(getResources().getColor(R.color.color_text));
         //end
@@ -165,18 +165,27 @@ public class ListingsFragment extends Fragment
 
         @Override
         protected void onPostExecute(List<Book> books) {
-            if (books == null){
-                dialog.dismiss();
-            }else {
-                adapter = new ListBookAdapter(getActivity(),books,1);
-                grid.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                num_list = books.size();
-                txt_my_listings.setText("My listings"+"("+String.valueOf(books.size())+")");
-                dialog.dismiss();
-            }
-            super.onPostExecute(books);
+            try {
+                if (books == null) {
+                    dialog.dismiss();
+                } else {
+                    adapter = new ListBookAdapter(getActivity(), books, 1);
+                    grid.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    num_list = books.size();
+                    txt_my_listings.setText("My listings" + "(" + String.valueOf(books.size()) + ")");
+                    dialog.dismiss();
+                }
+            }catch (Exception e){}
         }
+    }
+
+    public static TextView getTxt_add_book() {
+        return txt_add_book;
+    }
+
+    public static void setTxt_add_book(String title) {
+        txt_add_book.setText(title);
     }
 }
 

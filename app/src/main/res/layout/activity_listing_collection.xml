@@ -17,7 +17,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/tableRow5">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add a book"
@@ -28,7 +28,7 @@
             android:textColor="@color/dot_light_screen1"
             android:padding="9dp" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My listings (46)"

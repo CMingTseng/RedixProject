@@ -32,6 +32,7 @@
                 android:paddingBottom="20dp"
                 android:textSize="20sp"
                 android:textColor="#ffffff"
+                android:backgroundTint="@color/dot_light_screen1"
                 android:layout_marginTop="30dp" />
 
             <redix.booxtown.custom.CustomEdittext
@@ -55,6 +56,7 @@
                 android:backgroundTint="@color/dot_light_screen1"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:textSize="18sp"
                 android:layout_marginRight="10dp" />
 
             <redix.booxtown.custom.CustomEdittext
@@ -71,6 +73,7 @@
                 android:hint="Enter new password"
                 android:textColorHint="#ffffff"
                 android:textColor="#ffffff"
+                android:textSize="18sp"
                 android:backgroundTint="@color/dot_light_screen1"
                 android:layout_marginTop="10dp" />
 
@@ -79,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
+                android:textSize="18sp"
                 android:id="@+id/editText_change_re"
                 android:layout_below="@+id/editText_change_new"
                 android:layout_alignParentLeft="true"

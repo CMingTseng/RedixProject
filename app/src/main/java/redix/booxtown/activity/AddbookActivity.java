@@ -162,6 +162,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             tag1 = (TextView) findViewById(R.id.tag1);
             tag2 = (TextView) findViewById(R.id.tag2);
             tag3 = (TextView) findViewById(R.id.tag3);
+
+            tag1.setVisibility(View.GONE);
+            tag2.setVisibility(View.GONE);
+            tag3.setVisibility(View.GONE);
+
             tag1.setOnClickListener(this);
             tag2.setOnClickListener(this);
             tag3.setOnClickListener(this);
@@ -196,7 +201,13 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             imagebook2 = (ImageView) findViewById(R.id.imageView30);
             imagebook3 = (ImageView) findViewById(R.id.imageView31);
             seekbar = (SeekBar) findViewById(R.id.seekBar2);
-
+            Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
+            Bitmap thumb=Bitmap.createBitmap(44,44, Bitmap.Config.ARGB_8888);
+            Canvas canvas=new Canvas(thumb);
+            canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
+                    new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
+            Drawable drawable = new BitmapDrawable(getResources(),thumb);
+            seekbar.setThumb(drawable);
             TextView title=(TextView) findViewById(R.id.txt_title);
             title.setText("Add a book");
 
@@ -606,21 +617,38 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         settag();
     }
 
+
     public void settag(){
         if (listTag.size()==0){
+            tag1.setVisibility(View.GONE);
+            tag2.setVisibility(View.GONE);
+            tag3.setVisibility(View.GONE);
             tag1.setText("");
             tag2.setText("");
             tag3.setText("");
         }
         else if (listTag.size()==1){
+            tag1.setVisibility(View.VISIBLE);
+            tag2.setVisibility(View.GONE);
+            tag3.setVisibility(View.GONE);
+
             tag1.setText(listTag.get(0));
             tag2.setText("");
             tag3.setText("");
         }else if(listTag.size()==2){
+            tag1.setVisibility(View.VISIBLE);
+            tag2.setVisibility(View.VISIBLE);
+            tag3.setVisibility(View.GONE);
+
+
             tag1.setText(listTag.get(0));
             tag2.setText(listTag.get(1));
             tag3.setText("");
         }else {
+
+            tag1.setVisibility(View.VISIBLE);
+            tag2.setVisibility(View.VISIBLE);
+            tag3.setVisibility(View.VISIBLE);
             tag1.setText(listTag.get(0));
             tag2.setText(listTag.get(1));
             tag3.setText(listTag.get(2));

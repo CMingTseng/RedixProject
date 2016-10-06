@@ -9,7 +9,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add new thread"
@@ -20,15 +20,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:gravity="center"
+            android:textSize="24sp"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/dot_light_screen2"/>
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/edit_title_insert_thread"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="63dp"
+            android:layout_marginTop="83dp"
             android:layout_alignRight="@+id/textView67"
             android:layout_alignEnd="@+id/textView67"
             android:hint="Title *"
@@ -38,13 +40,15 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:textColor="@color/dot_light_screen2"
-            android:backgroundTint="@color/dot_light_screen1" />
+            android:backgroundTint="@color/dot_light_screen1"
+            android:singleLine="true"
+            android:ellipsize="end" />
 
-        <EditText
+        <redix.booxtown.custom.CustomEdittext
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/edit_description_insert_thread"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="140dp"
             android:layout_alignRight="@+id/edit_title_insert_thread"
             android:layout_alignEnd="@+id/edit_title_insert_thread"
             android:layout_alignLeft="@+id/edit_title_insert_thread"
@@ -54,15 +58,16 @@
             android:textColor="@color/dot_light_screen2"
             android:backgroundTint="@color/dot_light_screen1" />
 
-        <Button
+        <redix.booxtown.custom.CustomButton
             android:layout_width="223dp"
             android:layout_height="36dp"
             android:text="Submit"
             android:id="@+id/btn_dialog_interact_submit"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="172dp"
+            android:layout_marginTop="192dp"
             android:background="@drawable/bg_interact_bt_popup"
             android:layout_marginBottom="20dp"
+            android:textAllCaps="false"
             android:textColor="@color/color_text"/>
     </RelativeLayout>
 

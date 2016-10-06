@@ -72,7 +72,13 @@ public class AdapterListviewWishboard  extends BaseAdapter {
         holder.date = (TextView)rowView.findViewById(R.id.txt_date_customlistview_wishboard);
         holder.title.setText(list.get(position).getTitle());
         holder.name.setText("by "+list.get(position).getUsername());
-        holder.date.setText(list.get(position).getCreate_date().substring(0,10));
+        try {
+            String[] dates = list.get(position).getCreate_date().substring(0, 10).split("-");
+            String resultDate = dates[2] +"-"+dates[1] +"-"+dates[0].substring(2,dates[0].length());
+            holder.date.setText(resultDate);
+        }catch (Exception exx) {
+            holder.date.setText(list.get(position).getCreate_date().substring(0, 10));
+        }
 
         ImageView imgv_listview_respond = (ImageView)rowView.findViewById(R.id.imgv_listview_respond);
         Picasso.with(context).load(R.drawable.btn_wishbroad_message).into(imgv_listview_respond);

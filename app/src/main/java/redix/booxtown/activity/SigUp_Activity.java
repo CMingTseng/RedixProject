@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
+import redix.booxtown.controller.CheckNetwork;
 import redix.booxtown.controller.DeleteTokenService;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.UserController;
@@ -60,7 +61,6 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         Picasso.with(SigUp_Activity.this).load(R.drawable.icon_sign_in_home).into(icon_signup);
 
         //end
-
         mButtonBackSigup = (ImageView) findViewById(R.id.btn_back_sigup);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(mButtonBackSigup);
         signUp = (TextView) findViewById(R.id.signup);
@@ -81,20 +81,9 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
 
 
-        if (isOnline() == false){
+        if (CheckNetwork.isOnline(SigUp_Activity.this) == false){
             Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
         }
-//        birthday = String.valueOf(edt_birthday.getYear()) + String.valueOf(edt_birthday.getMonth()) + String.valueOf(edt_birthday.getDayOfMonth());
-
-
-    }
-
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 
@@ -146,8 +135,12 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 }else if (checkSignup.isChecked() == false) {
                     Toast.makeText(getApplicationContext(), Information.noti_check_term, Toast.LENGTH_LONG).show();
                 }else {
-                    SignupAsyntask signupAsyntask = new SignupAsyntask();
-                    signupAsyntask.execute(user);
+                    if (!CheckNetwork.isOnline(SigUp_Activity.this)){
+                        Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
+                    }else{
+                        SignupAsyntask signupAsyntask = new SignupAsyntask();
+                        signupAsyntask.execute(user);
+                    }
                 }
 
                 break;
@@ -203,7 +196,6 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
             dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
             dialog.show();
-            super.onPreExecute();
         }
 
         @Override
@@ -213,21 +205,22 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            if (aBoolean == true){
-                Intent intent = new Intent(SigUp_Activity.this,MainAllActivity.class);
-                startActivity(intent);
-                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id", session_id);
-                editor.putString("username",edt_name.getText().toString());
-                editor.commit();
-                dialog.dismiss();
-            }else if (aBoolean ==false){
-                Toast.makeText(getApplicationContext(),Information.noti_username_taken, Toast.LENGTH_LONG).show();
-                dialog.dismiss();
-            }
-            super.onPostExecute(aBoolean);
+            try {
+                if (aBoolean == true) {
+                    Intent intent = new Intent(SigUp_Activity.this, MainAllActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", session_id);
+                    editor.putString("username", edt_name.getText().toString());
+                    editor.commit();
+                    dialog.dismiss();
+                } else if (aBoolean == false) {
+                    Toast.makeText(getApplicationContext(), Information.noti_username_taken, Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }
+            }catch (Exception e){}
         }
     }
 
