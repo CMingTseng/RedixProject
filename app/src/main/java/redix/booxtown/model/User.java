@@ -27,9 +27,14 @@ public class User {
     private String photo;
     @Expose
     private float rating;
+    @Expose
+    private int contributor;
+    @Expose
+    private int goldenBook;
+    @Expose
+    private int listBook;
 
-
-    public User(String first_name, String last_name, String username, String email, String birthday, String phone, String password, String session_id, int user_id, String photo, float rating) {
+    public User(String first_name, String last_name, String username, String email, String birthday, String phone, String password, String session_id, int user_id, String photo, float rating, int contributor, int goldenBook, int listBook) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -41,6 +46,33 @@ public class User {
         this.user_id = user_id;
         this.photo = photo;
         this.rating = rating;
+        this.contributor = contributor;
+        this.goldenBook = goldenBook;
+        this.listBook = listBook;
+    }
+
+    public int getContributor() {
+        return contributor;
+    }
+
+    public void setContributor(int contributor) {
+        this.contributor = contributor;
+    }
+
+    public int getGoldenBook() {
+        return goldenBook;
+    }
+
+    public void setGoldenBook(int goldenBook) {
+        this.goldenBook = goldenBook;
+    }
+
+    public int getListBook() {
+        return listBook;
+    }
+
+    public void setListBook(int listBook) {
+        this.listBook = listBook;
     }
 
     public float getRating() {

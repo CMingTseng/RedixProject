@@ -76,6 +76,12 @@ package="redix.booxtown">
     <service android:name=".controller.DeleteTokenService">
 
     </service>
+    <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="7d4f86cb61c01ed018ed3e0d71cf6369b433ee7f" />
+        <meta-data
+        android:name="io.fabric.ApiKey"
+        android:value="7d4f86cb61c01ed018ed3e0d71cf6369b433ee7f"/>
 </application>
 
 </manifest>

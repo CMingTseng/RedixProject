@@ -14,12 +14,10 @@ public class Comment {
     private String create_date;
     @Expose
     private String thread_id;
-
     @Expose
     private String user_id;
     @Expose
     private String username;
-
     @Expose
     private float rating;
     @Expose
