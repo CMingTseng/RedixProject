@@ -79,7 +79,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         linear_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(1),0);
+                final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(1),0,1);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
                 grid.setAdapter(adapter);
                 tab_custom.setDefault(1);
@@ -89,7 +89,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         linear_swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(2),0);
+                final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(2),0,1);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
                 grid.setAdapter(adapter);
                 tab_custom.setDefault(2);
@@ -99,7 +99,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         linear_free.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(3),0);
+                final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(3),0,1);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
                 grid.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -110,7 +110,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         linear_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(4),0);
+                final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(4),0,1);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
                 grid.setAdapter(adapter);
                 tab_custom.setDefault(4);
@@ -301,7 +301,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                         books.get(i).setUser_id(user_id+"");
                     }
                     listEx = books;
-                    adapter = new AdapterExplore(UserProfileActivity.this,books,0);
+                    adapter = new AdapterExplore(UserProfileActivity.this,books,0,1);
                     grid=(GridView)findViewById(R.id.grid_view_profile);
                     grid.setAdapter(adapter);
                     tab_all_count.setText("(" + filterExplore(1).size() + ")");
