@@ -608,7 +608,6 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 controller.sendNotification(list);
                 //}
             } catch (Exception e) {
-                String ssss = e.getMessage();
                 Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
             }
             dialog.dismiss();

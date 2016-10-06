@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/txt_tilte_interact"
             >
-            <android.support.v7.widget.RecyclerView
+            <ListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/list_view_interact"
