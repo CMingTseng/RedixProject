@@ -60,8 +60,8 @@ public class TopicFragment extends Fragment
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
-        topicSync getalltopic = new topicSync(getContext(),session_id,5,0);
-        getalltopic.execute();
+//        topicSync getalltopic = new topicSync(getContext(),session_id,5,0);
+//        getalltopic.execute();
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +77,7 @@ public class TopicFragment extends Fragment
         return view;
     }
 
-    private void populatRecyclerView(String session_id) {
+    private void populatRecyclerView(final String session_id) {
         topicSync getDashBoard = new topicSync(getContext(),session_id,10,0);
         getDashBoard.execute();
         listArrayList = new ArrayList<Topic>();
@@ -88,12 +88,17 @@ public class TopicFragment extends Fragment
         lv_recycler.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Topic topic = listArrayList.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("thread", topic);
                 ThreadFragment fragment= new ThreadFragment();
                 fragment.setArguments(bundle);
                 callFragment(fragment);
+                if(topic.getIs_read() == 0) {
+                    changeStatus changeStatus = new changeStatus(getContext(), session_id, Integer.valueOf(topic.getId()));
+                    changeStatus.execute();
+                }
             }
         });
     }
@@ -178,6 +183,49 @@ public class TopicFragment extends Fragment
 
             }
             dialog.dismiss();
+        }
+    }
+
+    public class changeStatus extends AsyncTask<Void,Void,Boolean> {
+        ProgressDialog dialog;
+        Context context;
+        String session_id;
+        int thread_id;
+        public changeStatus(Context context,String session_id,int thread_id){
+            this.context = context;
+            this.session_id=session_id;
+            this.thread_id=thread_id;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            TopicController topicController = new TopicController();
+            return topicController.changeStatusTopic(session_id,thread_id);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean topics) {
+            try{
+                if(topics){
+                    //RecyclerViewHolder holder=  new RecyclerViewHolder(itemView);
+                    //holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
+                }
+
+            }catch (Exception e){
+
+            }
+            dialog.dismiss();
+
         }
     }
 }
