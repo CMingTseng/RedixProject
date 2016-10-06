@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,9 @@ import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.HomeActivity;
 import redix.booxtown.activity.ListingsDetailActivity;
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.activity.SwapActivity;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.NotificationController;
@@ -54,11 +57,13 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
     String username;
     private List<Book> originbook;
     private ItemFilter mFilter = new ItemFilter();
-    public AdapterExplore(Context c, List<Book> listExplore, int type) {
+    int keyStart=0;
+    public AdapterExplore(Context c, List<Book> listExplore, int type,int key) {
         mContext = c;
         this.listExplore = listExplore;
         this.originbook = listExplore;
         this.type = type;
+        this.keyStart=key;
         try {
             pref = mContext.getSharedPreferences("MyPref",mContext.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
@@ -90,7 +95,7 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
 
-        LayoutInflater inflater = (LayoutInflater) mContext
+        final LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         final Book ex= listExplore.get(position);
@@ -180,23 +185,45 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             hoder.img_book.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ListingsDetailActivity fragment = new ListingsDetailActivity();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(String.valueOf(R.string.valueListings), "2");
-                    bundle.putSerializable("item", ex);
-                    fragment.setArguments(bundle);
-                    callFragment(fragment);
+                    try {
+                        if(keyStart==0) {
+                            ListingsDetailActivity fragment = new ListingsDetailActivity();
+                            Bundle bundle = new Bundle();
+                            bundle.putString(String.valueOf(R.string.valueListings), "2");
+                            bundle.putSerializable("item", ex);
+                            fragment.setArguments(bundle);
+                            callFragment(fragment);
+                        }else if(keyStart==1){
+                            Intent intent= new Intent(mContext.getApplicationContext(), MainAllActivity.class);
+                            intent.putExtra(String.valueOf(R.string.valueListings), "2");
+                            intent.putExtra("item", ex);
+                            intent.putExtra("key","1");
+                            mContext.startActivity(intent);
+                        }
+                    }catch (Exception exx){
+
+                    }
                 }
             });
+
+
 
         return convertView;
     }
 
     public void callFragment(Fragment fragment ){
-        android.support.v4.app.FragmentManager manager = ((FragmentActivity) mContext).getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frame_main_all, fragment);
-        transaction.commit();
+        try {
+            android.support.v4.app.FragmentManager manager = ((FragmentActivity) mContext).getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.frame_main_all, fragment);
+            transaction.commit();
+        }
+        catch (Exception ex){
+//            Intent intent= new Intent(mContext, MainAllActivity.class);
+//            intent.putExtra(String.valueOf(R.string.valueListings), "2");
+//            intent.putExtra("item", ex);
+//            mContext.startActivity(intent);
+        }
     }
 
     private class ItemFilter extends Filter{

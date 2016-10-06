@@ -97,127 +97,129 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         img_component.setVisibility(View.GONE);
         init(v);
 
+        try {
+            //btn_rank
+            ImageView btn_rank_one = (ImageView) v.findViewById(R.id.img_rank1_listings);
+            Picasso.with(getContext()).load(R.drawable.btn_rank_one).into(btn_rank_one);
 
-        //btn_rank
-        ImageView btn_rank_one = (ImageView) v.findViewById(R.id.img_rank1_listings);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_one).into(btn_rank_one);
+            ImageView btn_rank_two = (ImageView) v.findViewById(R.id.img_rank2_listings);
+            Picasso.with(getContext()).load(R.drawable.btn_rank_two).into(btn_rank_two);
 
-        ImageView btn_rank_two = (ImageView) v.findViewById(R.id.img_rank2_listings);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_two).into(btn_rank_two);
+            ImageView btn_rank_three = (ImageView) v.findViewById(R.id.img_rank3_listings);
+            Picasso.with(getContext()).load(R.drawable.btn_rank_three).into(btn_rank_three);
+            //end
 
-        ImageView btn_rank_three = (ImageView) v.findViewById(R.id.img_rank3_listings);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_three).into(btn_rank_three);
-        //end
+            TableRow tbTypebook = (TableRow) v.findViewById(R.id.row_type_book);
+            TableRow tbTypebook2 = (TableRow) v.findViewById(R.id.row_type_book2);
+            final EditText editText11 = (EditText) v.findViewById(R.id.editText11);
+            final String type = getArguments().getString(String.valueOf(R.string.valueListings));
 
-        TableRow tbTypebook = (TableRow) v.findViewById(R.id.row_type_book);
-        TableRow tbTypebook2 = (TableRow) v.findViewById(R.id.row_type_book2);
-        final EditText editText11 = (EditText) v.findViewById(R.id.editText11);
-        final String type = getArguments().getString(String.valueOf(R.string.valueListings));
-
-        RelativeLayout layout_comments = (RelativeLayout) v.findViewById(R.id.layout_comment);
-        ImageView img_close_dialog_unsubcribe = (ImageView) v.findViewById(R.id.img_close_dialog_unsubcribe);
+            RelativeLayout layout_comments = (RelativeLayout) v.findViewById(R.id.layout_comment);
+            ImageView img_close_dialog_unsubcribe = (ImageView) v.findViewById(R.id.img_close_dialog_unsubcribe);
 
 
-        imBuy = (ImageView) v.findViewById(R.id.img_buy_listing);
-        imFree = (ImageView) v.findViewById(R.id.img_free_listings);
-        imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
-        imBuy2 = (ImageView) v.findViewById(R.id.img_buy_listing2);
-        imFree2 = (ImageView) v.findViewById(R.id.img_free_listings2);
-        imSwap2 = (ImageView) v.findViewById(R.id.img_swap_listing2);
-        txt_listed_by = (TextView) v.findViewById(R.id.txt_listed_by);
-        icon_user_listing_detail = (CircularImageView) v.findViewById(R.id.icon_user_listing_detail);
-        ratingBar_userprofile = (RatingBar) v.findViewById(R.id.ratingBar_userprofile);
+            imBuy = (ImageView) v.findViewById(R.id.img_buy_listing);
+            imFree = (ImageView) v.findViewById(R.id.img_free_listings);
+            imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
+            imBuy2 = (ImageView) v.findViewById(R.id.img_buy_listing2);
+            imFree2 = (ImageView) v.findViewById(R.id.img_free_listings2);
+            imSwap2 = (ImageView) v.findViewById(R.id.img_swap_listing2);
+            txt_listed_by = (TextView) v.findViewById(R.id.txt_listed_by);
+            icon_user_listing_detail = (CircularImageView) v.findViewById(R.id.icon_user_listing_detail);
+            ratingBar_userprofile = (RatingBar) v.findViewById(R.id.ratingBar_userprofile);
 
-        book = (Book) getArguments().getSerializable("item");
-        if (book.getPhoto().length() > 3) {
-            Picasso.with(getContext())
-                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getAuthor() + "&image=" + book.getPhoto().substring(book.getUsername().length() + 3, book.getPhoto().length()))
-                    .placeholder(R.drawable.blank_image).
-                    into(icon_user_listing_detail);
-        } else {
-            Picasso.with(getContext())
-                    .load(R.drawable.blank_image)
-                    .into(icon_user_listing_detail);
-        }
-        txt_listed_by.setText(book.getUsername());
-        if (type.equals("4")) {
-            HomeActivity activity = (HomeActivity) getActivity();
-            activity.getTxtTitle().setText("Listings");
-        } else {
-            MainAllActivity activity = (MainAllActivity) getActivity();
-            activity.gettitle().setText("Listings");
-        }
-        imageView_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (type.equals("1")) {
-                    callFragment(new MainFragment());
-                } else if (type.equals("2")) {
-                    callFragment(new ExploreFragment());
-                } else if (type.equals("3")) {
-                    callFragment(new ListingsFragment());
-                } else {
-                    HomeActivity homeActivity = (HomeActivity) getActivity();
-                    homeActivity.getTxtTitle().setText("Notifications");
-                    homeActivity.callFragment(new NotificationFragment());
+            book = (Book) getArguments().getSerializable("item");
+            if (book.getPhoto().length() > 3) {
+                Picasso.with(getContext())
+                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getAuthor() + "&image=" + book.getPhoto().substring(book.getUsername().length() + 3, book.getPhoto().length()))
+                        .placeholder(R.drawable.blank_image).
+                        into(icon_user_listing_detail);
+            } else {
+                Picasso.with(getContext())
+                        .load(R.drawable.blank_image)
+                        .into(icon_user_listing_detail);
+            }
+            txt_listed_by.setText(book.getUsername());
+            if (type.equals("4")) {
+                HomeActivity activity = (HomeActivity) getActivity();
+                activity.getTxtTitle().setText("Listings");
+            } else {
+                MainAllActivity activity = (MainAllActivity) getActivity();
+                activity.gettitle().setText("Listings");
+            }
+            imageView_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (type.equals("1")) {
+                        callFragment(new MainFragment());
+                    } else if (type.equals("2")) {
+                        callFragment(new ExploreFragment());
+                    } else if (type.equals("3")) {
+                        callFragment(new ListingsFragment());
+                    } else {
+                        HomeActivity homeActivity = (HomeActivity) getActivity();
+                        homeActivity.getTxtTitle().setText("Notifications");
+                        homeActivity.callFragment(new NotificationFragment());
+                    }
                 }
+            });
+
+            if (type.equals("1")) {
+                View view_search = (View) getActivity().findViewById(R.id.custom_search);
+                view_search.setVisibility(View.GONE);
+                Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
+                editText11.setVisibility(View.GONE);
+                img_close_dialog_unsubcribe.setVisibility(View.GONE);
+                tbTypebook.setVisibility(View.GONE);
+                tbTypebook2.setVisibility(View.VISIBLE);
+            } else {
+                tbTypebook.setVisibility(View.VISIBLE);
+                tbTypebook2.setVisibility(View.GONE);
+
+                final float scale = getContext().getResources().getDisplayMetrics().density;
+                int pixelsMargin = (int) (-50 * scale + 0.5f);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout_comments.getLayoutParams();
+
+                params.topMargin = pixelsMargin;
+                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                layout_comments.setLayoutParams(params);
             }
-        });
+            setData(book, v, type);
+            //-----------------------------------------------------------
+            listView = (ListView) v.findViewById(R.id.listView_comment);
+            listView.setDivider(null);
 
-        if (type.equals("1")) {
-            View view_search = (View) getActivity().findViewById(R.id.custom_search);
-            view_search.setVisibility(View.GONE);
-            Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
-            editText11.setVisibility(View.GONE);
-            img_close_dialog_unsubcribe.setVisibility(View.GONE);
-            tbTypebook.setVisibility(View.GONE);
-            tbTypebook2.setVisibility(View.VISIBLE);
-        } else {
-            tbTypebook.setVisibility(View.VISIBLE);
-            tbTypebook2.setVisibility(View.GONE);
+            //listView.setAdapter(adapter);
+            listView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+            });
 
-            final float scale = getContext().getResources().getDisplayMetrics().density;
-            int pixelsMargin = (int) (-50 * scale + 0.5f);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout_comments.getLayoutParams();
+            getComment comment = new getComment(getContext(), book.getId());
+            comment.execute();
 
-            params.topMargin = pixelsMargin;
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            layout_comments.setLayoutParams(params);
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            final String session_id = pref.getString("session_id", null);
+            img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    insertComment insertComment1 = new insertComment(getContext());
+                    insertComment1.execute(session_id, editText11.getText().toString(), book.getId());
+                    editText11.setText("");
+
+                    getComment comment = new getComment(getContext(), book.getId());
+                    comment.execute();
+
+                }
+            });
+
+        }catch (Exception exx){
+            String ess= exx.getMessage();
         }
-        setData(book, v, type);
-        //-----------------------------------------------------------
-        listView = (ListView) v.findViewById(R.id.listView_comment);
-        listView.setDivider(null);
-
-        //listView.setAdapter(adapter);
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-
-        getComment comment = new getComment(getContext(), book.getId());
-        comment.execute();
-
-        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        final String session_id = pref.getString("session_id", null);
-        img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                insertComment insertComment1 = new insertComment(getContext());
-                insertComment1.execute(session_id, editText11.getText().toString(), book.getId());
-                editText11.setText("");
-
-                getComment comment = new getComment(getContext(), book.getId());
-                comment.execute();
-
-            }
-        });
-
-
         return v;
     }
 
