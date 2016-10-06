@@ -92,6 +92,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     UploadFileController uploadFileController;
     Button btn_menu_editlist_delete, btn_menu_editlisting_update, btn_menu_listing_addbook;
     String username;
+    TableRow tbl_price_sell;
     ArrayList<Genre> genre;
     double latitude, longitude;
     EditText edt_tilte, edt_author, edt_tag, edt_editlisting_sell;
@@ -134,7 +135,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     .findFragmentById(R.id.fragment_map_editlisting);
             mapFragment.getMapAsync(this);
             //end
-
+            tbl_price_sell= (TableRow)findViewById(R.id.row_price_sell) ;
             edt_editlisting_sell = (EditText) findViewById(R.id.edt_editlisting_sell);
             swap = (CheckBox) findViewById(R.id.checkBox);
             sell = (CheckBox) findViewById(R.id.ck_sell_editlisting);
@@ -303,10 +304,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 @Override
                 public void onClick(View view) {
                     if (checkBox.isChecked()) {
-                        edt_editlisting_sell.setVisibility(View.VISIBLE);
+                        tbl_price_sell.setVisibility(View.VISIBLE);
 
                     } else {
-                        edt_editlisting_sell.setVisibility(View.GONE);
+                        tbl_price_sell.setVisibility(View.GONE);
                     }
                 }
             });
@@ -813,15 +814,18 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if(aBoolean == true){
-                    if(type == 0){
-                        Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
-                        intent.putExtra("Book",bookedit);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else{
+//                    if(type == 0){
+//                        Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
+//                        intent.putExtra("Book",bookedit);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                    else{
+
+                        //Gửi thông báo sách cho người tìm
+
                         onBackPressed();
-                    }
+                    //}
 
                 }
             }catch (Exception e){

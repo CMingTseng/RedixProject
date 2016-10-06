@@ -23,7 +23,7 @@
     <redix.booxtown.custom.CustomButton
         android:id="@+id/btn_sigup_wellcome"
         android:layout_width="@dimen/btn_signin"
-        android:textSize="@dimen/slide_desc"
+        android:textSize="@dimen/slide_desc_welcome"
         android:layout_height="36dp"
         android:textAllCaps="false"
         android:layout_alignParentBottom="true"
@@ -42,7 +42,7 @@
         android:layout_marginBottom="175dp"
         android:textAllCaps="false"
         android:text="@string/SignIn"
-        android:textSize="@dimen/slide_desc"
+        android:textSize="@dimen/slide_desc_welcome"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/btn_signin_maginleft"
         android:background="@drawable/bg_btn_welcome"

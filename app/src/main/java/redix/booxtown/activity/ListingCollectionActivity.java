@@ -92,6 +92,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     ImageView btn_sellectimage, imagebook1, imagebook2, imagebook3, addtag;
     UploadFileController uploadFileController;
     Button btn_menu_editlist_delete, btn_menu_editlisting_update, btn_menu_listing_addbook;
+    TableRow tbl_price_sell;
     String username;
     ArrayList<Genre> genre;
     double latitude, longitude;
@@ -145,7 +146,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 .findFragmentById(R.id.fragment_map_editlisting);
         mapFragment.getMapAsync(this);
         //end
-
+        tbl_price_sell= (TableRow) v.findViewById(R.id.row_price_sell) ;
         edt_editlisting_sell = (EditText) v.findViewById(R.id.edt_editlisting_sell);
         swap = (CheckBox) v.findViewById(R.id.checkBox);
         sell = (CheckBox) v.findViewById(R.id.ck_sell_editlisting);
@@ -306,10 +307,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             @Override
             public void onClick(View view) {
                 if (checkBox.isChecked()) {
-                    edt_editlisting_sell.setVisibility(View.VISIBLE);
+                    tbl_price_sell.setVisibility(View.VISIBLE);
 
                 } else {
-                    edt_editlisting_sell.setVisibility(View.GONE);
+                    tbl_price_sell.setVisibility(View.GONE);
                 }
             }
         });
@@ -341,7 +342,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             MainAllActivity.setTxtTitle("Edit Listing");
             txt_add_book.setText("Edit a book");
 
-
         }
         TextView txt_my_listings = (TextView) v.findViewById(R.id.txt_my_listings1);
         txt_my_listings.setTextColor(getResources().getColor(R.color.dot_light_screen1));
@@ -371,6 +371,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             row.setVisibility(View.VISIBLE);
             bookedit = (Book) getArguments().getSerializable("bookedit");
             Log.d("boooook", String.valueOf(bookedit.getPhoto()));
+
             edt_author.setText(bookedit.getAuthor().toString());
             edt_tilte.setText(bookedit.getTitle().toString());
             String[] listtag = bookedit.getHash_tag().split(";");
@@ -418,6 +419,15 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
             if (String.valueOf(array[2]).contains("1")) {
                 sell.setChecked(true);
+
+                try {
+                    if (bookedit.getPrice() >0) {
+                        tbl_price_sell.setVisibility(View.VISIBLE);
+                    }
+                }catch (Exception exx){
+
+                }
+
                 edt_editlisting_sell.setVisibility(View.VISIBLE);
                 if (bookedit.getPrice()!=0){
                     edt_editlisting_sell.setText(String.valueOf(bookedit.getPrice()));
@@ -661,15 +671,19 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 if (!s.equals("edit")) {
                     book.setPhoto(imagename);
                 } else {
-                    String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
-                    book.setPhoto(imageupdate);
-                    book.setId(bookedit.getId());
+                    if(type==0) {
+                        String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
+                        book.setPhoto(imageupdate);
+                        book.setId(bookedit.getId());
+                    }
                 }
             } else {
                 if (s.equals("edit")) {
-                    book.setId(bookedit.getId());
-                    if (imageOrigin.equals("")) {
-                        book.setPhoto(imageOrigin);
+                    if(type==0) {
+                        book.setId(bookedit.getId());
+                        if (!imageOrigin.equals("")) {
+                            book.setPhoto(imageOrigin);
+                        }
                     }
                 }
             }

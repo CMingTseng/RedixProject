@@ -1,535 +1,558 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dot_light_screen2">
+    android:background="@color/dot_light_screen2"
+    android:orientation="vertical">
 
     <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView103"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Photos "
-        android:id="@+id/textView103"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
         android:padding="5dp"
-        android:layout_marginLeft="5dp" />
+        android:text="Photos " />
 
     <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView104"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="(Max 3)"
-        android:textColor="@color/color_text_hint"
-        android:id="@+id/textView104"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textView103"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/textView103"
-        android:layout_marginTop="5dp" />
+        android:layout_toRightOf="@+id/textView103"
+        android:text="(Max 3)"
+        android:textColor="@color/color_text_hint" />
 
     <ImageView
+        android:id="@+id/imageView29"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/imageView29"
-        android:layout_below="@+id/textView103"
         android:layout_alignLeft="@+id/textView103"
         android:layout_alignStart="@+id/textView103"
-        android:background="@drawable/border"
+        android:layout_below="@+id/textView103"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp" />
-
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/imageView30"
-        android:layout_alignTop="@+id/imageView29"
-        android:layout_toRightOf="@+id/imageView29"
-        android:layout_toEndOf="@+id/imageView29"
-        android:background="@drawable/border"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
-
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/imageView31"
-        android:layout_alignTop="@+id/imageView30"
-        android:layout_toRightOf="@+id/imageView30"
-        android:layout_toEndOf="@+id/imageView30"
+        android:layout_marginTop="5dp"
         android:background="@drawable/border" />
 
     <ImageView
+        android:id="@+id/imageView30"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignTop="@+id/imageView29"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toEndOf="@+id/imageView29"
+        android:layout_toRightOf="@+id/imageView29"
+        android:background="@drawable/border" />
+
+    <ImageView
+        android:id="@+id/imageView31"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignTop="@+id/imageView30"
+        android:layout_toEndOf="@+id/imageView30"
+        android:layout_toRightOf="@+id/imageView30"
+        android:background="@drawable/border" />
+
+    <ImageView
+        android:id="@+id/imageView32"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:id="@+id/imageView32"
-        android:layout_marginLeft="5dp"
         android:layout_alignBottom="@+id/imageView31"
-        android:layout_toRightOf="@+id/imageView31"
+        android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/imageView31"
-         />
+        android:layout_toRightOf="@+id/imageView31" />
+
     <View
+        android:id="@+id/view_listing"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/color_line"
-        android:id="@+id/view_listing"
+        android:layout_alignEnd="@+id/img_menu_genre"
 
 
         android:layout_alignLeft="@+id/imageView29"
+        android:layout_alignRight="@+id/img_menu_genre"
         android:layout_alignStart="@+id/imageView29"
         android:layout_below="@+id/imageView29"
-        android:layout_alignRight="@+id/img_menu_genre"
-        android:layout_alignEnd="@+id/img_menu_genre"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:background="@color/color_line" />
+
     <View
+        android:id="@+id/view"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#f06667"
-        android:id="@+id/view"
-        android:visibility="invisible"
-        android:layout_below="@+id/imageView29"
         android:layout_alignLeft="@+id/imageView29"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/imageView29"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#f06667"
+        android:visibility="invisible" />
 
     <redix.booxtown.custom.CustomEdittext
+        android:id="@+id/editText8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText8"
-        android:layout_below="@+id/view"
-        android:layout_alignLeft="@+id/view"
-        android:layout_alignStart="@+id/view"
-        android:hint="The last paiting"
-        android:background="@android:color/transparent"
-        android:textColorHint="@color/color_text_hint"
-        android:layout_marginTop="10dp"
-        android:layout_alignRight="@+id/view"
         android:layout_alignEnd="@+id/view"
-        android:layout_marginBottom="5dp" />
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignRight="@+id/view"
+        android:layout_alignStart="@+id/view"
+        android:layout_below="@+id/view"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:hint="The last paiting"
+        android:textColorHint="@color/color_text_hint" />
 
     <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView106"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:text="New Text"
-        android:id="@+id/textView106"
-        android:layout_below="@+id/editText8"
-        android:layout_alignLeft="@+id/editText8"
-        android:layout_alignStart="@+id/editText8"
-        android:layout_alignRight="@+id/editText8"
         android:layout_alignEnd="@+id/editText8"
+        android:layout_alignLeft="@+id/editText8"
+        android:layout_alignRight="@+id/editText8"
+        android:layout_alignStart="@+id/editText8"
+        android:layout_below="@+id/editText8"
+        android:layout_marginTop="5dp"
         android:background="@color/color_line"
-        android:layout_marginTop="5dp" />
+        android:text="New Text" />
 
     <redix.booxtown.custom.CustomEdittext
+        android:id="@+id/editText9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editText9"
-        android:layout_below="@+id/textView106"
-        android:layout_alignLeft="@+id/textView106"
-        android:layout_alignStart="@+id/textView106"
-        android:layout_alignRight="@+id/textView106"
         android:layout_alignEnd="@+id/textView106"
-        android:textColorHint="@color/color_text_hint"
-        android:hint="Author"
-        android:background="@android:color/transparent"
+        android:layout_alignLeft="@+id/textView106"
+        android:layout_alignRight="@+id/textView106"
+        android:layout_alignStart="@+id/textView106"
+        android:layout_below="@+id/textView106"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp" />
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="Author"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/color_text_hint" />
 
     <TextView
+        android:id="@+id/textView107"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:text="New Text"
-        android:id="@+id/textView107"
-        android:layout_below="@+id/editText9"
-        android:layout_alignLeft="@+id/editText9"
-        android:layout_alignStart="@+id/editText9"
-        android:layout_alignRight="@+id/editText9"
         android:layout_alignEnd="@+id/editText9"
+        android:layout_alignLeft="@+id/editText9"
+        android:layout_alignRight="@+id/editText9"
+        android:layout_alignStart="@+id/editText9"
+        android:layout_below="@+id/editText9"
+        android:layout_marginTop="5dp"
         android:background="@color/color_line"
-        android:layout_marginTop="5dp" />
+        android:text="New Text" />
 
     <redix.booxtown.custom.CustomTextView
+        android:id="@+id/txt_menu_genre1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_menu_genre1"
-        android:layout_below="@+id/textView107"
         android:layout_alignLeft="@+id/textView107"
         android:layout_alignStart="@+id/textView107"
-        android:layout_marginTop="10dp"
-        android:text="Genre"
+        android:layout_below="@+id/textView107"
         android:layout_marginBottom="5dp"
-        android:textColorHint="@color/color_text_hint"
-        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
         android:layout_toLeftOf="@+id/img_menu_genre"
         android:layout_toStartOf="@+id/img_menu_genre"
+        android:background="@android:color/transparent"
+        android:text="Genre"
+        android:textColorHint="@color/color_text_hint"
         android:textSize="17sp" />
 
     <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView108"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:text="New Text"
-        android:id="@+id/textView108"
-        android:layout_below="@+id/txt_menu_genre1"
-        android:layout_alignLeft="@+id/txt_menu_genre1"
-        android:layout_alignStart="@+id/txt_menu_genre1"
-        android:layout_alignRight="@+id/textView107"
         android:layout_alignEnd="@+id/textView107"
+        android:layout_alignLeft="@+id/txt_menu_genre1"
+        android:layout_alignRight="@+id/textView107"
+        android:layout_alignStart="@+id/txt_menu_genre1"
+        android:layout_below="@+id/txt_menu_genre1"
+        android:layout_marginTop="5dp"
         android:background="@color/color_line"
-        android:layout_marginTop="5dp" />
+        android:text="New Text" />
 
     <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView109"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Book condition"
-        android:textColorHint="@color/color_text_hint"
-        android:background="@android:color/transparent"
-        android:id="@+id/textView109"
-        android:layout_below="@+id/textView108"
         android:layout_alignLeft="@+id/textView108"
         android:layout_alignStart="@+id/textView108"
+        android:layout_below="@+id/textView108"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
-        android:textSize="17sp"
-        android:layout_marginBottom="5dp" />
+        android:background="@android:color/transparent"
+        android:text="Book condition"
+        android:textColorHint="@color/color_text_hint"
+        android:textSize="17sp" />
 
     <SeekBar
+        android:id="@+id/seekBar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar2"
-        android:layout_below="@+id/textView109"
-        android:layout_alignLeft="@+id/textView109"
-        android:layout_alignStart="@+id/textView109"
-        android:layout_alignRight="@+id/textView108"
         android:layout_alignEnd="@+id/textView108"
-        android:layout_marginTop="5dp"
+        android:layout_alignLeft="@+id/textView109"
+        android:layout_alignRight="@+id/textView108"
+        android:layout_alignStart="@+id/textView109"
+        android:layout_below="@+id/textView109"
         android:layout_marginLeft="-10dp"
         android:layout_marginRight="-10dp"
-        android:progressDrawable="@drawable/styled_progress"
-        android:maxHeight="3dip"
+        android:layout_marginTop="5dp"
         android:max="100"
-        />
+        android:maxHeight="3dip"
+        android:progressDrawable="@drawable/styled_progress" />
+
     <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView110"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Poor"
-        android:id="@+id/textView110"
-        android:textSize="11sp"
-        android:fontFamily="sans-serif-thin"
-        android:layout_marginBottom="5dp"
-        android:textColorHint="@color/color_text_hint"
-        android:background="@android:color/transparent"
-        android:layout_below="@+id/seekBar2"
         android:layout_alignLeft="@+id/textView109"
         android:layout_alignStart="@+id/textView109"
-        />
-
-    <redix.booxtown.custom.CustomTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Good"
-        android:textSize="11sp"
-        android:fontFamily="sans-serif-thin"
+        android:layout_below="@+id/seekBar2"
         android:layout_marginBottom="5dp"
-        android:textColorHint="@color/color_text_hint"
         android:background="@android:color/transparent"
+        android:fontFamily="sans-serif-thin"
+        android:text="Poor"
+        android:textColorHint="@color/color_text_hint"
+        android:textSize="11sp" />
+
+    <redix.booxtown.custom.CustomTextView
         android:id="@+id/textView111"
-        android:layout_alignTop="@+id/textView110"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/img_menu_genre"
         android:layout_alignRight="@+id/img_menu_genre"
-        android:layout_alignEnd="@+id/img_menu_genre" />
+        android:layout_alignTop="@+id/textView110"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="sans-serif-thin"
+        android:text="Good"
+        android:textColorHint="@color/color_text_hint"
+        android:textSize="11sp" />
 
     <redix.booxtown.custom.CustomTextView
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:text="New Text"
         android:id="@+id/textView112"
-        android:layout_below="@+id/textView110"
-        android:layout_alignLeft="@+id/textView110"
-        android:layout_alignStart="@+id/textView110"
-        android:layout_alignRight="@+id/textView111"
-        android:layout_alignEnd="@+id/textView111"
-        android:layout_marginTop="5dp"
-        android:background="@color/color_line"/>
-
-    <redix.booxtown.custom.CustomTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="#Tags  "
-        android:id="@+id/textView113"
-        android:layout_below="@+id/textView112"
-        android:layout_alignLeft="@+id/textView112"
-        android:layout_alignStart="@+id/textView112"
-        android:layout_marginTop="5dp" />
-
-    <redix.booxtown.custom.CustomTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(Max 3)"
-        android:id="@+id/textView114"
-        android:layout_below="@+id/textView112"
-        android:layout_toRightOf="@+id/textView113"
-        android:layout_toEndOf="@+id/textView113"
-        android:layout_marginTop="5dp" />
-
-
-
-    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:text="New Text"
-        android:id="@+id/textView115"
-        android:layout_below="@+id/row"
-        android:layout_alignLeft="@+id/row"
-        android:layout_alignStart="@+id/row"
-        android:layout_alignRight="@+id/row"
-        android:layout_alignEnd="@+id/row"
+        android:layout_alignEnd="@+id/textView111"
+        android:layout_alignLeft="@+id/textView110"
+        android:layout_alignRight="@+id/textView111"
+        android:layout_alignStart="@+id/textView110"
+        android:layout_below="@+id/textView110"
         android:layout_marginTop="5dp"
         android:background="@color/color_line"
-        android:layout_marginRight="10dp" />
+        android:text="New Text" />
 
     <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView113"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Find your location on map"
-        android:id="@+id/textView116"
-        android:layout_below="@+id/textView115"
+        android:layout_alignLeft="@+id/textView112"
+        android:layout_alignStart="@+id/textView112"
+        android:layout_below="@+id/textView112"
         android:layout_marginTop="5dp"
+        android:text="#Tags  " />
+
+    <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView114"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView112"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/textView113"
+        android:layout_toRightOf="@+id/textView113"
+        android:text="(Max 3)" />
+
+
+    <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView115"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_alignEnd="@+id/row"
+        android:layout_alignLeft="@+id/row"
+        android:layout_alignRight="@+id/row"
+        android:layout_alignStart="@+id/row"
+        android:layout_below="@+id/row"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/color_line"
+        android:text="New Text" />
+
+    <redix.booxtown.custom.CustomTextView
+        android:id="@+id/textView116"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp" />
-<RadioGroup
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/groupradio"
-    android:layout_below="@+id/textView116"
-    android:layout_alignRight="@+id/textView115"
-    android:layout_alignEnd="@+id/textView115"
-    android:layout_alignLeft="@+id/textView116"
-    android:layout_alignStart="@+id/textView116"
-    android:weightSum="2"
-    android:orientation="horizontal">
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="  User current location"
-        android:id="@+id/radioButton"
-        android:layout_below="@+id/textView116"
-        android:layout_alignLeft="@+id/textView116"
-        android:layout_alignStart="@+id/textView116"
-        android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:button="@drawable/radio_button"
-        android:textColor="@color/color_text_hint"
-        android:checked="true" />
+        android:layout_below="@+id/textView115"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Find your location on map" />
 
-    <redix.booxtown.custom.CustomRadioButton
+    <RadioGroup
+        android:id="@+id/groupradio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="  Choose another"
-        android:id="@+id/radioButton2"
-        android:layout_weight="1"
-        android:layout_marginTop="3dp"
-        android:textColor="@color/color_text_hint"
-        android:button="@drawable/radio_button"
-        android:checked="false" />
-</RadioGroup>
+        android:layout_alignEnd="@+id/textView115"
+        android:layout_alignLeft="@+id/textView116"
+        android:layout_alignRight="@+id/textView115"
+        android:layout_alignStart="@+id/textView116"
+        android:layout_below="@+id/textView116"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView116"
+            android:layout_alignStart="@+id/textView116"
+            android:layout_below="@+id/textView116"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:button="@drawable/radio_button"
+            android:checked="true"
+            android:text="  User current location"
+            android:textColor="@color/color_text_hint" />
+
+        <redix.booxtown.custom.CustomRadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:button="@drawable/radio_button"
+            android:checked="false"
+            android:text="  Choose another"
+            android:textColor="@color/color_text_hint" />
+    </RadioGroup>
+
     <fragment
+        android:id="@+id/fragment_map_editlisting"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="wrap_content"
         android:layout_height="120dp"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:id="@+id/fragment_map_editlisting"
-        android:layout_below="@+id/groupradio"
-        android:layout_marginTop="5dp"
-
-        android:layout_alignRight="@+id/groupradio"
         android:layout_alignEnd="@+id/groupradio"
         android:layout_alignLeft="@+id/groupradio"
-        android:layout_alignStart="@+id/groupradio" />
+
+        android:layout_alignRight="@+id/groupradio"
+        android:layout_alignStart="@+id/groupradio"
+        android:layout_below="@+id/groupradio"
+        android:layout_marginTop="5dp" />
 
     <CheckBox
+        android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Swap"
-        android:id="@+id/checkBox"
-        android:layout_below="@+id/fragment_map_editlisting"
         android:layout_alignLeft="@+id/fragment_map_editlisting"
         android:layout_alignStart="@+id/fragment_map_editlisting"
-        android:checked="false"
+        android:layout_below="@+id/fragment_map_editlisting"
         android:button="@drawable/img_checkbox"
-        />
+        android:checked="false"
+        android:text="Swap" />
 
     <CheckBox
+        android:id="@+id/ck_sell_editlisting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sell"
-        android:id="@+id/ck_sell_editlisting"
         android:layout_alignTop="@+id/checkBox"
         android:layout_centerHorizontal="true"
         android:button="@drawable/img_checkbox"
-        />
+        android:text="Sell" />
 
     <CheckBox
+        android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Free"
-        android:id="@+id/checkBox3"
-        android:layout_alignTop="@+id/ck_sell_editlisting"
-        android:checked="false"
-        android:layout_alignRight="@+id/img_menu_genre"
         android:layout_alignEnd="@+id/img_menu_genre"
-        android:button="@drawable/img_checkbox"/>
+        android:layout_alignRight="@+id/img_menu_genre"
+        android:layout_alignTop="@+id/ck_sell_editlisting"
+        android:button="@drawable/img_checkbox"
+        android:checked="false"
+        android:text="Free" />
 
-    <redix.booxtown.custom.CustomEdittext
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:id="@+id/edt_editlisting_sell"
-        android:inputType="number"
-
-        android:textColorHint="@color/color_text_hint"
-        android:layout_below="@+id/checkBox"
-        android:layout_alignLeft="@+id/checkBox"
-        android:layout_alignStart="@+id/checkBox"
-        android:layout_alignRight="@+id/checkBox3"
-        android:background="@drawable/border_image"
+    <TableRow
+        android:id="@+id/row_price_sell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/checkBox3"
+        android:layout_alignLeft="@+id/checkBox"
+        android:layout_alignRight="@+id/checkBox3"
+        android:layout_alignStart="@+id/checkBox"
+        android:layout_below="@+id/checkBox"
         android:layout_marginBottom="15dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:background="@drawable/border_image">
+
+        <redix.booxtown.custom.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AED: "
+            android:gravity="center_vertical"
+            android:textSize="@dimen/slide_desc"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/color_text_hint"
+            />
+
+        <redix.booxtown.custom.CustomEdittext
+            android:id="@+id/edt_editlisting_sell"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"
+            android:backgroundTint="@color/dot_light_screen1"
+            android:textColorHint="@color/color_text_hint"
+             />
+    </TableRow>
+
     <TableRow
         android:id="@+id/row_edit_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_editlisting_sell"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/row_price_sell"
         android:layout_marginBottom="10dp"
-        >
-    <redix.booxtown.custom.CustomButton
-        android:layout_width="145dp"
-        android:layout_height="36dp"
-        android:text="Delete book"
-        android:id="@+id/btn_menu_editlist_delete"
-        android:background="@drawable/btn_wishbroad_popup"
-        android:textColor="@color/dot_light_screen1"
-        android:visibility="visible"
-        android:layout_weight="1"
-        android:textAllCaps="false"
-        android:layout_alignTop="@+id/btn_menu_editlisting_update"
-        android:layout_alignRight="@+id/textView116"
-        android:layout_alignEnd="@+id/textView116"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginTop="10dp">
+
+        <redix.booxtown.custom.CustomButton
+            android:id="@+id/btn_menu_editlist_delete"
+            android:layout_width="145dp"
+            android:layout_height="36dp"
+            android:layout_alignEnd="@+id/textView116"
+            android:layout_alignRight="@+id/textView116"
+            android:layout_alignTop="@+id/btn_menu_editlisting_update"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_wishbroad_popup"
+            android:text="Delete book"
+            android:textAllCaps="false"
+            android:textColor="@color/dot_light_screen1"
+            android:visibility="visible" />
+
+        <redix.booxtown.custom.CustomButton
+            android:id="@+id/btn_menu_editlisting_update"
+            android:layout_width="145dp"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/row_price_sell"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+
+            android:background="@drawable/btn_wishbroad_popup"
+            android:text="Update"
+            android:textAllCaps="false"
+            android:textColor="@color/dot_light_screen1"
+            android:visibility="visible" />
+    </TableRow>
 
     <redix.booxtown.custom.CustomButton
-        android:layout_width="145dp"
-        android:layout_height="36dp"
-        android:text="Update"
-        android:textAllCaps="false"
-        android:layout_weight="1"
-        android:id="@+id/btn_menu_editlisting_update"
-        android:layout_below="@+id/edt_editlisting_sell"
-        android:layout_alignParentRight="true"
-
-        android:background="@drawable/btn_wishbroad_popup"
-        android:layout_marginRight="20dp"
-        android:textColor="@color/dot_light_screen1"
-        android:visibility="visible"
-        android:layout_marginLeft="10dp" />
-</TableRow>
-    <redix.booxtown.custom.CustomButton
+        android:id="@+id/btn_menu_listing_addbook"
         android:layout_width="@dimen/btn_w_181"
         android:layout_height="@dimen/btn_h"
-        android:text="Add a book"
-        android:id="@+id/btn_menu_listing_addbook"
         android:layout_alignParentBottom="true"
+        android:layout_below="@+id/row_price_sell"
         android:layout_centerHorizontal="true"
         android:background="@drawable/btn_wishbroad_popup"
-        android:textColor="@color/dot_light_screen1"
-        android:layout_below="@+id/edt_editlisting_sell"
-        android:visibility="gone"
+        android:text="Add a book"
         android:textAllCaps="false"
-        />
+        android:textColor="@color/dot_light_screen1"
+        android:visibility="gone" />
+
     <ImageView
+        android:id="@+id/img_menu_genre"
         android:layout_width="13dp"
         android:layout_height="10dp"
-        android:id="@+id/img_menu_genre"
-        android:layout_alignTop="@+id/textView107"
-        android:longClickable="true"
-        android:layout_marginTop="8dp"
         android:layout_alignBottom="@+id/txt_menu_genre1"
+        android:layout_alignEnd="@+id/textView107"
         android:layout_alignRight="@+id/textView107"
-        android:layout_alignEnd="@+id/textView107" />
+        android:layout_alignTop="@+id/textView107"
+        android:layout_marginTop="8dp"
+        android:longClickable="true" />
 
     <TableRow
         android:id="@+id/row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView113"
         android:layout_alignLeft="@+id/textView113"
         android:layout_alignStart="@+id/textView113"
+        android:layout_below="@+id/textView113"
         android:layout_marginBottom="5dp">
 
         <redix.booxtown.custom.CustomTextView
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:id="@+id/tag1"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="#tag"
-            android:background="@drawable/border_image"
-            android:gravity="center_vertical"
-            android:layout_below="@+id/textView113" />
-        <redix.booxtown.custom.CustomTextView
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/tag2"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="#tag"
+            android:layout_below="@+id/textView113"
+            android:layout_marginTop="10dp"
             android:background="@drawable/border_image"
             android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="#tag" />
+
+        <redix.booxtown.custom.CustomTextView
+            android:id="@+id/tag2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView113"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_below="@+id/textView113"
-            android:layout_toRightOf="@+id/tag1" />
-        <redix.booxtown.custom.CustomTextView
             android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/tag3"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="#tag"
+            android:layout_toRightOf="@+id/tag1"
             android:background="@drawable/border_image"
             android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="#tag" />
+
+        <redix.booxtown.custom.CustomTextView
+            android:id="@+id/tag3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/textView113"
-            android:layout_toRightOf="@+id/tag2" />
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tag2"
+            android:background="@drawable/border_image"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="#tag" />
 
         <redix.booxtown.custom.CustomEdittext
+            android:id="@+id/editText10"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText10"
-            android:visibility="visible"
-            android:layout_below="@+id/textView113"
             android:layout_alignLeft="@+id/textView113"
-            android:layout_alignStart="@+id/textView113" />
+            android:layout_alignStart="@+id/textView113"
+            android:layout_below="@+id/textView113"
+            android:visibility="visible" />
 
         <ImageView
+            android:id="@+id/imageView33"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:id="@+id/imageView33"
-            android:visibility="visible"
             android:layout_alignTop="@+id/editText10"
-            android:layout_toRightOf="@+id/editText10"
-            android:layout_toEndOf="@+id/editText10"
-            android:src="@drawable/btn_add"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_toEndOf="@+id/editText10"
+            android:layout_toRightOf="@+id/editText10"
+            android:src="@drawable/btn_add"
+            android:visibility="visible" />
 
     </TableRow>
 
