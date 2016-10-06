@@ -1,5 +1,6 @@
 package redix.booxtown.adapter;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -194,11 +195,13 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
                             fragment.setArguments(bundle);
                             callFragment(fragment);
                         }else if(keyStart==1){
+
                             Intent intent= new Intent(mContext.getApplicationContext(), MainAllActivity.class);
                             intent.putExtra(String.valueOf(R.string.valueListings), "2");
                             intent.putExtra("item", ex);
                             intent.putExtra("key","1");
                             mContext.startActivity(intent);
+                            ((Activity)mContext).finish();
                         }
                     }catch (Exception exx){
 

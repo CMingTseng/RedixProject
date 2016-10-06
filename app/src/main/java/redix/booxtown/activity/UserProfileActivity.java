@@ -70,9 +70,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 onBackPressed();
-
             }
         });
         //--------------------------------------------------
