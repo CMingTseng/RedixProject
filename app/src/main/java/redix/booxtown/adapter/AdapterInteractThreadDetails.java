@@ -79,6 +79,10 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         hoder.txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
         hoder.txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
         hoder.txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
+        hoder.img_comment_rank1 = (ImageView)convertView.findViewById(R.id.img_comment_rank1);
+        hoder.img_comment_rank2 = (ImageView)convertView.findViewById(R.id.img_comment_rank2);
+        hoder.img_comment_rank3 = (ImageView)convertView.findViewById(R.id.img_comment_rank3);
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd hh:mm");
 
         try {
             hoder.txt_datetime.setText(formatDatetime(Comments.getCreate_date().replaceAll("-",":").replace(" ",":")));
@@ -86,7 +90,7 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
             hoder.txt_datetime.setText(Comments.getCreate_date());
 
         }
-//        hoder.img_icon.setImageResource(R.drawable.icon_test);
+
         hoder.img_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

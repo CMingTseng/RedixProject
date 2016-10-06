@@ -78,7 +78,7 @@ public class MyProfileFragment extends Fragment {
     int PICK_IMAGE_MULTIPLE = 1;
     private int PICK_IMAGE_REQUEST = 1;
     Bitmap bitmap_profile;
-    ImageView imageView_update_profile;
+    ImageView imageView_update_profile,img_rank1,img_rank2,img_rank3;
     String img_photo;
     String photoOrigin="";
     boolean flag = false;
@@ -145,6 +145,9 @@ public class MyProfileFragment extends Fragment {
 //        prefsEditr.commit();
 
         //profile
+        img_rank1 = (ImageView)view.findViewById(R.id.img_rank1);
+        img_rank2 = (ImageView)view.findViewById(R.id.img_rank2);
+        img_rank3 = (ImageView)view.findViewById(R.id.img_rank3);
         txt_profile_email = (EditText) view.findViewById(R.id.txt_profile_email);
         txt_profile_phone = (EditText) view.findViewById(R.id.txt_profile_phone);
         txt_profile_birthday = (TextView) view.findViewById(R.id.txt_profile_birthday);
@@ -395,6 +398,12 @@ public class MyProfileFragment extends Fragment {
                     first_name = userResult.get(0).getFirst_name();
                     last_name = userResult.get(0).getLast_name();
                     photoOrigin= userResult.get(0).getPhoto();
+
+                    //set rank
+
+                    //Picasso.with(context).load()
+
+                    //end
                     SharedPreferences pref2 = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref2.edit();
                     editor.putString("user_id", String.valueOf(user_id));
