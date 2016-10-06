@@ -29,41 +29,45 @@
         android:rating="2.5"
         android:numStars="5"
         style="?android:attr/ratingBarStyleSmall"
+        android:progressTint="@color/color_star_select"
+        android:progressBackgroundTint="@color/color_star_select"
         android:layout_marginTop="7dp"
         android:layout_marginRight="14dp"
         android:layout_marginEnd="14dp"
         android:layout_below="@+id/textView_username_dashboard_middle"
-        android:layout_toLeftOf="@+id/img_buy_listing"
-        android:layout_toStartOf="@+id/img_buy_listing" />
+        android:layout_toLeftOf="@+id/img_rank1_satus"
+        android:layout_toStartOf="@+id/img_rank1_satus" />
 
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:id="@+id/img_buy_listing"
-        android:src="@drawable/btn_rank_one"
+        android:id="@+id/img_rank1_satus"
         android:layout_alignBottom="@+id/ratingBar_user_dashboard_middle"
         android:layout_alignRight="@+id/textView_username_dashboard_middle"
-        android:layout_alignEnd="@+id/textView_username_dashboard_middle" />
+        android:layout_alignEnd="@+id/textView_username_dashboard_middle"
+        />
 
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:id="@+id/imageView35"
-        android:src="@drawable/btn_rank_two"
-        android:layout_alignTop="@+id/img_buy_listing"
-        android:layout_toRightOf="@+id/img_buy_listing"
-        android:layout_toEndOf="@+id/img_buy_listing"
-        android:layout_marginLeft="5dp" />
+        android:id="@+id/img_rank2_satus"
+        android:layout_alignTop="@+id/img_rank1_satus"
+        android:layout_toRightOf="@+id/img_rank1_satus"
+        android:layout_toEndOf="@+id/img_rank1_satus"
+        android:layout_marginLeft="9dp"
+        android:visibility="gone"
+        />
 
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:id="@+id/imageView36"
-        android:layout_alignTop="@+id/imageView35"
-        android:layout_toRightOf="@+id/imageView35"
-        android:layout_toEndOf="@+id/imageView35"
-        android:src="@drawable/btn_rank_three"
-        android:layout_marginLeft="5dp" />
+        android:id="@+id/img_rank3_satus"
+        android:layout_alignTop="@+id/img_rank2_satus"
+        android:layout_toRightOf="@+id/img_rank2_satus"
+        android:layout_toEndOf="@+id/img_rank2_satus"
+        android:layout_marginLeft="9dp"
+        android:visibility="visible"
+        />
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="match_parent"

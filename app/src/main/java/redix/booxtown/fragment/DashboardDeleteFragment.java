@@ -49,8 +49,9 @@ public class DashboardDeleteFragment extends Fragment {
     TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_with;
     RatingBar ratingBar_user_dashboard_middle;
     String img_username,username;
-    ImageView img_free_listings;
+    ImageView img_free_listings,img_rank1_satus,img_rank2_satus,img_rank3_satus;;
     DashBoard dashBoard;
+    User user;
     //end
 
     @Override
@@ -63,13 +64,44 @@ public class DashboardDeleteFragment extends Fragment {
         btn_menu_dashboard_bottom_rate.setVisibility(View.GONE);
         btn_menu_dashboard_bottom_cancel.setVisibility(View.GONE);
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
+        user = (User) getArguments().getSerializable("user");
+
+        //set rank
+        if(user.getContributor() == 0){
+            img_rank1_satus.setVisibility(View.VISIBLE);
+            Picasso.with(getContext()).load(R.drawable.conbitrutor_one).into(img_rank1_satus);
+        }else{
+            Picasso.with(getContext()).load(R.drawable.conbitrutor_two).into(img_rank1_satus);
+        }
+        if(user.getGoldenBook() == 0){
+            img_rank2_satus.setVisibility(View.GONE);
+        }else if(user.getGoldenBook() == 1){
+            Picasso.with(getContext()).load(R.drawable.golden_book).into(img_rank2_satus);
+            img_rank2_satus.setVisibility(View.VISIBLE);
+        }
+
+        if(user.getListBook() == 0){
+            Picasso.with(getContext()).load(R.drawable.newbie).into(img_rank3_satus);
+            img_rank3_satus.setVisibility(View.VISIBLE);
+        }else if(user.getListBook() == 1){
+            Picasso.with(getContext()).load(R.drawable.bookworm).into(img_rank3_satus);
+            img_rank3_satus.setVisibility(View.VISIBLE);
+        }else{
+            Picasso.with(getContext()).load(R.drawable.bibliophile).into(img_rank3_satus);
+            img_rank3_satus.setVisibility(View.VISIBLE);
+        }
+
 
         //menu
         img_menu.setImageResource(R.drawable.btn_sign_in_back);
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               callFragment(new MyProfileDashboardFragment());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                MyProfileDashboardFragment fragment= new MyProfileDashboardFragment();
+                fragment.setArguments(bundle);
+                callFragment(fragment);
             }
         });
 
@@ -100,6 +132,10 @@ public class DashboardDeleteFragment extends Fragment {
     }
 
     public void init(View view){
+        img_rank1_satus = (ImageView)view.findViewById(R.id.img_rank1_satus);
+        img_rank2_satus = (ImageView)view.findViewById(R.id.img_rank2_satus);
+        img_rank3_satus = (ImageView)view.findViewById(R.id.img_rank3_satus);
+
         textView_namebook_seller = (TextView)view.findViewById(R.id.textView_namebook_seller);
         textView_nameauthor_seller = (TextView)view.findViewById(R.id.textView_nameauthor_seller);
         textView_namebook_buyer = (TextView)view.findViewById(R.id.textView_namebook_buyer);

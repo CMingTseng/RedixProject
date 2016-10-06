@@ -179,13 +179,5 @@ public class ListingsFragment extends Fragment
             }catch (Exception e){}
         }
     }
-
-    public static TextView getTxt_add_book() {
-        return txt_add_book;
-    }
-
-    public static void setTxt_add_book(String title) {
-        txt_add_book.setText(title);
-    }
 }
 

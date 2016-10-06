@@ -104,10 +104,6 @@ public class NotificationFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.d("bhjbjbjb","onresum");
-//        final Gettop_notifi gettop_notifi = new Gettop_notifi(session_id,100,0);
-//        gettop_notifi.execute();
-        //adapter.notifyDataSetChanged();
         super.onResume();
     }
 

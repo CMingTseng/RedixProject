@@ -93,28 +93,15 @@ public class MyProfileFragment extends Fragment {
                     "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                     ")+"
     );
-
+    ImageView img_menu_personal_dashboard;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.my_profile_fragment, container, false);
         uploadFileController = new UploadFileController();
-        ImageView img_menu_personal_dashboard = (ImageView)view.findViewById(R.id.img_menu_personal_dashboard);
 
-        img_menu_personal_dashboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putString("username",username);
-//                bundle.putInt("user_id",user_id);
-//                profile.setArguments(bundle);
-                callFragment(profile);
-
-            }
-        });
-
+        img_menu_personal_dashboard = (ImageView)view.findViewById(R.id.img_menu_personal_dashboard);
         imv_menu_profile = (CircularImageView)view.findViewById(R.id.imv_menu_profile);
         imv_menu_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,15 +111,6 @@ public class MyProfileFragment extends Fragment {
         });
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Glide.with(getActivity()).load(R.drawable.btn_menu_locate).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView_back);
-
-        ImageView imv_close_dialog_dashboard_status = (ImageView)view.findViewById(R.id.imv_close_dialog_dashboard_status);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_one).into(imv_close_dialog_dashboard_status);
-
-        ImageView imageView26 = (ImageView)view.findViewById(R.id.imageView26);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_two).into(imageView26);
-
-        ImageView imageView27 = (ImageView)view.findViewById(R.id.imageView27);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_three).into(imageView27);
 
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         final String session_id =  pref.getString("session_id", null);
@@ -383,7 +361,7 @@ public class MyProfileFragment extends Fragment {
             dialog.show();
         }
         @Override
-        protected void onPostExecute(List<User> userResult) {
+        protected void onPostExecute(final List<User> userResult) {
             try {
                 if(userResult.size() == 0){
                     Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_LONG).show();
@@ -399,8 +377,42 @@ public class MyProfileFragment extends Fragment {
                     last_name = userResult.get(0).getLast_name();
                     photoOrigin= userResult.get(0).getPhoto();
 
-                    //set rank
 
+                    img_menu_personal_dashboard.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("user",userResult.get(0));
+                            profile.setArguments(bundle);
+                            callFragment(profile);
+
+                        }
+                    });
+                    //set rank
+                    if(userResult.get(0).getContributor() == 0){
+                        img_rank1.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(R.drawable.conbitrutor_one).into(img_rank1);
+                    }else{
+                        Picasso.with(context).load(R.drawable.conbitrutor_two).into(img_rank1);
+                    }
+                    if(userResult.get(0).getGoldenBook() == 0){
+                        img_rank2.setVisibility(View.GONE);
+                    }else if(userResult.get(0).getGoldenBook() == 1){
+                        Picasso.with(context).load(R.drawable.golden_book).into(img_rank2);
+                        img_rank2.setVisibility(View.VISIBLE);
+                    }
+
+                    if(userResult.get(0).getListBook() == 0){
+                        Picasso.with(context).load(R.drawable.newbie).into(img_rank3);
+                        img_rank3.setVisibility(View.VISIBLE);
+                    }else if(userResult.get(0).getListBook() == 1){
+                        Picasso.with(context).load(R.drawable.bookworm).into(img_rank3);
+                        img_rank3.setVisibility(View.VISIBLE);
+                    }else{
+                        Picasso.with(context).load(R.drawable.bibliophile).into(img_rank3);
+                        img_rank3.setVisibility(View.VISIBLE);
+                    }
                     //Picasso.with(context).load()
 
                     //end

@@ -52,8 +52,9 @@ public class DashboardStatusFragment extends Fragment {
     CircularImageView img_menu_dashboard_middle,imageView_username_rating;
     TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_username_rating,textView_with;
     RatingBar ratingBar_user_dashboard_middle;
-    ImageView img_free_listings;
+    ImageView img_free_listings,img_rank1_satus,img_rank2_satus,img_rank3_satus;
     String img_username,username;
+    User user;
     //end
 
     //dialog rating
@@ -67,6 +68,7 @@ public class DashboardStatusFragment extends Fragment {
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
         init(view);
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
+        user = (User) getArguments().getSerializable("user");
         //menu
         btn_menu_dashboard_bottom_cancel.setVisibility(View.GONE);
         txt_menu_dashboard_cancel.setVisibility(View.GONE);
@@ -77,7 +79,11 @@ public class DashboardStatusFragment extends Fragment {
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callFragment(new MyProfileDashboardFragment());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                MyProfileDashboardFragment fragment= new MyProfileDashboardFragment();
+                fragment.setArguments(bundle);
+                callFragment(fragment);
             }
         });
 
@@ -157,6 +163,10 @@ public class DashboardStatusFragment extends Fragment {
     }
 
     public void init(View view){
+        img_rank1_satus = (ImageView)view.findViewById(R.id.img_rank1_satus);
+        img_rank2_satus = (ImageView)view.findViewById(R.id.img_rank2_satus);
+        img_rank3_satus = (ImageView)view.findViewById(R.id.img_rank3_satus);
+
         img_free_listings = (ImageView)view.findViewById(R.id.img_free_listings);
         btn_menu_dashboard_bottom_rate = (Button)view.findViewById(R.id.btn_menu_dashboard_bottom_rate);
         title_menu = (TextView)getActivity().findViewById(R.id.txt_title);
@@ -261,6 +271,32 @@ public class DashboardStatusFragment extends Fragment {
 
                     ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
                     textView_phone_dashboard_middle.setText(user.get(0).getPhone());
+
+                    //set rank
+                    if(user.get(0).getContributor() == 0){
+                        img_rank1_satus.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(R.drawable.conbitrutor_one).into(img_rank1_satus);
+                    }else{
+                        Picasso.with(context).load(R.drawable.conbitrutor_two).into(img_rank1_satus);
+                    }
+                    if(user.get(0).getGoldenBook() == 0){
+                        img_rank2_satus.setVisibility(View.GONE);
+                    }else if(user.get(0).getGoldenBook() == 1){
+                        Picasso.with(context).load(R.drawable.golden_book).into(img_rank2_satus);
+                        img_rank2_satus.setVisibility(View.VISIBLE);
+                    }
+
+                    if(user.get(0).getListBook() == 0){
+                        Picasso.with(context).load(R.drawable.newbie).into(img_rank3_satus);
+                        img_rank3_satus.setVisibility(View.VISIBLE);
+                    }else if(user.get(0).getListBook() == 1){
+                        Picasso.with(context).load(R.drawable.bookworm).into(img_rank3_satus);
+                        img_rank3_satus.setVisibility(View.VISIBLE);
+                    }else{
+                        Picasso.with(context).load(R.drawable.bibliophile).into(img_rank3_satus);
+                        img_rank3_satus.setVisibility(View.VISIBLE);
+                    }
+
                     progressDialog.dismiss();
                 }else {
                     Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();

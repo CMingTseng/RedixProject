@@ -53,12 +53,13 @@ public class DashboardStopFragment extends Fragment {
     ImageView img_menu_dashboard_bottom_status,img_menu,img_menu_component;
 
     //user profile
-    CircularImageView img_menu_dashboard_middle,imageView_username_rating;
+    CircularImageView img_menu_dashboard_middle;
     TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_with;
     RatingBar ratingBar_user_dashboard_middle;
     String img_username,username;
-    ImageView img_free_listings;
+    ImageView img_free_listings,img_rank1_satus,img_rank2_satus,img_rank3_satus;
     DashBoard dashBoard;
+    User user;
     //end
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,9 +71,36 @@ public class DashboardStopFragment extends Fragment {
         final String session_id = pref.getString("session_id", null);
 
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
+        user = (User)getArguments().getSerializable("user");
         txt_menu_dashboard_cancel.setVisibility(View.GONE);
         btn_menu_dashboard_bottom_rate.setBackgroundResource(R.drawable.btn_xam);
         img_menu_dashboard_bottom_status.setImageResource(R.drawable.myprofile_not);
+
+        //set rank
+        if(user.getContributor() == 0){
+            img_rank1_satus.setVisibility(View.VISIBLE);
+            Picasso.with(getContext()).load(R.drawable.conbitrutor_one).into(img_rank1_satus);
+        }else{
+            Picasso.with(getContext()).load(R.drawable.conbitrutor_two).into(img_rank1_satus);
+        }
+        if(user.getGoldenBook() == 0){
+            img_rank2_satus.setVisibility(View.GONE);
+        }else if(user.getGoldenBook() == 1){
+            Picasso.with(getContext()).load(R.drawable.golden_book).into(img_rank2_satus);
+            img_rank2_satus.setVisibility(View.VISIBLE);
+        }
+
+        if(user.getListBook() == 0){
+            Picasso.with(getContext()).load(R.drawable.newbie).into(img_rank3_satus);
+            img_rank3_satus.setVisibility(View.VISIBLE);
+        }else if(user.getListBook() == 1){
+            Picasso.with(getContext()).load(R.drawable.bookworm).into(img_rank3_satus);
+            img_rank3_satus.setVisibility(View.VISIBLE);
+        }else{
+            Picasso.with(getContext()).load(R.drawable.bibliophile).into(img_rank3_satus);
+            img_rank3_satus.setVisibility(View.VISIBLE);
+        }
+
 
         btn_menu_dashboard_bottom_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +143,11 @@ public class DashboardStopFragment extends Fragment {
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callFragment(new MyProfileDashboardFragment());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                MyProfileDashboardFragment fragment= new MyProfileDashboardFragment();
+                fragment.setArguments(bundle);
+                callFragment(fragment);
             }
         });
         title_menu.setText("Dashboard");
@@ -146,6 +178,10 @@ public class DashboardStopFragment extends Fragment {
     }
 
     public void init(View view){
+        img_rank1_satus = (ImageView)view.findViewById(R.id.img_rank1_satus);
+        img_rank2_satus = (ImageView)view.findViewById(R.id.img_rank2_satus);
+        img_rank3_satus = (ImageView)view.findViewById(R.id.img_rank3_satus);
+
         img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
         title_menu = (TextView)getActivity().findViewById(R.id.txt_title);
         img_menu_component = (ImageView)getActivity().findViewById(R.id.img_menu_component);

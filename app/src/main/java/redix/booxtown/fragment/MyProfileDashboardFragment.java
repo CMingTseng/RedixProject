@@ -16,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import redix.booxtown.controller.DashBoardController;
 import redix.booxtown.controller.Information;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.DashBoard;
+import redix.booxtown.model.User;
 
 public class MyProfileDashboardFragment extends Fragment {
 
@@ -40,24 +42,51 @@ public class MyProfileDashboardFragment extends Fragment {
     int user_id;
     List<DashBoard> dashBoards_new;
     AdapterProfileDashboard adapterProfileDashboard;
-    ImageView img_menu_component,img_menu,imv_close_dialog_dashboard_status,imageView26,imageView27;
+    ImageView img_menu_component,img_menu,img_rank1,img_rank2,img_rank3;
     TextView title_menu;
     private static RelativeLayout bottomLayout;
     boolean userScrolled = false;
     private static ArrayList<DashBoard> listArrayList;
+    RatingBar ratingBar_userprofile;
+    User user;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.my_profile_dashboard_fragment, container, false);
         init(view);
+
+        user = (User)getArguments().getSerializable("user");
+        //set rank
+        if(user.getContributor() == 0){
+            img_rank1.setVisibility(View.VISIBLE);
+            Picasso.with(getContext()).load(R.drawable.conbitrutor_one).into(img_rank1);
+        }else{
+            Picasso.with(getContext()).load(R.drawable.conbitrutor_two).into(img_rank1);
+        }
+        if(user.getGoldenBook() == 0){
+            img_rank2.setVisibility(View.GONE);
+        }else if(user.getGoldenBook() == 1){
+            Picasso.with(getContext()).load(R.drawable.golden_book).into(img_rank2);
+            img_rank2.setVisibility(View.VISIBLE);
+        }
+
+        if(user.getListBook() == 0){
+            Picasso.with(getContext()).load(R.drawable.newbie).into(img_rank3);
+            img_rank3.setVisibility(View.VISIBLE);
+        }else if(user.getListBook() == 1){
+            Picasso.with(getContext()).load(R.drawable.bookworm).into(img_rank3);
+            img_rank3.setVisibility(View.VISIBLE);
+        }else{
+            Picasso.with(getContext()).load(R.drawable.bibliophile).into(img_rank3);
+            img_rank3.setVisibility(View.VISIBLE);
+        }
+        ratingBar_userprofile.setRating(user.getRating());
+
         dashBoards_new = new ArrayList<>();
         img_menu_component.setVisibility(View.GONE);
         title_menu.setText("My Profile");
         Picasso.with(getContext()).load(R.drawable.btn_sign_in_back).into(img_menu);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_one).into(imv_close_dialog_dashboard_status);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_two).into(imageView26);
-        Picasso.with(getContext()).load(R.drawable.btn_rank_three).into(imageView27);
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         final String session_id =  pref.getString("session_id", null);
         final String user_name = pref.getString("username",null);
@@ -78,12 +107,13 @@ public class MyProfileDashboardFragment extends Fragment {
     }
 
     public void init(View view){
+        ratingBar_userprofile = (RatingBar)view.findViewById(R.id.ratingBar_userprofile);
+        img_rank1 = (ImageView)view.findViewById(R.id.img_rank1);
+        img_rank2 = (ImageView)view.findViewById(R.id.img_rank2);
+        img_rank3 = (ImageView)view.findViewById(R.id.img_rank3);
         bottomLayout = (RelativeLayout) view
                 .findViewById(R.id.loadItemsLayout_listView);
         txt_username = (TextView)view.findViewById(R.id.txt_profile_username);
-        imageView27 = (ImageView)view.findViewById(R.id.imageView27);
-        imv_close_dialog_dashboard_status = (ImageView)view.findViewById(R.id.imv_close_dialog_dashboard_status);
-        imageView26 = (ImageView)view.findViewById(R.id.imageView26);
         img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
         lv_myprofile_dashboard = (ListView)view.findViewById(R.id.lv_myprofile_dashboard);
         img_menu_component = (ImageView)getActivity().findViewById(R.id.img_menu_component);
@@ -113,18 +143,21 @@ public class MyProfileDashboardFragment extends Fragment {
                 if (dashBoard.getIs_accept() == 1 || dashBoard.getIs_reject() == 1){
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("dashboard", dashBoard);
+                    bundle.putSerializable("user", user);
                     DashboardStatusFragment fragment= new DashboardStatusFragment();
                     fragment.setArguments(bundle);
                     callFragment(fragment);
                 }else if(dashBoard.getIs_cancel() == 1){
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("dashboard", dashBoard);
+                    bundle.putSerializable("user", user);
                     DashboardDeleteFragment fragment= new DashboardDeleteFragment();
                     fragment.setArguments(bundle);
                     callFragment(fragment);
                 }else if(dashBoard.getIs_reject() == 0 && dashBoard.getIs_cancel()==0 && dashBoard.getIs_accept()==0){
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("dashboard", dashBoard);
+                    bundle.putSerializable("user", user);
                     DashboardStopFragment fragment= new DashboardStopFragment();
                     fragment.setArguments(bundle);
                     callFragment(fragment);

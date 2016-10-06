@@ -25,16 +25,9 @@ import redix.booxtown.model.Book;
 import redix.booxtown.model.Transaction;
 
 public class Notification_Swap_Accept_Like extends AppCompatActivity implements View.OnClickListener {
-    ImageView img_menu_bottom_location;
-    ImageView img_menu_bottom_comment;
-    ImageView img_menu_bottom_camera;
-    ImageView img_menu_bottom_bag;
-    ImageView img_menu_bottom_user;
+    ImageView img_menu_bottom_location,img_menu_bottom_user,img_menu_bottom_comment,img_menu_bottom_camera,img_menu_bottom_bag;
 
-    TextView txt_user_hi;
-    TextView txt_title_book;
-    TextView txt_author_book;
-    TextView txt_author_info3;
+    TextView txt_user_hi,txt_title_book,txt_author_book,txt_author_info3;
 
     String trans;
     String key;
@@ -171,15 +164,11 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
 
             } else {
                 SharedPreferences pref = Notification_Swap_Accept_Like.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor  = pref.edit();
                 String userName = pref.getString("username", null);
                 txt_user_hi.setText("Hi "+ userName+",");
-
                 txt_title_book.setText(transaction.getBook_name());
                 txt_author_book.setText(transaction.getBook_author());
                 txt_author_info3.setText(transaction.getUser_sell());
-
-
             }
             super.onPostExecute(transaction);
         }

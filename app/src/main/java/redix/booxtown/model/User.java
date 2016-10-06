@@ -3,7 +3,9 @@ package redix.booxtown.model;
 
 import com.google.gson.annotations.Expose;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 
     @Expose
     private String first_name;

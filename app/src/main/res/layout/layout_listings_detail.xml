@@ -102,6 +102,8 @@
             android:id="@+id/myRatingBar"
             style="?android:attr/ratingBarStyleSmall"
             android:progressTint="@color/color_star_select"
+            android:progressBackgroundTint="@color/color_star_select"
+            android:progressBackgroundTintMode="@color/color_star_select"
             android:theme="@style/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -117,12 +119,11 @@
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:id="@+id/img_rank3_listings"
+            android:id="@+id/img_rank1_listings"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-
-            android:layout_marginRight="10dp" />
+            android:layout_toLeftOf="@+id/img_rank2_listings"
+            android:layout_toStartOf="@+id/img_rank2_listings"
+            />
 
         <ImageView
             android:layout_width="15dp"
@@ -132,18 +133,16 @@
             android:layout_toLeftOf="@+id/img_rank3_listings"
             android:layout_toStartOf="@+id/img_rank3_listings"
             android:layout_marginRight="10dp"
-
             android:layout_marginLeft="10dp" />
 
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:id="@+id/img_rank1_listings"
+            android:id="@+id/img_rank3_listings"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/img_rank2_listings"
-            android:layout_toStartOf="@+id/img_rank2_listings"
-             />
-
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp" />
     </RelativeLayout>
 
     <redix.booxtown.custom.CustomTextView

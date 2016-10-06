@@ -155,6 +155,7 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         TextView txt_contents;
         TextView txt_datetime;
         RatingBar myRatingBar;
+        ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
     }
 
 
