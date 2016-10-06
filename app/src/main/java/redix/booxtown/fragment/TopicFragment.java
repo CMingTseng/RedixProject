@@ -12,9 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,20 +20,20 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.TopicController;
-import redix.booxtown.listener.OnLoadMoreListener;
+
 import redix.booxtown.model.Topic;
-import redix.booxtown.recyclerclick.RecyclerItemClickListener;
+
 import redix.booxtown.activity.MenuActivity;
 import redix.booxtown.adapter.AdapterTopic;
 
