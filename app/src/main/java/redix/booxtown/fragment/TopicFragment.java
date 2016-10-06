@@ -18,7 +18,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -42,10 +45,12 @@ import redix.booxtown.adapter.AdapterTopic;
 public class TopicFragment extends Fragment
 {
 
-    List<Topic> listtopic= new ArrayList<>();
-    RecyclerView lv_recycler;
-    List<Topic> listemp = new ArrayList<>();
+    //List<Topic> listtopic= new ArrayList<>();
+    ListView lv_recycler;
+    //List<Topic> listemp = new ArrayList<>();
     AdapterTopic interact;
+    ArrayList<Topic> listArrayList = new ArrayList<>();
+    boolean userScrolled = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +62,7 @@ public class TopicFragment extends Fragment
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
-        topicSync getalltopic = new topicSync(getContext(),session_id,100,0);
+        topicSync getalltopic = new topicSync(getContext(),session_id,5,0);
         getalltopic.execute();
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +73,65 @@ public class TopicFragment extends Fragment
         });
 
         //-----------------------------------------------------------
-        lv_recycler=(RecyclerView) view.findViewById(R.id.list_view_interact);
-        RecyclerView.LayoutManager  layoutManager = new LinearLayoutManager(getActivity());
-        lv_recycler.setLayoutManager(layoutManager);
-
+        lv_recycler=(ListView) view.findViewById(R.id.list_view_interact);
+        populatRecyclerView(session_id);
+        implementScrollListener(session_id);
         return view;
     }
+
+    private void populatRecyclerView(String session_id) {
+        topicSync getDashBoard = new topicSync(getContext(),session_id,10,0);
+        getDashBoard.execute();
+        listArrayList = new ArrayList<Topic>();
+        interact = new AdapterTopic(getActivity(), listArrayList);
+        // set adapter over recyclerview
+        lv_recycler.setAdapter(interact);
+        interact.notifyDataSetChanged();
+        lv_recycler.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Topic topic = listArrayList.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("thread", topic);
+                ThreadFragment fragment= new ThreadFragment();
+                fragment.setArguments(bundle);
+                callFragment(fragment);
+            }
+        });
+    }
+
+    private void implementScrollListener(final String session_id) {
+
+        lv_recycler.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView arg0, int scrollState) {
+                // If scroll state is touch scroll then set userScrolled
+                // true
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    userScrolled = true;
+
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                // Now check if userScrolled is true and also check if
+                // the item is end then update list view and set
+                // userScrolled to false
+                if (userScrolled
+                        && firstVisibleItem + visibleItemCount == totalItemCount) {
+                    userScrolled = false;
+                    Topic dashBoard_lv = listArrayList.get(listArrayList.size()-1);
+                    topicSync getDashBoard = new topicSync(getContext(),session_id,10,Integer.valueOf(dashBoard_lv.getId()));
+                    getDashBoard.execute();
+                }
+            }
+        });
+    }
+
     public void callFragment(Fragment fragment ){
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -113,106 +171,15 @@ public class TopicFragment extends Fragment
             try{
                 if(topics.size() >0){
                     //set adapter
-                    listtopic.addAll(topics);
-                    listemp.addAll(topics);
-                    Collections.sort(listemp,Topic.aseid);
-                    Collections.sort(listtopic,Topic.aseid);
-                    interact = new AdapterTopic(context,listtopic,lv_recycler);
-                    lv_recycler.setAdapter(interact);
-                    if (listtopic.size()>=10){
-                        interact.setOnLoadMoreListener(new OnLoadMoreListener() {
-                            @Override
-                            public void onLoadMore() {
-//                                listtopic.add(null);
-                                Log.e("haint", "Load More"+Integer.parseInt(listtopic.get(listtopic.size()-1).getId()));
-                                interact.notifyItemInserted(listtopic.size() - 1);
-
-                                //Load more data for reyclerview
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Log.e("haint", "Load More 2");
-                                        listtopic.remove(listtopic.size() - 1);
-                                        interact.notifyItemRemoved(listtopic.size());
-                                        //Remove loading item
-                                        topicSync1 getalltopic = new topicSync1(getContext(),session_id,100,Integer.parseInt(listemp.get(listemp.size()-1).getId()));
-                                        getalltopic.execute();
-                                        interact.notifyDataSetChanged();
-//                                        interact.setLoaded();
-                                    }
-                                }, 500);
-                            }
-                        });
-                    }
-                    lv_recycler.addOnItemTouchListener(
-                            new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    Topic item = (Topic) listtopic.get(position);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable("thread", item);
-                                    ThreadFragment fragment= new ThreadFragment();
-                                    fragment.setArguments(bundle);
-                                    callFragment(fragment);
-                                }
-                            })
-                    );
-
+                    listArrayList.addAll(topics);
+                    interact.notifyDataSetChanged();
                     //end
                 }else {
-                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                 }
             }catch (Exception e){
 
             }
             dialog.dismiss();
-            super.onPostExecute(topics);
         }
     }
-
-    public class topicSync1 extends AsyncTask<Void,Void,List<Topic>>{
-        ProgressDialog dialog;
-        Context context;
-        String session_id;
-        int top, from;
-        public topicSync1(Context context,String session_id,int top, int from){
-            this.context = context;
-            this.session_id=session_id;
-            this.top=top;
-            this.from=from;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<Topic> doInBackground(Void... params) {
-            TopicController topicController = new TopicController();
-            return topicController.getALllTopicTop(session_id,top,from);
-        }
-
-        @Override
-        protected void onPostExecute(final List<Topic> topics) {
-            try{
-                if(topics.size() >0){
-                    //set adapter
-                    listtopic.addAll(topics);
-                    listemp.addAll(topics);
-                    Collections.sort(listemp,Topic.aseid);
-                    Collections.sort(listtopic,Topic.aseid);
-                }else {
-                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
-                }
-            }catch (Exception e){
-
-            }
-            super.onPostExecute(topics);
-        }
-    }
-
-
-
-
 }
