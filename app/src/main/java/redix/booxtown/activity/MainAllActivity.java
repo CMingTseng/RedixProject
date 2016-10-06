@@ -197,13 +197,13 @@ public class MainAllActivity extends AppCompatActivity{
                 if(key.equals("1")) {
                     ListingsDetailActivity fragment = new ListingsDetailActivity();
                     Bundle bundle = new Bundle();
-                    bundle.putString(String.valueOf(R.string.valueListings), "2");
+                    bundle.putString(String.valueOf(R.string.valueListings), "5");
                     bundle.putSerializable("item", book);
                     fragment.setArguments(bundle);
                     callFragment(fragment);
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("Listings");
-                    setDefaut(3);
+                   // setDefaut(3);
                 }
 
             } catch (Exception exs) {

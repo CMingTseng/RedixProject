@@ -156,7 +156,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         callFragment(new ExploreFragment());
                     } else if (type.equals("3")) {
                         callFragment(new ListingsFragment());
-                    } else {
+                    }else if (type.equals("5")) {
+                       // getActivity().onBackPressed();
+                        Intent intent=new Intent(getContext(),UserProfileActivity.class);
+                        intent.putExtra("user",Integer.parseInt(book.getUser_id()));
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                    else {
                         HomeActivity homeActivity = (HomeActivity) getActivity();
                         homeActivity.getTxtTitle().setText("Notifications");
                         homeActivity.callFragment(new NotificationFragment());
