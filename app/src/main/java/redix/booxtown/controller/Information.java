@@ -44,5 +44,5 @@ public class Information {
     public final static String noti_tran_done = "Transaction is done";
     public final static String noti_invite_success = "Invite friend success";
     public final static String noti_invite_fail = "Invite friend fail";
-
+    public final static String noti_enter_email = "Please enter valid email address";
 }

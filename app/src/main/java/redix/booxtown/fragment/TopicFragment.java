@@ -56,12 +56,9 @@ public class TopicFragment extends Fragment
 
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(imageView_back);
-//        imageView_back.setImageResource(R.drawable.btn_menu_locate);
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
-//        topicSync getalltopic = new topicSync(getContext(),session_id,5,0);
-//        getalltopic.execute();
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,7 +177,6 @@ public class TopicFragment extends Fragment
                 }else {
                 }
             }catch (Exception e){
-
             }
             dialog.dismiss();
         }
@@ -195,7 +191,6 @@ public class TopicFragment extends Fragment
             this.context = context;
             this.session_id=session_id;
             this.thread_id=thread_id;
-
         }
 
         @Override
@@ -217,15 +212,10 @@ public class TopicFragment extends Fragment
         protected void onPostExecute(final Boolean topics) {
             try{
                 if(topics){
-                    //RecyclerViewHolder holder=  new RecyclerViewHolder(itemView);
-                    //holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
                 }
-
             }catch (Exception e){
-
             }
             dialog.dismiss();
-
         }
     }
 }
