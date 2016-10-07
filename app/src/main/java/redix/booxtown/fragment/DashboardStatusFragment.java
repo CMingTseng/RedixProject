@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -270,6 +272,10 @@ public class DashboardStatusFragment extends Fragment {
                     username = user.get(0).getUsername();
 
                     ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) ratingBar_user_dashboard_middle.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+
                     textView_phone_dashboard_middle.setText(user.get(0).getPhone());
 
                     //set rank

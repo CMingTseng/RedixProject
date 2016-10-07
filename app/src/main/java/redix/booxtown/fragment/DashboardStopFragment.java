@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -249,6 +251,8 @@ public class DashboardStopFragment extends Fragment {
                     username = user.get(0).getUsername();
 
                     ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) ratingBar_user_dashboard_middle.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
                     textView_phone_dashboard_middle.setText(user.get(0).getPhone());
                     progressDialog.dismiss();
                 }else {
@@ -338,29 +342,6 @@ public class DashboardStopFragment extends Fragment {
             }catch (Exception e){
 
             }
-
-            // send notifi user buy
-//            List<Hashtable> list = new ArrayList<>();
-//            Notification notification = new Notification(trans.getUser_sell().toUpperCase() + " accepted for a swap book request", trans.getId()+"","2" );
-//            Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-//            obj.put("user_id", book.getUser_id());
-//            obj.put("messages", "Accepted your swap request for " + trans.getBook_name().toUpperCase());
-//            list.add(obj);
-//            NotificationController controller = new NotificationController();
-//            controller.sendNotification(list);
-            // end
-
-            // send notifi user seller
-
-//            List<Hashtable> listSeller = new ArrayList<>();
-//            Notification notificationSeller = new Notification("you accepted swapping your book", trans.getId()+"","0" );
-//            Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
-//            objSeller.put("user_id", trans.getUser_seller_id());
-//            objSeller.put("messages", "you accepted swapping your book " + trans.getBook_name().toUpperCase());
-//            listSeller.add(objSeller);
-//            NotificationController controllerSeller = new NotificationController();
-//            controllerSeller.sendNotification(listSeller);
-            // end
         }
     }
 

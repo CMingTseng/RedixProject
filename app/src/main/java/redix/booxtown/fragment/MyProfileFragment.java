@@ -425,9 +425,6 @@ public class MyProfileFragment extends Fragment {
                     ratingBar_userprofile.setRating(userResult.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
-
-//                    Drawable progress = ratingBar_userprofile.getProgressDrawable();
-//                    DrawableCompat.setTint(progress, Color.YELLOW);
                 }
                 super.onPostExecute(userResult);
             }catch (Exception e){

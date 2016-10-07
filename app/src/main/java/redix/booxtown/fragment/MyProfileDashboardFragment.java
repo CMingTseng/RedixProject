@@ -3,6 +3,9 @@ package redix.booxtown.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -81,7 +84,11 @@ public class MyProfileDashboardFragment extends Fragment {
             Picasso.with(getContext()).load(R.drawable.bibliophile).into(img_rank3);
             img_rank3.setVisibility(View.VISIBLE);
         }
+        //rank
         ratingBar_userprofile.setRating(user.getRating());
+        LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        //end
 
         dashBoards_new = new ArrayList<>();
         img_menu_component.setVisibility(View.GONE);
