@@ -47,6 +47,7 @@ import java.util.List;
 import redix.booxtown.R;
 import redix.booxtown.adapter.AdapterCommentBook;
 import redix.booxtown.adapter.CustomPagerAdapter;
+import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.CommentController;
@@ -82,6 +83,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     private GoogleMap mMap;
     String type;
     int back;
+
+    String session_id;
     //end
     @Nullable
     @Override
@@ -91,6 +94,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.fragment_detail);
         mapFragment.getMapAsync(ListingsDetailActivity.this);
 
+        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        session_id = pref.getString("session_id", null);
 
         imageView_back = (ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_sign_in_back).into(imageView_back);
@@ -169,7 +174,6 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 //                        homeActivity.getTxtTitle().setText("Notifications");
 //                        homeActivity.callFragment(new NotificationFragment());
 //                    }
-
                     if(back == 1){
                         callFragment(new MyProfileFragment());
                     }else if(back == 2){
@@ -215,9 +219,6 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             getComment comment = new getComment(getContext(), book.getId());
             comment.execute();
 
-            SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            final String session_id = pref.getString("session_id", null);
             img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -327,7 +328,9 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             imSwap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    swap(book);
+                    listingAsync listingAsync = new listingAsync(getContext());
+                    listingAsync.execute(session_id);
+
                 }
             });
             imBuy.setOnClickListener(new View.OnClickListener() {
@@ -340,7 +343,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             imSwap2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    swap(book);
+                    listingAsync listingAsync = new listingAsync(getContext());
+                    listingAsync.execute(session_id);
                 }
             });
             imBuy2.setOnClickListener(new View.OnClickListener() {
@@ -618,6 +622,65 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
             }
             dialog.dismiss();
+        }
+    }
+
+    class listingAsync extends AsyncTask<String,Void,List<Book>>{
+
+        Context context;
+        ProgressDialog dialog;
+        public listingAsync(Context context){
+            this.context = context;
+        }
+
+        @Override
+        protected List<Book> doInBackground(String... strings) {
+            BookController bookController = new BookController();
+            return bookController.getAllBookById(strings[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(List<Book> books) {
+            try {
+                if (books == null) {
+                    dialog.dismiss();
+                } else {
+                    if(books.size() == 0){
+                        final Dialog dialog = new Dialog(getContext());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_check_mybook);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+
+                        ImageView img_close_dialog_unsubcribe = (ImageView)dialog.findViewById(R.id.imageView_close_dialog);
+                        Picasso.with(getActivity()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
+                        img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        TextView btn_unsubcribe = (TextView)dialog.findViewById(R.id.tv_addbook_checklist);
+                        btn_unsubcribe.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), AddbookActivity.class);
+                                intent.putExtra("type",0);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
+                    }else {
+                        swap(book);
+                    }
+                    dialog.dismiss();
+                }
+            }catch (Exception e){}
         }
     }
 }

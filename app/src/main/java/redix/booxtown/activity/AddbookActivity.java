@@ -207,7 +207,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
             username = pref.getString("username", null);
             session_id = pref.getString("session_id", null);
-
             //end
             //spinner
             ImageView imageView = (ImageView) findViewById(R.id.img_menu_genre);
@@ -226,13 +225,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             TextView title=(TextView) findViewById(R.id.txt_title);
             title.setText("Add a book");
 
-
             ImageView imgBack=(ImageView) findViewById(R.id.img_menu);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(imgBack);
             imgBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if(type == 0){
                         Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
                         intent.putExtra("Book",bookedit);
@@ -836,7 +833,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 if(!result.equals("")){
                     if(type == 0){
                         Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
-                        intent.putExtra("Book",bookedit);
+                        if(bookedit == null){
+                            intent.putExtra("Book",bookedit);
+                        }else{
+                            intent.putExtra("Book",book);
+                        }
                         startActivity(intent);
                         finish();
                     }

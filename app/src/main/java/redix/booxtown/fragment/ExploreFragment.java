@@ -73,29 +73,20 @@ import redix.booxtown.model.Filter;
  */
 public class ExploreFragment extends Fragment
 {
-    private LinearLayout linear_all;
-    private LinearLayout linear_swap;
-    private LinearLayout linear_free;
-    private LinearLayout linear_cart;
+    private LinearLayout linear_all,linear_swap,linear_free,linear_cart;
     private AdapterFilter adaper;
     private List<Filter> filterList;
-    private TextView tvMin,tvMax,txt_filter_proximity;
     private Spinner spinner2;
     private CrystalRangeSeekbar rangeSeekbar;
     private CrystalSeekbar seekbar;
-    List<Book> listfilter;
-    List<Book> listExplore;
-    List<Book> lisfilter_temp;
-    String proximity;
+    List<Book> listfilter,listExplore,lisfilter_temp;
+    String proximity,session_id;
     private  ArrayAdapter<String> dataAdapter;
     EditText editSearch;
     AdapterExplore adapter;
-    public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
+    public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,tvMin,tvMax,txt_filter_proximity;
     List<Book> listbook= new ArrayList<>();
     GridView grid;
-    ImageView img_component;
-    String session_id;
-    private MenuBottomCustom bottomExplore;
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
 
     @Nullable
@@ -199,8 +190,6 @@ public class ExploreFragment extends Fragment
                 tab_custom.setDefault(4);
             }
         });
-
-
         return view;
     }
 
@@ -382,33 +371,9 @@ public class ExploreFragment extends Fragment
         else{
             Collections.sort(lisfilter_temp,Book.recently);
         }
-        Log.d("dsgjfgkjsnkfndknkfbd",String.valueOf(filterList.get(0).getCheck()));
-        Log.d("dsgjfgkjsnkfndknkfbd",String.valueOf(filterList.get(1).getCheck()));
-        Log.d("dsgjfgkjsnkfndknkfbd",String.valueOf(filterList.get(2).getCheck()));
-        Log.d("dsgjfgkjsnkfndknkfbd",String.valueOf(filterList.get(3).getCheck()));
         AdapterExplore adapter = new AdapterExplore(getActivity(),lisfilter_temp,2,0);
         grid.setAdapter(adapter);
     }
-
-
-    public Comparator<Book> distance = new Comparator<Book>() {
-        @Override
-        public int compare(Book lhs, Book rhs) {
-
-            ExploreFragment exploreFragment = new ExploreFragment();
-            LatLng latLng1 = new LatLng(new GPSTracker(getActivity()).getLatitude(),new GPSTracker(getActivity()).getLongitude());
-            LatLng latLng1_2 = new LatLng(lhs.getLocation_latitude(),lhs.getLocation_longitude());
-            LatLng latLng2 = new LatLng(rhs.getLocation_latitude(),rhs.getLocation_longitude());
-            Double dist1 = exploreFragment.CalculationByDistance(latLng1,latLng1_2);
-            Double dist2 = exploreFragment.CalculationByDistance(latLng1,latLng2);
-            int i1 = dist1.intValue();
-            int i2 = dist2.intValue();
-            return i1 - i2;
-        }
-    };
-
-
-
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
@@ -429,9 +394,6 @@ public class ExploreFragment extends Fragment
         Double kmInDec = Double.valueOf(newFormat.format(km));
         double meter = valueResult % 1000;
         int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
-                + " Meter   " + meterInDec);
-
         return kmInDec;
     }
 
@@ -542,9 +504,7 @@ public class ExploreFragment extends Fragment
                 // but you can call any function here.
                 Getallbook1 getallbook1 = new Getallbook1(session_id,Long.parseLong(listExplore.get(listExplore.size()-1).getId()),100);
                 getallbook1.execute();
-                Log.d("hihihihi","lilil"+listExplore.get(listExplore.size()-1).getId());
                 loading = true;
-//                }
             }
 
         }
