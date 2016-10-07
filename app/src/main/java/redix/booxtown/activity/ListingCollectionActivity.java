@@ -670,8 +670,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     public String getAction() {
         String s = "";
         s += swap.isChecked() == true ? "1" : "0";
-        s += free.isChecked() == true ? "1" : "0";
         s += sell.isChecked() == true ? "1" : "0";
+        s += free.isChecked() == true ? "1" : "0";
         return s;
     }
 
