@@ -119,6 +119,7 @@ public class DashboardStopFragment extends Fragment {
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("dashboard", dashBoard);
+                        bundle.putSerializable("user", user);
                         DashboardDeleteFragment fragment= new DashboardDeleteFragment();
                         fragment.setArguments(bundle);
                         callFragment(fragment);

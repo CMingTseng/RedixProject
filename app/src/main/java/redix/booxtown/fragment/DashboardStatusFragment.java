@@ -90,13 +90,11 @@ public class DashboardStatusFragment extends Fragment {
         });
 
         img_menu_component.setVisibility(View.GONE);
-
             btn_menu_dashboard_bottom_rate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(dashBoard.getUser_promp() != 0 || dashBoard.getUser_cour() != 0 || dashBoard.getUser_quality() !=0){
                         Toast.makeText(getContext(),Information.noti_tran_done,Toast.LENGTH_SHORT).show();
-
                     }else{
                     final Dialog dialog = new Dialog(getActivity());
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -108,6 +106,15 @@ public class DashboardStatusFragment extends Fragment {
                     rating_promp = (RatingBar)dialog.findViewById(R.id.rating_promp);
                     rating_cour = (RatingBar)dialog.findViewById(R.id.rating_cour);
                     rating_quality = (RatingBar)dialog.findViewById(R.id.rating_quality);
+                    LayerDrawable stars1 = (LayerDrawable) rating_promp.getProgressDrawable();
+                    stars1.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+                    LayerDrawable stars2 = (LayerDrawable) rating_cour.getProgressDrawable();
+                    stars2.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+                    LayerDrawable stars3 = (LayerDrawable) rating_quality.getProgressDrawable();
+                    stars3.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
                     imageView_username_rating = (CircularImageView)dialog.findViewById(R.id.imageView_username_rating);
                     textView_username_rating = (TextView)dialog.findViewById(R.id.textView_username_rating);
                     //end

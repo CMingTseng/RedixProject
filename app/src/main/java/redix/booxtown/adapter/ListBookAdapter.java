@@ -149,23 +149,21 @@ public class ListBookAdapter extends BaseAdapter implements Filterable{
         else {
             hoder.img_edit.setVisibility(View.GONE);
         }
-        hoder.img_book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListingsDetailActivity fragment = new ListingsDetailActivity();
-                Bundle bundle = new Bundle();
-                bundle.putString(String.valueOf(R.string.valueListings),"3");
-                if(back ==1){
-                    bundle.putInt("back",1);
-                }else{
+        if(back != 1){
+            hoder.img_book.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ListingsDetailActivity fragment = new ListingsDetailActivity();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(String.valueOf(R.string.valueListings),"3");
                     bundle.putInt("back",2);
+                    bundle.putSerializable("item",ex);
+                    fragment.setArguments(bundle);
+                    callFragment(fragment);
                 }
-                bundle.putSerializable("item",ex);
-                fragment.setArguments(bundle);
-                callFragment(fragment);
+            });
+        }
 
-            }
-        });
         hoder.img_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

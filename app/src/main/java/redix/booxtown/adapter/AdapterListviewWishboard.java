@@ -21,21 +21,23 @@ import redix.booxtown.model.Wishboard;
 /**
  * Created by thuyetpham94 on 30/08/2016.
  */
-public class AdapterListviewWishboard  extends BaseAdapter {
+public class AdapterListviewWishboard extends BaseAdapter {
 
-//    String [] title;
+    //    String [] title;
 //    String [] name;
 //    String [] date;
     List<Wishboard> list;
     Context context;
-    private static LayoutInflater inflater=null;
-    public AdapterListviewWishboard(Context context,List<Wishboard> list) {
+    private static LayoutInflater inflater = null;
+
+    public AdapterListviewWishboard(Context context, List<Wishboard> list) {
         // TODO Auto-generated constructor stub
-        this.context=context;
+        this.context = context;
         this.list = list;
-        inflater = ( LayoutInflater )context.
+        inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
@@ -54,48 +56,60 @@ public class AdapterListviewWishboard  extends BaseAdapter {
         return position;
     }
 
-    public class Holder
-    {
+    public class Holder {
         TextView title;
         TextView name;
         TextView date;
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
 
-        Holder holder=new Holder();
+        Holder holder = new Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.custom_listview_wishboard, null);
-        holder.title=(TextView) rowView.findViewById(R.id.txt_title_lisview_wishboard);
-        holder.name = (TextView)rowView.findViewById(R.id.txt_name_custom_listview_wishboard);
-        holder.date = (TextView)rowView.findViewById(R.id.txt_date_customlistview_wishboard);
-        holder.title.setText(list.get(position).getTitle());
-        holder.name.setText("by "+list.get(position).getUsername());
+        holder.title = (TextView) rowView.findViewById(R.id.txt_title_lisview_wishboard);
+        holder.name = (TextView) rowView.findViewById(R.id.txt_name_custom_listview_wishboard);
+        holder.date = (TextView) rowView.findViewById(R.id.txt_date_customlistview_wishboard);
+
+
+        if (list.get(position).getTitle().length() == 0) {
+            if (list.get(position).getAuthor().length() == 0) {
+                holder.title.setText(list.get(position).getComment());
+            } else {
+                holder.title.setText(list.get(position).getComment());
+                holder.name.setText("by " + list.get(position).getAuthor());
+            }
+        } else {
+            holder.title.setText(list.get(position).getTitle());
+            holder.name.setText("by " + list.get(position).getAuthor());
+        }
+
         try {
             String[] dates = list.get(position).getCreate_date().substring(0, 10).split("-");
-            String resultDate = dates[2] +"-"+dates[1] +"-"+dates[0].substring(2,dates[0].length());
+            String resultDate = dates[2] + "-" + dates[1] + "-" + dates[0].substring(2, dates[0].length());
             holder.date.setText(resultDate);
-        }catch (Exception exx) {
+        } catch (Exception exx) {
             holder.date.setText(list.get(position).getCreate_date().substring(0, 10));
         }
 
-        ImageView imgv_listview_respond = (ImageView)rowView.findViewById(R.id.imgv_listview_respond);
+        ImageView imgv_listview_respond = (ImageView) rowView.findViewById(R.id.imgv_listview_respond);
         Picasso.with(context).load(R.drawable.btn_wishbroad_message).into(imgv_listview_respond);
         imgv_listview_respond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, RespondActivity.class);
 
-                intent.putExtra("wishboard",list.get(position));
+                intent.putExtra("wishboard", list.get(position));
 
                 context.startActivity(intent);
             }
         });
 
-        if(position %2==0){
+        if (position % 2 == 0) {
             rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.color_hint_interact));
-        }else{
+        } else {
             rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.dot_light_screen1));
         }
         return rowView;

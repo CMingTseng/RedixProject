@@ -43,9 +43,7 @@ import redix.booxtown.model.User;
  */
 public class InteractThreadDetailsFragment extends Fragment
 {
-    String user_ID="";
     ListView listView;
-    private MenuBottomCustom menu_bottom;
     Thread threads;
     TextView txt_author_thread;
     Topic topic;

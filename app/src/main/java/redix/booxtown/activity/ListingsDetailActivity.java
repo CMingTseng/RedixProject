@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -133,7 +135,11 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             imSwap2 = (ImageView) v.findViewById(R.id.img_swap_listing2);
             txt_listed_by = (TextView) v.findViewById(R.id.txt_listed_by);
             icon_user_listing_detail = (CircularImageView) v.findViewById(R.id.icon_user_listing_detail);
-            ratingBar_userprofile = (RatingBar) v.findViewById(R.id.ratingBar_userprofile);
+
+            ratingBar_userprofile = (RatingBar) v.findViewById(R.id.myRatingBar);
+            LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+            ratingBar_userprofile.setRating(book.getRating());
 
             book = (Book) getArguments().getSerializable("item");
             if (book.getPhoto().length() > 3) {

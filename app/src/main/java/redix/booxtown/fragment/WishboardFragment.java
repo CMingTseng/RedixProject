@@ -47,6 +47,7 @@ import redix.booxtown.model.Wishboard;
 public class WishboardFragment extends Fragment {
 
     ListView lv_wishboard;
+    EditText editText_title_wishboard,editText_author_wishboard,editText_comment_wishboard;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +66,6 @@ public class WishboardFragment extends Fragment {
         lv_wishboard = (ListView) view.findViewById(R.id.lv_wishboard);
         getWishboard getWishboard = new getWishboard(getContext());
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         final String session_id = pref.getString("session_id", null);
         getWishboard.execute("1000000","0",session_id);
         ImageView img_component=(ImageView) getActivity().findViewById(R.id.img_menu_component);
@@ -86,9 +86,9 @@ public class WishboardFragment extends Fragment {
                         dialog.dismiss();
                     }
                 });
-                final EditText editText_title_wishboard = (EditText)dialog.findViewById(R.id.editText_title_wishboard);
-                final EditText editText_author_wishboard = (EditText)dialog.findViewById(R.id.editText_author_wishboard);
-                final EditText editText_comment_wishboard = (EditText)dialog.findViewById(R.id.editText_comment_wishboard);
+                editText_title_wishboard = (EditText)dialog.findViewById(R.id.editText_title_wishboard);
+                editText_author_wishboard = (EditText)dialog.findViewById(R.id.editText_author_wishboard);
+                editText_comment_wishboard = (EditText)dialog.findViewById(R.id.editText_comment_wishboard);
 
                 Spannable wordtoSpan = new SpannableString("Comments (50 Character)");
                 wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_text_hint)), 10, 23, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -97,14 +97,18 @@ public class WishboardFragment extends Fragment {
                 btn_submit_dialog_post_book_wishbroad.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-
-                        insertWishboard insertWishboard = new insertWishboard(getContext());
-                        insertWishboard.execute(editText_title_wishboard.getText().toString(),editText_author_wishboard.getText().toString(),
-                                editText_comment_wishboard.getText().toString(),session_id);
-                        getWishboard getWishboard = new getWishboard(getContext());
-                        getWishboard.execute("1000000","0",session_id);
-                        dialog.dismiss();
+                        if(editText_comment_wishboard.getText().toString().equals("")){
+                            Toast.makeText(getContext(),Information.noti_check_wishboard,Toast.LENGTH_SHORT).show();
+                        }else if(editText_comment_wishboard.getText().toString().length() >50){
+                            Toast.makeText(getContext(),Information.noti_over_leter,Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            insertWishboard insertWishboard = new insertWishboard(getContext());
+                            insertWishboard.execute(editText_title_wishboard.getText().toString(), editText_author_wishboard.getText().toString(), editText_comment_wishboard.getText().toString(), session_id);
+                            getWishboard getWishboard = new getWishboard(getContext());
+                            getWishboard.execute("1000000", "0", session_id);
+                            dialog.dismiss();
+                        }
                     }
                 });
             }

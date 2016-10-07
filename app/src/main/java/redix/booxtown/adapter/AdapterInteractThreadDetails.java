@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +85,6 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         hoder.img_comment_rank1 = (ImageView)convertView.findViewById(R.id.img_comment_rank1);
         hoder.img_comment_rank2 = (ImageView)convertView.findViewById(R.id.img_comment_rank2);
         hoder.img_comment_rank3 = (ImageView)convertView.findViewById(R.id.img_comment_rank3);
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd hh:mm");
 
         try {
             hoder.txt_datetime.setText(formatDatetime(Comments.getCreate_date().replaceAll("-",":").replace(" ",":")));
@@ -114,35 +116,11 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
                     .into(hoder.img_icon);
         }
 
-//            Resources mResources = mContext.getResources();
-//            Bitmap mBitmap = BitmapFactory.decodeResource(mResources, R.drawable.icon_test);
-//            NotificationAccept notificationAccept = new NotificationAccept();
-//            notificationAccept.accept(mContext, mResources, mBitmap, img_icon);
-
-//            if(interactComments.isRank_one()){
-//                hoder.img_rank_one.setVisibility(View.VISIBLE);
-//            }
-//            else{
-//                hoder.img_rank_one.setVisibility(View.INVISIBLE);
-//            }
-//
-//            if(interactComments.isRank_two()){
-//                hoder.img_rank_two.setVisibility(View.VISIBLE);
-//            }
-//            else{
-//                hoder.img_rank_two.setVisibility(View.INVISIBLE);
-//            }
-//
-//            if(interactComments.isRank_three()){
-//                hoder.img_rank_three.setVisibility(View.VISIBLE);
-//            }
-//            else{
-//                hoder.img_rank_three.setVisibility(View.INVISIBLE);
-//            }
-//
         hoder.txt_userName.setText(Comments.getUsername());
         hoder.txt_contents.setText(Comments.getContent());
         hoder.myRatingBar.setRating(Comments.getRating());
+        LayerDrawable stars = (LayerDrawable) hoder.myRatingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         return convertView;
     }
 
