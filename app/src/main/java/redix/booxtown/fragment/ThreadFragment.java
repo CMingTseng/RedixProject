@@ -49,7 +49,7 @@ public class ThreadFragment extends Fragment
 {
     AdapterThread adapterThread;
     List<Thread> listThreads= new ArrayList<>();
-    List<Thread> listtemp = new ArrayList<>();
+    //List<Thread> listtemp = new ArrayList<>();
     RecyclerView rv_thread;
     LinearLayoutManager linearLayoutManager;
     Topic topic;
@@ -96,7 +96,6 @@ public class ThreadFragment extends Fragment
                 Button btn_dialog_interact_submit = (Button)dialog.findViewById(R.id.btn_dialog_interact_submit);
                 final TextView edit_title_insert_thread = (TextView)dialog.findViewById(R.id.edit_title_insert_thread);
                 final TextView edit_description_insert_thread = (TextView)dialog.findViewById(R.id.edit_description_insert_thread);
-                final Thread thread = new Thread();
                 SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor  = pref.edit();
                 final String session_id = pref.getString("session_id", null);
@@ -104,24 +103,29 @@ public class ThreadFragment extends Fragment
                     @Override
                     public void onClick(View view) {
                         //submit dialog add thread
+                        try {
+                            if (edit_title_insert_thread.getText().equals("")) {
+                                Toast.makeText(getContext(), "You must provide a title", Toast.LENGTH_SHORT).show();
+                            } else {
+                                insertthreadAsync insertthread = new insertthreadAsync(getContext());
+                                insertthread.execute(edit_title_insert_thread.getText().toString(), edit_description_insert_thread.getText().toString(),
+                                        topic.getId(), session_id);
+                                SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                                String session_id = pref.getString("session_id", null);
+                                threadAsync threadAsync;
+                                if (listThreads.size() == 0) {
+                                    threadAsync = new threadAsync(getContext(), Integer.valueOf(topic.getId()), session_id, 100, 0);
+                                } else {
+                                    threadAsync = new threadAsync(getContext(), Integer.valueOf(topic.getId()), session_id, 100, Integer.valueOf(listThreads.get(listThreads.size() - 1).getId()));
+                                }
 
-                        if(edit_title_insert_thread.getText().equals("")){
-                            Toast.makeText(getContext(),"You must provide a title", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            insertthreadAsync insertthread = new insertthreadAsync(getContext());
-                            insertthread.execute(edit_title_insert_thread.getText().toString(), edit_description_insert_thread.getText().toString(),
-                                    topic.getId(), session_id);
-                            SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = pref.edit();
-                            String session_id = pref.getString("session_id", null);
-                            threadAsync threadAsync = new threadAsync(getContext(), session_id, 100, 0);
-                            threadAsync.execute(topic.getId());
+                                threadAsync.execute(topic.getId());
 
-                            ThreadSync changeStatus = new ThreadSync(getContext(), session_id, Integer.parseInt(topic.getId()), 1);
-                            changeStatus.execute();
-                            dialog.dismiss();
-                        }
+                                ThreadSync changeStatus = new ThreadSync(getContext(), session_id, Integer.parseInt(topic.getId()), 1);
+                                changeStatus.execute();
+                                dialog.dismiss();
+                            }
+                        }catch (Exception e){}
                     }
                 });
                 dialog.show();
@@ -135,13 +139,10 @@ public class ThreadFragment extends Fragment
         rv_thread.setLayoutManager(linearLayoutManager);
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         final String session_id = pref.getString("session_id", null);
-        threadAsync threadAsync = new threadAsync(getContext(),session_id,100,0);
+        threadAsync threadAsync = new threadAsync(getContext(),Integer.valueOf(topic.getId()),session_id,100,0);
         threadAsync.execute(topic.getId());
-
         //------------------------------------------------------------------------------
-
         return view;
     }
     public void callFragment(Fragment fragment ){
@@ -157,14 +158,14 @@ public class ThreadFragment extends Fragment
         Context context;
         String session_id;
         int top, from;
-        int flag;
-        public threadAsync(Context context, String session_id, int top, int from){
+        int topic_id;
+        public threadAsync(Context context,int topic_id, String session_id, int top, int from){
 
             this.context = context;
             this.session_id=session_id;
             this.top=top;
             this.from=from;
-            //this.flag= flag;
+            this.topic_id= topic_id;
         }
         @Override
         protected void onPreExecute() {
@@ -190,31 +191,27 @@ public class ThreadFragment extends Fragment
                 if(threads.size()>0){
 //                    listThreads.addAll(listThreads);
                     listThreads.addAll(threads);
-                    listtemp.addAll(threads);
+                    //listtemp.addAll(threads);
                     Collections.sort(listThreads,Thread.aseid);
-                    Collections.sort(listtemp,Thread.aseid);
+                    //Collections.sort(listtemp,Thread.aseid);
                     adapterThread = new AdapterThread(context,listThreads,rv_thread);
                     rv_thread.setAdapter(adapterThread);
-                    adapterThread.setLoaded();
+                    //adapterThread.setLoaded();
                     if (listThreads.size()>=10) {
                         adapterThread.setOnLoadMoreListener(new OnLoadMoreListener() {
                             @Override
                             public void onLoadMore() {
-                                listThreads.add(null);
-                                Log.e("haint", "Load More" + listThreads.size());
-                                adapterThread.notifyItemInserted(listThreads.size() - 1);
-
+                                //listThreads.add(null);
+                                //adapterThread.notifyItemInserted(listThreads.size() - 1);
                                 //Load more data for reyclerview
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.e("haint", "Load More 2_"+listtemp.get(listtemp.size()-1).getId());
                                         //Remove loading item
-                                        listThreads.remove(listThreads.size() - 1);
-                                        adapterThread.notifyItemRemoved(listThreads.size());
-                                        threadAsync1 getalltopic = new threadAsync1(getContext(),topic.getId(), session_id, 100, Integer.valueOf(listtemp.get(listtemp.size()-1).getId()));
+//                                        listThreads.remove(listThreads.size() - 1);
+//                                        adapterThread.notifyItemRemoved(listThreads.size());
+                                        threadAsync getalltopic = new threadAsync(getContext(),Integer.valueOf(topic.getId()), session_id, 100, Integer.valueOf(listThreads.get(listThreads.size()-1).getId()));
                                         getalltopic.execute(topic.getId());
-                                        adapterThread.notifyDataSetChanged();
                                     }
                                 }, 500);
                             }
@@ -250,51 +247,51 @@ public class ThreadFragment extends Fragment
     }
 
 
-    class threadAsync1 extends AsyncTask<String,Void,List<Thread>>{
-        ProgressDialog dialog;
-        Context context;
-        String session_id;
-        String topicid;
-        int top, from;
-        int flag;
-        public threadAsync1(Context context,String topicid, String session_id, int top, int from){
-
-            this.context = context;
-            this.session_id=session_id;
-            this.top=top;
-            this.from=from;
-            this.topicid = topicid;
-            //this.flag= flag;
-        }
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<Thread> doInBackground(String... strings) {
-            ThreadController threadController = new ThreadController();
-            return threadController.threadGetTop(session_id, topicid, top, from);
-
-
-        }
-
-        @Override
-        protected void onPostExecute(final List<Thread> threads) {
-            try{
-                if(threads.size()>0){
-                    listThreads.addAll(threads);
-                    listtemp.addAll(threads);
-                    Collections.sort(listtemp,Thread.aseid);
-                    Collections.sort(listThreads,Thread.aseid);
-                }else{
-                    //Toast.makeText(context,"No data",Toast.LENGTH_SHORT).show();
-                }
-            }catch (Exception e){
-
-            }
-        }
-    }
+//    class threadAsync1 extends AsyncTask<String,Void,List<Thread>>{
+//        ProgressDialog dialog;
+//        Context context;
+//        String session_id;
+//        String topicid;
+//        int top, from;
+//        int flag;
+//        public threadAsync1(Context context,String topicid, String session_id, int top, int from){
+//
+//            this.context = context;
+//            this.session_id=session_id;
+//            this.top=top;
+//            this.from=from;
+//            this.topicid = topicid;
+//            //this.flag= flag;
+//        }
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected List<Thread> doInBackground(String... strings) {
+//            ThreadController threadController = new ThreadController();
+//            return threadController.threadGetTop(session_id, topicid, top, from);
+//
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(final List<Thread> threads) {
+//            try{
+//                if(threads.size()>0){
+//                    listThreads.addAll(threads);
+//                    //listtemp.addAll(threads);
+//                    //Collections.sort(listtemp,Thread.aseid);
+//                    Collections.sort(listThreads,Thread.aseid);
+//                }else{
+//                    //Toast.makeText(context,"No data",Toast.LENGTH_SHORT).show();
+//                }
+//            }catch (Exception e){
+//
+//            }
+//        }
+//    }
 
 
 

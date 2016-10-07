@@ -272,7 +272,6 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     is_current_location = 0;
                     txtFindLocation.setVisibility(View.GONE);
                 } else {
-
                     getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
                     is_current_location = 1;
                 }
@@ -282,42 +281,44 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
-                if(setting_old.getIs_notification()!=setting_new.getIs_notification()
-                        || setting_old.getIs_best_time() != setting_new.getIs_best_time()
-                        || setting_old.getIs_current_location() != setting_new.getIs_current_location()
-                        || !setting_old.getTime_start().equals(setting_new.getTime_start())
-                        || !setting_old.getTime_to().equals(setting_new.getTime_to())) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
-                    builder1.setMessage("Do you want to save setting ?");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(
-                            "Yes",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    updateSetting update = new updateSetting(getContext(), session_id, id_setting, is_notification, is_best_time, is_current_location,
-                                            time1, time2);
-                                    update.execute();
-                                    getSetting setting = new getSetting(getContext());
-                                    setting.execute(session_id);
-                                    dialog.cancel();
-                                }
-                            });
-                    builder1.setNegativeButton(
-                            "No",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent intent = new Intent(getActivity(), MenuActivity.class);
-                                    startActivity(intent);
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
-                }else {
-                    Intent intent = new Intent(getActivity(), MenuActivity.class);
-                    startActivity(intent);
-                }
+                try {
+                    setting_new = new Setting(is_notification, is_best_time, is_current_location, time1, time2);
+                    if (setting_old.getIs_notification() != setting_new.getIs_notification()
+                            || setting_old.getIs_best_time() != setting_new.getIs_best_time()
+                            || setting_old.getIs_current_location() != setting_new.getIs_current_location()
+                            || !setting_old.getTime_start().equals(setting_new.getTime_start())
+                            || !setting_old.getTime_to().equals(setting_new.getTime_to())) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                        builder1.setMessage("Do you want to save setting ?");
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton(
+                                "Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        updateSetting update = new updateSetting(getContext(), session_id, id_setting, is_notification, is_best_time, is_current_location,
+                                                time1, time2);
+                                        update.execute();
+                                        getSetting setting = new getSetting(getContext());
+                                        setting.execute(session_id);
+                                        dialog.cancel();
+                                    }
+                                });
+                        builder1.setNegativeButton(
+                                "No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(getActivity(), MenuActivity.class);
+                                        startActivity(intent);
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+                    } else {
+                        Intent intent = new Intent(getActivity(), MenuActivity.class);
+                        startActivity(intent);
+                    }
+                }catch (Exception e){}
             }
         });
 
@@ -404,55 +405,57 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Location location;
-        Boolean isGPSEnabled;
-        Boolean isNetworkEnabled;
-        mMap = googleMap;
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return  ;
-        }
+        try {
+            Location location;
+            Boolean isGPSEnabled;
+            Boolean isNetworkEnabled;
+            mMap = googleMap;
+            if (Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission( getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return  ;
+            }
+    //        GPSTracker gpsTracker = new GPSTracker(getContext());
+    //        addMaker(gpsTracker.getLocation());
+            LocationManager service = (LocationManager)getActivity().getSystemService(getContext().LOCATION_SERVICE);
+            // getting GPS status
+            isGPSEnabled = service
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+            isNetworkEnabled = service
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            if(isGPSEnabled){
+                location = service
+                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (location != null) {
+                    addMaker(location);
+                }
 
-        GPSTracker gpsTracker = new GPSTracker(getContext());
-        addMaker(gpsTracker.getLocation());
-//        LocationManager service = (LocationManager)getActivity().getSystemService(getContext().LOCATION_SERVICE);
-//        // getting GPS status
-//        isGPSEnabled = service
-//                .isProviderEnabled(LocationManager.GPS_PROVIDER);
-//        isNetworkEnabled = service
-//                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//        if(isGPSEnabled){
-//            location = service
-//                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//            if (location != null) {
-//                addMaker(location);
-//            }
-//
-//        }
-//        if(isNetworkEnabled){
-//            location = service
-//                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//            if (location != null) {
-//                addMaker(location);
-//            }
-//        }
+            }
+            if(isNetworkEnabled){
+                location = service
+                        .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (location != null) {
+                    addMaker(location);
+                }
+            }
+        }catch (Exception e){}
     }
     public void addMaker(Location location){
-
-        // create marker
-        MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
-        // Changing marker icon
-        marker.icon(BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(getContext(),"icon_buy",110, 150)));
-        // adding marker
-        mMap.addMarker(marker);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 8));
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setCompassEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.getUiSettings().setAllGesturesEnabled(true);
-        mMap.setTrafficEnabled(true);
+        try {
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
+            // Changing marker icon
+            marker.icon(BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(getContext(), "icon_buy", 110, 150)));
+            // adding marker
+            mMap.addMarker(marker);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 8));
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setCompassEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.getUiSettings().setAllGesturesEnabled(true);
+            mMap.setTrafficEnabled(true);
+        }catch (Exception e){}
     }
 
     @Override
@@ -589,7 +592,6 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     if(is_current_location==0){
                         txtFindLocation.setVisibility(View.VISIBLE);
                     }
-
                     is_best_time = settings.get(0).getIs_best_time();
                     setting_old=new Setting(is_notification,is_best_time,is_current_location,time1,time2);
                 }else {

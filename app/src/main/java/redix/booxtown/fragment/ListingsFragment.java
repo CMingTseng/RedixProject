@@ -94,7 +94,6 @@ public class ListingsFragment extends Fragment
         Picasso.with(getContext()).load(R.drawable.btn_locate_search).into(btn_search);
         listingAsync listingAsync = new listingAsync(getContext());
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         String session_id = pref.getString("session_id", null);
         listingAsync.execute(session_id);
 
@@ -107,7 +106,6 @@ public class ListingsFragment extends Fragment
                 Bundle bundle = new Bundle();
                 bundle.putString("activity","add");
                 bundle.putInt("num_list",num_list);
-//                bundle.putSerializable("book",book);
                 ListingCollectionActivity listingCollectionActivity = new ListingCollectionActivity();
                 listingCollectionActivity.setArguments(bundle);
                 callFragment(listingCollectionActivity);
@@ -169,7 +167,7 @@ public class ListingsFragment extends Fragment
                 if (books == null) {
                     dialog.dismiss();
                 } else {
-                    adapter = new ListBookAdapter(getActivity(), books, 1);
+                    adapter = new ListBookAdapter(getActivity(), books, 1,2);
                     grid.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     num_list = books.size();

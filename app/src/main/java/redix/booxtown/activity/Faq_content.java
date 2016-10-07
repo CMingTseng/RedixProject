@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,49 +26,68 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
     ImageView img_menu_bottom_location;
     ImageView img_menu_bottom_comment;
     ImageView img_menu_bottom_camera;
-    ImageView img_menu_bottom_bag;
-    ImageView img_menu_bottom_user;
+    ImageView img_menu_bottom_bag,img_menu;
+    ImageView img_menu_bottom_user,img_menu_component,imageView_search_faqcontent;
+
+    EditText editSearch;
+    NewAdapter mNewAdapter;
+    TextView title_menu;
+    ExpandableListView expandableListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faq_content);
-        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
-        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
-        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
-        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
-        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+        init();
         //expland content
-        ExpandableListView expandableListView = getExpandableListView();
-
+        expandableListView = getExpandableListView();
         setGroupData();
         setChildGroupData();
-
-        NewAdapter mNewAdapter = new NewAdapter(getAssets(),groupItem, childItem);
+        mNewAdapter = new NewAdapter(getAssets(),groupItem, childItem);
         mNewAdapter
                 .setInflater(
                         (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
                         this);
         expandableListView.setAdapter(mNewAdapter);
-        //end
-        //image menu
-        //icon back
-        ImageView img_menu_component = (ImageView)findViewById(R.id.img_menu_component);
         img_menu_component.setVisibility(View.GONE);
-
-        TextView title_menu = (TextView)findViewById(R.id.txt_title);
         title_menu.setText("FAQ");
-
         //picaso
-        ImageView imageView_search_faqcontent = (ImageView)findViewById(R.id.imageView_search_faqcontent);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_search).into(imageView_search_faqcontent);
         //end
-
-        ImageView img_menu = (ImageView)findViewById(R.id.img_menu);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(img_menu);
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String s= editSearch.getText().toString().toLowerCase();
+                ArrayList<String> Item = new ArrayList<String>();
+                for (int k=0;k<groupItem.size();k++){
+                    String item = groupItem.get(k).toLowerCase();
+                    if(item.contains(s)){
+                        Item.add(item);
+                    }
+                }
+                mNewAdapter = new NewAdapter(getAssets(),Item, childItem);
+                mNewAdapter
+                        .setInflater(
+                                (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), Faq_content.this);
+                mNewAdapter.notifyDataSetChanged();
+                expandableListView.setAdapter(mNewAdapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -77,6 +99,20 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
         img_menu_bottom_bag.setOnClickListener(this);
         img_menu_bottom_user.setOnClickListener(this);
         //---------------------------------------------------------------
+    }
+
+    public void init(){
+        img_menu_component = (ImageView)findViewById(R.id.img_menu_component);
+        title_menu = (TextView)findViewById(R.id.txt_title);
+        imageView_search_faqcontent = (ImageView)findViewById(R.id.imageView_search_faqcontent);
+        img_menu = (ImageView)findViewById(R.id.img_menu);
+
+        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
+        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
+        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
+        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
+        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+        editSearch= (EditText)findViewById(R.id.editSearch);
     }
     public void setGroupData() {
         groupItem.add("TechNology");

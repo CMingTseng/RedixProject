@@ -58,6 +58,7 @@ import redix.booxtown.controller.UserController;
 import redix.booxtown.fragment.ExploreFragment;
 import redix.booxtown.fragment.ListingsFragment;
 import redix.booxtown.fragment.MainFragment;
+import redix.booxtown.fragment.MyProfileFragment;
 import redix.booxtown.fragment.NotificationFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.CommentBook;
@@ -79,7 +80,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     //map
     MarkerOptions marker;
     private GoogleMap mMap;
-
+    String type;
+    int back;
     //end
     @Nullable
     @Override
@@ -112,8 +114,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             TableRow tbTypebook = (TableRow) v.findViewById(R.id.row_type_book);
             TableRow tbTypebook2 = (TableRow) v.findViewById(R.id.row_type_book2);
             final EditText editText11 = (EditText) v.findViewById(R.id.editText11);
-            final String type = getArguments().getString(String.valueOf(R.string.valueListings));
-
+            type = getArguments().getString(String.valueOf(R.string.valueListings));
+            back = getArguments().getInt("back");
             RelativeLayout layout_comments = (RelativeLayout) v.findViewById(R.id.layout_comment);
             ImageView img_close_dialog_unsubcribe = (ImageView) v.findViewById(R.id.img_close_dialog_unsubcribe);
 
@@ -157,16 +159,21 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                     } else if (type.equals("3")) {
                         callFragment(new ListingsFragment());
                     }else if (type.equals("5")) {
-                       // getActivity().onBackPressed();
                         Intent intent=new Intent(getContext(),UserProfileActivity.class);
                         intent.putExtra("user",Integer.parseInt(book.getUser_id()));
                         startActivity(intent);
                         getActivity().finish();
                     }
-                    else {
-                        HomeActivity homeActivity = (HomeActivity) getActivity();
-                        homeActivity.getTxtTitle().setText("Notifications");
-                        homeActivity.callFragment(new NotificationFragment());
+//                    else {
+//                        HomeActivity homeActivity = (HomeActivity) getActivity();
+//                        homeActivity.getTxtTitle().setText("Notifications");
+//                        homeActivity.callFragment(new NotificationFragment());
+//                    }
+
+                    if(back == 1){
+                        callFragment(new MyProfileFragment());
+                    }else if(back == 2){
+                        callFragment(new ListingsFragment());
                     }
                 }
             });

@@ -9,6 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -18,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -111,16 +116,12 @@ public class MyProfileFragment extends Fragment {
         });
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Glide.with(getActivity()).load(R.drawable.btn_menu_locate).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView_back);
-
+        TextView txt_title = (TextView) getActivity().findViewById(R.id.txt_title);
+        txt_title.setText("My Profile");
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         final String session_id =  pref.getString("session_id", null);
         Profile profile = new Profile(getContext());
         profile.execute(session_id);
-
-//        SharedPreferences mypref = PreferenceManager.getDefaultSharedPreferences(getContext());
-//        SharedPreferences.Editor prefsEditr = mypref.edit();
-//        prefsEditr.putString("user_id", String.valueOf(2));
-//        prefsEditr.commit();
 
         //profile
         img_rank1 = (ImageView)view.findViewById(R.id.img_rank1);
@@ -138,7 +139,6 @@ public class MyProfileFragment extends Fragment {
         listingAsync listingAsync = new listingAsync(getContext());
         listingAsync.execute(session_id);
         //end
-        // imageView_back.setImageResource(R.drawable.btn_menu_locate);
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +170,7 @@ public class MyProfileFragment extends Fragment {
         linear_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(1),1);
+                final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(1),1,1);
                 grid=(GridView)view.findViewById(R.id.grid_myprofile);
                 grid.setAdapter(adapter);
                 tab_custom.setDefault(1);
@@ -180,7 +180,7 @@ public class MyProfileFragment extends Fragment {
         linear_swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(2),1);
+                final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(2),1,1);
                 grid=(GridView)view.findViewById(R.id.grid_myprofile);
                 grid.setAdapter(adapter);
                 tab_custom.setDefault(2);
@@ -190,7 +190,7 @@ public class MyProfileFragment extends Fragment {
         linear_free.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(3),1);
+                final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(3),1,1);
                 grid=(GridView)view.findViewById(R.id.grid_myprofile);
                 grid.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -201,7 +201,7 @@ public class MyProfileFragment extends Fragment {
         linear_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(4),1);
+                final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(4),1,1);
                 grid=(GridView)view.findViewById(R.id.grid_myprofile);
                 grid.setAdapter(adapter);
                 tab_custom.setDefault(4);
@@ -272,7 +272,6 @@ public class MyProfileFragment extends Fragment {
                             updateProfile.execute();
                         }
                     }catch (Exception e){
-
                     }
                 }
             }
@@ -376,8 +375,6 @@ public class MyProfileFragment extends Fragment {
                     first_name = userResult.get(0).getFirst_name();
                     last_name = userResult.get(0).getLast_name();
                     photoOrigin= userResult.get(0).getPhoto();
-
-
                     img_menu_personal_dashboard.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -426,6 +423,11 @@ public class MyProfileFragment extends Fragment {
                             .into(imv_menu_profile);
                     dialog.dismiss();
                     ratingBar_userprofile.setRating(userResult.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+//                    Drawable progress = ratingBar_userprofile.getProgressDrawable();
+//                    DrawableCompat.setTint(progress, Color.YELLOW);
                 }
                 super.onPostExecute(userResult);
             }catch (Exception e){
@@ -514,7 +516,7 @@ public class MyProfileFragment extends Fragment {
         protected void onPostExecute(List<Book> books) {
             try {
                 if(books.size() >0){
-                    adapter = new ListBookAdapter(getActivity(), books,1);
+                    adapter = new ListBookAdapter(getActivity(), books,1,1);
                     grid.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     listEx = books;

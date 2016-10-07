@@ -47,17 +47,17 @@ public class ListBookAdapter extends BaseAdapter implements Filterable{
     SharedPreferences pref;
     private ItemFilter mFilter = new ItemFilter();
     int type;
-
     String username;
+    int back;
 
-    public ListBookAdapter(Context c, List<Book> list_book,int type) {
+    public ListBookAdapter(Context c, List<Book> list_book,int type,int back) {
         mContext = c;
         this.listBook = list_book;
         this.originbook = list_book;
         this.type = type;
+        this.back = back;
         try {
             pref = mContext.getSharedPreferences("MyPref",mContext.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
         }catch (Exception e){
 
         }
@@ -149,13 +149,17 @@ public class ListBookAdapter extends BaseAdapter implements Filterable{
         else {
             hoder.img_edit.setVisibility(View.GONE);
         }
-
         hoder.img_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ListingsDetailActivity fragment = new ListingsDetailActivity();
                 Bundle bundle = new Bundle();
                 bundle.putString(String.valueOf(R.string.valueListings),"3");
+                if(back ==1){
+                    bundle.putInt("back",1);
+                }else{
+                    bundle.putInt("back",2);
+                }
                 bundle.putSerializable("item",ex);
                 fragment.setArguments(bundle);
                 callFragment(fragment);
@@ -168,6 +172,11 @@ public class ListBookAdapter extends BaseAdapter implements Filterable{
                 ListingCollectionActivity fragment = new ListingCollectionActivity();
                 Bundle bundle = new Bundle();
                 bundle.putString("activity","edit");
+                if(back ==1){
+                    bundle.putInt("back",1);
+                }else{
+                    bundle.putInt("back",2);
+                }
                 bundle.putSerializable("bookedit",ex);
                 fragment.setArguments(bundle);
                 callFragment(fragment);

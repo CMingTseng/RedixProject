@@ -43,20 +43,12 @@ import redix.booxtown.model.Wishboard;
 public class RespondActivity extends AppCompatActivity implements View.OnClickListener {
     AdapterCommentBook adapter;
     private ListView listView;
-    ImageView img_menu_bottom_location;
-    ImageView img_menu_bottom_comment;
-    ImageView img_menu_bottom_camera;
-    ImageView img_menu_bottom_bag;
-    ImageView img_menu_bottom_user;
+    ImageView img_menu_bottom_location,img_menu_bottom_comment,img_menu_bottom_camera,img_menu_bottom_bag,img_menu_bottom_user;
 
     List<String> listUser = new ArrayList<>();
     Wishboard wishboard;
-
     CircularImageView photo_author_post;
-    TextView txt_author_post;
-    TextView txt_title_book_respond;
-    TextView txt_author_book_post;
-    TextView txt_content_post;
+    TextView txt_author_post,txt_title_book_respond,txt_author_book_post,txt_content_post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +82,6 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 onBackPressed();
             }
         });
-
         TextView btn_add_book = (TextView) findViewById(R.id.txt_add_book_respond);
         btn_add_book.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,32 +98,20 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         txt_content_post=(TextView) findViewById(R.id.txt_content_post) ;
         try {
             wishboard = (Wishboard) getIntent().getSerializableExtra("wishboard");
-
             if(wishboard.getPhoto().length()>3) {
                 Picasso.with(RespondActivity.this).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + wishboard.getUsername() + "&image=" + wishboard.getPhoto().substring(wishboard.getUsername().length() + 3, wishboard.getPhoto().length())).error(R.mipmap.user_empty).into(photo_author_post);
-//            Glide.with(mContext). load().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.user_empty).
-//                    into(hoder.img_icon);
             }else{
                 Picasso.with(RespondActivity.this). load(R.mipmap.user_empty).
                         into(photo_author_post);
-
             }
-
             txt_author_post.setText(wishboard.getUsername());
             txt_title_book_respond.setText("Book: "+ wishboard.getTitle());
             txt_author_book_post.setText("Author: "+ wishboard.getAuthor());
             txt_content_post.setText(wishboard.getComment());
         }catch (Exception ex){
-
         }
-
         photo_author_post= (CircularImageView) findViewById(R.id.photo_author_post);
-
-
-
-
         //-----------------------------------------------------------
-
         listView = (ListView) findViewById(R.id.listView_comment);
         listView.setDivider(null);
 
@@ -143,11 +122,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 return false;
             }
         });
-        //final AdapterInteractThreadDetails adapter = new AdapterInteractThreadDetails(RespondActivity.this,list);
 
         listView.setDivider(null);
-        //listView.setAdapter(adapter);
-        //Log.d("adapterRespone",String.valueOf(adapter.getCount()));
 
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -177,14 +153,11 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 insertComment insertComment1 = new insertComment(RespondActivity.this);
                 insertComment1.execute(session_id,message.getText().toString(),wishboard.getId());
                 message.setText("");
-
                 getComment comment = new getComment(RespondActivity.this,wishboard.getId());
                 comment.execute();
-
             }
         });
     }
-
 
     @Override
     public void onClick(View v) {

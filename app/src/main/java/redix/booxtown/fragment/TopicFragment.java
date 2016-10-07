@@ -48,7 +48,7 @@ public class TopicFragment extends Fragment
     //List<Topic> listemp = new ArrayList<>();
     AdapterTopic interact;
     ArrayList<Topic> listArrayList = new ArrayList<>();
-    boolean userScrolled = false;
+    boolean userScrolled = false,status = true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class TopicFragment extends Fragment
     }
 
     private void populatRecyclerView(final String session_id) {
-        topicSync getDashBoard = new topicSync(getContext(),session_id,6,0);
+        topicSync getDashBoard = new topicSync(getContext(),session_id,8,0);
         getDashBoard.execute();
         listArrayList = new ArrayList<Topic>();
         interact = new AdapterTopic(getActivity(), listArrayList);
@@ -103,11 +103,12 @@ public class TopicFragment extends Fragment
     private void implementScrollListener(final String session_id) {
 
         lv_recycler.setOnScrollListener(new AbsListView.OnScrollListener() {
-
+            private int mLastFirstVisibleItem;
             @Override
             public void onScrollStateChanged(AbsListView arg0, int scrollState) {
                 // If scroll state is touch scroll then set userScrolled
                 // true
+
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     userScrolled = true;
 
@@ -123,10 +124,10 @@ public class TopicFragment extends Fragment
                 // userScrolled to false
                 int a = view.getLastVisiblePosition();
                 if (userScrolled
-                        && firstVisibleItem + visibleItemCount == totalItemCount) {
+                        && firstVisibleItem + visibleItemCount == totalItemCount && status) {
                     userScrolled = false;
                     Topic dashBoard_lv = listArrayList.get(listArrayList.size()-1);
-                    topicSync getDashBoard = new topicSync(getContext(),session_id,6,Integer.valueOf(dashBoard_lv.getId()));
+                    topicSync getDashBoard = new topicSync(getContext(),session_id,8,Integer.valueOf(dashBoard_lv.getId()));
                     getDashBoard.execute();
                 }
             }
@@ -171,11 +172,13 @@ public class TopicFragment extends Fragment
         protected void onPostExecute(final List<Topic> topics) {
             try{
                 if(topics.size() >0){
+                    status = true;
                     //set adapter
                     listArrayList.addAll(topics);
                     interact.notifyDataSetChanged();
                     //end
                 }else {
+                    status = false;
                 }
             }catch (Exception e){
             }

@@ -98,16 +98,6 @@ public class AdapterThread extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             else{
                 ((RecyclerViewHolder) holder).txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
             }
-
-//        holder.txt_title_interact.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-//                String session_id = pref.getString("session_id", null);
-//                ThreadSync changeStatus = new ThreadSync(context, session_id, Integer.parseInt(thread.getId()));
-//                changeStatus.execute();
-//            }
-//        });
         }else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
