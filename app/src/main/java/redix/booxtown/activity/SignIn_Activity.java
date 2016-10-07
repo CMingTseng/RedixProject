@@ -95,17 +95,6 @@ Button mButtonForgotPass;
                 }
                 else {
                     SiginAsystask siginAsystask = new SiginAsystask();
-                    ProgressDialog dialog = new ProgressDialog(SignIn_Activity.this);
-                    try {
-                        dialog.setMessage(Information.noti_dialog);
-                        dialog.show();
-                        java.lang.Thread.sleep(3000);
-                        session_id = FirebaseInstanceId.getInstance().getToken().toString();
-                        dialog.dismiss();
-                    }catch (Exception e) {
-                        dialog.dismiss();
-                        Toast.makeText(SignIn_Activity.this, "Could not connect to server. Please try again", Toast.LENGTH_SHORT).show();
-                    }
 
                     siginAsystask.execute(edt_username.getText().toString(), edt_pass.getText().toString(), "iphonecuatung",session_id);
                 }
@@ -118,12 +107,16 @@ Button mButtonForgotPass;
     class SiginAsystask extends AsyncTask<String,Void,String>{
 
         ProgressDialog dialog;
-
+        String sessionId="";
         @Override
         protected String doInBackground(String... params) {
             try {
+
+                java.lang.Thread.sleep(3000);
+                session_id = FirebaseInstanceId.getInstance().getToken().toString();
+                sessionId=session_id;
                 UserController userController = new UserController();
-                String session_id = userController.checkLoginValidate(params[0], params[1], params[2], params[3]);
+                String session_id = userController.checkLoginValidate(params[0], params[1], params[2], sessionId);
                 return session_id;
             }catch (Exception ex){
                 return null;

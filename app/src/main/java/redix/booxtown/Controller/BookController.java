@@ -35,7 +35,7 @@ public class BookController {
         this.mActivity = mActivity;
     }
 
-    public boolean addbook(Book book, String session_id){
+    public String addbook(Book book, String session_id){
         Hashtable obj = ObjectCommon.ObjectDymanic(book);
         obj.put("session_id",session_id);
         Call<Result> status = service.addbook(obj);
@@ -47,13 +47,13 @@ public class BookController {
             }
             Result str = status.execute().body();
             if (str.getCode() == 200){
-                return true;
+                return str.getDescription();
             }
             String s = "";
         } catch (Exception ex) {
             String s = "";
         }
-        return false;
+        return "";
     }
 
     public List<Book> getBookByID(String book_id){
