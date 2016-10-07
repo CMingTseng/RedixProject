@@ -439,6 +439,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 //        }
     }
     public void addMaker(Location location){
+
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
         // Changing marker icon

@@ -202,22 +202,22 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final List<Notification> notifications) {
-
-            if (notifications.size()>0){
+        try {
+            if (notifications.size() > 0) {
                 listnoNotifications.addAll(notifications);
-                Collections.sort(listnoNotifications,Notification.aseid);
-                adapter = new Custom_ListView_Notification(getActivity(),notifications,lv_notification);
+                Collections.sort(listnoNotifications, Notification.aseid);
+                adapter = new Custom_ListView_Notification(getActivity(), notifications, lv_notification);
                 lv_notification.setAdapter(adapter);
                 lv_notification.addOnItemTouchListener(
                         new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int i) {
                                 Notification notification = (Notification) adapter.getlist().get(i);
-                                if (notification.getIs_read()==0){
-                                    ChangeStatusNotification changeStatusNotification = new ChangeStatusNotification(session_id,Integer.parseInt(notification.getId()));
+                                if (notification.getIs_read() == 0) {
+                                    ChangeStatusNotification changeStatusNotification = new ChangeStatusNotification(session_id, Integer.parseInt(notification.getId()));
                                     changeStatusNotification.execute();
                                 }
-                                if (notification.getId_screen().equals("10")){
+                                if (notification.getId_screen().equals("10")) {
                                     s = notification.getKey_screen().split("::");
                                     Getthreadbyid getthreadbyid = new Getthreadbyid();
                                     getthreadbyid.execute(s[1]);
@@ -226,73 +226,64 @@ public class NotificationFragment extends Fragment {
                                     gotoScreen gotoScreen = new gotoScreen();
                                     gotoScreen.execute();
 
-                                }else if (notification.getId_screen().equals("9")){
-                                    Intent intent = new Intent(getActivity(),NotificationSwapActivity.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                } else if (notification.getId_screen().equals("9")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSwapActivity.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }else if (notification.getId_screen().equals("3")){
-                                    Intent intent = new Intent(getActivity(),Notification_Swap_Accept_Like.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
-                                    intent.putExtra("key","1");
+                                } else if (notification.getId_screen().equals("3")) {
+                                    Intent intent = new Intent(getActivity(), Notification_Swap_Accept_Like.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("key", "1");
                                     startActivity(intent);
-                                }else if (notification.getId_screen().equals("4")){
-                                    Intent intent = new Intent(getActivity(),NotificationSellActivity.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                } else if (notification.getId_screen().equals("4")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellActivity.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }
-                                else if (notification.getId_screen().equals("5")){
+                                } else if (notification.getId_screen().equals("5")) {
 
-                                    Intent intent = new Intent(getActivity(),NotificationSellAccept.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                    Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }
-                                else if (notification.getId_screen().equals("6")){
-                                    Intent intent = new Intent(getActivity(),NotificationSellNoReject.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                } else if (notification.getId_screen().equals("6")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellNoReject.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }
-                                else if (notification.getId_screen().equals("7")){
-                                    Intent intent = new Intent(getActivity(),NotificationSellNoAccept.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                } else if (notification.getId_screen().equals("7")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellNoAccept.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }
-                                else if (notification.getId_screen().equals("8")){
-                                    Intent intent = new Intent(getActivity(),NotificationSellReject.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                } else if (notification.getId_screen().equals("8")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellReject.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }
-                                else if (notification.getId_screen().equals("0")){
-                                    Intent intent = new Intent(getActivity(),NotificationAcceptActivity.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                } else if (notification.getId_screen().equals("0")) {
+                                    Intent intent = new Intent(getActivity(), NotificationAcceptActivity.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }
-                                else if (notification.getId_screen().equals("1")){
-                                    Intent intent = new Intent(getActivity(),Notification_Swap_Accept_NoLike.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                } else if (notification.getId_screen().equals("1")) {
+                                    Intent intent = new Intent(getActivity(), Notification_Swap_Accept_NoLike.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }
-                                else if (notification.getId_screen().equals("2")){
-                                    Intent intent = new Intent(getActivity(),NotificationRejectActivity.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
+                                } else if (notification.getId_screen().equals("2")) {
+                                    Intent intent = new Intent(getActivity(), NotificationRejectActivity.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                }
-                                else if(notification.getId_screen().equals("11")){
+                                } else if (notification.getId_screen().equals("11")) {
                                     // comment in book post
-                                    getBookByID getBookByID= new getBookByID(getContext(),notification.getKey_screen()+"" );
+                                    getBookByID getBookByID = new getBookByID(getContext(), notification.getKey_screen() + "");
                                     getBookByID.execute();
-                                }
-                                else if(notification.getId_screen().equals("12")){
+                                } else if (notification.getId_screen().equals("12")) {
                                     // set cho Cancel transaction in DashBoad
-                                    Intent intent = new Intent(getActivity(),Notification_Swap_Accept_Like.class);
-                                    intent.putExtra("trans_id",notification.getKey_screen()+"");
-                                    intent.putExtra("key","2");
+                                    Intent intent = new Intent(getActivity(), Notification_Swap_Accept_Like.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("key", "2");
                                     startActivity(intent);
                                 }
 
                             }
                         })
                 );
-                if (listnoNotifications.size()>=20){
+                if (listnoNotifications.size() >= 20) {
                     adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
                         @Override
                         public void onLoadMore() {
@@ -308,7 +299,7 @@ public class NotificationFragment extends Fragment {
                                     listnoNotifications.remove(listnoNotifications.size() - 1);
                                     adapter.notifyItemRemoved(listnoNotifications.size());
                                     //Remove loading item
-                                    Getttop_notifi1 getalltopic = new Getttop_notifi1(session_id,100,Integer.parseInt(listnoNotifications.get(listnoNotifications.size()-1).getId()));
+                                    Getttop_notifi1 getalltopic = new Getttop_notifi1(session_id, 100, Integer.parseInt(listnoNotifications.get(listnoNotifications.size() - 1).getId()));
                                     getalltopic.execute();
 //                                    adapter.setLoaded();
                                 }
@@ -317,7 +308,7 @@ public class NotificationFragment extends Fragment {
                     });
                 }
             }
-            super.onPostExecute(notifications);
+        }catch (Exception e){}
         }
     }
 
