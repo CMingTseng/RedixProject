@@ -598,13 +598,19 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 }
                 break;
             case R.id.tag1:
-                showSnack(tag1.getText().toString(),0);
+                if(!tag1.getText().equals("")) {
+                    showSnack(tag1.getText().toString(), 0);
+                }
                 break;
             case R.id.tag2:
-                showSnack(tag2.getText().toString(),1);
+                if(!tag2.getText().equals("")) {
+                    showSnack(tag2.getText().toString(), 1);
+                }
                 break;
             case R.id.tag3:
-                showSnack(tag3.getText().toString(),2);
+                if(!tag3.getText().equals("")) {
+                    showSnack(tag3.getText().toString(), 2);
+                }
                 break;
         }
     }
