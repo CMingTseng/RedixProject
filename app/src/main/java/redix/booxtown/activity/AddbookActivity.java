@@ -68,6 +68,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
@@ -76,6 +77,8 @@ import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.GetAllGenreAsync;
 import redix.booxtown.controller.Information;
+import redix.booxtown.controller.NotificationController;
+import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.ResizeImage;
 import redix.booxtown.controller.UploadFileController;
 
@@ -85,6 +88,7 @@ import redix.booxtown.model.Book;
 import redix.booxtown.model.Explore;
 import redix.booxtown.model.Genre;
 import redix.booxtown.model.ImageClick;
+import redix.booxtown.model.Notification;
 
 public class AddbookActivity extends AppCompatActivity implements OnMapReadyCallback,View.OnClickListener {
     private GoogleMap mMap;
@@ -124,12 +128,22 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     SupportMapFragment mapFragment;
     String imageOrigin;
     int type=0;
+    int user_id=0;
+    String userName="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book_with_swap);
         try {
             bookedit = (Book) getIntent().getSerializableExtra("book");
+            try{
+
+                user_id=Integer.parseInt(getIntent().getStringExtra("user_id_respone"));
+                userName=getIntent().getStringExtra("user_name_respone");
+
+            }catch (Exception exx){
+
+            }
             //map view
             mapFragment = (SupportMapFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_map_editlisting);
@@ -365,15 +379,15 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     public boolean addbook(int type) {
 
         if(edt_tilte.getText().toString().equals("")){
-            if(type==0) {
+
                 Toast.makeText(AddbookActivity.this, "Please enter valid book title", Toast.LENGTH_SHORT).show();
-            }
+
             return  false;
         }
         else if(edt_author.getText().toString().equals("")){
-            if(type==0) {
+
                 Toast.makeText(AddbookActivity.this, "Please enter valid book author", Toast.LENGTH_SHORT).show();
-            }
+
             return  false;
         }
         else {
@@ -793,7 +807,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         uploadFileController.uploadFile(bmap,listFileName);
     }
 
-    public class uploaddata extends AsyncTask<Void,Void,Boolean>{
+    public class uploaddata extends AsyncTask<Void,Void,String>{
 
         @Override
         protected void onPreExecute() {
@@ -801,28 +815,36 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             bookController = new BookController();
-            success = bookController.addbook(book, session_id);
-            return success;
+            //success = bookController.addbook(book, session_id).equals("")?false:true;
+            return bookController.addbook(book, session_id);
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
+        protected void onPostExecute(String result) {
             try {
-                if(aBoolean == true){
-//                    if(type == 0){
-//                        Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
-//                        intent.putExtra("Book",bookedit);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                    else{
+                if(!result.equals("")){
+                    if(type == 0){
+                        Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
+                        intent.putExtra("Book",bookedit);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
 
                         //Gửi thông báo sách cho người tìm
+                        List<Hashtable> list = new ArrayList<>();
+                        Notification notification = new Notification("Respone Wishboard",result , "14");
+                        Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                        obj.put("user_id", user_id+"");
+                        obj.put("messages", userName + " send you a respone book");
+                        list.add(obj);
+                        NotificationController controller = new NotificationController();
+                        controller.sendNotification(list);
 
                         onBackPressed();
-                    //}
+                    }
 
                 }
             }catch (Exception e){

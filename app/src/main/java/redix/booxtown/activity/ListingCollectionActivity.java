@@ -1020,7 +1020,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         }
     }
 
-    public class uploaddata extends AsyncTask<Void,Void,Boolean>{
+    public class uploaddata extends AsyncTask<Void,Void,String>{
 
         @Override
         protected void onPreExecute() {
@@ -1028,15 +1028,15 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             bookController = new BookController();
-            success = bookController.addbook(book, session_id);
-            return success;
+            success = bookController.addbook(book, session_id).equals("")? false: true;
+            return bookController.addbook(book, session_id);
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            if (aBoolean==true){
+        protected void onPostExecute(String result) {
+            if (!result.equals("")){
                 if(back == 1){
                     callFragment(new MyProfileFragment());
                 }else{
@@ -1044,7 +1044,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     MainAllActivity.setTxtTitle("Listings");
                 }
             }
-            super.onPostExecute(aBoolean);
+            super.onPostExecute(result);
         }
     }
 

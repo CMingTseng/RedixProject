@@ -279,6 +279,11 @@ public class NotificationFragment extends Fragment {
                                     intent.putExtra("key", "2");
                                     startActivity(intent);
                                 }
+                                else if (notification.getId_screen().equals("14")) {
+                                    // comment in book post
+                                    getBookByID getBookByID = new getBookByID(getContext(), notification.getKey_screen() + "");
+                                    getBookByID.execute();
+                                }
 
                             }
                         })
@@ -362,9 +367,11 @@ public class NotificationFragment extends Fragment {
         String id;
         Context ctx;
         ProgressDialog dialog;
+
         public getBookByID(Context ctx,String id) {
             this.id = id;
             this.ctx = ctx;
+
         }
 
         @Override
@@ -385,13 +392,15 @@ public class NotificationFragment extends Fragment {
         protected void onPostExecute(List<Book> list) {
             try {
                 if (list.size() > 0) {
-                    ListingsDetailActivity fragment = new ListingsDetailActivity();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(String.valueOf(R.string.valueListings),"4");
-                    bundle.putSerializable("item",list.get(0));
-                    fragment.setArguments(bundle);
-                    HomeActivity mainAllActivity = (HomeActivity) getActivity();
-                    mainAllActivity.callFragment(fragment);
+
+                        ListingsDetailActivity fragment = new ListingsDetailActivity();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(String.valueOf(R.string.valueListings), "4");
+                        bundle.putSerializable("item", list.get(0));
+                        fragment.setArguments(bundle);
+                        HomeActivity mainAllActivity = (HomeActivity) getActivity();
+                        mainAllActivity.callFragment(fragment);
+
 
                     dialog.dismiss();
                 }

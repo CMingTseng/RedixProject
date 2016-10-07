@@ -83,14 +83,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         TextView btn_add_book = (TextView) findViewById(R.id.txt_add_book_respond);
-        btn_add_book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(RespondActivity.this,AddbookActivity.class);
-                intent.putExtra("type",1);
-                startActivity(intent);
-            }
-        });
+
         photo_author_post=(CircularImageView) findViewById(R.id.photo_author_post);
         txt_author_post=(TextView) findViewById(R.id.txt_author_post) ;
         txt_title_book_respond=(TextView) findViewById(R.id.txt_title_book_respond) ;
@@ -110,6 +103,16 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
             txt_content_post.setText(wishboard.getComment());
         }catch (Exception ex){
         }
+        btn_add_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(RespondActivity.this,AddbookActivity.class);
+                intent.putExtra("type","1");
+                intent.putExtra("user_id_respone",wishboard.getUser_id());
+                intent.putExtra("user_name_respone",wishboard.getUsername());
+                startActivity(intent);
+            }
+        });
         photo_author_post= (CircularImageView) findViewById(R.id.photo_author_post);
         //-----------------------------------------------------------
         listView = (ListView) findViewById(R.id.listView_comment);
@@ -270,7 +273,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if(aBoolean == true){
-                    Toast.makeText(context,"success",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Send comment successful",Toast.LENGTH_SHORT).show();
 //                    int count= threads.getNum_comment()+1;
 
                     //SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -281,7 +284,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
 
                     dialog.dismiss();
                 }else {
-                    Toast.makeText(context,"no success",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Sent comment no successful",Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             }catch (Exception e){
