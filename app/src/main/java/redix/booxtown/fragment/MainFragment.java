@@ -9,10 +9,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -156,21 +158,6 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
             }
         });
-//        btn_search.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                List<Book> list_books = new ArrayList<Book>();
-//                for (int i =0;i<listExplore.size();i++){
-//                    if(listExplore.get(i).getTitle().contains(editSearch.getText().toString())
-//                            || listExplore.get(i).getAuthor().contains(editSearch.getText().toString())){
-//                        list_books.add(listExplore.get(i));
-//                    }
-//                }
-//                if(list_books.size() >0){
-//                    addMarker(list_books);
-//                }
-//            }
-//        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MainFragment.this);
@@ -420,9 +407,14 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             img_swap_marker =(ImageView)myContentsView.findViewById(R.id.img_swap_marker);
             img_free_marker =(ImageView)myContentsView.findViewById(R.id.img_free_marker);
             img_buy_marker =(ImageView)myContentsView.findViewById(R.id.img_buy_marker);
-            txt_title_marker.setText(books.getTitle());
-            txt_author_marker.setText("By "+books.getAuthor());
+            String title = books.getTitle().substring(0,1).toUpperCase()+books.getTitle().substring(2,books.getTitle().length()-1);
+            txt_title_marker.setText(title);
+            txt_author_marker.setText("by "+books.getAuthor());
             txt_user_marker.setText(books.getUsername());
+            ratingBar_marker.setRating(books.getRating());
+            LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
             char array[] = books.getAction().toCharArray();
             String swap = String.valueOf(array[0]);
             String free = String.valueOf(array[1]);

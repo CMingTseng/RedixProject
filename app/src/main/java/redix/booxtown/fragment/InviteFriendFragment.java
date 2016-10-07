@@ -74,7 +74,8 @@ public class InviteFriendFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    if (email != null) {
+                    if (!email.equals("")) {
+                        email=email.substring(0,email.length()-2);
                         inviteAsync inviteAsync = new inviteAsync(getContext(), email);
                         inviteAsync.execute();
                         email = "";
@@ -82,7 +83,16 @@ public class InviteFriendFragment extends Fragment {
                         adapterInvite = new AdapterInvite(getContext(),invite);
                         adapterInvite.notifyDataSetChanged();
                         recyclerView.setAdapter(adapterInvite);
-                    } else {
+                    }
+                    else if(email.equals("") && !editText_email_friend.getText().toString().equals("")){
+                        if(checkEmail(editText_email_friend.getText().toString())) {
+                            inviteAsync inviteAsync = new inviteAsync(getContext(), editText_email_friend.getText().toString());
+                            inviteAsync.execute();
+                            editText_email_friend.setText("");
+                        }else{
+                            Toast.makeText(getContext(),Information.noti_enter_email,Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
                         Toast.makeText(getContext(), Information.noti_enter_email, Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception e){}
