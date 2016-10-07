@@ -382,15 +382,15 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     public boolean addbook(int type) {
 
         if(edt_tilte.getText().toString().equals("")){
-            if(type==0) {
+
                 Toast.makeText(AddbookActivity.this, "Please enter valid book title", Toast.LENGTH_SHORT).show();
-            }
+
             return  false;
         }
         else if(edt_author.getText().toString().equals("")){
-            if(type==0) {
+
                 Toast.makeText(AddbookActivity.this, "Please enter valid book author", Toast.LENGTH_SHORT).show();
-            }
+
             return  false;
         }
         else {
@@ -820,7 +820,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         @Override
         protected String doInBackground(Void... params) {
             bookController = new BookController();
-            success = bookController.addbook(book, session_id).equals("")?false:true;
+            //success = bookController.addbook(book, session_id).equals("")?false:true;
             return bookController.addbook(book, session_id);
         }
 
@@ -837,14 +837,14 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     else{
 
                         //Gửi thông báo sách cho người tìm
-                    List<Hashtable> list = new ArrayList<>();
-                    Notification notification = new Notification("Respone Wishboard",result , "14");
-                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                    obj.put("user_id", user_id+"");
-                    obj.put("messages", userName + " send you a respone book");
-                    list.add(obj);
-                    NotificationController controller = new NotificationController();
-                    controller.sendNotification(list);
+                        List<Hashtable> list = new ArrayList<>();
+                        Notification notification = new Notification("Respone Wishboard",result , "14");
+                        Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                        obj.put("user_id", user_id+"");
+                        obj.put("messages", userName + " send you a respone book");
+                        list.add(obj);
+                        NotificationController controller = new NotificationController();
+                        controller.sendNotification(list);
 
                         onBackPressed();
                     }

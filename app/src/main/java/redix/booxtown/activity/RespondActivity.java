@@ -107,7 +107,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(RespondActivity.this,AddbookActivity.class);
-                intent.putExtra("type",1);
+                intent.putExtra("type","1");
                 intent.putExtra("user_id_respone",wishboard.getUser_id());
                 intent.putExtra("user_name_respone",wishboard.getUsername());
                 startActivity(intent);
