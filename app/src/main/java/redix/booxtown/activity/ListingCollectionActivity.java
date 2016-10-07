@@ -378,6 +378,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 public void onClick(View v) {
                     if(back == 1){
                         callFragment(new MyProfileFragment());
+                    }else if(back == 3){
+
                     }else{
                         callFragment(new ListingsFragment());
                         MainAllActivity.setTxtTitle("Listings");

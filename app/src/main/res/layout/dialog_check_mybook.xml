@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/customborder"
+        >
+
+        <redix.booxtown.custom.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your swap list"
+            android:id="@+id/textView16"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:textColor="@color/dot_light_screen1"
+            android:textSize="@dimen/text_book_exploer"/>
+
+        <redix.booxtown.custom.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="is not yet ready"
+            android:id="@+id/textView160"
+            android:gravity="center"
+            android:textColor="@color/dot_light_screen1"
+            android:textSize="@dimen/text_book_exploer"
+            android:layout_below="@+id/textView16" />
+
+        <TextView
+            android:layout_width="181dp"
+            android:layout_height="37dp"
+            android:text="Add a book"
+            android:id="@+id/tv_addbook_checklist"
+            android:gravity="center"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/text_book_exploer"
+            android:background="@drawable/bg_btn_welcome"
+            android:layout_below="@+id/textView160"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_close_filter"
+            android:id="@+id/imageView_close_dialog"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+</RelativeLayout>
