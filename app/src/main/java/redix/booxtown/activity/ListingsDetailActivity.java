@@ -464,8 +464,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             // Changing marker icon
             char array[] = books.getAction().toCharArray();
             String swap = String.valueOf(array[0]);
-            String free = String.valueOf(array[1]);
-            String buy = String.valueOf(array[2]);
+            String buy = String.valueOf(array[1]);
+            String free = String.valueOf(array[2]);
             String icon = IconMapController.icon(swap, free, buy);
             if (icon != null) {
                 marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, 110, 150)));
