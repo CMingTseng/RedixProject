@@ -395,6 +395,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         MyInfoWindowAdapter(){
             myContentsView = getActivity().getLayoutInflater().inflate(R.layout.dialog_map_main, null);
+            getActivity().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
         @Override
@@ -407,8 +408,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             img_swap_marker =(ImageView)myContentsView.findViewById(R.id.img_swap_marker);
             img_free_marker =(ImageView)myContentsView.findViewById(R.id.img_free_marker);
             img_buy_marker =(ImageView)myContentsView.findViewById(R.id.img_buy_marker);
-            String title = books.getTitle().substring(0,1).toUpperCase()+books.getTitle().substring(2,books.getTitle().length()-1);
-            txt_title_marker.setText(title);
+            String title;
+            try {
+                if(books.getTitle().length()>0){
+                    title = books.getTitle().substring(0, 1).toUpperCase() + books.getTitle().substring(1, books.getTitle().length());
+                    txt_title_marker.setText(title);
+                }
+            }catch (Exception e){}
             txt_author_marker.setText("by "+books.getAuthor());
             txt_user_marker.setText(books.getUsername());
             ratingBar_marker.setRating(books.getRating());
@@ -421,39 +427,39 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             String buy = String.valueOf(array[2]);
             String icon = IconMapController.iconExplorer(swap,free,buy);
             if(icon.equals("icon_swap")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
             }
             if(icon.equals("icon_free")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
             }
             if(icon.equals("icon_buy")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_buy_marker);
-            }
-            if(icon.equals("swapfree")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
                 Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
-            if(icon.equals("swapbuy")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_active).into(img_swap_marker);
+            if(icon.equals("swapfree")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
                 Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_buy_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
+            }
+            if(icon.equals("swapbuy")){
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
             if(icon.equals("freebuy")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_buy_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
             if(icon.equals("option")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_buy_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_active).into(img_swap_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
             }
             return myContentsView;
         }
