@@ -83,7 +83,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     private GoogleMap mMap;
     String type;
     int back;
-    List<Book> list_book = new ArrayList<>();
+
     String session_id;
     //end
     @Nullable
@@ -330,34 +330,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 public void onClick(View view) {
                     listingAsync listingAsync = new listingAsync(getContext());
                     listingAsync.execute(session_id);
-                    if(list_book.size() == 0){
-                        final Dialog dialog = new Dialog(getContext());
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.dialog_check_mybook);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
 
-                        ImageView img_close_dialog_unsubcribe = (ImageView)dialog.findViewById(R.id.imageView_close_dialog);
-                        Picasso.with(getActivity()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
-                        img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        TextView btn_unsubcribe = (TextView)dialog.findViewById(R.id.tv_addbook_checklist);
-                        btn_unsubcribe.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(getActivity(), AddbookActivity.class);
-                                startActivity(intent);
-                                dialog.dismiss();
-                            }
-                        });
-                    }else {
-                        swap(book);
-                    }
                 }
             });
             imBuy.setOnClickListener(new View.OnClickListener() {
@@ -372,33 +345,6 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 public void onClick(View view) {
                     listingAsync listingAsync = new listingAsync(getContext());
                     listingAsync.execute(session_id);
-                    if(list_book.size() == 0){
-                        final Dialog dialog = new Dialog(getContext());
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.dialog_check_mybook);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-                        ImageView img_close_dialog_unsubcribe = (ImageView)dialog.findViewById(R.id.imageView_close_dialog);
-                        Picasso.with(getActivity()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
-                        img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        TextView btn_unsubcribe = (TextView)dialog.findViewById(R.id.tv_addbook_checklist);
-                        btn_unsubcribe.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(getActivity(), AddbookActivity.class);
-                                startActivity(intent);
-                                dialog.dismiss();
-                            }
-                        });
-                    }else {
-                        swap(book);
-                    }
                 }
             });
             imBuy2.setOnClickListener(new View.OnClickListener() {
@@ -700,10 +646,38 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         @Override
         protected void onPostExecute(List<Book> books) {
             try {
-                list_book = books;
                 if (books == null) {
                     dialog.dismiss();
                 } else {
+                    if(books.size() == 0){
+                        final Dialog dialog = new Dialog(getContext());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_check_mybook);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+
+                        ImageView img_close_dialog_unsubcribe = (ImageView)dialog.findViewById(R.id.imageView_close_dialog);
+                        Picasso.with(getActivity()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
+                        img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        TextView btn_unsubcribe = (TextView)dialog.findViewById(R.id.tv_addbook_checklist);
+                        btn_unsubcribe.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), AddbookActivity.class);
+                                intent.putExtra("type",0);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
+                    }else {
+                        swap(book);
+                    }
                     dialog.dismiss();
                 }
             }catch (Exception e){}

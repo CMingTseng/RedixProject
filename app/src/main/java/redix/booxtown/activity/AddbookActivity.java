@@ -827,7 +827,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 if(!result.equals("")){
                     if(type == 0){
                         Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
-                        intent.putExtra("Book",bookedit);
+                        if(bookedit == null){
+                            intent.putExtra("Book",bookedit);
+                        }else{
+                            intent.putExtra("Book",book);
+                        }
                         startActivity(intent);
                         finish();
                     }

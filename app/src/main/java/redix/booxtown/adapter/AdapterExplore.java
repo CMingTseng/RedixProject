@@ -34,11 +34,13 @@ import java.util.Hashtable;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.AddbookActivity;
 import redix.booxtown.activity.HomeActivity;
 import redix.booxtown.activity.ListingsDetailActivity;
 import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.activity.SwapActivity;
 import redix.booxtown.api.ServiceGenerator;
+import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.TransactionController;
@@ -69,9 +71,7 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             pref = mContext.getSharedPreferences("MyPref",mContext.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
         }catch (Exception e){
-
         }
-
     }
 
     @Override
@@ -95,10 +95,8 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-
         final LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         final Book ex= listExplore.get(position);
         username = pref.getString("username", null);
         String[] image = ex.getPhoto().split(";");
@@ -112,8 +110,6 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         hoder.img_swap = (ImageView)convertView.findViewById(R.id.img_explore_swap);
         hoder.img_free = (ImageView)convertView.findViewById(R.id.img_explore_free);
         hoder.img_buy = (ImageView)convertView.findViewById(R.id.img_explore_buy);
-
-
         if (image.length!=0){
             int index=image[0].indexOf("_+_");
             if(index>0 && image[0].length() >3 ) {
@@ -138,7 +134,6 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         }
         if(String.valueOf(array[0]).contains("1")){
             Picasso.with(mContext).load(R.drawable.explore_btn_swap_active).into(hoder.img_swap);
-
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_swap_dis_active).into(hoder.img_swap);
@@ -178,8 +173,10 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             hoder.img_swap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(), 2, ex);
-                    userID.execute();
+                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    String session_id = pref.getString("session_id", null);
+                    listingAsync listingAsync = new listingAsync(mContext,ex);
+                    listingAsync.execute(session_id);
                 }
             });
 
@@ -222,10 +219,6 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             transaction.commit();
         }
         catch (Exception ex){
-//            Intent intent= new Intent(mContext, MainAllActivity.class);
-//            intent.putExtra(String.valueOf(R.string.valueListings), "2");
-//            intent.putExtra("item", ex);
-//            mContext.startActivity(intent);
         }
     }
 
@@ -282,8 +275,6 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         ImageView img_swap;
         ImageView img_free;
         ImageView img_buy ;
-        ImageView img_edit ;
-
     }
 
     class transactionInsert extends AsyncTask<Void, Void, String> {
@@ -356,8 +347,6 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             this.book= book;
         }
 
-        ProgressDialog dialog;
-
         @Override
         protected String doInBackground(String... strings) {
             SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -378,7 +367,6 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         protected void onPostExecute(final String user_ID) {
             try {
                 SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
                 final String session_id = pref.getString("session_id", null);
 
                 if(!user_ID.equals(bookUserID)) {
@@ -407,8 +395,6 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
                             @Override
                             public void onClick(View v) {
                                 dialog.dismiss();
-                                // sent notification buy
-
 
                                 transactionInsert transactionInsert = new transactionInsert(context, session_id, user_ID, bookUserID, "", bookID, "buy");
                                 transactionInsert.execute();
@@ -458,7 +444,65 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
                 String ssss = e.getMessage();
                 // Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+    class listingAsync extends AsyncTask<String,Void,List<Book>>{
 
+        Context context;
+        ProgressDialog dialog;
+        Book book;
+        public listingAsync(Context context,Book book){
+            this.context = context;
+            this.book = book;
+        }
+
+        @Override
+        protected List<Book> doInBackground(String... strings) {
+            BookController bookController = new BookController();
+            return bookController.getAllBookById(strings[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(List<Book> books) {
+            try {
+                if (books == null) {
+                    dialog.dismiss();
+                } else {
+                    if(books.size() == 0){
+                        final Dialog dialog = new Dialog(context);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_check_mybook);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+                        ImageView img_close_dialog_unsubcribe = (ImageView)dialog.findViewById(R.id.imageView_close_dialog);
+                        Picasso.with(context).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
+                        img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                        TextView btn_unsubcribe = (TextView)dialog.findViewById(R.id.tv_addbook_checklist);
+                        btn_unsubcribe.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(context, AddbookActivity.class);
+                                intent.putExtra("type",0);
+                                context.startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
+                    }else {
+                        UserID userID= new UserID(mContext,book.getId(), book.getUser_id(), 2, book);
+                        userID.execute();
+                    }
+                    dialog.dismiss();
+                }
+            }catch (Exception e){}
         }
     }
 }
