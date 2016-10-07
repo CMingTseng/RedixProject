@@ -474,7 +474,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                 saveSetting(setting_old,setting_new,"4");
                 break;
             case R.id.img_menu_bottom_user:
-
+                setting_new = new Setting(is_notification,is_best_time,is_current_location,time1,time2);
                 saveSetting(setting_old,setting_new,"5");
                 break;
 

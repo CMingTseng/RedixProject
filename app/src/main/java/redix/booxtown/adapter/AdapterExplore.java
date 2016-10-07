@@ -199,7 +199,7 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
                             Intent intent= new Intent(mContext.getApplicationContext(), MainAllActivity.class);
                             intent.putExtra(String.valueOf(R.string.valueListings), "2");
                             intent.putExtra("item", ex);
-                            intent.putExtra("key","1");
+                            intent.putExtra("keyDetail","1");
                             mContext.startActivity(intent);
                             ((Activity)mContext).finish();
                         }

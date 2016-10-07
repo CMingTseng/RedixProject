@@ -78,7 +78,7 @@ public class TopicFragment extends Fragment
     }
 
     private void populatRecyclerView(final String session_id) {
-        topicSync getDashBoard = new topicSync(getContext(),session_id,10,0);
+        topicSync getDashBoard = new topicSync(getContext(),session_id,6,0);
         getDashBoard.execute();
         listArrayList = new ArrayList<Topic>();
         interact = new AdapterTopic(getActivity(), listArrayList);
@@ -124,11 +124,12 @@ public class TopicFragment extends Fragment
                 // Now check if userScrolled is true and also check if
                 // the item is end then update list view and set
                 // userScrolled to false
+                int a = view.getLastVisiblePosition();
                 if (userScrolled
                         && firstVisibleItem + visibleItemCount == totalItemCount) {
                     userScrolled = false;
                     Topic dashBoard_lv = listArrayList.get(listArrayList.size()-1);
-                    topicSync getDashBoard = new topicSync(getContext(),session_id,10,Integer.valueOf(dashBoard_lv.getId()));
+                    topicSync getDashBoard = new topicSync(getContext(),session_id,6,Integer.valueOf(dashBoard_lv.getId()));
                     getDashBoard.execute();
                 }
             }

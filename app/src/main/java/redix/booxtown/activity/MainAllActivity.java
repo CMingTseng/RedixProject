@@ -61,7 +61,7 @@ public class MainAllActivity extends AppCompatActivity{
             initLayout();
             view_top = (View) findViewById(R.id.menu_top_all);
             txtTitle = (TextView) view_top.findViewById(R.id.txt_title);
-            txtTitle.setText("Locate");
+
             flag = true;
             Intent intent = getIntent();
             Splash_Activity.value = true;
@@ -70,6 +70,7 @@ public class MainAllActivity extends AppCompatActivity{
                 if (i == 1) {
                     initLayout();
                     callFragment(new MainFragment());
+                    txtTitle.setText("Locate");
                     setDefaut(1);
                 } else if (i == 2) {
                     initLayout();
@@ -193,7 +194,7 @@ public class MainAllActivity extends AppCompatActivity{
             try {
                 initLayout();
                 Book book = (Book) getIntent().getSerializableExtra("item");
-                String key= getIntent().getStringExtra("key");
+                String key= getIntent().getStringExtra("keyDetail");
                 if(key.equals("1")) {
                     ListingsDetailActivity fragment = new ListingsDetailActivity();
                     Bundle bundle = new Bundle();
@@ -228,7 +229,7 @@ public class MainAllActivity extends AppCompatActivity{
         img_component = (ImageView) view_top.findViewById(R.id.img_menu_component);
         view_top = (View) findViewById(R.id.menu_top_all);
         txtTitle = (TextView) view_top.findViewById(R.id.txt_title);
-        txtTitle.setText("Locate");
+        //txtTitle.setText("Locate");
         flag=true;
         img_component = (ImageView) view_top.findViewById(R.id.img_menu_component);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_explore).into(img_component);
