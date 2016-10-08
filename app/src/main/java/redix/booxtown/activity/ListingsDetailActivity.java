@@ -176,13 +176,16 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         startActivity(intent);
                         getActivity().finish();
                     }
-                    else {
+                    else if (type.equals("5")) {
                         HomeActivity homeActivity = (HomeActivity) getActivity();
                         homeActivity.getTxtTitle().setText("Notifications");
                         homeActivity.callFragment(new NotificationFragment());
                     }
+                    else if (type.equals("6")) {
+                        callFragment(new MyProfileFragment());
+                    }
                     if(back == 2){
-                       // callFragment(new MyProfileFragment());
+                       //
                     }else if(back == 1){
                         //callFragment(new ListingsFragment());
                     }
@@ -331,7 +334,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             imSwap2.setVisibility(View.VISIBLE);
             imBuy2.setVisibility(View.VISIBLE);
         }
-        if (type.equals("2")) {
+        if (!type.equals("3")||!type.equals("6")) {
             imSwap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
