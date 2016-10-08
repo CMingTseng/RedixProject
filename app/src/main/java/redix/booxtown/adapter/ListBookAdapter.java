@@ -149,7 +149,7 @@ public class ListBookAdapter extends BaseAdapter implements Filterable{
         else {
             hoder.img_edit.setVisibility(View.GONE);
         }
-        if(back != 1){
+
             hoder.img_book.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -162,7 +162,7 @@ public class ListBookAdapter extends BaseAdapter implements Filterable{
                     callFragment(fragment);
                 }
             });
-        }
+
 
         hoder.img_edit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -123,6 +123,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             final EditText editText11 = (EditText) v.findViewById(R.id.editText11);
             type = getArguments().getString(String.valueOf(R.string.valueListings));
             back = getArguments().getInt("back");
+            book = (Book) getArguments().getSerializable("item");
             RelativeLayout layout_comments = (RelativeLayout) v.findViewById(R.id.layout_comment);
             ImageView img_close_dialog_unsubcribe = (ImageView) v.findViewById(R.id.img_close_dialog_unsubcribe);
 
@@ -141,7 +142,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
             ratingBar_userprofile.setRating(book.getRating());
 
-            book = (Book) getArguments().getSerializable("item");
+
             if (book.getPhoto().length() > 3) {
                 Picasso.with(getContext())
                         .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getAuthor() + "&image=" + book.getPhoto().substring(book.getUsername().length() + 3, book.getPhoto().length()))
@@ -180,9 +181,9 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 //                        homeActivity.getTxtTitle().setText("Notifications");
 //                        homeActivity.callFragment(new NotificationFragment());
 //                    }
-                    if(back == 1){
+                    if(back == 2){
                         callFragment(new MyProfileFragment());
-                    }else if(back == 2){
+                    }else if(back == 1){
                         callFragment(new ListingsFragment());
                     }
                 }

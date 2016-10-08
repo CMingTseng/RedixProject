@@ -1036,7 +1036,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         @Override
         protected String doInBackground(Void... params) {
             bookController = new BookController();
-            success = bookController.addbook(book, session_id).equals("")? false: true;
+            //success = bookController.addbook(book, session_id).equals("")? false: true;
             return bookController.addbook(book, session_id);
         }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="bg_rating">#EFEFEF</color>
     <color name="backgroundnavigation">#ef6667</color>
     <color name="bg_transfer">#00000000</color>
     <color name="bg_user_empty">#f5f5f5</color>

@@ -37,6 +37,7 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
@@ -72,9 +73,9 @@ import redix.booxtown.controller.MyFirebaseMessagingService;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Filter;
 
-public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener,OnMapReadyCallback {
+public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
     private GoogleMap mMap;
-    public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
+    public static String[] prgmNameList1 = {"Nearest distance", "Price low to high", "Price high to low", "Recently added"};
     private LatLng latLngBounds;
     MarkerOptions marker;
     private HashMap<Marker, Book> mMarkersHashMap = new HashMap<>();
@@ -83,39 +84,40 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
     //filter
     String proximity;
-    private TextView tvMin,tvMax,txt_filter_proximity;
+    private TextView tvMin, tvMax, txt_filter_proximity;
     private List<Filter> filterList;
     private AdapterFilter adaper;
     private CrystalRangeSeekbar rangeSeekbar;
     private CrystalSeekbar seekbar;
     private Spinner spinner2;
-    private  ArrayAdapter<String> dataAdapter;
+    private ArrayAdapter<String> dataAdapter;
     List<Book> lisfilter_temp;
     List<Book> listfilter;
     List<Book> listExplore;
+
     //end
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
 
-        ImageView img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
+        ImageView img_menu = (ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(img_menu);
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),MenuActivity.class);
+                Intent intent = new Intent(getActivity(), MenuActivity.class);
                 startActivity(intent);
             }
         });
 
 
         try {
-            Log.d("ahgdjhhshjhd","dsd___"+ FirebaseInstanceId.getInstance().getToken());
+            Log.d("ahgdjhhshjhd", "dsd___" + FirebaseInstanceId.getInstance().getToken());
             FirebaseInstanceId.getInstance().deleteInstanceId();
-            Intent refreshTokenFirebase = new Intent(getActivity(),MyFirebaseMessagingService.class);
+            Intent refreshTokenFirebase = new Intent(getActivity(), MyFirebaseMessagingService.class);
             getActivity().startService(refreshTokenFirebase);
-            Log.d("ahgdjhhshjhd","dsd___"+FirebaseInstanceId.getInstance().getToken());
+            Log.d("ahgdjhhshjhd", "dsd___" + FirebaseInstanceId.getInstance().getToken());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,10 +127,10 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         listExplore = new ArrayList<>();
 
-        View view_search= view.findViewById(R.id.custom_search);
-        editSearch = (EditText)view_search.findViewById(R.id.editSearch);
-        btn_search = (ImageView)view_search.findViewById(R.id.btn_search);
-        ImageView img_menu_component = (ImageView)getActivity().findViewById(R.id.img_menu_component);
+        View view_search = view.findViewById(R.id.custom_search);
+        editSearch = (EditText) view_search.findViewById(R.id.editSearch);
+        btn_search = (ImageView) view_search.findViewById(R.id.btn_search);
+        ImageView img_menu_component = (ImageView) getActivity().findViewById(R.id.img_menu_component);
         img_menu_component.setVisibility(View.VISIBLE);
 
         TextView txtTitle = (TextView) getActivity().findViewById(R.id.txt_title);
@@ -138,6 +140,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -147,13 +150,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             public void afterTextChanged(Editable s) {
                 List<Book> list_books = new ArrayList<Book>();
                 list_books.clear();
-                for (int i =0;i<listExplore.size();i++){
-                    if(listExplore.get(i).getTitle().contains(editSearch.getText().toString())
-                            || listExplore.get(i).getAuthor().contains(editSearch.getText().toString())){
+                for (int i = 0; i < listExplore.size(); i++) {
+                    if (listExplore.get(i).getTitle().contains(editSearch.getText().toString())
+                            || listExplore.get(i).getAuthor().contains(editSearch.getText().toString())) {
                         list_books.add(listExplore.get(i));
                     }
                 }
-                if(list_books.size() >0){
+                if (list_books.size() > 0) {
                     addMarker(list_books);
                 }
             }
@@ -168,21 +171,21 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         return view;
     }
 
-    public List<Book> filter(String filter){
+    public List<Book> filter(String filter) {
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
 
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(),new GPSTracker(getActivity()).getLongitude());
+        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
         Double distance = Double.valueOf(proximity);
-        for (int i = 0; i < listExplore.size();i++){
+        for (int i = 0; i < listExplore.size(); i++) {
             String[] genrel = listExplore.get(i).getGenre().split(";");
-            if (filter.equals("All")){
+            if (filter.equals("All")) {
                 listfilter.add(listExplore.get(i));
-            }else {
-                for (int j = 0;j<genrel.length;j++){
+            } else {
+                for (int j = 0; j < genrel.length; j++) {
                     if (genrel[j].contains(filter)) {
-                        LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(),listExplore.get(i).getLocation_longitude());
-                        if (CalculationByDistance(latLngSt,latLngEnd)<=distance){
+                        LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                        if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
                             listfilter.add(listExplore.get(i));
                         }
                     }
@@ -191,26 +194,23 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         }
 
 
-        if (listfilter.size()!=0){
-            for (int i = 0;i<listfilter.size();i++){
-                if (listfilter.get(i).getPrice()>=Float.valueOf(tvMin.getText().toString()) &&
-                        listfilter.get(i).getPrice()<= Float.valueOf(tvMax.getText().toString())){
+        if (listfilter.size() != 0) {
+            for (int i = 0; i < listfilter.size(); i++) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(tvMin.getText().toString()) &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(tvMax.getText().toString())) {
                     lisfilter_temp.add(listfilter.get(i));
                 }
             }
         }
 
-        if (filterList.get(0).getCheck()== true){
+        if (filterList.get(0).getCheck() == true) {
             BookController bookController = new BookController(getActivity());
-            Collections.sort(lisfilter_temp,bookController.distance);
-        }
-        else if (filterList.get(1).getCheck()== true){
+            Collections.sort(lisfilter_temp, bookController.distance);
+        } else if (filterList.get(1).getCheck() == true) {
             Collections.sort(lisfilter_temp, Book.priceasen);
-        }
-        else if (filterList.get(2).getCheck()== true){
+        } else if (filterList.get(2).getCheck() == true) {
             Collections.sort(lisfilter_temp, Book.pricedcen);
-        }
-        else{
+        } else {
             Collections.sort(lisfilter_temp, Book.recently);
         }
         return lisfilter_temp;
@@ -246,11 +246,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         super.onResume();
     }
 
-    public void filterSort(View view){
-        ImageView btn_filter_explore = (ImageView)view.findViewById(R.id.btn_filter_explore);
+    public void filterSort(View view) {
+        ImageView btn_filter_explore = (ImageView) view.findViewById(R.id.btn_filter_explore);
         Picasso.with(getContext()).load(R.drawable.btn_locate_filter).into(btn_filter_explore);
 
-        ImageView btn_search = (ImageView)view.findViewById(R.id.btn_search);
+        ImageView btn_search = (ImageView) view.findViewById(R.id.btn_search);
         Picasso.with(getContext()).load(R.drawable.btn_locate_search).into(btn_search);
 
         btn_filter_explore.setOnClickListener(new View.OnClickListener() {
@@ -262,25 +262,25 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
-                ListView lv_dialog_filter = (ListView)dialog.findViewById(R.id.lv_dialog_filter);
+                ListView lv_dialog_filter = (ListView) dialog.findViewById(R.id.lv_dialog_filter);
                 filterList = new ArrayList<>();
-                for (int i =0;i<prgmNameList1.length;i++){
+                for (int i = 0; i < prgmNameList1.length; i++) {
                     Filter filter = new Filter();
                     filter.setTitle(prgmNameList1[i]);
                     filter.setCheck(false);
                     filterList.add(filter);
                 }
-                adaper = new AdapterFilter(getActivity(),filterList);
+                adaper = new AdapterFilter(getActivity(), filterList);
                 lv_dialog_filter.setAdapter(adaper);
 
                 rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
-                Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-                Bitmap thumb=Bitmap.createBitmap(38,38, Bitmap.Config.ARGB_8888);
-                Canvas canvas=new Canvas(thumb);
-                canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
-                        new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
-                Drawable drawable = new BitmapDrawable(getResources(),thumb);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
+                Bitmap thumb = Bitmap.createBitmap(38, 38, Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(thumb);
+                canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                        new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
+                Drawable drawable = new BitmapDrawable(getResources(), thumb);
                 rangeSeekbar.setLeftThumbDrawable(drawable);
                 rangeSeekbar.setRightThumbDrawable(drawable);
 
@@ -296,18 +296,18 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     }
                 });
 
-                txt_filter_proximity = (TextView)dialog.findViewById(R.id.txt_filter_proximity);
+                txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
                 seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
                 seekbar.setLeftThumbDrawable(drawable);
                 seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue) {
-                        txt_filter_proximity.setText(String.valueOf(minValue)+"KM");
+                        txt_filter_proximity.setText(String.valueOf(minValue) + "KM");
                         proximity = String.valueOf(minValue);
                     }
                 });
 
-                ImageView imv_dialog_filter_close = (ImageView)dialog.findViewById(R.id.imv_dialog_filter_close);
+                ImageView imv_dialog_filter_close = (ImageView) dialog.findViewById(R.id.imv_dialog_filter_close);
                 Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(imv_dialog_filter_close);
                 imv_dialog_filter_close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -316,7 +316,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     }
                 });
 
-                Button btn_dialog_filter_submit = (Button)dialog.findViewById(R.id.btn_dialog_filter_submit);
+                Button btn_dialog_filter_submit = (Button) dialog.findViewById(R.id.btn_dialog_filter_submit);
                 btn_dialog_filter_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -340,12 +340,12 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         Book books = mMarkersHashMap.get(marker);
         FragmentManager manager = getActivity().getSupportFragmentManager();
         Bundle bundle = new Bundle();
-        bundle.putString(String.valueOf(R.string.valueListings),"1");
-        bundle.putSerializable("item",books);
+        bundle.putString(String.valueOf(R.string.valueListings), "1");
+        bundle.putSerializable("item", books);
         FragmentTransaction transaction = manager.beginTransaction();
         ListingsDetailActivity fra = new ListingsDetailActivity();
         fra.setArguments(bundle);
-        transaction.replace(R.id.map,fra);
+        transaction.replace(R.id.map, fra);
         transaction.commit();
     }
 
@@ -353,14 +353,14 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     public void onMapLongClick(LatLng latLng) {
     }
 
-    public Bitmap resizeMapIcons(String icon,int width, int height){
+    public Bitmap resizeMapIcons(String icon, int width, int height) {
         Bitmap imageBitmap;
         Bitmap resizedBitmap;
         try {
-            imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(icon, "drawable", getActivity().getPackageName()));
+            imageBitmap = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(icon, "drawable", getActivity().getPackageName()));
             resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
             return resizedBitmap;
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         return null;
     }
@@ -370,7 +370,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
         // latitude and longitude
-        SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
         listingAsync listingAsync = new listingAsync(getContext());
         listingAsync.execute(session_id);
@@ -381,41 +381,48 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.setTrafficEnabled(true);
         GPSTracker gpsTracker = new GPSTracker(getContext());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(),gpsTracker.getLongitude()),9));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 9));
         mMap.setOnInfoWindowClickListener(this);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
 
     }
 
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        TextView txt_title_marker,txt_author_marker,txt_user_marker;
+        TextView txt_title_marker, txt_author_marker, txt_user_marker;
         RatingBar ratingBar_marker;
-        ImageView img_swap_marker,img_free_marker,img_buy_marker;
+        ImageView img_swap_marker, img_free_marker, img_buy_marker;
         private final View myContentsView;
 
-        MyInfoWindowAdapter(){
+        MyInfoWindowAdapter() {
             myContentsView = getActivity().getLayoutInflater().inflate(R.layout.dialog_map_main, null);
-            getActivity().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            txt_title_marker = (TextView) myContentsView.findViewById(R.id.txt_title_marker);
+            txt_author_marker = (TextView) myContentsView.findViewById(R.id.txt_author_marker);
+            txt_user_marker = (TextView) myContentsView.findViewById(R.id.txt_user_marker);
+            ratingBar_marker = (RatingBar) myContentsView.findViewById(R.id.ratingBar_marker);
+            img_swap_marker = (ImageView) myContentsView.findViewById(R.id.img_swap_marker);
+            img_free_marker = (ImageView) myContentsView.findViewById(R.id.img_free_marker);
+            img_buy_marker = (ImageView) myContentsView.findViewById(R.id.img_buy_marker);
         }
 
         @Override
         public View getInfoContents(Marker marker) {
+            return null;
+
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
             Book books = mMarkersHashMap.get(marker);
-            txt_title_marker = (TextView)myContentsView.findViewById(R.id.txt_title_marker);
-            txt_author_marker = (TextView)myContentsView.findViewById(R.id.txt_author_marker);
-            txt_user_marker = (TextView)myContentsView.findViewById(R.id.txt_user_marker);
-            ratingBar_marker = (RatingBar)myContentsView.findViewById(R.id.ratingBar_marker);
-            img_swap_marker =(ImageView)myContentsView.findViewById(R.id.img_swap_marker);
-            img_free_marker =(ImageView)myContentsView.findViewById(R.id.img_free_marker);
-            img_buy_marker =(ImageView)myContentsView.findViewById(R.id.img_buy_marker);
+
             String title;
             try {
-                if(books.getTitle().length()>0){
+                if (books.getTitle().length() > 0) {
                     title = books.getTitle().substring(0, 1).toUpperCase() + books.getTitle().substring(1, books.getTitle().length());
                     txt_title_marker.setText(title);
                 }
-            }catch (Exception e){}
-            txt_author_marker.setText("by "+books.getAuthor());
+            } catch (Exception e) {
+            }
+            txt_author_marker.setText("by " + books.getAuthor());
             txt_user_marker.setText(books.getUsername());
             ratingBar_marker.setRating(books.getRating());
             LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
@@ -425,59 +432,135 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             String swap = String.valueOf(array[0]);
             String free = String.valueOf(array[1]);
             String buy = String.valueOf(array[2]);
-            String icon = IconMapController.iconExplorer(swap,free,buy);
-            if(icon.equals("icon_swap")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
+            String icon = IconMapController.iconExplorer(swap, free, buy);
+            if (icon.equals("icon_swap")) {
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_dis_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_dis_active);
+                img_swap_marker.setImageBitmap(bMap);
+                img_free_marker.setImageBitmap(bMap1);
+                img_buy_marker.setImageBitmap(bMap2);
+
+
+                /*img_swap_marker.setImageResource(R.drawable.explore_btn_swap_not_active);
+                img_free_marker.setImageResource(R.drawable.explore_btn_free_dis_active);
+                img_buy_marker.setImageResource(R.drawable.explore_btn_buy_dis_active);
+*/
+          /*      Glide.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+                Glide.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
+                Glide.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);*/
             }
-            if(icon.equals("icon_free")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
+            if (icon.equals("icon_free")) {
+
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_dis_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_not_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_dis_active);
+                img_swap_marker.setImageBitmap(bMap);
+                img_free_marker.setImageBitmap(bMap1);
+                img_buy_marker.setImageBitmap(bMap2);
+
+                /*img_swap_marker.setImageResource(R.drawable.explore_btn_swap_dis_active);
+                img_free_marker.setImageResource(R.drawable.explore_btn_free_not_active);
+                img_buy_marker.setImageResource(R.drawable.explore_btn_buy_dis_active);*/
+
+//                Glide.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
             }
-            if(icon.equals("icon_buy")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+            if (icon.equals("icon_buy")) {
+
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_dis_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_dis_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_not_active);
+                img_swap_marker.setImageBitmap(bMap);
+                img_free_marker.setImageBitmap(bMap1);
+                img_buy_marker.setImageBitmap(bMap2);
+
+/*                img_swap_marker.setImageResource(R.drawable.explore_btn_swap_dis_active);
+                img_free_marker.setImageResource(R.drawable.explore_btn_free_dis_active);
+                img_buy_marker.setImageResource(R.drawable.explore_btn_buy_not_active);*/
+
+//                Glide.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
-            if(icon.equals("swapfree")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
+            if (icon.equals("swapfree")) {
+
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_not_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_dis_active);
+                img_swap_marker.setImageBitmap(bMap);
+                img_free_marker.setImageBitmap(bMap1);
+                img_buy_marker.setImageBitmap(bMap2);
+
+               /* img_swap_marker.setImageResource(R.drawable.explore_btn_swap_not_active);
+                img_free_marker.setImageResource(R.drawable.explore_btn_free_not_active);
+                img_buy_marker.setImageResource(R.drawable.explore_btn_buy_dis_active);*/
+
+//                Glide.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
             }
-            if(icon.equals("swapbuy")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+            if (icon.equals("swapbuy")) {
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_dis_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_not_active);
+                img_swap_marker.setImageBitmap(bMap);
+                img_free_marker.setImageBitmap(bMap1);
+                img_buy_marker.setImageBitmap(bMap2);
+
+                /*img_swap_marker.setImageResource(R.drawable.explore_btn_swap_not_active);
+                img_free_marker.setImageResource(R.drawable.explore_btn_free_dis_active);
+                img_buy_marker.setImageResource(R.drawable.explore_btn_buy_not_active);*/
+
+//                Glide.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_free_dis_active).into(img_free_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
-            if(icon.equals("freebuy")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+            if (icon.equals("freebuy")) {
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_dis_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_not_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_not_active);
+                img_swap_marker.setImageBitmap(bMap);
+                img_free_marker.setImageBitmap(bMap1);
+                img_buy_marker.setImageBitmap(bMap2);
+
+                /*img_swap_marker.setImageResource(R.drawable.explore_btn_swap_dis_active);
+                img_free_marker.setImageResource(R.drawable.explore_btn_free_not_active);
+                img_buy_marker.setImageResource(R.drawable.explore_btn_buy_not_active);*/
+
+//                Glide.with(getContext()).load(R.drawable.explore_btn_swap_dis_active).into(img_swap_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+//                Glide.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
-            if(icon.equals("option")){
-                Picasso.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
-                Picasso.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);
+            if (icon.equals("option")) {
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_not_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_not_active);
+                img_swap_marker.setImageBitmap(bMap);
+                img_free_marker.setImageBitmap(bMap1);
+                img_buy_marker.setImageBitmap(bMap2);
+
+                /*img_swap_marker.setImageResource(R.drawable.explore_btn_swap_not_active);
+                img_free_marker.setImageResource(R.drawable.explore_btn_free_not_active);
+                img_buy_marker.setImageResource(R.drawable.explore_btn_buy_not_active);*/
+
+                /*Glide.with(getContext()).load(R.drawable.explore_btn_free_not_active).into(img_free_marker);
+                Glide.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
+                Glide.with(getContext()).load(R.drawable.explore_btn_swap_not_active).into(img_swap_marker);*/
             }
             return myContentsView;
         }
 
-        @Override
-        public View getInfoWindow(Marker marker) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
     }
 
-    class listingAsync extends AsyncTask<String,Void,List<Book>> {
+    class listingAsync extends AsyncTask<String, Void, List<Book>> {
 
         Context context;
         ProgressDialog dialog;
         List<Book> listemp;
-        public listingAsync(Context context){
+
+        public listingAsync(Context context) {
             this.context = context;
         }
 
@@ -509,12 +592,12 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     addMarker(books);
                     dialog.dismiss();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
             }
         }
     }
 
-    public void addMarker(final List<Book> books){
+    public void addMarker(final List<Book> books) {
         try {
             mMap.clear();
             if (books.size() > 0) {
@@ -536,7 +619,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 Marker m_marker = mMap.addMarker(marker);
                 mMarkersHashMap.put(m_marker, books.get(i));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
