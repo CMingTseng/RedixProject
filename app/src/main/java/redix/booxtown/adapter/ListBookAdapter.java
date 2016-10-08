@@ -123,7 +123,7 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
         if (ex.getPrice()!=0){
             hoder.txt_price_book.setText("AED "+String.valueOf(ex.getPrice()));
         }else{
-            hoder.txt_price_book.setVisibility(View.GONE);
+            hoder.txt_price_book.setVisibility(View.INVISIBLE);
         }
 
 
@@ -156,6 +156,9 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
         hoder.img_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 ListingsDetailActivity fragment = new ListingsDetailActivity();
                 Bundle bundle = new Bundle();
                 bundle.putString(String.valueOf(R.string.valueListings),"3");

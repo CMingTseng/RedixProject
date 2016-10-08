@@ -325,14 +325,14 @@ public class MyProfileFragment extends Fragment {
         }
         else if(type==3){
             for (int i=0; i<listEx.size(); i++){
-                if(listEx.get(i).getAction().substring(1,2).equals("1")){
+                if(listEx.get(i).getAction().substring(2,3).equals("1")){
                     list.add(listEx.get(i));
                 }
             }
         }
         else{
             for (int i=0; i<listEx.size(); i++){
-                if(listEx.get(i).getAction().substring(2,3).equals("1")){
+                if(listEx.get(i).getAction().substring(1,2).equals("1")){
                     list.add(listEx.get(i));
                 }
             }

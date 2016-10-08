@@ -94,7 +94,7 @@ public class ExploreFragment extends Fragment
     GridLayoutManager gridLayoutManager;
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,tvMin,tvMax,txt_filter_proximity;
     List<Book> listbook= new ArrayList<>();
-    GridView grid;
+    //GridView grid;
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
 
     @Nullable
@@ -113,7 +113,7 @@ public class ExploreFragment extends Fragment
             }
         });
         listExplore = new ArrayList<>();
-        grid=(GridView)view.findViewById(R.id.gridView);
+        //grid=(GridView)view.findViewById(R.id.gridView);
         gridLayoutManager = new GridLayoutManager(getContext(),2);
         rView = (RecyclerView)view.findViewById(R.id.recycler_view);
         rView.setHasFixedSize(true);
@@ -127,7 +127,7 @@ public class ExploreFragment extends Fragment
         //-----------------------------------------------------------
         Getallbook getallbook = new Getallbook(session_id,0,100);
         getallbook.execute();
-        grid.setOnScrollListener(new EndlessScrollListener());
+        //grid.setOnScrollListener(new EndlessScrollListener());
         filterSort(view);
 
         genre = new ArrayList<>();
@@ -172,7 +172,7 @@ public class ExploreFragment extends Fragment
             @Override
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(1),2,0);
-                grid=(GridView) view.findViewById(R.id.gridView);
+                //grid=(GridView) view.findViewById(R.id.gridView);
                 rView.setAdapter(adapter);
                 tab_custom.setDefault(1);
             }
@@ -182,7 +182,7 @@ public class ExploreFragment extends Fragment
             @Override
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(2),2,0);
-                grid=(GridView)view.findViewById(R.id.gridView);
+                //grid=(GridView)view.findViewById(R.id.gridView);
                 rView.setAdapter(adapter);
 
                 tab_custom.setDefault(2);
@@ -193,7 +193,7 @@ public class ExploreFragment extends Fragment
             @Override
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(3),2,0);
-                grid=(GridView)view.findViewById(R.id.gridView);
+                //grid=(GridView)view.findViewById(R.id.gridView);
                 rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(3);
@@ -204,7 +204,7 @@ public class ExploreFragment extends Fragment
             @Override
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(4),2,0);
-                grid=(GridView)view.findViewById(R.id.gridView);
+                //grid=(GridView)view.findViewById(R.id.gridView);
                 rView.setAdapter(adapter);
                 tab_custom.setDefault(4);
             }
@@ -227,14 +227,14 @@ public class ExploreFragment extends Fragment
         }
         else if(type==3){
             for (int i=0; i<listExplore.size(); i++){
-                if(listExplore.get(i).getAction().substring(1,2).equals("1")){
+                if(listExplore.get(i).getAction().substring(2,3).equals("1")){
                     list.add(listExplore.get(i));
                 }
             }
         }
         else{
             for (int i=0; i<listExplore.size(); i++){
-                if(listExplore.get(i).getAction().substring(2,3).equals("1")){
+                if(listExplore.get(i).getAction().substring(1,2).equals("1")){
                     list.add(listExplore.get(i));
                 }
             }

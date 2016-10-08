@@ -176,15 +176,15 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         startActivity(intent);
                         getActivity().finish();
                     }
-//                    else {
-//                        HomeActivity homeActivity = (HomeActivity) getActivity();
-//                        homeActivity.getTxtTitle().setText("Notifications");
-//                        homeActivity.callFragment(new NotificationFragment());
-//                    }
+                    else {
+                        HomeActivity homeActivity = (HomeActivity) getActivity();
+                        homeActivity.getTxtTitle().setText("Notifications");
+                        homeActivity.callFragment(new NotificationFragment());
+                    }
                     if(back == 2){
-                        callFragment(new MyProfileFragment());
+                       // callFragment(new MyProfileFragment());
                     }else if(back == 1){
-                        callFragment(new ListingsFragment());
+                        //callFragment(new ListingsFragment());
                     }
                 }
             });
@@ -520,7 +520,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
                     progressDialog.dismiss();
                 } else {
-                    Toast.makeText(context, Information.noti_no_data_listing, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, Information.noti_no_data_listing, Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             } catch (Exception e) {
