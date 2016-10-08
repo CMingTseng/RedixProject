@@ -14,8 +14,8 @@ import redix.booxtown.model.GenreValue;
  */
 public class GetAllGenreAsync extends AsyncTask<Void,Void,List<GenreValue>>{
     public Context context;
-    public static List<String> list = new ArrayList<>();
     ProgressDialog dialog;
+    public static List<String> list;
     public GetAllGenreAsync(Context context) {
         this.context = context;
     }
@@ -36,6 +36,7 @@ public class GetAllGenreAsync extends AsyncTask<Void,Void,List<GenreValue>>{
 
     @Override
     protected void onPostExecute(List<GenreValue> genreValues) {
+        list = new ArrayList<>();
         try {
             if(genreValues.size() >0){
                 list.add("All");

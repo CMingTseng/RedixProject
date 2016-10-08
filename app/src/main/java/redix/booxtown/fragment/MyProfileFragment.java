@@ -24,6 +24,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -80,12 +82,14 @@ public class MyProfileFragment extends Fragment {
     int user_id;
     TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
     RatingBar ratingBar_userprofile;
+    RecyclerView rView;
+    GridLayoutManager gridLayoutManager;
 
     int PICK_IMAGE_MULTIPLE = 1;
     private int PICK_IMAGE_REQUEST = 1;
     Bitmap bitmap_profile;
     ImageView imageView_update_profile;
-    CircularImageView img_rank1,img_rank2,img_rank3;
+    ImageView img_rank1,img_rank2,img_rank3;
     String img_photo;
     String photoOrigin="";
     boolean flag = false;
@@ -124,11 +128,15 @@ public class MyProfileFragment extends Fragment {
         final String session_id =  pref.getString("session_id", null);
         Profile profile = new Profile(getContext());
         profile.execute(session_id);
+        gridLayoutManager = new GridLayoutManager(getContext(),2);
+        rView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        rView.setHasFixedSize(true);
+        rView.setLayoutManager(gridLayoutManager);
 
         //profile
-        img_rank1 = (CircularImageView)view.findViewById(R.id.img_rank1);
-        img_rank2 = (CircularImageView)view.findViewById(R.id.img_rank2);
-        img_rank3 = (CircularImageView)view.findViewById(R.id.img_rank3);
+        img_rank1 = (ImageView)view.findViewById(R.id.img_rank1);
+        img_rank2 = (ImageView)view.findViewById(R.id.img_rank2);
+        img_rank3 = (ImageView)view.findViewById(R.id.img_rank3);
         txt_profile_email = (EditText) view.findViewById(R.id.txt_profile_email);
         txt_profile_phone = (EditText) view.findViewById(R.id.txt_profile_phone);
         txt_profile_birthday = (TextView) view.findViewById(R.id.txt_profile_birthday);
@@ -149,8 +157,8 @@ public class MyProfileFragment extends Fragment {
             }
         });
 
-        grid=(GridView)view.findViewById(R.id.grid_myprofile);
-        grid.setOnTouchListener(new View.OnTouchListener() {
+//        grid=(GridView)view.findViewById(R.id.grid_myprofile);
+        rView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -173,8 +181,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(1),1,1);
-                grid=(GridView)view.findViewById(R.id.grid_myprofile);
-                grid.setAdapter(adapter);
+//                grid=(GridView)view.findViewById(R.id.grid_myprofile);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(1);
             }
         });
@@ -183,8 +191,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(2),1,1);
-                grid=(GridView)view.findViewById(R.id.grid_myprofile);
-                grid.setAdapter(adapter);
+//                grid=(GridView)view.findViewById(R.id.grid_myprofile);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(2);
             }
         });
@@ -193,8 +201,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(3),1,1);
-                grid=(GridView)view.findViewById(R.id.grid_myprofile);
-                grid.setAdapter(adapter);
+//                grid=(GridView)view.findViewById(R.id.grid_myprofile);
+                rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(3);
             }
@@ -204,8 +212,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(4),1,1);
-                grid=(GridView)view.findViewById(R.id.grid_myprofile);
-                grid.setAdapter(adapter);
+//                grid=(GridView)view.findViewById(R.id.grid_myprofile);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(4);
             }
         });
@@ -371,7 +379,7 @@ public class MyProfileFragment extends Fragment {
                     txt_profile_email.setText(userResult.get(0).getEmail());
                     txt_profile_phone.setText(userResult.get(0).getPhone());
                     txt_profile_birthday.setText(userResult.get(0).getBirthday().substring(0,10));
-                    txt_profile_username.setText(userResult.get(0).getUsername());
+                    txt_profile_username.setText(userResult.get(0).getUsername().substring(0,1).toUpperCase()+userResult.get(0).getUsername().substring(1,userResult.get(0).getUsername().length()));
                     username = userResult.get(0).getUsername();
                     user_id = userResult.get(0).getUser_id();
                     first_name = userResult.get(0).getFirst_name();
@@ -526,7 +534,7 @@ public class MyProfileFragment extends Fragment {
             try {
                 if(books.size() >0){
                     adapter = new ListBookAdapter(getActivity(), books,1,1);
-                    grid.setAdapter(adapter);
+                    rView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     listEx = books;
                     tab_all_count.setText(" ("+filterBook(1).size()+")");

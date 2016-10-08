@@ -64,7 +64,11 @@ public class CustomListviewGenre extends BaseAdapter {
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result.get(position).setIscheck(true);
+                if (result.get(position).ischeck()==false){
+                    result.get(position).setIscheck(true);
+                }else {
+                    result.get(position).setIscheck(false);
+                }
             }
         });
         return rowView;

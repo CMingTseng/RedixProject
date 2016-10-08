@@ -66,6 +66,13 @@
             android:numColumns="2"
             android:verticalSpacing="5dp"
            />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycler_view"
+            android:layout_below="@+id/tableRow4">
+
+        </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
 </FrameLayout>
