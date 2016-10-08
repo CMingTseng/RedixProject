@@ -96,6 +96,7 @@
                 android:layout_alignLeft="@+id/rangeSeekbar3"
                 android:layout_alignStart="@+id/rangeSeekbar3"
                 android:gravity="left"
+                android:textColor="@color/color_text_hint"
                 android:layout_alignRight="@+id/txt_filter_rangemax"
                 android:layout_alignEnd="@+id/txt_filter_rangemax"
                 android:layout_below="@+id/rangeSeekbar3"
@@ -122,6 +123,7 @@
                 android:text="1000"
                 android:id="@+id/txt_filter_rangemax"
                 android:gravity="right"
+                android:textColor="@color/color_text_hint"
                 android:layout_below="@+id/rangeSeekbar3"
                 android:layout_alignRight="@+id/rangeSeekbar3"
                 android:layout_alignEnd="@+id/rangeSeekbar3"
@@ -137,9 +139,9 @@
                 android:id="@+id/textView71"
                 android:layout_below="@+id/rangeSeekbar8"
                 android:layout_alignParentLeft="true"
+                android:textColor="@color/color_text_hint"
                 android:layout_alignParentStart="true"
                 android:gravity="center"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
                 android:textSize="@dimen/text_size_search"/>
             <redix.booxtown.custom.CustomTextView
@@ -148,8 +150,9 @@
                 android:text="10 KM"
                 android:id="@+id/txt_filter_proximity"
                 android:layout_below="@+id/rangeSeekbar8"
-                android:layout_marginTop="5dp"
+                android:textColor="@color/color_text_hint"
                 android:gravity="right"
+                android:layout_marginRight="5dp"
                 android:layout_alignRight="@+id/rangeSeekbar8"
                 android:layout_alignEnd="@+id/rangeSeekbar8"
                 android:layout_alignParentLeft="true"
@@ -189,12 +192,14 @@
                 android:layout_below="@+id/spinner_dialog_filter"
                 android:layout_height="wrap_content">
                 <redix.booxtown.custom.CustomTextView
-                    android:id="@+id/tv_genral"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/slide_desc"
                     android:text="Select genre"
-                    />
+                    android:textColor="@color/color_filter_price"
+                    android:id="@+id/tv_genral"
+                    android:textSize="@dimen/slide_desc">
+
+                </redix.booxtown.custom.CustomTextView>
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
@@ -202,6 +207,14 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/btn_down"/>
             </RelativeLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/relaytive_genre"
+                android:background="@color/color_text_hint"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp" />
             <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
