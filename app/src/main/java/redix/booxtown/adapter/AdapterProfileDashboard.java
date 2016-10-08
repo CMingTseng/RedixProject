@@ -103,12 +103,12 @@ public class AdapterProfileDashboard extends RecyclerView.Adapter<AdapterProfile
 
         LayerDrawable stars = (LayerDrawable) holder.ratingBar_dashboard.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.rgb(247,182,0), PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
-        DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.bg_rating));
+        stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.color_topic_interact), PorterDuff.Mode.SRC_ATOP);
+        //stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.color_topic_interact), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+        DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.color_topic_interact));
 
         if(position %2==0){
-            holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.color_hint_interact));
+            holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_user_empty));
 
         }else{
             holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.dot_light_screen1));
