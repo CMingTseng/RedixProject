@@ -313,7 +313,7 @@
         android:weightSum="2">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radioButton_current"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textView116"
@@ -327,7 +327,7 @@
             android:textColor="@color/color_text_hint" />
 
         <redix.booxtown.custom.CustomRadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radioButton_another"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -359,7 +359,7 @@
         android:layout_alignStart="@+id/fragment_map_editlisting"
         android:layout_below="@+id/fragment_map_editlisting"
         android:button="@drawable/img_checkbox"
-        android:checked="false"
+        android:checked="true"
         android:text="Swap" />
 
     <CheckBox
