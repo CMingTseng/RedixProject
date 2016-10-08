@@ -548,8 +548,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
         });
 
-
-
         try {
         if(latLng_new == null && s.equals("edit")){
             GPSTracker gpsTracker = new GPSTracker(getContext());
@@ -573,27 +571,61 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
         });
 
-            swap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    addMarkerChoice(latLng_new);
+        radioButton_current.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if(latLng_new == null && s.equals("edit")){
+                        GPSTracker gpsTracker = new GPSTracker(getContext());
+                        latLng_new = new LatLng(gpsTracker.getLatitude(),gpsTracker.getLongitude());
+                        addMarkerChoice(latLng_new);
+                    }
+                }catch (Exception e){
+                    latLng_new = new LatLng(0,0);
                 }
-            });
+            }
+        });
+        try {
 
-            free.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    addMarkerChoice(latLng_new);
-                }
-            });
+                swap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkCheckBox()) {
+                            addMarkerChoice(latLng_new);
+                        }else{
+                            swap.setChecked(false);
+                        }
+                    }
+                });
 
-            sell.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    tbl_price_sell.setVisibility(View.VISIBLE);
-                    addMarkerChoice(latLng_new);
-                }
-            });
+                free.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkCheckBox()) {
+                            addMarkerChoice(latLng_new);
+                        }else{
+                            free.setChecked(false);
+                        }
+                    }
+                });
+
+                sell.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(checkCheckBox()) {
+                            if(sell.isChecked()){
+                                tbl_price_sell.setVisibility(View.VISIBLE);
+                                addMarkerChoice(latLng_new);
+                            }else {
+                                tbl_price_sell.setVisibility(View.GONE);
+                            }
+
+                        }else{
+                            sell.setChecked(false);
+                        }
+                    }
+                });
+        }catch (Exception e){}
 
         addbook(1);
         return v;
@@ -603,11 +635,28 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         final String swap1 = swap.isChecked() == true ? "1" : "0";
         final String sell1 = sell.isChecked() == true ? "1" : "0";
         final String free1 = free.isChecked() == true ? "1" : "0";
-        if(IconMapController.icon(swap1,sell1,free1) == null){
-            return false;
-        }else{
-            return true;
+        if(free1.equals("1")){
+            if (sell1.equals("1")){
+                Toast.makeText(getContext(),Information.noti_not_check_sell,Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if(swap1.equals("1")){
+                Toast.makeText(getContext(),Information.noti_not_check_sell,Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
+        if(swap1.equals("1") || sell1.equals("1")){
+            if(free1.equals("1")){
+                return false;
+            }
+        }
+        if(IconMapController.icon(swap1,sell1,free1) == "icon_3_option"){
+            return false;
+        }
+        if(IconMapController.icon(swap1,sell1,free1) ==null){
+            return false;
+        }
+        return true;
     }
 
     public void addMarkerChoice(LatLng latLng){
@@ -823,7 +872,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(getContext(), img, 110, 150))));
             // adding marker
             mMap.addMarker(marker);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 20));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12));
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.getUiSettings().setCompassEnabled(true);
@@ -851,16 +900,20 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 showdialog(1);
                 break;
             case R.id.btn_menu_editlisting_update:
-                if(addbook(0)) {
-                    if (numclick != 0 || numimageclick != 0) {
-                        try {
-                            addImages();
-                        }catch (Exception exx){
+                if(checkCheckBox()) {
+                    if (addbook(0)) {
+                        if (numclick != 0 || numimageclick != 0) {
+                            try {
+                                addImages();
+                            } catch (Exception exx) {
 
+                            }
                         }
+                        editbook editbook = new editbook();
+                        editbook.execute();
                     }
-                    editbook editbook = new editbook();
-                    editbook.execute();
+                }else {
+                    Toast.makeText(getContext(),Information.noti_checkbox,Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.imageView33:

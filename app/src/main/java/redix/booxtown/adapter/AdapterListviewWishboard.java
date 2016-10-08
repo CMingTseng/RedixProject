@@ -2,12 +2,17 @@ package redix.booxtown.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -21,7 +26,7 @@ import redix.booxtown.model.Wishboard;
 /**
  * Created by thuyetpham94 on 30/08/2016.
  */
-public class AdapterListviewWishboard extends BaseAdapter {
+public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListviewWishboard.HolderWisboard> {
 
     //    String [] title;
 //    String [] name;
@@ -39,41 +44,14 @@ public class AdapterListviewWishboard extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return list.size();
+    public HolderWisboard onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View itemView = inflater.inflate(R.layout.custom_listview_wishboard, parent, false);
+        return new HolderWisboard(itemView);
     }
 
     @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return position;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return position;
-    }
-
-    public class Holder {
-        TextView title;
-        TextView name;
-        TextView date;
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-
-        Holder holder = new Holder();
-        View rowView;
-        rowView = inflater.inflate(R.layout.custom_listview_wishboard, null);
-        holder.title = (TextView) rowView.findViewById(R.id.txt_title_lisview_wishboard);
-        holder.name = (TextView) rowView.findViewById(R.id.txt_name_custom_listview_wishboard);
-        holder.date = (TextView) rowView.findViewById(R.id.txt_date_customlistview_wishboard);
-
-
+    public void onBindViewHolder(HolderWisboard holder, final int position) {
         if (list.get(position).getTitle().length() == 0) {
             if (list.get(position).getAuthor().length() == 0) {
                 holder.title.setText(list.get(position).getComment());
@@ -85,7 +63,6 @@ public class AdapterListviewWishboard extends BaseAdapter {
             holder.title.setText(list.get(position).getTitle());
             holder.name.setText("by " + list.get(position).getAuthor());
         }
-
         try {
             String[] dates = list.get(position).getCreate_date().substring(0, 10).split("-");
             String resultDate = dates[2] + "-" + dates[1] + "-" + dates[0].substring(2, dates[0].length());
@@ -94,24 +71,50 @@ public class AdapterListviewWishboard extends BaseAdapter {
             holder.date.setText(list.get(position).getCreate_date().substring(0, 10));
         }
 
-        ImageView imgv_listview_respond = (ImageView) rowView.findViewById(R.id.imgv_listview_respond);
-        Picasso.with(context).load(R.drawable.btn_wishbroad_message).into(imgv_listview_respond);
-        imgv_listview_respond.setOnClickListener(new View.OnClickListener() {
+        Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.btn_wishbroad_message);
+        holder.imgv_listview_respond.setImageBitmap(btn1);
+
+        holder.imgv_listview_respond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, RespondActivity.class);
-
                 intent.putExtra("wishboard", list.get(position));
-
                 context.startActivity(intent);
             }
         });
 
         if (position % 2 == 0) {
-            rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.color_hint_interact));
+            holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.color_hint_interact));
         } else {
-            rowView.setBackgroundColor(ContextCompat.getColor(context, R.color.dot_light_screen1));
+            holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.dot_light_screen1));
         }
-        return rowView;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+
+    class HolderWisboard extends RecyclerView.ViewHolder{
+        TextView title;
+        TextView name;
+        TextView date;
+        RelativeLayout bg_liner;
+        ImageView imgv_listview_respond;
+        public HolderWisboard(View itemView) {
+            super(itemView);
+            bg_liner = (RelativeLayout)itemView.findViewById(R.id.relativeLayout_wishboard);
+            title=(TextView) itemView.findViewById(R.id.txt_title_lisview_wishboard);
+            name = (TextView)itemView.findViewById(R.id.txt_name_custom_listview_wishboard);
+            date = (TextView)itemView.findViewById(R.id.txt_date_customlistview_wishboard);
+            imgv_listview_respond = (ImageView)itemView.findViewById(R.id.imgv_listview_respond);
+        }
     }
 }

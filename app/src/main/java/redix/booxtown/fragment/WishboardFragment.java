@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -29,6 +31,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import redix.booxtown.R;
@@ -46,13 +49,21 @@ import redix.booxtown.model.Wishboard;
 
 public class WishboardFragment extends Fragment {
 
-    ListView lv_wishboard;
+    RecyclerView rv_wishboard;
+    LinearLayoutManager linearLayoutManager;
+    AdapterListviewWishboard adpater;
     EditText editText_title_wishboard,editText_author_wishboard,editText_comment_wishboard;
+    List<Wishboard> array_Wishboard;
+    String session_id;
+    private int previousTotal = 0,visibleThreshold = 5;
+    boolean loading = true,
+            isLoading = true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_wishboard , container, false);
 
+        array_Wishboard = new ArrayList<>();
         ImageView img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(img_menu);
         img_menu.setOnClickListener(new View.OnClickListener() {
@@ -63,11 +74,12 @@ public class WishboardFragment extends Fragment {
             }
         });
 
-        lv_wishboard = (ListView) view.findViewById(R.id.lv_wishboard);
-        getWishboard getWishboard = new getWishboard(getContext());
+        rv_wishboard = (RecyclerView) view.findViewById(R.id.rv_wishboard);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rv_wishboard.setLayoutManager(linearLayoutManager);
+
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        final String session_id = pref.getString("session_id", null);
-        getWishboard.execute("1000000","0",session_id);
+        session_id = pref.getString("session_id", null);
         ImageView img_component=(ImageView) getActivity().findViewById(R.id.img_menu_component);
         img_component.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,23 +117,64 @@ public class WishboardFragment extends Fragment {
                         else {
                             insertWishboard insertWishboard = new insertWishboard(getContext());
                             insertWishboard.execute(editText_title_wishboard.getText().toString(), editText_author_wishboard.getText().toString(), editText_comment_wishboard.getText().toString(), session_id);
-                            getWishboard getWishboard = new getWishboard(getContext());
-                            getWishboard.execute("1000000", "0", session_id);
+                            /*getWishboard getWishboard = new getWishboard(getContext());
+                            getWishboard.execute("1000000", "0", session_id);*/
                             dialog.dismiss();
                         }
                     }
                 });
             }
         });
-
+        populatRecyclerView(session_id);
+        implementScrollListener(session_id);
         return view;
     }
+
+    private void populatRecyclerView(String session_id) {
+        getWishboard getwishboard = new getWishboard(getContext(),15,0,session_id);
+        getwishboard.execute();
+
+    }
+
+    private void implementScrollListener(final String session_id) {
+        rv_wishboard.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = rv_wishboard.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                    // End has been reached
+                    Wishboard dashBoard_lv = array_Wishboard.get(array_Wishboard.size()-1);
+                    getWishboard getWishboard = new getWishboard(getContext(),15,Integer.valueOf(dashBoard_lv.getId()),session_id);
+                    getWishboard.execute();
+                    // Do something
+                    loading = true;
+                }
+            }
+        });
+    }
+
 
     class getWishboard extends AsyncTask<String,Void,List<Wishboard>>{
         ProgressDialog progressDialog;
         Context context;
-        public getWishboard(Context context){
+        int top,from;
+        String session_id;
+        public getWishboard(Context context,int top,int from,String session_id){
             this.context = context;
+            this.top = top;
+            this.from =from;
+            this.session_id = session_id;
         }
         @Override
         protected void onPreExecute() {
@@ -133,17 +186,21 @@ public class WishboardFragment extends Fragment {
         @Override
         protected List<Wishboard> doInBackground(String... strings) {
             WishboardController wishboardController = new WishboardController();
-            return wishboardController.getAllWishboard(Integer.parseInt(strings[0]),Integer.parseInt(strings[1]),strings[2]);
+            return wishboardController.getWishboardByTop(top,from,session_id);
         }
 
         @Override
         protected void onPostExecute(List<Wishboard> wishboards) {
             try {
                 if (wishboards.size() > 0){
-                    lv_wishboard.setAdapter(new AdapterListviewWishboard(getActivity(),wishboards));
+                    array_Wishboard.addAll(wishboards);
+                    adpater = new AdapterListviewWishboard(getActivity(), array_Wishboard);
+                    rv_wishboard.setAdapter(adpater);
+                    adpater.notifyDataSetChanged();
+                    isLoading = true;
                     progressDialog.dismiss();
                 }else {
-                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    isLoading =false;
                     progressDialog.dismiss();
                 }
             }catch (Exception e){
@@ -189,4 +246,5 @@ public class WishboardFragment extends Fragment {
             progressDialog.dismiss();
         }
     }
+
 }
