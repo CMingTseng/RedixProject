@@ -89,7 +89,7 @@ public class MyProfileFragment extends Fragment {
     private int PICK_IMAGE_REQUEST = 1;
     Bitmap bitmap_profile;
     ImageView imageView_update_profile;
-    CircularImageView img_rank1,img_rank2,img_rank3;
+    ImageView img_rank1,img_rank2,img_rank3;
     String img_photo;
     String photoOrigin="";
     boolean flag = false;
@@ -134,9 +134,9 @@ public class MyProfileFragment extends Fragment {
         rView.setLayoutManager(gridLayoutManager);
 
         //profile
-        img_rank1 = (CircularImageView)view.findViewById(R.id.img_rank1);
-        img_rank2 = (CircularImageView)view.findViewById(R.id.img_rank2);
-        img_rank3 = (CircularImageView)view.findViewById(R.id.img_rank3);
+        img_rank1 = (ImageView)view.findViewById(R.id.img_rank1);
+        img_rank2 = (ImageView)view.findViewById(R.id.img_rank2);
+        img_rank3 = (ImageView)view.findViewById(R.id.img_rank3);
         txt_profile_email = (EditText) view.findViewById(R.id.txt_profile_email);
         txt_profile_phone = (EditText) view.findViewById(R.id.txt_profile_phone);
         txt_profile_birthday = (TextView) view.findViewById(R.id.txt_profile_birthday);
@@ -379,7 +379,7 @@ public class MyProfileFragment extends Fragment {
                     txt_profile_email.setText(userResult.get(0).getEmail());
                     txt_profile_phone.setText(userResult.get(0).getPhone());
                     txt_profile_birthday.setText(userResult.get(0).getBirthday().substring(0,10));
-                    txt_profile_username.setText(userResult.get(0).getUsername());
+                    txt_profile_username.setText(userResult.get(0).getUsername().substring(0,1).toUpperCase()+userResult.get(0).getUsername().substring(1,userResult.get(0).getUsername().length()));
                     username = userResult.get(0).getUsername();
                     user_id = userResult.get(0).getUser_id();
                     first_name = userResult.get(0).getFirst_name();
@@ -442,6 +442,9 @@ public class MyProfileFragment extends Fragment {
                     ratingBar_userprofile.setRating(userResult.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
                 }
                 super.onPostExecute(userResult);
             }catch (Exception e){

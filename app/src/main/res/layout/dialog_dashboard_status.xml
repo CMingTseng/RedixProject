@@ -38,33 +38,46 @@
                 android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1"/>
             <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/groupradio_dashboard"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/textView115"
+                android:layout_alignLeft="@+id/textView116"
+                android:layout_alignRight="@+id/textView115"
+                android:layout_alignStart="@+id/textView116"
+                android:layout_below="@+id/textView116"
                 android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:id="@+id/linearLayout3">
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Yes"
-                    android:id="@+id/radioButton3"
-                    android:buttonTint="@android:color/white"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                android:layout_marginTop="5dp"
+                android:weightSum="2"
+                android:layout_gravity="center_horizontal">
 
-                <android.support.v7.widget.AppCompatCheckBox
+                <redix.booxtown.custom.CustomRadioButton
+                    android:id="@+id/radioButton_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/textView116"
+                    android:layout_alignStart="@+id/textView116"
+                    android:layout_below="@+id/textView116"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="1"
+                    android:button="@drawable/radio_button_transaction"
+                    android:checked="true"
+                    android:text="Yes"
+                    android:paddingLeft="5dp"
+                    android:textColor="@color/color_text_hint" />
+
+                <redix.booxtown.custom.CustomRadioButton
+                    android:id="@+id/radioButton2_dashboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="1"
+                    android:button="@drawable/radio_button_transaction"
+                    android:checked="false"
                     android:text="No"
-                    android:buttonTint="@android:color/white"
-                    android:id="@+id/radioButton4"
-                    android:layout_alignTop="@+id/radioButton3" />
-            </LinearLayout>
+                    android:paddingLeft="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/color_text_hint" />
             </RadioGroup>
         </LinearLayout>
         <RelativeLayout
@@ -107,7 +120,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1"
-                android:layout_marginBottom="5dp" />
+                 />
 
         </RelativeLayout>
 
@@ -129,12 +142,13 @@
                 android:layout_height="wrap_content"
                 android:numStars="5"
                 style="?android:attr/ratingBarStyleIndicator"
-                android:progressTint="@color/color_star_select"
                 android:theme="@style/RatingBar"
                 android:rating="2"
                 android:isIndicator="false"
                 android:id="@+id/rating_promp"
                 android:layout_gravity="center"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
                 android:layout_marginBottom="10dp" />
             <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
@@ -152,7 +166,8 @@
                 android:isIndicator="false"
                 android:id="@+id/rating_cour"
                 style="?android:attr/ratingBarStyleIndicator"
-                android:progressTint="@color/color_star_select"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp" />
             <redix.booxtown.custom.CustomTextView
@@ -171,7 +186,8 @@
                 android:isIndicator="false"
                 android:id="@+id/rating_quality"
                 style="?android:attr/ratingBarStyleIndicator"
-                android:progressTint="@color/color_star_select"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 />
@@ -181,7 +197,9 @@
                 android:id="@+id/btn_rate_dashboard_status"
                 android:layout_gravity="center"
                 android:background="@drawable/bg_interact_bt_popup"
-                android:text="Rate now"
+                android:text="Rate Now"
+                android:textAllCaps="false"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/color_text"/>
         </LinearLayout>
 
