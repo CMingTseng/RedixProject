@@ -24,6 +24,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -80,6 +82,8 @@ public class MyProfileFragment extends Fragment {
     int user_id;
     TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count;
     RatingBar ratingBar_userprofile;
+    RecyclerView rView;
+    GridLayoutManager gridLayoutManager;
 
     int PICK_IMAGE_MULTIPLE = 1;
     private int PICK_IMAGE_REQUEST = 1;
@@ -124,6 +128,10 @@ public class MyProfileFragment extends Fragment {
         final String session_id =  pref.getString("session_id", null);
         Profile profile = new Profile(getContext());
         profile.execute(session_id);
+        gridLayoutManager = new GridLayoutManager(getContext(),2);
+        rView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        rView.setHasFixedSize(true);
+        rView.setLayoutManager(gridLayoutManager);
 
         //profile
         img_rank1 = (ImageView)view.findViewById(R.id.img_rank1);
@@ -149,8 +157,8 @@ public class MyProfileFragment extends Fragment {
             }
         });
 
-        grid=(GridView)view.findViewById(R.id.grid_myprofile);
-        grid.setOnTouchListener(new View.OnTouchListener() {
+//        grid=(GridView)view.findViewById(R.id.grid_myprofile);
+        rView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -173,8 +181,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(1),1,1);
-                grid=(GridView)view.findViewById(R.id.grid_myprofile);
-                grid.setAdapter(adapter);
+//                grid=(GridView)view.findViewById(R.id.grid_myprofile);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(1);
             }
         });
@@ -183,8 +191,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(2),1,1);
-                grid=(GridView)view.findViewById(R.id.grid_myprofile);
-                grid.setAdapter(adapter);
+//                grid=(GridView)view.findViewById(R.id.grid_myprofile);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(2);
             }
         });
@@ -193,8 +201,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(3),1,1);
-                grid=(GridView)view.findViewById(R.id.grid_myprofile);
-                grid.setAdapter(adapter);
+//                grid=(GridView)view.findViewById(R.id.grid_myprofile);
+                rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(3);
             }
@@ -204,8 +212,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ListBookAdapter adapter = new ListBookAdapter(getActivity(),filterBook(4),1,1);
-                grid=(GridView)view.findViewById(R.id.grid_myprofile);
-                grid.setAdapter(adapter);
+//                grid=(GridView)view.findViewById(R.id.grid_myprofile);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(4);
             }
         });
@@ -523,7 +531,7 @@ public class MyProfileFragment extends Fragment {
             try {
                 if(books.size() >0){
                     adapter = new ListBookAdapter(getActivity(), books,1,1);
-                    grid.setAdapter(adapter);
+                    rView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     listEx = books;
                     tab_all_count.setText(" ("+filterBook(1).size()+")");
