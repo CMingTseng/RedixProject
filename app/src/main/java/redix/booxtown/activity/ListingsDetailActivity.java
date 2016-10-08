@@ -334,7 +334,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             imSwap2.setVisibility(View.VISIBLE);
             imBuy2.setVisibility(View.VISIBLE);
         }
-        if (type.equals("2")) {
+        if (!type.equals("3")||!type.equals("6")) {
             imSwap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
