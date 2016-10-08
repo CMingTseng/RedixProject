@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -389,9 +390,14 @@ public class MyProfileFragment extends Fragment {
                     //set rank
                     if(userResult.get(0).getContributor() == 0){
                         img_rank1.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(R.drawable.conbitrutor_one).into(img_rank1);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
+                        img_rank1.setImageBitmap(btn1);
+
                     }else{
-                        Picasso.with(context).load(R.drawable.conbitrutor_two).into(img_rank1);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
+                        img_rank1.setImageBitmap(btn1);
+
+                        //Picasso.with(context).load(R.drawable.conbitrutor_two).into(img_rank1);
                     }
                     if(userResult.get(0).getGoldenBook() == 0){
                         img_rank2.setVisibility(View.GONE);
