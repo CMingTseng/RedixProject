@@ -39,7 +39,7 @@
         style="?android:attr/ratingBarStyleSmall"
         android:theme="@style/RatingBar"
         android:isIndicator="true"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/txt_profile_username"
         android:layout_alignLeft="@+id/txt_profile_username"
         android:layout_alignStart="@+id/txt_profile_username" />
@@ -51,7 +51,7 @@
         android:layout_below="@+id/ratingBar_userprofile"
         android:layout_alignLeft="@+id/ratingBar_userprofile"
         android:layout_alignStart="@+id/ratingBar_userprofile"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:visibility="gone"
 
         />

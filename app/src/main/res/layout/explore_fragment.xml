@@ -18,28 +18,15 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/explore_search" />
 
-    <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:gravity="center"
-        android:verticalSpacing="5dp"
-        android:horizontalSpacing="5dp"
-
-        android:id="@+id/gridView"
-        android:layout_centerHorizontal="true"
-
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/tab_explore" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="wrap_content"
             android:layout_below="@+id/tab_explore"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            >
         </android.support.v7.widget.RecyclerView>
 
 
