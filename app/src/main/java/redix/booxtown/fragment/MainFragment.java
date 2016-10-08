@@ -429,12 +429,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             ratingBar_marker.setRating(books.getRating());
             LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
             stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP );
-            stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
-            stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
-            DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
-
-
-
+            stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.dot_light_screen1), PorterDuff.Mode.SRC_ATOP);
+            stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.dot_light_screen1), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+            DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.dot_light_screen1));
 
             //stars.getColorFilter();
             char array[] = books.getAction().toCharArray();

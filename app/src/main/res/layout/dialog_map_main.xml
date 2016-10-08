@@ -80,6 +80,7 @@
                 android:id="@+id/ratingBar_marker"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_marginLeft="-4dp"
+                android:progressBackgroundTint="@color/dot_light_screen1"
                 android:scaleX="0.9"
                 android:scaleY="0.9"
                 android:layout_below="@+id/txt_user_marker"

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/backgroundnavigation"
+    android:background="@color/bg_myprofile"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.github.siyamed.shapeimageview.CircularImageView
@@ -12,7 +12,7 @@
         android:layout_margin="10dp"
         android:paddingBottom="10dp"
         android:src="@mipmap/user_empty"
-        app:siBorderColor="@color/backgroundnavigation"
+        app:siBorderColor="@color/bg_myprofile"
         app:siBorderWidth="1dp"
         />
 
