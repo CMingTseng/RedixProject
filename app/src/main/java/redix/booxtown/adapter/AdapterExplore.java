@@ -116,7 +116,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             Picasso.with(mContext).load(R.drawable.explore_btn_swap_dis_active).into(hoder.img_swap);
 
         }
-        if(String.valueOf(array[1]).contains("1")){
+        if(String.valueOf(array[2]).contains("1")){
             Picasso.with(mContext).load(R.drawable.explore_btn_free_active).into(hoder.img_free);
 
         }
@@ -124,7 +124,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             Picasso.with(mContext).load(R.drawable.explore_btn_free_dis_active).into(hoder.img_free);
 
         }
-        if(String.valueOf(array[2]).contains("1")){
+        if(String.valueOf(array[1]).contains("1")){
             Picasso.with(mContext).load(R.drawable.explore_btn_buy_active).into(hoder.img_buy);
 
         }
@@ -141,8 +141,10 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
         hoder.img_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(),1,ex);
-                userID.execute();
+                if(String.valueOf(array[1]).contains("1")) {
+                    UserID userID = new UserID(mContext, ex.getId(), ex.getUser_id(), 1, ex);
+                    userID.execute();
+                }
 
             }
         });
@@ -150,10 +152,12 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
         hoder.img_swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                String session_id = pref.getString("session_id", null);
-                listingAsync listingAsync = new listingAsync(mContext,ex);
-                listingAsync.execute(session_id);
+                if(String.valueOf(array[0]).contains("1")) {
+                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    String session_id = pref.getString("session_id", null);
+                    listingAsync listingAsync = new listingAsync(mContext, ex);
+                    listingAsync.execute(session_id);
+                }
             }
         });
 

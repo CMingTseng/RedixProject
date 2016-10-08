@@ -134,13 +134,13 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
             Picasso.with(mContext).load(R.drawable.explore_btn_swap_dis_active).into(hoder.img_swap);
 
         }
-        if(String.valueOf(array[1]).contains("1")){
+        if(String.valueOf(array[2]).contains("1")){
             Picasso.with(mContext).load(R.drawable.explore_btn_free_active).into(hoder.img_free);
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_free_dis_active).into(hoder.img_free);
         }
-        if(String.valueOf(array[2]).contains("1")){
+        if(String.valueOf(array[1]).contains("1")){
             Picasso.with(mContext).load(R.drawable.listing_btn_buy).into(hoder.img_buy);
         }
         else {
