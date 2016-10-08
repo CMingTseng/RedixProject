@@ -227,14 +227,14 @@ public class ExploreFragment extends Fragment
         }
         else if(type==3){
             for (int i=0; i<listExplore.size(); i++){
-                if(listExplore.get(i).getAction().substring(1,2).equals("1")){
+                if(listExplore.get(i).getAction().substring(2,3).equals("1")){
                     list.add(listExplore.get(i));
                 }
             }
         }
         else{
             for (int i=0; i<listExplore.size(); i++){
-                if(listExplore.get(i).getAction().substring(2,3).equals("1")){
+                if(listExplore.get(i).getAction().substring(1,2).equals("1")){
                     list.add(listExplore.get(i));
                 }
             }

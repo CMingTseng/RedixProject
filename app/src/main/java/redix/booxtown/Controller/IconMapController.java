@@ -9,10 +9,10 @@ public class IconMapController {
             return "icon_swap";
         }
         if(swap.contains("0")&free.contains("1")&buy.contains("0")){
-            return "icon_free";
+            return "icon_buy";
         }
         if(swap.contains("0")&free.contains("0")&buy.contains("1")){
-            return "icon_buy";
+            return "icon_free";
         }
         if(swap.contains("1")&free.contains("1")&buy.contains("0")){
             return "icon_2_option";
@@ -35,19 +35,19 @@ public class IconMapController {
             return "icon_swap";
         }
         if(swap.contains("0")&free.contains("1")&buy.contains("0")){
-            return "icon_free";
-        }
-        if(swap.contains("0")&free.contains("0")&buy.contains("1")){
             return "icon_buy";
         }
+        if(swap.contains("0")&free.contains("0")&buy.contains("1")){
+            return "icon_free";
+        }
         if(swap.contains("1")&free.contains("1")&buy.contains("0")){
-            return "swapfree";
+            return "swapbuy";
         }
         if(swap.contains("1")&free.contains("1")&buy.contains("1")){
             return "option";
         }
         if(swap.contains("1")&free.contains("0")&buy.contains("1")){
-            return "swapbuy";
+            return "swapfree";
         }
         if(swap.contains("0")&free.contains("1")&buy.contains("1")){
             return "freebuy";

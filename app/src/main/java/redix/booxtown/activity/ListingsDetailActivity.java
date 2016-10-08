@@ -176,15 +176,15 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         startActivity(intent);
                         getActivity().finish();
                     }
-//                    else {
-//                        HomeActivity homeActivity = (HomeActivity) getActivity();
-//                        homeActivity.getTxtTitle().setText("Notifications");
-//                        homeActivity.callFragment(new NotificationFragment());
-//                    }
+                    else {
+                        HomeActivity homeActivity = (HomeActivity) getActivity();
+                        homeActivity.getTxtTitle().setText("Notifications");
+                        homeActivity.callFragment(new NotificationFragment());
+                    }
                     if(back == 2){
-                        callFragment(new MyProfileFragment());
+                       // callFragment(new MyProfileFragment());
                     }else if(back == 1){
-                        callFragment(new ListingsFragment());
+                        //callFragment(new ListingsFragment());
                     }
                 }
             });

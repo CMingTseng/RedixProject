@@ -30,47 +30,41 @@
                 android:id="@+id/txt_add_book"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.15"
+                android:layout_weight="1.05"
                 android:background="@drawable/bg_button_listings"
                 android:gravity="center"
                 android:padding="9dp"
                 android:text="Add a book"
                 android:textColor="@color/dot_light_screen1"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="-5dp" />
 
             <redix.booxtown.custom.CustomTextView
                 android:id="@+id/txt_my_listings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.84"
+                android:layout_weight="0.95"
                 android:background="@color/dot_light_screen1"
                 android:gravity="center"
                 android:padding="9dp"
                 android:text="My listings"
                 android:textColor="@color/color_text"
-                android:layout_marginRight="5dp" />
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="3dp" />
         </TableRow>
 
-        <GridView
-            android:id="@+id/grid_view_listings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow4"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:horizontalSpacing="5dp"
-            android:numColumns="2"
-            android:verticalSpacing="5dp"
-           />
         <android.support.v7.widget.RecyclerView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/recycler_view"
-            android:layout_below="@+id/tableRow4">
+            android:layout_below="@+id/tableRow4"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp">
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
