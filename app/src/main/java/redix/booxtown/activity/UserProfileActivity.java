@@ -44,7 +44,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 {
     private LinearLayout linear_all,linear_swap,linear_free,linear_cart;
     List<Book> listEx = new ArrayList<>();
-    GridView grid;
+    //GridView grid;
     CircularImageView imv_menu_profile;
     RatingBar ratingBar_userprofile;
     AdapterExplore adapter;
@@ -68,7 +68,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         ImageView img_component=(ImageView) findViewById(R.id.img_menu_component);
         img_component.setVisibility(View.INVISIBLE);
         gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
-        rView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        rView = (RecyclerView) findViewById(R.id.recycler_view_userprofile);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(gridLayoutManager);
 
@@ -88,7 +88,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(1),0,1);
-                grid=(GridView)findViewById(R.id.grid_view_profile);
+               // grid=(GridView)findViewById(R.id.grid_view_profile);
                 rView.setAdapter(adapter);
                 tab_custom.setDefault(1);
             }
@@ -98,7 +98,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(2),0,1);
-                grid=(GridView)findViewById(R.id.grid_view_profile);
+               // grid=(GridView)findViewById(R.id.grid_view_profile);
                 rView.setAdapter(adapter);
                 tab_custom.setDefault(2);
             }
@@ -108,7 +108,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(3),0,1);
-                grid=(GridView)findViewById(R.id.grid_view_profile);
+               // grid=(GridView)findViewById(R.id.grid_view_profile);
                 rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(3);
@@ -119,7 +119,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(4),0,1);
-                grid=(GridView)findViewById(R.id.grid_view_profile);
+               // grid=(GridView)findViewById(R.id.grid_view_profile);
                 rView.setAdapter(adapter);
                 tab_custom.setDefault(4);
             }
@@ -310,7 +310,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                     }
                     listEx = books;
                     adapter = new AdapterExplore(UserProfileActivity.this,books,0,1);
-                    grid=(GridView)findViewById(R.id.grid_view_profile);
+                    //grid=(GridView)findViewById(R.id.grid_view_profile);
                     rView.setAdapter(adapter);
                     tab_all_count.setText("(" + filterExplore(1).size() + ")");
                     tab_swap_count.setText("(" + filterExplore(2).size() + ")");
