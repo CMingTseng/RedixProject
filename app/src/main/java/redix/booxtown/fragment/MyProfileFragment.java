@@ -84,7 +84,8 @@ public class MyProfileFragment extends Fragment {
     int PICK_IMAGE_MULTIPLE = 1;
     private int PICK_IMAGE_REQUEST = 1;
     Bitmap bitmap_profile;
-    ImageView imageView_update_profile,img_rank1,img_rank2,img_rank3;
+    ImageView imageView_update_profile;
+    CircularImageView img_rank1,img_rank2,img_rank3;
     String img_photo;
     String photoOrigin="";
     boolean flag = false;
@@ -125,9 +126,9 @@ public class MyProfileFragment extends Fragment {
         profile.execute(session_id);
 
         //profile
-        img_rank1 = (ImageView)view.findViewById(R.id.img_rank1);
-        img_rank2 = (ImageView)view.findViewById(R.id.img_rank2);
-        img_rank3 = (ImageView)view.findViewById(R.id.img_rank3);
+        img_rank1 = (CircularImageView)view.findViewById(R.id.img_rank1);
+        img_rank2 = (CircularImageView)view.findViewById(R.id.img_rank2);
+        img_rank3 = (CircularImageView)view.findViewById(R.id.img_rank3);
         txt_profile_email = (EditText) view.findViewById(R.id.txt_profile_email);
         txt_profile_phone = (EditText) view.findViewById(R.id.txt_profile_phone);
         txt_profile_birthday = (TextView) view.findViewById(R.id.txt_profile_birthday);
@@ -397,26 +398,29 @@ public class MyProfileFragment extends Fragment {
                         Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
                         img_rank1.setImageBitmap(btn1);
 
-                        //Picasso.with(context).load(R.drawable.conbitrutor_two).into(img_rank1);
                     }
                     if(userResult.get(0).getGoldenBook() == 0){
                         img_rank2.setVisibility(View.GONE);
                     }else if(userResult.get(0).getGoldenBook() == 1){
-                        Picasso.with(context).load(R.drawable.golden_book).into(img_rank2);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.golden_book);
+                        img_rank2.setImageBitmap(btn1);
                         img_rank2.setVisibility(View.VISIBLE);
                     }
 
                     if(userResult.get(0).getListBook() == 0){
-                        Picasso.with(context).load(R.drawable.newbie).into(img_rank3);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.newbie);
+                        img_rank3.setImageBitmap(btn1);
                         img_rank3.setVisibility(View.VISIBLE);
                     }else if(userResult.get(0).getListBook() == 1){
-                        Picasso.with(context).load(R.drawable.bookworm).into(img_rank3);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bookworm);
+                        img_rank3.setImageBitmap(btn1);
                         img_rank3.setVisibility(View.VISIBLE);
                     }else{
-                        Picasso.with(context).load(R.drawable.bibliophile).into(img_rank3);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bibliophile);
+                        img_rank3.setImageBitmap(btn1);
+
                         img_rank3.setVisibility(View.VISIBLE);
                     }
-                    //Picasso.with(context).load()
 
                     //end
                     SharedPreferences pref2 = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -425,12 +429,11 @@ public class MyProfileFragment extends Fragment {
                     editor.commit();
                     Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getUsername()+"&image="+userResult.get(0).getPhoto().substring(userResult.get(0).getUsername().length()+3,userResult.get(0).getPhoto().length()))
-                            .error(R.drawable.blank_image)
                             .into(imv_menu_profile);
                     dialog.dismiss();
                     ratingBar_userprofile.setRating(userResult.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
-                    stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
                 }
                 super.onPostExecute(userResult);
             }catch (Exception e){

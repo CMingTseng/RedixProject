@@ -9,11 +9,11 @@
         android:id="@+id/imv_menu_profile"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:siBorderColor="@color/dot_light_screen2"
-        app:siBorderWidth="1dp"
         android:layout_margin="10dp"
         android:paddingBottom="10dp"
-
+        android:src="@mipmap/user_empty"
+        app:siBorderColor="@color/backgroundnavigation"
+        app:siBorderWidth="1dp"
         />
 
     <redix.booxtown.custom.CustomTextView
@@ -41,7 +41,7 @@
         android:layout_alignLeft="@+id/txt_profile_username"
         android:layout_alignStart="@+id/txt_profile_username" />
 
-    <ImageView
+    <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/img_rank1"
@@ -50,9 +50,11 @@
         android:layout_alignStart="@+id/ratingBar_userprofile"
         android:layout_marginTop="5dp"
         android:visibility="gone"
+        app:siBorderColor="@color/backgroundnavigation"
+        app:siBorderWidth="1dp"
         />
 
-    <ImageView
+    <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/img_rank2"
@@ -62,9 +64,11 @@
         android:layout_marginLeft="9dp"
         android:layout_marginStart="9dp"
         android:visibility="gone"
+        app:siBorderColor="@color/backgroundnavigation"
+        app:siBorderWidth="1dp"
         />
 
-    <ImageView
+    <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/img_rank3"
@@ -74,6 +78,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:visibility="gone"
+        app:siBorderColor="@color/backgroundnavigation"
+        app:siBorderWidth="1dp"
         />
 
 </RelativeLayout>

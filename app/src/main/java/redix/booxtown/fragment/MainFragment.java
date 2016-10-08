@@ -21,6 +21,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -372,8 +374,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         // latitude and longitude
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
-        listingAsync listingAsync = new listingAsync(getContext());
-        listingAsync.execute(session_id);
+        listingAsync listingAsync = new listingAsync(getContext(),session_id,0,100);
+        listingAsync.execute();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
@@ -426,8 +428,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             txt_user_marker.setText(books.getUsername());
             ratingBar_marker.setRating(books.getRating());
             LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
-
+            stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP );
+            stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+            stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+            DrawableCompat.setTint(stars, ContextCompat.getColor(getContext(), R.color.bg_rating));
+            //stars.getColorFilter();
             char array[] = books.getAction().toCharArray();
             String swap = String.valueOf(array[0]);
             String free = String.valueOf(array[1]);
@@ -558,18 +563,19 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         Context context;
         ProgressDialog dialog;
-        List<Book> listemp;
-
-        public listingAsync(Context context) {
+        String session_id;
+        int top,from;
+        public listingAsync(Context context,String session_id,int from,int top) {
             this.context = context;
+            this.session_id = session_id;
+            this.top = top;
+            this.from = from;
         }
 
         @Override
         protected List<Book> doInBackground(String... strings) {
-            listemp = new ArrayList<>();
             BookController bookController = new BookController();
-            listemp = bookController.getallbook();
-            return listemp;
+            return bookController.book_gettop(session_id,from,top);
         }
 
         @Override
