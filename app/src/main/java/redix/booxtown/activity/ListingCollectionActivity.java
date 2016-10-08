@@ -48,6 +48,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -75,6 +77,7 @@ import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.GetAllGenreAsync;
+import redix.booxtown.controller.IconMapController;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.ResizeImage;
 import redix.booxtown.controller.UploadFileController;
@@ -113,6 +116,9 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     SupportMapFragment mapFragment;
     String[] image;
     TextView txt_add_book,txt_my_listings,tag1,tag2,tag3;
+
+    LatLng latLng_new;
+    RadioButton radioButton_current,radioButton_another;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -122,6 +128,32 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.fragment_map_editlisting);
         mapFragment.getMapAsync(this);
+
+        radioButton_current = (RadioButton)v.findViewById(R.id.radioButton_current);
+        radioButton_another = (RadioButton)v.findViewById(R.id.radioButton_another);
+
+        /*final RadioGroup radio = (RadioGroup) v.findViewById(R.id.groupradio);
+        radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                View radioButton = radio.findViewById(checkedId);
+                int index = radio.indexOfChild(radioButton);
+
+                // Add logic here
+
+                switch (index) {
+                    case 0: // first button
+                        Toast.makeText(getContext(), "Selected button number " + index, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1: // secondbutton
+                        Toast.makeText(getContext(), "Selected button number " + index, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });*/
+
         //end
         tbl_price_sell= (TableRow) v.findViewById(R.id.row_price_sell) ;
         edt_editlisting_sell = (EditText) v.findViewById(R.id.edt_editlisting_sell);
@@ -344,7 +376,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             btn_menu_listing_addbook.setVisibility(View.GONE);
             row.setVisibility(View.VISIBLE);
             bookedit = (Book) getArguments().getSerializable("bookedit");
-
+            addMarkerChoice(new LatLng(bookedit.getLocation_latitude(),bookedit.getLocation_longitude()));
             edt_author.setText(bookedit.getAuthor().toString());
             edt_tilte.setText(bookedit.getTitle().toString());
             String[] listtag = bookedit.getHash_tag().split(";");
@@ -379,7 +411,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     if(back == 1){
                         callFragment(new MyProfileFragment());
                     }else if(back == 3){
-
                     }else{
                         callFragment(new ListingsFragment());
                         MainAllActivity.setTxtTitle("Listings");
@@ -396,15 +427,12 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
             if (String.valueOf(array[1]).contains("1")) {
                 sell.setChecked(true);
-
                 try {
                     if (bookedit.getPrice() >0) {
                         tbl_price_sell.setVisibility(View.VISIBLE);
                     }
                 }catch (Exception exx){
-
                 }
-
                 edt_editlisting_sell.setVisibility(View.VISIBLE);
                 if (bookedit.getPrice()!=0){
                     edt_editlisting_sell.setText(String.valueOf(bookedit.getPrice()));
@@ -437,7 +465,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
 
             arrImage = new ArrayList<>();
-
             int index=0;
             if(image.length>0) {
                 for (int i = 0; i < image.length; i++) {
@@ -477,7 +504,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     }
                 }
             }
-
         } else {
             btn_menu_listing_addbook.setVisibility(View.VISIBLE);
             row.setVisibility(View.GONE);
@@ -521,8 +547,80 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
             }
         });
+
+
+
+        try {
+        if(latLng_new == null && s.equals("edit")){
+            GPSTracker gpsTracker = new GPSTracker(getContext());
+            latLng_new = new LatLng(gpsTracker.getLatitude(),gpsTracker.getLongitude());
+        }
+        }catch (Exception e){
+            latLng_new = new LatLng(0,0);
+        }
+        radioButton_another.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        latLng_new = latLng;
+                        addMarkerChoice(latLng);
+
+                    }
+                });
+            }
+        });
+
+            swap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addMarkerChoice(latLng_new);
+                }
+            });
+
+            free.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addMarkerChoice(latLng_new);
+                }
+            });
+
+            sell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    tbl_price_sell.setVisibility(View.VISIBLE);
+                    addMarkerChoice(latLng_new);
+                }
+            });
+
         addbook(1);
         return v;
+    }
+
+    public boolean checkCheckBox(){
+        final String swap1 = swap.isChecked() == true ? "1" : "0";
+        final String sell1 = sell.isChecked() == true ? "1" : "0";
+        final String free1 = free.isChecked() == true ? "1" : "0";
+        if(IconMapController.icon(swap1,sell1,free1) == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void addMarkerChoice(LatLng latLng){
+        try {
+            final String swap1 = swap.isChecked() == true ? "1" : "0";
+            final String sell1 = sell.isChecked() == true ? "1" : "0";
+            final String free1 = free.isChecked() == true ? "1" : "0";
+            Location location = new Location("you");
+            location.setLatitude(latLng.latitude);
+            location.setLongitude(latLng.longitude);
+            addMaker(location, IconMapController.icon(swap1, sell1, free1));
+            latLng_new = latLng;
+        }catch (Exception e){}
     }
 
 
@@ -596,7 +694,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             String action = getAction();
 
             seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
@@ -605,7 +702,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-
                 }
 
                 @Override
@@ -624,7 +720,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     }
                 }
             }
-
             book = new Book();
             book.setAction(action);
             book.setAuthor(auth);
@@ -632,8 +727,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             book.setCondition(String.valueOf(seekbar.getProgress()));
             book.setGenre(genrel);
             book.setHash_tag(tag);
-            book.setLocation_latitude(Float.valueOf(String.valueOf(gps.getLatitude())));
-            book.setLocation_longitude(Float.valueOf(String.valueOf(gps.getLongitude())));
+            book.setLocation_latitude((float) latLng_new.latitude);
+            book.setLocation_longitude((float) latLng_new.longitude);
             if (numclick != 0 || numimageclick != 0) {
                 if (!s.equals("edit")) {
                     book.setPhoto(imagename);
@@ -702,7 +797,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                     }
-                    addMaker(location);
+                    addMarkerChoice(latLng_new);
                 }
 
             }
@@ -714,17 +809,18 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                     }
-                    addMaker(location);
+                    addMarkerChoice(latLng_new);
                 }
             }
         }catch (Exception e){}
     }
-    public void addMaker(Location location){
+    public void addMaker(Location location,String img){
         try {
+            mMap.clear();
             // create marker
             MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
             // Changing marker icon
-            marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(getContext(), "icon_buy", 110, 150))));
+            marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(getContext(), img, 110, 150))));
             // adding marker
             mMap.addMarker(marker);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 20));
