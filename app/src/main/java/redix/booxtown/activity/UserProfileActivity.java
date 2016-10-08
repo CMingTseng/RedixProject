@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridView;
@@ -50,6 +52,8 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     private ImageView btn_location,btn_user,btn_commnet,btn_camera,btn_bag;
     ImageView img_rank1,img_rank2,img_rank3;
     CustomTabbarExplore tab_custom;
+    RecyclerView rView;
+    GridLayoutManager gridLayoutManager;
     //-----------------------------
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,txt_profile_username;
     @Override
@@ -63,6 +67,10 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         txtTitle.setGravity(Gravity.CENTER_VERTICAL);
         ImageView img_component=(ImageView) findViewById(R.id.img_menu_component);
         img_component.setVisibility(View.INVISIBLE);
+        gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
+        rView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        rView.setHasFixedSize(true);
+        rView.setLayoutManager(gridLayoutManager);
 
         ImageView img_menu = (ImageView)findViewById(R.id.img_menu);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(img_menu);
@@ -81,7 +89,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(1),0,1);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(1);
             }
         });
@@ -91,7 +99,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(2),0,1);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(2);
             }
         });
@@ -101,7 +109,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(3),0,1);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(3);
             }
@@ -112,7 +120,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(UserProfileActivity.this,filterExplore(4),0,1);
                 grid=(GridView)findViewById(R.id.grid_view_profile);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(4);
             }
         });
@@ -303,7 +311,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                     listEx = books;
                     adapter = new AdapterExplore(UserProfileActivity.this,books,0,1);
                     grid=(GridView)findViewById(R.id.grid_view_profile);
-                    grid.setAdapter(adapter);
+                    rView.setAdapter(adapter);
                     tab_all_count.setText("(" + filterExplore(1).size() + ")");
                     tab_swap_count.setText("(" + filterExplore(2).size() + ")");
                     tab_free_count.setText("(" + filterExplore(3).size() + ")");

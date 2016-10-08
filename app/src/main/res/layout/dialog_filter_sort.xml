@@ -169,6 +169,7 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:id="@+id/spinner_dialog_filter"
                 android:layout_below="@+id/txt_filter_proximity"
                 android:layout_alignParentLeft="true"
@@ -177,6 +178,30 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:spinnerMode="dropdown" />
+            <RelativeLayout
+                android:id="@+id/relaytive_genre"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_below="@+id/spinner_dialog_filter"
+                android:layout_height="wrap_content">
+                <redix.booxtown.custom.CustomTextView
+                    android:id="@+id/tv_genral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/slide_desc"
+                    android:text="Select genre"
+                    />
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/btn_down"/>
+            </RelativeLayout>
             <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
@@ -187,7 +212,7 @@
                 android:layout_alignRight="@+id/txt_filter_rangemax"
                 android:layout_alignEnd="@+id/txt_filter_rangemax"
                 android:background="@color/color_text_hint"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="5dp" />
         </RelativeLayout>
 
         <redix.booxtown.custom.CustomTextView

@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ import redix.booxtown.model.Notification;
 /**
  * Created by Administrator on 26/08/2016.
  */
-public class AdapterExplore extends BaseAdapter implements Filterable {
+public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreHoder> implements Filterable {
     private Context mContext;
     private List<Book> listExplore;
     private int type;
@@ -75,41 +76,17 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return listExplore.size();
+    public ExploreHoder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_gridview_explore, null);
+        ExploreHoder rcv = new ExploreHoder(layoutView);
+        return rcv;
     }
 
     @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-        final LayoutInflater inflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public void onBindViewHolder(ExploreHoder hoder, int position) {
         final Book ex= listExplore.get(position);
         username = pref.getString("username", null);
         String[] image = ex.getPhoto().split(";");
-        Hoder hoder = new Hoder();
-        convertView = inflater.inflate(R.layout.custom_gridview_explore, null);
-        hoder.txt_title_book = (TextView) convertView.findViewById(R.id.txt_title_book_listings);
-        hoder.txt_author_book = (TextView) convertView.findViewById(R.id.txt_author_book_listings);
-        hoder.txt_pricebook=(TextView) convertView.findViewById(R.id.txt_pricebook);
-
-        hoder.img_book = (ImageView)convertView.findViewById(R.id.img_book);
-        hoder.img_swap = (ImageView)convertView.findViewById(R.id.img_explore_swap);
-        hoder.img_free = (ImageView)convertView.findViewById(R.id.img_explore_free);
-        hoder.img_buy = (ImageView)convertView.findViewById(R.id.img_explore_buy);
         if (image.length!=0){
             int index=image[0].indexOf("_+_");
             if(index>0 && image[0].length() >3 ) {
@@ -161,55 +138,205 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
         }
         hoder.txt_author_book.setText(ex.getAuthor().toString());
 
-            hoder.img_buy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(),1,ex);
-                    userID.execute();
+        hoder.img_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(),1,ex);
+                userID.execute();
 
-                }
-            });
+            }
+        });
 
-            hoder.img_swap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                    String session_id = pref.getString("session_id", null);
-                    listingAsync listingAsync = new listingAsync(mContext,ex);
-                    listingAsync.execute(session_id);
-                }
-            });
+        hoder.img_swap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                String session_id = pref.getString("session_id", null);
+                listingAsync listingAsync = new listingAsync(mContext,ex);
+                listingAsync.execute(session_id);
+            }
+        });
 
-            hoder.img_book.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        if(keyStart==0) {
-                            ListingsDetailActivity fragment = new ListingsDetailActivity();
-                            Bundle bundle = new Bundle();
-                            bundle.putString(String.valueOf(R.string.valueListings), "2");
-                            bundle.putSerializable("item", ex);
-                            fragment.setArguments(bundle);
-                            callFragment(fragment);
-                        }else if(keyStart==1){
+        hoder.img_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(keyStart==0) {
+                        ListingsDetailActivity fragment = new ListingsDetailActivity();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(String.valueOf(R.string.valueListings), "2");
+                        bundle.putSerializable("item", ex);
+                        fragment.setArguments(bundle);
+                        callFragment(fragment);
+                    }else if(keyStart==1){
 
-                            Intent intent= new Intent(mContext.getApplicationContext(), MainAllActivity.class);
-                            intent.putExtra(String.valueOf(R.string.valueListings), "2");
-                            intent.putExtra("item", ex);
-                            intent.putExtra("keyDetail","1");
-                            mContext.startActivity(intent);
-                            ((Activity)mContext).finish();
-                        }
-                    }catch (Exception exx){
-
+                        Intent intent= new Intent(mContext.getApplicationContext(), MainAllActivity.class);
+                        intent.putExtra(String.valueOf(R.string.valueListings), "2");
+                        intent.putExtra("item", ex);
+                        intent.putExtra("keyDetail","1");
+                        mContext.startActivity(intent);
+                        ((Activity)mContext).finish();
                     }
+                }catch (Exception exx){
+
                 }
-            });
-
-
-
-        return convertView;
+            }
+        });
     }
+
+
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int getItemCount() {
+        return listExplore.size();
+    }
+
+    public class ExploreHoder extends RecyclerView.ViewHolder{
+        TextView txt_title_book ;
+        TextView txt_author_book ;
+        TextView txt_pricebook;
+
+        ImageView img_book ;
+        ImageView img_swap;
+        ImageView img_free;
+        ImageView img_buy ;
+
+        public ExploreHoder(View itemView) {
+            super(itemView);
+            txt_title_book = (TextView) itemView.findViewById(R.id.txt_title_book_listings);
+            txt_author_book = (TextView) itemView.findViewById(R.id.txt_author_book_listings);
+            txt_pricebook=(TextView) itemView.findViewById(R.id.txt_pricebook);
+
+            img_book = (ImageView)itemView.findViewById(R.id.img_book);
+            img_swap = (ImageView)itemView.findViewById(R.id.img_explore_swap);
+            img_free = (ImageView)itemView.findViewById(R.id.img_explore_free);
+            img_buy = (ImageView)itemView.findViewById(R.id.img_explore_buy);
+        }
+    }
+
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//        // TODO Auto-generated method stub
+//        final LayoutInflater inflater = (LayoutInflater) mContext
+//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        final Book ex= listExplore.get(position);
+//        username = pref.getString("username", null);
+//        String[] image = ex.getPhoto().split(";");
+//        Hoder hoder = new Hoder();
+//        convertView = inflater.inflate(R.layout.custom_gridview_explore, null);
+//        hoder.txt_title_book = (TextView) convertView.findViewById(R.id.txt_title_book_listings);
+//        hoder.txt_author_book = (TextView) convertView.findViewById(R.id.txt_author_book_listings);
+//        hoder.txt_pricebook=(TextView) convertView.findViewById(R.id.txt_pricebook);
+//
+//        hoder.img_book = (ImageView)convertView.findViewById(R.id.img_book);
+//        hoder.img_swap = (ImageView)convertView.findViewById(R.id.img_explore_swap);
+//        hoder.img_free = (ImageView)convertView.findViewById(R.id.img_explore_free);
+//        hoder.img_buy = (ImageView)convertView.findViewById(R.id.img_explore_buy);
+//        if (image.length!=0){
+//            int index=image[0].indexOf("_+_");
+//            if(index>0 && image[0].length() >3 ) {
+//                String img = image[0].substring(index+3, image[0].length());
+//                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+//                        into(hoder.img_book);
+//            }
+//            else{
+//                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" +  image[0]  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+//                        into(hoder.img_book);
+//            }
+//        }else {
+//            Picasso.with(mContext).load(R.drawable.blank_image).into(hoder.img_book);
+//        }
+//        final char array[]=ex.getAction().toCharArray();
+//
+//        if(ex.getPrice() !=0) {
+//            hoder.txt_pricebook.setVisibility(View.VISIBLE);
+//            hoder.txt_pricebook.setText("AED "+ex.getPrice());
+//        }else {
+//            hoder.txt_pricebook.setVisibility(View.INVISIBLE);
+//        }
+//        if(String.valueOf(array[0]).contains("1")){
+//            Picasso.with(mContext).load(R.drawable.explore_btn_swap_active).into(hoder.img_swap);
+//        }
+//        else {
+//            Picasso.with(mContext).load(R.drawable.explore_btn_swap_dis_active).into(hoder.img_swap);
+//
+//        }
+//        if(String.valueOf(array[1]).contains("1")){
+//            Picasso.with(mContext).load(R.drawable.explore_btn_free_active).into(hoder.img_free);
+//
+//        }
+//        else {
+//            Picasso.with(mContext).load(R.drawable.explore_btn_free_dis_active).into(hoder.img_free);
+//
+//        }
+//        if(String.valueOf(array[2]).contains("1")){
+//            Picasso.with(mContext).load(R.drawable.explore_btn_buy_active).into(hoder.img_buy);
+//
+//        }
+//        else {
+//            Picasso.with(mContext).load(R.drawable.explore_btn_buy_dis_active).into(hoder.img_buy);
+//
+//        }
+//
+//        if(ex.getTitle().toString().length()>0) {
+//            hoder.txt_title_book.setText(ex.getTitle().toString().substring(0,1).toUpperCase()+ex.getTitle().toString().substring(1,ex.getTitle().toString().length()));
+//        }
+//        hoder.txt_author_book.setText(ex.getAuthor().toString());
+//
+//            hoder.img_buy.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(),1,ex);
+//                    userID.execute();
+//
+//                }
+//            });
+//
+//            hoder.img_swap.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+//                    String session_id = pref.getString("session_id", null);
+//                    listingAsync listingAsync = new listingAsync(mContext,ex);
+//                    listingAsync.execute(session_id);
+//                }
+//            });
+//
+//            hoder.img_book.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    try {
+//                        if(keyStart==0) {
+//                            ListingsDetailActivity fragment = new ListingsDetailActivity();
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString(String.valueOf(R.string.valueListings), "2");
+//                            bundle.putSerializable("item", ex);
+//                            fragment.setArguments(bundle);
+//                            callFragment(fragment);
+//                        }else if(keyStart==1){
+//
+//                            Intent intent= new Intent(mContext.getApplicationContext(), MainAllActivity.class);
+//                            intent.putExtra(String.valueOf(R.string.valueListings), "2");
+//                            intent.putExtra("item", ex);
+//                            intent.putExtra("keyDetail","1");
+//                            mContext.startActivity(intent);
+//                            ((Activity)mContext).finish();
+//                        }
+//                    }catch (Exception exx){
+//
+//                    }
+//                }
+//            });
+//
+//
+//
+//        return convertView;
+//    }
 
     public void callFragment(Fragment fragment ){
         try {
@@ -256,7 +383,7 @@ public class AdapterExplore extends BaseAdapter implements Filterable {
             notifyDataSetChanged();
 //            for(int i = 0, l = listBook.size(); i < l; i++)
 //                add(countryList.get(i));
-            notifyDataSetInvalidated();
+//            notifyDataSetInvalidated();
         }
     }
 

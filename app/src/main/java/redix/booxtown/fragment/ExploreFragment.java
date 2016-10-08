@@ -18,6 +18,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -33,6 +35,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -61,12 +64,14 @@ import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.GetAllGenreAsync;
+import redix.booxtown.custom.CustomListviewGenre;
 import redix.booxtown.custom.CustomSearch;
 import redix.booxtown.custom.CustomTabbarExplore;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Explore;
 import redix.booxtown.model.Filter;
+import redix.booxtown.model.Genre;
 
 /**
  * Created by Administrator on 26/08/2016.
@@ -81,9 +86,12 @@ public class ExploreFragment extends Fragment
     private CrystalSeekbar seekbar;
     List<Book> listfilter,listExplore,lisfilter_temp;
     String proximity,session_id;
+    RecyclerView rView;
+    ArrayList<Genre> genre;
     private  ArrayAdapter<String> dataAdapter;
     EditText editSearch;
     AdapterExplore adapter;
+    GridLayoutManager gridLayoutManager;
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,tvMin,tvMax,txt_filter_proximity;
     List<Book> listbook= new ArrayList<>();
     GridView grid;
@@ -106,6 +114,10 @@ public class ExploreFragment extends Fragment
         });
         listExplore = new ArrayList<>();
         grid=(GridView)view.findViewById(R.id.gridView);
+        gridLayoutManager = new GridLayoutManager(getContext(),2);
+        rView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        rView.setHasFixedSize(true);
+        rView.setLayoutManager(gridLayoutManager);
         View view_search= (View)view.findViewById(R.id.explore_search);
         new CustomSearch(view_search,getActivity());
 
@@ -117,6 +129,13 @@ public class ExploreFragment extends Fragment
         getallbook.execute();
         grid.setOnScrollListener(new EndlessScrollListener());
         filterSort(view);
+
+        genre = new ArrayList<>();
+        for (int i = 0; i < GetAllGenreAsync.list.size(); i++) {
+            Genre genrel = new Genre();
+            genrel.setValue(GetAllGenreAsync.list.get(i));
+            genre.add(genrel);
+        }
         //end-------------------------------------
 
         //---------------------------------------------------------------
@@ -154,7 +173,7 @@ public class ExploreFragment extends Fragment
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(1),2,0);
                 grid=(GridView) view.findViewById(R.id.gridView);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(1);
             }
         });
@@ -164,7 +183,7 @@ public class ExploreFragment extends Fragment
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(2),2,0);
                 grid=(GridView)view.findViewById(R.id.gridView);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
 
                 tab_custom.setDefault(2);
             }
@@ -175,7 +194,7 @@ public class ExploreFragment extends Fragment
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(3),2,0);
                 grid=(GridView)view.findViewById(R.id.gridView);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(3);
             }
@@ -186,7 +205,7 @@ public class ExploreFragment extends Fragment
             public void onClick(View v) {
                 final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(4),2,0);
                 grid=(GridView)view.findViewById(R.id.gridView);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
                 tab_custom.setDefault(4);
             }
         });
@@ -304,50 +323,83 @@ public class ExploreFragment extends Fragment
                 btn_dialog_filter_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ArrayList<String> listvalueGenre = new ArrayList<>();
+                        for (int k = 0; k < genre.size(); k++) {
+                            if (genre.get(k).ischeck() == true) {
+                                listvalueGenre.add(genre.get(k).getValue());
+                            }
+                        }
                         dialog.dismiss();
-                        filter(spinner2.getSelectedItem().toString());
+                        filter(listvalueGenre);
                     }
                 });
                 spinner2 = (Spinner) dialog.findViewById(R.id.spinner_dialog_filter);
-//              String[] genravalue = {"All","Architecture", "Business and Economics", "Boy,Mid and Spirit", "Children", "Computers and Technology",
-//                        "Crafts and Hobbies", "Education", "Family,Parenting and Relationships", "Fiction and Literature", "Food and Drink",
-//                        "Health and Fitness","History and Politics","Homes Gaedens and DIY","Humor and Comedy","Languages","Manuals and Guides"
-//                };
-                //List<String> list = new ArrayList<String>();
-//                for (int i = 0; i < genravalue.length;i++){
-//                    list.add(genravalue[i]);
-//                }
 
                 dataAdapter = new ArrayAdapter<String>(getActivity(),
                         android.R.layout.simple_spinner_item, GetAllGenreAsync.list);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner2.setAdapter(dataAdapter);
 
+                RelativeLayout tv_genral = (RelativeLayout) dialog.findViewById(R.id.relaytive_genre);
+                tv_genral.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Dialog dialog = new Dialog(getContext());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.dialog_genre);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
+                        listView_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+                        dialog.show();
+
+                        Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
+                        button_spiner_genre.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                        ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.img_close_dialoggenre);
+                        Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialoggenre);
+                        img_close_dialoggenre.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                });
+
             }
         });
     }
 
-    public void filter(String filter){
+    public void filter(ArrayList<String> listvalueGenre){
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(),new GPSTracker(getActivity()).getLongitude());
         Double distance = Double.valueOf(proximity);
         for (int i = 0; i < listExplore.size();i++){
             String[] genrel = listExplore.get(i).getGenre().split(";");
-            if (filter.equals("All")){
-                listfilter.add(listExplore.get(i));
-            }else {
-                for (int j = 0;j<genrel.length;j++){
-                    if (genrel[j].contains(filter)) {
-                        LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(),listExplore.get(i).getLocation_longitude());
-                        if (CalculationByDistance(latLngSt,latLngEnd)<=distance){
+            for (int f = 0;f<listvalueGenre.size();f++){
+                if (listvalueGenre.get(f).equals("All")){
+                    LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(),listExplore.get(i).getLocation_longitude());
+                    if (CalculationByDistance(latLngSt,latLngEnd)<=distance){
+                        listfilter.add(listExplore.get(i));
+                    }
+                }
+            }
+            for (int j = 0;j<genrel.length;j++){
+                for (int f = 0;f<listvalueGenre.size();f++) {
+                    if (genrel[j].contains(listvalueGenre.get(f))) {
+                        LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                        if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
                             listfilter.add(listExplore.get(i));
                         }
                     }
                 }
             }
         }
-
 
         if (listfilter.size()!=0){
             for (int i = 0;i<listfilter.size();i++){
@@ -372,7 +424,7 @@ public class ExploreFragment extends Fragment
             Collections.sort(lisfilter_temp,Book.recently);
         }
         AdapterExplore adapter = new AdapterExplore(getActivity(),lisfilter_temp,2,0);
-        grid.setAdapter(adapter);
+        rView.setAdapter(adapter);
     }
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
@@ -426,7 +478,7 @@ public class ExploreFragment extends Fragment
                 listExplore.addAll(list);
                 Collections.sort(listExplore, Book.asid);
                 adapter = new AdapterExplore(getActivity(), listExplore, 2,0);
-                grid.setAdapter(adapter);
+                rView.setAdapter(adapter);
                 tab_all_count.setText("(" + filterExplore(1).size() + ")");
                 tab_swap_count.setText("(" + filterExplore(2).size() + ")");
                 tab_free_count.setText("(" + filterExplore(3).size() + ")");
