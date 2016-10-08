@@ -27,10 +27,13 @@
         <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
     </style>
 
-    <style name="RatingStatus" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/ratingstars2</item>
-        <item name="android:minHeight">25dp</item>
-        <item name="android:maxHeight">25dp</item>
+    <style name="RatingStatus" parent="@style/android:Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/abc_ratingbar_full_material</item>
+        <item name="android:indeterminateDrawable">@drawable/abc_ratingbar_full_material</item>
+        <item name="android:minHeight">10dp</item>
+        <item name="android:maxHeight">13dp</item>
+        <item name="android:isIndicator">true</item>
+        <item name="android:thumb">@null</item>
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">

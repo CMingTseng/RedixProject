@@ -85,7 +85,6 @@ public class TopicFragment extends Fragment
         lv_recycler.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 Topic topic = listArrayList.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("thread", topic);

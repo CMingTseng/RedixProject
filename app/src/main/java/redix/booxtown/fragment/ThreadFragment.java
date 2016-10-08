@@ -218,7 +218,8 @@ public class ThreadFragment extends Fragment
                         });
 
                     }
-                    rv_thread.addOnItemTouchListener(new redix.booxtown.recyclerclick.RecyclerItemClickListener(getActivity(), new redix.booxtown.recyclerclick.RecyclerItemClickListener.OnItemClickListener() {
+                    rv_thread.addOnItemTouchListener(new redix.booxtown.recyclerclick.RecyclerItemClickListener(getActivity(),
+                            new redix.booxtown.recyclerclick.RecyclerItemClickListener.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position) {
                             final Thread item = (Thread) listThreads.get(position);
