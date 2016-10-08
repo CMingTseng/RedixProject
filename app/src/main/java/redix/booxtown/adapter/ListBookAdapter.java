@@ -158,14 +158,26 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
             public void onClick(View v) {
 
 
-
-                ListingsDetailActivity fragment = new ListingsDetailActivity();
-                Bundle bundle = new Bundle();
-                bundle.putString(String.valueOf(R.string.valueListings),"3");
-                bundle.putInt("back",2);
-                bundle.putSerializable("item",ex);
-                fragment.setArguments(bundle);
-                callFragment(fragment);
+                String ss= ((AppCompatActivity) mContext).getSupportFragmentManager().findFragmentById(R.id.frame_main_all).getClass().getName().toString();
+                int fragmentList=ss.lastIndexOf(".");
+                if(ss.equals("redix.booxtown.fragment.ListingsFragment")) {
+                    ListingsDetailActivity fragment = new ListingsDetailActivity();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(String.valueOf(R.string.valueListings), "3");
+                    bundle.putInt("back", 2);
+                    bundle.putSerializable("item", ex);
+                    fragment.setArguments(bundle);
+                    callFragment(fragment);
+                }
+                else{
+                    ListingsDetailActivity fragment = new ListingsDetailActivity();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(String.valueOf(R.string.valueListings), "6");
+                    bundle.putInt("back", 2);
+                    bundle.putSerializable("item", ex);
+                    fragment.setArguments(bundle);
+                    callFragment(fragment);
+                }
             }
         });
 
