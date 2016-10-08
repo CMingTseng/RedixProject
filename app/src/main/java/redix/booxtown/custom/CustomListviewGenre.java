@@ -54,7 +54,7 @@ public class CustomListviewGenre extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder=new Holder();
+        final Holder holder=new Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.custom_dialog_genre, null);
         holder.tv=(TextView) rowView.findViewById(R.id.txt_custom_listview_genre);
@@ -66,9 +66,20 @@ public class CustomListviewGenre extends BaseAdapter {
             public void onClick(View v) {
                 if (result.get(position).ischeck()==false){
                     result.get(position).setIscheck(true);
+//                    if (result.get(0).ischeck){
+//                        for (int i=0;i<result.size();i++){
+//                            result.get(i).setIscheck(true);
+//                        }
+//                    }
                 }else {
                     result.get(position).setIscheck(false);
+//                    if (result.get(0).ischeck==false){
+//                        for (int i=0;i<result.size();i++){
+//                            result.get(i).setIscheck(false);
+//                        }
+//                    }
                 }
+                notifyDataSetChanged();
             }
         });
         return rowView;
