@@ -66,18 +66,18 @@ public class CustomListviewGenre extends BaseAdapter {
             public void onClick(View v) {
                 if (result.get(position).ischeck()==false){
                     result.get(position).setIscheck(true);
-                    if (result.get(0).ischeck){
-                        for (int i=0;i<result.size();i++){
-                            result.get(i).setIscheck(true);
-                        }
-                    }
+//                    if (result.get(0).ischeck){
+//                        for (int i=0;i<result.size();i++){
+//                            result.get(i).setIscheck(true);
+//                        }
+//                    }
                 }else {
                     result.get(position).setIscheck(false);
-                    if (result.get(0).ischeck==false){
-                        for (int i=0;i<result.size();i++){
-                            result.get(i).setIscheck(false);
-                        }
-                    }
+//                    if (result.get(0).ischeck==false){
+//                        for (int i=0;i<result.size();i++){
+//                            result.get(i).setIscheck(false);
+//                        }
+//                    }
                 }
                 notifyDataSetChanged();
             }
