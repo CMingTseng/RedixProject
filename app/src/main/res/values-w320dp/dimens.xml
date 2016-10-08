@@ -24,5 +24,6 @@
     <dimen name="btn_h">36dp</dimen>
     <dimen name="btn_signin">140dp</dimen>
     <dimen name="btn_signin_maginleft">15dp</dimen>
+    <dimen name="text_size_filter">10sp</dimen>
 
 </resources>

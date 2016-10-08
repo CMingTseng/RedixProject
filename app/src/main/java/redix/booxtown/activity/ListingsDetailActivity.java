@@ -168,6 +168,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         callFragment(new MainFragment());
                     } else if (type.equals("2")) {
                         callFragment(new ExploreFragment());
+                        MainAllActivity.setImg_component();
                     } else if (type.equals("3")) {
                         callFragment(new ListingsFragment());
                     }else if (type.equals("5")) {

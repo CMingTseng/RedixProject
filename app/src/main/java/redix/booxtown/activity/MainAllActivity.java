@@ -39,7 +39,7 @@ public class MainAllActivity extends AppCompatActivity{
 
     View view_top;
     public static TextView txtTitle;
-    ImageView img_component;
+    public static ImageView img_component;
     boolean flag;
 
     //-----------------------------
@@ -364,4 +364,9 @@ public class MainAllActivity extends AppCompatActivity{
         return img_menu;
     }
 
+
+    public static void setImg_component() {
+        img_component.setVisibility(View.VISIBLE);
+        Picasso.with(getSaleInstance()).load(R.drawable.btn_location).into(img_component);
+    }
 }
