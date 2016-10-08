@@ -201,10 +201,10 @@
 
                 </redix.booxtown.custom.CustomTextView>
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:layout_gravity="center_horizontal"
                     android:background="@drawable/btn_down"/>
             </RelativeLayout>
             <View
