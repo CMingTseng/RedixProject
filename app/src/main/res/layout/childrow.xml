@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:clickable="true"
     android:orientation="vertical"
      >
@@ -12,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/action_settings"
-        android:textColor="#f2e7e7"
+        android:textColor="@color/color_topic_interact"
         android:textSize="14sp"
-        android:textStyle="bold"
+
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

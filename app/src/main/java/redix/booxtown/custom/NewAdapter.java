@@ -55,6 +55,7 @@ public class NewAdapter extends BaseExpandableListAdapter {
 		}
 		text = (TextView) convertView.findViewById(R.id.txt_expland_content);
 		text.setText(tempChild.get(childPosition));
+
 		return convertView;
 	}
 

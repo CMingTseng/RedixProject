@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/relative_invite">
-    <EditText
+    <redix.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText_email_friend"
@@ -57,7 +57,7 @@
         android:padding="10dp" />
 </LinearLayout>
         </RelativeLayout>
-    <Button
+    <redix.booxtown.custom.CustomButton
         android:layout_width="223dp"
         android:layout_height="36dp"
         android:id="@+id/imv_invite"
@@ -68,6 +68,7 @@
         android:background="@drawable/bg_btn_sign_in"
         android:textColor="@color/dot_light_screen1"
         android:layout_below="@+id/relativeLayout11"
+        android:textSize="@dimen/slide_desc_welcome"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
 
