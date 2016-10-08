@@ -275,7 +275,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
         protected String doInBackground(Void... voids) {
             String transactionID = "";
             TransactionController transactionController = new TransactionController();
-            transactionID = transactionController.transactionUpdateStatus(session_id, trans.getId()+"", status_id, "");
+            transactionID = transactionController.transactionUpdateStatus(session_id, trans.getId()+"", status_id, "0");
             return transactionID;
         }
 
@@ -289,7 +289,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
         protected void onPostExecute(String transactionID) {
             if(type==1) {
                 List<Hashtable> list = new ArrayList<>();
-                Notification notification = new Notification("Accepted your request for buying book", trans.getId() + "", "5");
+                Notification notification = new Notification("Accepted your request for buying book", trans.getId() + "", "7");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
                 obj.put("messages", "Accepted your request for buying book");
@@ -301,7 +301,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 // send notifi user seller
 
                 List<Hashtable> listSeller = new ArrayList<>();
-                Notification notificationSeller = new Notification("You accepted for request buy your book", trans.getId() + "", "7");
+                Notification notificationSeller = new Notification("You accepted for request buy your book", trans.getId() + "", "5");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
                 objSeller.put("messages", "You accepted for request buy your book by");
@@ -311,7 +311,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
             }
             else if(type==2){
                 List<Hashtable> list = new ArrayList<>();
-                Notification notification = new Notification("Rejected your request for buying book", trans.getId() + "", "8");
+                Notification notification = new Notification("Rejected your request for buying book", trans.getId() + "", "6");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
                 obj.put("messages", "Rejected your request for buying book");
@@ -323,7 +323,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 // send notifi user seller
 
                 List<Hashtable> listSeller = new ArrayList<>();
-                Notification notificationSeller = new Notification("You reject a request buy your book", trans.getId() + "", "6");
+                Notification notificationSeller = new Notification("You reject a request buy your book", trans.getId() + "", "8");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
                 objSeller.put("messages", "You reject a request buy your book");
