@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +57,8 @@ public class DashboardStatusFragment extends Fragment {
     CircularImageView img_menu_dashboard_middle,imageView_username_rating;
     TextView textView_username_dashboard_middle,textView_phone_dashboard_middle,textView_username_rating,textView_with;
     RatingBar ratingBar_user_dashboard_middle;
-    ImageView img_free_listings,img_rank1_satus,img_rank2_satus,img_rank3_satus;
+    ImageView img_free_listings;
+    CircularImageView img_rank1_satus,img_rank2_satus,img_rank3_satus;
     String img_username,username;
     User user;
     //end
@@ -107,13 +111,22 @@ public class DashboardStatusFragment extends Fragment {
                     rating_cour = (RatingBar)dialog.findViewById(R.id.rating_cour);
                     rating_quality = (RatingBar)dialog.findViewById(R.id.rating_quality);
                     LayerDrawable stars1 = (LayerDrawable) rating_promp.getProgressDrawable();
-                    stars1.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+                    stars1.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
+                    stars1.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars1.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars1.getDrawable(1)),getResources().getColor(R.color.bg_rating));
 
                     LayerDrawable stars2 = (LayerDrawable) rating_cour.getProgressDrawable();
-                    stars2.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+                    stars2.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
+                        stars2.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                        stars2.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                        DrawableCompat.setTint(DrawableCompat.wrap(stars2.getDrawable(1)),getResources().getColor(R.color.bg_rating));
 
                     LayerDrawable stars3 = (LayerDrawable) rating_quality.getProgressDrawable();
-                    stars3.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+                    stars3.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
+                        stars3.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                        stars3.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                        DrawableCompat.setTint(DrawableCompat.wrap(stars3.getDrawable(1)),getResources().getColor(R.color.bg_rating));
 
                     imageView_username_rating = (CircularImageView)dialog.findViewById(R.id.imageView_username_rating);
                     textView_username_rating = (TextView)dialog.findViewById(R.id.textView_username_rating);
@@ -172,9 +185,9 @@ public class DashboardStatusFragment extends Fragment {
     }
 
     public void init(View view){
-        img_rank1_satus = (ImageView)view.findViewById(R.id.img_rank1_satus);
-        img_rank2_satus = (ImageView)view.findViewById(R.id.img_rank2_satus);
-        img_rank3_satus = (ImageView)view.findViewById(R.id.img_rank3_satus);
+        img_rank1_satus = (CircularImageView) view.findViewById(R.id.img_rank1_satus);
+        img_rank2_satus = (CircularImageView)view.findViewById(R.id.img_rank2_satus);
+        img_rank3_satus = (CircularImageView)view.findViewById(R.id.img_rank3_satus);
 
         img_free_listings = (ImageView)view.findViewById(R.id.img_free_listings);
         btn_menu_dashboard_bottom_rate = (Button)view.findViewById(R.id.btn_menu_dashboard_bottom_rate);
@@ -280,33 +293,44 @@ public class DashboardStatusFragment extends Fragment {
 
                     ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_user_dashboard_middle.getProgressDrawable();
-                    stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(2).setColorFilter(Color.rgb(255,2224,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.bg_rating));
 
-
-                    textView_phone_dashboard_middle.setText(user.get(0).getPhone());
+                    textView_phone_dashboard_middle.setText("Phone :"+user.get(0).getPhone());
 
                     //set rank
                     if(user.get(0).getContributor() == 0){
                         img_rank1_satus.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(R.drawable.conbitrutor_one).into(img_rank1_satus);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
+                        img_rank1_satus.setImageBitmap(btn1);
+
                     }else{
-                        Picasso.with(context).load(R.drawable.conbitrutor_two).into(img_rank1_satus);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
+                        img_rank1_satus.setImageBitmap(btn1);
+
                     }
                     if(user.get(0).getGoldenBook() == 0){
                         img_rank2_satus.setVisibility(View.GONE);
                     }else if(user.get(0).getGoldenBook() == 1){
-                        Picasso.with(context).load(R.drawable.golden_book).into(img_rank2_satus);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.golden_book);
+                        img_rank2_satus.setImageBitmap(btn1);
                         img_rank2_satus.setVisibility(View.VISIBLE);
                     }
 
                     if(user.get(0).getListBook() == 0){
-                        Picasso.with(context).load(R.drawable.newbie).into(img_rank3_satus);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.newbie);
+                        img_rank3_satus.setImageBitmap(btn1);
                         img_rank3_satus.setVisibility(View.VISIBLE);
                     }else if(user.get(0).getListBook() == 1){
-                        Picasso.with(context).load(R.drawable.bookworm).into(img_rank3_satus);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bookworm);
+                        img_rank3_satus.setImageBitmap(btn1);
                         img_rank3_satus.setVisibility(View.VISIBLE);
                     }else{
-                        Picasso.with(context).load(R.drawable.bibliophile).into(img_rank3_satus);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bibliophile);
+                        img_rank3_satus.setImageBitmap(btn1);
+
                         img_rank3_satus.setVisibility(View.VISIBLE);
                     }
 
