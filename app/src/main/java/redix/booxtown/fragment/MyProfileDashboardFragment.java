@@ -204,36 +204,6 @@ public class MyProfileDashboardFragment extends Fragment {
     }
 
     private void implementScrollListener(final String session_id) {
-
-        /*lv_myprofile_dashboard.setOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView arg0, int scrollState) {
-                // If scroll state is touch scroll then set userScrolled
-                // true
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    userScrolled = true;
-
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-                // Now check if userScrolled is true and also check if
-                // the item is end then update list view and set
-                // userScrolled to false
-                if (userScrolled
-                        && firstVisibleItem + visibleItemCount == totalItemCount && loading) {
-                    userScrolled = false;
-                    DashBoard dashBoard_lv = listArrayList.get(listArrayList.size()-1);
-                    getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,15,dashBoard_lv.getId());
-                    getDashBoard.execute();
-                }
-            }
-        });*/
-
         lv_myprofile_dashboard.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

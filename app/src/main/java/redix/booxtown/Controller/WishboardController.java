@@ -25,8 +25,8 @@ public class WishboardController {
         service = ServiceGenerator.GetInstance();
     }
 
-    public List<Wishboard> getAllWishboard(int top,int from,String session_id){
-        Call<WishboardResult> callService = service.getAllWishboard(top,from,session_id);
+    public List<Wishboard> getWishboardByTop(int top,int from,String session_id){
+        Call<WishboardResult> callService = service.getWishboardByTop(top,from,session_id);
         try{
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

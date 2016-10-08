@@ -32,10 +32,10 @@
                     android:id="@+id/textView90"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Wish"
-                    android:textColor="@color/color_text"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp" />
+                    android:text="Wish"
+                    android:textColor="@color/color_text" />
 
                 <TextView
                     android:id="@+id/textView94"
@@ -44,8 +44,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@color/color_text_hint"
-                     />
+                    android:background="@color/color_text_hint" />
 
             </RelativeLayout>
 
@@ -59,10 +58,10 @@
                     android:id="@+id/textView91"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="Date Posted"
-                    android:textColor="@color/color_text"
-                    android:layout_marginTop="5dp" />
+                    android:textColor="@color/color_text" />
 
                 <TextView
                     android:id="@+id/textView95"
@@ -72,8 +71,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:background="@color/color_text_hint"
-                    android:gravity="right"
-                    />
+                    android:gravity="right" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -86,23 +84,29 @@
                     android:id="@+id/textView92"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="Respond"
-                    android:textColor="@color/color_text"
-                    android:layout_marginTop="5dp" />
+                    android:textColor="@color/color_text" />
 
             </RelativeLayout>
 
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/lv_wishboard"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linearLayout2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:background="@color/dot_light_screen1"
-            android:layout_below="@+id/linearLayout2" />
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_wishboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/dot_light_screen1" />
+        </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

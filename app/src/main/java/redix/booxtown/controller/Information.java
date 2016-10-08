@@ -47,4 +47,7 @@ public class Information {
     public final static String noti_enter_email = "Please enter valid email address";
     public final static String noti_check_wishboard = "Please fill comment field";
     public final static String noti_over_leter = "The maximum comment size is 50 characters";
+    public final static String noti_checkbox = "At least one action required";
+    public final static String noti_not_check_free = "do not check free";
+    public final static String noti_not_check_sell = "do not check sell";
 }

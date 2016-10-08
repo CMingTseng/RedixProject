@@ -141,7 +141,7 @@ public interface ServiceInterface {
     // End Thread
 
     @GET("/booxtown/rest/post/post_gettop")
-    Call<WishboardResult> getAllWishboard(@Query("top") int top, @Query("from") int from, @Query("session_id") String session_id);
+    Call<WishboardResult> getWishboardByTop(@Query("top") int top, @Query("from") int from, @Query("session_id") String session_id);
 
     @POST("/booxtown/rest/post/post_insert")
     Call<Result> insertWishboard(@Body Object wishboard);

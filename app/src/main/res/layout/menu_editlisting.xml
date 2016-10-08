@@ -359,7 +359,6 @@
         android:layout_alignStart="@+id/fragment_map_editlisting"
         android:layout_below="@+id/fragment_map_editlisting"
         android:button="@drawable/img_checkbox"
-        android:checked="true"
         android:text="Swap" />
 
     <CheckBox
