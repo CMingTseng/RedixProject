@@ -9,11 +9,14 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.provider.MediaStore;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -29,102 +32,63 @@ import java.util.List;
 import redix.booxtown.R;
 import redix.booxtown.activity.UserProfileActivity;
 import redix.booxtown.api.ServiceGenerator;
+import redix.booxtown.listener.OnLoadMoreListener;
 import redix.booxtown.model.Comment;
 import redix.booxtown.model.InteractComment;
 
 /**
  * Created by Administrator on 28/08/2016.
  */
-public class AdapterInteractThreadDetails extends BaseAdapter {
+public class AdapterInteractThreadDetails extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<Comment> listComments;
+    private RecyclerView lvRecyclerView;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
+    private OnLoadMoreListener mOnLoadMoreListener;
+
+    private boolean isLoading;
+    private int visibleThreshold = 5;
+    private int lastVisibleItem, totalItemCount;
 
 
-    public AdapterInteractThreadDetails(Context c, List<Comment> listComments) {
+    public AdapterInteractThreadDetails(Context c, List<Comment> listComments,RecyclerView lvRecyclerView) {
         mContext = c;
         this.listComments = listComments;
+        this.lvRecyclerView = lvRecyclerView;
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) lvRecyclerView.getLayoutManager();
+        lvRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-    }
+                totalItemCount = linearLayoutManager.getItemCount();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
-    @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return listComments.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-
-        LayoutInflater inflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Hoder hoder = new Hoder();
-
-        final Comment Comments= listComments.get(position);
-        convertView = inflater.inflate(R.layout.custom_commnents_interact, null);
-        hoder.myRatingBar = (RatingBar)convertView.findViewById(R.id.myRatingBar);
-        hoder.img_icon=(ImageView) convertView.findViewById(R.id.icon_user_listing_detail);
-        hoder.img_rank_one=(ImageView) convertView.findViewById(R.id.img_comment_rank1);
-        hoder.img_rank_two=(ImageView) convertView.findViewById(R.id.img_comment_rank2);
-        hoder.img_rank_three=(ImageView) convertView.findViewById(R.id.img_comment_rank3);
-        hoder.txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
-        hoder.txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
-        hoder.txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
-        hoder.img_comment_rank1 = (ImageView)convertView.findViewById(R.id.img_comment_rank1);
-        hoder.img_comment_rank2 = (ImageView)convertView.findViewById(R.id.img_comment_rank2);
-        hoder.img_comment_rank3 = (ImageView)convertView.findViewById(R.id.img_comment_rank3);
-
-        try {
-            hoder.txt_datetime.setText(formatDatetime(Comments.getCreate_date().replaceAll("-",":").replace(" ",":")));
-        } catch (Exception e) {
-            hoder.txt_datetime.setText(Comments.getCreate_date());
-
-        }
-
-        hoder.img_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(mContext,UserProfileActivity.class);
-                    intent.putExtra("user",Integer.parseInt(Comments.getUser_id()));
-                    mContext.startActivity(intent);
+                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                    if (mOnLoadMoreListener != null) {
+                        mOnLoadMoreListener.onLoadMore();
+                    }
+                    isLoading = true;
                 }
-            });
+            }
+        });
 
-        if(Comments.getPhoto().length()>3) {
-            Picasso.with(mContext)
-                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length()))
-                    .error(R.mipmap.user_empty)
-                    .into(hoder.img_icon);
-        }
-        else
-        {
-            Picasso.with(mContext)
-                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=")
-                    .error(R.mipmap.user_empty)
-                    .into(hoder.img_icon);
-        }
-
-        hoder.txt_userName.setText(Comments.getUsername());
-        hoder.txt_contents.setText(Comments.getContent());
-        hoder.myRatingBar.setRating(Comments.getRating());
-        LayerDrawable stars = (LayerDrawable) hoder.myRatingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
-        return convertView;
     }
 
-    public class Hoder{
+    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
+        this.mOnLoadMoreListener = mOnLoadMoreListener;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return listComments.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+
+    public class CommentHolder extends RecyclerView.ViewHolder{
+
         ImageView img_icon;
         ImageView img_rank_one;
         ImageView img_rank_two;
@@ -134,7 +98,171 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         TextView txt_datetime;
         RatingBar myRatingBar;
         ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
+        public CommentHolder(View convertView) {
+            super(convertView);
+            myRatingBar = (RatingBar)convertView.findViewById(R.id.myRatingBar);
+            img_icon=(ImageView) convertView.findViewById(R.id.icon_user_listing_detail);
+            img_rank_one=(ImageView) convertView.findViewById(R.id.img_comment_rank1);
+            img_rank_two=(ImageView) convertView.findViewById(R.id.img_comment_rank2);
+            img_rank_three=(ImageView) convertView.findViewById(R.id.img_comment_rank3);
+            txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
+            txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
+            txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
+            img_comment_rank1 = (ImageView)convertView.findViewById(R.id.img_comment_rank1);
+            img_comment_rank2 = (ImageView)convertView.findViewById(R.id.img_comment_rank2);
+            img_comment_rank3 = (ImageView)convertView.findViewById(R.id.img_comment_rank3);
+        }
     }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.custom_commnents_interact, parent, false);
+            return new CommentHolder(view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.layout_loading_item, parent, false);
+            return new LoadingViewHolder(view);
+        }
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder hoder, int position) {
+        if (hoder instanceof CommentHolder) {
+            final Comment Comments= listComments.get(position);
+            try {
+                ((CommentHolder) hoder).txt_datetime.setText(formatDatetime(Comments.getCreate_date().replaceAll("-",":").replace(" ",":")));
+            } catch (Exception e) {
+                ((CommentHolder) hoder).txt_datetime.setText(Comments.getCreate_date());
+
+            }
+
+            ((CommentHolder) hoder).img_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(mContext,UserProfileActivity.class);
+                    intent.putExtra("user",Integer.parseInt(Comments.getUser_id()));
+                    mContext.startActivity(intent);
+                }
+            });
+
+            if(Comments.getPhoto().length()>3) {
+                Picasso.with(mContext)
+                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length()))
+                        .error(R.mipmap.user_empty)
+                        .into(((CommentHolder) hoder).img_icon);
+            }
+            else
+            {
+                Picasso.with(mContext)
+                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=")
+                        .error(R.mipmap.user_empty)
+                        .into(((CommentHolder) hoder).img_icon);
+            }
+
+            ((CommentHolder) hoder).txt_userName.setText(Comments.getUsername());
+            ((CommentHolder) hoder).txt_contents.setText(Comments.getContent());
+            ((CommentHolder) hoder).myRatingBar.setRating(Comments.getRating());
+            LayerDrawable stars = (LayerDrawable) ((CommentHolder) hoder).myRatingBar.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+
+
+    public void setLoaded() {
+        isLoading = false;
+    }
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar1);
+        }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int getItemCount() {
+        return listComments.size();
+    }
+
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//        // TODO Auto-generated method stub
+//
+//        LayoutInflater inflater = (LayoutInflater) mContext
+//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        Hoder hoder = new Hoder();
+//
+//        final Comment Comments= listComments.get(position);
+//        convertView = inflater.inflate(R.layout.custom_commnents_interact, null);
+//        hoder.myRatingBar = (RatingBar)convertView.findViewById(R.id.myRatingBar);
+//        hoder.img_icon=(ImageView) convertView.findViewById(R.id.icon_user_listing_detail);
+//        hoder.img_rank_one=(ImageView) convertView.findViewById(R.id.img_comment_rank1);
+//        hoder.img_rank_two=(ImageView) convertView.findViewById(R.id.img_comment_rank2);
+//        hoder.img_rank_three=(ImageView) convertView.findViewById(R.id.img_comment_rank3);
+//        hoder.txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
+//        hoder.txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
+//        hoder.txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
+//        hoder.img_comment_rank1 = (ImageView)convertView.findViewById(R.id.img_comment_rank1);
+//        hoder.img_comment_rank2 = (ImageView)convertView.findViewById(R.id.img_comment_rank2);
+//        hoder.img_comment_rank3 = (ImageView)convertView.findViewById(R.id.img_comment_rank3);
+//
+//        try {
+//            hoder.txt_datetime.setText(formatDatetime(Comments.getCreate_date().replaceAll("-",":").replace(" ",":")));
+//        } catch (Exception e) {
+//            hoder.txt_datetime.setText(Comments.getCreate_date());
+//
+//        }
+//
+//        hoder.img_icon.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent=new Intent(mContext,UserProfileActivity.class);
+//                    intent.putExtra("user",Integer.parseInt(Comments.getUser_id()));
+//                    mContext.startActivity(intent);
+//                }
+//            });
+//
+//        if(Comments.getPhoto().length()>3) {
+//            Picasso.with(mContext)
+//                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length()))
+//                    .error(R.mipmap.user_empty)
+//                    .into(hoder.img_icon);
+//        }
+//        else
+//        {
+//            Picasso.with(mContext)
+//                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=")
+//                    .error(R.mipmap.user_empty)
+//                    .into(hoder.img_icon);
+//        }
+//
+//        hoder.txt_userName.setText(Comments.getUsername());
+//        hoder.txt_contents.setText(Comments.getContent());
+//        hoder.myRatingBar.setRating(Comments.getRating());
+//        LayerDrawable stars = (LayerDrawable) hoder.myRatingBar.getProgressDrawable();
+//        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+//        return convertView;
+//    }
+
+//    public class Hoder{
+//        ImageView img_icon;
+//        ImageView img_rank_one;
+//        ImageView img_rank_two;
+//        ImageView img_rank_three;
+//        TextView txt_userName;
+//        TextView txt_contents;
+//        TextView txt_datetime;
+//        RatingBar myRatingBar;
+//        ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
+//    }
 
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,

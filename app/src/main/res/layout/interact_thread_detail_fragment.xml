@@ -113,9 +113,9 @@
             android:layout_marginBottom="15dp"
             android:src="@drawable/btn_interact_sent" />
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/listview_comments"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view2"
             android:layout_centerHorizontal="true"

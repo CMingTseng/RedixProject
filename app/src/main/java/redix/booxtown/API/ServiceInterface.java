@@ -204,4 +204,7 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/book/book_gettopbyuserid")
     Call<BookResult> getTopBookById(@Query("user_id") int user_id,@Query("top") int top,@Query("from") int from);
 
+    @GET("/booxtown/rest/comment/comment_getTopByThread")
+    Call<CommentResult> getTopCommentThread(@Query("thread_id") String thread_id,@Query("top") int top,@Query("from") int from);
+
 }
