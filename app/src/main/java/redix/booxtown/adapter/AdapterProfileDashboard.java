@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,7 +103,9 @@ public class AdapterProfileDashboard extends RecyclerView.Adapter<AdapterProfile
 
         LayerDrawable stars = (LayerDrawable) holder.ratingBar_dashboard.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.rgb(247,182,0), PorterDuff.Mode.SRC_ATOP);
-
+        stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+        DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.bg_rating));
 
         if(position %2==0){
             holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.color_hint_interact));

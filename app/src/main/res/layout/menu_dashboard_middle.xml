@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_bg_listings_detail">
 
     <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="60dp"
@@ -15,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Mabrook"
+        android:text=""
         android:id="@+id/textView_username_dashboard_middle"
         android:layout_below="@+id/img_menu_dashboard_middle"
         android:layout_centerHorizontal="true"
@@ -26,11 +29,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/ratingBar_user_dashboard_middle"
         android:theme="@style/RatingBar"
-        android:rating="2.5"
         android:numStars="5"
         style="?android:attr/ratingBarStyleSmall"
-        android:progressTint="@color/color_star_select"
-        android:progressBackgroundTint="@color/color_star_select"
+        android:scaleY="1.2"
+        android:scaleX="1.2"
         android:layout_marginTop="7dp"
         android:layout_marginRight="14dp"
         android:layout_marginEnd="14dp"
@@ -38,47 +40,55 @@
         android:layout_toLeftOf="@+id/img_rank1_satus"
         android:layout_toStartOf="@+id/img_rank1_satus" />
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:id="@+id/img_rank1_satus"
-        android:layout_alignBottom="@+id/ratingBar_user_dashboard_middle"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/textView_username_dashboard_middle"
         android:layout_alignRight="@+id/textView_username_dashboard_middle"
         android:layout_alignEnd="@+id/textView_username_dashboard_middle"
+        app:siBorderColor="@color/color_bg_listings_detail"
+        app:siBorderWidth="1dp"
         />
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:id="@+id/img_rank2_satus"
         android:layout_alignTop="@+id/img_rank1_satus"
         android:layout_toRightOf="@+id/img_rank1_satus"
         android:layout_toEndOf="@+id/img_rank1_satus"
         android:layout_marginLeft="9dp"
         android:visibility="gone"
+        app:siBorderColor="@color/color_bg_listings_detail"
+        app:siBorderWidth="1dp"
         />
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:id="@+id/img_rank3_satus"
         android:layout_alignTop="@+id/img_rank2_satus"
         android:layout_toRightOf="@+id/img_rank2_satus"
         android:layout_toEndOf="@+id/img_rank2_satus"
         android:layout_marginLeft="9dp"
         android:visibility="visible"
+        app:siBorderColor="@color/color_bg_listings_detail"
+        app:siBorderWidth="1dp"
         />
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Phone : 0972781395"
+        android:text=""
         android:id="@+id/textView_phone_dashboard_middle"
         android:layout_marginTop="7dp"
         android:gravity="center"
         android:layout_below="@+id/ratingBar_user_dashboard_middle"
-
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="10dp"/>
 
 </RelativeLayout>
