@@ -79,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/ratingBar_marker"
                 style="?android:attr/ratingBarStyleSmall"
+                android:theme="@style/RatingBar"
                 android:layout_marginLeft="-4dp"
                 android:progressBackgroundTint="@color/dot_light_screen1"
                 android:scaleX="0.9"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:background="@color/bg_myprofile"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -9,7 +9,8 @@
         android:id="@+id/imv_menu_profile"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
         android:paddingBottom="10dp"
         android:src="@mipmap/user_empty"
         app:siBorderColor="@color/bg_myprofile"
@@ -25,8 +26,9 @@
         android:layout_toRightOf="@+id/imv_menu_profile"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+
         android:textColor="@color/dot_light_screen1"/>
 
     <RatingBar
@@ -37,26 +39,26 @@
         style="?android:attr/ratingBarStyleSmall"
         android:theme="@style/RatingBar"
         android:isIndicator="true"
+        android:layout_marginTop="7dp"
         android:layout_below="@+id/txt_profile_username"
         android:layout_alignLeft="@+id/txt_profile_username"
         android:layout_alignStart="@+id/txt_profile_username" />
 
-    <com.github.siyamed.shapeimageview.CircularImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+    <ImageView
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:id="@+id/img_rank1"
         android:layout_below="@+id/ratingBar_userprofile"
         android:layout_alignLeft="@+id/ratingBar_userprofile"
         android:layout_alignStart="@+id/ratingBar_userprofile"
         android:layout_marginTop="5dp"
         android:visibility="gone"
-        app:siBorderColor="@color/backgroundnavigation"
-        app:siBorderWidth="1dp"
+
         />
 
-    <com.github.siyamed.shapeimageview.CircularImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+    <ImageView
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:id="@+id/img_rank2"
         android:layout_alignTop="@+id/img_rank1"
         android:layout_toRightOf="@+id/img_rank1"
@@ -64,22 +66,21 @@
         android:layout_marginLeft="9dp"
         android:layout_marginStart="9dp"
         android:visibility="gone"
-        app:siBorderColor="@color/backgroundnavigation"
-        app:siBorderWidth="1dp"
+        android:layout_marginBottom="10dp"
         />
 
-    <com.github.siyamed.shapeimageview.CircularImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+    <ImageView
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:id="@+id/img_rank3"
         android:layout_alignTop="@+id/img_rank2"
         android:layout_toRightOf="@+id/img_rank2"
         android:layout_toEndOf="@+id/img_rank2"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
         android:visibility="gone"
-        app:siBorderColor="@color/backgroundnavigation"
-        app:siBorderWidth="1dp"
+
         />
 
 </RelativeLayout>
