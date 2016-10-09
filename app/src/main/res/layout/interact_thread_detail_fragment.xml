@@ -17,11 +17,11 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
             android:text=""
             android:textColor="@color/color_text"
-            android:textSize="@dimen/slide_desc" />
+            android:textSize="@dimen/size_24_sp" />
 
         <redix.booxtown.custom.CustomTextView
             android:id="@+id/txt_count_thread_detail"
@@ -31,7 +31,9 @@
             android:layout_toEndOf="@+id/txt_title_thread_detail"
             android:layout_toRightOf="@+id/txt_title_thread_detail"
             android:text=""
-            android:textSize="@dimen/text_book_exploer"/>
+            android:textSize="@dimen/text_book_exploer"
+            android:gravity="center_vertical"
+            android:layout_alignTop="@+id/txt_title_thread_detail" />
 
         <redix.booxtown.custom.CustomTextView
             android:id="@+id/txt_contern_thread_details"
