@@ -5,45 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/lncomment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/checkBox2"
-        android:layout_alignParentTop="true"
-        android:gravity="center_vertical"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:checked="false"
-        android:layout_marginBottom="5dp"
-        android:button="@drawable/custom_checkbox_genre" />
+        >
+        <android.support.v7.widget.AppCompatCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/checkBox2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:checked="false"
+            android:button="@drawable/custom_checkbox_genre" />
+
+        <redix.booxtown.custom.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="New Text"
+            android:id="@+id/txt_custom_listview_genre"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/checkBox2"
+            android:gravity="center_vertical"
+            android:layout_alignBottom="@+id/checkBox2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="12dp"
+            android:textSize="@dimen/text_size_search"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_marginRight="10dp"
+            android:paddingTop="4dp" />
+    </LinearLayout>
 
     <redix.booxtown.custom.CustomTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/txt_custom_listview_genre"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/checkBox2"
-        android:layout_alignBottom="@+id/checkBox2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="12dp"
-        android:textColor="@color/dot_light_screen1"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingTop="4dp" />
-
-    <redix.booxtown.custom.CustomTextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:text="New Text"
         android:id="@+id/textView140"
-        android:layout_below="@+id/checkBox2"
-        android:layout_alignLeft="@+id/checkBox2"
-        android:layout_alignStart="@+id/checkBox2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/lncomment"
         android:background="@color/dot_light_screen1"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp" />
