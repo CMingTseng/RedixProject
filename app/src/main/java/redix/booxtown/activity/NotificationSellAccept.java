@@ -46,7 +46,7 @@ public class NotificationSellAccept extends AppCompatActivity {
         setContentView(R.layout.activity_notification_sell_accept2);
 
         txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
-        txt_menu_notification_title2.setText("you accepted a request form");
+        txt_menu_notification_title2.setText("you accepted a request from");
 
         TextView txt_menu_notification_infor3_title = (TextView)findViewById(R.id.txt_menu_notification_infor3_title);
         txt_menu_notification_infor3_title.setText("to buy your book");

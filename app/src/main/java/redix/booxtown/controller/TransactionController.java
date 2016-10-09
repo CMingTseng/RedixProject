@@ -54,7 +54,12 @@ public class TransactionController {
         obj.put("session_id",session_id);
         obj.put("trans_id",transaction_id);
         obj.put("status_id",status_id);
-        obj.put("book_seller_id",book_seller_id);
+        if(book_seller_id.equals("")){
+            obj.put("book_seller_id", "0");
+        }
+        else {
+            obj.put("book_seller_id", book_seller_id);
+        }
         Call<Result> transactionInsert = service.transactionUpdateStatus(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
