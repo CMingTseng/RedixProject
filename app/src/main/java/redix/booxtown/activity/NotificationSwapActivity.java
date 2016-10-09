@@ -258,7 +258,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                 SharedPreferences pref = NotificationSwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String userName = pref.getString("username", null);
                 txt_user_hi.setText("Hi "+ userName+",");
-                txt_userbuy_notification_swap.setText(transaction.getUser_buy()+"");
+
                 title_book_notification_swap.setText(transaction.getBook_name());
                 textView_author_book.setText(transaction.getBook_author());
                 Spannable wordtoSpan1 = new SpannableString("and good like to swap with you. Choose a book from "+transaction.getUser_buy()+"'s swap list to complete the swap" );
@@ -299,6 +299,8 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         protected void onPostExecute(List<User> user) {
             try {
                 if (user.size() > 0){
+                    txt_userbuy_notification_swap.setText(user.get(0).getFirst_name()+"");
+
                     Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
                             .error(R.drawable.user)

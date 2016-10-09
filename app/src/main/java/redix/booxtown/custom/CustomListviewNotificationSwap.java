@@ -109,7 +109,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
         if (index > 0 && image[0].length() > 3) {
             String img = image[0].substring(index + 3, image[0].length());
             Glide.with(context)
-                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getUsername() + "&image=" + img + "")
+                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" +image[0].substring(0,index) + "&image=" + img + "")
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.blank_image).
                     into(holder.img_book);

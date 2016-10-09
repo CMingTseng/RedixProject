@@ -90,7 +90,6 @@ public class NotificationFragment extends Fragment {
             }
         });
 
-        Log.d("bhjbjbjb","oncreate");
         //listview content notification
         lv_notification=(RecyclerView) view.findViewById(R.id.lv_content_notification);
         RecyclerView.LayoutManager  layoutManager = new LinearLayoutManager(getActivity());
@@ -264,7 +263,7 @@ public class NotificationFragment extends Fragment {
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("1")) {
                                     Intent intent = new Intent(getActivity(), Notification_Swap_Accept_NoLike.class);
-                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("trans_id", notification.getKey_screen());
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("2")) {
                                     Intent intent = new Intent(getActivity(), NotificationRejectActivity.class);

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff">
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="By"
+        android:text="listed by"
         android:id="@+id/textView41"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -20,8 +21,8 @@
         android:paddingBottom="10dp" />
 
     <com.github.siyamed.shapeimageview.CircularImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/imv_menu_notification_infor2"
         android:layout_below="@+id/textView41"
         android:layout_centerHorizontal="true"
@@ -74,23 +75,24 @@
             android:weightSum="1">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView19"
-                android:src="@drawable/icon_notification_infor2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/img_comment_rank1"
                 android:layout_marginLeft="10dp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView20"
-                android:src="@drawable/icon_notification_infor3" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/img_comment_rank2"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView21"
-                android:src="@drawable/icon_notification_infor1" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/img_comment_rank3"
+                android:layout_marginLeft="10dp"
+                 />
         </LinearLayout>
     </LinearLayout>
 

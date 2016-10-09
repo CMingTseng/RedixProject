@@ -9,8 +9,8 @@
         android:background="#ffffff">
 
         <com.github.siyamed.shapeimageview.CircularImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/imv_nitification_infor3_phone"
             android:src="@drawable/img_temp1"
             android:layout_alignParentTop="true"
@@ -21,7 +21,7 @@
         <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thuyet"
+            android:text="Thu"
             android:id="@+id/txt_author_info3"
             android:textSize="@dimen/text_size_search"
             android:layout_centerHorizontal="true"
@@ -34,17 +34,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/ratingBar2"
             android:theme="@style/RatingBar"
-            android:rating="2.5"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_below="@+id/txt_author_info3"
             android:layout_alignLeft="@+id/txt_author_info3"
             android:layout_alignStart="@+id/txt_author_info3" />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:id="@+id/imageView23"
-            android:src="@drawable/btn_rank_one"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_comment_rank1"
             android:layout_alignTop="@+id/ratingBar2"
             android:layout_toRightOf="@+id/ratingBar2"
             android:layout_alignParentRight="false"
@@ -52,24 +50,23 @@
             android:layout_marginLeft="5dp" />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:id="@+id/imageView24"
-            android:layout_alignTop="@+id/imageView23"
-            android:layout_toRightOf="@+id/imageView23"
-            android:layout_toEndOf="@+id/imageView23"
-            android:src="@drawable/btn_rank_two"
-            android:layout_marginLeft="5dp" />
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_comment_rank2"
+            android:layout_alignTop="@+id/img_comment_rank1"
+            android:layout_toRightOf="@+id/img_comment_rank1"
+            android:layout_toEndOf="@+id/img_comment_rank1"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"/>
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:id="@+id/imageView25"
-            android:layout_alignTop="@+id/imageView24"
-            android:layout_toRightOf="@+id/imageView24"
-            android:layout_toEndOf="@+id/imageView24"
-            android:src="@drawable/btn_rank_three"
-            android:layout_marginLeft="5dp" />
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_comment_rank3"
+            android:layout_alignTop="@+id/img_comment_rank2"
+            android:layout_toRightOf="@+id/img_comment_rank2"
+            android:layout_toEndOf="@+id/img_comment_rank2"
+            android:layout_marginLeft="10dp" />
 
         <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
