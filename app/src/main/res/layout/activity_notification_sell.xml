@@ -32,7 +32,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/include16" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -46,7 +46,7 @@
         android:gravity="center"
         android:layout_marginTop="10dp" />
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ayn rand"
@@ -56,7 +56,7 @@
         android:textColor="@color/color_text_hint"
         android:theme="@style/MyEditTextTheme"/>
 
-    <TextView
+    <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
