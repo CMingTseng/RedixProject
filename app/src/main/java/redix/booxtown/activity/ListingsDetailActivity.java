@@ -85,7 +85,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             isLoading = true;
     private int previousTotal = 0;
     private int visibleThreshold = 5;
-
+    RelativeLayout rlv_comment;
 
     private ImageView imSwap, imSwap2, imFree, imFree2, imBuy, imBuy2, imageView_back,btn_rank_one,btn_rank_two,btn_rank_three;
     TextView txt_listed_by, txt_tag, txt_title_listings_detail, txt_author_listings_detail, txt_price_listings_detail, txt_time_post_listings, txt_genre_listing_detail;
@@ -194,6 +194,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 View view_search = (View) getActivity().findViewById(R.id.custom_search);
                 view_search.setVisibility(View.GONE);
                 Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
+                rlv_comment.setVisibility(View.GONE);
                 editText11.setVisibility(View.GONE);
                 img_close_dialog_unsubcribe.setVisibility(View.GONE);
                 tbTypebook.setVisibility(View.GONE);
@@ -365,6 +366,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     }
 
     public void init(View view) {
+        rlv_comment=(RelativeLayout) view.findViewById(R.id.rlv_comment);
         btn_rank_one = (ImageView) view.findViewById(R.id.img_rank1_listings);
         btn_rank_two = (ImageView) view.findViewById(R.id.img_rank2_listings);
         btn_rank_three = (ImageView) view.findViewById(R.id.img_rank3_listings);
