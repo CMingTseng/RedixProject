@@ -15,17 +15,56 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_above="@+id/rlv_comment">
             <include
                 android:id="@+id/layout_details"
                 layout="@layout/layout_listings_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/menu_bottom_listing_detail"
+                android:layout_above="@+id/rlv_comment"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/scrollView4" />
         </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/rlv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentStart="true">
+            <redix.booxtown.custom.CustomEdittext
+                android:layout_width="281dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_interact_comment"
+                android:hint="Add Comments"
+
+                android:textColorHint="@color/color_text_hint"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:maxLines="2"
+                android:textColor="@color/color_text_time_update_interact"
+                android:ellipsize="start"
+                android:id="@+id/editText11"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/img_close_dialog_unsubcribe"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/btn_interact_sent"
+                android:layout_alignTop="@+id/editText11"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/img_close_dialog_unsubcribe"
+                 />
+
+        </RelativeLayout>
     </RelativeLayout>
 </FrameLayout>
