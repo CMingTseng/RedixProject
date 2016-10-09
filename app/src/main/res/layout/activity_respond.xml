@@ -16,11 +16,10 @@
     <ScrollView
         android:id="@+id/scrollView_respond"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/menu_bottom_respond"
+        android:layout_height="match_parent"
         android:layout_below="@+id/menu_top_respond"
         android:fillViewport="true"
-        >
+        android:layout_above="@+id/rlv_comment">
 
         <RelativeLayout
             android:id="@+id/relativeLayout_repond1"
@@ -115,6 +114,7 @@
                 android:id="@+id/gridview_comments_respond"
                 layout="@layout/layout_comments"
                 android:fillViewport="true"
+                android:layout_above="@+id/rlv_comment"
                 android:layout_width="match_parent"
                 android:layout_height="285dp"
                 android:layout_alignParentBottom="true"
@@ -125,6 +125,38 @@
         </RelativeLayout>
     </ScrollView>
 
+    <RelativeLayout
+        android:id="@+id/rlv_comment"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/menu_bottom_respond"
+        android:layout_height="50dp"
+        android:layout_marginBottom="5dp">
+        <redix.booxtown.custom.CustomEdittext
+            android:layout_width="281dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_interact_comment"
+            android:hint="Add Comments"
+            android:fontFamily="sans-serif-light"
+            android:textColorHint="@color/color_text_hint"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:maxLines="2"
+            android:textColor="@color/color_text_time_update_interact"
+            android:ellipsize="start"
+            android:id="@+id/editText11"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp" />
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/btn_interact_sent"
+            android:layout_alignTop="@+id/editText11"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/img_close_dialog_unsubcribe"
+            android:layout_marginRight="15dp" />
+
+    </RelativeLayout>
     <include
         android:id="@+id/menu_bottom_respond"
         layout="@layout/menu_bottom"
