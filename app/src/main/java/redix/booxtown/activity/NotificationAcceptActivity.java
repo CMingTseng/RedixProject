@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,8 @@ public class NotificationAcceptActivity extends AppCompatActivity {
     String trans;
     RatingBar myRatingBar;
     ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
-
+    TextView menu_notification_title2;
+    RelativeLayout include8;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Request for window feature action bar
@@ -71,6 +73,8 @@ public class NotificationAcceptActivity extends AppCompatActivity {
         init();
         //inor
         txtTitle.setText("Notifications");
+        menu_notification_title2.setText("with book");
+        menu_notification_title2.setTextColor(getResources().getColor(R.color.text_color_with));
         //infor
         img_menu.setImageResource(R.drawable.btn_sign_in_back);
         img_menu.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +100,8 @@ public class NotificationAcceptActivity extends AppCompatActivity {
     }
 
     public void init(){
+        include8 = (RelativeLayout)findViewById(R.id.include8);
+        menu_notification_title2 = (TextView)include8.findViewById(R.id.txt_menu_notification_title2);
         myRatingBar = (RatingBar)findViewById(R.id.rating_bar_comment_interact);
 
         img_comment_rank1 = (ImageView)findViewById(R.id.img_comment_rank1);

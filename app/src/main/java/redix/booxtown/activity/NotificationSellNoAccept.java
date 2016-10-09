@@ -7,26 +7,37 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.siyamed.shapeimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.SettingController;
 import redix.booxtown.controller.TransactionController;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.custom.NotificationAccept;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Setting;
 import redix.booxtown.model.Transaction;
+import redix.booxtown.model.User;
 
 /**
  * Created by thuyetpham94 on 27/08/2016.
@@ -47,16 +58,14 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
 
     TextView txt_menu_notification_title2;
 
+    CircularImageView imv_nitification_infor3_phone;
+    android.widget.RatingBar RatingBar;
+    ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_sell_accept2);
-
-        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
-        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
-        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
-        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
-        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+        init();
 
         img_menu_bottom_location.setOnClickListener(this);
         img_menu_bottom_comment.setOnClickListener(this);
@@ -64,14 +73,8 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
         img_menu_bottom_bag.setOnClickListener(this);
         img_menu_bottom_user.setOnClickListener(this);
 
-        txt_user_hi=(TextView) findViewById(R.id.txt_user_hi);
-        txt_author_info3=(TextView) findViewById(R.id.txt_author_info3);
-        txt_title_book_buy_accept=(TextView) findViewById(R.id.txt_title_book_buy_accept);
-        txt_author_book_buy_accept=(TextView) findViewById(R.id.txt_author_book_buy_accept);
-        txt_notification_sell_accept_money=(TextView) findViewById(R.id.txt_notification_sell_accept_money);
-        txt_notification_dominic_time=(TextView) findViewById(R.id.txt_notification_dominic_time);
 
-        txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
+
         txt_menu_notification_title2.setVisibility(View.GONE);
 
         TextView txt_menu_notification_infor3_title = (TextView)findViewById(R.id.txt_menu_notification_infor3_title);
@@ -87,7 +90,6 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
 
         ImageView img_menu = (ImageView)findViewById(R.id.img_menu);
         img_menu.setImageResource(R.drawable.btn_sign_in_back);
-
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +99,7 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
         //end
 
         //infor
-        ImageView imv_nitification_infor3_phone = (ImageView)findViewById(R.id.imv_nitification_infor3_phone);
+
         imv_nitification_infor3_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +114,31 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
         transAsync transAsync= new transAsync(NotificationSellNoAccept.this,trans_id);
         transAsync.execute();
         //---------------------------------------------------------------
+    }
+
+    public void init(){
+        img_comment_rank1 = (ImageView)findViewById(R.id.img_comment_rank1);
+        img_comment_rank2 = (ImageView)findViewById(R.id.img_comment_rank2);
+        img_comment_rank3 = (ImageView)findViewById(R.id.img_comment_rank3);
+        RatingBar = (RatingBar)findViewById(R.id.ratingBar2);
+
+        imv_nitification_infor3_phone = (CircularImageView) findViewById(R.id.imv_nitification_infor3_phone);
+        txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
+
+        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
+        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
+        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
+        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
+        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+
+
+        txt_user_hi=(TextView) findViewById(R.id.txt_user_hi);
+        txt_author_info3=(TextView) findViewById(R.id.txt_author_info3);
+        txt_title_book_buy_accept=(TextView) findViewById(R.id.txt_title_book_buy_accept);
+        txt_author_book_buy_accept=(TextView) findViewById(R.id.txt_author_book_buy_accept);
+        txt_notification_sell_accept_money=(TextView) findViewById(R.id.txt_notification_sell_accept_money);
+        txt_notification_dominic_time=(TextView) findViewById(R.id.txt_notification_dominic_time);
+
     }
 
     @Override
@@ -178,10 +205,12 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
                 dialog.dismiss();
             }else {
                 SharedPreferences pref = NotificationSellNoAccept.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor  = pref.edit();
                 String session_id = pref.getString("session_id", null);
                 getSetting gt= new getSetting(NotificationSellNoAccept.this, transaction);
                 gt.execute(transaction.getSession_user_sell());
+
+                getUser1 getUser1 = new getUser1(NotificationSellNoAccept.this,transaction.getUser_seller_id());
+                getUser1.execute();
                 dialog.dismiss();
             }
             super.onPostExecute(transaction);
@@ -239,6 +268,90 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
                 }
                 txt_notification_dominic_time.setText(timeS+"-"+timeT);
             }catch (Exception e){
+            }
+            progressDialog.dismiss();
+        }
+    }
+
+    class getUser1 extends AsyncTask<Void,Void,List<User>>{
+
+        Context context;
+        int user_id;
+        ProgressDialog progressDialog;
+        public getUser1(Context context,int user_id){
+            this.context = context;
+            this.user_id = user_id;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            UserController userController = new UserController();
+            return userController.getByUserId(user_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> user) {
+            try {
+                if (user.size() > 0){
+                    txt_author_info3.setText(user.get(0).getFirst_name());
+                    Picasso.with(context)
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .error(R.drawable.user)
+                            .into(imv_nitification_infor3_phone);
+
+                    RatingBar.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) RatingBar.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.rgb(255,2224,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.bg_rating));
+
+                    //set rank
+                    if(user.get(0).getContributor() == 0){
+                        img_comment_rank1.setVisibility(View.VISIBLE);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
+                        img_comment_rank1.setImageBitmap(btn1);
+
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
+                        img_comment_rank1.setImageBitmap(btn1);
+
+                    }
+                    if(user.get(0).getGoldenBook() == 0){
+                        img_comment_rank2.setVisibility(View.GONE);
+                    }else if(user.get(0).getGoldenBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.golden_book);
+                        img_comment_rank2.setImageBitmap(btn1);
+                        img_comment_rank2.setVisibility(View.VISIBLE);
+                    }
+
+                    if(user.get(0).getListBook() == 0){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.newbie);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }else if(user.get(0).getListBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bookworm);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bibliophile);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }
+
+                    progressDialog.dismiss();
+                }else {
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
             }
             progressDialog.dismiss();
         }

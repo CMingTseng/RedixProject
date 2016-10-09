@@ -7,25 +7,38 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.siyamed.shapeimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.SettingController;
 import redix.booxtown.controller.TransactionController;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.custom.NotificationAccept;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Setting;
 import redix.booxtown.model.Transaction;
+import redix.booxtown.model.User;
 
 /**
  * Created by thuyetpham94 on 28/08/2016.
@@ -45,17 +58,21 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
     TextView txt_notification_dominic_time;
 
     TextView txt_menu_notification_title2;
+    TextView txt_notification_infor3_phone;
+    TextView txt_menu_notification_infor3_title;
+    TextView txt_notification_dominic_besttime;
+
+    CircularImageView imv_nitification_infor3_phone;
+    android.widget.RatingBar RatingBar;
+    ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_sell_accept2);
 
-        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
-        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
-        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
-        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
-        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+        init();
+
 
         img_menu_bottom_location.setOnClickListener(this);
         img_menu_bottom_comment.setOnClickListener(this);
@@ -63,19 +80,19 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
         img_menu_bottom_bag.setOnClickListener(this);
         img_menu_bottom_user.setOnClickListener(this);
 
-        txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
+
         txt_menu_notification_title2.setText("Sorry!");
 
-        TextView txt_notification_infor3_phone = (TextView)findViewById(R.id.txt_notification_infor3_phone);
+
         txt_notification_infor3_phone.setVisibility(View.GONE);
 
-        TextView txt_menu_notification_infor3_title = (TextView)findViewById(R.id.txt_menu_notification_infor3_title);
+
         txt_menu_notification_infor3_title.setText("rejected your request for buying");
 
-        TextView txt_notification_dominic_besttime = (TextView)findViewById(R.id.txt_notification_dominic_besttime);
+
         txt_notification_dominic_besttime.setVisibility(View.GONE);
 
-        TextView txt_notification_dominic_time = (TextView)findViewById(R.id.txt_notification_dominic_time);
+
         txt_notification_dominic_time.setVisibility(View.GONE);
 
         //menu
@@ -97,7 +114,7 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
         });
         //end
 //infor
-        ImageView imv_nitification_infor3_phone = (ImageView)findViewById(R.id.imv_nitification_infor3_phone);
+
         imv_nitification_infor3_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +137,27 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
         transAsync transAsync= new transAsync(NotificationSellNoReject.this,trans_id);
         transAsync.execute();
         //---------------------------------------------------------------
+    }
+
+    public void init(){
+        img_comment_rank1 = (ImageView)findViewById(R.id.img_comment_rank1);
+        img_comment_rank2 = (ImageView)findViewById(R.id.img_comment_rank2);
+        img_comment_rank3 = (ImageView)findViewById(R.id.img_comment_rank3);
+        RatingBar = (RatingBar)findViewById(R.id.ratingBar2);
+
+        imv_nitification_infor3_phone = (CircularImageView)findViewById(R.id.imv_nitification_infor3_phone);
+
+        txt_notification_dominic_time = (TextView)findViewById(R.id.txt_notification_dominic_time);
+        txt_notification_dominic_besttime = (TextView)findViewById(R.id.txt_notification_dominic_besttime);
+        txt_menu_notification_infor3_title = (TextView)findViewById(R.id.txt_menu_notification_infor3_title);
+
+        txt_notification_infor3_phone = (TextView)findViewById(R.id.txt_notification_infor3_phone);
+        txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
+        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
+        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
+        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
+        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
+        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
     }
 
     @Override
@@ -191,6 +229,9 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
                 String session_id = pref.getString("session_id", null);
                 getSetting gt= new getSetting(NotificationSellNoReject.this, transaction);
                 gt.execute(transaction.getSession_user_sell());
+
+                getUser1 getUser1 = new getUser1(NotificationSellNoReject.this,transaction.getUser_buyer_id());
+                getUser1.execute();
                 dialog.dismiss();
             }
             super.onPostExecute(transaction);
@@ -248,6 +289,90 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
                 }
                 txt_notification_dominic_time.setText(timeS+"-"+timeT);
             }catch (Exception e){
+            }
+            progressDialog.dismiss();
+        }
+    }
+
+    class getUser1 extends AsyncTask<Void,Void,List<User>>{
+
+        Context context;
+        int user_id;
+        ProgressDialog progressDialog;
+        public getUser1(Context context,int user_id){
+            this.context = context;
+            this.user_id = user_id;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            UserController userController = new UserController();
+            return userController.getByUserId(user_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> user) {
+            try {
+                if (user.size() > 0){
+                    txt_author_info3.setText(user.get(0).getFirst_name());
+                    Picasso.with(context)
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .error(R.drawable.user)
+                            .into(imv_nitification_infor3_phone);
+
+                    RatingBar.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) RatingBar.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.rgb(255,2224,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.bg_rating));
+
+                    //set rank
+                    if(user.get(0).getContributor() == 0){
+                        img_comment_rank1.setVisibility(View.VISIBLE);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
+                        img_comment_rank1.setImageBitmap(btn1);
+
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
+                        img_comment_rank1.setImageBitmap(btn1);
+
+                    }
+                    if(user.get(0).getGoldenBook() == 0){
+                        img_comment_rank2.setVisibility(View.GONE);
+                    }else if(user.get(0).getGoldenBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.golden_book);
+                        img_comment_rank2.setImageBitmap(btn1);
+                        img_comment_rank2.setVisibility(View.VISIBLE);
+                    }
+
+                    if(user.get(0).getListBook() == 0){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.newbie);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }else if(user.get(0).getListBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bookworm);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bibliophile);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }
+
+                    progressDialog.dismiss();
+                }else {
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
             }
             progressDialog.dismiss();
         }

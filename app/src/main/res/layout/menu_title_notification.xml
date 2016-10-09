@@ -7,7 +7,7 @@
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hi Thuyết"
+        android:text="Hi"
         android:id="@+id/txt_user_hi"
         android:layout_alignParentTop="true"
         android:textColor="@color/dot_light_screen2"

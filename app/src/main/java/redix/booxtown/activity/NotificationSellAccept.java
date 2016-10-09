@@ -7,25 +7,37 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.siyamed.shapeimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.SettingController;
 import redix.booxtown.controller.TransactionController;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.custom.NotificationAccept;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Setting;
 import redix.booxtown.model.Transaction;
+import redix.booxtown.model.User;
 
 public class NotificationSellAccept extends AppCompatActivity {
     private MenuBottomCustom bottomListings;
@@ -38,8 +50,11 @@ public class NotificationSellAccept extends AppCompatActivity {
     TextView txt_notification_dominic_time;
     TextView txt_menu_notification_infor3_title;
     TextView txt_menu_notification_title2;
-    ImageView img_menu_component,img_menu,imv_nitification_infor3_phone;
+    ImageView img_menu_component,img_menu;
     TextView txtTitle;
+    CircularImageView imv_nitification_infor3_phone;
+    RatingBar RatingBar;
+    ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +99,12 @@ public class NotificationSellAccept extends AppCompatActivity {
     }
 
     public void init(){
-        imv_nitification_infor3_phone = (ImageView)findViewById(R.id.imv_nitification_infor3_phone);
+        img_comment_rank1 = (ImageView)findViewById(R.id.img_comment_rank1);
+        img_comment_rank2 = (ImageView)findViewById(R.id.img_comment_rank2);
+        img_comment_rank3 = (ImageView)findViewById(R.id.img_comment_rank3);
+        RatingBar = (RatingBar)findViewById(R.id.ratingBar2);
+
+        imv_nitification_infor3_phone = (CircularImageView) findViewById(R.id.imv_nitification_infor3_phone);
         img_menu = (ImageView)findViewById(R.id.img_menu);
         img_menu_component = (ImageView)findViewById(R.id.img_menu_component);
         txtTitle=(TextView)findViewById(R.id.txt_title);
@@ -143,6 +163,8 @@ public class NotificationSellAccept extends AppCompatActivity {
                 String session_id = pref.getString("session_id", null);
                 getSetting gt= new getSetting(NotificationSellAccept.this, transaction);
                 gt.execute(session_id);
+                getUser1 getUser1 = new getUser1(NotificationSellAccept.this,transaction.getUser_seller_id());
+                getUser1.execute();
                 dialog.dismiss();
             }
             super.onPostExecute(transaction);
@@ -200,6 +222,90 @@ public class NotificationSellAccept extends AppCompatActivity {
                 }
                 txt_notification_dominic_time.setText(timeS+"-"+timeT);
             }catch (Exception e){
+            }
+            progressDialog.dismiss();
+        }
+    }
+
+    class getUser1 extends AsyncTask<Void,Void,List<User>>{
+
+        Context context;
+        int user_id;
+        ProgressDialog progressDialog;
+        public getUser1(Context context,int user_id){
+            this.context = context;
+            this.user_id = user_id;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            UserController userController = new UserController();
+            return userController.getByUserId(user_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> user) {
+            try {
+                if (user.size() > 0){
+                    txt_author_info3.setText(user.get(0).getFirst_name());
+                    Picasso.with(context)
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .error(R.drawable.user)
+                            .into(imv_nitification_infor3_phone);
+
+                    RatingBar.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) RatingBar.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.rgb(255,2224,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.bg_rating));
+
+                    //set rank
+                    if(user.get(0).getContributor() == 0){
+                        img_comment_rank1.setVisibility(View.VISIBLE);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
+                        img_comment_rank1.setImageBitmap(btn1);
+
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
+                        img_comment_rank1.setImageBitmap(btn1);
+
+                    }
+                    if(user.get(0).getGoldenBook() == 0){
+                        img_comment_rank2.setVisibility(View.GONE);
+                    }else if(user.get(0).getGoldenBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.golden_book);
+                        img_comment_rank2.setImageBitmap(btn1);
+                        img_comment_rank2.setVisibility(View.VISIBLE);
+                    }
+
+                    if(user.get(0).getListBook() == 0){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.newbie);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }else if(user.get(0).getListBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bookworm);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bibliophile);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }
+
+                    progressDialog.dismiss();
+                }else {
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
             }
             progressDialog.dismiss();
         }

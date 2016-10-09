@@ -59,6 +59,6 @@
     <color name="background_listing">#F6F6F6</color>
     <color name="color_checkbox">#808284</color>
     <color name="color_filter_price">#5D5D5D</color>
-
+    <color name="text_color_with">#4be4bc</color>
     <color name="color_star_profile">#F9F200</color>
 </resources>
