@@ -44,6 +44,7 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -66,6 +67,7 @@ import redix.booxtown.R;
 import redix.booxtown.activity.ListingsDetailActivity;
 import redix.booxtown.activity.MenuActivity;
 import redix.booxtown.adapter.AdapterFilter;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.GetAllGenreAsync;
@@ -393,9 +395,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         TextView txt_title_marker, txt_author_marker, txt_user_marker;
         RatingBar ratingBar_marker;
         ImageView img_swap_marker, img_free_marker, img_buy_marker;
+        CircularImageView img_map_main;
         private final View myContentsView;
 
         MyInfoWindowAdapter() {
+
             myContentsView = getActivity().getLayoutInflater().inflate(R.layout.dialog_map_main, null);
             txt_title_marker = (TextView) myContentsView.findViewById(R.id.txt_title_marker);
             txt_author_marker = (TextView) myContentsView.findViewById(R.id.txt_author_marker);
@@ -404,6 +408,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             img_swap_marker = (ImageView) myContentsView.findViewById(R.id.img_swap_marker);
             img_free_marker = (ImageView) myContentsView.findViewById(R.id.img_free_marker);
             img_buy_marker = (ImageView) myContentsView.findViewById(R.id.img_buy_marker);
+            img_map_main = (CircularImageView)myContentsView.findViewById(R.id.img_map_main);
         }
 
         @Override
@@ -424,6 +429,19 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
             } catch (Exception e) {
             }
+
+            if (books.getPhoto().length() > 3) {
+                int index = books.getPhoto().indexOf("_+_");
+                Picasso.with(getContext())
+                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + books.getPhoto().substring(0,index) + "&image=" + books.getPhoto().substring(books.getUsername().length() + 3, books.getPhoto().length()))
+                        .placeholder((R.mipmap.user_empty)).
+                        into(img_map_main);
+            } else {
+                Picasso.with(getContext())
+                        .load((R.mipmap.user_empty))
+                        .into(img_map_main);
+            }
+
             txt_author_marker.setText("by " + books.getAuthor());
             txt_user_marker.setText(books.getUsername());
             ratingBar_marker.setRating(books.getRating());

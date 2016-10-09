@@ -140,13 +140,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
 
             if (book.getPhoto().length() > 3) {
+                int index = book.getPhoto().indexOf("_+_");
                 Picasso.with(getContext())
-                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getAuthor() + "&image=" + book.getPhoto().substring(book.getUsername().length() + 3, book.getPhoto().length()))
-                        .placeholder(R.drawable.blank_image).
+                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getPhoto().substring(0,index) + "&image=" + book.getPhoto().substring(book.getUsername().length() + 3, book.getPhoto().length()))
+                        .placeholder(R.mipmap.user_empty).
                         into(icon_user_listing_detail);
             } else {
                 Picasso.with(getContext())
-                        .load(R.drawable.blank_image)
+                        .load(R.mipmap.user_empty)
                         .into(icon_user_listing_detail);
             }
             txt_listed_by.setText(book.getUsername());

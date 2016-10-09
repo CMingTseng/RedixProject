@@ -187,7 +187,6 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
 
         @Override
         protected void onPreExecute() {
-
             super.onPreExecute();
         }
 
@@ -206,10 +205,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
             list.add(obj);
             NotificationController controller = new NotificationController();
             controller.sendNotification(list);
-            // end
-
             // send notifi user seller
-
             List<Hashtable> listSeller = new ArrayList<>();
             Notification notificationSeller = new Notification("you accepted swapping your book", trans.getId()+"","0" );
             Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
