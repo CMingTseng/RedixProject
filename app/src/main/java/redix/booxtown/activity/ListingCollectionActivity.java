@@ -90,13 +90,13 @@ import redix.booxtown.model.Explore;
 import redix.booxtown.model.Genre;
 import redix.booxtown.model.ImageClick;
 
-public class ListingCollectionActivity extends Fragment implements OnMapReadyCallback,View.OnClickListener {
+public class ListingCollectionActivity extends Fragment implements OnMapReadyCallback, View.OnClickListener {
     private GoogleMap mMap;
-    ImageView btn_sellectimage, imagebook1, imagebook2, imagebook3, addtag,imageView_back;
+    ImageView btn_sellectimage, imagebook1, imagebook2, imagebook3, addtag, imageView_back;
     UploadFileController uploadFileController;
     Button btn_menu_editlist_delete, btn_menu_editlisting_update, btn_menu_listing_addbook;
     TableRow tbl_price_sell;
-    String username,session_id,condition,s,imgOne, imgTwo, imgThree,imageEncoded,imageOrigin,titl;
+    String username, session_id, condition, s, imgOne, imgTwo, imgThree, imageEncoded, imageOrigin, titl;
     ArrayList<Genre> genre;
     double latitude, longitude;
     EditText edt_tilte, edt_author, edt_tag, edt_editlisting_sell;
@@ -104,21 +104,22 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     CheckBox swap, free, sell;
     float price;
     Uri mImageUri;
-    ArrayList<String> arrImage,listUserName,imagesEncodedList,listTag;
+    ArrayList<String> arrImage, listUserName, imagesEncodedList, listTag;
     SeekBar seekbar;
     BookController bookController;
     boolean success;
-    Book book,bookedit;
-    public int numclick = 0,numimageclick = 0;
+    Book book, bookedit;
+    public int numclick = 0, numimageclick = 0;
 
-    int PICK_IMAGE_MULTIPLE = 1,back;
+    int PICK_IMAGE_MULTIPLE = 1, back;
     TableRow tb_menu;
     SupportMapFragment mapFragment;
     String[] image;
-    TextView txt_add_book,txt_my_listings,tag1,tag2,tag3;
+    TextView txt_add_book, txt_my_listings, tag1, tag2, tag3;
 
     LatLng latLng_new;
-    RadioButton radioButton_current,radioButton_another;
+    RadioButton radioButton_current, radioButton_another;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -129,8 +130,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 .findFragmentById(R.id.fragment_map_editlisting);
         mapFragment.getMapAsync(this);
 
-        radioButton_current = (RadioButton)v.findViewById(R.id.radioButton_current);
-        radioButton_another = (RadioButton)v.findViewById(R.id.radioButton_another);
+        radioButton_current = (RadioButton) v.findViewById(R.id.radioButton_current);
+        radioButton_another = (RadioButton) v.findViewById(R.id.radioButton_another);
 
         /*final RadioGroup radio = (RadioGroup) v.findViewById(R.id.groupradio);
         radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -155,7 +156,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         });*/
 
         //end
-        tbl_price_sell= (TableRow) v.findViewById(R.id.row_price_sell) ;
+        tbl_price_sell = (TableRow) v.findViewById(R.id.row_price_sell);
         edt_editlisting_sell = (EditText) v.findViewById(R.id.edt_editlisting_sell);
         swap = (CheckBox) v.findViewById(R.id.checkBox);
         sell = (CheckBox) v.findViewById(R.id.ck_sell_editlisting);
@@ -163,7 +164,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         edt_author = (EditText) v.findViewById(R.id.editText9);
         Spannable wordtoSpan1 = new SpannableString("Author *");
-        wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED),7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED), 7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         edt_author.setHint(wordtoSpan1);
 
         edt_tilte = (EditText) v.findViewById(R.id.editText8);
@@ -218,17 +219,17 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         imagebook2 = (ImageView) v.findViewById(R.id.imageView30);
         imagebook3 = (ImageView) v.findViewById(R.id.imageView31);
         seekbar = (SeekBar) v.findViewById(R.id.seekBar2);
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-        Bitmap thumb=Bitmap.createBitmap(44,44, Bitmap.Config.ARGB_8888);
-        Canvas canvas=new Canvas(thumb);
-        canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
-                new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
-        Drawable drawable = new BitmapDrawable(getResources(),thumb);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
+        Bitmap thumb = Bitmap.createBitmap(44, 44, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(thumb);
+        canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
+        Drawable drawable = new BitmapDrawable(getResources(), thumb);
         seekbar.setThumb(drawable);
-        listUserName= new ArrayList<>();
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        listUserName = new ArrayList<>();
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_genre);
@@ -248,7 +249,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 });
 
                 ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.img_close_dialoggenre);
-                        img_close_dialoggenre.setImageResource(R.drawable.btn_close_filter);
+                img_close_dialoggenre.setImageResource(R.drawable.btn_close_filter);
                 img_close_dialoggenre.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -323,14 +324,16 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             @Override
             public void onClick(View view) {
                 try {
-                    if(addbook(0)) {
-                        addImages();
-                        uploaddata uploaddata = new uploaddata();
-                        uploaddata.execute();
-                        MainAllActivity mainAllActivity = (MainAllActivity) getActivity();
-                        mainAllActivity.callFragment(new ListingsFragment());
+                    if (checkCheckBox()) {
+                        if (addbook(0)) {
+                            addImages();
+                            uploaddata uploaddata = new uploaddata();
+                            uploaddata.execute();
+                            MainAllActivity mainAllActivity = (MainAllActivity) getActivity();
+                            mainAllActivity.callFragment(new ListingsFragment());
+                        }
                     }
-                }catch (Exception exx){
+                } catch (Exception exx) {
 
                 }
             }
@@ -341,7 +344,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         txt_add_book.setTextColor(getResources().getColor(R.color.color_text));
         txt_add_book.setBackgroundColor(getResources().getColor(R.color.dot_light_screen1));
 
-        if(s.equals("edit")){
+        if (s.equals("edit")) {
             MainAllActivity.setTxtTitle("Edit Listing");
             txt_add_book.setText("Edit a book");
 
@@ -357,45 +360,46 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 main.callFragment(new ListingsFragment());
             }
         });
-        if(getArguments().getInt("num_list") ==0){
-            txt_my_listings.setText("My listings"+"("+ListingsFragment.num_list+")");
-        }else {
+        if (getArguments().getInt("num_list") == 0) {
+            txt_my_listings.setText("My listings" + "(" + ListingsFragment.num_list + ")");
+        } else {
             txt_my_listings.setText("My listings" + "(" + getArguments().getInt("num_list") + ")");
         }
         tb_menu = (TableRow) v.findViewById(R.id.tableRow5);
-        if(back == 1){
+        if (back == 1) {
             tb_menu.setVisibility(View.GONE);
         }
         imageView_back = (ImageView) getActivity().findViewById(R.id.img_menu);
-        imageOrigin="";
-        imgOne="";
-        imgTwo="";
-        imgThree="";
+        imageOrigin = "";
+        imgOne = "";
+        imgTwo = "";
+        imgThree = "";
 
         if (s.equals("edit")) {
             btn_menu_listing_addbook.setVisibility(View.GONE);
             row.setVisibility(View.VISIBLE);
             bookedit = (Book) getArguments().getSerializable("bookedit");
-            addMarkerChoice(new LatLng(bookedit.getLocation_latitude(),bookedit.getLocation_longitude()));
+            addMarkerChoice(new LatLng(bookedit.getLocation_latitude(), bookedit.getLocation_longitude()));
             edt_author.setText(bookedit.getAuthor().toString());
             edt_tilte.setText(bookedit.getTitle().toString());
+
             String[] listtag = bookedit.getHash_tag().split(";");
-            for (int i=0;i<listtag.length;i++){
+            for (int i = 0; i < listtag.length; i++) {
                 listTag.add(listtag[i]);
             }
             //settag();
-            if (listtag.length==1){
+            if (listtag.length == 1) {
                 tag1.setText(listtag[0]);
                 tag1.setVisibility(View.VISIBLE);
-            }else if (listtag.length==2){
-                tag1.setText(listtag[0]+"");
+            } else if (listtag.length == 2) {
+                tag1.setText(listtag[0] + "");
                 tag2.setText(listtag[1]);
                 tag1.setVisibility(View.VISIBLE);
                 tag2.setVisibility(View.VISIBLE);
-            }else {
-                tag1.setText(listtag[0]+"");
-                tag2.setText(listtag[1]+"");
-                tag3.setText(listtag[2]+"");
+            } else {
+                tag1.setText(listtag[0] + "");
+                tag2.setText(listtag[1] + "");
+                tag3.setText(listtag[2] + "");
                 tag1.setVisibility(View.VISIBLE);
                 tag2.setVisibility(View.VISIBLE);
                 tag3.setVisibility(View.VISIBLE);
@@ -408,10 +412,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             imageView_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(back == 1){
+                    if (back == 1) {
                         callFragment(new MyProfileFragment());
-                    }else if(back == 3){
-                    }else{
+                    } else if (back == 3) {
+                    } else {
                         callFragment(new ListingsFragment());
                         MainAllActivity.setTxtTitle("Listings");
                     }
@@ -428,50 +432,49 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             if (String.valueOf(array[1]).contains("1")) {
                 sell.setChecked(true);
                 try {
-                    if (bookedit.getPrice() >0) {
+                    if (bookedit.getPrice() > 0) {
                         tbl_price_sell.setVisibility(View.VISIBLE);
                     }
-                }catch (Exception exx){
+                } catch (Exception exx) {
                 }
                 edt_editlisting_sell.setVisibility(View.VISIBLE);
-                if (bookedit.getPrice()!=0){
+                if (bookedit.getPrice() != 0) {
                     edt_editlisting_sell.setText(String.valueOf(bookedit.getPrice()));
-                }
-                else {
+                } else {
                     edt_editlisting_sell.setText(String.valueOf(0));
                 }
             }
 
-            if (Integer.valueOf(bookedit.getCondition())!=0){
+            if (Integer.valueOf(bookedit.getCondition()) != 0) {
                 seekbar.setProgress(Integer.valueOf(bookedit.getCondition()));
             }
-            imageOrigin=bookedit.getPhoto();
+            imageOrigin = bookedit.getPhoto();
             image = bookedit.getPhoto().split(";");
 
-            if (image.length>0) {
+            if (image.length > 0) {
                 if (image[0] != null) {
                     imgOne = image[0];
                 }
             }
-            if (image.length>1) {
+            if (image.length > 1) {
                 if (image[1] != null) {
                     imgTwo = image[1];
                 }
             }
-            if (image.length>2) {
+            if (image.length > 2) {
                 if (image[2] != null) {
                     imgThree = image[2];
                 }
             }
 
             arrImage = new ArrayList<>();
-            int index=0;
-            if(image.length>0) {
+            int index = 0;
+            if (image.length > 0) {
                 for (int i = 0; i < image.length; i++) {
                     index = image[i].indexOf("_+_");
                     if (index > 0 && image[i].length() > 3) {
                         String sss = image[i].substring(index + 3, image[i].length());
-                        listUserName.add(image[i].substring(0,index));
+                        listUserName.add(image[i].substring(0, index));
                         arrImage.add(sss);
                     } else {
                         listUserName.add(image[i]);
@@ -515,7 +518,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 numimageclick = 1;
                 choseImage();
                 if (s.equals("edit")) {
-                    if (arrImage.size()>1){
+                    if (arrImage.size() > 1) {
                         arrImage.remove(0);
                     }
                 }
@@ -528,7 +531,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 numimageclick = 2;
                 choseImage();
                 if (s.equals("edit")) {
-                    if (arrImage.size()>2){
+                    if (arrImage.size() > 2) {
                         arrImage.remove(1);
                     }
                 }
@@ -541,7 +544,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 numimageclick = 3;
                 choseImage();
                 if (s.equals("edit")) {
-                    if (arrImage.size()==3){
+                    if (arrImage.size() == 3) {
                         arrImage.remove(2);
                     }
                 }
@@ -549,12 +552,12 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         });
 
         try {
-        if(latLng_new == null && s.equals("edit")){
-            GPSTracker gpsTracker = new GPSTracker(getContext());
-            latLng_new = new LatLng(gpsTracker.getLatitude(),gpsTracker.getLongitude());
-        }
-        }catch (Exception e){
-            latLng_new = new LatLng(0,0);
+            if (latLng_new == null && s.equals("edit")) {
+                GPSTracker gpsTracker = new GPSTracker(getContext());
+                latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+            }
+        } catch (Exception e) {
+            latLng_new = new LatLng(0, 0);
         }
         radioButton_another.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -575,91 +578,95 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             @Override
             public void onClick(View view) {
                 try {
-                    if(latLng_new == null && s.equals("edit")){
+                    if (latLng_new == null && s.equals("edit")) {
                         GPSTracker gpsTracker = new GPSTracker(getContext());
-                        latLng_new = new LatLng(gpsTracker.getLatitude(),gpsTracker.getLongitude());
+                        latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                         addMarkerChoice(latLng_new);
                     }
-                }catch (Exception e){
-                    latLng_new = new LatLng(0,0);
+                } catch (Exception e) {
+                    latLng_new = new LatLng(0, 0);
                 }
             }
         });
         try {
 
-                swap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(checkCheckBox()) {
+            swap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (checkCheckBox()) {
+                        addMarkerChoice(latLng_new);
+                    } else {
+                        swap.setChecked(false);
+                        addMarkerChoice(latLng_new);
+                    }
+                }
+            });
+
+            free.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (checkCheckBox()) {
+                        addMarkerChoice(latLng_new);
+                    } else {
+                        free.setChecked(false);
+                        addMarkerChoice(latLng_new);
+                    }
+                }
+            });
+
+            sell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (checkCheckBox()) {
+                        if (sell.isChecked()) {
+                            tbl_price_sell.setVisibility(View.VISIBLE);
                             addMarkerChoice(latLng_new);
-                        }else{
-                            swap.setChecked(false);
+                        } else {
+                            tbl_price_sell.setVisibility(View.GONE);
                         }
-                    }
-                });
 
-                free.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(checkCheckBox()) {
-                            addMarkerChoice(latLng_new);
-                        }else{
-                            free.setChecked(false);
-                        }
+                    } else {
+                        sell.setChecked(false);
+                        addMarkerChoice(latLng_new);
                     }
-                });
-
-                sell.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(checkCheckBox()) {
-                            if(sell.isChecked()){
-                                tbl_price_sell.setVisibility(View.VISIBLE);
-                                addMarkerChoice(latLng_new);
-                            }else {
-                                tbl_price_sell.setVisibility(View.GONE);
-                            }
-
-                        }else{
-                            sell.setChecked(false);
-                        }
-                    }
-                });
-        }catch (Exception e){}
+                }
+            });
+        } catch (Exception e) {
+        }
 
         addbook(1);
         return v;
     }
 
-    public boolean checkCheckBox(){
+    public boolean checkCheckBox() {
         final String swap1 = swap.isChecked() == true ? "1" : "0";
         final String sell1 = sell.isChecked() == true ? "1" : "0";
         final String free1 = free.isChecked() == true ? "1" : "0";
-        if(free1.equals("1")){
-            if (sell1.equals("1")){
-                Toast.makeText(getContext(),Information.noti_not_check_sell,Toast.LENGTH_SHORT).show();
+        if (free1.equals("1")) {
+            if (sell1.equals("1")) {
+                Toast.makeText(getContext(), Information.noti_not_check_sell, Toast.LENGTH_SHORT).show();
                 return false;
             }
-            if(swap1.equals("1")){
-                Toast.makeText(getContext(),Information.noti_not_check_sell,Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
-        if(swap1.equals("1") || sell1.equals("1")){
-            if(free1.equals("1")){
+            if (swap1.equals("1")) {
+                Toast.makeText(getContext(), Information.noti_not_check_sell, Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
-        if(IconMapController.icon(swap1,sell1,free1) == "icon_3_option"){
+        if (swap1.equals("1") || sell1.equals("1")) {
+            if (free1.equals("1")) {
+                return false;
+            }
+        }
+        if (IconMapController.icon(swap1, sell1, free1) == "icon_3_option") {
             return false;
         }
-        if(IconMapController.icon(swap1,sell1,free1) ==null){
+        if (IconMapController.icon(swap1, sell1, free1) == null) {
             return false;
         }
         return true;
     }
 
-    public void addMarkerChoice(LatLng latLng){
+    public void addMarkerChoice(LatLng latLng) {
         try {
             final String swap1 = swap.isChecked() == true ? "1" : "0";
             final String sell1 = sell.isChecked() == true ? "1" : "0";
@@ -669,7 +676,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             location.setLongitude(latLng.longitude);
             addMaker(location, IconMapController.icon(swap1, sell1, free1));
             latLng_new = latLng;
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
 
@@ -683,19 +691,101 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     }
 
     public boolean addbook(int type) {
-        if(edt_tilte.getText().toString().equals("") || edt_tilte.getText().toString()== null){
-            if(type==0) {
+        try {
+            if (latLng_new == null) {
+                GPSTracker gpsTracker = new GPSTracker(getContext());
+                latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+            }
+        } catch (Exception e) {
+            latLng_new = new LatLng(0, 0);
+        }
+        radioButton_another.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        latLng_new = latLng;
+                        addMarkerChoice(latLng);
+
+                    }
+                });
+            }
+        });
+
+        radioButton_current.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (latLng_new == null && s.equals("edit")) {
+                        GPSTracker gpsTracker = new GPSTracker(getContext());
+                        latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                        addMarkerChoice(latLng_new);
+                    }
+                } catch (Exception e) {
+                    latLng_new = new LatLng(0, 0);
+                }
+            }
+        });
+        try {
+
+            swap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (checkCheckBox()) {
+                        addMarkerChoice(latLng_new);
+                    } else {
+                        addMarkerChoice(latLng_new);
+                        swap.setChecked(false);
+                    }
+                }
+            });
+
+            free.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (checkCheckBox()) {
+                        addMarkerChoice(latLng_new);
+                    } else {
+                        addMarkerChoice(latLng_new);
+                        free.setChecked(false);
+                    }
+                }
+            });
+
+            sell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (checkCheckBox()) {
+                        if (sell.isChecked()) {
+                            tbl_price_sell.setVisibility(View.VISIBLE);
+                            addMarkerChoice(latLng_new);
+                        } else {
+                            addMarkerChoice(latLng_new);
+                            tbl_price_sell.setVisibility(View.GONE);
+                        }
+
+                    } else {
+                        sell.setChecked(false);
+                    }
+                }
+            });
+        } catch (Exception e) {
+        }
+
+
+        if (edt_tilte.getText().toString().equals("") || edt_tilte.getText().toString() == null) {
+            if (type == 0) {
                 Toast.makeText(getContext(), "Please enter valid book title", Toast.LENGTH_SHORT).show();
             }
-            return  false;
-        }
-        else if(edt_author.getText().toString().equals("") || edt_author.getText().toString()== null){
-            if(type==0) {
+            return false;
+        } else if (edt_author.getText().toString().equals("") || edt_author.getText().toString() == null) {
+            if (type == 0) {
                 Toast.makeText(getContext(), "Please enter valid book author", Toast.LENGTH_SHORT).show();
             }
-            return  false;
-        }
-        else {
+            return false;
+        } else {
             GPSTracker gps = new GPSTracker(getActivity());
             for (int i = 0; i < lisImmage.size(); i++) {
                 try {
@@ -776,13 +866,17 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             book.setCondition(String.valueOf(seekbar.getProgress()));
             book.setGenre(genrel);
             book.setHash_tag(tag);
-            book.setLocation_latitude((float) latLng_new.latitude);
-            book.setLocation_longitude((float) latLng_new.longitude);
+            try {
+                book.setLocation_latitude((float) latLng_new.latitude);
+                book.setLocation_longitude((float) latLng_new.longitude);
+            } catch (Exception exx) {
+                String err = exx.getMessage();
+            }
             if (numclick != 0 || numimageclick != 0) {
                 if (!s.equals("edit")) {
                     book.setPhoto(imagename);
                 } else {
-                    if(type==0) {
+                    if (type == 0) {
                         String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
                         book.setPhoto(imageupdate);
                         book.setId(bookedit.getId());
@@ -790,7 +884,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
             } else {
                 if (s.equals("edit")) {
-                    if(type==0) {
+                    if (type == 0) {
                         book.setId(bookedit.getId());
                         if (!imageOrigin.equals("")) {
                             book.setPhoto(imageOrigin);
@@ -846,7 +940,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                     }
-                    addMarkerChoice(latLng_new);
+                    addMarkerChoice(new LatLng(latitude, longitude));
                 }
 
             }
@@ -861,9 +955,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     addMarkerChoice(latLng_new);
                 }
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
-    public void addMaker(Location location,String img){
+
+    public void addMaker(Location location, String img) {
         try {
             mMap.clear();
             // create marker
@@ -879,7 +975,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setAllGesturesEnabled(true);
             mMap.setTrafficEnabled(true);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -900,7 +997,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 showdialog(1);
                 break;
             case R.id.btn_menu_editlisting_update:
-                if(checkCheckBox()) {
+                if (checkCheckBox()) {
                     if (addbook(0)) {
                         if (numclick != 0 || numimageclick != 0) {
                             try {
@@ -912,38 +1009,38 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                         editbook editbook = new editbook();
                         editbook.execute();
                     }
-                }else {
-                    Toast.makeText(getContext(),Information.noti_checkbox,Toast.LENGTH_SHORT).show();
+                } else {
+                    // Toast.makeText(getContext(),Information.noti_checkbox,Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.imageView33:
                 if (listTag.size() < 3) {
                     addTag();
                 }
-                if(listTag.size() == 3){
+                if (listTag.size() == 3) {
                     addtag.setVisibility(View.GONE);
                 }
                 break;
             case R.id.tag1:
-                if(!tag1.getText().equals("")) {
+                if (!tag1.getText().equals("")) {
                     showSnack(tag1.getText().toString(), 0);
                 }
                 break;
             case R.id.tag2:
-                if(!tag2.getText().equals("")) {
+                if (!tag2.getText().equals("")) {
                     showSnack(tag2.getText().toString(), 1);
                 }
                 break;
             case R.id.tag3:
-                if(!tag3.getText().equals("")) {
+                if (!tag3.getText().equals("")) {
                     showSnack(tag3.getText().toString(), 2);
                 }
                 break;
         }
     }
 
-    public void showSnack(String tag, final int position){
-        final Snackbar snackbar = Snackbar.make(getView(),"Do you want remove "+tag+"",Snackbar.LENGTH_INDEFINITE);
+    public void showSnack(String tag, final int position) {
+        final Snackbar snackbar = Snackbar.make(getView(), "Do you want remove " + tag + "", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -956,7 +1053,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         }).show();
     }
 
-    public void showdialog(final int type){
+    public void showdialog(final int type) {
         try {
             final Dialog dialog = new Dialog(getActivity());
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -965,7 +1062,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
             TextView txt_title_dialog = (TextView) dialog.findViewById(R.id.txt_title_dialog);
 
-            Spannable wordtoSpan1 = new SpannableString("Are you sure you want to delete \n the book " + "\"" + bookedit.getTitle() + "\""+ "from your listings?");
+            Spannable wordtoSpan1 = new SpannableString("Are you sure you want to delete \n the book " + "\"" + bookedit.getTitle() + "\"" + "from your listings?");
             String ss = "Are you sure you want to delete \n the book " + "\"" + bookedit.getTitle().trim() + "\" from your listings?";
             int index = ss.indexOf(bookedit.getTitle().trim());
             wordtoSpan1.setSpan(new ForegroundColorSpan(Color.WHITE), index, bookedit.getTitle().trim().length() + index, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -993,25 +1090,27 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
             });
             dialog.show();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     public void addTag() {
-        listTag.add(edt_tag.getText().toString());
-        edt_tag.setText("");
-        settag();
+        if(!edt_tag.getText().toString().trim().equals("")) {
+            listTag.add(edt_tag.getText().toString());
+            edt_tag.setText("");
+            settag();
+        }
     }
 
-    public void settag(){
-        if (listTag.size()==0){
+    public void settag() {
+        if (listTag.size() == 0) {
             tag1.setVisibility(View.GONE);
             tag2.setVisibility(View.GONE);
             tag3.setVisibility(View.GONE);
             tag1.setText("");
             tag2.setText("");
             tag3.setText("");
-        }
-        else if (listTag.size()==1){
+        } else if (listTag.size() == 1) {
             tag1.setVisibility(View.VISIBLE);
             tag2.setVisibility(View.GONE);
             tag3.setVisibility(View.GONE);
@@ -1019,7 +1118,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             tag1.setText(listTag.get(0));
             tag2.setText("");
             tag3.setText("");
-        }else if(listTag.size()==2){
+        } else if (listTag.size() == 2) {
             tag1.setVisibility(View.VISIBLE);
             tag2.setVisibility(View.VISIBLE);
             tag3.setVisibility(View.GONE);
@@ -1028,7 +1127,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             tag1.setText(listTag.get(0));
             tag2.setText(listTag.get(1));
             tag3.setText("");
-        }else {
+        } else {
 
             tag1.setVisibility(View.VISIBLE);
             tag2.setVisibility(View.VISIBLE);
@@ -1043,9 +1142,9 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     public void choseImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_MULTIPLE);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
     }
 
     ArrayList<ImageClick> lisImmage = new ArrayList<>();
@@ -1104,38 +1203,38 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         long time = System.currentTimeMillis();
         if (numclick == 1) {
             Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
-            ImageClick imageClick= new ImageClick(mImageUri,username+"_+_"+String.valueOf(time)+getFileName(mImageUri));
+            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
             lisImmage.add(imageClick);
-            imgOne=username+"_+_"+String.valueOf(time)+getFileName(mImageUri);
+            imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
         } else if (numclick == 2) {
             Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
-            ImageClick imageClick= new ImageClick(mImageUri,username+"_+_"+String.valueOf(time)+getFileName(mImageUri));
+            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
             lisImmage.add(imageClick);
-            imgTwo=username+"_+_"+String.valueOf(time)+getFileName(mImageUri);
+            imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
         } else if (numclick == 3) {
             Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
-            ImageClick imageClick= new ImageClick(mImageUri,username+"_+_"+String.valueOf(time)+getFileName(mImageUri));
+            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
             lisImmage.add(imageClick);
-            imgThree=username+"_+_"+String.valueOf(time)+getFileName(mImageUri);
+            imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
         }
 
         if (numimageclick == 1) {
             Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
-            ImageClick imageClick= new ImageClick(mImageUri,username+"_+_"+String.valueOf(time)+getFileName(mImageUri));
+            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
             lisImmage.add(imageClick);
-            imgOne=username+"_+_"+String.valueOf(time)+getFileName(mImageUri);
+            imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
         } else if (numimageclick == 2) {
 //            imagebook2.setImageURI(mImageUri);
 //            lisImmage.remove(1);
             Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
-            ImageClick imageClick= new ImageClick(mImageUri,username+"_+_"+String.valueOf(time)+getFileName(mImageUri));
+            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
             lisImmage.add(imageClick);
-            imgTwo=username+"_+_"+String.valueOf(time)+getFileName(mImageUri);
+            imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
         } else if (numimageclick == 3) {
             Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
-            ImageClick imageClick= new ImageClick(mImageUri,username+"_+_"+String.valueOf(time)+getFileName(mImageUri));
+            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
             lisImmage.add(imageClick);
-            imgThree=username+"_+_"+String.valueOf(time)+getFileName(mImageUri);
+            imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -1167,15 +1266,15 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     ArrayList<String> listFileName = new ArrayList<>();
     ArrayList<Bitmap> bmap = new ArrayList<>();
 
-    public void addImages(){
+    public void addImages() {
         try {
             uploadFileController.uploadFile(bmap, listFileName);
-        }catch (Exception exx){
+        } catch (Exception exx) {
 
         }
     }
 
-    public class uploaddata extends AsyncTask<Void,Void,String>{
+    public class uploaddata extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -1191,10 +1290,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         @Override
         protected void onPostExecute(String result) {
-            if (!result.equals("")){
-                if(back == 1){
+            if (!result.equals("")) {
+                if (back == 1) {
                     callFragment(new MyProfileFragment());
-                }else{
+                } else {
                     callFragment(new ListingsFragment());
                     MainAllActivity.setTxtTitle("Listings");
                 }
@@ -1228,16 +1327,16 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean == true) {
                 dialog.dismiss();
-                Toast.makeText(getActivity(),Information.noti_update_success, Toast.LENGTH_LONG).show();
-                if(back == 1){
+                Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
+                if (back == 1) {
                     callFragment(new MyProfileFragment());
-                }else{
+                } else {
                     callFragment(new ListingsFragment());
                     MainAllActivity.setTxtTitle("Listings");
                 }
             } else {
                 dialog.dismiss();
-                Toast.makeText(getActivity(),Information.noti_update_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), Information.noti_update_fail, Toast.LENGTH_LONG).show();
             }
             super.onPostExecute(aBoolean);
         }
@@ -1262,19 +1361,19 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if (aBoolean ==true){
-                Toast.makeText(getActivity(),Information.noti_delete_success,Toast.LENGTH_LONG).show();
-                if(back == 1){
+            if (aBoolean == true) {
+                Toast.makeText(getActivity(), Information.noti_delete_success, Toast.LENGTH_LONG).show();
+                if (back == 1) {
                     callFragment(new MyProfileFragment());
-                }else{
+                } else {
                     callFragment(new ListingsFragment());
                     MainAllActivity.setTxtTitle("Listings");
                 }
 
 //                MainAllActivity main = (MainAllActivity) getActivity();
 //                main.callFragment(new ListingsFragment());
-            }else {
-                Toast.makeText(getActivity(),Information.noti_delete_fail,Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), Information.noti_delete_fail, Toast.LENGTH_LONG).show();
             }
         }
     }

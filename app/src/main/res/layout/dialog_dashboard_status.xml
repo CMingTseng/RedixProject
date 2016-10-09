@@ -68,7 +68,7 @@
                     android:checked="true"
                     android:text="Yes"
                     android:paddingLeft="5dp"
-                    android:textColor="@color/color_text_hint" />
+                    android:textColor="@color/dot_light_screen1" />
 
                 <redix.booxtown.custom.CustomRadioButton
                     android:id="@+id/radioButton2_dashboard"
@@ -81,7 +81,7 @@
                     android:text="No"
                     android:paddingLeft="5dp"
                     android:layout_marginLeft="20dp"
-                    android:textColor="@color/color_text_hint" />
+                    android:textColor="@color/dot_light_screen1" />
             </RadioGroup>
         </LinearLayout>
         <RelativeLayout
