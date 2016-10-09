@@ -127,7 +127,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                     TextView txt_title_book_you_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_you_noti_swap);
                     TextView txt_title_book_buy_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_buy_noti_swap);
 
-                    confirm_dialog_noti_swap.setText("Confirm swap with " + book.getUsername());
+                    confirm_dialog_noti_swap.setText("Confirm swap with " + (book.getUsername().substring(0,1).toUpperCase()+  book.getUsername().substring(2, book.getUsername().length())));
                     txt_title_book_you_noti_swap.setText(bookNameMe);
                     txt_title_book_buy_noti_swap.setText(book.getTitle());
 

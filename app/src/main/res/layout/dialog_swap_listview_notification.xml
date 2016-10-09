@@ -22,7 +22,7 @@
             android:layout_marginLeft="20dp"
             >
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -38,22 +38,20 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Your book"
-                android:fontFamily="sans-serif-thin"
-
-                android:textColorHint="@color/color_text_hint"
+                android:textColorHint="@color/textview_popup_78"
                 android:id="@+id/textView31"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_below="@+id/confirm_dialog_noti_swap"
                 android:layout_centerHorizontal="true" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="5dp"
                 android:text="Evil Queen : the last paintings"
                 android:id="@+id/txt_title_book_you_noti_swap"
                 android:layout_below="@+id/textView31"
@@ -62,21 +60,21 @@
                 android:textSize="18sp"
                 android:layout_marginBottom="20dp" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="With"
-                android:fontFamily="sans-serif-thin"
-                android:textColorHint="@color/color_text_hint"
+                android:textColorHint="@color/textview_popup_78"
                 android:id="@+id/textView33"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/txt_title_book_you_noti_swap"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_marginBottom="5dp"
                 android:gravity="center" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="The last painting of sara de vos"
@@ -92,7 +90,7 @@
                 android:textColor="#ffffff"
                 android:layout_marginBottom="20dp" />
 
-            <Button
+            <redix.booxtown.custom.CustomButton
                 android:layout_width="224dp"
                 android:layout_height="37dp"
                 android:text="Confirm"
@@ -101,6 +99,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/bg_interact_bt_popup"
                 android:textColor="#f56767"
+                android:textAllCaps="false"
                 android:layout_marginBottom="20dp" />
 
         </RelativeLayout>

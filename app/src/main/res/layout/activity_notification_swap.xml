@@ -34,7 +34,7 @@
         <include layout="@layout/menu_notification_infor1"
             android:id="@+id/menu_notification_infor1"/>
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -44,7 +44,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Any rand"
@@ -63,7 +63,7 @@
             android:layout_alignParentStart="true"
             android:background="#ffffff">
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="A e thấy mấy bộ này thế nào 3 loại 65k 75"
@@ -83,7 +83,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
 
-            <TextView
+            <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -93,7 +93,7 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="#f25d5d" />
 
-            <Button
+            <redix.booxtown.custom.CustomButton
                 android:layout_width="223dp"
                 android:layout_height="36dp"
                 android:textAllCaps="false"
@@ -101,6 +101,7 @@
                 android:id="@+id/btn_notification_not_like"
                 android:background="@drawable/bg_btn_sign_in"
                 android:textColor="#ffffff"
+                android:textSize="@dimen/slide_desc_welcome"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="55dp" />

@@ -125,7 +125,7 @@ public class ExploreFragment extends Fragment
         txtTitle.setText("Explore");
 
         //-----------------------------------------------------------
-        Getallbook getallbook = new Getallbook(session_id,0,20);
+        Getallbook getallbook = new Getallbook(session_id,0,100);
         getallbook.execute();
         //grid.setOnScrollListener(new EndlessScrollListener());
         filterSort(view);
