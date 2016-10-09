@@ -455,8 +455,13 @@ public class ExploreFragment extends Fragment
     private void populatRecyclerView(String session_id) {
         GetTopbook getbook = new GetTopbook(session_id,0,20);
         getbook.execute();
-        adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2,0);
-        rView.setAdapter(adapter_exploer);
+        if(listExplore.size() == 0){
+            adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2,0);
+            rView.setAdapter(adapter_exploer);
+        }else {
+            adapter_exploer.notifyDataSetChanged();
+        }
+
     }
 
     private void implementScrollListener(final String session_id) {

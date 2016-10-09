@@ -26,7 +26,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="15dp"/>
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dominic"
@@ -82,7 +82,7 @@
             android:src="@drawable/btn_rank_three"
             android:layout_marginRight="5dp" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -98,7 +98,7 @@
             android:layout_toRightOf="@+id/imv_menu_notification_infor1"
             android:layout_toEndOf="@+id/imv_menu_notification_infor1" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:id="@+id/txt_notification_cross_infor1"
