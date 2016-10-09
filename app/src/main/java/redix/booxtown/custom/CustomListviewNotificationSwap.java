@@ -108,9 +108,11 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
         int index = image[0].indexOf("_+_");
         if (index > 0 && image[0].length() > 3) {
             String img = image[0].substring(index + 3, image[0].length());
-            Glide.with(context).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getUsername() + "&image=" + img + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+            Glide.with(context)
+                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getUsername() + "&image=" + img + "")
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.blank_image).
                     into(holder.img_book);
-
         }
         if(trans.getIs_accept()==0 || trans.getIs_cancel()==0|| trans.getIs_reject()==0) {
             holder.btn_confirm = (Button) rowView.findViewById(R.id.btn_notification_swap_listview);
@@ -122,17 +124,14 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                     dialog.setContentView(R.layout.dialog_swap_listview_notification);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialog.show();
-
                     TextView confirm_dialog_noti_swap = (TextView) dialog.findViewById(R.id.confirm_dialog_noti_swap);
                     TextView txt_title_book_you_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_you_noti_swap);
                     TextView txt_title_book_buy_noti_swap = (TextView) dialog.findViewById(R.id.txt_title_book_buy_noti_swap);
-
                     try {
                         confirm_dialog_noti_swap.setText("Confirm swap with " + (book.getUsername().substring(0, 1).toUpperCase() + book.getUsername().substring(1, book.getUsername().length())));
                     }catch (Exception exx){
                         confirm_dialog_noti_swap.setText("Confirm swap with " +book.getUsername());
                     }
-
                     txt_title_book_you_noti_swap.setText(bookNameMe);
                     txt_title_book_buy_noti_swap.setText(book.getTitle());
 
@@ -140,13 +139,10 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                     btn_notification_swapdialog_confirm.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
                             SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = pref.edit();
                             String session_id = pref.getString("session_id", null);
                             transactionChangeStatus trans = new transactionChangeStatus(context, session_id, trans_id, "1", book.getId(), book);
                             trans.execute();
-
                             dialog.dismiss();
                         }
                     });
@@ -161,7 +157,6 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                 }
             });
         }
-
         return rowView;
     }
 
