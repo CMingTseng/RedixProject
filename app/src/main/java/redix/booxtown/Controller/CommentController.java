@@ -38,6 +38,23 @@ public class CommentController {
         return null;
     }
 
+    public List<Comment> getcomment_top(String thread_id,int top,int from){
+        Call<CommentResult> gettop = service.getTopCommentThread(thread_id,top,from);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            CommentResult str = gettop.execute().body();
+            if (str.getCode()==200){
+                return str.getComment();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
     public Boolean insertComment(String session_id,String content,String thread_id, String book_id, String post_id){
         Hashtable obj = new Hashtable();
         obj.put("session_id",session_id);

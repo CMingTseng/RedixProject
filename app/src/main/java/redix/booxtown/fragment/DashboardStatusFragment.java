@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class DashboardStatusFragment extends Fragment {
     TextView txt_menu_dashboard_cancel;
     Button btn_menu_dashboard_bottom_cancel;
     ImageView img_menu_component;
+    RadioButton radioButton2_dashboard,radioButton_dashboard;
     TextView title_menu;
     Button btn_menu_dashboard_bottom_rate;
     TextView textView_namebook_seller,textView_nameauthor_seller,textView_namebook_buyer,textView_nameauthor_buyer;
@@ -61,6 +63,7 @@ public class DashboardStatusFragment extends Fragment {
     CircularImageView img_rank1_satus,img_rank2_satus,img_rank3_satus;
     String img_username,username;
     User user;
+    int user_id;
     //end
 
     //dialog rating
@@ -73,6 +76,10 @@ public class DashboardStatusFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.dashboard_fragment, container, false);
         init(view);
+        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        final String session_id =  pref.getString("session_id", null);
+        final String user_name = pref.getString("username",null);
+        user_id = Integer.valueOf(pref.getString("user_id",null));
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
         user = (User) getArguments().getSerializable("user");
         //menu
@@ -100,11 +107,14 @@ public class DashboardStatusFragment extends Fragment {
                     if(dashBoard.getUser_promp() != 0 || dashBoard.getUser_cour() != 0 || dashBoard.getUser_quality() !=0){
                         Toast.makeText(getContext(),Information.noti_tran_done,Toast.LENGTH_SHORT).show();
                     }else{
-                    final Dialog dialog = new Dialog(getActivity());
+                    final Dialog dialog = new Dialog(getActivity(),android.R.style.Theme_Black_NoTitleBar_Fullscreen);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_dashboard_status);
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                    dialog.getWindow().setBackgroundDrawable();
                     dialog.show();
+
+                        radioButton_dashboard = (RadioButton) dialog.findViewById(R.id.radioButton_dashboard);
+                        radioButton2_dashboard = (RadioButton) dialog.findViewById(R.id.radioButton2_dashboard);
 
                     //int rating dialog
                     rating_promp = (RatingBar)dialog.findViewById(R.id.rating_promp);
@@ -140,10 +150,21 @@ public class DashboardStatusFragment extends Fragment {
                     btn_rate_dashboard_status.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            ratingAsync ratingAsync = new ratingAsync(getContext(),dashBoard.getId(),rating_promp.getRating(),
-                                    rating_cour.getRating(),rating_quality.getRating());
-                            ratingAsync.execute();
-                            dialog.dismiss();
+                            if (radioButton_dashboard.isChecked()){
+                                int status_id = 0;
+                                if(user_id == dashBoard.getUser_buyer_id())
+                                {
+                                    status_id = 1;
+                                }
+                                ratingAsync ratingAsync = new ratingAsync(getContext(),dashBoard.getId(),rating_promp.getRating(),
+                                        rating_cour.getRating(),rating_quality.getRating(),status_id);
+                                ratingAsync.execute();
+                                dialog.dismiss();
+                            }else {
+                                    Toast.makeText(getActivity(),Information.noti_show_complete,Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
                         }
                     });
 
@@ -348,16 +369,17 @@ public class DashboardStatusFragment extends Fragment {
 
     class ratingAsync extends AsyncTask<Void,Void,Boolean>{
         Context context;
-        int trans_id;
+        int trans_id,user_id;
         float user_promp,user_cour,user_quality;
         ProgressDialog progressDialog;
 
-        public ratingAsync(Context context,int trans_id,float user_promp,float user_cour,float user_quality){
+        public ratingAsync(Context context,int trans_id,float user_promp,float user_cour,float user_quality,int user_id){
             this.context = context;
             this.trans_id = trans_id;
             this.user_promp = user_promp;
             this.user_cour = user_cour;
             this.user_quality = user_quality;
+            this.user_id = user_id;
         }
         @Override
         protected void onPreExecute() {
@@ -368,7 +390,7 @@ public class DashboardStatusFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... voids) {
             TransactionController transactionController = new TransactionController();
-            return transactionController.updateRating(trans_id,user_promp,user_cour,user_quality);
+            return transactionController.updateRating(trans_id,user_promp,user_cour,user_quality,user_id);
         }
 
         @Override

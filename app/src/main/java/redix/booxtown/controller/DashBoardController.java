@@ -33,6 +33,7 @@ public class DashBoardController {
                 return str.getTransaction();
             }
         } catch (Exception ex) {
+            String sss= ex.getMessage();
         }
         return null;
     }

@@ -7,7 +7,7 @@
 
     <redix.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:id="@+id/editSearch"
         android:background="@color/color_hint_interact"
         android:hint="Search"
@@ -15,8 +15,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_below="@+id/include2"
         android:layout_marginTop="10dp"
         android:textSize="@dimen/search"
@@ -30,7 +30,7 @@
         android:orientation="vertical"
         android:layout_below="@+id/editSearch"
         android:layout_above="@+id/menu_bottom_faq"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="70dp"
         android:layout_marginRight="10dp">
     <android.support.v7.widget.RecyclerView
@@ -46,15 +46,15 @@
 
     <ImageView
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:id="@+id/imageView_search_faq"
         android:layout_alignTop="@+id/editSearch"
         android:layout_alignRight="@+id/editSearch"
         android:layout_alignEnd="@+id/editSearch"
-        android:padding="15dp"
-        android:layout_gravity="right|top"
+        android:layout_gravity="top|center_vertical|right"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="20dp"
+        android:padding="10dp" />
 
 
 

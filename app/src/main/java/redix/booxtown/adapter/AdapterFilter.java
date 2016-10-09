@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class AdapterFilter  extends BaseAdapter {
     String [] result;
     Context context;
     List<Filter> list;
+    Integer selected_position = -1;
     private static LayoutInflater inflater=null;
     public AdapterFilter(Context context, List<Filter> list) {
         // TODO Auto-generated constructor stub
@@ -64,10 +66,18 @@ public class AdapterFilter  extends BaseAdapter {
          holder.ck = (CheckBox) rowView.findViewById(R.id.checkBox_listview_filter) ;
         holder.tv.setText(filter.getTitle());
         holder.ck.setChecked(filter.isCheck);
-        holder.ck.setOnClickListener(new View.OnClickListener() {
+        holder.ck.setChecked(position==selected_position);
+        holder.ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                filter.setCheck(true);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    selected_position =  position;
+                }
+                else{
+                    selected_position = -1;
+                }
+                notifyDataSetChanged();
             }
         });
         return rowView;

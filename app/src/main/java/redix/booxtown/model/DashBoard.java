@@ -31,11 +31,41 @@ public class DashBoard implements Serializable{
     @Expose
     private int is_cancel;
     @Expose
-    private int user_promp;
+    private float user_promp;
+
+    private float user_cour_seller;
+
+    private float user_promp_seller;
+
+    public float getUser_cour_seller() {
+        return user_cour_seller;
+    }
+
+    public void setUser_cour_seller(float user_cour_seller) {
+        this.user_cour_seller = user_cour_seller;
+    }
+
+    public float getUser_promp_seller() {
+        return user_promp_seller;
+    }
+
+    public void setUser_promp_seller(float user_promp_seller) {
+        this.user_promp_seller = user_promp_seller;
+    }
+
+    public float getUser_quality_seller() {
+        return user_quality_seller;
+    }
+
+    public void setUser_quality_seller(float user_quality_seller) {
+        this.user_quality_seller = user_quality_seller;
+    }
+
+    private float user_quality_seller;
     @Expose
-    private int user_cour;
+    private float user_cour;
     @Expose
-    private int user_quality;
+    private float user_quality;
     @Expose
     private int book_swap_id;
     @Expose
@@ -46,7 +76,8 @@ public class DashBoard implements Serializable{
     private String author;
 
 
-    public DashBoard(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, String notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, int book_swap_id, String book_seller, float rating, String author) {
+
+    public DashBoard(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, String notification_id, int is_cancel, float user_promp, float user_cour, float user_quality, int book_swap_id, String book_seller, float rating, String author) {
         this.id = id;
         this.user_buyer_id = user_buyer_id;
         this.user_seller_id = user_seller_id;
@@ -65,6 +96,30 @@ public class DashBoard implements Serializable{
         this.book_seller = book_seller;
         this.rating = rating;
         this.author = author;
+    }
+
+    public float getUser_promp() {
+        return user_promp;
+    }
+
+    public void setUser_promp(float user_promp) {
+        this.user_promp = user_promp;
+    }
+
+    public float getUser_cour() {
+        return user_cour;
+    }
+
+    public void setUser_cour(float user_cour) {
+        this.user_cour = user_cour;
+    }
+
+    public float getUser_quality() {
+        return user_quality;
+    }
+
+    public void setUser_quality(float user_quality) {
+        this.user_quality = user_quality;
     }
 
     public String getAuthor() {
@@ -163,25 +218,7 @@ public class DashBoard implements Serializable{
         this.is_cancel = is_cancel;
     }
 
-    public int getUser_promp() {
-        return user_promp;
-    }
 
-    public void setUser_promp(int user_promp) {
-        this.user_promp = user_promp;
-    }
-
-    public int getUser_cour() {
-        return user_cour;
-    }
-
-    public void setUser_cour(int user_cour) {
-        this.user_cour = user_cour;
-    }
-
-    public int getUser_quality() {
-        return user_quality;
-    }
 
     public void setUser_quality(int user_quality) {
         this.user_quality = user_quality;

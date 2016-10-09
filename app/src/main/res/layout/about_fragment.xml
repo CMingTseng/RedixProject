@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.AboutFragment">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Create new project in your Eclipse IDE and fill all the details.
-        \n\n File ⇒ New Project 2. If you notice the screen shots I designed listview with gradient background.
-        To define gradient style create three new XML files under drawable folder and name
-        \n\n Them as gradient_bg.xml, list_selector.xml and gradient_bg_hover.xml and fill with following code.
-        \n\n Also the thumbnail image has white background, for this I used image_bg.xml"
+        android:text="@string/about_booxtown"
         android:id="@+id/textView5"
         android:layout_alignParentLeft="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -21,4 +20,5 @@
         android:layout_alignParentEnd="true"
         android:textColor="@color/color_topic_interact"
         android:padding="15dp" />
+    </ScrollView>
 </FrameLayout>

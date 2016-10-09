@@ -2,6 +2,8 @@ package redix.booxtown.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Comparator;
+
 /**
  * Created by thuyetpham94 on 17/09/2016.
  */
@@ -130,4 +132,13 @@ public class Comment {
     public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
+
+    public static Comparator<Comment> aseid = new Comparator<Comment>() {
+        @Override
+        public int compare(Comment lhs, Comment rhs) {
+            int dt1 = Integer.parseInt(lhs.getId());
+            int dt2 = Integer.parseInt(rhs.getId());
+            return dt1 - dt2;
+        }
+    };
 }

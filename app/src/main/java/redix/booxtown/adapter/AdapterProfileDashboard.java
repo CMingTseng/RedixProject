@@ -98,8 +98,21 @@ public class AdapterProfileDashboard extends RecyclerView.Adapter<AdapterProfile
 
             //Glide.with(context).load(R.drawable.myprofile_not).into(holder.img_status);
         }
+        try {
+            if(user_id == dashBoard.getUser_buyer_id())
+            {
+                holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp() + dashBoard.getUser_cour()
+                + dashBoard.getUser_quality()) / (float)3);
+            }
+            else
+            {
+                holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()
+                        + dashBoard.getUser_quality_seller()) / (float)3);
+            }
+        }catch (Exception e)
+        {}
 
-        holder.ratingBar_dashboard.setRating(dashBoard.getRating());
+
 
         LayerDrawable stars = (LayerDrawable) holder.ratingBar_dashboard.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.rgb(247,182,0), PorterDuff.Mode.SRC_ATOP);

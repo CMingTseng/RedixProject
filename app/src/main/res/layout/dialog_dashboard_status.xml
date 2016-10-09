@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="#5D5D5D"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="11dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
         android:weightSum="4"
         android:background="@drawable/customborder">
         <LinearLayout
@@ -143,7 +147,7 @@
                 android:numStars="5"
                 style="?android:attr/ratingBarStyleIndicator"
                 android:theme="@style/RatingBar"
-                android:rating="2"
+                android:rating="0"
                 android:isIndicator="false"
                 android:id="@+id/rating_promp"
                 android:layout_gravity="center"
@@ -216,6 +220,8 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:id="@+id/imv_close_dialog_dashboard_status"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"

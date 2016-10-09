@@ -241,21 +241,23 @@ public class NotificationFragment extends Fragment {
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("5")) {
 
-                                    Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
-                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
-                                    startActivity(intent);
-                                } else if (notification.getId_screen().equals("6")) {
-                                    Intent intent = new Intent(getActivity(), NotificationSellNoReject.class);
-                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
-                                    startActivity(intent);
-                                } else if (notification.getId_screen().equals("7")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellNoAccept.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
-                                } else if (notification.getId_screen().equals("8")) {
+                                } else if (notification.getId_screen().equals("6")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellReject.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     startActivity(intent);
+                                } else if (notification.getId_screen().equals("7")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    startActivity(intent);
+
+                                } else if (notification.getId_screen().equals("8")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellNoReject.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    startActivity(intent);
+
                                 } else if (notification.getId_screen().equals("0")) {
                                     Intent intent = new Intent(getActivity(), NotificationAcceptActivity.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");

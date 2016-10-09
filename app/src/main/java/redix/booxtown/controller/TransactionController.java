@@ -54,7 +54,12 @@ public class TransactionController {
         obj.put("session_id",session_id);
         obj.put("trans_id",transaction_id);
         obj.put("status_id",status_id);
-        obj.put("book_seller_id",book_seller_id);
+        if(book_seller_id.equals("")){
+            obj.put("book_seller_id", "0");
+        }
+        else {
+            obj.put("book_seller_id", book_seller_id);
+        }
         Call<Result> transactionInsert = service.transactionUpdateStatus(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -90,12 +95,13 @@ public class TransactionController {
         return null;
     }
 
-    public Boolean updateRating(int trans_id,float user_promp,float user_cour,float user_quality){
+    public Boolean updateRating(int trans_id,float user_promp,float user_cour,float user_quality,int status_id){
         Hashtable obj = new Hashtable();
         obj.put("trans_id",trans_id);
         obj.put("user_promp",user_promp);
         obj.put("user_cour",user_cour);
         obj.put("user_quality",user_quality);
+        obj.put("status_id",status_id);
         Call<Result> rating = service.updateRating(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
