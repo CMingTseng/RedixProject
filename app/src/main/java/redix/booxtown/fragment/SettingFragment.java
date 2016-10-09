@@ -180,13 +180,13 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     } else {
                         is_best_time = 1;
                         count += 1;
-                        if (count >= 1) {
+                        if (count > 1) {
                             dialogtime.show();
                             txt_setting_besttime.setVisibility(View.VISIBLE);
                             //chinh thơi gian
                             besttime1 = (TextView) dialogtime.findViewById(R.id.txt_seting_besttime1);
                             besttime2 = (TextView) dialogtime.findViewById(R.id.txt_seting_besttime2);
-                            if (time1.equals("")) {
+                            if (!time1.equals("")) {
 
                                 String[] time1Tmp = time1.split(":");
                                 if (Integer.parseInt(time1Tmp[0]) < 12) {
@@ -197,7 +197,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
 
                             }
-                            if (time2.equals("")) {
+                            if (!time2.equals("")) {
 
                                 String[] time2Tmp = time2.split(":");
                                 if (Integer.parseInt(time2Tmp[0]) < 12) {
@@ -566,10 +566,11 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     }
                     if (settings.get(0).getIs_current_location() == 1) {
                         switch_seting_location.setChecked(true);
-                        getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().hide(mMapFragment).commit();
                     } else {
                         switch_seting_location.setChecked(false);
-                        getActivity().getSupportFragmentManager().beginTransaction().hide(mMapFragment).commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
+
                     }
 
                     if (settings.get(0).getIs_best_time() == 1) {
@@ -597,6 +598,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
                     } else {
                         switch_setting_besttime.setChecked(false);
+                        count=1;
                         time1 = "";
                         time2 = "";
                     }
