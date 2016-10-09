@@ -24,16 +24,50 @@ public class CommentBook {
     private float rating;
     @Expose
     private String photo;
+    @Expose
+    private int contributor;
+    @Expose
+    private int goldenBook;
+    @Expose
+    private int listBook;
 
-    public CommentBook(int id, String content, String create_date, String username, int user_id, int book_id, float rating, String photo) {
+    public CommentBook(int id, String content, String create_date, String username, int user_id, int book_id, int post_id, float rating, String photo, int contributor, int goldenBook, int listBook) {
         this.id = id;
         this.content = content;
         this.create_date = create_date;
         this.username = username;
         this.user_id = user_id;
         this.book_id = book_id;
+        this.post_id = post_id;
         this.rating = rating;
         this.photo = photo;
+        this.contributor = contributor;
+        this.goldenBook = goldenBook;
+        this.listBook = listBook;
+    }
+
+    public int getContributor() {
+        return contributor;
+    }
+
+    public void setContributor(int contributor) {
+        this.contributor = contributor;
+    }
+
+    public int getGoldenBook() {
+        return goldenBook;
+    }
+
+    public void setGoldenBook(int goldenBook) {
+        this.goldenBook = goldenBook;
+    }
+
+    public int getListBook() {
+        return listBook;
+    }
+
+    public void setListBook(int listBook) {
+        this.listBook = listBook;
     }
 
     public int getPost_id() {

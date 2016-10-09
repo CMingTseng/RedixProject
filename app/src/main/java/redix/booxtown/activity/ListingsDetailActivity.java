@@ -16,7 +16,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -66,17 +69,29 @@ import redix.booxtown.fragment.NotificationFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.CommentBook;
 import redix.booxtown.model.Notification;
+import redix.booxtown.model.User;
 
 /**
  * Created by Administrator on 29/08/2016.
  */
 public class ListingsDetailActivity extends Fragment implements OnMapReadyCallback {
-    private ListView listView;
-    private ImageView imSwap, imSwap2, imFree, imFree2, imBuy, imBuy2, imageView_back;
+    //private ListView listView;
+
+    private RecyclerView rv_comment;
+    LinearLayoutManager linearLayoutManager;
+    List<CommentBook> arr_commnet;
+    AdapterCommentBook adapter;
+    boolean loading = true,
+            isLoading = true;
+    private int previousTotal = 0;
+    private int visibleThreshold = 5;
+
+
+    private ImageView imSwap, imSwap2, imFree, imFree2, imBuy, imBuy2, imageView_back,btn_rank_one,btn_rank_two,btn_rank_three;
     TextView txt_listed_by, txt_tag, txt_title_listings_detail, txt_author_listings_detail, txt_price_listings_detail, txt_time_post_listings, txt_genre_listing_detail;
     CircularImageView icon_user_listing_detail;
     ProgressBar progressBar;
-    AdapterCommentBook adapter;
+
     RatingBar ratingBar_userprofile;
     Book book;
     List<String> listUser = new ArrayList<>();
@@ -85,62 +100,43 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     private GoogleMap mMap;
     String type;
     int back;
-
+    ImageView img_component,img_close_dialog_unsubcribe;
     String session_id;
+    TableRow tbTypebook,tbTypebook2;
+    EditText editText11;
     //end
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_listings_detail, container, false);
-
+        init(v);
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.fragment_detail);
         mapFragment.getMapAsync(ListingsDetailActivity.this);
-
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         session_id = pref.getString("session_id", null);
 
         imageView_back = (ImageView) getActivity().findViewById(R.id.img_menu);
-        Picasso.with(getContext()).load(R.drawable.btn_sign_in_back).into(imageView_back);
+        Bitmap btm = BitmapFactory.decodeResource(getResources(),R.drawable.btn_sign_in_back);
+        imageView_back.setImageBitmap(btm);
 
-        ImageView img_component = (ImageView) getActivity().findViewById(R.id.img_menu_component);
+        img_component = (ImageView) getActivity().findViewById(R.id.img_menu_component);
         img_component.setVisibility(View.GONE);
-        init(v);
 
         try {
             //btn_rank
-            ImageView btn_rank_one = (ImageView) v.findViewById(R.id.img_rank1_listings);
-            Picasso.with(getContext()).load(R.drawable.btn_rank_one).into(btn_rank_one);
-
-            ImageView btn_rank_two = (ImageView) v.findViewById(R.id.img_rank2_listings);
-            Picasso.with(getContext()).load(R.drawable.btn_rank_two).into(btn_rank_two);
-
-            ImageView btn_rank_three = (ImageView) v.findViewById(R.id.img_rank3_listings);
-            Picasso.with(getContext()).load(R.drawable.btn_rank_three).into(btn_rank_three);
             //end
 
-            TableRow tbTypebook = (TableRow) v.findViewById(R.id.row_type_book);
-            TableRow tbTypebook2 = (TableRow) v.findViewById(R.id.row_type_book2);
-            final EditText editText11 = (EditText) v.findViewById(R.id.editText11);
             type = getArguments().getString(String.valueOf(R.string.valueListings));
             back = getArguments().getInt("back");
             book = (Book) getArguments().getSerializable("item");
             RelativeLayout layout_comments = (RelativeLayout) v.findViewById(R.id.layout_comment);
-            ImageView img_close_dialog_unsubcribe = (ImageView) v.findViewById(R.id.img_close_dialog_unsubcribe);
 
-
-            imBuy = (ImageView) v.findViewById(R.id.img_buy_listing);
-            imFree = (ImageView) v.findViewById(R.id.img_free_listings);
-            imSwap = (ImageView) v.findViewById(R.id.img_swap_listing);
-            imBuy2 = (ImageView) v.findViewById(R.id.img_buy_listing2);
-            imFree2 = (ImageView) v.findViewById(R.id.img_free_listings2);
-            imSwap2 = (ImageView) v.findViewById(R.id.img_swap_listing2);
-            txt_listed_by = (TextView) v.findViewById(R.id.txt_listed_by);
-            icon_user_listing_detail = (CircularImageView) v.findViewById(R.id.icon_user_listing_detail);
-
-            ratingBar_userprofile = (RatingBar) v.findViewById(R.id.myRatingBar);
-            LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
             ratingBar_userprofile.setRating(book.getRating());
+            LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.rgb(255,224,0), PorterDuff.Mode.SRC_ATOP);
+            stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+            stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+            DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
 
 
             if (book.getPhoto().length() > 3) {
@@ -213,22 +209,10 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 layout_comments.setLayoutParams(params);
             }
+            getUser getUser = new getUser(getContext(),Integer.valueOf(book.getUser_id()));
+            getUser.execute();
             setData(book, v, type);
             //-----------------------------------------------------------
-            listView = (ListView) v.findViewById(R.id.listView_comment);
-            listView.setDivider(null);
-
-            //listView.setAdapter(adapter);
-            listView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    return false;
-                }
-            });
-
-            getComment comment = new getComment(getContext(), book.getId());
-            comment.execute();
 
             img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -236,8 +220,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                     insertComment insertComment1 = new insertComment(getContext());
                     insertComment1.execute(session_id, editText11.getText().toString(), book.getId());
                     editText11.setText("");
-
-                    getComment comment = new getComment(getContext(), book.getId());
+                    getComment comment;
+                    CommentBook  commentBook;
+                    if(arr_commnet.size() == 0){
+                        comment = new getComment(getContext(), book.getId(), 15,0);
+                    }else {
+                        commentBook = arr_commnet.get(arr_commnet.size() - 1);
+                        comment = new getComment(getContext(), book.getId(), 15, commentBook.getId());
+                    }
                     comment.execute();
 
                 }
@@ -246,6 +236,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         }catch (Exception exx){
             String ess= exx.getMessage();
         }
+        populatRecyclerView(book.getId());
+        implementScrollListener(book.getId());
         return v;
     }
 
@@ -253,7 +245,11 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         txt_title_listings_detail.setText(book.getTitle());
         txt_author_listings_detail.setText("by " + book.getAuthor());
         txt_price_listings_detail.setText("AED " + book.getPrice());
-        txt_time_post_listings.setText(book.getCreate_date());
+
+        String date_post = book.getCreate_date().substring(8,10)+"-"+book.getCreate_date().substring(5,7)+"-"+
+                book.getCreate_date().substring(2,4);
+
+        txt_time_post_listings.setText("Posted on "+date_post);
         txt_genre_listing_detail.setText(book.getGenre());
         txt_tag.setText("Hash tag: " + book.getHash_tag());
         View view = (View) v.findViewById(R.id.layout_details);
@@ -368,6 +364,41 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     }
 
     public void init(View view) {
+        btn_rank_one = (ImageView) view.findViewById(R.id.img_rank1_listings);
+        btn_rank_two = (ImageView) view.findViewById(R.id.img_rank2_listings);
+        btn_rank_three = (ImageView) view.findViewById(R.id.img_rank3_listings);
+
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rv_comment = (RecyclerView)view.findViewById(R.id.rv_comment);
+        rv_comment.setLayoutManager(linearLayoutManager);
+        rv_comment.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        icon_user_listing_detail = (CircularImageView) view.findViewById(R.id.icon_user_listing_detail);
+        ratingBar_userprofile = (RatingBar) view.findViewById(R.id.myRatingBar);
+
+        img_close_dialog_unsubcribe  = (ImageView) view.findViewById(R.id.img_close_dialog_unsubcribe);
+        editText11 = (EditText) view.findViewById(R.id.editText11);
+
+        tbTypebook = (TableRow) view.findViewById(R.id.row_type_book);
+        tbTypebook2 = (TableRow) view.findViewById(R.id.row_type_book2);
+        img_component = (ImageView) getActivity().findViewById(R.id.img_menu_component);
+        imageView_back = (ImageView) getActivity().findViewById(R.id.img_menu);
+
+        imBuy = (ImageView) view.findViewById(R.id.img_buy_listing);
+        imFree = (ImageView) view.findViewById(R.id.img_free_listings);
+        imSwap = (ImageView) view.findViewById(R.id.img_swap_listing);
+        imBuy2 = (ImageView) view.findViewById(R.id.img_buy_listing2);
+        imFree2 = (ImageView) view.findViewById(R.id.img_free_listings2);
+        imSwap2 = (ImageView) view.findViewById(R.id.img_swap_listing2);
+        txt_listed_by = (TextView) view.findViewById(R.id.txt_listed_by);
+
+
         txt_title_listings_detail = (TextView) view.findViewById(R.id.txt_title_listings_detail);
         txt_author_listings_detail = (TextView) view.findViewById(R.id.txt_author_listings_detail);
         txt_price_listings_detail = (TextView) view.findViewById(R.id.txt_price_listings_detail);
@@ -375,6 +406,40 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         txt_genre_listing_detail = (TextView) view.findViewById(R.id.txt_genre_listing_detail);
         txt_tag = (TextView) view.findViewById(R.id.txt_tag);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+    }
+
+    private void populatRecyclerView(String book_id) {
+        getComment getcomment = new getComment(getContext(),book_id,15,0);
+        getcomment.execute();
+        arr_commnet = new ArrayList<>();
+    }
+
+    private void implementScrollListener(final String book_id) {
+        rv_comment.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = rv_comment.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                    // End has been reached
+                    CommentBook commentBook= arr_commnet.get(arr_commnet.size()-1);
+                    getComment getcomment = new getComment(getContext(),book_id,15,commentBook.getId());
+                    getcomment.execute();
+                    // Do something
+                    loading = true;
+                }
+            }
+        });
     }
 
     public void buy() {
@@ -488,9 +553,11 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         int top, from;
         ProgressDialog progressDialog;
 
-        public getComment(Context context, String book_id) {
+        public getComment(Context context, String book_id,int top,int from) {
             this.context = context;
             this.book_id = book_id;
+            this.top = top;
+            this.from = from;
         }
 
         @Override
@@ -503,16 +570,18 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         @Override
         protected List<CommentBook> doInBackground(Void... voids) {
             BookController bookController = new BookController();
-            return bookController.getCommnetBook(book_id);
+            return bookController.getTopCommnetBook(book_id,top,from);
         }
 
         @Override
         protected void onPostExecute(List<CommentBook> commentBooks) {
             try {
                 if (commentBooks.size() > 0) {
-                    adapter = new AdapterCommentBook(context, commentBooks);
-                    listView.setAdapter(adapter);
-
+                    arr_commnet.addAll(commentBooks);
+                    adapter = new AdapterCommentBook(context,arr_commnet);
+                    adapter.notifyDataSetChanged();
+                    rv_comment.setAdapter(adapter);
+                    isLoading = true;
                     if (!listUser.contains(book.getUser_id())) {
                         listUser.add(book.getUser_id());
                     }
@@ -524,7 +593,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
                     progressDialog.dismiss();
                 } else {
-                    //Toast.makeText(context, Information.noti_no_data_listing, Toast.LENGTH_SHORT).show();
+                    isLoading = false;
                     progressDialog.dismiss();
                 }
             } catch (Exception e) {
@@ -692,6 +761,76 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                     dialog.dismiss();
                 }
             }catch (Exception e){}
+        }
+    }
+
+    class getUser extends AsyncTask<Void,Void,List<User>>{
+
+        Context context;
+        int user_id;
+        ProgressDialog progressDialog;
+        public getUser(Context context,int user_id){
+            this.context = context;
+            this.user_id = user_id;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            UserController userController = new UserController();
+            return userController.getByUserId(user_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> user) {
+            try {
+                if (user.size() > 0){
+                    //set rank
+                    if(user.get(0).getContributor() == 0){
+                        btn_rank_one.setVisibility(View.VISIBLE);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
+                        btn_rank_one.setImageBitmap(btn1);
+
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
+                        btn_rank_one.setImageBitmap(btn1);
+
+                    }
+                    if(user.get(0).getGoldenBook() == 0){
+                        btn_rank_two.setVisibility(View.GONE);
+                    }else if(user.get(0).getGoldenBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.golden_book);
+                        btn_rank_two.setImageBitmap(btn1);
+                        btn_rank_two.setVisibility(View.VISIBLE);
+                    }
+
+                    if(user.get(0).getListBook() == 0){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.newbie);
+                        btn_rank_three.setImageBitmap(btn1);
+                        btn_rank_three.setVisibility(View.VISIBLE);
+                    }else if(user.get(0).getListBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bookworm);
+                        btn_rank_three.setImageBitmap(btn1);
+                        btn_rank_three.setVisibility(View.VISIBLE);
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bibliophile);
+                        btn_rank_three.setImageBitmap(btn1);
+                        btn_rank_three.setVisibility(View.VISIBLE);
+                    }
+                    progressDialog.dismiss();
+                }else {
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
+            }
+            progressDialog.dismiss();
         }
     }
 }

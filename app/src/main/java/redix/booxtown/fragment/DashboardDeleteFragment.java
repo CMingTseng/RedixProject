@@ -180,7 +180,6 @@ public class DashboardDeleteFragment extends Fragment {
                     username = user.get(0).getUsername();
 
                     ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
-                    ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_user_dashboard_middle.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.rgb(255,2224,0), PorterDuff.Mode.SRC_ATOP);
                     stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -31,13 +29,14 @@ import redix.booxtown.activity.HomeActivity;
 import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.adapter.AdapterInteractThreadDetails;
 import redix.booxtown.controller.CommentController;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.ThreadController;
 import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.MenuBottomCustom;
-import redix.booxtown.listener.OnLoadMoreListener;
 import redix.booxtown.model.Comment;
+import redix.booxtown.model.CommentBook;
 import redix.booxtown.model.Notification;
 import redix.booxtown.model.Thread;
 import redix.booxtown.model.Topic;
@@ -48,22 +47,26 @@ import redix.booxtown.model.User;
  */
 public class InteractThreadDetailsFragment extends Fragment
 {
-    RecyclerView listView;
-    Thread threads;
-    TextView txt_author_thread;
-    Topic topic;
-    TextView txt_title;
-    TextView txt_count_thread;
-    String type_fragment;
-    AdapterInteractThreadDetails adapter;
+    RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
-    List<Comment> commentList = new ArrayList<>();
+    List<Comment> arr_commet = new ArrayList<>();
+    boolean loading = true,
+            isLoading = true;
+    private int previousTotal = 0;
+    private int visibleThreshold = 5;
+
+    Thread threads;
+    Topic topic;
+    TextView txt_title,txt_count_thread,txt_author_thread,txt_title_thread,txt_content_thread;
+    String type_fragment,session_id;
+    AdapterInteractThreadDetails adapter;
     List<String> listUser= new ArrayList<>();
+    EditText edit_message;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.interact_thread_detail_fragment, container, false);
-        txt_title=(TextView) getActivity().findViewById(R.id.txt_title);
+        init(view);
         txt_title.setText("Interact");
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         imageView_back.setImageResource(R.drawable.btn_sign_in_back);
@@ -90,16 +93,12 @@ public class InteractThreadDetailsFragment extends Fragment
                 }
             }
         });
-        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        final String session_id = pref.getString("session_id", null);
         //----------------------------------------------
         threads = (Thread) getArguments().getSerializable("thread");
         topic = (Topic) getArguments().getSerializable("interact");
         type_fragment = getArguments().getString("type_fragment");
         //--------------------------------------------------
-        TextView txt_title_thread=(TextView) view.findViewById(R.id.txt_title_thread_detail);
-        txt_count_thread=(TextView) view.findViewById(R.id.txt_count_thread_detail);
-        TextView txt_content_thread=(TextView) view.findViewById(R.id.txt_contern_thread_details);
+
         txt_author_thread=(TextView) view.findViewById(R.id.txt_author_interact_thread_detail);
         txt_title_thread.setText(threads.getTitle()+"");
         txt_content_thread.setText(threads.getDescription());
@@ -107,15 +106,9 @@ public class InteractThreadDetailsFragment extends Fragment
         txt_count_thread.setText("("+threads.getNum_comment()+")");
         //-----------------------------------------------------------
 
-        listView=(RecyclerView) view.findViewById(R.id.listview_comments);
-//        listView.setDivider(null);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        listView.setLayoutManager(linearLayoutManager);
-        listView.setAdapter(adapter);
-
-        commentAsync commentAsync1 = new commentAsync(getContext(),threads.getId(),10,0);
-        commentAsync1.execute();
-        final EditText edit_message = (EditText)view.findViewById(R.id.edit_message);
+        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        session_id = pref.getString("session_id", null);
+        edit_message = (EditText)view.findViewById(R.id.edit_message);
         final ImageView btn_send_comment_interact = (ImageView)view.findViewById(R.id.btn_send_comment_interact);
             btn_send_comment_interact.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,12 +116,11 @@ public class InteractThreadDetailsFragment extends Fragment
                     insertComment insertComment1 = new insertComment(getContext());
                     insertComment1.execute(session_id,edit_message.getText().toString(),threads.getId());
                     edit_message.setText("");
-                    commentAsync commentAsync1 = new commentAsync(getContext(),threads.getId(),10,0);
-                    commentAsync1.execute();
                 }
             });
         //---------------------------------------------------------------
-
+        populatRecyclerView(threads.getId());
+        implementScrollListener(threads.getId());
         return view;
     }
     public void callFragment(Fragment fragment ){
@@ -139,43 +131,50 @@ public class InteractThreadDetailsFragment extends Fragment
         transaction.commit();
     }
 
+    public void init(View view){
+        recyclerView = (RecyclerView)view.findViewById(R.id.rv_comment_thread);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-    class commentAsyncReload extends AsyncTask<String,Void,List<Comment>>{
-
-        Context context;
-        ProgressDialog dialog;
-        String thread_id;
-        int top,from;
-        public commentAsyncReload(Context context,String thread_id,int top,int from){
-            this.context = context;
-            this.thread_id = thread_id;
-            this.top = top;
-            this.from = from;
-        }
-
-        @Override
-        protected List<Comment> doInBackground(String... params) {
-            CommentController commentController = new CommentController();
-            return commentController.getcomment_top(thread_id,top,from);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(context);
-            dialog.setMessage("please waiting...");
-            dialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(List<Comment> comments) {
-            super.onPostExecute(comments);
-            commentList.addAll(comments);
-            Collections.sort(commentList,Comment.aseid);
-            adapter.notifyDataSetChanged();
-            dialog.hide();
-        }
+        txt_title=(TextView) getActivity().findViewById(R.id.txt_title);
+        txt_title_thread =(TextView) view.findViewById(R.id.txt_title_thread_detail);
+        txt_count_thread=(TextView) view.findViewById(R.id.txt_count_thread_detail);
+        txt_content_thread =(TextView) view.findViewById(R.id.txt_contern_thread_details);
     }
 
+    private void populatRecyclerView(String thread_id) {
+        commentAsync getcomment = new commentAsync(getContext(),thread_id,15,0);
+        getcomment.execute();
+        adapter = new AdapterInteractThreadDetails(getContext(),arr_commet);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void implementScrollListener(final String thread_id) {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = recyclerView.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                    // End has been reached
+                    Comment commentBook= arr_commet.get(arr_commet.size()-1);
+                    commentAsync getcomment = new commentAsync(getContext(),thread_id,15,Integer.parseInt(commentBook.getId()));
+                    getcomment.execute();
+                    // Do something
+                    loading = true;
+                }
+            }
+        });
+    }
 
     class commentAsync extends AsyncTask<String,Void,List<Comment>>{
 
@@ -187,29 +186,27 @@ public class InteractThreadDetailsFragment extends Fragment
             this.context = context;
             this.thread_id = thread_id;
             this.top = top;
-            this.from = from;
+            this.from =from;
         }
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(context);
-            dialog.setMessage("please waiting...");
+            dialog.setMessage(Information.noti_dialog);
             dialog.show();
         }
 
         @Override
         protected List<Comment> doInBackground(String... strings) {
             CommentController commentController = new CommentController();
-            return commentController.getcomment_top(thread_id,top,from);
+            return commentController.getTopComment(thread_id,top,from);
         }
 
         @Override
-        protected void onPostExecute(final List<Comment> comments) {
+        protected void onPostExecute(List<Comment> comments) {
             try {
                 if(comments.size() >0){
-                    commentList.addAll(comments);
-                    Collections.sort(commentList,Comment.aseid);
-                    adapter = new AdapterInteractThreadDetails(context,commentList,listView);
-                    listView.setAdapter(adapter);
+                    arr_commet.addAll(comments);
+                    adapter.notifyDataSetChanged();
                     if(!listUser.contains(threads.getUser_id())) {
                         listUser.add(threads.getUser_id());
                     }
@@ -219,29 +216,7 @@ public class InteractThreadDetailsFragment extends Fragment
                         }
                     }
                     dialog.dismiss();
-                    if (comments.size()>=10) {
-                        adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-                            @Override
-                            public void onLoadMore() {
-                                commentList.add(null);
-                                adapter.notifyItemInserted(commentList.size() - 1);
-                                //Load more data for reyclerview
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //Remove loading item
-                                        commentList.remove(commentList.size() - 1);
-                                        adapter.notifyItemRemoved(commentList.size());
-                                        commentAsyncReload getalltopic = new commentAsyncReload(getContext(),threads.getId(),10,Integer.parseInt(commentList.get(commentList.size()-1).getId()));
-                                        getalltopic.execute();
-                                    }
-                                }, 500);
-                            }
-                        });
-
-                    }
                 }else {
-                    //Toast.makeText(context,"no data",Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             }catch (Exception e){

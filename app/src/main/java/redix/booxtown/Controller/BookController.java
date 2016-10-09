@@ -215,6 +215,24 @@ public class BookController {
         return null;
     }
 
+    public List<CommentBook> getTopCommnetBook(String book_id,int top,int from){
+        Call<CommentBookResult> getall = service.getTopCommentBook(book_id,top,from);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            CommentBookResult str = getall.execute().body();
+            if (str.getCode() == 200){
+                return str.getComment();
+            }
+        } catch (Exception ex) {
+            String sss= ex.getMessage();
+        }
+        return null;
+    }
+
     public List<Book> getTopBookByID(int user_id,int to,int from){
         Call<BookResult> profile = service.getTopBookById(user_id,to,from);
         try {

@@ -57,7 +57,8 @@
                 android:background="@color/color_title_book"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Book: The Last Painting of Sara de Vos"
+                android:textSize="@dimen/text_size_search"
+                android:text=""
                 android:textColor="@color/dot_light_screen1" />
 
             <redix.booxtown.custom.CustomTextView
@@ -70,7 +71,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:textSize="@dimen/text_by_exploer"
-                android:text="Author: Gandalf"
+                android:text=""
                 android:textColor="@color/color_hint_interact" />
 
             <redix.booxtown.custom.CustomTextView
@@ -82,6 +83,7 @@
                 android:background="@color/color_title_book"
                 android:gravity="center"
                 android:padding="5dp"
+                android:textSize="@dimen/text_size_search"
                 android:text="&quot;I am looking for this book please help me find it!&quot;"
                 android:textColor="@color/dot_light_screen1" />
 
@@ -118,7 +120,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-
                 android:layout_below="@+id/txt_checkout_respond"
                 android:layout_marginBottom="5dp" />
         </RelativeLayout>
