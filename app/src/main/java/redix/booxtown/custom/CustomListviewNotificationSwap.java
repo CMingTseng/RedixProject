@@ -207,10 +207,10 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
             controller.sendNotification(list);
             // send notifi user seller
             List<Hashtable> listSeller = new ArrayList<>();
-            Notification notificationSeller = new Notification("you accepted swapping your book", trans.getId()+"","0" );
+            Notification notificationSeller = new Notification("You accepted swapping your book", trans.getId()+"","0" );
             Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
             objSeller.put("user_id", trans.getUser_seller_id());
-            objSeller.put("messages", "you accepted swapping your book " + trans.getBook_name().toUpperCase());
+            objSeller.put("messages", "you accepted swapping your book");
             listSeller.add(objSeller);
             NotificationController controllerSeller = new NotificationController();
             controllerSeller.sendNotification(listSeller);

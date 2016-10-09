@@ -237,6 +237,21 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
                 final ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
                 final CustomListviewGenre adapter = new CustomListviewGenre(getActivity(), genre);
+
+                if (s.equals("edit")) {
+                    String[] separated = bookedit.getGenre().split(";");
+                    for (int i = 0; i < genre.size(); i++) {
+                        for (int j = 0; j < separated.length; j++) {
+                            if (genre.get(i).getValue().equals(separated[j].trim())) {
+                                genre.get(i).setIscheck(true);
+                            }
+                        }
+                    }
+                    listView_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
+                } else {
+                    listView_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
+                }
+
                 listView_genre.setAdapter(adapter);
                 dialog.show();
 
@@ -382,7 +397,14 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             addMarkerChoice(new LatLng(bookedit.getLocation_latitude(), bookedit.getLocation_longitude()));
             edt_author.setText(bookedit.getAuthor().toString());
             edt_tilte.setText(bookedit.getTitle().toString());
-
+            String[] separated = bookedit.getGenre().split(";");
+            for (int i = 0; i < genre.size(); i++) {
+                for (int j = 0; j < separated.length; j++) {
+                    if (genre.get(i).getValue().equals(separated[j].trim())) {
+                        genre.get(i).setIscheck(true);
+                    }
+                }
+            }
             String[] listtag = bookedit.getHash_tag().split(";");
             for (int i = 0; i < listtag.length; i++) {
                 listTag.add(listtag[i]);
@@ -507,6 +529,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     }
                 }
             }
+
         } else {
             btn_menu_listing_addbook.setVisibility(View.VISIBLE);
             row.setVisibility(View.GONE);

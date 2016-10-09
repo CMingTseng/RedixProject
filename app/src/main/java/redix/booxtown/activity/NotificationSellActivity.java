@@ -350,10 +350,10 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 // send notifi user seller
 
                 List<Hashtable> listSeller = new ArrayList<>();
-                Notification notificationSeller = new Notification("You reject a request buy your book", trans.getId() + "", "6");
+                Notification notificationSeller = new Notification("You reject a request buy book", trans.getId() + "", "6");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You reject a request buy your book");
+                objSeller.put("messages", "You reject a request buy book");
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);

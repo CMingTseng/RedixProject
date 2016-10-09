@@ -52,6 +52,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.adapter.ListBookAdapter;
 import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
@@ -286,7 +287,7 @@ public class MyProfileFragment extends Fragment {
                 }
             }
         });
-
+        MainAllActivity.getSaleInstance().setTxtTitle("My Profile");
         return view;
     }
     public boolean checkEmail(String email) {

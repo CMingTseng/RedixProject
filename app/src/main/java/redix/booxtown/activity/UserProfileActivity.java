@@ -3,8 +3,12 @@ package redix.booxtown.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -235,6 +239,11 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 if (user.size() > 0){
                     txt_profile_username.setText(user.get(0).getUsername());
                     ratingBar_userprofile.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
                     //set rank
                     if(user.get(0).getContributor() == 0){
                         img_rank1.setVisibility(View.VISIBLE);

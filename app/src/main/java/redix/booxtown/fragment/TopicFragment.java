@@ -20,6 +20,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.squareup.picasso.Picasso;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.TopicController;
 
@@ -54,6 +56,9 @@ public class TopicFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.interact_fragment, container, false);
 
+        TextView title=(TextView) getActivity().findViewById(R.id.txt_title);
+        title.setText("Interact");
+
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(imageView_back);
 
@@ -66,7 +71,7 @@ public class TopicFragment extends Fragment
                 startActivity(intent);
             }
         });
-
+        MainAllActivity.setTxtTitle("Interact");
         //-----------------------------------------------------------
         lv_recycler=(ListView) view.findViewById(R.id.list_view_interact);
         populatRecyclerView(session_id);
