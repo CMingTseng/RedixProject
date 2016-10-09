@@ -199,18 +199,20 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    insertComment insertComment1 = new insertComment(getContext());
-                    insertComment1.execute(session_id, editText11.getText().toString(), book.getId());
-                    editText11.setText("");
-                    getComment comment;
-                    CommentBook  commentBook;
-                    if(arr_commnet.size() == 0){
-                        comment = new getComment(getContext(), book.getId(), 15,0);
-                    }else {
-                        commentBook = arr_commnet.get(arr_commnet.size() - 1);
-                        comment = new getComment(getContext(), book.getId(), 15, commentBook.getId());
+                    if(!editText11.getText().toString().trim().equals("")) {
+                        insertComment insertComment1 = new insertComment(getContext());
+                        insertComment1.execute(session_id, editText11.getText().toString(), book.getId());
+                        editText11.setText("");
+                        getComment comment;
+                        CommentBook commentBook;
+                        if (arr_commnet.size() == 0) {
+                            comment = new getComment(getContext(), book.getId(), 15, 0);
+                        } else {
+                            commentBook = arr_commnet.get(arr_commnet.size() - 1);
+                            comment = new getComment(getContext(), book.getId(), 15, commentBook.getId());
+                        }
+                        comment.execute();
                     }
-                    comment.execute();
 
                 }
             });

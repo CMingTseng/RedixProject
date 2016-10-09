@@ -31,7 +31,7 @@
         <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My listings (46)"
+            android:text="My listings (0)"
             android:layout_weight="0.84"
             android:gravity="center"
             android:id="@+id/txt_my_listings1"

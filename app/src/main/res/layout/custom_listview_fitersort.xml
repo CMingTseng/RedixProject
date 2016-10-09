@@ -14,7 +14,7 @@
     <redix.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text=" Text"
         android:id="@+id/txt_listview_filter"
         android:layout_toRightOf="@+id/checkBox_listview_filter"
         android:textSize="@dimen/slide_desc"

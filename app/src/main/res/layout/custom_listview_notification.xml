@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="Text"
         android:id="@+id/txt_title_notification"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -23,7 +23,7 @@
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Text"
         android:id="@+id/txt_content_notification"
         android:layout_below="@+id/txt_title_notification"
         android:layout_alignParentLeft="true"
@@ -35,7 +35,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:text="New Text"
+        android:text="Text"
         android:id="@+id/textView145"
         android:layout_below="@+id/relativeLayout_noti"
         android:background="@color/dot_light_screen1"/>

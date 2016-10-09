@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Are you sure you want reject Thuyet&apos;s swap request"
+            android:text="Are you sure you want reject Gandalf&apos;s swap request"
             android:id="@+id/txt_dialog_reject_swap"
             android:layout_alignParentTop="false"
             android:textColor="#ffffff"

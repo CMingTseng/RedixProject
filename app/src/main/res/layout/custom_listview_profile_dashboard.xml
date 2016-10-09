@@ -113,7 +113,7 @@
         <redix.booxtown.custom.CustomTextView
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="Text"
             android:id="@+id/textView102"
             android:background="@color/color_text_hint"
             android:layout_alignParentTop="true"

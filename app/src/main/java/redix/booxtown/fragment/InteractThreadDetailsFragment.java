@@ -113,9 +113,11 @@ public class InteractThreadDetailsFragment extends Fragment
             btn_send_comment_interact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    insertComment insertComment1 = new insertComment(getContext());
-                    insertComment1.execute(session_id,edit_message.getText().toString(),threads.getId());
-                    edit_message.setText("");
+                    if(!edit_message.getText().toString().trim().equals("")) {
+                        insertComment insertComment1 = new insertComment(getContext());
+                        insertComment1.execute(session_id, edit_message.getText().toString(), threads.getId());
+                        edit_message.setText("");
+                    }
                 }
             });
         //---------------------------------------------------------------

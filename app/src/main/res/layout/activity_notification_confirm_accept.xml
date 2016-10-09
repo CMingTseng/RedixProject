@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Evil Thuyet :team"
+        android:text=""
         android:id="@+id/txt_title_book_sell_noti_accept"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -51,7 +51,7 @@
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="penta kill"
+        android:text=""
         android:id="@+id/txt_author_book_sell_noti_accept"
         android:layout_below="@+id/txt_title_book_sell_noti_accept"
         android:layout_centerHorizontal="true"

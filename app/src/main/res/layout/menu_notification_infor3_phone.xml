@@ -21,7 +21,7 @@
         <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thu"
+            android:text="Gandalf"
             android:id="@+id/txt_author_info3"
             android:textSize="@dimen/text_size_search"
             android:layout_centerHorizontal="true"
@@ -71,7 +71,7 @@
         <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone : 0972781395"
+            android:text="Phone : "
             android:id="@+id/txt_notification_infor3_phone"
             android:layout_below="@+id/imv_nitification_infor3_phone"
             android:layout_alignParentLeft="true"

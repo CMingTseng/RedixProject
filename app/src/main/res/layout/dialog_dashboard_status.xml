@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Thuyet"
+                android:text="Gandalf"
                 android:id="@+id/textView_username_rating"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"

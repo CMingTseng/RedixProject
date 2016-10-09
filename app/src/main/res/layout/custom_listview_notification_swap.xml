@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="By Thuyết"
+            android:text="By"
             android:id="@+id/textView27"
             android:layout_below="@+id/txt_notification_swap_title"
             android:layout_alignParentLeft="true"
