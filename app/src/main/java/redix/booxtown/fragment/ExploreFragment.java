@@ -84,14 +84,20 @@ public class ExploreFragment extends Fragment
     private Spinner spinner2;
     private CrystalRangeSeekbar rangeSeekbar;
     private CrystalSeekbar seekbar;
-    List<Book> listfilter,listExplore,lisfilter_temp;
+    List<Book> listfilter,listExplore = new ArrayList<>(),lisfilter_temp;
     String proximity,session_id;
-    RecyclerView rView;
+
     ArrayList<Genre> genre;
     private  ArrayAdapter<String> dataAdapter;
     EditText editSearch;
-    AdapterExplore adapter;
+
+    RecyclerView rView;
+    AdapterExplore adapter_exploer;
     GridLayoutManager gridLayoutManager;
+    private int previousTotal = 0,visibleThreshold = 5;
+    boolean loading = true,
+            isLoading = true;
+
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,tvMin,tvMax,txt_filter_proximity;
     List<Book> listbook= new ArrayList<>();
     //GridView grid;
@@ -112,11 +118,9 @@ public class ExploreFragment extends Fragment
                 startActivity(intent);
             }
         });
-        listExplore = new ArrayList<>();
         //grid=(GridView)view.findViewById(R.id.gridView);
         gridLayoutManager = new GridLayoutManager(getContext(),2);
         rView = (RecyclerView)view.findViewById(R.id.recycler_view);
-        rView.setHasFixedSize(true);
         rView.setLayoutManager(gridLayoutManager);
         View view_search= (View)view.findViewById(R.id.explore_search);
         new CustomSearch(view_search,getActivity());
@@ -124,9 +128,6 @@ public class ExploreFragment extends Fragment
         TextView txtTitle = (TextView) getActivity().findViewById(R.id.txt_title);
         txtTitle.setText("Explore");
 
-        //-----------------------------------------------------------
-        Getallbook getallbook = new Getallbook(session_id,0,100);
-        getallbook.execute();
         //grid.setOnScrollListener(new EndlessScrollListener());
         filterSort(view);
 
@@ -159,7 +160,7 @@ public class ExploreFragment extends Fragment
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                adapter_exploer.getFilter().filter(s);
             }
 
             @Override
@@ -209,6 +210,8 @@ public class ExploreFragment extends Fragment
                 tab_custom.setDefault(4);
             }
         });
+        populatRecyclerView(session_id);
+        implementScrollListener(session_id);
         return view;
     }
 
@@ -449,13 +452,52 @@ public class ExploreFragment extends Fragment
         return kmInDec;
     }
 
+    private void populatRecyclerView(String session_id) {
+        GetTopbook getbook = new GetTopbook(session_id,0,20);
+        getbook.execute();
+        if(listExplore.size() == 0){
+            adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2,0);
+            rView.setAdapter(adapter_exploer);
+        }else {
+            adapter_exploer.notifyDataSetChanged();
+        }
 
-    public class Getallbook extends AsyncTask<Void,Void,List<Book>>{
+    }
+
+    private void implementScrollListener(final String session_id) {
+        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = rView.getChildCount();
+                int totalItemCount = gridLayoutManager.getItemCount();
+                int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                    // End has been reached
+                    Book dashBoard_lv = listExplore.get(listExplore.size()-1);
+                    GetTopbook getbook = new GetTopbook(session_id,Integer.parseInt(dashBoard_lv.getId()),20);
+                    getbook.execute();
+                    // Do something
+                    loading = true;
+                }
+            }
+        });
+    }
+
+    public class GetTopbook extends AsyncTask<Void,Void,List<Book>>{
         String session_id;
         long from;
         long top;
-        public Getallbook(String sessin_id,long from,long top){
-            this.session_id = sessin_id;
+        public GetTopbook(String session_id,long from,long top){
+            this.session_id = session_id;
             this.from = from;
             this.top = top;
         }
@@ -477,8 +519,7 @@ public class ExploreFragment extends Fragment
             try {
                 listExplore.addAll(list);
                 Collections.sort(listExplore, Book.asid);
-                adapter = new AdapterExplore(getActivity(), listExplore, 2,0);
-                rView.setAdapter(adapter);
+                adapter_exploer.notifyDataSetChanged();
                 tab_all_count.setText("(" + filterExplore(1).size() + ")");
                 tab_swap_count.setText("(" + filterExplore(2).size() + ")");
                 tab_free_count.setText("(" + filterExplore(3).size() + ")");
@@ -489,7 +530,7 @@ public class ExploreFragment extends Fragment
         }
     }
 
-    public class Getallbook1 extends AsyncTask<Void,Void,List<Book>>{
+    /*public class Getallbook1 extends AsyncTask<Void,Void,List<Book>>{
         String session_id;
         long from;
         long top;
@@ -525,9 +566,9 @@ public class ExploreFragment extends Fragment
 
             }
         }
-    }
+    }*/
 
-    public class EndlessScrollListener implements AbsListView.OnScrollListener {
+    /*public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
         private int visibleThreshold = 5;
         private int currentPage = 0;
@@ -564,5 +605,5 @@ public class ExploreFragment extends Fragment
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
-    }
+    }*/
 }
