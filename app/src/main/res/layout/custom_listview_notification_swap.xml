@@ -18,7 +18,7 @@
         android:layout_toEndOf="@+id/imageView11"
         android:layout_margin="10dp">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -33,7 +33,7 @@
             android:singleLine="true"
             android:ellipsize="end" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -47,7 +47,7 @@
             android:ellipsize="end"
             android:singleLine="true" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Genre:"
@@ -56,7 +56,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Basic"
@@ -69,7 +69,7 @@
             android:singleLine="true"
             android:ellipsize="end" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Book codition: "
@@ -92,7 +92,7 @@
             android:layout_marginTop="6dp"
             android:indeterminate="false" />
 
-        <Button
+        <redix.booxtown.custom.CustomButton
             style="?android:attr/buttonStyleSmall"
             android:layout_width="70dp"
             android:layout_height="25dp"
@@ -105,7 +105,7 @@
             android:textColor="#ffffff"
             android:layout_marginBottom="5dp"
             android:background="#f57070"
-            android:textSize="10dp"
+            android:textSize="16sp"
             android:layout_marginTop="5dp"
             android:focusableInTouchMode="true" />
 

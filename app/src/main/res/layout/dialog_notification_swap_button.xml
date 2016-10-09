@@ -6,12 +6,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
         android:paddingBottom="40dp"
         android:background="@drawable/customborder"
-        android:id="@+id/relativeLayout9">
+        android:id="@+id/relativeLayout9"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp">
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -22,21 +24,23 @@
             android:layout_alignParentRight="false"
             android:layout_alignParentEnd="false"
             android:gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
 
-        <Button
+        <redix.booxtown.custom.CustomButton
             android:layout_width="181dp"
             android:layout_height="36dp"
             android:text="Yes"
+            android:textAllCaps="false"
             android:id="@+id/btn_dialog_notification_swap"
             android:background="@drawable/bg_white_popup"
             android:textColor="#f76565"
             android:layout_below="@+id/txt_dialog_reject_swap"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="60dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginBottom="10dp"
+            android:textSize="@dimen/slide_desc_welcome"
+            android:layout_marginTop="30dp" />
 
     </RelativeLayout>
 
