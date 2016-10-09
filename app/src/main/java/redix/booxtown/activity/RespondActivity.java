@@ -4,9 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -14,6 +22,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +39,13 @@ import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.CommentController;
 import redix.booxtown.controller.Information;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.controller.WishboardController;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.CommentBook;
 import redix.booxtown.model.Interact;
 import redix.booxtown.model.InteractComment;
+import redix.booxtown.model.User;
 import redix.booxtown.model.Wishboard;
 
 /**
@@ -42,66 +53,64 @@ import redix.booxtown.model.Wishboard;
  */
 public class RespondActivity extends AppCompatActivity implements View.OnClickListener {
     AdapterCommentBook adapter;
-    private ListView listView;
+    private RecyclerView rv_comment;
+    LinearLayoutManager linearLayoutManager;
+    List<CommentBook> arr_commet;
+    boolean loading = true,
+            isLoading = true;
+    private int previousTotal = 0;
+    private int visibleThreshold = 5;
+
     ImageView img_menu_bottom_location,img_menu_bottom_comment,img_menu_bottom_camera,img_menu_bottom_bag,img_menu_bottom_user;
 
     List<String> listUser = new ArrayList<>();
     Wishboard wishboard;
     CircularImageView photo_author_post;
-    TextView txt_author_post,txt_title_book_respond,txt_author_book_post,txt_content_post;
-
+    TextView txt_author_post,txt_title_book_respond,txt_author_book_post,txt_content_post,btn_add_book;
+    View view;
+    ImageView img_component,imageView_back,img_close_dialog_unsubcribe,img_rank1_respon,img_rank2_respon,img_rank3_respon;
+    RatingBar ratingBar_respon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_respond);
-        img_menu_bottom_location = (ImageView) findViewById(R.id.img_menu_bottom_location);
-        img_menu_bottom_comment = (ImageView) findViewById(R.id.img_menu_bottom_comment);
-        img_menu_bottom_camera = (ImageView) findViewById(R.id.img_menu_bottom_camera);
-        img_menu_bottom_bag = (ImageView) findViewById(R.id.img_menu_bottom_bag);
-        img_menu_bottom_user = (ImageView) findViewById(R.id.img_menu_bottom_user);
+        init();
         //--------------------------------------------------
-        //rank
-        ImageView btn_rank_one = (ImageView) findViewById(R.id.imageView10);
-        Picasso.with(getApplicationContext()).load(R.drawable.btn_rank_one).into(btn_rank_one);
-        ImageView btn_rank_two = (ImageView) findViewById(R.id.imageView28);
-        Picasso.with(getApplicationContext()).load(R.drawable.btn_rank_two).into(btn_rank_two);
-        ImageView btn_rank_three = (ImageView) findViewById(R.id.imageView39);
-        Picasso.with(getApplicationContext()).load(R.drawable.btn_rank_three).into(btn_rank_three);
-        //end
-        View view = (View) findViewById(R.id.menu_top_respond);
+        view = (View) findViewById(R.id.menu_top_respond);
         TextView txtTitle = (TextView) view.findViewById(R.id.txt_title);
         txtTitle.setText("Respond");
         txtTitle.setGravity(Gravity.CENTER_VERTICAL);
-        ImageView img_component = (ImageView) findViewById(R.id.img_menu_component);
         img_component.setVisibility(View.INVISIBLE);
-        ImageView imageView_back = (ImageView) findViewById(R.id.img_menu);
-        Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(imageView_back);
+        Bitmap btm = BitmapFactory.decodeResource(getResources(),R.drawable.btn_sign_in_back);
+        imageView_back.setImageBitmap(btm);
+
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        TextView btn_add_book = (TextView) findViewById(R.id.txt_add_book_respond);
-
-        photo_author_post=(CircularImageView) findViewById(R.id.photo_author_post);
-        txt_author_post=(TextView) findViewById(R.id.txt_author_post) ;
-        txt_title_book_respond=(TextView) findViewById(R.id.txt_title_book_respond) ;
-        txt_author_book_post=(TextView) findViewById(R.id.txt_author_book_post) ;
-        txt_content_post=(TextView) findViewById(R.id.txt_content_post) ;
         try {
             wishboard = (Wishboard) getIntent().getSerializableExtra("wishboard");
             if(wishboard.getPhoto().length()>3) {
-                Picasso.with(RespondActivity.this).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + wishboard.getUsername() + "&image=" + wishboard.getPhoto().substring(wishboard.getUsername().length() + 3, wishboard.getPhoto().length())).error(R.mipmap.user_empty).into(photo_author_post);
+                Picasso.with(RespondActivity.this).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + wishboard.getUsername() + "&image=" + wishboard.getPhoto().substring(wishboard.getUsername().length() + 3, wishboard.getPhoto().length()))
+                        .error(R.mipmap.user_empty)
+                        .into(photo_author_post);
             }else{
-                Picasso.with(RespondActivity.this). load(R.mipmap.user_empty).
-                        into(photo_author_post);
+                Bitmap btm2 = BitmapFactory.decodeResource(getResources(),R.mipmap.user_empty);
+                photo_author_post.setImageBitmap(btm2);
             }
-            txt_author_post.setText(wishboard.getUsername());
+            if(wishboard.getUsername().length() >0){
+                String a = wishboard.getUsername().substring(0,1).toUpperCase() + wishboard.getUsername().substring(1,wishboard.getUsername().length());
+                txt_author_post.setText(a);
+            }
             txt_title_book_respond.setText("Book: "+ wishboard.getTitle());
             txt_author_book_post.setText("Author: "+ wishboard.getAuthor());
             txt_content_post.setText(wishboard.getComment());
+            getUser getUser = new getUser(RespondActivity.this,wishboard.getUser_id());
+            getUser.execute();
         }catch (Exception ex){
+            String err= ex.getMessage();
         }
         btn_add_book.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,31 +122,6 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
             }
         });
-        photo_author_post= (CircularImageView) findViewById(R.id.photo_author_post);
-        //-----------------------------------------------------------
-        listView = (ListView) findViewById(R.id.listView_comment);
-        listView.setDivider(null);
-
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-
-        listView.setDivider(null);
-
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-        //---------------------------------------------------------------
-        getComment comment = new getComment(RespondActivity.this, wishboard.getId());
-        comment.execute();
         //--------------------------------------------------------------
         img_menu_bottom_location.setOnClickListener(this);
         img_menu_bottom_comment.setOnClickListener(this);
@@ -145,10 +129,9 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         img_menu_bottom_bag.setOnClickListener(this);
         img_menu_bottom_user.setOnClickListener(this);
         //---------------------------------------------------------------
-        ImageView img_close_dialog_unsubcribe= (ImageView) findViewById(R.id.img_close_dialog_unsubcribe);
+        img_close_dialog_unsubcribe= (ImageView) findViewById(R.id.img_close_dialog_unsubcribe);
         final EditText message= (EditText) findViewById(R.id.editText11) ;
         SharedPreferences pref = RespondActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor  = pref.edit();
         final String session_id = pref.getString("session_id", null);
         img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,8 +139,88 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 insertComment insertComment1 = new insertComment(RespondActivity.this);
                 insertComment1.execute(session_id,message.getText().toString(),wishboard.getId());
                 message.setText("");
-                getComment comment = new getComment(RespondActivity.this,wishboard.getId());
+                CommentBook commentBook;
+                getComment comment;
+                if(arr_commet.size() == 0){
+                    comment = new getComment(RespondActivity.this, wishboard.getId(), 15,0);
+                }else {
+                    commentBook = arr_commet.get(arr_commet.size() - 1);
+                    comment = new getComment(RespondActivity.this, wishboard.getId(), 15, commentBook.getId());
+                }
                 comment.execute();
+            }
+        });
+        populatRecyclerView(wishboard.getId());
+        implementScrollListener(wishboard.getId());
+    }
+
+    public void init(){
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        rv_comment = (RecyclerView) findViewById(R.id.rv_comment);
+        rv_comment.setLayoutManager(linearLayoutManager);
+        rv_comment.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        ratingBar_respon = (RatingBar)findViewById(R.id.ratingBar_respon);
+        img_rank1_respon = (ImageView)findViewById(R.id.img_rank1_respon);
+        img_rank2_respon = (ImageView)findViewById(R.id.img_rank2_respon);
+        img_rank3_respon = (ImageView)findViewById(R.id.img_rank3_respon);
+
+        photo_author_post= (CircularImageView) findViewById(R.id.photo_author_post);
+
+        photo_author_post=(CircularImageView) findViewById(R.id.photo_author_post);
+        txt_author_post=(TextView) findViewById(R.id.txt_author_post) ;
+        txt_title_book_respond=(TextView) findViewById(R.id.txt_title_book_respond) ;
+        txt_author_book_post=(TextView) findViewById(R.id.txt_author_book_post) ;
+        txt_content_post=(TextView) findViewById(R.id.txt_content_post) ;
+
+        btn_add_book = (TextView) findViewById(R.id.txt_add_book_respond);
+
+        imageView_back = (ImageView) findViewById(R.id.img_menu);
+        img_component = (ImageView) findViewById(R.id.img_menu_component);
+
+        img_menu_bottom_location = (ImageView) findViewById(R.id.img_menu_bottom_location);
+        img_menu_bottom_comment = (ImageView) findViewById(R.id.img_menu_bottom_comment);
+        img_menu_bottom_camera = (ImageView) findViewById(R.id.img_menu_bottom_camera);
+        img_menu_bottom_bag = (ImageView) findViewById(R.id.img_menu_bottom_bag);
+        img_menu_bottom_user = (ImageView) findViewById(R.id.img_menu_bottom_user);
+    }
+
+    private void populatRecyclerView(String post_id) {
+        getComment getcomment = new getComment(RespondActivity.this,post_id,15,0);
+        getcomment.execute();
+        arr_commet = new ArrayList<>();
+    }
+
+    private void implementScrollListener(final String post_id) {
+        rv_comment.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = rv_comment.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                    // End has been reached
+                    CommentBook commentBook= arr_commet.get(arr_commet.size()-1);
+                    getComment getcomment = new getComment(RespondActivity.this,post_id,15,commentBook.getId());
+                    getcomment.execute();
+                    // Do something
+                    loading = true;
+                }
             }
         });
     }
@@ -197,13 +260,15 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     class getComment extends AsyncTask<Void, Void, List<CommentBook>> {
 
         Context context;
-        String book_id;
+        String post_id;
         int top, from;
         ProgressDialog progressDialog;
 
-        public getComment(Context context, String book_id) {
+        public getComment(Context context, String post_id,int top,int from) {
             this.context = context;
-            this.book_id = book_id;
+            this.post_id = post_id;
+            this.top = top;
+            this.from = from;
         }
 
         @Override
@@ -216,16 +281,18 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         protected List<CommentBook> doInBackground(Void... voids) {
             WishboardController bookController = new WishboardController();
-            return bookController.getCommnetWishboard(book_id,1000,0);
+            return bookController.getCommnetWishboard(post_id,top,from);
         }
 
         @Override
         protected void onPostExecute(List<CommentBook> commentBooks) {
             try {
                 if (commentBooks.size() > 0) {
-                    adapter = new AdapterCommentBook(context, commentBooks);
-                    listView.setAdapter(adapter);
-
+                    arr_commet.addAll(commentBooks);
+                    adapter = new AdapterCommentBook(context,arr_commet);
+                    adapter.notifyDataSetChanged();
+                    rv_comment.setAdapter(adapter);
+                    isLoading = true;
                     if (!listUser.contains(wishboard.getUser_id() + "")) {
                         listUser.add(wishboard.getUser_id() + "");
                     }
@@ -234,10 +301,9 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                             listUser.add(commentBooks.get(i).getUser_id() + "");
                         }
                     }
-
                     progressDialog.dismiss();
                 } else {
-                    Toast.makeText(context, Information.noti_no_data_listing, Toast.LENGTH_SHORT).show();
+                    isLoading = false;
                     progressDialog.dismiss();
                 }
             } catch (Exception e) {
@@ -274,14 +340,6 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
             try {
                 if(aBoolean == true){
                     Toast.makeText(context,"Send comment successful",Toast.LENGTH_SHORT).show();
-//                    int count= threads.getNum_comment()+1;
-
-                    //SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                   // String session_id = pref.getString("session_id", null);
-
-                   // UserID us= new UserID(getContext());
-                    //us.execute(session_id);
-
                     dialog.dismiss();
                 }else {
                     Toast.makeText(context,"Sent comment no successful",Toast.LENGTH_SHORT).show();
@@ -293,4 +351,76 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    class getUser extends AsyncTask<Void,Void,List<User>> {
+
+        Context context;
+        int user_id;
+        ProgressDialog progressDialog;
+        public getUser(Context context,int user_id){
+            this.context = context;
+            this.user_id = user_id;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            UserController userController = new UserController();
+            return userController.getByUserId(user_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> user) {
+            try {
+                if (user.size() > 0){
+                    ratingBar_respon.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) ratingBar_respon.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.bg_rating));
+                    //set rank
+                    if(user.get(0).getContributor() == 0){
+                        img_rank1_respon.setVisibility(View.VISIBLE);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
+                        img_rank1_respon.setImageBitmap(btn1);
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
+                        img_rank1_respon.setImageBitmap(btn1);
+                    }
+                    if(user.get(0).getGoldenBook() == 0){
+                        img_rank2_respon.setVisibility(View.GONE);
+                    }else if(user.get(0).getGoldenBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.golden_book);
+                        img_rank2_respon.setImageBitmap(btn1);
+                        img_rank2_respon.setVisibility(View.VISIBLE);
+                    }
+                    if(user.get(0).getListBook() == 0){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.newbie);
+                        img_rank3_respon.setImageBitmap(btn1);
+                        img_rank3_respon.setVisibility(View.VISIBLE);
+                    }else if(user.get(0).getListBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bookworm);
+                        img_rank3_respon.setImageBitmap(btn1);
+                        img_rank3_respon.setVisibility(View.VISIBLE);
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bibliophile);
+                        img_rank3_respon.setImageBitmap(btn1);
+                        img_rank3_respon.setVisibility(View.VISIBLE);
+                    }
+                    progressDialog.dismiss();
+                }else {
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
+            }
+            progressDialog.dismiss();
+        }
+    }
 }

@@ -55,8 +55,7 @@ public class MyProfileDashboardFragment extends Fragment {
     ImageView img_menu_component,img_menu,img_rank1,img_rank2,img_rank3;
     TextView title_menu;
     //private static RelativeLayout bottomLayout;
-    boolean userScrolled = false,
-            loading = true,
+    boolean loading = true,
             isLoading = true;
     private static ArrayList<DashBoard> listArrayList;
     RatingBar ratingBar_userprofile;

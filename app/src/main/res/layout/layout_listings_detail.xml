@@ -29,7 +29,7 @@
     <redix.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The last painting of Sara de Vos"
+        android:text=""
         android:id="@+id/txt_title_listings_detail"
         android:layout_below="@+id/indicator"
         android:layout_centerHorizontal="true"
@@ -40,20 +40,22 @@
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dominic Smith"
+        android:text=""
         android:id="@+id/txt_author_listings_detail"
         android:layout_below="@+id/txt_title_listings_detail"
         android:layout_centerHorizontal="true"
+        android:textSize="@dimen/text_wishboard_date"
         android:textColor="@color/color_text_hint" />
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AED 246"
+        android:text=""
         android:id="@+id/txt_price_listings_detail"
         android:layout_below="@+id/txt_author_listings_detail"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
+        android:textSize="@dimen/slide_desc_welcome"
         android:textColor="@color/color_title_book" />
 
     <RelativeLayout
@@ -63,7 +65,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
-        android:background="@color/color_hint_interact"
+        android:background="@color/color_bg_listings_detail"
         android:id="@+id/layout_user">
 
         <com.github.siyamed.shapeimageview.CircularImageView
@@ -85,6 +87,7 @@
             android:id="@+id/txt_view"
             android:textColor="@color/color_text_hint"
             android:textSize="@dimen/text_by_exploer"
+            android:layout_marginTop="3dp"
             android:layout_alignTop="@+id/icon_user_listing_detail"
             android:layout_alignLeft="@+id/txt_listed_by"
             android:layout_alignStart="@+id/txt_listed_by" />
@@ -94,6 +97,7 @@
             android:layout_height="wrap_content"
             android:text="Gandalf"
             android:id="@+id/txt_listed_by"
+            android:textSize="@dimen/text_book_exploer"
             android:layout_alignBottom="@+id/icon_user_listing_detail"
             android:layout_toRightOf="@+id/icon_user_listing_detail"
             android:layout_toEndOf="@+id/icon_user_listing_detail" />
@@ -101,9 +105,6 @@
         <RatingBar
             android:id="@+id/myRatingBar"
             style="?android:attr/ratingBarStyleSmall"
-            android:progressTint="@color/color_star_select"
-            android:progressBackgroundTint="@color/color_star_select"
-            android:progressBackgroundTintMode="@color/color_star_select"
             android:theme="@style/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,14 +112,16 @@
             android:rating="2.5"
             android:isIndicator="true"
             android:layout_marginLeft="10dp"
-            android:layout_alignBottom="@+id/txt_listed_by"
+            android:layout_alignBottom="@+id/icon_user_listing_detail"
             android:layout_toRightOf="@+id/txt_listed_by"
-            android:layout_alignTop="@+id/txt_listed_by"
-            android:layout_marginBottom="2dp" />
+            android:layout_marginBottom="3dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:id="@+id/img_rank1_listings"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_rank2_listings"
@@ -126,23 +129,26 @@
             />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:id="@+id/img_rank2_listings"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_rank3_listings"
             android:layout_toStartOf="@+id/img_rank3_listings"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:id="@+id/img_rank3_listings"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
     </RelativeLayout>
 
     <redix.booxtown.custom.CustomTextView
@@ -228,7 +234,7 @@
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="# Novel, # Dominic Smith"
+        android:text=""
         android:id="@+id/txt_tag"
         android:layout_below="@+id/view3"
         android:layout_alignLeft="@+id/view3"

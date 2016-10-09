@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.provider.MediaStore;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +37,7 @@ import redix.booxtown.model.InteractComment;
 /**
  * Created by Administrator on 28/08/2016.
  */
-public class AdapterInteractThreadDetails extends BaseAdapter {
+public class AdapterInteractThreadDetails extends RecyclerView.Adapter<AdapterInteractThreadDetails.HoderThreadDetail> {
     private Context mContext;
     private List<Comment> listComments;
 
@@ -47,45 +49,15 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return listComments.size();
+    public HoderThreadDetail onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View itemView = inflater.inflate(R.layout.custom_commnents_interact, parent, false);
+        return new HoderThreadDetail(itemView);
     }
 
     @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-
-        LayoutInflater inflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Hoder hoder = new Hoder();
-
+    public void onBindViewHolder(HoderThreadDetail hoder, int position) {
         final Comment Comments= listComments.get(position);
-        convertView = inflater.inflate(R.layout.custom_commnents_interact, null);
-        hoder.myRatingBar = (RatingBar)convertView.findViewById(R.id.myRatingBar);
-        hoder.img_icon=(ImageView) convertView.findViewById(R.id.icon_user_listing_detail);
-        hoder.img_rank_one=(ImageView) convertView.findViewById(R.id.img_comment_rank1);
-        hoder.img_rank_two=(ImageView) convertView.findViewById(R.id.img_comment_rank2);
-        hoder.img_rank_three=(ImageView) convertView.findViewById(R.id.img_comment_rank3);
-        hoder.txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
-        hoder.txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
-        hoder.txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
-        hoder.img_comment_rank1 = (ImageView)convertView.findViewById(R.id.img_comment_rank1);
-        hoder.img_comment_rank2 = (ImageView)convertView.findViewById(R.id.img_comment_rank2);
-        hoder.img_comment_rank3 = (ImageView)convertView.findViewById(R.id.img_comment_rank3);
-
         try {
             hoder.txt_datetime.setText(formatDatetime(Comments.getCreate_date().replaceAll("-",":").replace(" ",":")));
         } catch (Exception e) {
@@ -94,13 +66,13 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         }
 
         hoder.img_icon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(mContext,UserProfileActivity.class);
-                    intent.putExtra("user",Integer.parseInt(Comments.getUser_id()));
-                    mContext.startActivity(intent);
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext,UserProfileActivity.class);
+                intent.putExtra("user",Integer.parseInt(Comments.getUser_id()));
+                mContext.startActivity(intent);
+            }
+        });
 
         if(Comments.getPhoto().length()>3) {
             Picasso.with(mContext)
@@ -110,72 +82,80 @@ public class AdapterInteractThreadDetails extends BaseAdapter {
         }
         else
         {
-            Picasso.with(mContext)
-                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=")
-                    .error(R.mipmap.user_empty)
-                    .into(hoder.img_icon);
+            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.user_empty);
+            hoder.img_icon.setImageBitmap(bitmap);
         }
 
         hoder.txt_userName.setText(Comments.getUsername());
         hoder.txt_contents.setText(Comments.getContent());
         hoder.myRatingBar.setRating(Comments.getRating());
         LayerDrawable stars = (LayerDrawable) hoder.myRatingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
-        return convertView;
+        stars.getDrawable(2).setColorFilter(Color.rgb(247,180,0), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(0).setColorFilter(mContext.getResources().getColor(R.color.color_text_hint), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(mContext.getResources().getColor(R.color.color_text_hint), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+        DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),mContext.getResources().getColor(R.color.color_text_hint));
+        //set rank
+        if(Comments.getContributor() == 0){
+            hoder.img_comment_rank1.setVisibility(View.VISIBLE);
+            Bitmap btn1 = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.conbitrutor_one);
+            hoder.img_comment_rank1.setImageBitmap(btn1);
+        }else{
+            Bitmap btn1 = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.conbitrutor_two);
+            hoder.img_comment_rank1.setImageBitmap(btn1);
+        }
+        if(Comments.getGoldenBook() == 0){
+            hoder.img_comment_rank2.setVisibility(View.GONE);
+        }else if(Comments.getGoldenBook() == 1){
+            Bitmap btn1 = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.golden_book);
+            hoder.img_comment_rank2.setImageBitmap(btn1);
+            hoder.img_comment_rank2.setVisibility(View.VISIBLE);
+        }
+        if(Comments.getListBook() == 0){
+            Bitmap btn1 = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.newbie);
+            hoder.img_comment_rank2.setImageBitmap(btn1);
+            hoder.img_comment_rank2.setVisibility(View.VISIBLE);
+        }else if(Comments.getListBook() == 1){
+            Bitmap btn1 = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.bookworm);
+            hoder.img_comment_rank2.setImageBitmap(btn1);
+            hoder.img_comment_rank2.setVisibility(View.VISIBLE);
+        }else{
+            Bitmap btn1 = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.bibliophile);
+            hoder.img_comment_rank2.setImageBitmap(btn1);
+            hoder.img_comment_rank2.setVisibility(View.VISIBLE);
+        }
     }
 
-    public class Hoder{
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int getItemCount() {
+        return listComments.size();
+    }
+    public class HoderThreadDetail extends RecyclerView.ViewHolder{
         ImageView img_icon;
-        ImageView img_rank_one;
-        ImageView img_rank_two;
-        ImageView img_rank_three;
         TextView txt_userName;
         TextView txt_contents;
         TextView txt_datetime;
         RatingBar myRatingBar;
         ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
-    }
 
-
-    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-                                                         int reqWidth, int reqHeight) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(res, resId, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
-    }
-
-
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight
-                    && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
-            }
+        public HoderThreadDetail(View convertView) {
+            super(convertView);
+            myRatingBar = (RatingBar)convertView.findViewById(R.id.myRatingBar);
+            img_icon=(ImageView) convertView.findViewById(R.id.icon_user_listing_detail);
+            txt_userName=(TextView) convertView.findViewById(R.id.txt_user_comment);
+            txt_contents=(TextView) convertView.findViewById(R.id.txt_content_thread_comments);
+            txt_datetime=(TextView) convertView.findViewById(R.id.txt_date_thread_comment);
+            img_comment_rank1 = (ImageView)convertView.findViewById(R.id.img_comment_rank1);
+            img_comment_rank2 = (ImageView)convertView.findViewById(R.id.img_comment_rank2);
+            img_comment_rank3 = (ImageView)convertView.findViewById(R.id.img_comment_rank3);
         }
-
-        return inSampleSize;
     }
+
 
     public String formatDatetime(String input){
         String outPut="";

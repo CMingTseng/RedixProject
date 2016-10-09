@@ -133,8 +133,8 @@ public interface ServiceInterface {
     @POST("/booxtown/rest/thread/thread_insert")
     Call<Result> insertThread(@Body Object thread);
 
-    @GET("/booxtown/rest/comment/comment_getbythread")
-    Call<CommentResult> getAllComment(@Query("thread_id") String thread_id);
+    @GET("/booxtown/rest/comment/comment_getTopByThread")
+    Call<CommentResult> getTopCommentThread(@Query("thread_id") String thread_id,@Query("top") int top,@Query("from") int from);
 
     @POST("/booxtown/rest/comment/comment_insert")
     Call<Result> inser_comment_thread(@Body Object comment);
@@ -188,6 +188,9 @@ public interface ServiceInterface {
 
     @GET("/booxtown/rest/comment/comment_getByBookId")
     Call<CommentBookResult> getCommentBook(@Query("book_id") String book_id);
+
+    @GET("/booxtown/rest/comment/comment_getTopByBookId")
+    Call<CommentBookResult> getTopCommentBook(@Query("book_id") String book_id,@Query("top") int top,@Query("from") int from);
 
     @GET("/booxtown/rest/comment/comment_getTopByWishboardId")
     Call<CommentBookResult> getCommentWishboard(@Query("post_id") String post_id,@Query("top") int top, @Query("from") int from);

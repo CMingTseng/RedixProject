@@ -21,15 +21,15 @@ public class CommentController {
         service = ServiceGenerator.GetInstance();
     }
 
-    public List<Comment> getallcomment(String thread_id){
-        Call<CommentResult> getall = service.getAllComment(thread_id);
+    public List<Comment> getTopComment(String thread_id,int top,int from){
+        Call<CommentResult> getopcomment= service.getTopCommentThread(thread_id,top,from);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =
                         new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
             }
-            CommentResult str = getall.execute().body();
+            CommentResult str = getopcomment.execute().body();
             if (str.getCode()==200){
                 return str.getComment();
             }
