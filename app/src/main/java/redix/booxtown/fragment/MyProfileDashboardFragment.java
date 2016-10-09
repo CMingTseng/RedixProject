@@ -50,7 +50,7 @@ public class MyProfileDashboardFragment extends Fragment {
     TextView txt_username;
     RecyclerView lv_myprofile_dashboard;
     int user_id;
-    List<DashBoard> dashBoards_new;
+    List<DashBoard> dashBoards_new = new ArrayList<>();
     AdapterProfileDashboard adapterProfileDashboard;
     ImageView img_menu_component,img_menu,img_rank1,img_rank2,img_rank3;
     TextView title_menu;
@@ -167,11 +167,12 @@ public class MyProfileDashboardFragment extends Fragment {
     private void populatRecyclerView(int user_id,String session_id) {
         getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,15,0);
         getDashBoard.execute();
-        listArrayList = new ArrayList<DashBoard>();
-        adapterProfileDashboard = new AdapterProfileDashboard(getActivity(), listArrayList,user_id);
-        // set adapter over recyclerview
-        lv_myprofile_dashboard.setAdapter(adapterProfileDashboard);
-        adapterProfileDashboard.notifyDataSetChanged();
+        if (listArrayList.size() == 0){
+            adapterProfileDashboard = new AdapterProfileDashboard(getActivity(), listArrayList,user_id);
+            lv_myprofile_dashboard.setAdapter(adapterProfileDashboard);
+        }else{
+            adapterProfileDashboard.notifyDataSetChanged();
+        }
         lv_myprofile_dashboard.addOnItemTouchListener(new redix.booxtown.recyclerclick.RecyclerItemClickListener(getActivity(),
                 new redix.booxtown.recyclerclick.RecyclerItemClickListener.OnItemClickListener() {
                     @Override

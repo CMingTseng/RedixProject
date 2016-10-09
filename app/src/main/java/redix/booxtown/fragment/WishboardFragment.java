@@ -140,6 +140,12 @@ public class WishboardFragment extends Fragment {
     private void populatRecyclerView(String session_id) {
         getWishboard getwishboard = new getWishboard(getContext(),15,0,session_id);
         getwishboard.execute();
+        if(array_Wishboard.size() == 0){
+            adpater = new AdapterListviewWishboard(getActivity(), array_Wishboard);
+            rv_wishboard.setAdapter(adpater);
+        }else {
+            adpater.notifyDataSetChanged();
+        }
     }
 
     private void implementScrollListener(final String session_id) {
@@ -200,8 +206,6 @@ public class WishboardFragment extends Fragment {
             try {
                 if (wishboards.size() > 0){
                     array_Wishboard.addAll(wishboards);
-                    adpater = new AdapterListviewWishboard(getActivity(), array_Wishboard);
-                    rv_wishboard.setAdapter(adpater);
                     adpater.notifyDataSetChanged();
                     isLoading = true;
                     progressDialog.dismiss();
