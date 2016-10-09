@@ -382,6 +382,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             addMarkerChoice(new LatLng(bookedit.getLocation_latitude(), bookedit.getLocation_longitude()));
             edt_author.setText(bookedit.getAuthor().toString());
             edt_tilte.setText(bookedit.getTitle().toString());
+
             String[] listtag = bookedit.getHash_tag().split(";");
             for (int i = 0; i < listtag.length; i++) {
                 listTag.add(listtag[i]);
@@ -1094,9 +1095,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     }
 
     public void addTag() {
-        listTag.add(edt_tag.getText().toString());
-        edt_tag.setText("");
-        settag();
+        if(!edt_tag.getText().toString().trim().equals("")) {
+            listTag.add(edt_tag.getText().toString());
+            edt_tag.setText("");
+            settag();
+        }
     }
 
     public void settag() {
