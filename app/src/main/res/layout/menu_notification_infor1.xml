@@ -19,14 +19,14 @@
         android:id="@+id/rl_notification_infor1">
 
         <com.github.siyamed.shapeimageview.CircularImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/imv_menu_notification_infor1"
             android:src="@drawable/img_temp1"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="15dp"/>
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dominic"
@@ -35,8 +35,8 @@
             android:layout_toRightOf="@+id/imv_menu_notification_infor1"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="false" />
+            android:textSize="@dimen/slide_desc"
+            />
 
         <RatingBar
             android:id="@+id/myRatingBar"
@@ -50,39 +50,43 @@
             android:layout_below="@+id/txt_userbuy_notification_swap"
             android:layout_alignLeft="@+id/txt_userbuy_notification_swap"
             android:layout_alignStart="@+id/txt_userbuy_notification_swap"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp" />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/img_comment_rank1"
-            android:layout_below="@+id/txt_userbuy_notification_swap"
+            android:src="@drawable/btn_rank_one"
+            android:layout_above="@+id/txt_notification_infor1_phone"
             android:layout_toRightOf="@+id/myRatingBar"
             android:layout_toEndOf="@+id/myRatingBar"
-            android:src="@drawable/btn_rank_one"
-            android:layout_marginRight="5dp" />
+            android:layout_marginTop="5dp"
+            />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/img_comment_rank2"
-            android:layout_below="@+id/txt_userbuy_notification_swap"
+            android:layout_alignTop="@+id/img_comment_rank1"
             android:layout_toRightOf="@+id/img_comment_rank1"
             android:layout_toEndOf="@+id/img_comment_rank1"
-            android:src="@drawable/btn_rank_two"
-            android:layout_marginRight="5dp" />
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/img_comment_rank3"
-            android:layout_below="@+id/txt_userbuy_notification_swap"
+            android:src="@drawable/btn_rank_three"
+            android:layout_alignTop="@+id/img_comment_rank2"
             android:layout_toRightOf="@+id/img_comment_rank2"
             android:layout_toEndOf="@+id/img_comment_rank2"
-            android:src="@drawable/btn_rank_three"
-            android:layout_marginRight="5dp" />
+            android:layout_marginLeft="10dp"
+            />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -92,13 +96,14 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textColor="#dc4c4c"
+            android:textSize="@dimen/text_book_exploer"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/imv_menu_notification_infor1"
             android:layout_toEndOf="@+id/imv_menu_notification_infor1" />
 
-        <TextView
+        <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:id="@+id/txt_notification_cross_infor1"

@@ -9,8 +9,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,8 +26,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -32,59 +39,49 @@ import java.util.List;
 
 import redix.booxtown.R;
 import redix.booxtown.adapter.ListBookAdapter;
+import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
+import redix.booxtown.controller.Information;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ObjectCommon;
 import redix.booxtown.controller.TransactionController;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.BorderImage;
 import redix.booxtown.custom.CustomListviewNotificationSwap;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Notification;
 import redix.booxtown.model.Transaction;
+import redix.booxtown.model.User;
 
 public class NotificationSwapActivity extends AppCompatActivity implements View.OnClickListener {
-    public static String [] prgmNameList={"Home","Notifications","FAQ"};
     ImageView img_menu_bottom_location;
     ImageView img_menu_bottom_comment;
     ImageView img_menu_bottom_camera;
     ImageView img_menu_bottom_bag;
-    ImageView img_menu_bottom_user;
+    ImageView img_menu_bottom_user,img_menu_component,img_menu;
+    ImageView imv_menu_notification_infor1,img_comment_rank1,img_comment_rank2,img_comment_rank3;
 
     TextView txt_userbuy_notification_swap;
     TextView txt_user_hi;
     TextView title_book_notification_swap;
     TextView description_notification_swap;
     TextView author_list_notification_swap;
+    TextView txtTitle;
 
     Button btn_notification_not_like;
+    RatingBar myRatingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_swap);
 
-        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
-        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
-        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
-        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
-        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+        init();
 
-        txt_userbuy_notification_swap= (TextView) findViewById(R.id.txt_userbuy_notification_swap);
-        txt_user_hi= (TextView) findViewById(R.id.txt_user_hi);
-        title_book_notification_swap= (TextView) findViewById(R.id.title_book_notification_swap);
-        description_notification_swap= (TextView) findViewById(R.id.description_notification_swap);
-        author_list_notification_swap= (TextView) findViewById(R.id.author_list_notification_swap);
-
-        // lấy được list sách swap đẻ đổ vào listview
         String trans_id= getIntent().getStringExtra("trans_id");
         transAsync transAsync= new transAsync(NotificationSwapActivity.this,trans_id);
         transAsync.execute();
-
-        btn_notification_not_like= (Button)findViewById(R.id.btn_notification_not_like);
-
-
         //infor
-        ImageView imv_menu_notification_infor1 = (ImageView)findViewById(R.id.imv_menu_notification_infor1);
         imv_menu_notification_infor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,17 +90,9 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
             }
         });
         //end
-
-        //menu
-        ImageView img_menu_component = (ImageView)findViewById(R.id.img_menu_component);
         img_menu_component.setVisibility(View.GONE);
-
-        TextView txtTitle=(TextView)findViewById(R.id.txt_title);
         txtTitle.setText("Notifications");
-
-        ImageView img_menu = (ImageView)findViewById(R.id.img_menu);
         img_menu.setImageResource(R.drawable.btn_sign_in_back);
-
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +105,34 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
         img_menu_bottom_camera.setOnClickListener(this);
         img_menu_bottom_bag.setOnClickListener(this);
         img_menu_bottom_user.setOnClickListener(this);
+    }
 
+    public void init(){
+        img_comment_rank1 = (ImageView)findViewById(R.id.img_comment_rank1);
+        img_comment_rank2 = (ImageView)findViewById(R.id.img_comment_rank2);
+        img_comment_rank3 = (ImageView)findViewById(R.id.img_comment_rank3);
+
+        myRatingBar = (RatingBar)findViewById(R.id.myRatingBar);
+        imv_menu_notification_infor1 = (ImageView)findViewById(R.id.imv_menu_notification_infor1);
+
+        img_menu  = (ImageView)findViewById(R.id.img_menu);
+        txtTitle=(TextView)findViewById(R.id.txt_title);
+        img_menu_component = (ImageView)findViewById(R.id.img_menu_component);
+
+        btn_notification_not_like= (Button)findViewById(R.id.btn_notification_not_like);
+
+        txt_user_hi= (TextView) findViewById(R.id.txt_user_hi);
+        title_book_notification_swap= (TextView) findViewById(R.id.title_book_notification_swap);
+        description_notification_swap= (TextView) findViewById(R.id.description_notification_swap);
+        author_list_notification_swap= (TextView) findViewById(R.id.author_list_notification_swap);
+
+        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
+        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
+        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
+        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
+        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+
+        txt_userbuy_notification_swap= (TextView) findViewById(R.id.txt_userbuy_notification_swap);
     }
 
     @Override
@@ -237,23 +253,104 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
 
                 ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
                 listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, transaction.getBook(), trans_id, transaction.getBook_name(), transaction));
-
                 SharedPreferences pref = NotificationSwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor  = pref.edit();
                 String userName = pref.getString("username", null);
                 txt_user_hi.setText("Hi "+ userName+",");
                 txt_userbuy_notification_swap.setText(transaction.getUser_buy()+"");
                 title_book_notification_swap.setText(transaction.getBook_name());
-
                 Spannable wordtoSpan1 = new SpannableString("and good like to swap with you. Choose a book from "+transaction.getUser_buy()+"'s swap list to complete the swap" );
                 wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED),51, 53+ transaction.getUser_buy().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 description_notification_swap.setText(wordtoSpan1);
-
                 author_list_notification_swap.setText((transaction.getUser_buy()+"'s").toUpperCase()+" swap list");
-
+                getUser getUser = new getUser(NotificationSwapActivity.this,transaction.getUser_buyer_id());
+                getUser.execute();
                 dialog.dismiss();
             }
             super.onPostExecute(transaction);
+        }
+    }
+
+    class getUser extends AsyncTask<Void,Void,List<User>>{
+
+        Context context;
+        int user_id;
+        ProgressDialog progressDialog;
+        public getUser(Context context,int user_id){
+            this.context = context;
+            this.user_id = user_id;
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            UserController userController = new UserController();
+            return userController.getByUserId(user_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<User> user) {
+            try {
+                if (user.size() > 0){
+                    Picasso.with(context)
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .error(R.drawable.user)
+                            .into(imv_menu_notification_infor1);
+
+                    myRatingBar.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) myRatingBar.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.rgb(255,2224,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(context.getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),context.getResources().getColor(R.color.bg_rating));
+
+                    //set rank
+                    if(user.get(0).getContributor() == 0){
+                        img_comment_rank1.setVisibility(View.VISIBLE);
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
+                        img_comment_rank1.setImageBitmap(btn1);
+
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_two);
+                        img_comment_rank1.setImageBitmap(btn1);
+
+                    }
+                    if(user.get(0).getGoldenBook() == 0){
+                        img_comment_rank2.setVisibility(View.GONE);
+                    }else if(user.get(0).getGoldenBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.golden_book);
+                        img_comment_rank2.setImageBitmap(btn1);
+                        img_comment_rank2.setVisibility(View.VISIBLE);
+                    }
+
+                    if(user.get(0).getListBook() == 0){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.newbie);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }else if(user.get(0).getListBook() == 1){
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bookworm);
+                        img_comment_rank3.setImageBitmap(btn1);
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }else{
+                        Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.bibliophile);
+                        img_comment_rank3.setImageBitmap(btn1);
+
+                        img_comment_rank3.setVisibility(View.VISIBLE);
+                    }
+
+                    progressDialog.dismiss();
+                }else {
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
+            }
+            progressDialog.dismiss();
         }
     }
 }
