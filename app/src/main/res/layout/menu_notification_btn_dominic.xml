@@ -11,7 +11,7 @@
         android:layout_weight="1"
         android:gravity="center_horizontal">
 
-        <Button
+        <redix.booxtown.custom.CustomButton
             android:layout_width="163dp"
             android:layout_height="36dp"
             android:text="Accept"
@@ -23,7 +23,9 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:textSize="@dimen/slide_desc_welcome"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -33,7 +35,7 @@
         android:layout_weight="1"
         android:gravity="center_horizontal">
 
-        <Button
+        <redix.booxtown.custom.CustomButton
             android:layout_width="163dp"
             android:layout_height="36dp"
             android:text="reject"
@@ -44,6 +46,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp"
+            android:textSize="@dimen/slide_desc_welcome"
+            />
     </LinearLayout>
 </LinearLayout>
