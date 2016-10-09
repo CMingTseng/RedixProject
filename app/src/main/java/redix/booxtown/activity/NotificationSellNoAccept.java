@@ -209,7 +209,7 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
                 getSetting gt= new getSetting(NotificationSellNoAccept.this, transaction);
                 gt.execute(transaction.getSession_user_sell());
 
-                getUser1 getUser1 = new getUser1(NotificationSellNoAccept.this,transaction.getUser_seller_id());
+                getUser1 getUser1 = new getUser1(NotificationSellNoAccept.this,transaction.getUser_buyer_id());
                 getUser1.execute();
                 dialog.dismiss();
             }
