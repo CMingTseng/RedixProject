@@ -67,7 +67,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
     TextView title_book_notification_swap;
     TextView description_notification_swap;
     TextView author_list_notification_swap;
-    TextView txtTitle;
+    TextView txtTitle,textView_author_book;
 
     Button btn_notification_not_like;
     RatingBar myRatingBar;
@@ -108,6 +108,8 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
     }
 
     public void init(){
+        textView_author_book = (TextView)findViewById(R.id.textView_author_book);
+
         img_comment_rank1 = (ImageView)findViewById(R.id.img_comment_rank1);
         img_comment_rank2 = (ImageView)findViewById(R.id.img_comment_rank2);
         img_comment_rank3 = (ImageView)findViewById(R.id.img_comment_rank3);
@@ -258,6 +260,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                 txt_user_hi.setText("Hi "+ userName+",");
                 txt_userbuy_notification_swap.setText(transaction.getUser_buy()+"");
                 title_book_notification_swap.setText(transaction.getBook_name());
+                textView_author_book.setText(transaction.getBook_author());
                 Spannable wordtoSpan1 = new SpannableString("and good like to swap with you. Choose a book from "+transaction.getUser_buy()+"'s swap list to complete the swap" );
                 wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED),51, 53+ transaction.getUser_buy().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 description_notification_swap.setText(wordtoSpan1);

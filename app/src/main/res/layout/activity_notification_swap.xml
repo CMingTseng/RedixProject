@@ -47,8 +47,8 @@
         <redix.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Any rand"
-            android:id="@+id/textView23"
+            android:text="A"
+            android:id="@+id/textView_author_book"
             android:textSize="12sp"
             android:layout_below="@+id/title_book_notification_swap"
             android:layout_centerHorizontal="true"
@@ -57,7 +57,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/textView23"
+            android:layout_below="@+id/textView_author_book"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="#ffffff">
