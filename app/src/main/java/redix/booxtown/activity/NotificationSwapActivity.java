@@ -219,7 +219,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
 
                                 // send notifi user seller
                                 List<Hashtable> listSeller = new ArrayList<>();
-                                Notification notificationSeller = new Notification(" you rejected swapping your book", transaction.getId()+"","1" );
+                                Notification notificationSeller = new Notification(" You rejected swapping your book", transaction.getId()+"","1" );
                                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                                 objSeller.put("user_id", transaction.getUser_seller_id());
                                 objSeller.put("messages", "You rejected swapping your book " + transaction.getBook_name().toUpperCase());

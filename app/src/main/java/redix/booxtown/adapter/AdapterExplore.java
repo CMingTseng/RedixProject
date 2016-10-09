@@ -453,7 +453,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                 Notification notification = new Notification(username+" wants to buy your book", transactionID ,"4");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", sellUserID);
-                obj.put("messages", "Request want to your book "+ username.toUpperCase());
+                obj.put("messages", username.toUpperCase()+" wants to buy your book " );
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);

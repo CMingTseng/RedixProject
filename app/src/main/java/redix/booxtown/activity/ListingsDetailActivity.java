@@ -678,10 +678,10 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 for (int i = 0; i < listUser.size(); i++) {
                     String s = listUser.get(i);
                     if (!listUser.get(i).equals(user_ID)) {
-                        Notification notification = new Notification("Comment in book posts", book.getId(), "11");
+                        Notification notification = new Notification("New comment", book.getId(), "11");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", listUser.get(i));
-                        obj.put("messages", "Comment book " + book.getTitle() + " by: " + username);
+                        obj.put("messages", username+ " commented in book " + book.getTitle());
                         list.add(obj);
                     }
                 }

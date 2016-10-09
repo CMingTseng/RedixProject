@@ -1011,7 +1011,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                         Notification notification = new Notification("Respone Wishboard",result , "14");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", user_id+"");
-                        obj.put("messages", userName + " send you a respone book");
+                        obj.put("messages", userName + " suggest you a book");
                         list.add(obj);
                         NotificationController controller = new NotificationController();
                         controller.sendNotification(list);
