@@ -179,6 +179,7 @@ public class UserController {
                 return str.getUser();
             }
         } catch (Exception ex) {
+            String exe = ex.getMessage();
         }
         return null;
     }

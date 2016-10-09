@@ -24,8 +24,14 @@ public class Comment {
     private float rating;
     @Expose
     private String photo;
+    @Expose
+    private int contributor;
+    @Expose
+    private int goldenBook;
+    @Expose
+    private int listBook;
 
-    public Comment(String id, String content, String create_date, String thread_id, String user_id, String username, float rating, String photo) {
+    public Comment(String id, String content, String create_date, String thread_id, String user_id, String username, float rating, String photo, int contributor, int goldenBook, int listBook) {
         this.id = id;
         this.content = content;
         this.create_date = create_date;
@@ -34,6 +40,33 @@ public class Comment {
         this.username = username;
         this.rating = rating;
         this.photo = photo;
+        this.contributor = contributor;
+        this.goldenBook = goldenBook;
+        this.listBook = listBook;
+    }
+
+    public int getContributor() {
+        return contributor;
+    }
+
+    public void setContributor(int contributor) {
+        this.contributor = contributor;
+    }
+
+    public int getGoldenBook() {
+        return goldenBook;
+    }
+
+    public void setGoldenBook(int goldenBook) {
+        this.goldenBook = goldenBook;
+    }
+
+    public int getListBook() {
+        return listBook;
+    }
+
+    public void setListBook(int listBook) {
+        this.listBook = listBook;
     }
 
     public float getRating() {

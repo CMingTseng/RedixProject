@@ -3,19 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/dot_light_screen2"
+    android:paddingBottom="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <com.github.siyamed.shapeimageview.CircularImageView
         android:id="@+id/icon_user_listing_detail"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/icon_test"
-        app:siBorderColor="@color/color_hint_interact"
+        android:src="@mipmap/user_empty"
+        app:siBorderColor="@color/dot_light_screen2"
         app:siBorderWidth="1dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="10dp" />
     <RatingBar
         android:theme="@style/RatingBar"
         android:id="@+id/myRatingBar"
@@ -26,32 +27,30 @@
         android:rating="2.5"
         android:isIndicator="false"
         android:layout_below="@+id/icon_user_listing_detail"
+        android:scaleY="0.6"
+        android:scaleX="0.6"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_toStartOf="@+id/txt_date_thread_comment"
-        android:layout_toLeftOf="@+id/txt_date_thread_comment"
-        android:progressTint="@color/color_star_select"
-        />
+        android:layout_alignParentStart="true" />
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Username "
+        android:layout_marginTop="5dp"
         android:id="@+id/txt_user_comment"
         android:textColor="@color/color_topic_interact"
         android:textSize="16sp"
         android:layout_alignTop="@+id/icon_user_listing_detail"
         android:layout_toRightOf="@+id/icon_user_listing_detail"
         android:layout_toEndOf="@+id/icon_user_listing_detail"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="5dp" />
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="If you want to buy best books order us"
         android:id="@+id/txt_content_thread_comments"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:inputType="textMultiLine"
         android:layout_below="@+id/txt_user_comment"
         android:layout_alignLeft="@+id/txt_user_comment"
@@ -65,7 +64,7 @@
         android:layout_below="@+id/txt_content_thread_comments"
         android:layout_alignLeft="@+id/txt_content_thread_comments"
         android:layout_alignStart="@+id/txt_content_thread_comments"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:textColor="@color/color_text_hint"/>
     <View
         android:layout_width="fill_parent"
@@ -86,31 +85,32 @@
         android:layout_alignLeft="@+id/icon_user_listing_detail"
         android:layout_alignStart="@+id/icon_user_listing_detail"
         android:id="@+id/tableRow3"
-
         android:layout_below="@+id/myRatingBar"
         android:layout_alignRight="@+id/icon_user_listing_detail"
-        android:layout_alignEnd="@+id/icon_user_listing_detail">
+        android:layout_alignEnd="@+id/icon_user_listing_detail"
+
+        >
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/img_comment_rank1"
             android:layout_weight="1"
-            android:src="@drawable/btn_rank_one" />
+             />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/img_comment_rank2"
             android:layout_weight="1"
-            android:src="@drawable/btn_rank_two" />
+             />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/img_comment_rank3"
             android:layout_weight="1"
-            android:src="@drawable/btn_rank_three" />
+             />
     </TableRow>
 
 </RelativeLayout>

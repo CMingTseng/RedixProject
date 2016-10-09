@@ -60,7 +60,8 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
                 holder.name.setText("by " + list.get(position).getAuthor());
             }
         } else {
-            holder.title.setText(list.get(position).getTitle());
+            String title = list.get(position).getTitle().substring(0,1).toUpperCase()+ list.get(position).getTitle().substring(1,list.get(position).getTitle().length());
+            holder.title.setText(title);
             holder.name.setText("by " + list.get(position).getAuthor());
         }
         try {
@@ -84,7 +85,7 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
         });
 
         if (position % 2 == 0) {
-            holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.color_hint_interact));
+            holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_user_empty));
         } else {
             holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.dot_light_screen1));
         }

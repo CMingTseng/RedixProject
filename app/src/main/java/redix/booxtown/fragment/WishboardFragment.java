@@ -117,8 +117,15 @@ public class WishboardFragment extends Fragment {
                         else {
                             insertWishboard insertWishboard = new insertWishboard(getContext());
                             insertWishboard.execute(editText_title_wishboard.getText().toString(), editText_author_wishboard.getText().toString(), editText_comment_wishboard.getText().toString(), session_id);
-                            /*getWishboard getWishboard = new getWishboard(getContext());
-                            getWishboard.execute("1000000", "0", session_id);*/
+                            Wishboard dashBoard_lv;
+                            getWishboard getWishboard;
+                            if(array_Wishboard.size() == 0){
+                                getWishboard = new getWishboard(getContext(),15,0,session_id);
+                            }else{
+                                dashBoard_lv = array_Wishboard.get(array_Wishboard.size()-1);
+                                getWishboard = new getWishboard(getContext(),15,Integer.valueOf(dashBoard_lv.getId()),session_id);
+                            }
+                            getWishboard.execute();
                             dialog.dismiss();
                         }
                     }
@@ -133,7 +140,12 @@ public class WishboardFragment extends Fragment {
     private void populatRecyclerView(String session_id) {
         getWishboard getwishboard = new getWishboard(getContext(),15,0,session_id);
         getwishboard.execute();
-
+        if(array_Wishboard.size() == 0){
+            adpater = new AdapterListviewWishboard(getActivity(), array_Wishboard);
+            rv_wishboard.setAdapter(adpater);
+        }else {
+            adpater.notifyDataSetChanged();
+        }
     }
 
     private void implementScrollListener(final String session_id) {
@@ -194,8 +206,6 @@ public class WishboardFragment extends Fragment {
             try {
                 if (wishboards.size() > 0){
                     array_Wishboard.addAll(wishboards);
-                    adpater = new AdapterListviewWishboard(getActivity(), array_Wishboard);
-                    rv_wishboard.setAdapter(adpater);
                     adpater.notifyDataSetChanged();
                     isLoading = true;
                     progressDialog.dismiss();
