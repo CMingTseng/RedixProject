@@ -67,7 +67,7 @@ public class NotificationSellReject extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_sell_accept2);
         init();
-        txt_menu_notification_title2.setText("you rejected a request form");
+        txt_menu_notification_title2.setText("you rejected a request from");
         txt_notification_infor3_phone.setVisibility(View.GONE);
         txt_menu_notification_infor3_title.setText("to buy your book");
         txt_notification_dominic_besttime.setVisibility(View.GONE);
