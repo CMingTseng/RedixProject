@@ -79,7 +79,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
     private RecyclerView rv_comment;
     LinearLayoutManager linearLayoutManager;
-    List<CommentBook> arr_commnet;
+    List<CommentBook> arr_commnet = new ArrayList<>();
     AdapterCommentBook adapter;
     boolean loading = true,
             isLoading = true;
@@ -411,7 +411,12 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     private void populatRecyclerView(String book_id) {
         getComment getcomment = new getComment(getContext(),book_id,15,0);
         getcomment.execute();
-        arr_commnet = new ArrayList<>();
+        if (arr_commnet.size() == 0){
+            adapter = new AdapterCommentBook(getContext(),arr_commnet);
+            rv_comment.setAdapter(adapter);
+        }else{
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void implementScrollListener(final String book_id) {
@@ -578,9 +583,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             try {
                 if (commentBooks.size() > 0) {
                     arr_commnet.addAll(commentBooks);
-                    adapter = new AdapterCommentBook(context,arr_commnet);
                     adapter.notifyDataSetChanged();
-                    rv_comment.setAdapter(adapter);
                     isLoading = true;
                     if (!listUser.contains(book.getUser_id())) {
                         listUser.add(book.getUser_id());

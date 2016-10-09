@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import redix.booxtown.R;
 import redix.booxtown.listener.OnLoadMoreListener;
@@ -91,7 +94,29 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
 
             }
             ((RecyclerViewHolder) holder).tv.setText(notification.getTitle_notifi());
-            ((RecyclerViewHolder) holder).tv_content.setText(notification.getCreate_date());
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date oldDate = dateFormat.parse(notification.getCreate_date());
+                Date cDate = new Date();
+                Long timeDiff = cDate.getTime() - oldDate.getTime();
+                int day = (int) TimeUnit.MILLISECONDS.toDays(timeDiff);
+                int hour = (int) (TimeUnit.MILLISECONDS.toHours(timeDiff) - TimeUnit.DAYS.toHours(day));
+                int mm = (int) (TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
+                if(day>0){
+                    ((RecyclerViewHolder) holder).tv_content.setText("About " + day + " Day ago");
+                }
+                else {
+                    if (hour < 1) {
+                        ((RecyclerViewHolder) holder).tv_content.setText("About " + mm + " min ago");
+                    } else {
+
+                            ((RecyclerViewHolder) holder).tv_content.setText("About " + hour + " hour ago");
+
+                    }
+                }
+            }catch (Exception exx){
+
+            }
 
 
         }else if(holder instanceof LoadingViewHolder){

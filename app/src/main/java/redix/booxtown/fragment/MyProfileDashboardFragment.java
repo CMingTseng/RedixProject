@@ -50,14 +50,13 @@ public class MyProfileDashboardFragment extends Fragment {
     TextView txt_username;
     RecyclerView lv_myprofile_dashboard;
     int user_id;
-    List<DashBoard> dashBoards_new;
+    List<DashBoard> dashBoards_new = new ArrayList<>();
     AdapterProfileDashboard adapterProfileDashboard;
     ImageView img_menu_component,img_menu,img_rank1,img_rank2,img_rank3;
     TextView title_menu;
     //private static RelativeLayout bottomLayout;
     boolean loading = true,
             isLoading = true;
-    private static ArrayList<DashBoard> listArrayList;
     RatingBar ratingBar_userprofile;
     User user;
     CircularImageView imv_menu_profile;
@@ -118,7 +117,6 @@ public class MyProfileDashboardFragment extends Fragment {
         DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
         //end
 
-        dashBoards_new = new ArrayList<>();
         img_menu_component.setVisibility(View.GONE);
         title_menu.setText("My Profile");
         Picasso.with(getContext()).load(R.drawable.btn_sign_in_back).into(img_menu);
@@ -167,16 +165,17 @@ public class MyProfileDashboardFragment extends Fragment {
     private void populatRecyclerView(int user_id,String session_id) {
         getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,15,0);
         getDashBoard.execute();
-        listArrayList = new ArrayList<DashBoard>();
-        adapterProfileDashboard = new AdapterProfileDashboard(getActivity(), listArrayList,user_id);
-        // set adapter over recyclerview
-        lv_myprofile_dashboard.setAdapter(adapterProfileDashboard);
-        adapterProfileDashboard.notifyDataSetChanged();
+        if (dashBoards_new.size() == 0){
+            adapterProfileDashboard = new AdapterProfileDashboard(getActivity(), dashBoards_new,user_id);
+            lv_myprofile_dashboard.setAdapter(adapterProfileDashboard);
+        }else{
+            adapterProfileDashboard.notifyDataSetChanged();
+        }
         lv_myprofile_dashboard.addOnItemTouchListener(new redix.booxtown.recyclerclick.RecyclerItemClickListener(getActivity(),
                 new redix.booxtown.recyclerclick.RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        DashBoard dashBoard = listArrayList.get(position);
+                        DashBoard dashBoard = dashBoards_new.get(position);
                         if (dashBoard.getIs_accept() == 1 || dashBoard.getIs_reject() == 1){
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("dashboard", dashBoard);
@@ -221,7 +220,7 @@ public class MyProfileDashboardFragment extends Fragment {
                 if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold) && isLoading) {
                     // End has been reached
-                    DashBoard dashBoard_lv = listArrayList.get(listArrayList.size()-1);
+                    DashBoard dashBoard_lv = dashBoards_new.get(dashBoards_new.size()-1);
                     getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,15,dashBoard_lv.getId());
                     getDashBoard.execute();
                     // Do something
@@ -264,7 +263,7 @@ public class MyProfileDashboardFragment extends Fragment {
         protected void onPostExecute(final List<DashBoard> dashBoards) {
             try {
                 if(dashBoards.size() > 0){
-                    listArrayList.addAll(dashBoards);
+                    dashBoards_new.addAll(dashBoards);
                     adapterProfileDashboard.notifyDataSetChanged();
                     dialog.dismiss();
                     isLoading = true;

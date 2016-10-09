@@ -145,8 +145,12 @@ public class InteractThreadDetailsFragment extends Fragment
     private void populatRecyclerView(String thread_id) {
         commentAsync getcomment = new commentAsync(getContext(),thread_id,15,0);
         getcomment.execute();
-        adapter = new AdapterInteractThreadDetails(getContext(),arr_commet);
-        recyclerView.setAdapter(adapter);
+        if(arr_commet.size() == 0) {
+            adapter = new AdapterInteractThreadDetails(getContext(), arr_commet);
+            recyclerView.setAdapter(adapter);
+        }else{
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void implementScrollListener(final String thread_id) {

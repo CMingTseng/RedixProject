@@ -55,7 +55,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     AdapterCommentBook adapter;
     private RecyclerView rv_comment;
     LinearLayoutManager linearLayoutManager;
-    List<CommentBook> arr_commet;
+    List<CommentBook> arr_commet = new ArrayList<>();
     boolean loading = true,
             isLoading = true;
     private int previousTotal = 0;
@@ -136,18 +136,26 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertComment insertComment1 = new insertComment(RespondActivity.this);
-                insertComment1.execute(session_id,message.getText().toString(),wishboard.getId());
-                message.setText("");
-                CommentBook commentBook;
-                getComment comment;
-                if(arr_commet.size() == 0){
-                    comment = new getComment(RespondActivity.this, wishboard.getId(), 15,0);
-                }else {
-                    commentBook = arr_commet.get(arr_commet.size() - 1);
-                    comment = new getComment(RespondActivity.this, wishboard.getId(), 15, commentBook.getId());
+                String message1 = message.getText().toString();
+                if(message1 == null){
+
+                }else{
+                    message1 = message1.trim();
+                    if(!message1.equals("")){
+                        insertComment insertComment1 = new insertComment(RespondActivity.this);
+                        insertComment1.execute(session_id,message.getText().toString(),wishboard.getId());
+                        message.setText("");
+                        CommentBook commentBook;
+                        getComment comment;
+                        if(arr_commet.size() == 0){
+                            comment = new getComment(RespondActivity.this, wishboard.getId(), 15,0);
+                        }else {
+                            commentBook = arr_commet.get(arr_commet.size() - 1);
+                            comment = new getComment(RespondActivity.this, wishboard.getId(), 15, commentBook.getId());
+                        }
+                        comment.execute();
+                    }
                 }
-                comment.execute();
             }
         });
         populatRecyclerView(wishboard.getId());
@@ -165,7 +173,6 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 return false;
             }
         });
-
         ratingBar_respon = (RatingBar)findViewById(R.id.ratingBar_respon);
         img_rank1_respon = (ImageView)findViewById(R.id.img_rank1_respon);
         img_rank2_respon = (ImageView)findViewById(R.id.img_rank2_respon);
@@ -194,7 +201,12 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     private void populatRecyclerView(String post_id) {
         getComment getcomment = new getComment(RespondActivity.this,post_id,15,0);
         getcomment.execute();
-        arr_commet = new ArrayList<>();
+        if(arr_commet.size() == 0) {
+            adapter = new AdapterCommentBook(RespondActivity.this, arr_commet);
+            rv_comment.setAdapter(adapter);
+        }else{
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void implementScrollListener(final String post_id) {
@@ -289,9 +301,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
             try {
                 if (commentBooks.size() > 0) {
                     arr_commet.addAll(commentBooks);
-                    adapter = new AdapterCommentBook(context,arr_commet);
                     adapter.notifyDataSetChanged();
-                    rv_comment.setAdapter(adapter);
                     isLoading = true;
                     if (!listUser.contains(wishboard.getUser_id() + "")) {
                         listUser.add(wishboard.getUser_id() + "");

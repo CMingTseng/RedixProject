@@ -34,50 +34,45 @@
         android:scaleY="1.2"
         android:scaleX="1.2"
         android:layout_marginTop="7dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginEnd="14dp"
         android:layout_below="@+id/textView_username_dashboard_middle"
-        android:layout_toLeftOf="@+id/img_rank1_satus"
-        android:layout_toStartOf="@+id/img_rank1_satus" />
+        android:layout_alignRight="@+id/img_menu_dashboard_middle"
+        android:layout_alignEnd="@+id/img_menu_dashboard_middle" />
 
     <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/img_rank1_satus"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/textView_username_dashboard_middle"
-        android:layout_alignRight="@+id/textView_username_dashboard_middle"
-        android:layout_alignEnd="@+id/textView_username_dashboard_middle"
         app:siBorderColor="@color/color_bg_listings_detail"
         app:siBorderWidth="1dp"
-        />
+        android:layout_alignBottom="@+id/ratingBar_user_dashboard_middle"
+        android:layout_toRightOf="@+id/ratingBar_user_dashboard_middle"
+        android:layout_toEndOf="@+id/ratingBar_user_dashboard_middle"
+        android:layout_marginBottom="-5dp"
+        android:layout_marginLeft="15dp" />
 
     <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/img_rank2_satus"
-        android:layout_alignTop="@+id/img_rank1_satus"
-        android:layout_toRightOf="@+id/img_rank1_satus"
-        android:layout_toEndOf="@+id/img_rank1_satus"
-        android:layout_marginLeft="9dp"
         android:visibility="gone"
         app:siBorderColor="@color/color_bg_listings_detail"
         app:siBorderWidth="1dp"
-        />
+        android:layout_alignTop="@+id/img_rank1_satus"
+        android:layout_toRightOf="@+id/img_rank1_satus"
+        android:layout_toEndOf="@+id/img_rank1_satus"
+        android:layout_marginLeft="10dp" />
 
     <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/img_rank3_satus"
-        android:layout_alignTop="@+id/img_rank2_satus"
-        android:layout_toRightOf="@+id/img_rank2_satus"
-        android:layout_toEndOf="@+id/img_rank2_satus"
-        android:layout_marginLeft="9dp"
         android:visibility="visible"
         app:siBorderColor="@color/color_bg_listings_detail"
         app:siBorderWidth="1dp"
-        />
+        android:layout_alignTop="@+id/img_rank2_satus"
+        android:layout_toRightOf="@+id/img_rank2_satus"
+        android:layout_toEndOf="@+id/img_rank2_satus"
+        android:layout_marginLeft="10dp" />
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="match_parent"

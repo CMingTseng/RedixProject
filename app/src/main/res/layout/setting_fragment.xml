@@ -159,7 +159,7 @@
             android:layout_alignStart="@+id/textView15"
             android:layout_alignRight="@+id/fragment"
             android:layout_alignEnd="@+id/fragment"
-            android:textColor="@color/color_text_hint"
+            android:textColor="@color/color_topic_interact"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textSize="@dimen/slide_desc"

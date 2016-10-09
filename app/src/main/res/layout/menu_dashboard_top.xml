@@ -44,6 +44,7 @@
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="d"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textView_namebook_buyer"
         android:layout_below="@+id/textView_with"
@@ -56,6 +57,8 @@
         android:id="@+id/textView_nameauthor_buyer"
         android:layout_below="@+id/textView_namebook_buyer"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:text="d"
+        />
 
 </RelativeLayout>
