@@ -36,31 +36,23 @@ public class NotificationSellAccept extends AppCompatActivity {
     TextView txt_author_book_buy_accept;
     TextView txt_notification_sell_accept_money;
     TextView txt_notification_dominic_time;
-
+    TextView txt_menu_notification_infor3_title;
     TextView txt_menu_notification_title2;
-
-
+    ImageView img_menu_component,img_menu,imv_nitification_infor3_phone;
+    TextView txtTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_sell_accept2);
+        init();
 
-        txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
         txt_menu_notification_title2.setText("you accepted a request from");
-
-        TextView txt_menu_notification_infor3_title = (TextView)findViewById(R.id.txt_menu_notification_infor3_title);
         txt_menu_notification_infor3_title.setText("to buy your book");
-//menu
 
-        ImageView img_menu_component = (ImageView)findViewById(R.id.img_menu_component);
         img_menu_component.setVisibility(View.GONE);
-
-        TextView txtTitle=(TextView)findViewById(R.id.txt_title);
         txtTitle.setText("Notifications");
 
-        ImageView img_menu = (ImageView)findViewById(R.id.img_menu);
         img_menu.setImageResource(R.drawable.btn_sign_in_back);
-
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,9 +60,7 @@ public class NotificationSellAccept extends AppCompatActivity {
             }
         });
         //end
-
         //infor
-        ImageView imv_nitification_infor3_phone = (ImageView)findViewById(R.id.imv_nitification_infor3_phone);
         imv_nitification_infor3_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +75,23 @@ public class NotificationSellAccept extends AppCompatActivity {
         bottomListings.setDefaut(0);
         //---------------------------------------------------------------
 
+
+        // lấy được list sách swap đẻ đổ vào listview
+        String trans_id= getIntent().getStringExtra("trans_id");
+        transAsync transAsync= new transAsync(NotificationSellAccept.this,trans_id);
+        transAsync.execute();
+        //---------------------------------------------------------------
+    }
+
+    public void init(){
+        imv_nitification_infor3_phone = (ImageView)findViewById(R.id.imv_nitification_infor3_phone);
+        img_menu = (ImageView)findViewById(R.id.img_menu);
+        img_menu_component = (ImageView)findViewById(R.id.img_menu_component);
+        txtTitle=(TextView)findViewById(R.id.txt_title);
+
+        txt_menu_notification_title2 = (TextView)findViewById(R.id.txt_menu_notification_title2);
+        txt_menu_notification_infor3_title = (TextView)findViewById(R.id.txt_menu_notification_infor3_title);
+
         txt_user_hi=(TextView) findViewById(R.id.txt_user_hi);
         txt_author_info3=(TextView) findViewById(R.id.txt_author_info3);
         txt_title_book_buy_accept=(TextView) findViewById(R.id.txt_title_book_buy_accept);
@@ -92,11 +99,6 @@ public class NotificationSellAccept extends AppCompatActivity {
         txt_notification_sell_accept_money=(TextView) findViewById(R.id.txt_notification_sell_accept_money);
         txt_notification_dominic_time=(TextView) findViewById(R.id.txt_notification_dominic_time);
 
-        // lấy được list sách swap đẻ đổ vào listview
-        String trans_id= getIntent().getStringExtra("trans_id");
-        transAsync transAsync= new transAsync(NotificationSellAccept.this,trans_id);
-        transAsync.execute();
-        //---------------------------------------------------------------
     }
 
     @Override
@@ -138,7 +140,6 @@ public class NotificationSellAccept extends AppCompatActivity {
                 dialog.dismiss();
             }else {
                 SharedPreferences pref = NotificationSellAccept.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor  = pref.edit();
                 String session_id = pref.getString("session_id", null);
                 getSetting gt= new getSetting(NotificationSellAccept.this, transaction);
                 gt.execute(session_id);
