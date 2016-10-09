@@ -104,7 +104,6 @@
             android:isIndicator="true"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:paddingLeft="3dp"
             android:theme="@style/RatingBar"
             style="?android:attr/ratingBarStyleSmall"
             android:scaleX="0.6"

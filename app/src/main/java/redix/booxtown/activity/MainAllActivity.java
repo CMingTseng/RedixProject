@@ -357,6 +357,7 @@ public class MainAllActivity extends AppCompatActivity{
     }
 
     public static void setTxtTitle(String title) {
+
         txtTitle.setText(title);
     }
 

@@ -220,6 +220,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         }
         populatRecyclerView(book.getId());
         implementScrollListener(book.getId());
+        MainAllActivity.setTxtTitle("Book Detail");
         return v;
     }
 

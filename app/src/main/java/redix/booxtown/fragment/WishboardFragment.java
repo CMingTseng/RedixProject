@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import redix.booxtown.R;
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.activity.MenuActivity;
 import redix.booxtown.adapter.AdapterCommentBook;
 import redix.booxtown.adapter.AdapterExplore;
@@ -62,6 +63,9 @@ public class WishboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_wishboard , container, false);
+
+        TextView title=(TextView) getActivity().findViewById(R.id.txt_title);
+        title.setText("Wishboard");
 
         array_Wishboard = new ArrayList<>();
         ImageView img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
@@ -134,6 +138,7 @@ public class WishboardFragment extends Fragment {
         });
         populatRecyclerView(session_id);
         implementScrollListener(session_id);
+        MainAllActivity.setTxtTitle("Wishboard");
         return view;
     }
 

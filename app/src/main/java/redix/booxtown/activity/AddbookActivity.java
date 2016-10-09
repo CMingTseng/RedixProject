@@ -382,6 +382,91 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
                 }
             });
+
+            try {
+                if (latLng_new == null) {
+                    GPSTracker gpsTracker = new GPSTracker(AddbookActivity.this);
+                    latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                }
+            } catch (Exception e) {
+                latLng_new = new LatLng(0, 0);
+            }
+            radioButton_another.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            latLng_new = latLng;
+                            addMarkerChoice(latLng);
+
+                        }
+                    });
+                }
+            });
+
+            radioButton_current.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        if (latLng_new == null) {
+                            GPSTracker gpsTracker = new GPSTracker(AddbookActivity.this);
+                            latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                            addMarkerChoice(latLng_new);
+                        }
+                    } catch (Exception e) {
+                        latLng_new = new LatLng(0, 0);
+                    }
+                }
+            });
+            try {
+
+                swap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (checkCheckBox()) {
+                            addMarkerChoice(latLng_new);
+                        } else {
+                            swap.setChecked(false);
+                            addMarkerChoice(latLng_new);
+                        }
+                    }
+                });
+
+                free.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (checkCheckBox()) {
+                            addMarkerChoice(latLng_new);
+                        } else {
+                            free.setChecked(false);
+                            addMarkerChoice(latLng_new);
+                        }
+                    }
+                });
+
+                sell.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (checkCheckBox()) {
+                            if (sell.isChecked()) {
+                                tbl_price_sell.setVisibility(View.VISIBLE);
+                                addMarkerChoice(latLng_new);
+                            } else {
+                                tbl_price_sell.setVisibility(View.GONE);
+                            }
+
+                        } else {
+                            sell.setChecked(false);
+                            addMarkerChoice(latLng_new);
+                        }
+                    }
+                });
+            } catch (Exception e) {
+            }
+
+
             addbook(1);
         }catch (Exception e){
         }
@@ -487,88 +572,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 }
             }
 
-            try {
-                if (latLng_new == null) {
-                    GPSTracker gpsTracker = new GPSTracker(AddbookActivity.this);
-                    latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                }
-            } catch (Exception e) {
-                latLng_new = new LatLng(0, 0);
-            }
-            radioButton_another.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            latLng_new = latLng;
-                            addMarkerChoice(latLng);
-
-                        }
-                    });
-                }
-            });
-
-            radioButton_current.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        if (latLng_new == null) {
-                            GPSTracker gpsTracker = new GPSTracker(AddbookActivity.this);
-                            latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                            addMarkerChoice(latLng_new);
-                        }
-                    } catch (Exception e) {
-                        latLng_new = new LatLng(0, 0);
-                    }
-                }
-            });
-            try {
-
-                swap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (checkCheckBox()) {
-                            addMarkerChoice(latLng_new);
-                        } else {
-                            swap.setChecked(false);
-                            addMarkerChoice(latLng_new);
-                        }
-                    }
-                });
-
-                free.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (checkCheckBox()) {
-                            addMarkerChoice(latLng_new);
-                        } else {
-                            free.setChecked(false);
-                            addMarkerChoice(latLng_new);
-                        }
-                    }
-                });
-
-                sell.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (checkCheckBox()) {
-                            if (sell.isChecked()) {
-                                tbl_price_sell.setVisibility(View.VISIBLE);
-                                addMarkerChoice(latLng_new);
-                            } else {
-                                tbl_price_sell.setVisibility(View.GONE);
-                            }
-
-                        } else {
-                            sell.setChecked(false);
-                            addMarkerChoice(latLng_new);
-                        }
-                    }
-                });
-            } catch (Exception e) {
-            }
 
             book = new Book();
             book.setAction(action);

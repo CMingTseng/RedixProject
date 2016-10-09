@@ -57,6 +57,7 @@ import redix.booxtown.R;
 import redix.booxtown.activity.AddbookActivity;
 import redix.booxtown.activity.ListingCollectionActivity;
 import redix.booxtown.activity.ListingsDetailActivity;
+import redix.booxtown.activity.MainAllActivity;
 import redix.booxtown.activity.MenuActivity;
 import redix.booxtown.adapter.AdapterExplore;
 import redix.booxtown.adapter.AdapterFilter;
@@ -103,6 +104,8 @@ public class ListingsFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.listings_fragment, container, false);
 
+        TextView title=(TextView) getActivity().findViewById(R.id.txt_title);
+        title.setText("Listings");
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(imageView_back);
         //grid=(GridView)view.findViewById(R.id.grid_view_listings);
@@ -294,6 +297,7 @@ public class ListingsFragment extends Fragment
         txt_add_book.setTextColor(getResources().getColor(R.color.dot_light_screen1));
         txt_add_book.setBackgroundColor(getResources().getColor(R.color.color_text));
         //end
+        MainAllActivity.setTxtTitle("Listings");
         return view;
     }
 
