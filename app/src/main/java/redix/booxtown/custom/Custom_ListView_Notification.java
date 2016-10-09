@@ -102,14 +102,16 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
                 int day = (int) TimeUnit.MILLISECONDS.toDays(timeDiff);
                 int hour = (int) (TimeUnit.MILLISECONDS.toHours(timeDiff) - TimeUnit.DAYS.toHours(day));
                 int mm = (int) (TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
-                if(hour<1) {
-                    ((RecyclerViewHolder) holder).tv_content.setText("About "+ mm+ " min ago");
+                if(day>0){
+                    ((RecyclerViewHolder) holder).tv_content.setText("About " + day + " Day ago");
                 }
                 else {
-                    if(hour<24) {
-                        ((RecyclerViewHolder) holder).tv_content.setText("About " + hour + " hour ago");
-                    }else {
-                        ((RecyclerViewHolder) holder).tv_content.setText("About " + day + " Day ago");
+                    if (hour < 1) {
+                        ((RecyclerViewHolder) holder).tv_content.setText("About " + mm + " min ago");
+                    } else {
+
+                            ((RecyclerViewHolder) holder).tv_content.setText("About " + hour + " hour ago");
+
                     }
                 }
             }catch (Exception exx){
