@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="5dp"
-        android:src="@mipmap/user_empty"
+
         app:siBorderColor="@color/dot_light_screen2"
         app:siBorderWidth="1dp"
         android:layout_marginTop="10dp" />

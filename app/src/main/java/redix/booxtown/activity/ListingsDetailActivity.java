@@ -131,26 +131,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             book = (Book) getArguments().getSerializable("item");
             RelativeLayout layout_comments = (RelativeLayout) v.findViewById(R.id.layout_comment);
 
-            ratingBar_userprofile.setRating(book.getRating());
-            LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.rgb(255,224,0), PorterDuff.Mode.SRC_ATOP);
-            stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
-            stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
-            DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
 
-
-            if (book.getPhoto().length() > 3) {
-                int index = book.getPhoto().indexOf("_+_");
-                Picasso.with(getContext())
-                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + book.getPhoto().substring(0,index) + "&image=" + book.getPhoto().substring(book.getUsername().length() + 3, book.getPhoto().length()))
-                        .placeholder(R.mipmap.user_empty).
-                        into(icon_user_listing_detail);
-            } else {
-                Picasso.with(getContext())
-                        .load(R.mipmap.user_empty)
-                        .into(icon_user_listing_detail);
-            }
-            txt_listed_by.setText(book.getUsername());
             if (type.equals("4")) {
                 HomeActivity activity = (HomeActivity) getActivity();
                 activity.getTxtTitle().setText("Listings");
@@ -215,7 +196,6 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             getUser.execute();
             setData(book, v, type);
             //-----------------------------------------------------------
-
             img_close_dialog_unsubcribe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -248,10 +228,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         txt_author_listings_detail.setText("by " + book.getAuthor());
         txt_price_listings_detail.setText("AED " + book.getPrice());
 
-        String date_post = book.getCreate_date().substring(8,10)+"-"+book.getCreate_date().substring(5,7)+"-"+
-                book.getCreate_date().substring(2,4);
+        try {
+            String date_post = book.getCreate_date().substring(8, 10) + "-" + book.getCreate_date().substring(5, 7) + "-" +
+                    book.getCreate_date().substring(2, 4);
+            txt_time_post_listings.setText("Posted on "+date_post);
+        }catch (Exception ex){
+            txt_time_post_listings.setText("Posted on ");
+        }
 
-        txt_time_post_listings.setText("Posted on "+date_post);
         txt_genre_listing_detail.setText(book.getGenre());
         txt_tag.setText("Hash tag: " + book.getHash_tag());
         View view = (View) v.findViewById(R.id.layout_details);
@@ -797,6 +781,13 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             try {
                 if (user.size() > 0){
                     //set rank
+                    txt_listed_by.setText(user.get(0).getUsername());
+                    ratingBar_userprofile.setRating(user.get(0).getRating());
+                    LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.rgb(255,224,0), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
                     if(user.get(0).getContributor() == 0){
                         btn_rank_one.setVisibility(View.VISIBLE);
                         Bitmap btn1 = BitmapFactory.decodeResource(getResources(),R.drawable.conbitrutor_one);
@@ -828,12 +819,29 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         btn_rank_three.setImageBitmap(btn1);
                         btn_rank_three.setVisibility(View.VISIBLE);
                     }
+
+                    if (user.get(0).getPhoto().length() > 3) {
+                        int index = user.get(0).getPhoto().indexOf("_+_");
+
+                        Picasso.with(getContext())
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" +user.get(0).getUsername() + "&image=" + user.get(0).getPhoto().substring(index + 3, user.get(0).getPhoto().length()))
+                                .placeholder(R.mipmap.user_empty).
+                                into(icon_user_listing_detail);
+                    } else {
+                        Picasso.with(getContext())
+                                .load(R.mipmap.user_empty)
+                                .into(icon_user_listing_detail);
+                    }
+
+
+
                     progressDialog.dismiss();
                 }else {
                     Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }catch (Exception e){
+                String err= e.getMessage();
 
             }
             progressDialog.dismiss();

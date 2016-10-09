@@ -48,6 +48,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -76,6 +77,7 @@ import redix.booxtown.api.ServiceGenerator;
 import redix.booxtown.controller.BookController;
 import redix.booxtown.controller.GPSTracker;
 import redix.booxtown.controller.GetAllGenreAsync;
+import redix.booxtown.controller.IconMapController;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.NotificationController;
 import redix.booxtown.controller.ObjectCommon;
@@ -130,10 +132,15 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     int type=0;
     int user_id=0;
     String userName="";
+    LatLng latLng_new;
+    RadioButton radioButton_current,radioButton_another;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book_with_swap);
+        radioButton_current = (RadioButton)findViewById(R.id.radioButton_current);
+        radioButton_another = (RadioButton)findViewById(R.id.radioButton_another);
+
         try {
             bookedit = (Book) getIntent().getSerializableExtra("book");
             try{
@@ -327,11 +334,15 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             btn_menu_listing_addbook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(addbook(0)) {
-                        addImages();
-                        uploaddata uploaddata = new uploaddata();
-                        uploaddata.execute();
-                    }
+                    try {
+                        if (checkCheckBox()) {
+                            if (addbook(0)) {
+                                addImages();
+                                uploaddata uploaddata = new uploaddata();
+                                uploaddata.execute();
+                            }
+                        }
+                    }catch (Exception e){}
                 }
             });
             tb_menu = (TableRow) findViewById(R.id.tableRow5);
@@ -476,6 +487,89 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 }
             }
 
+            try {
+                if (latLng_new == null) {
+                    GPSTracker gpsTracker = new GPSTracker(AddbookActivity.this);
+                    latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                }
+            } catch (Exception e) {
+                latLng_new = new LatLng(0, 0);
+            }
+            radioButton_another.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            latLng_new = latLng;
+                            addMarkerChoice(latLng);
+
+                        }
+                    });
+                }
+            });
+
+            radioButton_current.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        if (latLng_new == null) {
+                            GPSTracker gpsTracker = new GPSTracker(AddbookActivity.this);
+                            latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                            addMarkerChoice(latLng_new);
+                        }
+                    } catch (Exception e) {
+                        latLng_new = new LatLng(0, 0);
+                    }
+                }
+            });
+            try {
+
+                swap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (checkCheckBox()) {
+                            addMarkerChoice(latLng_new);
+                        } else {
+                            swap.setChecked(false);
+                            addMarkerChoice(latLng_new);
+                        }
+                    }
+                });
+
+                free.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (checkCheckBox()) {
+                            addMarkerChoice(latLng_new);
+                        } else {
+                            free.setChecked(false);
+                            addMarkerChoice(latLng_new);
+                        }
+                    }
+                });
+
+                sell.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (checkCheckBox()) {
+                            if (sell.isChecked()) {
+                                tbl_price_sell.setVisibility(View.VISIBLE);
+                                addMarkerChoice(latLng_new);
+                            } else {
+                                tbl_price_sell.setVisibility(View.GONE);
+                            }
+
+                        } else {
+                            sell.setChecked(false);
+                            addMarkerChoice(latLng_new);
+                        }
+                    }
+                });
+            } catch (Exception e) {
+            }
+
             book = new Book();
             book.setAction(action);
             book.setAuthor(auth);
@@ -502,6 +596,71 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         }
         return true;
     }
+
+
+    public boolean checkCheckBox() {
+        final String swap1 = swap.isChecked() == true ? "1" : "0";
+        final String sell1 = sell.isChecked() == true ? "1" : "0";
+        final String free1 = free.isChecked() == true ? "1" : "0";
+        if (free1.equals("1")) {
+            if (sell1.equals("1")) {
+                Toast.makeText(AddbookActivity.this, Information.noti_not_check_sell, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (swap1.equals("1")) {
+                Toast.makeText(AddbookActivity.this, Information.noti_not_check_sell, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        if (swap1.equals("1") || sell1.equals("1")) {
+            if (free1.equals("1")) {
+                return false;
+            }
+        }
+        if (IconMapController.icon(swap1, sell1, free1) == "icon_3_option") {
+            return false;
+        }
+        if (IconMapController.icon(swap1, sell1, free1) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public void addMarkerChoice(LatLng latLng) {
+        try {
+            final String swap1 = swap.isChecked() == true ? "1" : "0";
+            final String sell1 = sell.isChecked() == true ? "1" : "0";
+            final String free1 = free.isChecked() == true ? "1" : "0";
+            Location location = new Location("you");
+            location.setLatitude(latLng.latitude);
+            location.setLongitude(latLng.longitude);
+            addMaker(location, IconMapController.icon(swap1, sell1, free1));
+            latLng_new = latLng;
+        } catch (Exception e) {
+        }
+    }
+    public void addMaker(Location location, String img) {
+        try {
+            mMap.clear();
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
+            // Changing marker icon
+            marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this, img, 110, 150))));
+            // adding marker
+            mMap.addMarker(marker);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 10));
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setCompassEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.getUiSettings().setAllGesturesEnabled(true);
+            mMap.setTrafficEnabled(true);
+        } catch (Exception e) {
+        }
+    }
+
+
+
 
     public String getAction() {
         String s = "";

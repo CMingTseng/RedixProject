@@ -38,6 +38,7 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
@@ -74,8 +75,10 @@ import redix.booxtown.controller.GetAllGenreAsync;
 import redix.booxtown.controller.IconMapController;
 import redix.booxtown.controller.Information;
 import redix.booxtown.controller.MyFirebaseMessagingService;
+import redix.booxtown.controller.UserController;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Filter;
+import redix.booxtown.model.User;
 
 public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
     private GoogleMap mMap;
@@ -430,16 +433,15 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             } catch (Exception e) {
             }
 
-            if (books.getPhoto().length() > 3) {
-                int index = books.getPhoto().indexOf("_+_");
+            if (books.getUser_photo().length() > 3) {
+                int index = books.getUser_photo().indexOf("_+_");
                 Picasso.with(getContext())
-                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + books.getPhoto().substring(0,index) + "&image=" + books.getPhoto().substring(books.getUsername().length() + 3, books.getPhoto().length()))
-                        .placeholder((R.mipmap.user_empty)).
+                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" +books.getUsername() + "&image=" +books.getUser_photo().substring(index + 3, books.getUser_photo().length()))
+                        .placeholder(R.mipmap.user_empty).
                         into(img_map_main);
             } else {
-                Picasso.with(getContext())
-                        .load((R.mipmap.user_empty))
-                        .into(img_map_main);
+                Bitmap bm= BitmapFactory.decodeResource(getResources(),R.mipmap.user_empty);
+                img_map_main.setImageBitmap(bm);
             }
 
             txt_author_marker.setText("by " + books.getAuthor());
@@ -648,4 +650,6 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         }
     }
+
+
 }
