@@ -89,16 +89,19 @@ public class ListingsFragment extends Fragment
     private Spinner spinner2;
     TextView txt_my_listings,tvMin,tvMax,txt_filter_proximity;
     private List<Filter> filterList;
-    ListBookAdapter adapter;
+    ListBookAdapter adapter_listbook;
     GridLayoutManager gridLayoutManager;
     RecyclerView rView;
     EditText editSearch;
     ArrayList<Genre> genre;
     public static int num_list;
-    List<Book> lisfilter_temp,listfilter,listExplore;
+    List<Book> lisfilter_temp,listfilter,listExplore = new ArrayList<>();
     public String proximity;
     public static TextView txt_add_book;
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
+    private int previousTotal = 0,visibleThreshold = 5;
+    boolean loading = true,
+            isLoading = true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -130,7 +133,7 @@ public class ListingsFragment extends Fragment
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    adapter.getFilter().filter(s);
+                adapter_listbook.getFilter().filter(s);
             }
 
             @Override
@@ -143,10 +146,8 @@ public class ListingsFragment extends Fragment
 
         ImageView btn_search = (ImageView)view.findViewById(R.id.btn_search);
         Picasso.with(getContext()).load(R.drawable.btn_locate_search).into(btn_search);
-        listingAsync listingAsync = new listingAsync(getContext());
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
-        listingAsync.execute(session_id);
         btn_filter_explore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -298,7 +299,50 @@ public class ListingsFragment extends Fragment
         txt_add_book.setBackgroundColor(getResources().getColor(R.color.color_text));
         //end
         MainAllActivity.setTxtTitle("Listings");
+
+        populatRecyclerView(session_id);
+        implementScrollListener(session_id);
+
         return view;
+    }
+
+    private void populatRecyclerView(String session_id) {
+        listingAsync getbook = new listingAsync(getContext(),session_id,0,15);
+        getbook.execute();
+        if(listExplore.size() == 0){
+            adapter_listbook = new ListBookAdapter(getActivity(), listExplore, 1,2);
+            rView.setAdapter(adapter_listbook);
+        }else {
+            adapter_listbook.notifyDataSetChanged();
+        }
+    }
+
+    private void implementScrollListener(final String session_id) {
+        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = rView.getChildCount();
+                int totalItemCount = gridLayoutManager.getItemCount();
+                int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                    // End has been reached
+                    Book book = listExplore.get(listExplore.size()-1);
+                    listingAsync getbook = new listingAsync(getContext(),session_id,Integer.valueOf(book.getId()),15);
+                    getbook.execute();
+                    // Do something
+                    loading = true;
+                }
+            }
+        });
     }
 
 
@@ -394,15 +438,19 @@ public class ListingsFragment extends Fragment
 
         Context context;
         ProgressDialog dialog;
-        public listingAsync(Context context){
+        String session_id;
+        int top,from;
+        public listingAsync(Context context,String session_id,int from,int top){
             this.context = context;
+            this.session_id = session_id;
+            this.top = top;
+            this.from = from;
         }
 
         @Override
         protected List<Book> doInBackground(String... strings) {
             BookController bookController = new BookController();
-            listExplore = bookController.getAllBookById(strings[0]);
-            return listExplore;
+            return bookController.book_gettop(session_id,from,top);
         }
 
         @Override
@@ -419,15 +467,14 @@ public class ListingsFragment extends Fragment
             try {
                 if (books == null) {
                     dialog.dismiss();
+                    isLoading = false;
                 } else {
-//                    listExplore.addAll(books);
-//                    Collections.sort(listExplore,Book.asid);
-                    adapter = new ListBookAdapter(getActivity(), listExplore, 1,2);
-                    rView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    listExplore.addAll(books);
+                    adapter_listbook.notifyDataSetChanged();
                     num_list = books.size();
-                    txt_my_listings.setText("My listings" + "(" + String.valueOf(books.size()) + ")");
+                    txt_my_listings.setText("My listings" + "(" + String.valueOf(listExplore.size()) + ")");
                     dialog.dismiss();
+                    isLoading = true;
                 }
             }catch (Exception e){}
         }
