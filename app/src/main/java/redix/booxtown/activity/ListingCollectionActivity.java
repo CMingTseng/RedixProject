@@ -575,9 +575,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         });
 
         try {
-            if (latLng_new == null && !s.equals("edit")) {
+            if (latLng_new != null && !s.equals("edit")) {
                 GPSTracker gpsTracker = new GPSTracker(getContext());
                 latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                addMarkerChoice(new LatLng(latitude, longitude));
             }
         } catch (Exception e) {
             latLng_new = new LatLng(0, 0);
@@ -891,11 +892,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
             if (numclick != 0 || numimageclick != 0) {
                 if (!s.equals("edit")) {
-                    book.setPhoto(imagename+" ");
+                    book.setPhoto(imagename + " ");
                 } else {
                     if (type == 0) {
                         String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
-                        book.setPhoto(imageupdate+" ");
+                        book.setPhoto(imageupdate + " ");
                         book.setId(bookedit.getId());
                     }
                 }
@@ -904,7 +905,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     if (type == 0) {
                         book.setId(bookedit.getId());
                         if (!imageOrigin.equals("")) {
-                            book.setPhoto(imageOrigin+" ");
+                            book.setPhoto(imageOrigin + " ");
                         }
                     }
                 }
@@ -952,36 +953,34 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             if (isGPSEnabled) {
                 location = service
                         .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if(s.equals("edit")){
+                if (s.equals("edit")) {
                     bookedit = (Book) getArguments().getSerializable("bookedit");
                     addMarkerChoice(new LatLng(bookedit.getLocation_latitude(), bookedit.getLocation_longitude()));
-                }else if (!s.equals("edit")) {
-                    if(location != null) {
-                            {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
+                } else if (!s.equals("edit")) {
+                    if (location != null) {
+
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+
                         addMarkerChoice(new LatLng(latitude, longitude));
-                        }
-                    else{
+                    } else {
                         addMarkerChoice(new LatLng(0, 0));
                     }
                 }
-            }else if (isNetworkEnabled) {
+            } else if (isNetworkEnabled) {
                 location = service
                         .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                if(s.equals("edit")){
+                if (s.equals("edit")) {
                     bookedit = (Book) getArguments().getSerializable("bookedit");
                     addMarkerChoice(new LatLng(bookedit.getLocation_latitude(), bookedit.getLocation_longitude()));
-                }else if (!s.equals("edit")) {
-                    if(location != null) {
-                        {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
+                } else if (!s.equals("edit")) {
+                    if (location != null) {
+
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+
                         addMarkerChoice(new LatLng(latitude, longitude));
-                    }
-                    else{
+                    } else {
                         addMarkerChoice(new LatLng(0, 0));
                     }
                 }
@@ -1126,7 +1125,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     }
 
     public void addTag() {
-        if(!edt_tag.getText().toString().trim().equals("")) {
+        if (!edt_tag.getText().toString().trim().equals("")) {
             listTag.add(edt_tag.getText().toString());
             edt_tag.setText("");
             settag();

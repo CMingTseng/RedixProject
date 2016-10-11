@@ -5,13 +5,13 @@ package redix.booxtown.controller;
  */
 public class Information {
     public final static String checkNetwork = "\" Connection Error \" Unable to connect to Server. Please check your network settings and try again";
-    public final static String noti_fill_username = "Please enter valid Username";
-    public final static String noti_fill_password = "Please enter Password";
+    public final static String noti_fill_username = "Please enter valid a Username";
+    public final static String noti_fill_password = "Please enter a Password";
     public final static String noti_wrong_login = "Username and Password entered doesn't match. Please try again";
     public final static String noti_check_mail = "Please check email";
-    public final static String noti_fill_firstname = "Please enter valid Firstname";
-    public final static String noti_fill_lastname = "Please enter valid Lastname";
-    public final static String noti_fill_phone = "Please enter valid Phone number";
+    public final static String noti_fill_firstname = "Please enter valid a Firstname";
+    public final static String noti_fill_lastname = "Please enter valid a Lastname";
+    public final static String noti_fill_phone = "Please enter valid a Phone number";
     public final static String noti_fill_birthday = "Please enter Birthday";
     public final static String noti_validate_email = "You have entered an invalid email address. Please try again.";
     public final static String noti_validate_password = "Please fill password field";
@@ -44,11 +44,11 @@ public class Information {
     public final static String noti_tran_done = "Transaction is done";
     public final static String noti_invite_success = "Invite friend success";
     public final static String noti_invite_fail = "Invite friend fail";
-    public final static String noti_enter_email = "Please enter valid email address";
-    public final static String noti_check_wishboard = "Please fill comment field";
+    public final static String noti_enter_email = "Please enter valid a email address";
+    public final static String noti_check_wishboard = "Please fill a comment field";
     public final static String noti_over_leter = "The maximum comment size is 50 characters";
     public final static String noti_checkbox = "At least one action required";
-    public final static String noti_not_check_free = "do not check free";
+    public final static String noti_not_check_free = "Do not check free";
     public final static String noti_not_check_sell = "You can't choose both Buy and Free action";
     public final static String noti_show_complete = "Please complete this transaction";
 }
