@@ -45,6 +45,7 @@ import redix.booxtown.controller.UserController;
 import redix.booxtown.custom.CustomListviewNotificationSwap;
 import redix.booxtown.custom.MenuBottomCustom;
 import redix.booxtown.custom.NotificationAccept;
+import redix.booxtown.fragment.MyProfileDashboardFragment;
 import redix.booxtown.model.Book;
 import redix.booxtown.model.Notification;
 import redix.booxtown.model.Transaction;
@@ -72,7 +73,8 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
     TextView txt_notification_infor3_phone;
     TextView txt_menu_notification_infor3_title;
     ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
-
+    String firstNameBuyer="";
+    String firstNameSeller="";
     RatingBar ratingBar2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +224,13 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 txt_price_book_buy.setText("AED " + transaction.getBook_price());
                 txt_title_book_buy.setText(transaction.getBook_name());
                 txt_author_book_buy.setText(transaction.getBook_author());
+
+                Profile profile= new Profile(NotificationSellActivity.this, 0, transaction.getUser_buyer_id());
+                profile.execute();
+
+                Profile profile1= new Profile(NotificationSellActivity.this, 1, transaction.getUser_seller_id());
+                profile1.execute();
+
                 getUser getUser = new getUser(NotificationSellActivity.this,transaction.getUser_buyer_id());
                 getUser.execute();
                 if (type == 1) {
@@ -315,12 +324,15 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
 
         @Override
         protected void onPostExecute(String transactionID) {
+            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            String firstName = pref.getString("firstname", "");
             if (type == 1) {
+
                 List<Hashtable> list = new ArrayList<>();
-                Notification notification = new Notification("Accepted your request for buying book", trans.getId() + "", "7");
+                Notification notification = new Notification("Buy Request", trans.getId() + "", "7");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
-                obj.put("messages", "Accepted your request for buying book");
+                obj.put("messages",firstName + " accepted your buy request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -329,19 +341,20 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 // send notifi user seller
 
                 List<Hashtable> listSeller = new ArrayList<>();
-                Notification notificationSeller = new Notification("You accepted for request buy your book", trans.getId() + "", "5");
+                Notification notificationSeller = new Notification("Buy Request", trans.getId() + "", "5");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You accepted for request buy your book by");
+                objSeller.put("messages", "You accepted a buy request from "+ firstNameBuyer );
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);
+
             } else if (type == 2) {
                 List<Hashtable> list = new ArrayList<>();
-                Notification notification = new Notification("Rejected your request for buying book", trans.getId() + "", "8");
+                Notification notification = new Notification("Buy Request", trans.getId() + "", "8");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
-                obj.put("messages", "Rejected your request for buying book");
+                obj.put("messages", firstName+" accepted your buy request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -350,10 +363,10 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 // send notifi user seller
 
                 List<Hashtable> listSeller = new ArrayList<>();
-                Notification notificationSeller = new Notification("You reject a request buy book", trans.getId() + "", "6");
+                Notification notificationSeller = new Notification("Buy Request", trans.getId() + "", "6");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You reject a request buy book");
+                objSeller.put("messages", "You rejected a buy request from "+ firstNameSeller);
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);
@@ -380,7 +393,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
 
         @Override
         protected List<User> doInBackground(Void... voids) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(context);
             return userController.getByUserId(user_id);
         }
 
@@ -447,4 +460,47 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
             progressDialog.dismiss();
         }
     }
+
+
+    class Profile extends AsyncTask<String,Void,List<User>>{
+        Context context;
+        int type;
+        int user_id;
+        public Profile(Context context, int type, int user_id){
+            this.context=context;
+            this.type= type;
+            this.user_id=user_id;
+        }
+        ProgressDialog dialog;
+        @Override
+        protected List<User> doInBackground(String... strings) {
+            UserController userController  = new UserController(context);
+            List<User> profile = userController.getByUserId(user_id);
+            return profile;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected void onPostExecute(final List<User> userResult) {
+            try {
+                if(userResult.size() == 0){
+                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }else {
+                    if (type==0){
+                        firstNameBuyer = userResult.get(0).getFirst_name();
+                    }else if(type==1){
+                        firstNameSeller = userResult.get(0).getFirst_name();
+                    }
+                }
+                super.onPostExecute(userResult);
+            }catch (Exception e){
+            }
+            dialog.dismiss();
+        }
+    }
+
 }

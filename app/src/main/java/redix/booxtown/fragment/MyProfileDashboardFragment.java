@@ -63,6 +63,7 @@ public class MyProfileDashboardFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     private int previousTotal = 0;
     private int visibleThreshold = 5;
+    String trans_Id="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -194,6 +195,7 @@ public class MyProfileDashboardFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("dashboard", dashBoard);
                             bundle.putSerializable("user", user);
+                            bundle.putSerializable("trans",trans_Id);
                             DashboardStopFragment fragment= new DashboardStopFragment();
                             fragment.setArguments(bundle);
                             callFragment(fragment);
@@ -265,6 +267,9 @@ public class MyProfileDashboardFragment extends Fragment {
                 if(dashBoards.size() > 0){
                     dashBoards_new.addAll(dashBoards);
                     adapterProfileDashboard.notifyDataSetChanged();
+
+                    trans_Id= dashBoards.get(0).getId()+"";
+
                     dialog.dismiss();
                     isLoading = true;
                 }else{

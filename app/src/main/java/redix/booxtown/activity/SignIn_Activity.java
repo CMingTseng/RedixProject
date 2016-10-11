@@ -115,7 +115,7 @@ Button mButtonForgotPass;
                 java.lang.Thread.sleep(3000);
                 session_id = FirebaseInstanceId.getInstance().getToken().toString();
                 sessionId=session_id;
-                UserController userController = new UserController();
+                UserController userController = new UserController(SignIn_Activity.this);
                 String session_id = userController.checkLoginValidate(params[0], params[1], params[2], sessionId);
                 return session_id;
             }catch (Exception ex){
@@ -142,11 +142,52 @@ Button mButtonForgotPass;
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", session_id);
                     editor.putString("username", edt_username.getText().toString());
+
+                    UserInfoAsystask us= new UserInfoAsystask();
+                    us.execute(session_id);
+
                     editor.commit();
                     dialog.dismiss();
                 } else {
                     Toast.makeText(getApplicationContext(), Information.noti_wrong_login, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
+                }
+            }catch (Exception e){
+            }
+        }
+    }
+
+    class UserInfoAsystask extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                UserController userController = new UserController(SignIn_Activity.this);
+                String first_name = userController.getprofile(params[0]).get(0).getFirst_name();
+                return first_name;
+            }catch (Exception ex){
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                if (result != null) {
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("firstname", result);
+                    editor.commit();
+
+                } else {
+
                 }
             }catch (Exception e){
             }

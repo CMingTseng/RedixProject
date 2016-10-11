@@ -26,6 +26,7 @@ public class Thread implements Serializable {
     @Expose
     private String username;
 
+
     public int getNum_comment() {
         return num_comment;
     }

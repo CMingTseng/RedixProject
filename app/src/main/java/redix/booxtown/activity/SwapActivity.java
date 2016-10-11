@@ -219,12 +219,17 @@ public class SwapActivity extends AppCompatActivity {
             if (transactionID == "") {
 
             } else {
+
+                SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                String firstName = pref.getString("firstname", "");
+
                 List<Hashtable> list = new ArrayList<>();
                 ArrayList<BookSwap> filterList = getFilteredList(adapter.getList());
-                Notification notification = new Notification(filterList.get(0).getUser_name().toUpperCase()+" sent a swap request", transactionID ,"9");
+                Notification notification = new Notification("Swap Request", transactionID ,"9");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", sellUserID);
-                obj.put("messages", "Request Swap book by " + filterList.get(0).getUser_name().toUpperCase());
+                obj.put("messages",firstName + " sent you a swap request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -246,7 +251,7 @@ public class SwapActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(context);
             String user_id = userController.getUserID(strings[0]);
             return user_id;
         }

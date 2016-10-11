@@ -106,7 +106,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     dialog.dismiss();
                     Toast.makeText(SigUp_Activity.this, "Could not connect to server. Please try again", Toast.LENGTH_SHORT).show();
                 }
-                UserController userController = new UserController();
+                UserController userController = new UserController(SigUp_Activity.this);
                 User user  = new User();
                 user.setBirthday(edt_birthday.getText().toString());
                 user.setEmail(edt_mail.getText().toString());
@@ -185,7 +185,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected Boolean doInBackground(User... params) {
-            userController = new UserController();
+            userController = new UserController(SigUp_Activity.this);
             boolean success = userController.signUp(params[0]);
             return success;
         }
@@ -214,6 +214,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", session_id);
                     editor.putString("username", edt_name.getText().toString());
+                    editor.putString("firstname", edt_firtname.getText().toString());
                     editor.commit();
                     dialog.dismiss();
                 } else if (aBoolean == false) {

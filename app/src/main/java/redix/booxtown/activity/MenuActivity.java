@@ -149,7 +149,7 @@ public class MenuActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(MenuActivity.this);
             boolean success = userController.logout(params[0]);
 
             return success;

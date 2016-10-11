@@ -59,7 +59,7 @@ Button mButtonBackForgot;
 
         @Override
         protected Boolean doInBackground(String... params) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(ForgotPassword_Activity.this);
             boolean success = userController.forgetPassword(params[0]);
 
             return success;

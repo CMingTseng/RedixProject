@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -1000,12 +1001,17 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     }
                     else{
 
-                        //Gửi thông báo sách cho người tìm
+                        //sent message
+
+                        SharedPreferences pref = AddbookActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        String firstName = pref.getString("firstname", "");
+
                         List<Hashtable> list = new ArrayList<>();
-                        Notification notification = new Notification("Respone Wishboard",result , "14");
+                        Notification notification = new Notification("Wishboard",result , "14");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", user_id+"");
-                        obj.put("messages", userName + " suggest you a book");
+                        obj.put("messages", firstName + " sent you a response book");
                         list.add(obj);
                         NotificationController controller = new NotificationController();
                         controller.sendNotification(list);

@@ -357,7 +357,7 @@ public class MyProfileFragment extends Fragment {
         ProgressDialog dialog;
         @Override
         protected List<User> doInBackground(String... strings) {
-            UserController userController  = new UserController();
+            UserController userController  = new UserController(context);
             List<User> profile = userController.getprofile(strings[0]);
             return profile;
         }
@@ -576,7 +576,7 @@ public class MyProfileFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(context);
             return userController.updateprofile(first_name,last_name,email,phone,birthday,photo,session_id);
         }
 

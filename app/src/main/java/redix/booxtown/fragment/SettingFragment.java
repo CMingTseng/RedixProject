@@ -514,7 +514,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(context);
             return userController.changePassword(strings[0], strings[1], strings[2]);
         }
 

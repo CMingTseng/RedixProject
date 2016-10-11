@@ -655,7 +655,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected String doInBackground(String... strings) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(context);
             String user_id = userController.getUserID(strings[0]);
             return user_id;
         }
@@ -680,10 +680,10 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 for (int i = 0; i < listUser.size(); i++) {
                     String s = listUser.get(i);
                     if (!listUser.get(i).equals(user_ID)) {
-                        Notification notification = new Notification("New comment", book.getId(), "11");
+                        Notification notification = new Notification("Book Commented", book.getId(), "11");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", listUser.get(i));
-                        obj.put("messages", username+ " commented in book " + book.getTitle());
+                        obj.put("messages", username+ " commented on a book you following");
                         list.add(obj);
                     }
                 }
@@ -775,7 +775,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected List<User> doInBackground(Void... voids) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(context);
             return userController.getByUserId(user_id);
         }
 

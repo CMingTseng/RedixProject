@@ -66,6 +66,9 @@ public class DashboardStopFragment extends Fragment {
     CircularImageView img_rank1_satus,img_rank2_satus,img_rank3_satus;
     DashBoard dashBoard;
     User user;
+    String bookName="";
+    String trans_id="";
+    Transaction trans;
     //end
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +81,9 @@ public class DashboardStopFragment extends Fragment {
 
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
         user = (User)getArguments().getSerializable("user");
+        trans_id=getArguments().getString("trans");
+        transAsyncs transAsyncs= new transAsyncs(getContext(),trans_id);
+        transAsyncs.execute();
         txt_menu_dashboard_cancel.setVisibility(View.GONE);
         btn_menu_dashboard_bottom_rate.setBackgroundResource(R.drawable.btn_xam);
         img_menu_dashboard_bottom_status.setImageResource(R.drawable.myprofile_not);
@@ -214,7 +220,7 @@ public class DashboardStopFragment extends Fragment {
 
         @Override
         protected List<User> doInBackground(Void... voids) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(context);
             return userController.getByUserId(user_id);
         }
 
@@ -316,6 +322,7 @@ public class DashboardStopFragment extends Fragment {
                 if (list.size() > 0) {
                     textView_namebook_buyer.setText(list.get(0).getTitle()+"");
                     textView_nameauthor_buyer.setText(list.get(0).getAuthor());
+                    bookName= list.get(0).getTitle();
                     dialog.dismiss();
                 }
             } catch (Exception e) {
@@ -325,7 +332,38 @@ public class DashboardStopFragment extends Fragment {
 
         }
     }
+    class transAsyncs extends AsyncTask<String, Void, Transaction> {
 
+        Context context;
+        ProgressDialog dialog;
+        String trans_id;
+
+        public transAsyncs(Context context, String trans_id) {
+            this.context = context;
+            this.trans_id = trans_id;
+        }
+
+        @Override
+        protected Transaction doInBackground(String... strings) {
+            TransactionController bookController = new TransactionController();
+            return bookController.getTransactionId(trans_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(final Transaction transaction) {
+            if (transaction == null) {
+            } else {
+                trans= transaction;
+            }
+            super.onPostExecute(transaction);
+        }
+    }
     class transactionChangeStatus extends AsyncTask<Void, Void, String> {
 
         Context context;
@@ -350,15 +388,15 @@ public class DashboardStopFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(context);
-            dialog.setMessage(Information.noti_dialog);
-            dialog.show();
+
         }
 
         @Override
         protected void onPostExecute(String transactionID) {
-            dialog.dismiss();
+
             try {
+                UserID us= new UserID(getContext(), trans);
+                us.execute(session_id);
 
             }catch (Exception e){
 
@@ -368,8 +406,6 @@ public class DashboardStopFragment extends Fragment {
 
     class UserID extends AsyncTask<String,Void,String>{
         Context context;
-
-        ProgressDialog dialog;
         Transaction trans;
 
         public UserID(Context context,Transaction trans ){
@@ -378,7 +414,7 @@ public class DashboardStopFragment extends Fragment {
         }
         @Override
         protected String doInBackground(String... strings) {
-            UserController userController  = new UserController();
+            UserController userController  = new UserController(context);
             String user_id = userController.getUserID(strings[0]);
             return user_id;
         }
@@ -386,10 +422,7 @@ public class DashboardStopFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new ProgressDialog(getActivity());
-            dialog.setMessage("Please wait...");
-            dialog.setIndeterminate(true);
-            dialog.show();
+
         }
 
         @Override
@@ -397,21 +430,21 @@ public class DashboardStopFragment extends Fragment {
             try {
                 //if(!threads.getUser_id().equals(user_ID)) {
                 SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                String username = pref.getString("username", null);
+                String firstName = pref.getString("firstname", "");
 
                 List<Hashtable> list = new ArrayList<>();
                 if(user_ID.equals(trans.getUser_buyer_id()+"")) {
-                    Notification notification = new Notification("Cancel transactions",trans.getId()+"", "12");
+                    Notification notification = new Notification("Cancel Transaction",trans.getId()+"", "12");
                     Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                     obj.put("user_id", trans.getUser_seller_id());
-                    obj.put("messages", "Cancel transactions by: " + username);
+                    obj.put("messages",firstName+ " cancelled a transaction related to " + bookName);
 
                     list.add(obj);
                 }else{
-                    Notification notification = new Notification("Comment transactions", trans.getId()+"", "12");
+                    Notification notification = new Notification("Cancel Transaction", trans.getId()+"", "12");
                     Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                     obj.put("user_id", trans.getUser_buyer_id());
-                    obj.put("messages", "Cancel transactions by:" + username);
+                    obj.put("messages", "You cancelled a transaction related to " + bookName);
 
                     list.add(obj);
                 }
@@ -424,7 +457,7 @@ public class DashboardStopFragment extends Fragment {
                 String ssss= e.getMessage();
                // Toast.makeText(context,"no data",Toast.LENGTH_LONG).show();
             }
-            dialog.dismiss();
+
         }
     }
 }

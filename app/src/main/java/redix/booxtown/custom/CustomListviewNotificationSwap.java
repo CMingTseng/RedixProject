@@ -196,21 +196,26 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
             //intent.putExtra("trans", trans);
             //intent.putExtra("book", book);
             //context.startActivity(intent);
+
+            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            String firstName = pref.getString("firstname", "");
+
             // send notifi user buy
             List<Hashtable> list = new ArrayList<>();
             Notification notification = new Notification(trans.getUser_sell().toUpperCase() + " accepted for a swap book request", trans.getId()+"","2" );
             Hashtable obj = ObjectCommon.ObjectDymanic(notification);
             obj.put("user_id", book.getUser_id());
-            obj.put("messages", "Accepted your swap request for " + trans.getBook_name().toUpperCase());
+            obj.put("messages",firstName.substring(0,1).toUpperCase()+ firstName.substring(1,firstName.length())+ " accepted your swap request");
             list.add(obj);
             NotificationController controller = new NotificationController();
             controller.sendNotification(list);
             // send notifi user seller
             List<Hashtable> listSeller = new ArrayList<>();
-            Notification notificationSeller = new Notification("You accepted swapping your book", trans.getId()+"","0" );
+            Notification notificationSeller = new Notification("Swap Request", trans.getId()+"","0" );
             Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
             objSeller.put("user_id", trans.getUser_seller_id());
-            objSeller.put("messages", "you accepted swapping your book");
+            objSeller.put("messages", "You accepted a swap request");
             listSeller.add(objSeller);
             NotificationController controllerSeller = new NotificationController();
             controllerSeller.sendNotification(listSeller);

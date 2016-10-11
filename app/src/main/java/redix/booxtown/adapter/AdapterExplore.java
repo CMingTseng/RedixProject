@@ -447,13 +447,14 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
 
                 SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
-                String username = pref.getString("username", null);
-
+                String firstName = pref.getString("firstname", "");
                 List<Hashtable> list = new ArrayList<>();
-                Notification notification = new Notification(username+" wants to buy your book", transactionID ,"4");
+                Notification notification = new Notification("Buy Request", transactionID ,"4");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", sellUserID);
-                obj.put("messages", username.toUpperCase()+" wants to buy your book " );
+                if(firstName.length()>1) {
+                    obj.put("messages", firstName.substring(0,1).toUpperCase()+firstName.substring(1,firstName.length()) + " wants to buy your book ");
+                }
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -483,7 +484,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             String session_id = pref.getString("session_id", null);
-            UserController userController = new UserController();
+            UserController userController = new UserController(mContext);
             String user_id = userController.getUserID(session_id);
             return user_id;
         }

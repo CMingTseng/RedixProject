@@ -191,7 +191,7 @@ public class Notification_Swap_Accept_NoLike extends AppCompatActivity {
 
         @Override
         protected List<User> doInBackground(Void... voids) {
-            UserController userController = new UserController();
+            UserController userController = new UserController(context);
             return userController.getByUserId(user_id);
         }
 

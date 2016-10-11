@@ -1,5 +1,7 @@
 package redix.booxtown.controller;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
 
 import java.util.Hashtable;
@@ -17,8 +19,10 @@ import retrofit2.Call;
  */
 public class UserController {
     private ServiceInterface service;
-    public UserController(){
+    private Context ct;
+    public UserController(Context ct){
         service = ServiceGenerator.GetInstance();
+        this.ct= ct;
     }
 
     public String checkLoginValidate(String username, String password, String device_type,String session_id){
@@ -37,6 +41,10 @@ public class UserController {
                 }
                 Result result = callService.execute().body();
                 if (result.getCode() == 200) {
+                    SharedPreferences pref = ct.getSharedPreferences("MyPref", ct.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("firstname", result.getDescription());
+                    editor.commit();
                     return result.getSession_id();
                 }
             } catch (Exception ex) {

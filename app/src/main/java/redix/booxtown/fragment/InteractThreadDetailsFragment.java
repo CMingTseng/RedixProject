@@ -325,7 +325,7 @@ public class InteractThreadDetailsFragment extends Fragment
         ProgressDialog dialog;
         @Override
         protected String doInBackground(String... strings) {
-            UserController userController  = new UserController();
+            UserController userController  = new UserController(context);
             String user_id = userController.getUserID(strings[0]);
             return user_id;
         }
@@ -344,16 +344,16 @@ public class InteractThreadDetailsFragment extends Fragment
             try {
                 //if(!threads.getUser_id().equals(user_ID)) {
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                    String username = pref.getString("username", null);
+                    String firstName = pref.getString("firstname", "");
 
                     List<Hashtable> list = new ArrayList<>();
                     for(int i=0; i<listUser.size(); i++) {
                         String s= listUser.get(i);
                         if(!listUser.get(i).equals(user_ID)) {
-                            Notification notification = new Notification("New comment",topic.getId() + "::" + threads.getId() , "10");
+                            Notification notification = new Notification("Thread Commented",topic.getId() + "::" + threads.getId() , "10");
                             Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                             obj.put("user_id", listUser.get(i));
-                            obj.put("messages",username+ " comment in thread "+ threads.getTitle());
+                            obj.put("messages",firstName+ " commmented on a thread you following");
 
                             list.add(obj);
                         }
@@ -370,5 +370,7 @@ public class InteractThreadDetailsFragment extends Fragment
             dialog.dismiss();
         }
     }
+
+
 }
 
