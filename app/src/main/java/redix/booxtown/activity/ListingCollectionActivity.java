@@ -575,9 +575,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         });
 
         try {
-            if (latLng_new == null && !s.equals("edit")) {
+            if (latLng_new != null && !s.equals("edit")) {
                 GPSTracker gpsTracker = new GPSTracker(getContext());
                 latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                addMarkerChoice(latLng_new);
             }
         } catch (Exception e) {
             latLng_new = new LatLng(0, 0);
@@ -600,7 +601,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             @Override
             public void onClick(View view) {
                 try {
-                    if (latLng_new != null && !s.equals("edit")) {
+                    if (latLng_new != null) {
                         GPSTracker gpsTracker = new GPSTracker(getContext());
                         latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                         addMarkerChoice(latLng_new);
@@ -642,6 +643,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                             addMarkerChoice(latLng_new);
                         } else {
                             tbl_price_sell.setVisibility(View.GONE);
+                            addMarkerChoice(latLng_new);
                         }
                     } else {
                         sell.setChecked(false);
@@ -933,58 +935,15 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         try {
-            Location location;
-            Boolean isGPSEnabled = false;
-            Boolean isNetworkEnabled = false;
             mMap = googleMap;
-            if (Build.VERSION.SDK_INT >= 23 &&
-                    ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            LocationManager service = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
-            // getting GPS status
-            isGPSEnabled = service
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
-            isNetworkEnabled = service
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if (isGPSEnabled) {
-                location = service
-                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if(s.equals("edit")){
-                    bookedit = (Book) getArguments().getSerializable("bookedit");
-                    addMarkerChoice(new LatLng(bookedit.getLocation_latitude(), bookedit.getLocation_longitude()));
-                }else if (!s.equals("edit")) {
-                    if(location != null) {
-                            {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
-                        addMarkerChoice(new LatLng(latitude, longitude));
-                        }
-                    else{
-                        addMarkerChoice(new LatLng(0, 0));
-                    }
-                }
-            }else if (isNetworkEnabled) {
-                location = service
-                        .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                if(s.equals("edit")){
-                    bookedit = (Book) getArguments().getSerializable("bookedit");
-                    addMarkerChoice(new LatLng(bookedit.getLocation_latitude(), bookedit.getLocation_longitude()));
-                }else if (!s.equals("edit")) {
-                    if(location != null) {
-                        {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
-                        addMarkerChoice(new LatLng(latitude, longitude));
-                    }
-                    else{
-                        addMarkerChoice(new LatLng(0, 0));
-                    }
-                }
+            s = getArguments().getString("activity");
+            if(!s.equals("edit")) {
+                GPSTracker gpsTracker = new GPSTracker(getContext());
+                latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                addMarkerChoice(latLng_new);
+            }else if(s.equals("edit")){
+                bookedit = (Book) getArguments().getSerializable("bookedit");
+                addMarkerChoice(new LatLng(bookedit.getLocation_latitude(), bookedit.getLocation_longitude()));
             }
         } catch (Exception e) {
         }
