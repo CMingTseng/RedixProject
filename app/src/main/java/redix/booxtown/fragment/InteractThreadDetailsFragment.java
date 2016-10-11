@@ -296,7 +296,7 @@ public class InteractThreadDetailsFragment extends Fragment
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if(aBoolean == true){
-                    Toast.makeText(context,"success",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"success",Toast.LENGTH_SHORT).show();
 //                    int count= threads.getNum_comment()+1;
 
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -309,7 +309,7 @@ public class InteractThreadDetailsFragment extends Fragment
 
                     dialog.dismiss();
                 }else {
-                    Toast.makeText(context,"no success",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"no success",Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             }catch (Exception e){
@@ -365,7 +365,7 @@ public class InteractThreadDetailsFragment extends Fragment
                 //}
             }catch (Exception e){
                 String ssss= e.getMessage();
-                Toast.makeText(context,"no data",Toast.LENGTH_LONG).show();
+                //Toast.makeText(context,"no data",Toast.LENGTH_LONG).show();
             }
             dialog.dismiss();
         }

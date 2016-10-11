@@ -624,7 +624,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if (aBoolean == true) {
-                    Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
 //                    int count= threads.getNum_comment()+1;
 
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -635,7 +635,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(context, "no success", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context, "no success", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             } catch (Exception e) {
@@ -692,7 +692,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 controller.sendNotification(list);
                 //}
             } catch (Exception e) {
-                Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
             }
             dialog.dismiss();
         }

@@ -279,7 +279,7 @@ public class SwapActivity extends AppCompatActivity {
                 //}
             } catch (Exception e) {
                 String ssss = e.getMessage();
-                Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
+               // Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
             }
             dialog.dismiss();
         }

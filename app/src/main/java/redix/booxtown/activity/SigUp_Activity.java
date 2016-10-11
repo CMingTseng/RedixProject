@@ -209,7 +209,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 if (aBoolean == true) {
                     Intent intent = new Intent(SigUp_Activity.this, MainAllActivity.class);
                     startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", session_id);
