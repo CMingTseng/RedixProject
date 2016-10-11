@@ -624,7 +624,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         if (IconMapController.icon(swap1, sell1, free1) == "icon_3_option") {
             return false;
         }
-        if (IconMapController.icon(swap1, sell1, free1) == null) {
+        if (IconMapController.icon(swap1, sell1, free1) == "location_default") {
             return false;
         }
         return true;
@@ -706,7 +706,9 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                 }
-                addMaker(location);
+                addMarkerChoice(new LatLng(latitude, longitude));
+            }else{
+                addMarkerChoice(new LatLng(0, 0));
             }
 
         }
@@ -718,7 +720,9 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                 }
-                addMaker(location);
+                addMarkerChoice(new LatLng(latitude, longitude));
+            }else{
+                addMarkerChoice(new LatLng(0, 0));
             }
         }
     }
