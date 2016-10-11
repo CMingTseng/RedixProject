@@ -66,6 +66,7 @@ public class NotificationFragment extends Fragment {
     List<Thread> item;
     String[] s;
     Bundle bundle;
+    int typeOption=0;
     ArrayList<InteractThread> listInteractThreads= new ArrayList<>();
 
     @Override
@@ -237,24 +238,29 @@ public class NotificationFragment extends Fragment {
                                 } else if (notification.getId_screen().equals("4")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellActivity.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "4");
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("5")) {
 
                                     Intent intent = new Intent(getActivity(), NotificationSellNoAccept.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "5");
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("6")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellReject.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "6");
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("7")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "7");
                                     startActivity(intent);
 
                                 } else if (notification.getId_screen().equals("8")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellNoReject.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "8");
                                     startActivity(intent);
 
                                 } else if (notification.getId_screen().equals("0")) {
@@ -284,6 +290,37 @@ public class NotificationFragment extends Fragment {
                                     // comment in book post
                                     getBookByID getBookByID = new getBookByID(getContext(), notification.getKey_screen() + "");
                                     getBookByID.execute();
+                                }else if (notification.getId_screen().equals("15")) {
+
+                                }
+                                else if (notification.getId_screen().equals("16")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellActivity.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "16");
+                                    startActivity(intent);
+                                }
+                                else if (notification.getId_screen().equals("17")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellNoAccept.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "17");
+                                    startActivity(intent);
+                                } else if (notification.getId_screen().equals("18")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellReject.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "18");
+                                    startActivity(intent);
+                                } else if (notification.getId_screen().equals("19")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "19");
+                                    startActivity(intent);
+
+                                } else if (notification.getId_screen().equals("20")) {
+                                    Intent intent = new Intent(getActivity(), NotificationSellNoReject.class);
+                                    intent.putExtra("trans_id", notification.getKey_screen() + "");
+                                    intent.putExtra("keyOption", "20");
+                                    startActivity(intent);
+
                                 }
 
                             }
@@ -393,7 +430,6 @@ public class NotificationFragment extends Fragment {
         protected void onPostExecute(List<Book> list) {
             try {
                 if (list.size() > 0) {
-
                         ListingsDetailActivity fragment = new ListingsDetailActivity();
                         Bundle bundle = new Bundle();
                         bundle.putString(String.valueOf(R.string.valueListings), "4");

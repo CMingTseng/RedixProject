@@ -65,7 +65,7 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
     CircularImageView imv_nitification_infor3_phone;
     android.widget.RatingBar RatingBar;
     ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
-
+    String keyOption="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +73,12 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
 
         init();
 
+        // lấy được list sách swap đẻ đổ vào listview
+        String trans_id= getIntent().getStringExtra("trans_id");
+        keyOption=getIntent().getStringExtra("keyOption");
+        transAsync transAsync= new transAsync(NotificationSellNoReject.this,trans_id);
+        transAsync.execute();
+        //---------------------------------------------------------------
 
         img_menu_bottom_location.setOnClickListener(this);
         img_menu_bottom_comment.setOnClickListener(this);
@@ -86,8 +92,11 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
 
         txt_notification_infor3_phone.setVisibility(View.GONE);
 
-
-        txt_menu_notification_infor3_title.setText("rejected your request for buying");
+        if(keyOption.equals("8")) {
+            txt_menu_notification_infor3_title.setText("rejected your request for buying");
+        }else if(keyOption.equals("20")){
+            txt_menu_notification_infor3_title.setText("rejected your request to get the book");
+        }
 
 
         txt_notification_dominic_besttime.setVisibility(View.GONE);
@@ -132,11 +141,7 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
         txt_notification_dominic_time=(TextView) findViewById(R.id.txt_notification_dominic_time);
         //---------------------------------------------------------------
 
-        // lấy được list sách swap đẻ đổ vào listview
-        String trans_id= getIntent().getStringExtra("trans_id");
-        transAsync transAsync= new transAsync(NotificationSellNoReject.this,trans_id);
-        transAsync.execute();
-        //---------------------------------------------------------------
+
     }
 
     public void init(){
@@ -268,7 +273,12 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
                 String userName = pref.getString("username", null);
                 txt_user_hi.setText("Hi "+ userName+",");
 
-                txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
+
+                if(keyOption.equals("8")) {
+                    txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
+                }else if(keyOption.equals("20")){
+                    txt_notification_sell_accept_money.setVisibility(View.INVISIBLE);
+                }
                 txt_author_info3.setText(trans.getUser_sell()+"");
                 txt_title_book_buy_accept.setText(trans.getBook_name());
                 txt_author_book_buy_accept.setText(trans.getBook_author());

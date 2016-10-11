@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/img_book"
-            android:layout_width="85dp"
-            android:layout_height="127dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:padding="5dp" />

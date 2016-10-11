@@ -55,14 +55,26 @@ public class NotificationSellAccept extends AppCompatActivity {
     CircularImageView imv_nitification_infor3_phone;
     RatingBar RatingBar;
     ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
+    String keyOption="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_sell_accept2);
         init();
+        // lấy được list sách swap đẻ đổ vào listview
+        String trans_id= getIntent().getStringExtra("trans_id");
+        keyOption= getIntent().getStringExtra("keyOption");
+        transAsync transAsync= new transAsync(NotificationSellAccept.this,trans_id);
+        transAsync.execute();
+        //---------------------------------------------------------------
 
         txt_menu_notification_title2.setText("you accepted a request from");
-        txt_menu_notification_infor3_title.setText("to buy your book");
+        if(keyOption.equals("7")) {
+            txt_menu_notification_infor3_title.setText("to buy your book");
+        }else if(keyOption.equals("19")) {
+            txt_menu_notification_infor3_title.setText("to get your book");
+            txt_menu_notification_infor3_title.setTextColor(getResources().getColor(R.color.color_title_book));
+        }
 
         img_menu_component.setVisibility(View.GONE);
         txtTitle.setText("Notifications");
@@ -91,11 +103,7 @@ public class NotificationSellAccept extends AppCompatActivity {
         //---------------------------------------------------------------
 
 
-        // lấy được list sách swap đẻ đổ vào listview
-        String trans_id= getIntent().getStringExtra("trans_id");
-        transAsync transAsync= new transAsync(NotificationSellAccept.this,trans_id);
-        transAsync.execute();
-        //---------------------------------------------------------------
+
     }
 
     public void init(){
@@ -200,8 +208,12 @@ public class NotificationSellAccept extends AppCompatActivity {
                 SharedPreferences.Editor editor  = pref.edit();
                 String userName = pref.getString("username", null);
                 txt_user_hi.setText("Hi "+ userName+",");
+                if(keyOption.equals("7")) {
+                    txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
+                }else if(keyOption.equals("19")) {
+                    txt_notification_sell_accept_money.setVisibility(View.INVISIBLE);
+                }
 
-                txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
                 txt_author_info3.setText(trans.getUser_buy()+"");
                 txt_title_book_buy_accept.setText(trans.getBook_name());
                 txt_author_book_buy_accept.setText(trans.getBook_author());

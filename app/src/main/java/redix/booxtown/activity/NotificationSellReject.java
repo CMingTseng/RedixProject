@@ -61,15 +61,27 @@ public class NotificationSellReject extends AppCompatActivity {
     CircularImageView imv_nitification_infor3_phone;
     RatingBar RatingBar;
     ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
-
+    String keyOption="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_sell_accept2);
         init();
+
+        // lấy được list sách swap đẻ đổ vào listview
+        String trans_id= getIntent().getStringExtra("trans_id");
+        keyOption=getIntent().getStringExtra("keyOption");
+        transAsync transAsync= new transAsync(NotificationSellReject.this,trans_id);
+        transAsync.execute();
+        //---------------------------------------------------------------
+
         txt_menu_notification_title2.setText("you rejected a request from");
         txt_notification_infor3_phone.setVisibility(View.GONE);
-        txt_menu_notification_infor3_title.setText("to buy your book");
+        if (keyOption.equals("6")) {
+            txt_menu_notification_infor3_title.setText("to buy your book");
+        }else  if(keyOption.equals("18")){
+            txt_menu_notification_infor3_title.setText("to get your book");
+        }
         txt_notification_dominic_besttime.setVisibility(View.GONE);
         txt_notification_dominic_time.setVisibility(View.GONE);
         //menu
@@ -104,11 +116,7 @@ public class NotificationSellReject extends AppCompatActivity {
 
         txt_notification_dominic_time=(TextView) findViewById(R.id.txt_notification_dominic_time);
 
-        // lấy được list sách swap đẻ đổ vào listview
-        String trans_id= getIntent().getStringExtra("trans_id");
-        transAsync transAsync= new transAsync(NotificationSellReject.this,trans_id);
-        transAsync.execute();
-        //---------------------------------------------------------------
+
     }
 
     public void init(){
@@ -214,7 +222,14 @@ public class NotificationSellReject extends AppCompatActivity {
                 String userName = pref.getString("username", null);
                 txt_user_hi.setText("Hi "+ userName+",");
 
-                txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
+
+                if (keyOption.equals("6")) {
+                    txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
+                }else  if(keyOption.equals("18")){
+                    txt_notification_sell_accept_money.setVisibility(View.INVISIBLE);
+                }
+
+
                 txt_author_info3.setText(trans.getUser_buy()+"");
                 txt_title_book_buy_accept.setText(trans.getBook_name());
                 txt_author_book_buy_accept.setText(trans.getBook_author());

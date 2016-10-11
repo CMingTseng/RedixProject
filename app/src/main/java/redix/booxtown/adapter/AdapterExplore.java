@@ -148,6 +148,17 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
 
             }
         });
+        hoder.img_free.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(String.valueOf(array[1]).contains("1")) {
+                    UserID userID = new UserID(mContext, ex.getId(), ex.getUser_id(), 1, ex);
+                    userID.execute();
+                }
+
+            }
+        });
 
         hoder.img_swap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,124 +234,6 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
         }
     }
 
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        // TODO Auto-generated method stub
-//        final LayoutInflater inflater = (LayoutInflater) mContext
-//                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        final Book ex= listExplore.get(position);
-//        username = pref.getString("username", null);
-//        String[] image = ex.getPhoto().split(";");
-//        Hoder hoder = new Hoder();
-//        convertView = inflater.inflate(R.layout.custom_gridview_explore, null);
-//        hoder.txt_title_book = (TextView) convertView.findViewById(R.id.txt_title_book_listings);
-//        hoder.txt_author_book = (TextView) convertView.findViewById(R.id.txt_author_book_listings);
-//        hoder.txt_pricebook=(TextView) convertView.findViewById(R.id.txt_pricebook);
-//
-//        hoder.img_book = (ImageView)convertView.findViewById(R.id.img_book);
-//        hoder.img_swap = (ImageView)convertView.findViewById(R.id.img_explore_swap);
-//        hoder.img_free = (ImageView)convertView.findViewById(R.id.img_explore_free);
-//        hoder.img_buy = (ImageView)convertView.findViewById(R.id.img_explore_buy);
-//        if (image.length!=0){
-//            int index=image[0].indexOf("_+_");
-//            if(index>0 && image[0].length() >3 ) {
-//                String img = image[0].substring(index+3, image[0].length());
-//                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
-//                        into(hoder.img_book);
-//            }
-//            else{
-//                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" +  image[0]  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
-//                        into(hoder.img_book);
-//            }
-//        }else {
-//            Picasso.with(mContext).load(R.drawable.blank_image).into(hoder.img_book);
-//        }
-//        final char array[]=ex.getAction().toCharArray();
-//
-//        if(ex.getPrice() !=0) {
-//            hoder.txt_pricebook.setVisibility(View.VISIBLE);
-//            hoder.txt_pricebook.setText("AED "+ex.getPrice());
-//        }else {
-//            hoder.txt_pricebook.setVisibility(View.INVISIBLE);
-//        }
-//        if(String.valueOf(array[0]).contains("1")){
-//            Picasso.with(mContext).load(R.drawable.explore_btn_swap_active).into(hoder.img_swap);
-//        }
-//        else {
-//            Picasso.with(mContext).load(R.drawable.explore_btn_swap_dis_active).into(hoder.img_swap);
-//
-//        }
-//        if(String.valueOf(array[1]).contains("1")){
-//            Picasso.with(mContext).load(R.drawable.explore_btn_free_active).into(hoder.img_free);
-//
-//        }
-//        else {
-//            Picasso.with(mContext).load(R.drawable.explore_btn_free_dis_active).into(hoder.img_free);
-//
-//        }
-//        if(String.valueOf(array[2]).contains("1")){
-//            Picasso.with(mContext).load(R.drawable.explore_btn_buy_active).into(hoder.img_buy);
-//
-//        }
-//        else {
-//            Picasso.with(mContext).load(R.drawable.explore_btn_buy_dis_active).into(hoder.img_buy);
-//
-//        }
-//
-//        if(ex.getTitle().toString().length()>0) {
-//            hoder.txt_title_book.setText(ex.getTitle().toString().substring(0,1).toUpperCase()+ex.getTitle().toString().substring(1,ex.getTitle().toString().length()));
-//        }
-//        hoder.txt_author_book.setText(ex.getAuthor().toString());
-//
-//            hoder.img_buy.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    UserID userID= new UserID(mContext,ex.getId(), ex.getUser_id(),1,ex);
-//                    userID.execute();
-//
-//                }
-//            });
-//
-//            hoder.img_swap.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-//                    String session_id = pref.getString("session_id", null);
-//                    listingAsync listingAsync = new listingAsync(mContext,ex);
-//                    listingAsync.execute(session_id);
-//                }
-//            });
-//
-//            hoder.img_book.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    try {
-//                        if(keyStart==0) {
-//                            ListingsDetailActivity fragment = new ListingsDetailActivity();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString(String.valueOf(R.string.valueListings), "2");
-//                            bundle.putSerializable("item", ex);
-//                            fragment.setArguments(bundle);
-//                            callFragment(fragment);
-//                        }else if(keyStart==1){
-//
-//                            Intent intent= new Intent(mContext.getApplicationContext(), MainAllActivity.class);
-//                            intent.putExtra(String.valueOf(R.string.valueListings), "2");
-//                            intent.putExtra("item", ex);
-//                            intent.putExtra("keyDetail","1");
-//                            mContext.startActivity(intent);
-//                            ((Activity)mContext).finish();
-//                        }
-//                    }catch (Exception exx){
-//
-//                    }
-//                }
-//            });
-//
-//
-//
-//        return convertView;
-//    }
 
     public void callFragment(Fragment fragment ){
         try {
@@ -444,20 +337,35 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             if (transactionID == "") {
 
             } else {
-
-                SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
-                String firstName = pref.getString("firstname", "");
-                List<Hashtable> list = new ArrayList<>();
-                Notification notification = new Notification("Buy Request", transactionID ,"4");
-                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                obj.put("user_id", sellUserID);
-                if(firstName.length()>1) {
-                    obj.put("messages", firstName.substring(0,1).toUpperCase()+firstName.substring(1,firstName.length()) + " wants to buy your book ");
+                if(action.equals("buy")) {
+                    SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    String firstName = pref.getString("firstname", "");
+                    List<Hashtable> list = new ArrayList<>();
+                    Notification notification = new Notification("Buy Request", transactionID, "4");
+                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                    obj.put("user_id", sellUserID);
+                    if (firstName.length() > 1) {
+                        obj.put("messages", firstName.substring(0, 1).toUpperCase() + firstName.substring(1, firstName.length()) + " wants to buy your book ");
+                    }
+                    list.add(obj);
+                    NotificationController controller = new NotificationController();
+                    controller.sendNotification(list);
+                }else{
+                    SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    String firstName = pref.getString("firstname", "");
+                    List<Hashtable> list = new ArrayList<>();
+                    Notification notification = new Notification("Buy Request", transactionID, "16");
+                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                    obj.put("user_id", sellUserID);
+                    if (firstName.length() > 1) {
+                        obj.put("messages", firstName.substring(0, 1).toUpperCase() + firstName.substring(1, firstName.length()) + " wants to buy your book ");
+                    }
+                    list.add(obj);
+                    NotificationController controller = new NotificationController();
+                    controller.sendNotification(list);
                 }
-                list.add(obj);
-                NotificationController controller = new NotificationController();
-                controller.sendNotification(list);
 
             }
             super.onPostExecute(transactionID);
@@ -477,6 +385,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             this.bookUserID=bookUserID;
             this.type= type;
             this.book= book;
+
         }
 
         @Override
