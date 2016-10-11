@@ -581,8 +581,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             book.setCondition(String.valueOf(seekbar.getProgress()));
             book.setGenre(genrel);
             book.setHash_tag(tag);
-            book.setLocation_latitude(Float.valueOf(String.valueOf(gps.getLatitude())));
-            book.setLocation_longitude(Float.valueOf(String.valueOf(gps.getLongitude())));
+            book.setLocation_latitude((float) latLng_new.latitude);
+            book.setLocation_longitude((float)latLng_new.longitude);
             if (numclick != 0 || numimageclick != 0) {
 
                 book.setPhoto(imagename);
@@ -663,22 +663,13 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
-
-
-
     public String getAction() {
         String s = "";
         s += swap.isChecked() == true ? "1" : "0";
-        s += free.isChecked() == true ? "1" : "0";
         s += sell.isChecked() == true ? "1" : "0";
+        s += free.isChecked() == true ? "1" : "0";
         return s;
     }
-
-    public String parseJson(Object object) {
-        Gson gson = new Gson();
-        return gson.toJson(object);
-    }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -710,7 +701,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             }else{
                 addMarkerChoice(new LatLng(0, 0));
             }
-
         }
         if (isNetworkEnabled) {
             location = service
