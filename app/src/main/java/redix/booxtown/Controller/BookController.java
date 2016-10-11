@@ -36,6 +36,9 @@ public class BookController {
     }
 
     public String addbook(Book book, String session_id){
+        if(book.getPhoto()==null){
+            book.setPhoto(" ");
+        }
         Hashtable obj = ObjectCommon.ObjectDymanic(book);
         obj.put("session_id",session_id);
         Call<Result> status = service.addbook(obj);

@@ -891,11 +891,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
             if (numclick != 0 || numimageclick != 0) {
                 if (!s.equals("edit")) {
-                    book.setPhoto(imagename);
+                    book.setPhoto(imagename+" ");
                 } else {
                     if (type == 0) {
                         String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
-                        book.setPhoto(imageupdate);
+                        book.setPhoto(imageupdate+" ");
                         book.setId(bookedit.getId());
                     }
                 }
@@ -904,7 +904,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     if (type == 0) {
                         book.setId(bookedit.getId());
                         if (!imageOrigin.equals("")) {
-                            book.setPhoto(imageOrigin);
+                            book.setPhoto(imageOrigin+" ");
                         }
                     }
                 }

@@ -585,8 +585,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             book.setLocation_latitude((float) latLng_new.latitude);
             book.setLocation_longitude((float)latLng_new.longitude);
             if (numclick != 0 || numimageclick != 0) {
-
-                book.setPhoto(imagename);
+                book.setPhoto(imagename+" ");
 
             }
             if (sell.isChecked()) {
