@@ -42,10 +42,8 @@ public class Splash_Activity extends AppCompatActivity {
                 homeActivity.callFragment(new NotificationFragment());
                 TextView txtTitle = (TextView) findViewById(R.id.txt_title);
                 txtTitle.setText("Notifications");
-
             }
         }catch (Exception e){
-
         }
     }
 }
