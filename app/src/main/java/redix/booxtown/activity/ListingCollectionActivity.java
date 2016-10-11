@@ -683,7 +683,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         if (IconMapController.icon(swap1, sell1, free1) == "icon_3_option") {
             return false;
         }
-        if (IconMapController.icon(swap1, sell1, free1) == null) {
+        if (IconMapController.icon(swap1, sell1, free1) == "location_default") {
             return false;
         }
         return true;
@@ -964,6 +964,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                         longitude = location.getLongitude();
                     }
                     addMarkerChoice(new LatLng(latitude, longitude));
+                }else{
+                    addMarkerChoice(new LatLng(0, 0));
                 }
 
             }
@@ -976,6 +978,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                         longitude = location.getLongitude();
                     }
                     addMarkerChoice(latLng_new);
+                }else{
+                    addMarkerChoice(new LatLng(0, 0));
                 }
             }
         } catch (Exception e) {

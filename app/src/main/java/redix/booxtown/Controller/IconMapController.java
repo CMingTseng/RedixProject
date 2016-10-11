@@ -26,7 +26,7 @@ public class IconMapController {
         if(swap.contains("0")&free.contains("1")&buy.contains("1")){
             return "icon_2_option";
         }else {
-            return null;
+            return "location_default";
         }
     }
 
