@@ -421,7 +421,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 }
             });
             try {
-
                 swap.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -455,6 +454,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                                 addMarkerChoice(latLng_new);
                             } else {
                                 tbl_price_sell.setVisibility(View.GONE);
+                                addMarkerChoice(latLng_new);
                             }
 
                         } else {
@@ -733,7 +733,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this,"icon_buy",110, 150))));
         // adding marker
         mMap.addMarker(marker);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 20));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 9));
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
