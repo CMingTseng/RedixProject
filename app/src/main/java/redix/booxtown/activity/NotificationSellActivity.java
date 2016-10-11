@@ -499,7 +499,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 super.onPostExecute(userResult);
             }catch (Exception e){
             }
-            dialog.dismiss();
+
         }
     }
 
