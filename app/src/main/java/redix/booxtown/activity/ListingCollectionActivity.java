@@ -116,7 +116,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     SupportMapFragment mapFragment;
     String[] image;
     TextView txt_add_book, txt_my_listings, tag1, tag2, tag3;
-
+    int typeChooseImage=0;
+    String sChooseImage="";
     LatLng latLng_new;
     RadioButton radioButton_current, radioButton_another;
 
@@ -539,6 +540,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             @Override
             public void onClick(View v) {
                 numimageclick = 1;
+                typeChooseImage=2;
                 choseImage();
                 if (s.equals("edit")) {
                     if (arrImage.size() > 1) {
@@ -552,6 +554,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             @Override
             public void onClick(View v) {
                 numimageclick = 2;
+                typeChooseImage=2;
                 choseImage();
                 if (s.equals("edit")) {
                     if (arrImage.size() > 2) {
@@ -565,6 +568,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             @Override
             public void onClick(View v) {
                 numimageclick = 3;
+                typeChooseImage=2;
                 choseImage();
                 if (s.equals("edit")) {
                     if (arrImage.size() == 3) {
@@ -974,6 +978,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         switch (v.getId()) {
             case R.id.imageView32:
                 numclick = numclick + 1;
+                typeChooseImage=1;
                 if (numclick > 3) {
                     numclick = 0;
                 }
@@ -1191,40 +1196,76 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             return;
         }
         long time = System.currentTimeMillis();
-        if (numclick == 1) {
-            Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
-            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-            lisImmage.add(imageClick);
-            imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-        } else if (numclick == 2) {
-            Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
-            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-            lisImmage.add(imageClick);
-            imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-        } else if (numclick == 3) {
-            Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
-            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-            lisImmage.add(imageClick);
-            imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-        }
-
-        if (numimageclick == 1) {
-            Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
-            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-            lisImmage.add(imageClick);
-            imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-        } else if (numimageclick == 2) {
+        try {
+            if (typeChooseImage == 1) {
+            /*if (numclick+lisImmage.size() == 1) {
+                Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
+                ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                lisImmage.add(imageClick);
+                imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+            } else if (numclick+ lisImmage.size() == 2) {
+                Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
+                ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                lisImmage.add(imageClick);
+                imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+            } else if (numclick+ lisImmage.size() == 3) {
+                Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
+                ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                lisImmage.add(imageClick);
+                imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+            }*/
+                if (!sChooseImage.contains("1")) {
+                    Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
+                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                    lisImmage.add(imageClick);
+                    imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+                    sChooseImage = sChooseImage + "1";
+                } else if (!sChooseImage.contains("2")) {
+                    Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
+                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                    lisImmage.add(imageClick);
+                    imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+                    sChooseImage = sChooseImage + "2";
+                } else if (!sChooseImage.contains("3")) {
+                    Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
+                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                    lisImmage.add(imageClick);
+                    imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+                    sChooseImage = sChooseImage + "3";
+                }
+            } else if (typeChooseImage == 2) {
+                if (numimageclick == 1) {
+                    Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
+                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                    lisImmage.add(imageClick);
+                    imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+                    if (!sChooseImage.contains("1")) {
+                        sChooseImage = sChooseImage + "1";
+                    }
+                } else if (numimageclick == 2) {
 //            imagebook2.setImageURI(mImageUri);
 //            lisImmage.remove(1);
-            Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
-            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-            lisImmage.add(imageClick);
-            imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-        } else if (numimageclick == 3) {
-            Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
-            ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-            lisImmage.add(imageClick);
-            imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+                    Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
+                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                    lisImmage.add(imageClick);
+                    imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+                    if (!sChooseImage.contains("2")) {
+                        sChooseImage = sChooseImage + "2";
+                    }
+                } else if (numimageclick == 3) {
+                    Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
+                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                    lisImmage.add(imageClick);
+                    imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+
+                    if (!sChooseImage.contains("3")) {
+                        sChooseImage = sChooseImage + "3";
+                    }
+                }
+
+            }
+        }catch (Exception ex){
+
         }
 
         super.onActivityResult(requestCode, resultCode, data);
