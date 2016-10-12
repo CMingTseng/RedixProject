@@ -52,7 +52,10 @@
             android:hint="First name"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <redix.booxtown.custom.CustomEdittext
             android:id="@+id/lastname"
@@ -63,7 +66,10 @@
             android:hint="Last name"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -85,7 +91,10 @@
             android:maxLines="1"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <redix.booxtown.custom.CustomEdittext
             android:id="@+id/email"
@@ -96,7 +105,10 @@
             android:hint="Email"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <redix.booxtown.custom.CustomEdittext
             android:id="@+id/birthday"
@@ -108,7 +120,11 @@
             android:hint="Birthday"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme"
-            android:paddingBottom="15dp">
+            android:paddingBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+
+            >
 
         </redix.booxtown.custom.CustomEdittext>
 
@@ -121,7 +137,10 @@
             android:phoneNumber="true"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <redix.booxtown.custom.CustomEdittext
             android:id="@+id/password"
@@ -132,7 +151,10 @@
             android:password="true"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <redix.booxtown.custom.CustomEdittext
             android:id="@+id/confirmpassword"
@@ -143,7 +165,10 @@
             android:password="true"
             android:textColorHint="@color/color_text_hint"
             android:theme="@style/MyEditTextTheme"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <redix.booxtown.custom.CustomTextView
             android:id="@+id/signup"

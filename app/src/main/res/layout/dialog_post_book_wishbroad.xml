@@ -34,6 +34,7 @@
             android:backgroundTint="@color/dot_light_screen2"
             android:ellipsize="end"
             android:singleLine="true"
+            android:imeOptions="actionDone"
 
             />
 
@@ -48,7 +49,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:singleLine="true"
-            android:ellipsize="end" />
+            android:ellipsize="end"
+            android:imeOptions="actionDone"
+
+            />
 
         <redix.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
@@ -62,6 +66,7 @@
             android:layout_marginLeft="10dp"
             android:ellipsize="end"
             android:singleLine="true"
+            android:imeOptions="actionDone"
 
             />
 

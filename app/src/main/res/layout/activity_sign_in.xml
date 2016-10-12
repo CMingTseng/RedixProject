@@ -41,7 +41,11 @@
             android:layout_marginBottom="5dp"
             android:maxLines="1"
             android:textColorHint="@color/color_text_hint"
-            android:backgroundTint="@color/color_hint_interact" />
+            android:backgroundTint="@color/color_hint_interact"
+
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
         <redix.booxtown.custom.CustomEdittext
             android:id="@+id/password_login"
             android:layout_width="match_parent"
@@ -50,6 +54,8 @@
             android:maxLines="1"
             android:textColorHint="@color/color_text_hint"
             android:backgroundTint="@color/color_hint_interact"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             android:password="true" />
         <redix.booxtown.custom.CustomTextView
             android:id="@+id/btn_sigin"

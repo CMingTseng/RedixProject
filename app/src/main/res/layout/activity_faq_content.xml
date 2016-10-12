@@ -66,7 +66,10 @@
                 android:textColorHint="@color/color_text_hint"
                 android:textSize="@dimen/search"
                 android:paddingLeft="10dp"
-                android:paddingRight="30dp" />
+                android:paddingRight="30dp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                />
 
             <ImageView
                 android:layout_width="20dp"

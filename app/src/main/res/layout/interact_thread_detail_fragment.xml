@@ -103,7 +103,10 @@
             android:layout_alignStart="@+id/comment_thread"
             android:layout_toLeftOf="@+id/btn_send_comment_interact"
             android:layout_toStartOf="@+id/btn_send_comment_interact"
-            android:layout_marginBottom="15dp" />
+            android:layout_marginBottom="15dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <ImageView
             android:id="@+id/btn_send_comment_interact"

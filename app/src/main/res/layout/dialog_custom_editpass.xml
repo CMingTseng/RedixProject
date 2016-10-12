@@ -57,7 +57,10 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                />
 
             <redix.booxtown.custom.CustomEdittext
                 android:layout_width="wrap_content"
@@ -75,6 +78,8 @@
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:backgroundTint="@color/dot_light_screen1"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:layout_marginTop="10dp" />
 
             <redix.booxtown.custom.CustomEdittext
@@ -94,6 +99,8 @@
                 android:textColorHint="#ffffff"
                 android:textColor="#ffffff"
                 android:backgroundTint="@color/dot_light_screen1"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp" />
 

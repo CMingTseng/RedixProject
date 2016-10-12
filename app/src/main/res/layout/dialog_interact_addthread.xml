@@ -42,6 +42,8 @@
             android:textColor="@color/dot_light_screen2"
             android:backgroundTint="@color/dot_light_screen1"
             android:singleLine="true"
+            android:imeOptions="actionDone"
+
             android:ellipsize="end" />
 
         <redix.booxtown.custom.CustomEdittext
@@ -56,7 +58,10 @@
             android:hint="Description"
             android:textColorHint="@color/dot_light_screen2"
             android:textColor="@color/dot_light_screen2"
-            android:backgroundTint="@color/dot_light_screen1" />
+            android:backgroundTint="@color/dot_light_screen1"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <redix.booxtown.custom.CustomButton
             android:layout_width="223dp"
