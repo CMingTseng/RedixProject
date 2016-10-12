@@ -141,6 +141,12 @@ public class ListingsFragment extends Fragment
 
             }
         });
+        genre = new ArrayList<>();
+        for (int i = 0; i < GetAllGenreAsync.list.size(); i++) {
+            Genre genrel = new Genre();
+            genrel.setValue(GetAllGenreAsync.list.get(i));
+            genre.add(genrel);
+        }
         ImageView btn_filter_explore = (ImageView)view.findViewById(R.id.btn_filter_explore);
         Picasso.with(getContext()).load(R.drawable.btn_locate_filter).into(btn_filter_explore);
 
@@ -230,12 +236,7 @@ public class ListingsFragment extends Fragment
                 tv_genral.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        genre = new ArrayList<>();
-                        for (int i = 0; i < GetAllGenreAsync.list.size(); i++) {
-                            Genre genrel = new Genre();
-                            genrel.setValue(GetAllGenreAsync.list.get(i));
-                            genre.add(genrel);
-                        }
+
                         final Dialog dialog = new Dialog(getContext());
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_genre);
