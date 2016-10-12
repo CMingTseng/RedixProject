@@ -121,7 +121,18 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
         }
         char array[]=ex.getAction().toCharArray();
         if (ex.getPrice()!=0){
-            hoder.txt_price_book.setText("AED "+String.valueOf(ex.getPrice()));
+
+            try {
+                String priceBook=(ex.getPrice()+"");
+                int index = priceBook.indexOf(".");
+                if (Integer.parseInt(priceBook.substring(index+1,priceBook.length())) != 0) {
+                    hoder.txt_price_book.setText("AED " + ex.getPrice());
+                } else {
+                    hoder.txt_price_book.setText("AED " + priceBook.substring(0, index));
+                }
+            }catch (Exception exx){
+
+            }
         }else{
             hoder.txt_price_book.setVisibility(View.INVISIBLE);
         }

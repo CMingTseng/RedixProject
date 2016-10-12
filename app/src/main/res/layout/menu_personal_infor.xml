@@ -68,6 +68,8 @@
         android:layout_marginTop="10dp"
         android:inputType="textEmailAddress"
         android:background="@android:color/transparent"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:textSize="@dimen/slide_desc"/>
 
     <redix.booxtown.custom.CustomTextView
@@ -106,7 +108,10 @@
         android:inputType="phone"
         android:background="@android:color/transparent"
         android:layout_alignBottom="@+id/textView81"
-        android:textSize="@dimen/slide_desc"/>
+        android:textSize="@dimen/slide_desc"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        />
 
     <redix.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"

@@ -21,6 +21,8 @@
         android:layout_marginTop="10dp"
         android:textSize="@dimen/search"
         android:textColorHint="@color/color_text_hint"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:paddingLeft="15dp" />
 
 

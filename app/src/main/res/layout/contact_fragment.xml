@@ -36,7 +36,10 @@
         android:textColorHint="@color/color_text_hint"
         android:gravity="left"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        />
 
     <redix.booxtown.custom.CustomButton
         android:layout_width="223dp"

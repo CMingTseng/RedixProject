@@ -105,7 +105,18 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
 
         if(ex.getPrice() !=0) {
             hoder.txt_pricebook.setVisibility(View.VISIBLE);
-            hoder.txt_pricebook.setText("AED "+ex.getPrice());
+            try {
+                String priceBook=(ex.getPrice()+"");
+                int index = priceBook.indexOf(".");
+                if (Integer.parseInt(priceBook.substring(index+1,priceBook.length())) != 0) {
+                    hoder.txt_pricebook.setText("AED " + ex.getPrice());
+                } else {
+                    hoder.txt_pricebook.setText("AED " + priceBook.substring(0, index));
+                }
+            }catch (Exception exx){
+
+            }
+
         }else {
             hoder.txt_pricebook.setVisibility(View.INVISIBLE);
         }

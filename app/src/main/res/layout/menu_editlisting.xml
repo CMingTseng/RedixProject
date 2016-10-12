@@ -108,7 +108,10 @@
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:hint="The last paiting"
-        android:textColorHint="@color/color_text_hint" />
+        android:textColorHint="@color/color_text_hint"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        />
 
     <redix.booxtown.custom.CustomTextView
         android:id="@+id/textView106"
@@ -138,7 +141,10 @@
         android:ems="10"
         android:hint="Author"
         android:inputType="textPersonName"
-        android:textColorHint="@color/color_text_hint" />
+        android:textColorHint="@color/color_text_hint"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        />
 
     <TextView
         android:id="@+id/textView107"
@@ -413,6 +419,8 @@
             android:gravity="center_vertical"
             android:backgroundTint="@color/dot_light_screen1"
             android:textColorHint="@color/color_text_hint"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
              />
     </TableRow>
 
@@ -539,7 +547,10 @@
             android:layout_alignLeft="@+id/textView113"
             android:layout_alignStart="@+id/textView113"
             android:layout_below="@+id/textView113"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            />
 
         <ImageView
             android:id="@+id/imageView33"

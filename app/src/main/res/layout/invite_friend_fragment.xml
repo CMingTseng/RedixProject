@@ -22,7 +22,10 @@
         android:padding="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="Enter email ID" />
+        android:hint="Enter email ID"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        />
 
     <ImageView
         android:layout_width="25dp"
