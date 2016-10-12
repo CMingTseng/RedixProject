@@ -300,13 +300,15 @@ public class ListingsFragment extends Fragment
         //end
         MainAllActivity.setTxtTitle("Listings");
 
-        populatRecyclerView(session_id);
-        implementScrollListener(session_id);
+        /*populatRecyclerView(session_id);
+        implementScrollListener(session_id);*/
+        listingAsync listingAsync = new listingAsync(session_id,getContext());
+        listingAsync.execute();
 
         return view;
     }
 
-    private void populatRecyclerView(String session_id) {
+    /*private void populatRecyclerView(String session_id) {
         listingAsync getbook = new listingAsync(getContext(),session_id,0,15);
         getbook.execute();
         if(listExplore.size() == 0){
@@ -315,9 +317,9 @@ public class ListingsFragment extends Fragment
         }else {
             adapter_listbook.notifyDataSetChanged();
         }
-    }
+    }*/
 
-    private void implementScrollListener(final String session_id) {
+    /*private void implementScrollListener(final String session_id) {
         rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -344,7 +346,7 @@ public class ListingsFragment extends Fragment
             }
         });
     }
-
+*/
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
@@ -440,17 +442,23 @@ public class ListingsFragment extends Fragment
         ProgressDialog dialog;
         String session_id;
         int top,from;
-        public listingAsync(Context context,String session_id,int from,int top){
-            this.context = context;
+//        public listingAsync(Context context,String session_id,int from,int top){
+//            this.context = context;
+//            this.session_id = session_id;
+//            this.top = top;
+//            this.from = from;
+//        }
+
+
+        public listingAsync(String session_id, Context context) {
             this.session_id = session_id;
-            this.top = top;
-            this.from = from;
+            this.context = context;
         }
 
         @Override
         protected List<Book> doInBackground(String... strings) {
             BookController bookController = new BookController();
-            return bookController.book_gettop(session_id,from,top);
+            return bookController.getAllBookById(session_id);
         }
 
         @Override
@@ -469,7 +477,10 @@ public class ListingsFragment extends Fragment
                     dialog.dismiss();
                     isLoading = false;
                 } else {
-                    listExplore.addAll(books);
+                    adapter_listbook = new ListBookAdapter(getActivity(), books, 1,2);
+                    rView.setAdapter(adapter_listbook);
+                    //listExplore.addAll(books);
+                    listExplore = books;
                     adapter_listbook.notifyDataSetChanged();
                     num_list = books.size();
                     txt_my_listings.setText("My listings" + "(" + String.valueOf(listExplore.size()) + ")");
