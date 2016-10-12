@@ -266,7 +266,7 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
 
                     progressDialog.dismiss();
                 }else {
-                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }catch (Exception e){

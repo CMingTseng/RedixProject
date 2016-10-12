@@ -291,7 +291,7 @@ public class NotificationAcceptActivity extends AppCompatActivity {
 
                     progressDialog.dismiss();
                 }else {
-                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }catch (Exception e){

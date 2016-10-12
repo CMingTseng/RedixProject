@@ -533,7 +533,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
 
                     progressDialog.dismiss();
                 }else {
-                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }catch (Exception e){
@@ -569,7 +569,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
         protected void onPostExecute(final List<User> userResult) {
             try {
                 if(userResult.size() == 0){
-                    Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_LONG).show();
                     dialog.dismiss();
                 }else {
                     if (type==0){

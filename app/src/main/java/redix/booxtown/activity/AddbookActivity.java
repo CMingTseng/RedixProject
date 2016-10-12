@@ -484,13 +484,13 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
         if(edt_tilte.getText().toString().equals("")){
 
-                Toast.makeText(AddbookActivity.this, "Please enter valid book title", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddbookActivity.this, "Please enter valid a book title", Toast.LENGTH_SHORT).show();
 
             return  false;
         }
         else if(edt_author.getText().toString().equals("")){
 
-                Toast.makeText(AddbookActivity.this, "Please enter valid book author", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddbookActivity.this, "Please enter valid a book author", Toast.LENGTH_SHORT).show();
 
             return  false;
         }
@@ -597,7 +597,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             }
             if (sell.isChecked()) {
                 if (edt_editlisting_sell.getText().toString().isEmpty()) {
-                    Toast.makeText(AddbookActivity.this, "Please enter valid price", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddbookActivity.this, "Please enter valid a price", Toast.LENGTH_LONG).show();
                     return false;
                 } else {
                     price = Float.valueOf(edt_editlisting_sell.getText().toString());

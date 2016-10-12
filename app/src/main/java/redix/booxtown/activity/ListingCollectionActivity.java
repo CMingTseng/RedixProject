@@ -800,12 +800,12 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         if (edt_tilte.getText().toString().equals("") || edt_tilte.getText().toString() == null) {
             if (type == 0) {
-                Toast.makeText(getContext(), "Please enter valid book title", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Please enter valid a book title", Toast.LENGTH_SHORT).show();
             }
             return false;
         } else if (edt_author.getText().toString().equals("") || edt_author.getText().toString() == null) {
             if (type == 0) {
-                Toast.makeText(getContext(), "Please enter valid book author", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Please enter valid a book author", Toast.LENGTH_SHORT).show();
             }
             return false;
         } else {
@@ -917,7 +917,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
             if (sell.isChecked()) {
                 if (edt_editlisting_sell.getText().toString().isEmpty()) {
-                    Toast.makeText(getActivity(), "Please enter valid price", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Please enter valid a price", Toast.LENGTH_LONG).show();
                     return false;
                 } else {
                     price = Float.valueOf(edt_editlisting_sell.getText().toString());
@@ -1358,7 +1358,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean == true) {
                 dialog.dismiss();
-                Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
                 if (back == 1) {
                     callFragment(new MyProfileFragment());
                 } else {
@@ -1367,7 +1367,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
             } else {
                 dialog.dismiss();
-                Toast.makeText(getActivity(), Information.noti_update_fail, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), Information.noti_update_fail, Toast.LENGTH_LONG).show();
             }
             super.onPostExecute(aBoolean);
         }
@@ -1393,7 +1393,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean == true) {
-                Toast.makeText(getActivity(), Information.noti_delete_success, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), Information.noti_delete_success, Toast.LENGTH_LONG).show();
                 if (back == 1) {
                     callFragment(new MyProfileFragment());
                 } else {
@@ -1404,7 +1404,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 //                MainAllActivity main = (MainAllActivity) getActivity();
 //                main.callFragment(new ListingsFragment());
             } else {
-                Toast.makeText(getActivity(), Information.noti_delete_fail, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), Information.noti_delete_fail, Toast.LENGTH_LONG).show();
             }
         }
     }
