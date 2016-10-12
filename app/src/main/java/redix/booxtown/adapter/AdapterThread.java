@@ -34,38 +34,9 @@ public class AdapterThread extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    private OnLoadMoreListener mOnLoadMoreListener;
-
-    private boolean isLoading;
-    private int visibleThreshold = 5;
-    private int lastVisibleItem, totalItemCount;
-    RecyclerView lvRecyclerView;
-    public AdapterThread(Context context, List<Thread> listThread,RecyclerView lvRecyclerView) {
+    public AdapterThread(Context context, List<Thread> listThread) {
         this.listThread = listThread;
         this.context = context;
-        this.lvRecyclerView = lvRecyclerView;
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) lvRecyclerView.getLayoutManager();
-        lvRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-
-                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                    if (mOnLoadMoreListener != null) {
-                        mOnLoadMoreListener.onLoadMore();
-                    }
-                    isLoading = true;
-                }
-            }
-        });
-
-    }
-
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
     }
 
     @Override
@@ -105,9 +76,6 @@ public class AdapterThread extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public void setLoaded() {
-        isLoading = false;
-    }
     public class LoadingViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 

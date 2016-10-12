@@ -13,6 +13,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +48,15 @@ public class TopicFragment extends Fragment
 {
 
     //List<Topic> listtopic= new ArrayList<>();
-    ListView lv_recycler;
+    RecyclerView rv_recycler;
+    LinearLayoutManager linearLayoutManager;
     //List<Topic> listemp = new ArrayList<>();
     AdapterTopic interact;
     ArrayList<Topic> listArrayList = new ArrayList<>();
-    boolean userScrolled = false,status = true;
+    boolean loading = true,
+            isLoading = true;
+    private int previousTotal = 0;
+    private int visibleThreshold = 5;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,70 +79,72 @@ public class TopicFragment extends Fragment
         });
         MainAllActivity.setTxtTitle("Interact");
         //-----------------------------------------------------------
-        lv_recycler=(ListView) view.findViewById(R.id.list_view_interact);
+        rv_recycler=(RecyclerView) view.findViewById(R.id.list_view_interact);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rv_recycler.setLayoutManager(linearLayoutManager);
+
         populatRecyclerView(session_id);
         implementScrollListener(session_id);
         return view;
     }
 
     private void populatRecyclerView(final String session_id) {
-        topicSync getDashBoard = new topicSync(getContext(),session_id,8,0);
-        getDashBoard.execute();
-        listArrayList = new ArrayList<Topic>();
-        interact = new AdapterTopic(getActivity(), listArrayList);
-        // set adapter over recyclerview
-        lv_recycler.setAdapter(interact);
-        interact.notifyDataSetChanged();
-        lv_recycler.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        try {
+            topicSync getDashBoard = new topicSync(getContext(), session_id, 20, 0);
+            getDashBoard.execute();
+            if (listArrayList.size() == 0) {
+                interact = new AdapterTopic(getActivity(), listArrayList);
+                rv_recycler.setAdapter(interact);
+            } else {
+                interact.notifyDataSetChanged();
+            }
+
+            rv_recycler.addOnItemTouchListener(new redix.booxtown.recyclerclick.RecyclerItemClickListener(getActivity(),
+                    new redix.booxtown.recyclerclick.RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Topic topic = listArrayList.get(position);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("thread", topic);
+                            ThreadFragment fragment = new ThreadFragment();
+                            fragment.setArguments(bundle);
+                            callFragment(fragment);
+                            if (topic.getIs_read() == 0) {
+                                changeStatus changeStatus = new changeStatus(getContext(), session_id, Integer.valueOf(topic.getId()));
+                                changeStatus.execute();
+                            }
+                        }
+                    }));
+        }catch (Exception e){}
+    }
+
+    private void implementScrollListener(final String thread_id) {
+        rv_recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Topic topic = listArrayList.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("thread", topic);
-                ThreadFragment fragment= new ThreadFragment();
-                fragment.setArguments(bundle);
-                callFragment(fragment);
-                if(topic.getIs_read() == 0) {
-                    changeStatus changeStatus = new changeStatus(getContext(), session_id, Integer.valueOf(topic.getId()));
-                    changeStatus.execute();
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = recyclerView.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                    // End has been reached
+                    Topic commentBook= listArrayList.get(listArrayList.size()-1);
+                    topicSync getcomment = new topicSync(getContext(),thread_id,20,Integer.parseInt(commentBook.getId()));
+                    getcomment.execute();
+                    // Do something
+                    loading = true;
                 }
             }
         });
     }
 
-    private void implementScrollListener(final String session_id) {
-
-        lv_recycler.setOnScrollListener(new AbsListView.OnScrollListener() {
-            private int mLastFirstVisibleItem;
-            @Override
-            public void onScrollStateChanged(AbsListView arg0, int scrollState) {
-                // If scroll state is touch scroll then set userScrolled
-                // true
-
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    userScrolled = true;
-
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-                // Now check if userScrolled is true and also check if
-                // the item is end then update list view and set
-                // userScrolled to false
-                int a = view.getLastVisiblePosition();
-                if (userScrolled
-                        && firstVisibleItem + visibleItemCount == totalItemCount && status) {
-                    userScrolled = false;
-                    Topic dashBoard_lv = listArrayList.get(listArrayList.size()-1);
-                    topicSync getDashBoard = new topicSync(getContext(),session_id,8,Integer.valueOf(dashBoard_lv.getId()));
-                    getDashBoard.execute();
-                }
-            }
-        });
-    }
 
     public void callFragment(Fragment fragment ){
         FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -176,13 +184,13 @@ public class TopicFragment extends Fragment
         protected void onPostExecute(final List<Topic> topics) {
             try{
                 if(topics.size() >0){
-                    status = true;
+                    isLoading = true;
                     //set adapter
                     listArrayList.addAll(topics);
                     interact.notifyDataSetChanged();
                     //end
                 }else {
-                    status = false;
+                    isLoading = false;
                 }
             }catch (Exception e){
             }

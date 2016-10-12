@@ -53,12 +53,21 @@ public class ThreadFragment extends Fragment
     RecyclerView rv_thread;
     LinearLayoutManager linearLayoutManager;
     Topic topic;
+
+    boolean loading = true,
+            isLoading = true;
+    private int previousTotal = 0;
+    private int visibleThreshold = 5;
+
+    ImageView imageView_back;
+    TextView txt_title_thread;
+    TextView txt_count_thread;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.interact_thread_fragment, container, false);
 
-        ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
+        imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_sign_in_back).into(imageView_back);
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,8 +78,8 @@ public class ThreadFragment extends Fragment
         //-----------------------------------------------
         topic = (Topic) getArguments().getSerializable("thread");
         //--------------------------------------------------
-        TextView txt_title_thread=(TextView) view.findViewById(R.id.txt_title_thread);
-        TextView txt_count_thread=(TextView) view.findViewById(R.id.txt_count_thread);
+        txt_title_thread=(TextView) view.findViewById(R.id.txt_title_thread);
+        txt_count_thread=(TextView) view.findViewById(R.id.txt_count_thread);
         txt_title_thread.setText("Topic Name: "+topic.getTitle());
         txt_count_thread.setText("("+topic.getNum_thread()+")");
 //        txt_count_thread.setText("("+interact.getInteractCount()+")");
@@ -97,14 +106,13 @@ public class ThreadFragment extends Fragment
                 final TextView edit_title_insert_thread = (TextView)dialog.findViewById(R.id.edit_title_insert_thread);
                 final TextView edit_description_insert_thread = (TextView)dialog.findViewById(R.id.edit_description_insert_thread);
                 SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor  = pref.edit();
                 final String session_id = pref.getString("session_id", null);
                 btn_dialog_interact_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //submit dialog add thread
                         try {
-                            if (edit_title_insert_thread.getText().equals("")) {
+                            if (edit_title_insert_thread.getText().equals("") || edit_title_insert_thread.getText().toString().trim().equals("")) {
                                 Toast.makeText(getContext(), "You must provide a title", Toast.LENGTH_SHORT).show();
                             } else {
                                 insertthreadAsync insertthread = new insertthreadAsync(getContext());
@@ -113,14 +121,9 @@ public class ThreadFragment extends Fragment
                                 SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                                 String session_id = pref.getString("session_id", null);
                                 threadAsync threadAsync;
-                                if (listThreads.size() == 0) {
-                                    threadAsync = new threadAsync(getContext(), Integer.valueOf(topic.getId()), session_id, 100, 0);
-                                } else {
-                                    threadAsync = new threadAsync(getContext(), Integer.valueOf(topic.getId()), session_id, 100, Integer.valueOf(listThreads.get(listThreads.size() - 1).getId()));
-                                }
-
+                                listThreads.clear();
+                                threadAsync = new threadAsync(getContext(), Integer.valueOf(topic.getId()), session_id, 20, 0);
                                 threadAsync.execute(topic.getId());
-
                                 ThreadSync changeStatus = new ThreadSync(getContext(), session_id, Integer.parseInt(topic.getId()), 1);
                                 changeStatus.execute();
                                 dialog.dismiss();
@@ -140,8 +143,8 @@ public class ThreadFragment extends Fragment
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
         final String session_id = pref.getString("session_id", null);
-        threadAsync threadAsync = new threadAsync(getContext(),Integer.valueOf(topic.getId()),session_id,100,0);
-        threadAsync.execute(topic.getId());
+        populatRecyclerView(session_id);
+        implementScrollListener(topic.getId());
         //------------------------------------------------------------------------------
         return view;
     }
@@ -151,6 +154,66 @@ public class ThreadFragment extends Fragment
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
+    }
+
+    private void populatRecyclerView(final String session_id) {
+        try {
+            threadAsync threadAsync = new threadAsync(getContext(),Integer.valueOf(topic.getId()),session_id,20,0);
+            threadAsync.execute(topic.getId());
+            if (listThreads.size() == 0) {
+                adapterThread = new AdapterThread(getActivity(), listThreads);
+                rv_thread.setAdapter(adapterThread);
+            } else {
+                adapterThread.notifyDataSetChanged();
+            }
+
+            rv_thread.addOnItemTouchListener(new redix.booxtown.recyclerclick.RecyclerItemClickListener(getActivity(),
+                    new redix.booxtown.recyclerclick.RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Thread item = (Thread) listThreads.get(position);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("thread", item);
+                            bundle.putSerializable("interact", topic);
+                            bundle.putString("type_fragment","ThreadFragment");
+                            InteractThreadDetailsFragment fragment= new InteractThreadDetailsFragment();
+                            fragment.setArguments(bundle);
+                            callFragment(fragment);
+
+                            SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                            String session_id = pref.getString("session_id", null);
+                            ThreadSync changeStatus = new ThreadSync(getContext(), session_id, Integer.parseInt(item.getId()),0);
+                            changeStatus.execute();
+                        }
+                    }));
+        }catch (Exception e){}
+    }
+
+    private void implementScrollListener(final String thread_id) {
+        rv_thread.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = recyclerView.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                    // End has been reached
+                    Thread thread= listThreads.get(listThreads.size()-1);
+                    threadAsync getthread = new threadAsync(getContext(),Integer.valueOf(topic.getId()), thread_id, 20, Integer.valueOf(thread.getId()));
+                    getthread.execute(topic.getId());
+                    // Do something
+                    loading = true;
+                }
+            }
+        });
     }
 
     class threadAsync extends AsyncTask<String,Void,List<Thread>>{
@@ -179,65 +242,19 @@ public class ThreadFragment extends Fragment
         @Override
         protected List<Thread> doInBackground(String... strings) {
             ThreadController threadController = new ThreadController();
-
-                return threadController.threadGetTop(session_id, strings[0], top, from);
-
-
+            return threadController.threadGetTop(session_id, strings[0], top, from);
         }
 
         @Override
         protected void onPostExecute(final List<Thread> threads) {
             try{
                 if(threads.size()>0){
-//                    listThreads.addAll(listThreads);
                     listThreads.addAll(threads);
-                    //listtemp.addAll(threads);
-                    Collections.sort(listThreads,Thread.aseid);
-                    //Collections.sort(listtemp,Thread.aseid);
-                    adapterThread = new AdapterThread(context,listThreads,rv_thread);
                     rv_thread.setAdapter(adapterThread);
-                    //adapterThread.setLoaded();
-                    if (listThreads.size()>=10) {
-                        adapterThread.setOnLoadMoreListener(new OnLoadMoreListener() {
-                            @Override
-                            public void onLoadMore() {
-                                //listThreads.add(null);
-                                //adapterThread.notifyItemInserted(listThreads.size() - 1);
-                                //Load more data for reyclerview
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //Remove loading item
-//                                        listThreads.remove(listThreads.size() - 1);
-//                                        adapterThread.notifyItemRemoved(listThreads.size());
-                                        threadAsync getalltopic = new threadAsync(getContext(),Integer.valueOf(topic.getId()), session_id, 100, Integer.valueOf(listThreads.get(listThreads.size()-1).getId()));
-                                        getalltopic.execute(topic.getId());
-                                    }
-                                }, 500);
-                            }
-                        });
-
-                    }
-                    rv_thread.addOnItemTouchListener(new redix.booxtown.recyclerclick.RecyclerItemClickListener(getActivity(),
-                            new redix.booxtown.recyclerclick.RecyclerItemClickListener.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            final Thread item = (Thread) listThreads.get(position);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("thread", item);
-                            bundle.putSerializable("interact", topic);
-                            bundle.putString("type_fragment","ThreadFragment");
-                            InteractThreadDetailsFragment fragment= new InteractThreadDetailsFragment();
-                            fragment.setArguments(bundle);
-                            callFragment(fragment);
-
-                            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                            String session_id = pref.getString("session_id", null);
-                            ThreadSync changeStatus = new ThreadSync(context, session_id, Integer.parseInt(item.getId()),0);
-                            changeStatus.execute();
-                        }
-                    }));
+                    txt_count_thread.setText("("+listThreads.size()+")");
+                    isLoading = true;
                 }else{
+                    isLoading = false;
                     //Toast.makeText(context,"No data",Toast.LENGTH_SHORT).show();
                 }
             }catch (Exception e){
@@ -246,54 +263,6 @@ public class ThreadFragment extends Fragment
             dialog.dismiss();
         }
     }
-
-
-//    class threadAsync1 extends AsyncTask<String,Void,List<Thread>>{
-//        ProgressDialog dialog;
-//        Context context;
-//        String session_id;
-//        String topicid;
-//        int top, from;
-//        int flag;
-//        public threadAsync1(Context context,String topicid, String session_id, int top, int from){
-//
-//            this.context = context;
-//            this.session_id=session_id;
-//            this.top=top;
-//            this.from=from;
-//            this.topicid = topicid;
-//            //this.flag= flag;
-//        }
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected List<Thread> doInBackground(String... strings) {
-//            ThreadController threadController = new ThreadController();
-//            return threadController.threadGetTop(session_id, topicid, top, from);
-//
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(final List<Thread> threads) {
-//            try{
-//                if(threads.size()>0){
-//                    listThreads.addAll(threads);
-//                    //listtemp.addAll(threads);
-//                    //Collections.sort(listtemp,Thread.aseid);
-//                    Collections.sort(listThreads,Thread.aseid);
-//                }else{
-//                    //Toast.makeText(context,"No data",Toast.LENGTH_SHORT).show();
-//                }
-//            }catch (Exception e){
-//
-//            }
-//        }
-//    }
-
 
 
     public class ThreadSync extends AsyncTask<Void,Void,Boolean> {

@@ -20,7 +20,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -117,6 +120,15 @@ public class InteractThreadDetailsFragment extends Fragment
                         insertComment insertComment1 = new insertComment(getContext());
                         insertComment1.execute(session_id, edit_message.getText().toString(), threads.getId());
                         edit_message.setText("");
+                        arr_commet.clear();
+                        commentAsync getcomment = new commentAsync(getContext(),threads.getId(),15,0);
+                        getcomment.execute();
+//                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                        Date date = new Date();
+//                        System.out.println(dateFormat.format(date));
+//                        Comment comment = new Comment("",
+//                                edit_message.getText().toString(),dateFormat.format(date),threads.getId(),threads.getUser_id()
+//                        ,threads.getUsername());
                     }
                 }
             });
@@ -222,7 +234,9 @@ public class InteractThreadDetailsFragment extends Fragment
                         }
                     }
                     dialog.dismiss();
+                    isLoading = true;
                 }else {
+                    isLoading = false;
                     dialog.dismiss();
                 }
             }catch (Exception e){
@@ -298,12 +312,10 @@ public class InteractThreadDetailsFragment extends Fragment
                 if(aBoolean == true){
                     //Toast.makeText(context,"success",Toast.LENGTH_SHORT).show();
 //                    int count= threads.getNum_comment()+1;
-
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     String session_id = pref.getString("session_id", null);
                     ThreadSync changeStatus = new ThreadSync(context, session_id, Integer.parseInt(threads.getId()));
                     changeStatus.execute();
-
                     UserID us= new UserID(getContext());
                     us.execute(session_id);
 

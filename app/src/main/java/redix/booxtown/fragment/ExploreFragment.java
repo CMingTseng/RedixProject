@@ -517,13 +517,18 @@ public class ExploreFragment extends Fragment
         @Override
         protected void onPostExecute(List<Book> list) {
             try {
-                listExplore.addAll(list);
-                Collections.sort(listExplore, Book.asid);
-                adapter_exploer.notifyDataSetChanged();
-                tab_all_count.setText("(" + filterExplore(1).size() + ")");
-                tab_swap_count.setText("(" + filterExplore(2).size() + ")");
-                tab_free_count.setText("(" + filterExplore(3).size() + ")");
-                tab_cart_count.setText("(" + filterExplore(4).size() + ")");
+                if(list.size() >0) {
+                    listExplore.addAll(list);
+                    //Collections.sort(listExplore, Book.asid);
+                    adapter_exploer.notifyDataSetChanged();
+                    tab_all_count.setText("(" + filterExplore(1).size() + ")");
+                    tab_swap_count.setText("(" + filterExplore(2).size() + ")");
+                    tab_free_count.setText("(" + filterExplore(3).size() + ")");
+                    tab_cart_count.setText("(" + filterExplore(4).size() + ")");
+                    isLoading = true;
+                }else{
+                    isLoading = false;
+                }
             }catch (Exception e){
 
             }

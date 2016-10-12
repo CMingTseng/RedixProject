@@ -36,24 +36,43 @@ import redix.booxtown.recyclerclick.RecyclerItemClickListener;
 /**
  * Created by Administrator on 27/08/2016.
  */
-public class AdapterTopic extends BaseAdapter {
+public class AdapterTopic extends RecyclerView.Adapter<AdapterTopic.HolderTopic> {
     Context context;
     private List<Topic> listTopic;
-    private static LayoutInflater inflater=null;
+
     public AdapterTopic(Context context, List<Topic> listTopic) {
         this.listTopic = listTopic;
         this.context = context;
-        inflater = ( LayoutInflater )context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
-    public int getCount() {
-        return listTopic.size();
+    public HolderTopic onCreateViewHolder(ViewGroup parent, int viewType) {
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_interact, null);
+        HolderTopic rcv = new HolderTopic(layoutView);
+        return rcv;
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public void onBindViewHolder(HolderTopic holder, int position) {
+        Topic interact = listTopic.get(position);
+        Picasso.with(context).load(R.drawable.btn_interact_next).into(holder.imageView);
+
+        holder.txt_title_interact.setText(interact.getTitle());
+        holder.txt_count_interact.setText("(" + interact.getNum_thread() + ")");
+
+        if (interact.getIs_read() == 0) {
+            holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_text));
+        } else {
+            holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
+        }
+        try {
+            String[] dates = interact.getCreate_date().substring(0, 10).split("-");
+            String resultDate = dates[2] +"-"+dates[1] +"-"+dates[0].substring(2,dates[0].length());
+            holder.txt_dateUpdate_interact.setText("Last Updated on " + resultDate);
+
+        }catch (Exception exx) {
+            holder.txt_dateUpdate_interact.setText("Last Updated on ");
+
+        }
     }
 
     @Override
@@ -62,47 +81,21 @@ public class AdapterTopic extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Holder holder = new Holder();
-        Topic interact = listTopic.get(position);
-        view = inflater.inflate(R.layout.custom_interact, null);
-        //holder.topic_interact=(RelativeLayout) itemView.findViewById(R.id.topic_interact);
-        holder.txt_title_interact = (TextView) view.findViewById(R.id.txt_title_interact);
-        holder.txt_count_interact = (TextView) view.findViewById(R.id.txt_count_interact);
-        holder.txt_dateUpdate_interact = (TextView) view.findViewById(R.id.txt_time_update_interact);
-        holder.imageView = (ImageView)view.findViewById(R.id.imageView_next_interac);
-        Picasso.with(context).load(R.drawable.btn_interact_next).into(holder.imageView);
-
-        holder.txt_title_interact.setText(interact.getTitle());
-        holder.txt_count_interact.setText("(" + interact.getNum_thread() + ")");
-
-            if (interact.getIs_read() == 0) {
-                holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_text));
-            } else {
-                holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
-            }
-            try {
-                String[] dates = interact.getCreate_date().substring(0, 10).split("-");
-                String resultDate = dates[2] +"-"+dates[1] +"-"+dates[0].substring(2,dates[0].length());
-                holder.txt_dateUpdate_interact.setText("Last Updated on " + resultDate);
-
-            }catch (Exception exx) {
-                 holder.txt_dateUpdate_interact.setText("Last Updated on ");
-
-            }
-
-        return view;
+    public int getItemCount() {
+        return listTopic.size();
     }
 
-
-    public class Holder{
-
+    class HolderTopic extends RecyclerView.ViewHolder{
         public TextView txt_title_interact;
         public TextView txt_count_interact;
         public TextView txt_dateUpdate_interact;
         ImageView imageView;
-        //public RelativeLayout topic_interact;
+        public HolderTopic(View itemView) {
+            super(itemView);
+            txt_title_interact = (TextView) itemView.findViewById(R.id.txt_title_interact);
+            txt_count_interact = (TextView) itemView.findViewById(R.id.txt_count_interact);
+            txt_dateUpdate_interact = (TextView) itemView.findViewById(R.id.txt_time_update_interact);
+            imageView = (ImageView)itemView.findViewById(R.id.imageView_next_interac);
+        }
     }
 }

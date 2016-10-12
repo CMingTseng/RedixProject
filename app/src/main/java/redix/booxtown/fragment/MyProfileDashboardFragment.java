@@ -71,7 +71,14 @@ public class MyProfileDashboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.my_profile_dashboard_fragment, container, false);
         init(view);
-
+        lv_myprofile_dashboard.setLayoutManager(linearLayoutManager);
+        lv_myprofile_dashboard.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         user = (User)getArguments().getSerializable("user");
         Picasso.with(getContext())
                 .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.getUsername()+"&image="+user.getPhoto().substring(user.getUsername().length()+3,user.getPhoto().length()))
@@ -143,14 +150,6 @@ public class MyProfileDashboardFragment extends Fragment {
 
     public void init(View view){
         linearLayoutManager = new LinearLayoutManager(getContext());
-        lv_myprofile_dashboard.setLayoutManager(linearLayoutManager);
-        lv_myprofile_dashboard.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
         imv_menu_profile = (CircularImageView)view.findViewById(R.id.imv_menu_profile);
         ratingBar_userprofile = (RatingBar)view.findViewById(R.id.ratingBar_userprofile);
         img_rank1 = (ImageView)view.findViewById(R.id.img_rank1);
