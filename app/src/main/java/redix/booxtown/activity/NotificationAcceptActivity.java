@@ -172,7 +172,7 @@ public class NotificationAcceptActivity extends AppCompatActivity {
     class getBookByID extends AsyncTask<Void, Void, List<Book>> {
         Transaction trans;
         Context ctx;
-        ProgressDialog dialog;
+
         public getBookByID(Context ctx, Transaction trans) {
             this.trans = trans;
             this.ctx = ctx;
@@ -187,10 +187,7 @@ public class NotificationAcceptActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(ctx);
-            dialog.setMessage("Please wait...");
-            dialog.setIndeterminate(true);
-            dialog.show();
+
             super.onPreExecute();
         }
 
@@ -207,7 +204,7 @@ public class NotificationAcceptActivity extends AppCompatActivity {
                     txt_author_book_sell_noti_accept.setText(trans.getBook_author());
                     txt_title_book_buy_noti_accept.setText(list.get(0).getTitle());
                     txt_author_book_buy_noti_accept.setText(list.get(0).getAuthor());
-                    dialog.dismiss();
+
                 }
             } catch (Exception e) {
             }

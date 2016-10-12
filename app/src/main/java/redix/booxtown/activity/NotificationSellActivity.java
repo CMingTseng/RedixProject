@@ -331,7 +331,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
     class transactionChangeStatus extends AsyncTask<Void, Void, String> {
 
         Context context;
-        ProgressDialog dialog;
+        //ProgressDialog dialog;
         Transaction trans;
         String session_id, trans_id, status_id;
         int type;
@@ -553,7 +553,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
             this.type= type;
             this.user_id=user_id;
         }
-        ProgressDialog dialog;
+        //ProgressDialog dialog;
         @Override
         protected List<User> doInBackground(String... strings) {
             UserController userController  = new UserController(context);
@@ -570,7 +570,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
             try {
                 if(userResult.size() == 0){
                     //Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_LONG).show();
-                    dialog.dismiss();
+                    //dialog.dismiss();
                 }else {
                     if (type==0){
                         firstNameBuyer = userResult.get(0).getFirst_name();

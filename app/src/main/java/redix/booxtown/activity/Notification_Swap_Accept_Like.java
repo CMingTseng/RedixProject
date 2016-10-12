@@ -155,7 +155,7 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
     class transAsync extends AsyncTask<String, Void, Transaction> {
 
         Context context;
-        ProgressDialog dialog;
+        //ProgressDialog dialog;
         String trans_id;
 
         public transAsync(Context context, String trans_id) {

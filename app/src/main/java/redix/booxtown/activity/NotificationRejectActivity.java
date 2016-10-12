@@ -164,7 +164,7 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
     class transAsync extends AsyncTask<String, Void, Transaction> {
 
         Context context;
-        ProgressDialog dialog;
+       // ProgressDialog dialog;
         List<Book> listemp;
         String trans_id;
 
@@ -203,7 +203,7 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
     class getBookByID extends AsyncTask<Void, Void, List<Book>> {
         Transaction trans;
         Context ctx;
-        ProgressDialog dialog;
+        //ProgressDialog dialog;
         public getBookByID(Context ctx, Transaction trans) {
             this.trans = trans;
             this.ctx = ctx;
@@ -218,10 +218,10 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(ctx);
-            dialog.setMessage("Please wait...");
-            dialog.setIndeterminate(true);
-            dialog.show();
+//            dialog = new ProgressDialog(ctx);
+//            dialog.setMessage("Please wait...");
+//            dialog.setIndeterminate(true);
+//            dialog.show();
             super.onPreExecute();
         }
 
@@ -237,7 +237,7 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
                     txt_book_author_sell_notifi_reject.setText(trans.getBook_author());
                     txt_book_buy_notifi_reject.setText(list.get(0).getTitle());
                     txt_book_author_buy_notifi_reject.setText(list.get(0).getAuthor());
-                    dialog.dismiss();
+                    //dialog.dismiss();
                 }
             } catch (Exception e) {
             }
