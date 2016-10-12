@@ -27,8 +27,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textColor="@color/dot_light_screen2"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="7dp"
                 android:textSize="@dimen/slide_desc"/>
 
             <redix.booxtown.custom.CustomTextView
@@ -40,7 +40,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="7dp"
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/dot_light_screen2"
                 android:textSize="@dimen/text_wishboard_date"
@@ -53,8 +53,7 @@
                 android:layout_below="@+id/txt_author_marker"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 app:siBorderColor="@color/color_title_book"
                 app:siBorderWidth="1dp"
                 android:layout_marginBottom="3dp"
@@ -87,11 +86,11 @@
                 android:layout_below="@+id/txt_user_marker"
                 android:layout_alignLeft="@+id/txt_user_marker"
                 android:layout_alignStart="@+id/txt_user_marker"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="10dp" />
 
             <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/img_swap_marker"
                 android:layout_alignBottom="@+id/ratingBar_marker"
                 android:layout_toRightOf="@+id/ratingBar_marker"
@@ -99,8 +98,8 @@
                 android:layout_marginRight="10dp" />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="14dp"
                 android:id="@+id/img_free_marker"
                 android:layout_alignBottom="@+id/ratingBar_marker"
                 android:layout_toRightOf="@+id/img_swap_marker"
@@ -109,8 +108,8 @@
                 android:layout_alignTop="@+id/img_swap_marker" />
 
             <ImageView
-                android:layout_width="26dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/img_buy_marker"
                 android:layout_alignBottom="@+id/img_free_marker"
                 android:layout_toRightOf="@+id/img_free_marker"
