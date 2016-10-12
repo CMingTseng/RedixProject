@@ -368,6 +368,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
             return resizedBitmap;
         } catch (Exception e) {
+            String err= e.getMessage();
         }
         return null;
     }
@@ -632,7 +633,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
             }
             for (int i = 0; i < books.size(); i++) {
-                marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Hello Maps");
+                marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Booxtown");
                 latLngBounds = new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude());
                 // Changing marker icon
                 char array[] = books.get(i).getAction().toCharArray();
