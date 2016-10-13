@@ -149,9 +149,11 @@ public class TopicFragment extends Fragment
     public void callFragment(Fragment fragment ){
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.frame_main_all, fragment,"Topic");
-        transaction.addToBackStack("Topic");
-        manager.executePendingTransactions();
+       // transaction.remove(manager.findFragmentById(R.id.frame_main_all)); // resolves to A_Fragment instance
+        //transaction.add(R.id.frame_main_all, fragment,"Topic");
+        transaction.replace(R.id.frame_main_all, fragment,"Topic");
+        //transaction.addToBackStack("Topic");
+        //manager.executePendingTransactions();
         transaction.commit();
     }
 

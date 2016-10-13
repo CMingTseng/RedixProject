@@ -95,7 +95,6 @@ Button mButtonForgotPass;
                 }
                 else {
                     SiginAsystask siginAsystask = new SiginAsystask();
-
                     siginAsystask.execute(edt_username.getText().toString(), edt_pass.getText().toString(), "iphonecuatung",session_id);
                 }
             default:
