@@ -104,13 +104,11 @@ Button mButtonForgotPass;
 
 
     class SiginAsystask extends AsyncTask<String,Void,String>{
-
         ProgressDialog dialog;
         String sessionId="";
         @Override
         protected String doInBackground(String... params) {
             try {
-
                 java.lang.Thread.sleep(3000);
                 session_id = FirebaseInstanceId.getInstance().getToken().toString();
                 sessionId=session_id;
@@ -141,10 +139,8 @@ Button mButtonForgotPass;
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", session_id);
                     editor.putString("username", edt_username.getText().toString());
-
                     UserInfoAsystask us= new UserInfoAsystask();
                     us.execute(session_id);
-
                     editor.commit();
                     dialog.dismiss();
                 } else {
