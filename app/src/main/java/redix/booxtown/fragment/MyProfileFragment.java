@@ -94,6 +94,7 @@ public class MyProfileFragment extends Fragment {
     String img_photo;
     String photoOrigin="";
     boolean flag = false;
+    TextView myDashboard;
     UploadFileController uploadFileController;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
@@ -144,6 +145,7 @@ public class MyProfileFragment extends Fragment {
         txt_profile_username = (TextView)view.findViewById(R.id.txt_profile_username);
         ratingBar_userprofile = (RatingBar)view.findViewById(R.id.ratingBar_userprofile);
         imageView_update_profile = (ImageView)view.findViewById(R.id.imageView_update_profile);
+        myDashboard=(TextView) view.findViewById(R.id.textView87);
         //end
 
         //list book
@@ -395,6 +397,16 @@ public class MyProfileFragment extends Fragment {
                             profile.setArguments(bundle);
                             callFragment(profile);
 
+                        }
+                    });
+                    myDashboard.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("user",userResult.get(0));
+                            profile.setArguments(bundle);
+                            callFragment(profile);
                         }
                     });
                     //set rank

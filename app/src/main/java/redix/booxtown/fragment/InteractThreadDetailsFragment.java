@@ -65,6 +65,7 @@ public class InteractThreadDetailsFragment extends Fragment
     AdapterInteractThreadDetails adapter;
     List<String> listUser= new ArrayList<>();
     EditText edit_message;
+    boolean flag=true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,23 +77,31 @@ public class InteractThreadDetailsFragment extends Fragment
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(topic !=null) {
-                    if (type_fragment.equals("NotificationFragment")){
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                    return;
+                }else {
+                    if (topic != null) {
+                        if (type_fragment.equals("NotificationFragment")) {
+                            HomeActivity homeActivity = (HomeActivity) getActivity();
+                            homeActivity.getTxtTitle().setText("Notifications");
+                            homeActivity.callFragment(new NotificationFragment());
+                        } else {
+                            FragmentManager fm = getFragmentManager();
+                            if (fm.getBackStackEntryCount() > 0) {
+                                fm.popBackStack();
+                            }
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("thread", topic);
+                            ThreadFragment fragment = new ThreadFragment();
+                            fragment.setArguments(bundle);
+                            callFragment(fragment);
+                        }
+                    } else {
                         HomeActivity homeActivity = (HomeActivity) getActivity();
                         homeActivity.getTxtTitle().setText("Notifications");
                         homeActivity.callFragment(new NotificationFragment());
-                    }else {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("thread", topic);
-                        ThreadFragment fragment = new ThreadFragment();
-                        fragment.setArguments(bundle);
-                        callFragment(fragment);
                     }
-                }
-                else {
-                    HomeActivity homeActivity = (HomeActivity) getActivity();
-                    homeActivity.getTxtTitle().setText("Notifications");
-                    homeActivity.callFragment(new NotificationFragment());
                 }
             }
         });
@@ -143,6 +152,20 @@ public class InteractThreadDetailsFragment extends Fragment
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
+    }
+    public void replaceFragment (Fragment fragment){
+        String backStateName =  fragment.getClass().getName();
+        String fragmentTag = backStateName;
+
+        FragmentManager manager =  getActivity().getSupportFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){ //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.frame_main_all, fragment, fragmentTag);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
     }
 
     public void init(View view){

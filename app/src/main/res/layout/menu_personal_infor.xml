@@ -170,7 +170,9 @@
         android:textColor="@color/color_text"
         android:layout_alignBottom="@+id/img_menu_personal_dashboard"
         android:layout_below="@+id/textView86"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/img_menu_personal_dashboard"
+        android:layout_toStartOf="@+id/img_menu_personal_dashboard" />
 
     <ImageView
         android:layout_width="11dp"

@@ -72,7 +72,12 @@ public class ThreadFragment extends Fragment
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callFragment(new TopicFragment());
+                if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getActivity().getSupportFragmentManager().popBackStackImmediate("Topic",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    return;
+                }else {
+                    callFragment(new TopicFragment());
+                }
             }
         });
         //-----------------------------------------------
@@ -150,10 +155,28 @@ public class ThreadFragment extends Fragment
     }
     public void callFragment(Fragment fragment ){
         FragmentManager manager = getActivity().getSupportFragmentManager();
+
         FragmentTransaction transaction = manager.beginTransaction();
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
-        transaction.replace(R.id.frame_main_all, fragment);
+        transaction.remove(manager.findFragmentById(R.id.frame_main_all)); // resolves to A_Fragment instance
+        transaction.add(R.id.frame_main_all, fragment);
+        transaction.addToBackStack(null);
+        manager.executePendingTransactions();
         transaction.commit();
+    }
+    public void replaceFragment (Fragment fragment){
+        String backStateName =  fragment.getClass().getName();
+        String fragmentTag = backStateName;
+
+        FragmentManager manager =  getActivity().getSupportFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){ //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.frame_main_all, fragment, fragmentTag);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
     }
 
     private void populatRecyclerView(final String session_id) {

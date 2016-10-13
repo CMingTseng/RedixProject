@@ -319,45 +319,7 @@ public class ListingsFragment extends Fragment
         return view;
     }
 
-    /*private void populatRecyclerView(String session_id) {
-        listingAsync getbook = new listingAsync(getContext(),session_id,0,15);
-        getbook.execute();
-        if(listExplore.size() == 0){
-            adapter_listbook = new ListBookAdapter(getActivity(), listExplore, 1,2);
-            rView.setAdapter(adapter_listbook);
-        }else {
-            adapter_listbook.notifyDataSetChanged();
-        }
-    }*/
 
-    /*private void implementScrollListener(final String session_id) {
-        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = rView.getChildCount();
-                int totalItemCount = gridLayoutManager.getItemCount();
-                int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
-
-                if (loading) {
-                    if (totalItemCount > previousTotal) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                    }
-                }
-                if (!loading && (totalItemCount - visibleItemCount)
-                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
-                    // End has been reached
-                    Book book = listExplore.get(listExplore.size()-1);
-                    listingAsync getbook = new listingAsync(getContext(),session_id,Integer.valueOf(book.getId()),15);
-                    getbook.execute();
-                    // Do something
-                    loading = true;
-                }
-            }
-        });
-    }
-*/
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
@@ -380,8 +342,6 @@ public class ListingsFragment extends Fragment
         int meterInDec = Integer.valueOf(newFormat.format(meter));
         return kmInDec;
     }
-
-
     public void filter(ArrayList<String> listvalueGenre){
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
@@ -485,6 +445,9 @@ public class ListingsFragment extends Fragment
         protected void onPostExecute(List<Book> books) {
             try {
                 if (books == null) {
+
+                    Toast.makeText(getContext(),"You do not have any books added yet", Toast.LENGTH_SHORT).show();
+
                     dialog.dismiss();
                     isLoading = false;
                 } else {
