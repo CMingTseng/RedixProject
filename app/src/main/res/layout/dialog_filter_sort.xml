@@ -73,10 +73,12 @@
                 android:id="@+id/rangeSeekbar3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:corner_radius="10"
+                app:corner_radius="30"
                 app:min_value="0"
                 app:max_value="1000"
-                app:gap="0"
+                app:gap="1"
+                app:position="right"
+                app:max_start_value="1"
                 app:bar_color="@color/color_text_hint"
                 app:bar_highlight_color="@color/color_text"
                 app:left_thumb_image="@drawable/btn_filter_standar"
@@ -85,7 +87,7 @@
                 app:right_thumb_image_pressed="@drawable/btn_filter_standar"
                 app:data_type="_integer"
                 android:layout_below="@+id/textView127"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentLeft="false"
                 android:layout_alignParentStart="true"
                 android:layout_margin="5dp" />
             <redix.booxtown.custom.CustomTextView
@@ -147,17 +149,16 @@
             <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10 KM"
+                android:text="10KM"
                 android:id="@+id/txt_filter_proximity"
                 android:layout_below="@+id/rangeSeekbar8"
                 android:textColor="@color/color_text_hint"
                 android:gravity="right"
                 android:layout_marginRight="5dp"
+                android:textSize="@dimen/text_size_filter"
+                android:paddingLeft="10px"
                 android:layout_alignRight="@+id/rangeSeekbar8"
-                android:layout_alignEnd="@+id/rangeSeekbar8"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:textSize="@dimen/text_size_filter"/>
+                 />
             <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

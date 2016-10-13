@@ -182,8 +182,8 @@ public class ListingsFragment extends Fragment
                 canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
                         new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
                 Drawable drawable = new BitmapDrawable(getResources(),thumb);
-                rangeSeekbar.setLeftThumbDrawable(drawable);
-                rangeSeekbar.setRightThumbDrawable(drawable);
+                //rangeSeekbar.setLeftThumbDrawable(drawable);
+                //rangeSeekbar.setRightThumbDrawable(drawable);
 
 
                 tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
@@ -193,18 +193,28 @@ public class ListingsFragment extends Fragment
                     @Override
                     public void valueChanged(Number minValue, Number maxValue) {
                         tvMin.setText(String.valueOf(minValue));
-                        tvMax.setText(String.valueOf(maxValue));
+                        if(String.valueOf(maxValue).equals("1")){
+                            tvMax.setText("1000");
+                        }else{
+                            tvMax.setText(String.valueOf(maxValue));
+                        }
+
                     }
                 });
 
-                txt_filter_proximity = (TextView)dialog.findViewById(R.id.txt_filter_proximity);
+                txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
                 seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
-                seekbar.setLeftThumbDrawable(drawable);
+                //seekbar.setLeftThumbDrawable(drawable);
                 seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue) {
-                        txt_filter_proximity.setText(String.valueOf(minValue)+"KM");
-                        proximity = String.valueOf(minValue);
+                        if(String.valueOf(minValue).equals("0")){
+                            txt_filter_proximity.setText("10KM");
+                            proximity = String.valueOf(minValue);
+                        }else{
+                            txt_filter_proximity.setText(String.valueOf(minValue) + "KM");
+                            proximity = String.valueOf(minValue);
+                        }
                     }
                 });
 

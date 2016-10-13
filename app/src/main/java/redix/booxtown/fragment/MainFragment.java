@@ -65,6 +65,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.internal.Internal;
 import redix.booxtown.R;
 import redix.booxtown.activity.ListingsDetailActivity;
 import redix.booxtown.activity.MenuActivity;
@@ -122,14 +123,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 startActivity(intent);
             }
         });
-
         genre = new ArrayList<>();
         try {
-            Log.d("ahgdjhhshjhd", "dsd___" + FirebaseInstanceId.getInstance().getToken());
             FirebaseInstanceId.getInstance().deleteInstanceId();
             Intent refreshTokenFirebase = new Intent(getActivity(), MyFirebaseMessagingService.class);
             getActivity().startService(refreshTokenFirebase);
-            Log.d("ahgdjhhshjhd", "dsd___" + FirebaseInstanceId.getInstance().getToken());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -155,12 +153,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 List<Book> list_books = new ArrayList<Book>();
@@ -273,14 +268,6 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         ImageView btn_search = (ImageView) view.findViewById(R.id.btn_search);
         Picasso.with(getContext()).load(R.drawable.btn_locate_search).into(btn_search);
-
-        /*genre = new ArrayList<>();
-        for (int i = 0; i < GetAllGenreAsync.list.size(); i++) {
-            Genre genrel = new Genre();
-            genrel.setValue(GetAllGenreAsync.list.get(i));
-
-        }*/
-
         btn_filter_explore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -309,8 +296,10 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
                         new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
                 Drawable drawable = new BitmapDrawable(getResources(), thumb);
-                rangeSeekbar.setLeftThumbDrawable(drawable);
-                rangeSeekbar.setRightThumbDrawable(drawable);
+                //rangeSeekbar.setLeftThumbDrawable(drawable);
+                //rangeSeekbar.setRightThumbDrawable(drawable);
+
+                rangeSeekbar.setRight(0);
 
 
                 tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
@@ -320,18 +309,28 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     @Override
                     public void valueChanged(Number minValue, Number maxValue) {
                         tvMin.setText(String.valueOf(minValue));
-                        tvMax.setText(String.valueOf(maxValue));
+                        if(String.valueOf(maxValue).equals("1")){
+                            tvMax.setText("1000");
+                        }else{
+                            tvMax.setText(String.valueOf(maxValue));
+                        }
+
                     }
                 });
 
                 txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
                 seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
-                seekbar.setLeftThumbDrawable(drawable);
+                //seekbar.setLeftThumbDrawable(drawable);
                 seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue) {
-                        txt_filter_proximity.setText(String.valueOf(minValue) + "KM");
-                        proximity = String.valueOf(minValue);
+                        if(String.valueOf(minValue).equals("0")){
+                            txt_filter_proximity.setText("10KM");
+                            proximity = String.valueOf(minValue);
+                        }else{
+                            txt_filter_proximity.setText(String.valueOf(minValue) + "KM");
+                            proximity = String.valueOf(minValue);
+                        }
                     }
                 });
 
@@ -389,13 +388,6 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                         });
                     }
                 });
-                /*spinner2 = (Spinner) dialog.findViewById(R.id.spinner_dialog_filter);
-
-                dataAdapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_spinner_item, GetAllGenreAsync.list);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner2.setAdapter(dataAdapter);*/
-
             }
         });
     }
