@@ -42,7 +42,7 @@ public class Information {
     public final static String noti_update_nosetting = "Update setting no success";
     public final static String noti_update_fail = "Update Failed";
     public final static String noti_tran_done = "Transaction is done";
-    public final static String noti_invite_success = "Invite friend success";
+    public final static String noti_invite_success = "Thank you ! An email has been sent to your friend";
     public final static String noti_invite_fail = "Invite friend fail";
     public final static String noti_enter_email = "Please enter valid a email address";
     public final static String noti_check_wishboard = "Please fill a comment field";
@@ -51,4 +51,5 @@ public class Information {
     public final static String noti_not_check_free = "Do not check free";
     public final static String noti_not_check_sell = "You can't choose both Buy and Free action";
     public final static String noti_show_complete = "Please complete this transaction";
+
 }
