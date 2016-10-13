@@ -172,11 +172,8 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day){
-
             EditText textview = (EditText) getActivity().findViewById(R.id.birthday);
-
             textview.setText(year + "-" + (month+1) + "-" + day);
-
         }
     }
 

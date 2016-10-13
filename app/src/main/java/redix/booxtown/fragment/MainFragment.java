@@ -167,7 +167,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     }
                 }
                 if (list_books.size() > 0) {
-                    addMarker(list_books);
+                    addMarkerSearch(list_books);
                 }
             }
         });
@@ -355,7 +355,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                             }
                         }
                         dialog.dismiss();
-                        addMarker(filter(listvalueGenre));
+                        addMarkerSearch(filter(listvalueGenre));
                     }
                 });
 
@@ -670,24 +670,52 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         try {
             mMap.clear();
             if (books.size() > 0) {
+                GPSTracker gpsTracker = new GPSTracker(getContext());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 9));
+                for (int i = 0; i < books.size(); i++) {
+                    marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Booxtown");
+                    latLngBounds = new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude());
+                    // Changing marker icon
+                    char array[] = books.get(i).getAction().toCharArray();
+                    String swap = String.valueOf(array[0]);
+                    String buy = String.valueOf(array[1]);
+                    String free = String.valueOf(array[2]);
+                    String icon = IconMapController.icon(swap, free, buy);
+                    if (icon != null) {
+                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, 110, 150)));
+                    }
+                    Marker m_marker = mMap.addMarker(marker);
+                    mMarkersHashMap.put(m_marker, books.get(i));
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void addMarkerSearch(final List<Book> books) {
+        try {
+            mMap.clear();
+            if (books.size() > 0) {
                 LatLng latLng = new LatLng(books.get(0).getLocation_latitude(), books.get(0).getLocation_longitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
-            }
-            for (int i = 0; i < books.size(); i++) {
-                marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Booxtown");
-                latLngBounds = new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude());
-                // Changing marker icon
-                char array[] = books.get(i).getAction().toCharArray();
-                String swap = String.valueOf(array[0]);
-                String buy = String.valueOf(array[1]);
-                String free = String.valueOf(array[2]);
-                String icon = IconMapController.icon(swap, free, buy);
-                if (icon != null) {
-                    marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, 110, 150)));
+                for (int i = 0; i < books.size(); i++) {
+                    marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Booxtown");
+                    latLngBounds = new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude());
+                    // Changing marker icon
+                    char array[] = books.get(i).getAction().toCharArray();
+                    String swap = String.valueOf(array[0]);
+                    String buy = String.valueOf(array[1]);
+                    String free = String.valueOf(array[2]);
+                    String icon = IconMapController.icon(swap, free, buy);
+                    if (icon != null) {
+                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, 110, 150)));
+                    }
+                    Marker m_marker = mMap.addMarker(marker);
+                    mMarkersHashMap.put(m_marker, books.get(i));
                 }
-                Marker m_marker = mMap.addMarker(marker);
-                mMarkersHashMap.put(m_marker, books.get(i));
             }
+
         } catch (Exception e) {
 
         }
