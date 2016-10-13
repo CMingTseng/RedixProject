@@ -274,6 +274,7 @@ public class MainAllActivity extends AppCompatActivity{
         FragmentTransaction transaction = manager.beginTransaction();
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

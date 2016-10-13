@@ -34,7 +34,7 @@ package="redix.booxtown">
     <activity android:name=".activity.MainAllActivity" android:screenOrientation="portrait" />
 
     <meta-data android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyBl0FjpUMhZGk7BZR0OUE41j7vNc3yZChs" />
+        android:value="AIzaSyDd0UpkrPYr2nYZVkrVsTzdF5yM5SnbISU" />
     <activity android:name=".activity.Faq_content" />
     <!-- activity for Explore -->
 
