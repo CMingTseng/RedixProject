@@ -8,4 +8,7 @@
     <dimen name="btn_signin">140dp</dimen>
     <dimen name="btn_signin_maginleft">15dp</dimen>
     <dimen name="text_size_filter">10sp</dimen>
+
+    <dimen name="width_pin">110dp</dimen>
+    <dimen name="height_pin">130dp</dimen>
 </resources>

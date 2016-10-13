@@ -682,7 +682,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     String free = String.valueOf(array[2]);
                     String icon = IconMapController.icon(swap, free, buy);
                     if (icon != null) {
-                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, 110, 150)));
+                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,(int)getResources().getDimension(R.dimen.width_pin),
+                                (int)getResources().getDimension(R.dimen.height_pin))));
                     }
                     Marker m_marker = mMap.addMarker(marker);
                     mMarkersHashMap.put(m_marker, books.get(i));
@@ -709,7 +710,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     String free = String.valueOf(array[2]);
                     String icon = IconMapController.icon(swap, free, buy);
                     if (icon != null) {
-                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, 110, 150)));
+                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,(int)getResources().getDimension(R.dimen.width_pin),
+                                (int)getResources().getDimension(R.dimen.height_pin))));
                     }
                     Marker m_marker = mMap.addMarker(marker);
                     mMarkersHashMap.put(m_marker, books.get(i));
@@ -717,7 +719,6 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
 
         } catch (Exception e) {
-
         }
     }
     public class GetAllGenreAsync1 extends AsyncTask<Void,Void,List<GenreValue>>{
