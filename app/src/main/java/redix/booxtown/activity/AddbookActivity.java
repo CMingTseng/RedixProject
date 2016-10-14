@@ -655,7 +655,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             // create marker
             MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
             // Changing marker icon
-            marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this, img, 110, 150))));
+            marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this, img, (int)getResources().getDimension(R.dimen.width_pin),
+                    (int)getResources().getDimension(R.dimen.height_pin)))));
             // adding marker
             mMap.addMarker(marker);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 10));
@@ -726,7 +727,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
         // Changing marker icon
-        marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this,"icon_buy",110, 150))));
+        marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this,"icon_buy",(int)getResources().getDimension(R.dimen.width_pin),
+                (int)getResources().getDimension(R.dimen.height_pin)))));
         // adding marker
         mMap.addMarker(marker);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 9));

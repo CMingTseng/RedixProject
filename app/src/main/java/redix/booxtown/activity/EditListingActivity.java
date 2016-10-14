@@ -324,7 +324,8 @@ public class EditListingActivity extends AppCompatActivity implements LocationLi
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
         // Changing marker icon
-        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(80,120)));
+        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons((int)getResources().getDimension(R.dimen.width_pin),
+                (int)getResources().getDimension(R.dimen.height_pin))));
         // adding marker
         mMap.addMarker(marker);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 8));

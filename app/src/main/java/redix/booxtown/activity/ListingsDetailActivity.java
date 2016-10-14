@@ -533,7 +533,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             String free = String.valueOf(array[1]);
             String icon = IconMapController.icon(swap, free, buy);
             if (icon != null) {
-                marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, 110, 150)));
+                marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,(int)getResources().getDimension(R.dimen.width_pin),
+                        (int)getResources().getDimension(R.dimen.height_pin))));
             }
             mMap.addMarker(marker);
         } catch (Exception e) {
