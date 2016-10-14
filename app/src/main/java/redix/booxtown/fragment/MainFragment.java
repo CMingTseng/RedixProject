@@ -518,6 +518,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             String swap = String.valueOf(array[0]);
             String free = String.valueOf(array[1]);
             String buy = String.valueOf(array[2]);
+
+
             String icon = IconMapController.iconExplorer(swap, free, buy);
             if (icon.equals("icon_swap")) {
                 Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
@@ -687,8 +689,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     // Changing marker icon
                     char array[] = books.get(i).getAction().toCharArray();
                     String swap = String.valueOf(array[0]);
-                    String buy = String.valueOf(array[1]);
-                    String free = String.valueOf(array[2]);
+                    String free = String.valueOf(array[1]);
+                    String buy = String.valueOf(array[2]);
                     String icon = IconMapController.icon(swap, free, buy);
                     if (icon != null) {
                         marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,(int)getResources().getDimension(R.dimen.width_pin),
@@ -715,8 +717,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     // Changing marker icon
                     char array[] = books.get(i).getAction().toCharArray();
                     String swap = String.valueOf(array[0]);
-                    String buy = String.valueOf(array[1]);
-                    String free = String.valueOf(array[2]);
+                    String free = String.valueOf(array[1]);
+                    String buy = String.valueOf(array[2]);
                     String icon = IconMapController.icon(swap, free, buy);
                     if (icon != null) {
                         marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,(int)getResources().getDimension(R.dimen.width_pin),
