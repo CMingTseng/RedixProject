@@ -60,8 +60,8 @@ public class TopicFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.interact_fragment, container, false);
 
+        final View view = inflater.inflate(R.layout.interact_fragment, container, false);
         TextView title=(TextView) getActivity().findViewById(R.id.txt_title);
         title.setText("Interact");
 
@@ -87,6 +87,7 @@ public class TopicFragment extends Fragment
         implementScrollListener(session_id);
         return view;
     }
+
 
     private void populatRecyclerView(final String session_id) {
         try {

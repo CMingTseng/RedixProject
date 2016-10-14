@@ -181,6 +181,15 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         return view;
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("message", "This is my message to be reloaded");
+        super.onSaveInstanceState(outState);
+    }
+
+
+
     public List<Book> filter(List<String> filter) {
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
@@ -439,7 +448,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.setTrafficEnabled(true);
         GPSTracker gpsTracker = new GPSTracker(getContext());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 9));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 12));
         mMap.setOnInfoWindowClickListener(this);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
 
@@ -671,7 +680,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             mMap.clear();
             if (books.size() > 0) {
                 GPSTracker gpsTracker = new GPSTracker(getContext());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 9));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 12));
                 for (int i = 0; i < books.size(); i++) {
                     marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Booxtown");
                     latLngBounds = new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude());
@@ -698,7 +707,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             mMap.clear();
             if (books.size() > 0) {
                 LatLng latLng = new LatLng(books.get(0).getLocation_latitude(), books.get(0).getLocation_longitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
                 for (int i = 0; i < books.size(); i++) {
                     marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Booxtown");
                     latLngBounds = new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude());
