@@ -89,7 +89,11 @@
                 android:layout_below="@+id/textView127"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentStart="true"
-                android:layout_margin="5dp" />
+                android:layout_marginTop="7dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="7dp"
+                />
             <redix.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
