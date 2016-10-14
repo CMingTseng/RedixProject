@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -72,8 +73,9 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
             holder.date.setText(list.get(position).getCreate_date().substring(0, 10));
         }
 
-        Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.btn_wishbroad_message);
-        holder.imgv_listview_respond.setImageBitmap(btn1);
+//        Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.btn_wishbroad_message);
+//        holder.imgv_listview_respond.setImageBitmap(btn1);
+        Glide.with(context).load(R.drawable.btn_wishbroad_message).into(holder.imgv_listview_respond);
 
         holder.imgv_listview_respond.setOnClickListener(new View.OnClickListener() {
             @Override
