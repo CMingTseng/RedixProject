@@ -230,7 +230,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             imagebook3 = (ImageView) findViewById(R.id.imageView31);
             seekbar = (SeekBar) findViewById(R.id.seekBar2);
             Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-            Bitmap thumb=Bitmap.createBitmap(44,44, Bitmap.Config.ARGB_8888);
+            Bitmap thumb=Bitmap.createBitmap(40,40, Bitmap.Config.ARGB_8888);
             Canvas canvas=new Canvas(thumb);
             canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
                     new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);

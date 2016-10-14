@@ -283,7 +283,7 @@ public class ExploreFragment extends Fragment
                 rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
                 Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-                Bitmap thumb=Bitmap.createBitmap(38,38, Bitmap.Config.ARGB_8888);
+                Bitmap thumb=Bitmap.createBitmap(42,42, Bitmap.Config.ARGB_8888);
                 Canvas canvas=new Canvas(thumb);
                 canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
                         new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
