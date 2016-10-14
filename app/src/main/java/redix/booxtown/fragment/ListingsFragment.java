@@ -444,10 +444,8 @@ public class ListingsFragment extends Fragment
         @Override
         protected void onPostExecute(List<Book> books) {
             try {
-                if (books == null) {
-
+                if (books.size() ==0) {
                     Toast.makeText(getContext(),"You do not have any books added yet", Toast.LENGTH_SHORT).show();
-
                     dialog.dismiss();
                     isLoading = false;
                 } else {
