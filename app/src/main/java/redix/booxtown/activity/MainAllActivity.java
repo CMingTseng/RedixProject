@@ -341,7 +341,7 @@ public class MainAllActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Exit Application?");
         alertDialogBuilder
                 .setMessage("Click yes to exit!")
@@ -349,9 +349,9 @@ public class MainAllActivity extends AppCompatActivity{
                 .setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                moveTaskToBack(true);
-                                android.os.Process.killProcess(android.os.Process.myPid());
-                                System.exit(1);
+//                                moveTaskToBack(true);
+//                                android.os.Process.killProcess(android.os.Process.myPid());
+//                                System.exit(1);
                             }
                         })
 
@@ -363,7 +363,7 @@ public class MainAllActivity extends AppCompatActivity{
                 });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        alertDialog.show();*/
     }
 
     public static TextView getTxtTitle() {
