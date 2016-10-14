@@ -269,12 +269,25 @@ public class MainAllActivity extends AppCompatActivity{
 
     }
 
+    private void replaceFragment (Fragment fragment){
+        String backStateName = fragment.getClass().getName();
+
+        FragmentManager manager = getSupportFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped){ //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.frame_main_all, fragment);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
+    }
+
     public void callFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 

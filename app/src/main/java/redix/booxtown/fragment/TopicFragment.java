@@ -60,8 +60,8 @@ public class TopicFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.interact_fragment, container, false);
 
+        final View view = inflater.inflate(R.layout.interact_fragment, container, false);
         TextView title=(TextView) getActivity().findViewById(R.id.txt_title);
         title.setText("Interact");
 
@@ -87,6 +87,7 @@ public class TopicFragment extends Fragment
         implementScrollListener(session_id);
         return view;
     }
+
 
     private void populatRecyclerView(final String session_id) {
         try {
@@ -149,9 +150,11 @@ public class TopicFragment extends Fragment
     public void callFragment(Fragment fragment ){
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.frame_main_all, fragment,"Topic");
-        transaction.addToBackStack("Topic");
-        manager.executePendingTransactions();
+       // transaction.remove(manager.findFragmentById(R.id.frame_main_all)); // resolves to A_Fragment instance
+        //transaction.add(R.id.frame_main_all, fragment,"Topic");
+        transaction.replace(R.id.frame_main_all, fragment,"Topic");
+        //transaction.addToBackStack("Topic");
+        //manager.executePendingTransactions();
         transaction.commit();
     }
 

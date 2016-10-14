@@ -80,9 +80,6 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         edt_birthday.setOnClickListener(this);
         Intent intent1 = new Intent(this, DeleteTokenService.class);
         startService(intent1);
-
-
-
         if (CheckNetwork.isOnline(SigUp_Activity.this) == false){
             Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
         }
@@ -97,7 +94,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.signup:
-                ProgressDialog dialog = new ProgressDialog(SigUp_Activity.this);
+                /*ProgressDialog dialog = new ProgressDialog(SigUp_Activity.this);
                 try {
                     dialog.setMessage(Information.noti_dialog);
                     dialog.show();
@@ -107,7 +104,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 }catch (Exception e) {
                     dialog.dismiss();
                     Toast.makeText(SigUp_Activity.this, "Could not connect to server. Please try again", Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 UserController userController = new UserController(SigUp_Activity.this);
                 User user  = new User();
                 user.setBirthday(edt_birthday.getText().toString());
@@ -181,9 +178,18 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
         ProgressDialog dialog;
         UserController userController;
-
+        String sessionId="";
         @Override
         protected Boolean doInBackground(User... params) {
+
+            try {
+                Thread.sleep(3000);
+                session_id = FirebaseInstanceId.getInstance().getToken().toString();
+                sessionId=session_id;
+                params[0].setSession_id(sessionId);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             userController = new UserController(SigUp_Activity.this);
             boolean success = userController.signUp(params[0]);
             return success;
