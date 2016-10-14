@@ -37,5 +37,5 @@
     <dimen name="text_request_swap">24sp</dimen>
     <dimen name="text_size_filter">10sp</dimen>
     <dimen name="width_pin">110dp</dimen>
-    <dimen name="height_pin">130dp</dimen>
+    <dimen name="height_pin">120dp</dimen>
 </resources>

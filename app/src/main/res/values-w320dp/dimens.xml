@@ -27,5 +27,5 @@
     <dimen name="text_size_filter">10sp</dimen>
 
     <dimen name="width_pin">40dp</dimen>
-    <dimen name="height_pin">60dp</dimen>
+    <dimen name="height_pin">50dp</dimen>
 </resources>
