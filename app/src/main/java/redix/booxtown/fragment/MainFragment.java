@@ -23,6 +23,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -44,6 +46,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar;
 import com.github.siyamed.shapeimageview.CircularImageView;
@@ -305,8 +308,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
                         new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
                 Drawable drawable = new BitmapDrawable(getResources(), thumb);
-                //rangeSeekbar.setLeftThumbDrawable(drawable);
-                //rangeSeekbar.setRightThumbDrawable(drawable);
+                rangeSeekbar.setLeftThumbDrawable(drawable);
+                rangeSeekbar.setRightThumbDrawable(drawable);
 
                 rangeSeekbar.setRight(0);
 
@@ -376,8 +379,10 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_genre);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
-                        listView_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+                        RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        rv_genre.setLayoutManager(linearLayoutManager);
+                        rv_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
                         dialog.show();
 
                         Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);

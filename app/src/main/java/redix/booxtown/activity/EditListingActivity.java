@@ -15,6 +15,8 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -172,8 +174,10 @@ public class EditListingActivity extends AppCompatActivity implements LocationLi
                 dialog.setContentView(R.layout.dialog_genre);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                ListView listView_genre=(ListView)dialog.findViewById(R.id.listView_genre);
-                listView_genre.setAdapter(new CustomListviewGenre(EditListingActivity.this,genre));
+                RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                rv_genre.setLayoutManager(linearLayoutManager);
+                rv_genre.setAdapter(new CustomListviewGenre(getApplicationContext(), genre));
                 dialog.show();
 
                 Button button_spiner_genre = (Button)dialog.findViewById(R.id.button_spiner_genre);
@@ -202,8 +206,10 @@ public class EditListingActivity extends AppCompatActivity implements LocationLi
                 dialog.setContentView(R.layout.dialog_genre);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                ListView listView_genre=(ListView)dialog.findViewById(R.id.listView_genre);
-                listView_genre.setAdapter(new CustomListviewGenre(EditListingActivity.this,genre));
+                RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                rv_genre.setLayoutManager(linearLayoutManager);
+                rv_genre.setAdapter(new CustomListviewGenre(getApplicationContext(), genre));
                 dialog.show();
 
                 Button button_spiner_genre = (Button)dialog.findViewById(R.id.button_spiner_genre);

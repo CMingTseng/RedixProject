@@ -1,6 +1,7 @@
 package redix.booxtown.custom;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,72 +18,50 @@ import redix.booxtown.model.Genre;
 /**
  * Created by thuyetpham94 on 30/08/2016.
  */
-public class CustomListviewGenre extends BaseAdapter {
+public class CustomListviewGenre extends RecyclerView.Adapter<CustomListviewGenre.HolerGenre> {
     ArrayList<Genre> result;
     Context context;
-    private static LayoutInflater inflater=null;
     public CustomListviewGenre(Context context, ArrayList<Genre> prgmNameList) {
-        // TODO Auto-generated constructor stub
         result=prgmNameList;
         this.context=context;
-        inflater = ( LayoutInflater )context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-    @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return result.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return position;
+    public HolerGenre onCreateViewHolder(ViewGroup parent, int viewType) {
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_dialog_genre, null);
+        HolerGenre rcv = new HolerGenre(layoutView);
+        return rcv;
     }
 
     @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return position;
-    }
-
-    public class Holder
-    {
-        TextView tv;
-        CheckBox checkBox;
-    }
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
-        final Holder holder=new Holder();
-        View rowView;
-        rowView = inflater.inflate(R.layout.custom_dialog_genre, null);
-        holder.tv=(TextView) rowView.findViewById(R.id.txt_custom_listview_genre);
-        holder.checkBox = (CheckBox) rowView.findViewById(R.id.checkBox2);
+    public void onBindViewHolder(HolerGenre holder, final int position) {
         holder.tv.setText(result.get(position).getValue());
         holder.checkBox.setChecked(result.get(position).ischeck());
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (result.get(position).ischeck()==false){
-//                    result.get(position).setIscheck(true);
-//                    if (result.get(0).ischeck){
-//                        for (int i=0;i<result.size();i++){
-//                            result.get(i).setIscheck(true);
-//                        }
-//                    }
-//                }else {
-//                    result.get(position).setIscheck(false);
-//                    if (result.get(0).ischeck==false){
-//                        for (int i=0;i<result.size();i++){
-//                            result.get(i).setIscheck(false);
-//                        }
-//                    }
-//                }
-//                notifyDataSetChanged();
                 result.get(position).setIscheck(true);
             }
         });
-        return rowView;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return result.size();
+    }
+
+    class HolerGenre extends RecyclerView.ViewHolder{
+        TextView tv;
+        CheckBox checkBox;
+        public HolerGenre(View itemView) {
+            super(itemView);
+            tv=(TextView) itemView.findViewById(R.id.txt_custom_listview_genre);
+            checkBox = (CheckBox) itemView.findViewById(R.id.checkBox2);
+        }
     }
 }

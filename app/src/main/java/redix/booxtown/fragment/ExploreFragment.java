@@ -19,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -361,8 +362,11 @@ public class ExploreFragment extends Fragment
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_genre);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
-                        listView_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+
+                        RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        rv_genre.setLayoutManager(linearLayoutManager);
+                        rv_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
                         dialog.show();
 
                         Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);

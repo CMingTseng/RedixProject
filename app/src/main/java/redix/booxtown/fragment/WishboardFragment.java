@@ -121,14 +121,8 @@ public class WishboardFragment extends Fragment {
                         else {
                             insertWishboard insertWishboard = new insertWishboard(getContext());
                             insertWishboard.execute(editText_title_wishboard.getText().toString(), editText_author_wishboard.getText().toString(), editText_comment_wishboard.getText().toString(), session_id);
-                            Wishboard dashBoard_lv;
-                            getWishboard getWishboard;
-                            if(array_Wishboard.size() == 0){
-                                getWishboard = new getWishboard(getContext(),15,0,session_id);
-                            }else{
-                                dashBoard_lv = array_Wishboard.get(array_Wishboard.size()-1);
-                                getWishboard = new getWishboard(getContext(),15,Integer.valueOf(dashBoard_lv.getId()),session_id);
-                            }
+                            array_Wishboard.clear();
+                            getWishboard getWishboard = new getWishboard(getContext(),15,0,session_id);
                             getWishboard.execute();
                             dialog.dismiss();
                         }

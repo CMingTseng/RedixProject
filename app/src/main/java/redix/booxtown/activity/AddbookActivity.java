@@ -36,6 +36,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -46,6 +48,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -262,11 +265,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     dialog.setContentView(R.layout.dialog_genre);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                    ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
-                    CustomListviewGenre adapter = new CustomListviewGenre(AddbookActivity.this, genre);
-                    listView_genre.setAdapter(adapter);
+                    RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    rv_genre.setLayoutManager(linearLayoutManager);
+                    rv_genre.setAdapter(new CustomListviewGenre(getApplicationContext(), genre));
                     dialog.show();
-
                     Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
                     button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -297,8 +300,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_genre);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
-                    listView_genre.setAdapter(new CustomListviewGenre(AddbookActivity.this, genre));
+                    RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    rv_genre.setLayoutManager(linearLayoutManager);
+                    rv_genre.setAdapter(new CustomListviewGenre(getApplicationContext(), genre));
                     dialog.show();
 
                     Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
@@ -320,14 +325,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 }
             });
             //end
-            //show edittext when check to sell
-            final CheckBox checkBox = (CheckBox) findViewById(R.id.ck_sell_editlisting);
-            checkBox.setOnClickListener(new View.OnClickListener() {
+            sell.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
-                    if (checkBox.isChecked()) {
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b==true) {
                         tbl_price_sell.setVisibility(View.VISIBLE);
-
                     } else {
                         tbl_price_sell.setVisibility(View.GONE);
                     }

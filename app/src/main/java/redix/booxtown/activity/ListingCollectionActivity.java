@@ -35,6 +35,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -45,6 +47,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -236,8 +239,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 dialog.setContentView(R.layout.dialog_genre);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                final ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
-                final CustomListviewGenre adapter = new CustomListviewGenre(getActivity(), genre);
+                RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                rv_genre.setLayoutManager(linearLayoutManager);
+                CustomListviewGenre adapter = new CustomListviewGenre(getActivity(), genre);
+                dialog.show();
 
                 if (s.equals("edit")) {
                     String[] separated = bookedit.getGenre().split(";");
@@ -248,12 +254,12 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                             }
                         }
                     }
-                    listView_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
+                    rv_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
                 } else {
-                    listView_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
+                    rv_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
                 }
 
-                listView_genre.setAdapter(adapter);
+                rv_genre.setAdapter(adapter);
                 dialog.show();
 
                 Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
@@ -285,8 +291,12 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_genre);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                rv_genre.setLayoutManager(linearLayoutManager);
+                CustomListviewGenre adapter = new CustomListviewGenre(getActivity(), genre);
+                dialog.show();
 
-                ListView listView_genre = (ListView) dialog.findViewById(R.id.listView_genre);
                 if (s.equals("edit")) {
                     String[] separated = bookedit.getGenre().split(";");
                     for (int i = 0; i < genre.size(); i++) {
@@ -296,11 +306,12 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                             }
                         }
                     }
-                    listView_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
+                    rv_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
                 } else {
-                    listView_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
+                    rv_genre.setAdapter(new CustomListviewGenre(getActivity(), genre));
                 }
 
+                rv_genre.setAdapter(adapter);
                 dialog.show();
                 Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
                 button_spiner_genre.setOnClickListener(new View.OnClickListener() {
@@ -322,19 +333,17 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         });
         //end
         //show edittext when check to sell
-        final CheckBox checkBox = (CheckBox) v.findViewById(R.id.ck_sell_editlisting);
-        checkBox.setOnClickListener(new View.OnClickListener() {
+//        CheckBox checkBox = (CheckBox) v.findViewById(R.id.ck_sell_editlisting);
+        sell.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                if (checkBox.isChecked()) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b==true) {
                     tbl_price_sell.setVisibility(View.VISIBLE);
-
                 } else {
                     tbl_price_sell.setVisibility(View.GONE);
                 }
             }
         });
-        //end
 
         btn_menu_listing_addbook.setOnClickListener(new View.OnClickListener() {
             @Override
