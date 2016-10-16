@@ -11,7 +11,7 @@
         android:background="@drawable/customborder"
         >
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your swap list"
@@ -22,7 +22,7 @@
             android:textColor="@color/dot_light_screen1"
             android:textSize="@dimen/text_book_exploer"/>
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="is not yet ready"

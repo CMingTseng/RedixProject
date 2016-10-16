@@ -43,7 +43,7 @@
         android:layout_marginRight="15dp"
         android:id="@+id/linearLayout6">
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/firstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             android:singleLine="true"
             />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/lastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
         android:paddingBottom="10dp"
         android:layout_below="@+id/linearLayout6">
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
             android:singleLine="true"
             />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:inputType="textEmailAddress"
@@ -110,7 +110,7 @@
             android:singleLine="true"
             />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/birthday"
             android:layout_width="match_parent"
             android:inputType="none"
@@ -126,9 +126,9 @@
 
             >
 
-        </redix.booxtown.custom.CustomEdittext>
+        </com.booxtown.custom.CustomEdittext>
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
             android:singleLine="true"
             />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
             android:singleLine="true"
             />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/confirmpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
             android:singleLine="true"
             />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:id="@+id/signup"
             android:layout_width="223dp"
             android:layout_height="36dp"
@@ -193,7 +193,7 @@
         android:layout_below="@+id/linearLayout5"
         android:layout_centerHorizontal="true">
 
-        <redix.booxtown.custom.CustomCheckBox
+        <com.booxtown.custom.CustomCheckBox
             android:id="@+id/checksignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
             android:button="@drawable/img_checkbox"
             android:textSize="20sp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"

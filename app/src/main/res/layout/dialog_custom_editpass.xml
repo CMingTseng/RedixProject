@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:padding="15dp">
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -35,7 +35,7 @@
                 android:backgroundTint="@color/dot_light_screen1"
                 android:layout_marginTop="30dp" />
 
-            <redix.booxtown.custom.CustomEdittext
+            <com.booxtown.custom.CustomEdittext
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -62,7 +62,7 @@
                 android:singleLine="true"
                 />
 
-            <redix.booxtown.custom.CustomEdittext
+            <com.booxtown.custom.CustomEdittext
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -82,7 +82,7 @@
                 android:singleLine="true"
                 android:layout_marginTop="10dp" />
 
-            <redix.booxtown.custom.CustomEdittext
+            <com.booxtown.custom.CustomEdittext
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -104,7 +104,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp" />
 
-            <redix.booxtown.custom.CustomButton
+            <com.booxtown.custom.CustomButton
                 android:layout_width="224dp"
                 android:layout_height="36dp"
                 android:text="Change Password"

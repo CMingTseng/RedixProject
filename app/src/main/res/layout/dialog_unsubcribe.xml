@@ -9,7 +9,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView142"
@@ -19,7 +19,7 @@
             android:textSize="@dimen/search"
             android:text="We are sad to see you go," />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="but we will be waiting for you"
@@ -29,7 +29,7 @@
             android:gravity="center"
             android:textSize="@dimen/search"
             android:id="@+id/textView143" />
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView144"
@@ -40,7 +40,7 @@
             android:layout_below="@+id/textView143"
             android:gravity="center"/>
 
-        <redix.booxtown.custom.CustomButton
+        <com.booxtown.custom.CustomButton
             android:layout_width="224dp"
             android:layout_height="36dp"
             android:id="@+id/btn_unsubcribe"

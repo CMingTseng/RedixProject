@@ -6,7 +6,7 @@
     android:orientation="vertical"
      >
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:id="@+id/txt_expland_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

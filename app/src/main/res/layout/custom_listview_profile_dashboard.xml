@@ -10,7 +10,7 @@
         android:layout_height="30dp"
         android:layout_weight="0.65">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
@@ -23,7 +23,7 @@
             android:padding="5dp"
             android:layout_marginLeft="5dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:id="@+id/textView99"
@@ -52,7 +52,7 @@
             android:layout_toLeftOf="@+id/textView100"
             android:layout_toStartOf="@+id/textView100" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:id="@+id/textView100"
@@ -79,7 +79,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:id="@+id/textView101"
@@ -110,7 +110,7 @@
             android:scaleY="0.6"
             />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:text="Text"

@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ContactFragment">
+    tools:context="com.booxtown.fragment.ContactFragment">
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -20,7 +20,7 @@
         android:paddingBottom="20dp"
         android:layout_marginTop="15dp" />
 
-    <redix.booxtown.custom.CustomEdittext
+    <com.booxtown.custom.CustomEdittext
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_message"
@@ -41,7 +41,7 @@
         android:singleLine="true"
         />
 
-    <redix.booxtown.custom.CustomButton
+    <com.booxtown.custom.CustomButton
         android:layout_width="223dp"
         android:layout_height="36dp"
         android:id="@+id/btn_send_message"

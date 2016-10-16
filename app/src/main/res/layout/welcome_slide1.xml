@@ -32,7 +32,7 @@
             />
     </RelativeLayout>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="35dp"

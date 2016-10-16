@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="15dp"
-    tools:context=".activity.TestActivity"
+    tools:context="com.booxtown.activity.TestActivity"
     android:background="#ffffff"
     >
 
@@ -26,7 +26,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="15dp"/>
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dominic"
@@ -85,7 +85,7 @@
             android:layout_marginLeft="10dp"
             />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -102,7 +102,7 @@
             android:layout_toRightOf="@+id/imv_menu_notification_infor1"
             android:layout_toEndOf="@+id/imv_menu_notification_infor1" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:id="@+id/txt_notification_cross_infor1"

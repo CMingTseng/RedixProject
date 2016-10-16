@@ -13,7 +13,7 @@
         android:src="@drawable/explore_btn_swap_active"
         android:layout_marginTop="15dp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -23,7 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="smith"
@@ -31,7 +31,7 @@
         android:layout_below="@+id/textView_namebook_seller"
         android:layout_centerHorizontal="true" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="with"
@@ -41,7 +41,7 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/color_title_book"/>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="d"
@@ -51,7 +51,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView_nameauthor_buyer"

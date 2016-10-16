@@ -13,7 +13,7 @@
         android:background="@color/background_listing"
         android:id="@+id/relativeLayout">
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/editSearch"

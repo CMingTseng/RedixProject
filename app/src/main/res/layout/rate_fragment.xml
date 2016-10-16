@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.RateFragment">
+    tools:context="com.booxtown.fragment.RateFragment">
 
     <ImageView
         android:id="@+id/imageView12"
@@ -24,7 +24,7 @@
         android:layout_below="@+id/imageView12"
         android:layout_gravity="center_horizontal|bottom">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#f75656" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <redix.booxtown.custom.CustomButton
+                <com.booxtown.custom.CustomButton
                     android:id="@+id/btn_rate_later"
                     android:layout_width="145dp"
                     android:layout_height="36dp"
@@ -73,7 +73,7 @@
                     android:textSize="@dimen/slide_desc_welcome"
                     />
 
-                <redix.booxtown.custom.CustomButton
+                <com.booxtown.custom.CustomButton
                     android:id="@+id/btn_rate_now"
                     android:layout_width="145dp"
                     android:layout_height="36dp"

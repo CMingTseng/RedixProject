@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"/>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -74,7 +74,7 @@
         android:layout_toEndOf="@+id/img_rank2_satus"
         android:layout_marginLeft="10dp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""

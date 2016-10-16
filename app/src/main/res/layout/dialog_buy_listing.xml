@@ -11,7 +11,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buy"
@@ -23,7 +23,7 @@
             android:textColor="@color/dot_light_screen1"
             android:textSize="@dimen/text_22sp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Are you sure you want to buy this book"
@@ -34,7 +34,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="&quot;The Last Painting of Sara de Vos&quot;"
@@ -44,7 +44,7 @@
             android:layout_marginTop="10dp"
             android:textSize="@dimen/slide_desc"/>
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="224dp"
             android:layout_height="36dp"
             android:text="Confirm"

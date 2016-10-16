@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.FaqFragment">
+    tools:context="com.booxtown.fragment.FaqFragment">
 
-    <redix.booxtown.custom.CustomEdittext
+    <com.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/editSearch"

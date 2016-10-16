@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="redix.booxtown.activity.ListingCollectionActivity">
+    tools:context="com.booxtown.activity.ListingCollectionActivity">
 
 
     <TableRow
@@ -17,7 +17,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/tableRow5">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add a book"
@@ -28,7 +28,7 @@
             android:textColor="@color/dot_light_screen1"
             android:padding="9dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My listings (0)"

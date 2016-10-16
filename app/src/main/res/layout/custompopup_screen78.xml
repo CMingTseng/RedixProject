@@ -12,7 +12,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/RequestSend"
@@ -24,7 +24,7 @@
             android:textColor="@color/dot_light_screen1"
             android:textSize="@dimen/text_request_swap"/>
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/titlepopp_screen78"
@@ -37,7 +37,7 @@
             android:textSize="@dimen/slide_desc"
             />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="@dimen/btn_w"
             android:layout_height="@dimen/btn_h"
             android:text="@string/backtohome"

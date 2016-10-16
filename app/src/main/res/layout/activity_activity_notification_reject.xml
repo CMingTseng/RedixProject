@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.NotificationRejectActivity">
+    tools:context="com.booxtown.activity.NotificationRejectActivity">
 
     <include
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/include25" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -43,7 +43,7 @@
         android:layout_below="@+id/include25"
         android:textSize="@dimen/text_book_exploer"/>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ayn rand"
@@ -64,7 +64,7 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/include13" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -75,7 +75,7 @@
         android:layout_marginTop="10dp"
         android:textSize="@dimen/text_book_exploer"/>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dominic Smith"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.NotificationSellAccept">
+    tools:context="com.booxtown.activity.NotificationSellAccept">
 
     <include
         android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
         android:layout_alignStart="@+id/include37"
         android:id="@+id/include38" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Evil Queen:The last painting"
@@ -50,7 +50,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ayn rand"
@@ -59,7 +59,7 @@
         android:textColor="@color/color_text_hint"
         android:layout_centerHorizontal="true" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -87,7 +87,7 @@
         android:layout_above="@+id/menu_bottom_noti_sell_accept2"
         android:background="@color/dot_light_screen2">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Best time to be contacted"
@@ -98,7 +98,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10:00 PM - 11:00 AM"

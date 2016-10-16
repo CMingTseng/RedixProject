@@ -33,7 +33,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"
         >
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/username_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:imeOptions="actionDone"
             android:singleLine="true"
             />
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:id="@+id/password_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             android:imeOptions="actionDone"
             android:singleLine="true"
             android:password="true" />
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:id="@+id/btn_sigin"
             android:layout_width="223dp"
             android:layout_height="36dp"
@@ -76,7 +76,7 @@
         android:layout_marginLeft="15dp"
         android:layout_height="wrap_content"
         android:gravity="center">
-        <redix.booxtown.custom.CustomButton
+        <com.booxtown.custom.CustomButton
             android:id="@+id/btn_forgotpass"
             android:layout_width="match_parent"
             android:textAllCaps="false"

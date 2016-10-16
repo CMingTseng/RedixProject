@@ -9,7 +9,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add new thread"
@@ -24,7 +24,7 @@
             android:layout_marginBottom="10dp"
             android:textColor="@color/dot_light_screen2"/>
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/edit_title_insert_thread"
@@ -46,7 +46,7 @@
 
             android:ellipsize="end" />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/edit_description_insert_thread"
@@ -63,7 +63,7 @@
             android:singleLine="true"
             />
 
-        <redix.booxtown.custom.CustomButton
+        <com.booxtown.custom.CustomButton
             android:layout_width="223dp"
             android:layout_height="36dp"
             android:text="Submit"

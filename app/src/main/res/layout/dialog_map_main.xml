@@ -18,7 +18,7 @@
             android:background="@drawable/custom_map1"
             android:layout_margin="3dp"
             android:id="@+id/relativeLayout12">
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -31,7 +31,7 @@
                 android:layout_marginLeft="7dp"
                 android:textSize="@dimen/slide_desc"/>
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -59,7 +59,7 @@
                 android:layout_marginBottom="3dp"
                 />
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="f"

@@ -18,7 +18,7 @@
         android:layout_toEndOf="@+id/imageView11"
         android:layout_margin="10dp">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -33,7 +33,7 @@
             android:singleLine="true"
             android:ellipsize="end" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -47,7 +47,7 @@
             android:ellipsize="end"
             android:singleLine="true" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Genre:"
@@ -56,7 +56,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Basic"
@@ -69,7 +69,7 @@
             android:singleLine="true"
             android:ellipsize="end" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Book codition: "
@@ -92,7 +92,7 @@
             android:layout_marginTop="6dp"
             android:indeterminate="false" />
 
-        <redix.booxtown.custom.CustomButton
+        <com.booxtown.custom.CustomButton
             style="?android:attr/buttonStyleSmall"
             android:layout_width="70dp"
             android:layout_height="25dp"

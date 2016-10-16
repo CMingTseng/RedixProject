@@ -26,7 +26,7 @@
         android:layout_below="@+id/pager"
         android:layout_marginTop="5dp" />
 
-    <redix.booxtown.custom.CustomTextviewBold
+    <com.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -37,7 +37,7 @@
         android:textColor="@color/color_text"
         android:textSize="20sp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -47,7 +47,7 @@
         android:textSize="@dimen/text_wishboard_date"
         android:textColor="@color/color_text_hint" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -80,7 +80,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Listed by"
@@ -92,7 +92,7 @@
             android:layout_alignLeft="@+id/txt_listed_by"
             android:layout_alignStart="@+id/txt_listed_by" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Gandalf"
@@ -152,7 +152,7 @@
             android:layout_marginLeft="10dp"/>
     </RelativeLayout>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Posted on 29-08-2016"
@@ -165,7 +165,7 @@
         android:textSize="@dimen/text_by_exploer"
         android:layout_marginTop="5dp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Genre: "
@@ -177,7 +177,7 @@
         android:layout_marginLeft="10dp"
         android:textSize="16sp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Novel, Drama"
@@ -192,7 +192,7 @@
         android:ellipsize="end"
         android:singleLine="true" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Book Condition:"
@@ -232,7 +232,7 @@
         android:id="@+id/view3"
         android:layout_marginRight="10dp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""

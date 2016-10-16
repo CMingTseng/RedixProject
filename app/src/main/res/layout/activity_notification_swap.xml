@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="redix.booxtown.activity.NotificationSwapActivity">
+    tools:context="com.booxtown.activity.NotificationSwapActivity">
 
     <include
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         <include layout="@layout/menu_notification_infor1"
             android:id="@+id/menu_notification_infor1"/>
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -44,7 +44,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A"
@@ -62,7 +62,7 @@
             android:layout_alignParentStart="true"
             android:background="#ffffff">
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="A"
@@ -82,7 +82,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -92,7 +92,7 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="#f25d5d" />
 
-            <redix.booxtown.custom.CustomButton
+            <com.booxtown.custom.CustomButton
                 android:layout_width="223dp"
                 android:layout_height="36dp"
                 android:textAllCaps="false"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.NotificationSellActivity">
+    tools:context="com.booxtown.activity.NotificationSellActivity">
 
     <include
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/include16" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -46,7 +46,7 @@
         android:gravity="center"
         android:layout_marginTop="10dp" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ayn rand"
@@ -56,7 +56,7 @@
         android:textColor="@color/color_text_hint"
         android:theme="@style/MyEditTextTheme"/>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"

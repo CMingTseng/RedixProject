@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/dot_light_screen1">
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Status"
@@ -25,7 +25,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp" />
 
-    <redix.booxtown.custom.CustomButton
+    <com.booxtown.custom.CustomButton
         android:layout_width="237dp"
         android:layout_height="36dp"
         android:textAllCaps="false"
@@ -39,7 +39,7 @@
         android:layout_marginBottom="10dp"
         android:textSize="@dimen/slide_desc"/>
 
-    <redix.booxtown.custom.CustomButton
+    <com.booxtown.custom.CustomButton
         android:layout_width="237dp"
         android:layout_height="36dp"
         android:textAllCaps="false"
@@ -53,7 +53,7 @@
         android:textSize="@dimen/slide_desc"
         android:textColor="@color/dot_light_screen1"/>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Transaction cancelled"

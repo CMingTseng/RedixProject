@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentTop="false"
         android:background="@drawable/customboderfilter">
-        <redix.booxtown.custom.CustomTextviewBold
+        <com.booxtown.custom.CustomTextviewBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Filter/Sort"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:id="@+id/layout_user">
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Filter by"
@@ -54,7 +54,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:textSize="@dimen/slide_desc"/>
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Price range"
@@ -94,7 +94,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="7dp"
                 />
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -125,7 +125,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="5dp" />
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1000"
@@ -140,7 +140,7 @@
                 android:layout_above="@+id/textView75"
                 android:layout_marginRight="5dp"
                 android:textSize="@dimen/text_size_filter"/>
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1 KM"
@@ -152,7 +152,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="5dp"
                 android:textSize="@dimen/text_size_filter"/>
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10KM"
@@ -165,7 +165,7 @@
                 android:paddingLeft="10px"
                 android:layout_alignRight="@+id/rangeSeekbar8"
                  />
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Proximity"
@@ -198,7 +198,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_below="@+id/spinner_dialog_filter"
                 android:layout_height="wrap_content">
-                <redix.booxtown.custom.CustomTextView
+                <com.booxtown.custom.CustomTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Select genre"
@@ -206,7 +206,7 @@
                     android:id="@+id/tv_genral"
                     android:textSize="@dimen/slide_desc">
 
-                </redix.booxtown.custom.CustomTextView>
+                </com.booxtown.custom.CustomTextView>
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
@@ -222,7 +222,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="5dp" />
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:id="@+id/textView76"
@@ -235,7 +235,7 @@
                 android:layout_marginBottom="5dp" />
         </RelativeLayout>
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sort by"
@@ -267,7 +267,7 @@
                 android:layout_centerHorizontal="true"
                 android:divider="@null"
                 android:layout_marginBottom="5dp"/>
-            <redix.booxtown.custom.CustomButton
+            <com.booxtown.custom.CustomButton
                 android:layout_width="223dp"
                 android:layout_height="36dp"
                 android:text="Submit"

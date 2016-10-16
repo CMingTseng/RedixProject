@@ -18,7 +18,7 @@
             android:layout_toStartOf="@+id/txt_author_info3"
             android:layout_marginTop="10dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Gandalf"
@@ -68,7 +68,7 @@
             android:layout_toEndOf="@+id/img_comment_rank2"
             android:layout_marginLeft="10dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone : "
@@ -81,7 +81,7 @@
             android:gravity="center"
             android:textSize="@dimen/text_size_search"/>
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:text="New Text"
@@ -96,7 +96,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="redix.booxtown.activity.HomeActivity">
+    tools:context="com.booxtown.activity.HomeActivity">
 
     <include
         android:layout_width="wrap_content"

@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_height="wrap_content">
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Is this "
@@ -32,7 +32,7 @@
                 android:textSize="@dimen/slide_desc"
                 android:textColor="@color/dot_light_screen1"/>
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Transaction Complete ?"
@@ -55,7 +55,7 @@
                 android:weightSum="2"
                 android:layout_gravity="center_horizontal">
 
-                <redix.booxtown.custom.CustomRadioButton
+                <com.booxtown.custom.CustomRadioButton
                     android:id="@+id/radioButton_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:paddingLeft="5dp"
                     android:textColor="@color/dot_light_screen1" />
 
-                <redix.booxtown.custom.CustomRadioButton
+                <com.booxtown.custom.CustomRadioButton
                     android:id="@+id/radioButton2_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:layout_weight="1"
             android:id="@+id/layout_user">
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -112,7 +112,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp" />
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -133,7 +133,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="2">
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:paddingTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:layout_marginBottom="10dp" />
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -174,7 +174,7 @@
                 android:scaleY="0.8"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp" />
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -195,7 +195,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 />
-            <redix.booxtown.custom.CustomButton
+            <com.booxtown.custom.CustomButton
                 android:layout_width="234dp"
                 android:layout_height="37dp"
                 android:id="@+id/btn_rate_dashboard_status"

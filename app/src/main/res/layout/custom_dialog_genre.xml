@@ -21,7 +21,7 @@
             android:checked="false"
             android:button="@drawable/custom_checkbox_genre" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="New Text"
@@ -39,7 +39,7 @@
             android:paddingTop="4dp" />
     </LinearLayout>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:text="New Text"

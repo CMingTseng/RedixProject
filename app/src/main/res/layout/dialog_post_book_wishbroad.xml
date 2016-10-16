@@ -9,7 +9,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Post a book to Wishboard"
@@ -22,7 +22,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp" />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_title_wishboard"
@@ -38,7 +38,7 @@
 
             />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_author_wishboard"
@@ -54,7 +54,7 @@
 
             />
 
-        <redix.booxtown.custom.CustomEdittext
+        <com.booxtown.custom.CustomEdittext
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText_comment_wishboard"
@@ -70,7 +70,7 @@
 
             />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="241dp"
             android:layout_height="37dp"
             android:text="Submit"

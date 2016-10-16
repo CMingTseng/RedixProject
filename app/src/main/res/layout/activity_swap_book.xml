@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/menu_top_swap" />
 
-    <redix.booxtown.custom.CustomTextviewBold
+    <com.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select from"
@@ -23,7 +23,7 @@
         android:layout_marginBottom="5dp"
         android:textSize="@dimen/text_book_exploer" />
 
-    <redix.booxtown.custom.CustomTextviewBold
+    <com.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="your booklist what you would like"
@@ -34,7 +34,7 @@
         android:textSize="@dimen/text_book_exploer"
         android:layout_marginBottom="5dp" />
 
-    <redix.booxtown.custom.CustomTextviewBold
+    <com.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="to swap in return"
@@ -55,7 +55,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="145dp"
             android:layout_height="36dp"
             android:text="Swap"
@@ -68,7 +68,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="145dp"
             android:layout_height="36dp"
             android:text="Add a book"
@@ -92,7 +92,7 @@
 
     </TableRow>
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="292dp"
         android:layout_height="36dp"
         android:text="Manage your swap list"

@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:65369119358:android:cb49499b621b3477",
+        "mobilesdk_app_id": "1:65369119358:android:1786c5b07a1ef866",
         "android_client_info": {
-          "package_name": "redix.booxtown"
+          "package_name": "com.booxtown"
         }
       },
       "oauth_client": [

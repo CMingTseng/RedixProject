@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:showIn="@layout/activity_welcome"
     >
-    <redix.booxtown.autoviewpager.AutoScrollViewPager
+    <com.booxtown.autoviewpager.AutoScrollViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -20,7 +20,7 @@
         android:layout_marginTop="40dp"
         />
 
-    <redix.booxtown.custom.CustomButton
+    <com.booxtown.custom.CustomButton
         android:id="@+id/btn_sigup_wellcome"
         android:layout_width="@dimen/btn_signin"
         android:textSize="@dimen/slide_desc_welcome"
@@ -34,7 +34,7 @@
         android:background="@drawable/bg_btn_welcome"
         android:textColor="@color/backgroung_signin" />
 
-    <redix.booxtown.custom.CustomButton
+    <com.booxtown.custom.CustomButton
         android:id="@+id/btn_sigin_wellcome"
         android:layout_width="@dimen/btn_signin"
         android:layout_height="36dp"
@@ -48,7 +48,7 @@
         android:background="@drawable/bg_btn_welcome"
         android:textColor="@color/backgroung_signin" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

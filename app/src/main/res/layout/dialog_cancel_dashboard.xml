@@ -9,7 +9,7 @@
         android:layout_margin="12dp"
         android:background="@drawable/customborder">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Are you sure you want to cancel"
@@ -20,7 +20,7 @@
             android:textSize="@dimen/slide_desc"
             android:textColor="@color/dot_light_screen1"/>
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="This transaction"
@@ -31,7 +31,7 @@
             android:textSize="@dimen/slide_desc"
             android:textColor="@color/dot_light_screen1"/>
 
-        <redix.booxtown.custom.CustomButton
+        <com.booxtown.custom.CustomButton
             android:layout_width="224dp"
             android:layout_height="36dp"
             android:layout_below="@+id/textView125"

@@ -20,7 +20,7 @@
             android:layout_height="50dp"
             android:layout_weight="0.6">
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/slide_desc"
@@ -32,7 +32,7 @@
                 android:maxLines="1"
                 android:layout_marginLeft="5dp" />
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -45,7 +45,7 @@
                 android:layout_marginLeft="5dp"
                 android:textSize="@dimen/text_by_exploer"/>
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="1dp"
                 android:layout_height="50dp"
                 android:id="@+id/textView68"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Text"
@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/text_wishboard_date"/>
 
-            <redix.booxtown.custom.CustomTextView
+            <com.booxtown.custom.CustomTextView
                 android:layout_width="1dp"
                 android:layout_height="50dp"
                 android:id="@+id/textView128"

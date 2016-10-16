@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SettingFragment">
+    tools:context="com.booxtown.fragment.SettingFragment">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -9,7 +9,7 @@
         android:layout_marginTop="30dp"
         >
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Notification"
@@ -35,7 +35,7 @@
             android:track="@color/bg_transfer"
             android:thumb="@color/bg_transfer" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:id="@+id/textView12"
@@ -51,7 +51,7 @@
             android:textColor="@color/color_text_hint"
             android:autoText="false" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User current location as main location"
@@ -65,7 +65,7 @@
             android:textColor="@color/color_text_hint"
             android:layout_marginTop="5dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Find Your Location on Map"
@@ -108,7 +108,7 @@
             android:textColor="@color/color_text_hint"
             android:layout_alignEnd="@+id/textView12" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:id="@+id/textView14"
@@ -121,7 +121,7 @@
             android:textSize="@dimen/slide_desc"
             android:paddingRight="10dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Best time to be connected"
@@ -149,7 +149,7 @@
             android:textOn=""
             android:layout_above="@+id/txt_setting_besttime" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time"
@@ -165,7 +165,7 @@
             android:textSize="@dimen/slide_desc"
             android:paddingBottom="10dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:id="@+id/textView17"
@@ -178,7 +178,7 @@
             android:textSize="@dimen/slide_desc"
             android:background="@color/color_text_hint" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit password"
@@ -203,7 +203,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:id="@+id/textView19"

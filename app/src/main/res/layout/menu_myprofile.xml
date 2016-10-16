@@ -17,7 +17,7 @@
         app:siBorderWidth="1dp"
         />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/slide_desc"

@@ -11,7 +11,7 @@
         android:button="@drawable/img_checkbox"
         android:checked="false" />
 
-    <redix.booxtown.custom.CustomTextView
+    <com.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=" Text"

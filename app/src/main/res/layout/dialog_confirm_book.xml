@@ -10,7 +10,7 @@
         android:background="@drawable/customborder"
         android:paddingBottom="20dp">
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Are you sure to delete this book?"
@@ -21,7 +21,7 @@
             android:textColor="@color/txt_notification_delete_book"
             android:textSize="18dp" />
 
-        <redix.booxtown.custom.CustomTextView
+        <com.booxtown.custom.CustomTextView
             android:layout_width="224dp"
             android:layout_height="37dp"
             android:text="Delete"
