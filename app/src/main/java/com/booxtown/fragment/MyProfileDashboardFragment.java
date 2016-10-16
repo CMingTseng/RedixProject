@@ -73,9 +73,15 @@ public class MyProfileDashboardFragment extends Fragment {
             }
         });
         user = (User)getArguments().getSerializable("user");
-        Picasso.with(getContext())
-                .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.getUsername()+"&image="+user.getPhoto().substring(user.getUsername().length()+3,user.getPhoto().length()))
-                .into(imv_menu_profile);
+        if(user.getPhoto().length() > 3 ) {
+            Picasso.with(getContext())
+                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.getUsername() + "&image=" + user.getPhoto().substring(user.getUsername().length() + 3, user.getPhoto().length()))
+                    .into(imv_menu_profile);
+        }else {
+            Picasso.with(getContext())
+                    .load(R.mipmap.user_empty)
+                    .into(imv_menu_profile);
+        }
         //set rank
         if(user.getContributor() == 0){
             img_rank1.setVisibility(View.VISIBLE);
