@@ -6,6 +6,8 @@ import android.os.StrictMode;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.api.ServiceInterface;
 import com.booxtown.fragment.ExploreFragment;
+import com.booxtown.model.NumberBook;
+import com.booxtown.model.NumberBookResult;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Comparator;
@@ -247,6 +249,23 @@ public class BookController {
             BookResult str = profile.execute().body();
             if (str.getCode() == 200){
                 return str.getBook();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
+    public List<NumberBook> getNumberBook(int  user_id){
+        Call<NumberBookResult> profile = service.getNumberBook(user_id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            NumberBookResult str = profile.execute().body();
+            if (str.getCode() == 200){
+                return str.getResult();
             }
         } catch (Exception ex) {
         }

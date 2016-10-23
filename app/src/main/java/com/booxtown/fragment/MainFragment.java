@@ -324,7 +324,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
                 txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
                 seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
-                //seekbar.setLeftThumbDrawable(drawable);
+                seekbar.setLeftThumbDrawable(drawable);
                 seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue) {
