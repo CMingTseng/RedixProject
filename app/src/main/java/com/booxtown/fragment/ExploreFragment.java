@@ -85,12 +85,16 @@ public class ExploreFragment extends Fragment
     RecyclerView rView;
     AdapterExplore adapter_exploer;
     GridLayoutManager gridLayoutManager;
+    GridLayoutManager gridLayoutManager1;
+    GridLayoutManager gridLayoutManager2;
+    GridLayoutManager gridLayoutManager3;
     private int previousTotal = 0,visibleThreshold = 5;
     boolean loading = true,
             isLoading = true;
 
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,tvMin,tvMax,txt_filter_proximity;
     List<Book> listbook= new ArrayList<>();
+    private int filter_list = 0;
     //GridView grid;
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
 
@@ -111,6 +115,9 @@ public class ExploreFragment extends Fragment
         });
         //grid=(GridView)view.findViewById(R.id.gridView);
         gridLayoutManager = new GridLayoutManager(getContext(),2);
+        gridLayoutManager1 = new GridLayoutManager(getContext(),2);
+        gridLayoutManager2 = new GridLayoutManager(getContext(),2);
+        gridLayoutManager3 = new GridLayoutManager(getContext(),2);
         rView = (RecyclerView)view.findViewById(R.id.recycler_view);
         rView.setLayoutManager(gridLayoutManager);
         View view_search= (View)view.findViewById(R.id.explore_search);
@@ -163,41 +170,50 @@ public class ExploreFragment extends Fragment
         linear_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(1),2,0);
-                //grid=(GridView) view.findViewById(R.id.gridView);
-                rView.setAdapter(adapter);
+                gridLayoutManager = new GridLayoutManager(getContext(),2);
+                rView.setLayoutManager(gridLayoutManager);
+                adapter_exploer = new AdapterExplore(getActivity(),filterExplore(1),2,0);
+//                rView.setAdapter(adapter_exploer);
+//                implementScrollListener(session_id);
+                adapter_exploer.notifyDataSetChanged();
                 tab_custom.setDefault(1);
+                filter_list = 1;
             }
         });
 
         linear_swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(2),2,0);
-                //grid=(GridView)view.findViewById(R.id.gridView);
-                rView.setAdapter(adapter);
-
+                gridLayoutManager1 = new GridLayoutManager(getContext(),2);
+                rView.setLayoutManager(gridLayoutManager1);
+                adapter_exploer = new AdapterExplore(getActivity(),filterExplore(2),2,0);
+                rView.setAdapter(adapter_exploer);
+                //implementScrollListener(session_id);
                 tab_custom.setDefault(2);
+                filter_list = 2;
             }
         });
 
         linear_free.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(3),2,0);
-                //grid=(GridView)view.findViewById(R.id.gridView);
-                rView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                gridLayoutManager2 = new GridLayoutManager(getContext(),2);
+                rView.setLayoutManager(gridLayoutManager2);
+                adapter_exploer = new AdapterExplore(getActivity(),filterExplore(3),2,0);
+                rView.setAdapter(adapter_exploer);
+                implementScrollListener(session_id);
                 tab_custom.setDefault(3);
+
             }
         });
-
         linear_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(4),2,0);
-                //grid=(GridView)view.findViewById(R.id.gridView);
-                rView.setAdapter(adapter);
+                gridLayoutManager3 = new GridLayoutManager(getContext(),2);
+                rView.setLayoutManager(gridLayoutManager3);
+                adapter_exploer = new AdapterExplore(getActivity(),filterExplore(4),2,0);
+                rView.setAdapter(adapter_exploer);
+                implementScrollListener(session_id);
                 tab_custom.setDefault(4);
             }
         });
@@ -465,7 +481,6 @@ public class ExploreFragment extends Fragment
         }else {
             adapter_exploer.notifyDataSetChanged();
         }
-
     }
 
     private void implementScrollListener(final String session_id) {
@@ -482,6 +497,7 @@ public class ExploreFragment extends Fragment
                         loading = false;
                         previousTotal = totalItemCount;
                     }
+
                 }
                 if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold) && isLoading) {
@@ -489,7 +505,6 @@ public class ExploreFragment extends Fragment
                     Book dashBoard_lv = listExplore.get(listExplore.size()-1);
                     GetTopbook getbook = new GetTopbook(session_id,Integer.parseInt(dashBoard_lv.getId()),20);
                     getbook.execute();
-                    // Do something
                     loading = true;
                 }
             }

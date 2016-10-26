@@ -3,6 +3,9 @@ package com.booxtown.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +13,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +24,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.booxtown.autoviewpager.AutoScrollViewPager;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
 
 import com.booxtown.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -33,20 +53,76 @@ public class WelcomeActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnsigup, btnsignin;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
 //    private PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
         setContentView(R.layout.activity_welcome);
+        loginButton = (LoginButton)findViewById(R.id.signin_fb);
 
-        ImageView signin_fb = (ImageView) findViewById(R.id.signin_fb);
-        Picasso.with(WelcomeActivity.this).load(R.mipmap.fb).into(signin_fb);
+
+        loginButton.setReadPermissions(Arrays.asList(
+                 "email"));
+
+        callbackManager = CallbackManager.Factory.create();
+
+        //login fb
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // Facebook Email address
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                Log.v("LoginActivity Response ", response.toString());
+
+                                try {
+                                    String Name = object.getString("name");
+
+                                    String FEmail = object.getString("email");
+                                    Log.v("Email = ", " " + FEmail);
+                                    Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender, birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(WelcomeActivity.this,"Login attempt canceled.", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+                Toast.makeText(WelcomeActivity.this,"Login attempt failed.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        //end
+
         ImageView signin_twitter = (ImageView) findViewById(R.id.signin_twitter);
         Picasso.with(WelcomeActivity.this).load(R.mipmap.twetter).into(signin_twitter);
         ImageView signin_google = (ImageView) findViewById(R.id.signin_google);
@@ -80,6 +156,16 @@ public class WelcomeActivity extends AppCompatActivity {
         btnsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                try {
+//                    PackageInfo packageInfo = getPackageManager().getPackageInfo("com.booxtown", PackageManager.GET_SIGNATURES);
+//                    for(Signature signature: packageInfo.signatures){
+//                        MessageDigest messageDigest = MessageDigest.getInstance("SHA");
+//                        messageDigest.update(signature.toByteArray());
+//                        Log.d("KeyHash:", Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT));
+//                    }
+//                }catch (Exception e){
+//                }
+
                 Intent itent = new Intent(WelcomeActivity.this, SignIn_Activity.class);
                 startActivity(itent);
             }
