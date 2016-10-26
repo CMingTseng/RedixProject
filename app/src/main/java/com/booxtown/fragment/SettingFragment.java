@@ -82,7 +82,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
     ImageView img_menu_bottom_user;
     String session_id;
     TextView txtFindLocation;
-
+    TextView textView18;
     //end
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,7 +93,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         switch_setting_besttime = (Switch) view.findViewById(R.id.switch_setting_besttime);
         switch_setting_noti = (Switch) view.findViewById(R.id.switch_setting_noti);
         switch_seting_location = (Switch) view.findViewById(R.id.switch_seting_location);
-
+        textView18=(TextView) view.findViewById(R.id.textView18);
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         session_id = pref.getString("session_id", null);
 
@@ -119,6 +119,41 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         //end
 
         ImageView imv_setting_pass = (ImageView) view.findViewById(R.id.imv_setting_editpass);
+        textView18.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_custom_editpass);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+                editText_change_old = (EditText) dialog.findViewById(R.id.editText_change_old);
+                editText_change_new = (EditText) dialog.findViewById(R.id.editText_change_new);
+                editText_change_re = (EditText) dialog.findViewById(R.id.editText_change_re);
+                button_change_pass = (Button) dialog.findViewById(R.id.button_change_pass);
+
+                button_change_pass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (editText_change_new.getText().toString().equals(editText_change_re.getText().toString())) {
+                            changePass pass = new changePass(getContext());
+                            pass.execute(session_id, editText_change_old.getText().toString(),
+                                    editText_change_new.getText().toString());
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getContext(), Information.noti_match_pass, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                ImageView imageView = (ImageView) dialog.findViewById(R.id.imv_close_dialog_changepass);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
         imv_setting_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

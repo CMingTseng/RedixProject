@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.booxtown.fragment.RateFragment">
+    tools:context="com.booxtown.fragment.RateFragment"
+    android:background="@color/dot_light_screen1"
+    >
 
     <ImageView
         android:id="@+id/imageView12"

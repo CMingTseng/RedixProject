@@ -104,7 +104,7 @@ public class WelcomeActivity extends AppCompatActivity {
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
+            dots[i].setTextSize(42);
             dots[i].setTextColor(colorsInactive[currentPage]);
             dotsLayout.addView(dots[i]);
         }
@@ -163,12 +163,12 @@ public class WelcomeActivity extends AppCompatActivity {
             ImageView iconbackground;
             if (position == 0) {
                 iconbackground = (ImageView) view.findViewById(R.id.bg1);
-                Picasso.with(WelcomeActivity.this).load(R.drawable.bg1s).fit().into(iconbackground);
+                Picasso.with(WelcomeActivity.this).load(R.drawable.bg1ss).fit().into(iconbackground);
                 ImageView imageView1_icon_booxtown_intro = (ImageView) view.findViewById(R.id.imageView1_icon_booxtown_intro);
                 Picasso.with(getApplicationContext()).load(R.drawable.icon_booxtown_intro).into(imageView1_icon_booxtown_intro);
             } else if (position == 1) {
                 iconbackground = (ImageView) view.findViewById(R.id.bg2);
-                Picasso.with(WelcomeActivity.this).load(R.drawable.bg2s).fit().into(iconbackground);
+                Picasso.with(WelcomeActivity.this).load(R.drawable.bg2ss).fit().into(iconbackground);
 
                 ImageView imageView2_icon_booxtown_intro = (ImageView) view.findViewById(R.id.imageView2_icon_booxtown_intro);
                 Picasso.with(getApplicationContext()).load(R.drawable.icon_booxtown_intro).into(imageView2_icon_booxtown_intro);
@@ -180,7 +180,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 Picasso.with(getApplicationContext()).load(R.drawable.icon_booxtown_intro).into(imageView3_icon_booxtown_intro);
             } else if (position == 3) {
                 iconbackground = (ImageView) view.findViewById(R.id.bg4);
-                Picasso.with(WelcomeActivity.this).load(R.drawable.bg4s).fit().into(iconbackground);
+                Picasso.with(WelcomeActivity.this).load(R.drawable.bg4ss).fit().into(iconbackground);
 
                 ImageView imageView4_icon_booxtown_intro = (ImageView) view.findViewById(R.id.imageView4_icon_booxtown_intro);
                 Picasso.with(getApplicationContext()).load(R.drawable.icon_booxtown_intro).into(imageView4_icon_booxtown_intro);

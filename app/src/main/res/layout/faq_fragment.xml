@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.booxtown.fragment.FaqFragment">
+    tools:context="com.booxtown.fragment.FaqFragment"
+    android:background="@color/dot_light_screen1"
+    >
 
     <com.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"

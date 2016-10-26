@@ -239,7 +239,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             });
 
             listUserName = new ArrayList<>();
-
+            final TextView txt_view = (TextView) findViewById(R.id.txt_menu_genre1);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -257,6 +257,17 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            String genreResult="";
+                            int flag=0;
+                            for (int i = 0; i < genre.size(); i++) {
+                                if (genre.get(i).ischeck() == true) {
+                                    flag++;
+                                    genreResult= genreResult+genre.get(i).getValue()+",";
+                                }
+                            }
+                            if(flag>0) {
+                                txt_view.setText(genreResult.substring(0,genreResult.length()-1));
+                            }
                             dialog.dismiss();
                         }
                     });
@@ -275,7 +286,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
             });
 
-            TextView txt_view = (TextView) findViewById(R.id.txt_menu_genre1);
+
             txt_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -293,6 +304,17 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            String genreResult="";
+                            int flag=0;
+                            for (int i = 0; i < genre.size(); i++) {
+                                if (genre.get(i).ischeck() == true) {
+                                    flag++;
+                                    genreResult= genreResult+genre.get(i).getValue()+",";
+                                }
+                            }
+                            if(flag>0) {
+                                txt_view.setText(genreResult.substring(0,genreResult.length()-1));
+                            }
                             dialog.dismiss();
                         }
                     });

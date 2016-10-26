@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.booxtown.fragment.NotificationFragment">
+    tools:context="com.booxtown.fragment.NotificationFragment"
+    android:background="@color/dot_light_screen1"
+    >
 
     <LinearLayout
     android:layout_width="match_parent"

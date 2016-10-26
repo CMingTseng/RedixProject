@@ -1,7 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.booxtown.fragment.SettingFragment">
+    tools:context="com.booxtown.fragment.SettingFragment"
+    android:background="@color/dot_light_screen1"
+    >
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -190,7 +192,9 @@
             android:textColor="@color/color_text_hint"
             android:textSize="@dimen/slide_desc"
             android:paddingLeft="10dp"
-            android:paddingBottom="10dp" />
+            android:paddingBottom="10dp"
+            android:layout_toLeftOf="@+id/imv_setting_editpass"
+            android:layout_toStartOf="@+id/imv_setting_editpass" />
 
         <ImageView
             android:layout_width="12dp"
@@ -201,7 +205,8 @@
             android:layout_alignParentEnd="true"
             android:background="@drawable/btn_interact_next"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:padding="0dp" />
 
         <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"

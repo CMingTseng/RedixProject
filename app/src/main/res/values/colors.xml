@@ -25,6 +25,7 @@
     <!--Color line-->
     <color name="color_line">#DBDBDB</color>
     <!--Color Text Hint-->
+    <color name="dot_welcome">#248b95</color>
     <color name="color_text_hint">#c8c8c8</color>
     <color name="color_text">#f06667</color>
     <color name="color_bg_explore">#f06667</color>
@@ -50,10 +51,10 @@
     </array>
 
     <array name="array_dot_inactive">
-        <item>@color/color_text_hint</item>
-        <item>@color/color_text_hint</item>
-        <item>@color/color_text_hint</item>
-        <item>@color/color_text_hint</item>
+        <item>@color/dot_welcome</item>
+        <item>@color/dot_welcome</item>
+        <item>@color/dot_welcome</item>
+        <item>@color/dot_welcome</item>
     </array>
     <color name="backgroung_signin">#38BFC3</color>
     <color name="background_listing">#F6F6F6</color>
