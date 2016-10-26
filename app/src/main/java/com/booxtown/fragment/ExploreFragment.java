@@ -40,6 +40,7 @@ import android.widget.TextView;
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.model.Genre;
+import com.booxtown.model.NumberBook;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
@@ -69,6 +70,8 @@ import com.booxtown.model.Filter;
  */
 public class ExploreFragment extends Fragment
 {
+    private int type_filter=0;
+
     private LinearLayout linear_all,linear_swap,linear_free,linear_cart;
     private AdapterFilter adaper;
     private List<Filter> filterList;
@@ -85,16 +88,12 @@ public class ExploreFragment extends Fragment
     RecyclerView rView;
     AdapterExplore adapter_exploer;
     GridLayoutManager gridLayoutManager;
-    GridLayoutManager gridLayoutManager1;
-    GridLayoutManager gridLayoutManager2;
-    GridLayoutManager gridLayoutManager3;
     private int previousTotal = 0,visibleThreshold = 5;
     boolean loading = true,
             isLoading = true;
-
+    int total, swap, sell, free;
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,tvMin,tvMax,txt_filter_proximity;
     List<Book> listbook= new ArrayList<>();
-    private int filter_list = 0;
     //GridView grid;
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
 
@@ -115,9 +114,6 @@ public class ExploreFragment extends Fragment
         });
         //grid=(GridView)view.findViewById(R.id.gridView);
         gridLayoutManager = new GridLayoutManager(getContext(),2);
-        gridLayoutManager1 = new GridLayoutManager(getContext(),2);
-        gridLayoutManager2 = new GridLayoutManager(getContext(),2);
-        gridLayoutManager3 = new GridLayoutManager(getContext(),2);
         rView = (RecyclerView)view.findViewById(R.id.recycler_view);
         rView.setLayoutManager(gridLayoutManager);
         View view_search= (View)view.findViewById(R.id.explore_search);
@@ -125,6 +121,12 @@ public class ExploreFragment extends Fragment
 
         TextView txtTitle = (TextView) getActivity().findViewById(R.id.txt_title);
         txtTitle.setText("Explore");
+        type_filter=0;
+        total=0;
+        swap=0;
+        free=0;
+        sell=0;
+
 
         //grid.setOnScrollListener(new EndlessScrollListener());
         filterSort(view);
@@ -170,55 +172,52 @@ public class ExploreFragment extends Fragment
         linear_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gridLayoutManager = new GridLayoutManager(getContext(),2);
-                rView.setLayoutManager(gridLayoutManager);
-                adapter_exploer = new AdapterExplore(getActivity(),filterExplore(1),2,0);
-//                rView.setAdapter(adapter_exploer);
-//                implementScrollListener(session_id);
-                adapter_exploer.notifyDataSetChanged();
+                AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(1),2,0);
+                rView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 tab_custom.setDefault(1);
-                filter_list = 1;
+
             }
         });
 
         linear_swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gridLayoutManager1 = new GridLayoutManager(getContext(),2);
-                rView.setLayoutManager(gridLayoutManager1);
-                adapter_exploer = new AdapterExplore(getActivity(),filterExplore(2),2,0);
-                rView.setAdapter(adapter_exploer);
-                //implementScrollListener(session_id);
+                AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(2),2,0);
+                rView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 tab_custom.setDefault(2);
-                filter_list = 2;
+
             }
         });
 
         linear_free.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gridLayoutManager2 = new GridLayoutManager(getContext(),2);
-                rView.setLayoutManager(gridLayoutManager2);
-                adapter_exploer = new AdapterExplore(getActivity(),filterExplore(3),2,0);
-                rView.setAdapter(adapter_exploer);
-                implementScrollListener(session_id);
                 tab_custom.setDefault(3);
+                AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(3),2,0);
+                rView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
 
             }
         });
+
         linear_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gridLayoutManager3 = new GridLayoutManager(getContext(),2);
-                rView.setLayoutManager(gridLayoutManager3);
-                adapter_exploer = new AdapterExplore(getActivity(),filterExplore(4),2,0);
-                rView.setAdapter(adapter_exploer);
-                implementScrollListener(session_id);
+                AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(4),2,0);
+                rView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 tab_custom.setDefault(4);
+
             }
         });
-        populatRecyclerView(session_id);
-        implementScrollListener(session_id);
+        GetNumberBook getNumberBook= new GetNumberBook(0);
+        getNumberBook.execute();
+        //populatRecyclerView(session_id);
+        //implementScrollListener(session_id);
+        GetTopbook getTopbook= new GetTopbook("",0,0);
+        getTopbook.execute();
         return view;
     }
 
@@ -289,13 +288,13 @@ public class ExploreFragment extends Fragment
                 rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
                 Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-                Bitmap thumb=Bitmap.createBitmap(42,42, Bitmap.Config.ARGB_8888);
+                Bitmap thumb=Bitmap.createBitmap(38,38, Bitmap.Config.ARGB_8888);
                 Canvas canvas=new Canvas(thumb);
                 canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
                         new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
                 Drawable drawable = new BitmapDrawable(getResources(),thumb);
-                //rangeSeekbar.setLeftThumbDrawable(drawable);
-                //rangeSeekbar.setRightThumbDrawable(drawable);
+                rangeSeekbar.setLeftThumbDrawable(drawable);
+                rangeSeekbar.setRightThumbDrawable(drawable);
 
 
                 tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
@@ -316,7 +315,7 @@ public class ExploreFragment extends Fragment
 
                 txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
                 seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
-                //seekbar.setLeftThumbDrawable(drawable);
+                seekbar.setLeftThumbDrawable(drawable);
                 seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue) {
@@ -481,6 +480,7 @@ public class ExploreFragment extends Fragment
         }else {
             adapter_exploer.notifyDataSetChanged();
         }
+
     }
 
     private void implementScrollListener(final String session_id) {
@@ -491,13 +491,12 @@ public class ExploreFragment extends Fragment
                 int visibleItemCount = rView.getChildCount();
                 int totalItemCount = gridLayoutManager.getItemCount();
                 int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
-
                 if (loading) {
-                    if (totalItemCount > previousTotal) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                    }
 
+                        if (totalItemCount > previousTotal) {
+                            loading = false;
+                            previousTotal = totalItemCount;
+                        }
                 }
                 if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold) && isLoading) {
@@ -505,11 +504,13 @@ public class ExploreFragment extends Fragment
                     Book dashBoard_lv = listExplore.get(listExplore.size()-1);
                     GetTopbook getbook = new GetTopbook(session_id,Integer.parseInt(dashBoard_lv.getId()),20);
                     getbook.execute();
+                    // Do something
                     loading = true;
                 }
             }
         });
     }
+
 
     public class GetTopbook extends AsyncTask<Void,Void,List<Book>>{
         String session_id;
@@ -524,7 +525,8 @@ public class ExploreFragment extends Fragment
         @Override
         protected List<Book> doInBackground(Void... params) {
             BookController bookController = new BookController();
-            listbook  =  bookController.book_gettop(session_id,from,top);
+            //listbook  =  bookController.book_gettop(session_id,from,top);
+            listbook  =  bookController.getallbook();
             return listbook;
         }
 
@@ -538,15 +540,53 @@ public class ExploreFragment extends Fragment
             try {
                 if(list.size() >0) {
                     listExplore.addAll(list);
-                    //Collections.sort(listExplore, Book.asid);
-                    adapter_exploer.notifyDataSetChanged();
-                    tab_all_count.setText("(" + filterExplore(1).size() + ")");
-                    tab_swap_count.setText("(" + filterExplore(2).size() + ")");
-                    tab_free_count.setText("(" + filterExplore(3).size() + ")");
-                    tab_cart_count.setText("(" + filterExplore(4).size() + ")");
+                    adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2,0);
+                    rView.setAdapter(adapter_exploer);
                     isLoading = true;
                 }else{
                     isLoading = false;
+                }
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+    public class GetNumberBook extends AsyncTask<Void,Void,List<NumberBook>>{
+        int user_id;
+        public GetNumberBook(int user_id){
+            this.user_id=user_id;
+        }
+
+        @Override
+        protected List<NumberBook> doInBackground(Void... params) {
+            BookController bookController = new BookController();
+
+            return bookController.getNumberBook(user_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(List<NumberBook> list) {
+            try {
+                if(list.size() >0) {
+                    tab_all_count.setText("(" + list.get(0).getTotal() + ")");
+                    tab_swap_count.setText("(" + list.get(0).getSwap()+ ")");
+                    tab_free_count.setText("(" + list.get(0).getFree() + ")");
+                    tab_cart_count.setText("(" + list.get(0).getSell() + ")");
+
+                    total=Integer.parseInt(list.get(0).getTotal());
+                    sell=Integer.parseInt(list.get(0).getSell());
+                    swap=Integer.parseInt(list.get(0).getSwap());
+                    free=Integer.parseInt(list.get(0).getFree());
+
+
+                }else{
+
                 }
             }catch (Exception e){
 

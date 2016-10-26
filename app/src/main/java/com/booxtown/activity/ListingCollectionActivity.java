@@ -108,7 +108,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     String sChooseImage="";
     LatLng latLng_new;
     RadioButton radioButton_current, radioButton_another;
-
+    TextView txt_menu_genre1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -216,6 +216,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         Drawable drawable = new BitmapDrawable(getResources(), thumb);
         seekbar.setThumb(drawable);
         listUserName = new ArrayList<>();
+        final TextView txt_view = (TextView) v.findViewById(R.id.txt_menu_genre1);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,6 +252,17 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        String genreResult="";
+                        int flag=0;
+                        for (int i = 0; i < genre.size(); i++) {
+                            if (genre.get(i).ischeck() == true) {
+                                flag++;
+                                genreResult= genreResult+genre.get(i).getValue()+",";
+                            }
+                        }
+                        if(flag>0) {
+                            txt_view.setText(genreResult.substring(0,genreResult.length()-1));
+                        }
                         dialog.dismiss();
                     }
                 });
@@ -268,7 +280,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         });
 
-        TextView txt_view = (TextView) v.findViewById(R.id.txt_menu_genre1);
+
         txt_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,6 +314,17 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        String genreResult="";
+                        int flag=0;
+                        for (int i = 0; i < genre.size(); i++) {
+                            if (genre.get(i).ischeck() == true) {
+                                flag++;
+                                genreResult= genreResult+genre.get(i).getValue()+",";
+                            }
+                        }
+                        if(flag>0) {
+                            txt_view.setText(genreResult.substring(0,genreResult.length()-1));
+                        }
                         dialog.dismiss();
                     }
                 });

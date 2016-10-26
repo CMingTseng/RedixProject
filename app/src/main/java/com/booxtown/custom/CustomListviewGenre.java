@@ -39,7 +39,12 @@ public class CustomListviewGenre extends RecyclerView.Adapter<CustomListviewGenr
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result.get(position).setIscheck(true);
+                if(result.get(position).ischeck()==true){
+                    result.get(position).setIscheck(false);
+                }else{
+                    result.get(position).setIscheck(true);
+                }
+
             }
         });
     }

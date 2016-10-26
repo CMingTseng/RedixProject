@@ -156,8 +156,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 List<Book> list_books = new ArrayList<Book>();
                 list_books.clear();
                 for (int i = 0; i < listExplore.size(); i++) {
-                    if (listExplore.get(i).getTitle().contains(editSearch.getText().toString())
-                            || listExplore.get(i).getAuthor().contains(editSearch.getText().toString())) {
+                    if (listExplore.get(i).getTitle().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getAuthor().toLowerCase().contains(editSearch.getText().toString().toLowerCase())) {
                         list_books.add(listExplore.get(i));
                     }
                 }
@@ -295,7 +295,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-                Bitmap thumb = Bitmap.createBitmap(38, 38, Bitmap.Config.ARGB_8888);
+                Bitmap thumb = Bitmap.createBitmap(40, 40, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(thumb);
                 canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
                         new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
@@ -324,7 +324,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
                 txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
                 seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
-                //seekbar.setLeftThumbDrawable(drawable);
+                seekbar.setLeftThumbDrawable(drawable);
                 seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue) {

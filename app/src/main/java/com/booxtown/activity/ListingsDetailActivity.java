@@ -226,7 +226,25 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     public void setData(final Book book, View v, String type) {
         txt_title_listings_detail.setText(book.getTitle());
         txt_author_listings_detail.setText("by " + book.getAuthor());
-        txt_price_listings_detail.setText("AED " + book.getPrice());
+
+        try {
+
+            String priceBook=(book.getPrice()+"");
+            int index = priceBook.indexOf(".");
+            if (Integer.parseInt(priceBook.substring(index+1,priceBook.length())) != 0) {
+                txt_price_listings_detail.setText("AED " + book.getPrice());
+            } else {
+                if(priceBook.substring(0, index).equals("0")){
+                    txt_price_listings_detail.setVisibility(View.INVISIBLE);
+                }else {
+                    txt_price_listings_detail.setText("AED " + priceBook.substring(0, index));
+                }
+            }
+        }catch (Exception exx){
+
+        }
+
+
 
         try {
             String date_post = book.getCreate_date().substring(8, 10) + "-" + book.getCreate_date().substring(5, 7) + "-" +

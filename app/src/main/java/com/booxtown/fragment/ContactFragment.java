@@ -24,7 +24,12 @@ public class ContactFragment extends Fragment {
         btn_send_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"Send message success", Toast.LENGTH_SHORT).show();
+                if(editText_message.getText().toString().trim()==""){
+
+                }else {
+                    Toast.makeText(getContext(), "Send message success", Toast.LENGTH_SHORT).show();
+                    editText_message.setText("");
+                }
             }
         });
         return view;

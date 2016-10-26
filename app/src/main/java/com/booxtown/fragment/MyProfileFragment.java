@@ -306,7 +306,7 @@ public class MyProfileFragment extends Fragment {
 
         public void onDateSet(DatePicker view, int year, int month, int day){
             TextView textview = (TextView) getActivity().findViewById(R.id.txt_profile_birthday);
-            textview.setText(year + "/" + (month+1) + "/" + day);
+            textview.setText(day + "/" + (month+1) + "/" + year);
         }
     }
 
@@ -452,7 +452,7 @@ public class MyProfileFragment extends Fragment {
                     LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
                     stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
-                    stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                    //stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
                     DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
                 }
                 super.onPostExecute(userResult);

@@ -173,8 +173,8 @@ public class ListingsFragment extends Fragment
                 canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
                         new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
                 Drawable drawable = new BitmapDrawable(getResources(),thumb);
-                //rangeSeekbar.setLeftThumbDrawable(drawable);
-                //rangeSeekbar.setRightThumbDrawable(drawable);
+                rangeSeekbar.setLeftThumbDrawable(drawable);
+                rangeSeekbar.setRightThumbDrawable(drawable);
 
 
                 tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
@@ -195,7 +195,7 @@ public class ListingsFragment extends Fragment
 
                 txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
                 seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
-                //seekbar.setLeftThumbDrawable(drawable);
+                seekbar.setLeftThumbDrawable(drawable);
                 seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue) {

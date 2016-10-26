@@ -7,17 +7,17 @@
     <string name="start">GOT IT</string>
 
     <string name="slide_1_title">Hello Food!</string>
-    <string name="slide_1_desc">Welcome to the first specialized \nmarketplace and cominunity \nfor fre-loved books!</string>
+    <string name="slide_1_desc">Welcome to the first specialized \nmarketplace and community \nfor pre-loved books!</string>
 
     <string name="slide_2_title">Movie Tickets</string>
     <string name="slide_2_desc">Join us and share you passion for books and reading.\n\nListing books is always for free.</string>
 
     <string name="slide_3_title">Great Discounts</string>
-    <string name="slide_3_desc">Upgrade your membership for AED \n25/month and enjoy connecting with other readers,locate your favorite books nearby,find easily what books are available for sale,swap or even for free and even if you can\'t find your favorite book right now,and it to the Wishboard.No limits at all.  </string>
+    <string name="slide_3_desc">Upgrade your membership for AED \n25/month and enjoy connecting with other readers,locate your favorite books nearby,find easily what books are available for sale,swap or even for free and even if you can\'t find your favorite book right now,add it to the Wishboard.No limits at all.  </string>
     <!--<string name="slide_3_desc"></string>-->
 
     <string name="slide_4_title">World Travel</string>
-    <string name="slide_4_desc">Start your 14 days trial period now and check out the cool features of Booxtown.\n\nAnd thought we will be sad to see you go,you can stop your membership at anytime</string>
+    <string name="slide_4_desc">Start your 14 days trial period now and check out the cool features of Booxtown.\n\nAnd though we will be sad to see you go,you can stop your membership at anytime</string>
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>

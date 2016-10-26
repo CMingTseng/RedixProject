@@ -1,5 +1,6 @@
 package com.booxtown.api;
 
+import com.booxtown.model.NumberBookResult;
 import com.booxtown.model.WishboardResult;
 
 import okhttp3.MultipartBody;
@@ -201,5 +202,9 @@ public interface ServiceInterface {
 
     @GET("/booxtown/rest/book/book_gettopbyuserid")
     Call<BookResult> getTopBookById(@Query("user_id") int user_id,@Query("top") int top,@Query("from") int from);
+
+    @GET("/booxtown/book/getNumberOfBook")
+    Call<NumberBookResult> getNumberBook(@Query("user_id") int user_id);
+
 
 }

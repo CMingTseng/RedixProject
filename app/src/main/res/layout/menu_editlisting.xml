@@ -173,7 +173,10 @@
         android:background="@android:color/transparent"
         android:text="Genre"
         android:textColorHint="@color/color_text_hint"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end" />
 
     <com.booxtown.custom.CustomTextView
         android:id="@+id/textView108"
