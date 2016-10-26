@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">BooxTown</string>
+    <string name="app_id">1171588966268669</string>
     <string name="title_activity_welcome">Home Screen</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>

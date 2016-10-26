@@ -480,6 +480,7 @@ public class ExploreFragment extends Fragment
         }else {
             adapter_exploer.notifyDataSetChanged();
         }
+
     }
 
     private void implementScrollListener(final String session_id) {
