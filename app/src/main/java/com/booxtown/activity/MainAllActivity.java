@@ -1,6 +1,11 @@
 package com.booxtown.activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,7 +34,7 @@ import com.booxtown.model.Book;
  * Created by Administrator on 03/09/2016.
  */
 public class MainAllActivity extends AppCompatActivity{
-
+    public static Resources mResources;
     View view_top;
     public static TextView txtTitle;
     public static ImageView img_component;
@@ -48,7 +53,7 @@ public class MainAllActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_all);
-
+        mResources = getResources();
 
         try {
             initLayout();
@@ -376,5 +381,15 @@ public class MainAllActivity extends AppCompatActivity{
     public static void setImg_component() {
         img_component.setVisibility(View.VISIBLE);
         Picasso.with(getSaleInstance()).load(R.drawable.btn_location).into(img_component);
+    }
+
+    public static Bitmap getImageThumb(){
+        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.abc);
+        Bitmap thumb = Bitmap.createBitmap(45, 45, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(thumb);
+        canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
+
+        return thumb;
     }
 }
