@@ -296,19 +296,21 @@ public class ExploreFragment extends Fragment
                 rangeSeekbar.setLeftThumbDrawable(drawable);
                 rangeSeekbar.setRightThumbDrawable(drawable);
 
+/*
 
                 tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
                 tvMax = (TextView) dialog.findViewById(R.id.txt_filter_rangemax);
+*/
 
                 rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue, Number maxValue) {
-                        tvMin.setText(String.valueOf(minValue));
+                        /*tvMin.setText(String.valueOf(minValue));
                         if(String.valueOf(maxValue).equals("1")){
                             tvMax.setText("1000");
                         }else{
                             tvMax.setText(String.valueOf(maxValue));
-                        }
+                        }*/
 
                     }
                 });

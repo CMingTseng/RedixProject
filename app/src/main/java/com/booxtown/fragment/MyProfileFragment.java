@@ -377,7 +377,8 @@ public class MyProfileFragment extends Fragment {
                 }else {
                     txt_profile_email.setText(userResult.get(0).getEmail());
                     txt_profile_phone.setText(userResult.get(0).getPhone());
-                    txt_profile_birthday.setText(userResult.get(0).getBirthday().substring(0,10));
+                    String[] result=userResult.get(0).getBirthday().substring(0,10).split("-");
+                    txt_profile_birthday.setText(result[2]+"/"+ result[1]+"/"+ result[0]);
                     txt_profile_username.setText(userResult.get(0).getUsername().substring(0,1).toUpperCase()+userResult.get(0).getUsername().substring(1,userResult.get(0).getUsername().length()));
                     username = userResult.get(0).getUsername();
                     user_id = userResult.get(0).getUser_id();

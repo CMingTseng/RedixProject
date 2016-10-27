@@ -46,6 +46,7 @@ import com.booxtown.controller.BookController;
 import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
+import com.booxtown.controller.RangeSeekBar;
 import com.booxtown.model.Genre;
 import com.booxtown.model.GenreValue;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
@@ -95,8 +96,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     private TextView tvMin, tvMax, txt_filter_proximity;
     private List<Filter> filterList;
     private AdapterFilter adaper;
-    private CrystalRangeSeekbar rangeSeekbar;
-    private CrystalSeekbar seekbar;
+    private RangeSeekBar rangeSeekbar;
+    private RangeSeekBar seekbar;
     //private Spinner spinner2;
     private ArrayAdapter<String> dataAdapter;
     List<Book> lisfilter_temp;
@@ -292,7 +293,10 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 adaper = new AdapterFilter(getActivity(), filterList);
                 lv_dialog_filter.setAdapter(adaper);
 
-                rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
+                rangeSeekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar3);
+                rangeSeekbar.setNotifyWhileDragging(true);
+                rangeSeekbar.setSelectedMaxValue(100);
+                /*rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
                 Bitmap thumb = Bitmap.createBitmap(40, 40, Bitmap.Config.ARGB_8888);
@@ -320,8 +324,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                         }
 
                     }
-                });
-
+                });*/
+                /*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
+                Bitmap thumb = Bitmap.createBitmap(40, 40, Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(thumb);
+                canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                        new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
+                Drawable drawable = new BitmapDrawable(getResources(), thumb);
                 txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
                 seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
                 seekbar.setLeftThumbDrawable(drawable);
@@ -336,7 +345,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                             proximity = String.valueOf(minValue);
                         }
                     }
-                });
+                });*/
+
+                seekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar8);
+                seekbar.setNotifyWhileDragging(true);
+                seekbar.setSelectedMaxValue(3);
 
                 ImageView imv_dialog_filter_close = (ImageView) dialog.findViewById(R.id.imv_dialog_filter_close);
                 Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(imv_dialog_filter_close);
