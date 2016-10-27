@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.controller.GetAllGenreAsync;
+import com.booxtown.controller.RangeSeekBar;
 import com.booxtown.model.Genre;
 import com.booxtown.model.NumberBook;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
@@ -76,8 +77,8 @@ public class ExploreFragment extends Fragment
     private AdapterFilter adaper;
     private List<Filter> filterList;
     private Spinner spinner2;
-    private CrystalRangeSeekbar rangeSeekbar;
-    private CrystalSeekbar seekbar;
+    private RangeSeekBar rangeSeekbar;
+    private RangeSeekBar seekbar;
     List<Book> listfilter,listExplore = new ArrayList<>(),lisfilter_temp;
     String proximity,session_id;
 
@@ -94,6 +95,10 @@ public class ExploreFragment extends Fragment
     int total, swap, sell, free;
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,tvMin,tvMax,txt_filter_proximity;
     List<Book> listbook= new ArrayList<>();
+
+    int minRangerSeekbar=0;
+    int maxRangerSeekbar=0;
+    double maxSeekbar=0;
     //GridView grid;
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
 
@@ -285,7 +290,7 @@ public class ExploreFragment extends Fragment
                 adaper = new AdapterFilter(getActivity(),filterList);
                 lv_dialog_filter.setAdapter(adaper);
 
-                rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
+                /*rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
                 Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
                 Bitmap thumb=Bitmap.createBitmap(38,38, Bitmap.Config.ARGB_8888);
@@ -296,38 +301,43 @@ public class ExploreFragment extends Fragment
                 rangeSeekbar.setLeftThumbDrawable(drawable);
                 rangeSeekbar.setRightThumbDrawable(drawable);
 
-/*
+*//*
 
                 tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
                 tvMax = (TextView) dialog.findViewById(R.id.txt_filter_rangemax);
-*/
+*//*
 
                 rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue, Number maxValue) {
-                        /*tvMin.setText(String.valueOf(minValue));
+                        *//*tvMin.setText(String.valueOf(minValue));
                         if(String.valueOf(maxValue).equals("1")){
                             tvMax.setText("1000");
                         }else{
                             tvMax.setText(String.valueOf(maxValue));
-                        }*/
+                        }*//*
 
+                    }
+                });*/
+
+                rangeSeekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar3);
+                rangeSeekbar.setNotifyWhileDragging(true);
+                rangeSeekbar.setSelectedMaxValue(100);
+                rangeSeekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+                    @Override
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                        minRangerSeekbar= Integer.parseInt(minValue+"");
+                        maxRangerSeekbar= Integer.parseInt(maxValue+"");
                     }
                 });
 
-                txt_filter_proximity = (TextView) dialog.findViewById(R.id.txt_filter_proximity);
-                seekbar = (CrystalSeekbar) dialog.findViewById(R.id.rangeSeekbar8);
-                seekbar.setLeftThumbDrawable(drawable);
-                seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
+                seekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar8);
+                seekbar.setNotifyWhileDragging(true);
+                seekbar.setSelectedMaxValue(3);
+                seekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
-                    public void valueChanged(Number minValue) {
-                        if(String.valueOf(minValue).equals("0")){
-                            txt_filter_proximity.setText("10KM");
-                            proximity = String.valueOf(minValue);
-                        }else{
-                            txt_filter_proximity.setText(String.valueOf(minValue) + "KM");
-                            proximity = String.valueOf(minValue);
-                        }
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                        maxSeekbar= Double.parseDouble((maxValue+"").replace(" KM",""));
                     }
                 });
 
@@ -402,7 +412,7 @@ public class ExploreFragment extends Fragment
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(),new GPSTracker(getActivity()).getLongitude());
-        Double distance = Double.valueOf(proximity);
+        Double distance = Double.valueOf(maxSeekbar);
         for (int i = 0; i < listExplore.size();i++){
             String[] genrel = listExplore.get(i).getGenre().split(";");
             for (int f = 0;f<listvalueGenre.size();f++){
@@ -427,8 +437,8 @@ public class ExploreFragment extends Fragment
 
         if (listfilter.size()!=0){
             for (int i = 0;i<listfilter.size();i++){
-                if (listfilter.get(i).getPrice()>=Float.valueOf(tvMin.getText().toString()) &&
-                        listfilter.get(i).getPrice()<= Float.valueOf(tvMax.getText().toString())){
+                if (listfilter.get(i).getPrice()>=Float.valueOf(minRangerSeekbar+"") &&
+                        listfilter.get(i).getPrice()<= Float.valueOf(maxRangerSeekbar+"")){
                     lisfilter_temp.add(listfilter.get(i));
                 }
             }

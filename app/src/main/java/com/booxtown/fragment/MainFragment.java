@@ -104,6 +104,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     List<Book> listfilter;
     List<Book> listExplore;
     ArrayList<Genre> genre;
+
+    int minRangerSeekbar=0;
+    int maxRangerSeekbar=0;
+    double maxSeekbar=0;
+
     //end
     @Nullable
     @Override
@@ -191,7 +196,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         listfilter = new ArrayList<>();
 
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
-        Double distance = Double.valueOf(proximity);
+        Double distance = Double.valueOf(maxSeekbar);
         for (int i = 0; i < listExplore.size(); i++) {
             //String[] genrel = listExplore.get(i).getGenre().split(";");
             String[] genrel = listExplore.get(i).getGenre().split(";");
@@ -217,8 +222,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         if (listfilter.size() != 0) {
             for (int i = 0; i < listfilter.size(); i++) {
-                if (listfilter.get(i).getPrice() >= Float.valueOf(tvMin.getText().toString()) &&
-                        listfilter.get(i).getPrice() <= Float.valueOf(tvMax.getText().toString())) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(minRangerSeekbar+"") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(maxRangerSeekbar+"")) {
                     lisfilter_temp.add(listfilter.get(i));
                 }
             }
@@ -296,6 +301,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 rangeSeekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar3);
                 rangeSeekbar.setNotifyWhileDragging(true);
                 rangeSeekbar.setSelectedMaxValue(100);
+                rangeSeekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+                    @Override
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                        minRangerSeekbar= Integer.parseInt(minValue+"");
+                        maxRangerSeekbar= Integer.parseInt(maxValue+"");
+                    }
+                });
                 /*rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
@@ -350,6 +362,12 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 seekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar8);
                 seekbar.setNotifyWhileDragging(true);
                 seekbar.setSelectedMaxValue(3);
+                seekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+                    @Override
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                        maxSeekbar= Double.parseDouble((maxValue+"").replace(" KM",""));
+                    }
+                });
 
                 ImageView imv_dialog_filter_close = (ImageView) dialog.findViewById(R.id.imv_dialog_filter_close);
                 Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(imv_dialog_filter_close);

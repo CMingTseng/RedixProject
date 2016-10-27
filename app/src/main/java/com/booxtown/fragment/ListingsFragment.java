@@ -47,6 +47,7 @@ import com.booxtown.adapter.ListBookAdapter;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
+import com.booxtown.controller.RangeSeekBar;
 import com.booxtown.custom.CustomListviewGenre;
 import com.booxtown.model.Book;
 import com.booxtown.model.Filter;
@@ -73,8 +74,8 @@ public class ListingsFragment extends Fragment
     ArrayList<Book> listEx= new ArrayList<>();
     //GridView grid;
     Book book;
-    private CrystalRangeSeekbar rangeSeekbar;
-    private CrystalSeekbar seekbar;
+    private RangeSeekBar rangeSeekbar;
+    private RangeSeekBar seekbar;
     private AdapterFilter adaper;
     private  ArrayAdapter<String> dataAdapter;
     private Spinner spinner2;
@@ -87,6 +88,10 @@ public class ListingsFragment extends Fragment
     ArrayList<Genre> genre;
     public static int num_list;
     List<Book> lisfilter_temp,listfilter,listExplore = new ArrayList<>();
+
+    int minRangerSeekbar=0;
+    int maxRangerSeekbar=0;
+    double maxSeekbar=0;
     public String proximity;
     public static TextView txt_add_book;
     public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
@@ -165,7 +170,7 @@ public class ListingsFragment extends Fragment
                 adaper = new AdapterFilter(getActivity(),filterList);
                 lv_dialog_filter.setAdapter(adaper);
 
-                rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
+                /*rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
 
                 Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
                 Bitmap thumb=Bitmap.createBitmap(38,38, Bitmap.Config.ARGB_8888);
@@ -177,18 +182,18 @@ public class ListingsFragment extends Fragment
                 rangeSeekbar.setRightThumbDrawable(drawable);
 
 
-               /* tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
-                tvMax = (TextView) dialog.findViewById(R.id.txt_filter_rangemax);*/
+               *//* tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
+                tvMax = (TextView) dialog.findViewById(R.id.txt_filter_rangemax);*//*
 
                 rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
                     @Override
                     public void valueChanged(Number minValue, Number maxValue) {
-                        /*tvMin.setText(String.valueOf(minValue));
+                        *//*tvMin.setText(String.valueOf(minValue));
                         if(String.valueOf(maxValue).equals("1")){
                             tvMax.setText("1000");
                         }else{
                             tvMax.setText(String.valueOf(maxValue));
-                        }*/
+                        }*//*
 
                     }
                 });
@@ -206,6 +211,27 @@ public class ListingsFragment extends Fragment
                             txt_filter_proximity.setText(String.valueOf(minValue) + "KM");
                             proximity = String.valueOf(minValue);
                         }
+                    }
+                });*/
+
+                rangeSeekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar3);
+                rangeSeekbar.setNotifyWhileDragging(true);
+                rangeSeekbar.setSelectedMaxValue(100);
+                rangeSeekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+                    @Override
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                        minRangerSeekbar= Integer.parseInt(minValue+"");
+                        maxRangerSeekbar= Integer.parseInt(maxValue+"");
+                    }
+                });
+
+                seekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar8);
+                seekbar.setNotifyWhileDragging(true);
+                seekbar.setSelectedMaxValue(3);
+                seekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+                    @Override
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                        maxSeekbar= Double.parseDouble((maxValue+"").replace(" KM",""));
                     }
                 });
 
@@ -340,7 +366,7 @@ public class ListingsFragment extends Fragment
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(),new GPSTracker(getActivity()).getLongitude());
-        Double distance = Double.valueOf(proximity);
+        Double distance = Double.valueOf(maxSeekbar);
 
 
         for (int i = 0; i < listExplore.size();i++){
@@ -368,8 +394,8 @@ public class ListingsFragment extends Fragment
 
         if (listfilter.size()!=0){
             for (int i = 0;i<listfilter.size();i++){
-                if (listfilter.get(i).getPrice()>=Float.valueOf(tvMin.getText().toString()) &&
-                        listfilter.get(i).getPrice()<= Float.valueOf(tvMax.getText().toString())){
+                if (listfilter.get(i).getPrice()>=Float.valueOf(minRangerSeekbar+"") &&
+                        listfilter.get(i).getPrice()<= Float.valueOf(minRangerSeekbar+"")){
                     lisfilter_temp.add(listfilter.get(i));
                 }
             }

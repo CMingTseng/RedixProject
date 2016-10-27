@@ -448,9 +448,12 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
         canvas.drawRect(mRect, paint);
 
-        boolean selectedValuesAreDefault = (getSelectedMinValue().equals(getAbsoluteMinValue()) &&
-                getSelectedMaxValue().equals(getAbsoluteMaxValue()));
 
+
+
+       // boolean selectedValuesAreDefault = (getSelectedMinValue().equals(getAbsoluteMinValue()) &&
+                //getSelectedMaxValue().equals(getAbsoluteMaxValue()));
+        boolean selectedValuesAreDefault =false;
         int colorToUseForButtonsAndHighlightedLine = selectedValuesAreDefault ?
                 Color.parseColor("#c8c8c8") :    // default values
                 DEFAULT_COLOR; //non default, filter is active
@@ -480,7 +483,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             String maxText="";
             if(mSingleThumb) {
                 maxText = String.valueOf(getSelectedMaxValue()+" KM");
-                if(String.valueOf(getSelectedMaxValue())=="1" ||String.valueOf(getSelectedMaxValue())=="10"){
+                if(maxText.equals("1 KM") ||maxText.equals("10 KM")){
                     maxText="";
                 }
             }else{
