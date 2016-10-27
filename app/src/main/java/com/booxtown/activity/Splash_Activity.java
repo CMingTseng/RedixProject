@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import io.fabric.sdk.android.Fabric;
 import com.booxtown.R;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 public class Splash_Activity extends AppCompatActivity {
 
@@ -21,6 +23,10 @@ public class Splash_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //initialize sdk
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(this.getResources().getString(R.string.twitter_api_key),
+                this.getResources().getString(R.string.twitter_secrate_key));
+        Fabric.with(Splash_Activity.this, new Twitter(authConfig));
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash_);
         try {

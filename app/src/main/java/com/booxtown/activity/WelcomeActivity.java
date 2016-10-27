@@ -9,6 +9,7 @@ import android.content.pm.Signature;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.booxtown.autoviewpager.AutoScrollViewPager;
+import com.booxtown.facebookSignIn.FacebookHelper;
+import com.booxtown.facebookSignIn.FacebookResponse;
+import com.booxtown.facebookSignIn.FacebookUser;
+import com.booxtown.googleAuthSignin.GoogleAuthResponse;
+import com.booxtown.googleAuthSignin.GoogleAuthUser;
+import com.booxtown.googleAuthSignin.GoogleSignInHelper;
+import com.booxtown.twitterSignIn.TwitterHelper;
+import com.booxtown.twitterSignIn.TwitterResponse;
+import com.booxtown.twitterSignIn.TwitterUser;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -35,9 +45,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Picasso;
 
 import com.booxtown.R;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +58,10 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
-public class WelcomeActivity extends AppCompatActivity {
+import io.fabric.sdk.android.Fabric;
+
+public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener,
+        GoogleAuthResponse, FacebookResponse, TwitterResponse {
 
     private AutoScrollViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -53,80 +69,38 @@ public class WelcomeActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnsigup, btnsignin;
-    private LoginButton loginButton;
-    private CallbackManager callbackManager;
+    private FacebookHelper mFbHelper;
+    private GoogleSignInHelper mGAuthHelper;
+    private TwitterHelper mTwitterHelper;
 //    private PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-
+        mTwitterHelper = new TwitterHelper(R.string.twitter_api_key,
+                R.string.twitter_secrate_key,
+                this,
+                WelcomeActivity.this);
+        //Google api initialization
+        mGAuthHelper = new GoogleSignInHelper(this, null, this);
+        //fb api initialization
+        mFbHelper = new FacebookHelper(this,
+                "id,name,email,gender,birthday,picture,cover",
+                this);
         setContentView(R.layout.activity_welcome);
-        loginButton = (LoginButton)findViewById(R.id.signin_fb);
-
-
-        loginButton.setReadPermissions(Arrays.asList(
-                 "email"));
-
-        callbackManager = CallbackManager.Factory.create();
-
-        //login fb
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // Facebook Email address
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response) {
-                                Log.v("LoginActivity Response ", response.toString());
-
-                                try {
-                                    String Name = object.getString("name");
-
-                                    String FEmail = object.getString("email");
-                                    Log.v("Email = ", " " + FEmail);
-                                    Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender, birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(WelcomeActivity.this,"Login attempt canceled.", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(FacebookException e) {
-                Toast.makeText(WelcomeActivity.this,"Login attempt failed.", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
+        //twitter initialization
         //end
-
+        ImageView signin_fb = (ImageView) findViewById(R.id.signin_fb);
+        Picasso.with(WelcomeActivity.this).load(R.mipmap.fb).into(signin_fb);
         ImageView signin_twitter = (ImageView) findViewById(R.id.signin_twitter);
         Picasso.with(WelcomeActivity.this).load(R.mipmap.twetter).into(signin_twitter);
         ImageView signin_google = (ImageView) findViewById(R.id.signin_google);
         Picasso.with(WelcomeActivity.this).load(R.mipmap.g).into(signin_google);
+
+        signin_fb.setOnClickListener(this);
+        signin_twitter.setOnClickListener(this);
+        signin_google.setOnClickListener(this);
         //end
         viewPager = (AutoScrollViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -156,16 +130,6 @@ public class WelcomeActivity extends AppCompatActivity {
         btnsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                try {
-//                    PackageInfo packageInfo = getPackageManager().getPackageInfo("com.booxtown", PackageManager.GET_SIGNATURES);
-//                    for(Signature signature: packageInfo.signatures){
-//                        MessageDigest messageDigest = MessageDigest.getInstance("SHA");
-//                        messageDigest.update(signature.toByteArray());
-//                        Log.d("KeyHash:", Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT));
-//                    }
-//                }catch (Exception e){
-//                }
-
                 Intent itent = new Intent(WelcomeActivity.this, SignIn_Activity.class);
                 startActivity(itent);
             }
@@ -229,6 +193,84 @@ public class WelcomeActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
+    }
+
+    @Override
+    public void onFbSignInFail() {
+        Toast.makeText(this, "Facebook sign in failed.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFbSignInSuccess() {
+        Toast.makeText(this, "Facebook sign in success", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFbProfileReceived(FacebookUser facebookUser) {
+        Toast.makeText(this, "Facebook user data: name= " + facebookUser.name + " email= " + facebookUser.email, Toast.LENGTH_SHORT).show();
+        Log.d("Person name: ", facebookUser.name + "");
+        Log.d("Person gender: ", facebookUser.gender + "");
+        Log.d("Person email: ", facebookUser.email + "");
+        Log.d("Person image: ", facebookUser.facebookID + "");
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.signin_google:
+                mGAuthHelper.performSignIn(this);
+                break;
+            case R.id.signin_fb:
+                mFbHelper.performSignIn(this);
+                break;
+            case R.id.signin_twitter:
+                mTwitterHelper.performSignIn();
+                break;
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //mGHelper.disconnectApiClient();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //handle results
+        mFbHelper.onActivityResult(requestCode, resultCode, data);
+        mGAuthHelper.onActivityResult(requestCode, resultCode, data);
+        mTwitterHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public void onTwitterError() {
+        Toast.makeText(this, "Twitter sign in failed.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTwitterSignIn(@NonNull String userId, @NonNull String userName) {
+        Toast.makeText(this, " User id: " + userId + "\n user name" + userName, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTwitterProfileReceived(TwitterUser user) {
+        Toast.makeText(this, "Twitter user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGoogleAuthSignIn(GoogleAuthUser user) {
+        Toast.makeText(this, "Google user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
+        Log.d("Person name: ", user.name + "");
+        Log.d("Person gender: ", user.id + "");
+        Log.d("Person email: ", user.email + "");
+        Log.d("Person image: ", user.photoUrl + "");
+    }
+
+    @Override
+    public void onGoogleAuthSignInFailed() {
+        Toast.makeText(this, "Google sign in failed.", Toast.LENGTH_SHORT).show();
     }
 
     /**
