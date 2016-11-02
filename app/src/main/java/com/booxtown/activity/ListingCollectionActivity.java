@@ -30,8 +30,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -155,12 +158,39 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         Spannable wordtoSpan1 = new SpannableString("Author *");
         wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED), 7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         edt_author.setHint(wordtoSpan1);
+        edt_author.setFilters(new InputFilter[] {
+                new InputFilter() {
+                    public CharSequence filter(CharSequence src, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                        if(src.equals("")){ // for backspace
+                            return src;
+                        }
+                        if(src.toString().matches("[\\x00-\\x7F]+")){
+                            return src;
+                        }
+                        return "";
+                    }
+                }
+        });
 
         edt_tilte = (EditText) v.findViewById(R.id.editText8);
         Spannable wordtoSpan = new SpannableString("Book Title *");
         wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 11, 12, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         edt_tilte.setHint(wordtoSpan);
-
+        edt_tilte.setFilters(new InputFilter[] {
+                new InputFilter() {
+                    public CharSequence filter(CharSequence src, int start,
+                                               int end, Spanned dst, int dstart, int dend) {
+                        if(src.equals("")){ // for backspace
+                            return src;
+                        }
+                        if(src.toString().matches("[\\x00-\\x7F]+")){
+                            return src;
+                        }
+                        return "";
+                    }
+                }
+        });
         edt_tag = (EditText) v.findViewById(R.id.editText10);
         addtag = (ImageView) v.findViewById(R.id.imageView33);
         addtag.setOnClickListener(this);
@@ -436,7 +466,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 tag2.setText(listtag[1]);
                 tag1.setVisibility(View.VISIBLE);
                 tag2.setVisibility(View.VISIBLE);
-            } else {
+            } else if (listtag.length == 2)  {
                 tag1.setText(listtag[0] + "");
                 tag2.setText(listtag[1] + "");
                 tag3.setText(listtag[2] + "");
@@ -683,14 +713,14 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         final String sell1 = sell.isChecked() == true ? "1" : "0";
         final String free1 = free.isChecked() == true ? "1" : "0";
         if (free1.equals("1")) {
-            if (sell1.equals("1")) {
-                Toast.makeText(getContext(), Information.noti_not_check_sell, Toast.LENGTH_SHORT).show();
+            if (sell1.equals("1")||swap1.equals("1")) {
+                Toast.makeText(getContext(), Information.noti_show_choose_type_addbook, Toast.LENGTH_SHORT).show();
                 return false;
             }
-            if (swap1.equals("1")) {
-                Toast.makeText(getContext(), Information.noti_not_check_sell, Toast.LENGTH_SHORT).show();
-                return false;
-            }
+        }
+        if(swap1.equals("0")&&free1.equals("0")&&sell1.equals("0")){
+            Toast.makeText(getContext(), Information.noti_show_choose_type_addbook_empty, Toast.LENGTH_SHORT).show();
+            return false;
         }
         if (swap1.equals("1") || sell1.equals("1")) {
             if (free1.equals("1")) {
@@ -1108,7 +1138,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     }
 
     public void addTag() {
-        if(!edt_tag.getText().toString().trim().equals("")) {
+        if(!edt_tag.getText().toString().trim().equals("") && !edt_tag.getText().toString().trim().contains(";")) {
             listTag.add(edt_tag.getText().toString());
             edt_tag.setText("");
             settag();
@@ -1332,9 +1362,13 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         @Override
         protected String doInBackground(Void... params) {
-            bookController = new BookController();
-            //success = bookController.addbook(book, session_id).equals("")? false: true;
-            return bookController.addbook(book, session_id);
+            try {
+                bookController = new BookController();
+                //success = bookController.addbook(book, session_id).equals("")? false: true;
+                return bookController.addbook(book, session_id);
+            }catch (Exception exx){
+                return "";
+            }
         }
 
         @Override
@@ -1343,6 +1377,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 if (back == 1) {
                     callFragment(new MyProfileFragment());
                 } else {
+                    Toast.makeText(getContext(),"Add Book Successful",Toast.LENGTH_LONG).show();
                     callFragment(new ListingsFragment());
                     MainAllActivity.setTxtTitle("Listings");
                 }

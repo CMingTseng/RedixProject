@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -125,12 +126,9 @@ public class InteractThreadDetailsFragment extends Fragment {
                     arr_commet.clear();
                     commentAsync getcomment = new commentAsync(getContext(), threads.getId(), 15, 0);
                     getcomment.execute();
-//                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                        Date date = new Date();
-//                        System.out.println(dateFormat.format(date));
-//                        Comment comment = new Comment("",
-//                                edit_message.getText().toString(),dateFormat.format(date),threads.getId(),threads.getUser_id()
-//                        ,threads.getUsername());
+                }
+                else{
+                    Toast.makeText(getContext(),Information.noti_show_comment_empty,Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -335,7 +333,7 @@ public class InteractThreadDetailsFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if (aBoolean == true) {
-                    //Toast.makeText(context,"success",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_show_sent_comment,Toast.LENGTH_SHORT).show();
 //                    int count= threads.getNum_comment()+1;
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     String session_id = pref.getString("session_id", null);
@@ -346,10 +344,11 @@ public class InteractThreadDetailsFragment extends Fragment {
 
                     dialog.dismiss();
                 } else {
-                    //Toast.makeText(context,"no success",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_show_not_sent_comment,Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             } catch (Exception e) {
+                Toast.makeText(context,Information.noti_show_not_sent_comment,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         }
@@ -394,7 +393,7 @@ public class InteractThreadDetailsFragment extends Fragment {
                         Notification notification = new Notification("Thread Commented", topic.getId() + "::" + threads.getId(), "10");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", listUser.get(i));
-                        obj.put("messages", firstName + " commmented on a thread you following");
+                        obj.put("messages", firstName + " commmented on "+ threads.getTitle());
 
                         list.add(obj);
                     }

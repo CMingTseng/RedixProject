@@ -97,14 +97,14 @@ public class WishboardFragment extends Fragment {
                 editText_comment_wishboard = (EditText)dialog.findViewById(R.id.editText_comment_wishboard);
 
                 Spannable wordtoSpan = new SpannableString("Comments (50 Character)");
-                wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_text_hint)), 10, 23, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_text_hint)), 10, 22, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 editText_comment_wishboard.setHint(wordtoSpan);
                 TextView btn_submit_dialog_post_book_wishbroad = (TextView)dialog.findViewById(R.id.btn_submit_dialog_post_book_wishbroad);
                 btn_submit_dialog_post_book_wishbroad.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(editText_comment_wishboard.getText().toString().equals("")){
-                            Toast.makeText(getContext(), Information.noti_check_wishboard,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), Information.noti_show_comment_empty,Toast.LENGTH_SHORT).show();
                         }else if(editText_comment_wishboard.getText().toString().length() >50){
                             Toast.makeText(getContext(),Information.noti_over_leter,Toast.LENGTH_SHORT).show();
                         }

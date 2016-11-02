@@ -26,6 +26,8 @@ public class Splash_Activity extends AppCompatActivity {
         //initialize sdk
         TwitterAuthConfig authConfig = new TwitterAuthConfig(this.getResources().getString(R.string.twitter_api_key),
                 this.getResources().getString(R.string.twitter_secrate_key));
+
+
         Fabric.with(Splash_Activity.this, new Twitter(authConfig));
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash_);

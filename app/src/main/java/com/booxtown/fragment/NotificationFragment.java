@@ -31,6 +31,7 @@ import com.booxtown.activity.NotificationSellReject;
 import com.booxtown.activity.NotificationSwapActivity;
 import com.booxtown.activity.Notification_Swap_Accept_Like;
 import com.booxtown.activity.Notification_Swap_Accept_NoLike;
+import com.booxtown.activity.UserProfileActivity;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.NotificationController;
@@ -291,7 +292,9 @@ public class NotificationFragment extends Fragment {
                                     getBookByID getBookByID = new getBookByID(getContext(), notification.getKey_screen() + "");
                                     getBookByID.execute();
                                 }else if (notification.getId_screen().equals("15")) {
-
+                                    Intent intent=new Intent(getActivity(),UserProfileActivity.class);
+                                    intent.putExtra("user",notification.getKey_screen() + "");
+                                    startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("16")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellActivity.class);

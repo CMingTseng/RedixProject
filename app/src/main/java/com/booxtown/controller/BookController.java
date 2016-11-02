@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.api.ServiceInterface;
 import com.booxtown.fragment.ExploreFragment;
+import com.booxtown.model.Contact;
 import com.booxtown.model.NumberBook;
 import com.booxtown.model.NumberBookResult;
 import com.google.android.gms.maps.model.LatLng;
@@ -60,7 +61,27 @@ public class BookController {
         }
         return "";
     }
+    public boolean insertContact(Contact contact){
 
+        Hashtable obj = ObjectCommon.ObjectDymanic(contact);
+
+        Call<Result> status = service.insertContact(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = status.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+
+        } catch (Exception ex) {
+            return false;
+        }
+        return false;
+    }
     public List<Book> getBookByID(String book_id){
         Call<BookResult> profile = service.getBookByID(book_id);
         try {

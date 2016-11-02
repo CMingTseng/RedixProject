@@ -33,6 +33,7 @@ import com.booxtown.controller.ObjectCommon;
 import com.booxtown.controller.TransactionController;
 import com.booxtown.model.Book;
 import com.booxtown.model.Transaction;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by thuyetpham94 on 27/08/2016.
@@ -103,9 +104,9 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
         int index = image[0].indexOf("_+_");
         if (index > 0 && image[0].length() > 3) {
             String img = image[0].substring(index + 3, image[0].length());
-            Glide.with(context)
+            Picasso.with(context)
                     .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" +image[0].substring(0,index) + "&image=" + img + "")
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+
                     .placeholder(R.drawable.blank_image).
                     into(holder.img_book);
         }
@@ -198,10 +199,10 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
 
             // send notifi user buy
             List<Hashtable> list = new ArrayList<>();
-            Notification notification = new Notification(trans.getUser_sell().toUpperCase() + " accepted for a swap book request", trans.getId()+"","2" );
+            Notification notification = new Notification("Swap Request", trans.getId()+"","2" );
             Hashtable obj = ObjectCommon.ObjectDymanic(notification);
             obj.put("user_id", book.getUser_id());
-            obj.put("messages",firstName.substring(0,1).toUpperCase()+ firstName.substring(1,firstName.length())+ " accepted your swap request");
+            obj.put("messages",firstName.substring(0,1).toUpperCase()+ firstName.substring(1,firstName.length())+ " accepted your Swap request");
             list.add(obj);
             NotificationController controller = new NotificationController();
             controller.sendNotification(list);
@@ -210,7 +211,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
             Notification notificationSeller = new Notification("Swap Request", trans.getId()+"","0" );
             Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
             objSeller.put("user_id", trans.getUser_seller_id());
-            objSeller.put("messages", "You accepted a swap request");
+            objSeller.put("messages", "You accepted a Swap request");
             listSeller.add(objSeller);
             NotificationController controllerSeller = new NotificationController();
             controllerSeller.sendNotification(listSeller);

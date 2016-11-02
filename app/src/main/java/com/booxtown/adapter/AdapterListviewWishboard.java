@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.booxtown.R;
 import com.booxtown.activity.RespondActivity;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by thuyetpham94 on 30/08/2016.
@@ -70,7 +71,7 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
 
 //        Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.btn_wishbroad_message);
 //        holder.imgv_listview_respond.setImageBitmap(btn1);
-        Glide.with(context).load(R.drawable.btn_wishbroad_message).into(holder.imgv_listview_respond);
+        Picasso.with(context).load(R.drawable.btn_wishbroad_message).into(holder.imgv_listview_respond);
 
         holder.imgv_listview_respond.setOnClickListener(new View.OnClickListener() {
             @Override

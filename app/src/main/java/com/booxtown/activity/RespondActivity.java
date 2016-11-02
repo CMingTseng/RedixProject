@@ -27,13 +27,17 @@ import android.widget.Toast;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.CommentController;
 import com.booxtown.controller.Information;
+import com.booxtown.controller.NotificationController;
+import com.booxtown.controller.ObjectCommon;
 import com.booxtown.controller.UserController;
 import com.booxtown.controller.WishboardController;
+import com.booxtown.model.Notification;
 import com.booxtown.model.Wishboard;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.booxtown.R;
@@ -59,7 +63,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     List<String> listUser = new ArrayList<>();
     Wishboard wishboard;
     CircularImageView photo_author_post;
-    TextView txt_author_post,txt_title_book_respond,txt_author_book_post,txt_content_post,btn_add_book;
+    TextView txt_author_post,txt_title_book_respond,txt_author_book_post,txt_content_post,btn_add_book, txt_checkout_respond;
     View view;
     ImageView img_component,imageView_back,img_close_dialog_unsubcribe,img_rank1_respon,img_rank2_respon,img_rank3_respon;
     RatingBar ratingBar_respon;
@@ -148,6 +152,9 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                         }
                         comment.execute();
                     }
+                    else{
+                        Toast.makeText(RespondActivity.this,Information.noti_show_comment_empty,Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -180,6 +187,23 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         txt_content_post=(TextView) findViewById(R.id.txt_content_post) ;
 
         btn_add_book = (TextView) findViewById(R.id.txt_add_book_respond);
+        txt_checkout_respond= (TextView) findViewById(R.id.txt_checkout_respond);
+        txt_checkout_respond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //sent message
+
+                SharedPreferences pref = RespondActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                String firstName = pref.getString("firstname", "");
+                String session_id = pref.getString("session_id", null);
+
+                UserID us = new UserID(RespondActivity.this);
+                us.execute(session_id);
+
+
+            }
+        });
 
         imageView_back = (ImageView) findViewById(R.id.img_menu);
         img_component = (ImageView) findViewById(R.id.img_menu_component);
@@ -342,13 +366,14 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if(aBoolean == true){
-                    Toast.makeText(context,"Send comment successful",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_show_sent_comment,Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }else {
-                    Toast.makeText(context,"Sent comment no successful",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_show_not_sent_comment,Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             }catch (Exception e){
+                Toast.makeText(context,Information.noti_show_not_sent_comment,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         }
@@ -424,6 +449,50 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
 
             }
             progressDialog.dismiss();
+        }
+    }
+    class UserID extends AsyncTask<String, Void, String> {
+        Context context;
+
+        public UserID(Context context) {
+            this.context = context;
+        }
+
+        ProgressDialog dialog;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            UserController userController = new UserController(context);
+            String user_id = userController.getUserID(strings[0]);
+            return user_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(String user_ID) {
+            try {
+                SharedPreferences pref = RespondActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                String firstName = pref.getString("firstname", "");
+                List<Hashtable> list = new ArrayList<>();
+                Notification notification = new Notification("Wishboard",user_ID , "15");
+                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                obj.put("user_id", user_ID+"");
+                obj.put("messages", firstName + " suggested to check out his/her listings, in response to your post on Wishboard.");
+                list.add(obj);
+                NotificationController controller = new NotificationController();
+                controller.sendNotification(list);
+
+            } catch (Exception e) {
+                String ssss = e.getMessage();
+
+            }
+
         }
     }
 }

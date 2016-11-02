@@ -89,11 +89,12 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             int index=image[0].indexOf("_+_");
             if(index>0 && image[0].length() >3 ) {
                 String img = image[0].substring(index+3, image[0].length());
-                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                String imageLink= ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "";
+                Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").placeholder(R.drawable.blank_image).
                         into(hoder.img_book);
             }
             else{
-                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" +  image[0]  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" +  image[0]  + "").placeholder(R.drawable.blank_image).
                         into(hoder.img_book);
             }
         }else {
@@ -161,7 +162,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             @Override
             public void onClick(View v) {
 
-                if(String.valueOf(array[1]).contains("1")) {
+                if(String.valueOf(array[2]).contains("1")) {
                     UserID userID = new UserID(mContext, ex.getId(), ex.getUser_id(), 1, ex);
                     userID.execute();
                 }
@@ -452,6 +453,10 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                                 final Dialog dialog1 = new Dialog(mContext);
                                 dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                 dialog1.setContentView(R.layout.dialog_request_sent_listing);
+
+                                TextView textView133=(TextView) dialog1.findViewById(R.id.textView133);
+                                textView133.setText("Let&apos;s wait for "+book.getUsername()+"&apos;s reply");
+
                                 dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 dialog1.show();
 

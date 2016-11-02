@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.booxtown.R;
 
 import com.booxtown.model.Book;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Administrator on 29/08/2016.
@@ -50,12 +51,11 @@ public class CustomPagerAdapter extends PagerAdapter {
             int index=image[position].indexOf("_+_");
             if(index>0 && image[position].length() >3 ) {
                 String img = image[position].substring(index+3, image[position].length());
-                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[position].substring(0,index) + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[position].substring(0,index) + "&image=" +  img  + "").placeholder(R.drawable.blank_image).
                         into(imageView);
             }
             else{
-                Glide.with(mContext). load(R.drawable.blank_image).diskCacheStrategy(DiskCacheStrategy.ALL).
-                        into(imageView);
+                Picasso.with(mContext). load(R.drawable.blank_image).into(imageView);
             }
 
         } catch (Exception e) {

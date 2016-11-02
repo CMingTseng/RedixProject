@@ -30,8 +30,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
@@ -156,6 +159,20 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             Spannable wordtoSpan1 = new SpannableString("Author *");
             wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED), 7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             edt_author.setHint(wordtoSpan1);
+            edt_author.setFilters(new InputFilter[] {
+                    new InputFilter() {
+                        public CharSequence filter(CharSequence src, int start,
+                                                   int end, Spanned dst, int dstart, int dend) {
+                            if(src.equals("")){ // for backspace
+                                return src;
+                            }
+                            if(src.toString().matches("[\\x00-\\x7F]+")){
+                                return src;
+                            }
+                            return "";
+                        }
+                    }
+            });
 
             try{
                 type= Integer.parseInt(getIntent().getStringExtra("type"));
@@ -167,7 +184,20 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             Spannable wordtoSpan = new SpannableString("Book Title *");
             wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 11, 12, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             edt_tilte.setHint(wordtoSpan);
-
+            edt_tilte.setFilters(new InputFilter[] {
+                    new InputFilter() {
+                        public CharSequence filter(CharSequence src, int start,
+                                                   int end, Spanned dst, int dstart, int dend) {
+                            if(src.equals("")){ // for backspace
+                                return src;
+                            }
+                            if(src.toString().matches("[\\x00-\\x7F]+")){
+                                return src;
+                            }
+                            return "";
+                        }
+                    }
+            });
             edt_tag = (EditText) findViewById(R.id.editText10);
             addtag = (ImageView) findViewById(R.id.imageView33);
             addtag.setOnClickListener(this);
@@ -489,15 +519,16 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     public boolean addbook(int type) {
 
         if(edt_tilte.getText().toString().equals("")){
-
+            if(type==0) {
                 Toast.makeText(AddbookActivity.this, "Please enter valid a book title", Toast.LENGTH_SHORT).show();
 
-            return  false;
+                return false;
+            }
         }
         else if(edt_author.getText().toString().equals("")){
-
+            if(type==0) {
                 Toast.makeText(AddbookActivity.this, "Please enter valid a book author", Toast.LENGTH_SHORT).show();
-
+            }
             return  false;
         }
         else {
@@ -603,13 +634,14 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             }
             if (sell.isChecked()) {
                 if (edt_editlisting_sell.getText().toString().isEmpty()) {
-                    Toast.makeText(AddbookActivity.this, "Please enter valid a price", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddbookActivity.this, "Please enter valid a book price", Toast.LENGTH_LONG).show();
                     return false;
                 } else {
                     price = Float.valueOf(edt_editlisting_sell.getText().toString());
                     book.setPrice(price);
                 }
             }
+
         }
         return true;
     }
@@ -620,12 +652,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         final String sell1 = sell.isChecked() == true ? "1" : "0";
         final String free1 = free.isChecked() == true ? "1" : "0";
         if (free1.equals("1")) {
-            if (sell1.equals("1")) {
-                Toast.makeText(AddbookActivity.this, Information.noti_not_check_sell, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            if (swap1.equals("1")) {
-                Toast.makeText(AddbookActivity.this, Information.noti_not_check_sell, Toast.LENGTH_SHORT).show();
+            if (sell1.equals("1")||swap1.equals("1")) {
+                Toast.makeText(AddbookActivity.this, Information.noti_show_choose_type_addbook, Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -633,6 +661,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             if (free1.equals("1")) {
                 return false;
             }
+        }
+        if(swap1.equals("0")&&free1.equals("0")&&sell1.equals("0")){
+            Toast.makeText(AddbookActivity.this, Information.noti_show_choose_type_addbook_empty, Toast.LENGTH_SHORT).show();
+            return false;
         }
         if (IconMapController.icon(swap1, sell1, free1) == "icon_3_option") {
             return false;
@@ -771,17 +803,17 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 }
                 break;
             case R.id.tag1:
-                if(!tag1.getText().equals("")) {
+                if(!tag1.getText().toString().trim().equals("")) {
                     showSnack(tag1.getText().toString(), 0);
                 }
                 break;
             case R.id.tag2:
-                if(!tag2.getText().equals("")) {
+                if(!tag2.getText().toString().trim().equals("")) {
                     showSnack(tag2.getText().toString(), 1);
                 }
                 break;
             case R.id.tag3:
-                if(!tag3.getText().equals("")) {
+                if(!tag3.getText().toString().trim().equals("")) {
                     showSnack(tag3.getText().toString(), 2);
                 }
                 break;
@@ -803,9 +835,12 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void addTag() {
-        listTag.add(edt_tag.getText().toString());
-        edt_tag.setText("");
-        settag();
+        if(!edt_tag.getText().toString().trim().equals("") && !edt_tag.getText().toString().trim().contains(";")){
+            listTag.add(edt_tag.getText().toString().trim());
+            edt_tag.setText("");
+            settag();
+        }
+
     }
 
 
@@ -914,24 +949,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         long time = System.currentTimeMillis();
         try {
             if(typeChooseImage==1) {
-//                if (numclick == 1) {
-//                    Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook1);
-////            imagebook1.setImageURI(mImageUri);
-//                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-//                    lisImmage.add(imageClick);
-//                    imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-//                } else if (numclick == 2) {
-//                    Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook2);
-////            imagebook2.setImageURI(mImageUri);
-//                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-//                    lisImmage.add(imageClick);
-//                    imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-//                } else if (numclick == 3) {
-//                    Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook3);
-////            imagebook3.setImageURI(mImageUri);
-//                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-//                    lisImmage.add(imageClick);
-//                    imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
                 if (!sChooseImage.contains("1")) {
                     Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook1);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
@@ -954,26 +971,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
             }
             else {
-              /*  if (numimageclick == 1) {
-//            imagebook1.setImageURI(mImageUri);
-//            lisImmage.remove(0);
-                    Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook1);
-                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
-                    imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-                } else if (numimageclick == 2) {
-//            imagebook2.setImageURI(mImageUri);
-//            lisImmage.remove(1);
-                    Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook2);
-                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
-                    imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-                } else if (numimageclick == 3) {
-                    Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook3);
-                    ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
-                    imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-                }*/
+
                 if (numimageclick == 1) {
                     Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook1);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
@@ -983,8 +981,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                         sChooseImage = sChooseImage + "1";
                     }
                 } else if (numimageclick == 2) {
-//            imagebook2.setImageURI(mImageUri);
-//            lisImmage.remove(1);
+
                     Picasso.with(AddbookActivity.this).load(mImageUri).into(imagebook2);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
                     lisImmage.add(imageClick);
@@ -1050,9 +1047,13 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
         @Override
         protected String doInBackground(Void... params) {
-            bookController = new BookController();
-            //success = bookController.addbook(book, session_id).equals("")?false:true;
-            return bookController.addbook(book, session_id);
+            try {
+                bookController = new BookController();
+                //success = bookController.addbook(book, session_id).equals("")?false:true;
+                return bookController.addbook(book, session_id);
+            }catch (Exception exx){
+                return "";
+            }
         }
 
         @Override
@@ -1081,7 +1082,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                         Notification notification = new Notification("Wishboard",result , "14");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", user_id+"");
-                        obj.put("messages", firstName + " sent you a response book");
+                        obj.put("messages", firstName + " has added a book "+book.getTitle()+" in response to your post on Wishboard");
                         list.add(obj);
                         NotificationController controller = new NotificationController();
                         controller.sendNotification(list);

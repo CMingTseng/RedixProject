@@ -356,7 +356,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notification = new Notification("Buy Request", trans.getId() + "", "7");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
-                obj.put("messages",firstName + " accepted your buy request");
+                obj.put("messages",firstName + " accepted your Buy request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -368,7 +368,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notificationSeller = new Notification("Buy Request", trans.getId() + "", "5");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You accepted a buy request from "+ firstNameBuyer );
+                objSeller.put("messages", "You accepted a Buy request from "+ firstNameBuyer );
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);
@@ -378,7 +378,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notification = new Notification("Buy Request", trans.getId() + "", "8");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
-                obj.put("messages", firstName+" accepted your buy request");
+                obj.put("messages", firstName+" rejected your Buy request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -390,7 +390,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notificationSeller = new Notification("Buy Request", trans.getId() + "", "6");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You rejected a buy request from "+ firstNameSeller);
+                objSeller.put("messages", "You rejected a Buy request from "+ firstNameSeller);
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);
@@ -401,7 +401,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notification = new Notification("Buy Request", trans.getId() + "", "19");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
-                obj.put("messages",firstName + " accepted your buy request");
+                obj.put("messages",firstName + " accepted your Buy request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -413,17 +413,17 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notificationSeller = new Notification("Buy Request", trans.getId() + "", "17");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You accepted a buy request from "+ firstNameBuyer );
+                objSeller.put("messages", "You accepted a Buy request from "+ firstNameBuyer );
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);
             }
-            else if (type == 2) {
+            else if (type == 4) {
                 List<Hashtable> list = new ArrayList<>();
                 Notification notification = new Notification("Buy Request", trans.getId() + "", "20");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
-                obj.put("messages", firstName+" accepted your buy request");
+                obj.put("messages", firstName+" accepted your Buy request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -435,7 +435,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notificationSeller = new Notification("Buy Request", trans.getId() + "", "18");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You rejected a buy request from "+ firstNameSeller);
+                objSeller.put("messages", "You rejected a Buy request from "+ firstNameSeller);
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);

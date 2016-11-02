@@ -1,5 +1,6 @@
 package com.booxtown.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,12 +30,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.booxtown.autoviewpager.AutoScrollViewPager;
+import com.booxtown.controller.CheckNetwork;
+import com.booxtown.controller.Information;
+import com.booxtown.controller.UserController;
 import com.booxtown.facebookSignIn.FacebookHelper;
 import com.booxtown.facebookSignIn.FacebookResponse;
 import com.booxtown.facebookSignIn.FacebookUser;
 import com.booxtown.googleAuthSignin.GoogleAuthResponse;
 import com.booxtown.googleAuthSignin.GoogleAuthUser;
 import com.booxtown.googleAuthSignin.GoogleSignInHelper;
+import com.booxtown.model.User;
 import com.booxtown.twitterSignIn.TwitterHelper;
 import com.booxtown.twitterSignIn.TwitterResponse;
 import com.booxtown.twitterSignIn.TwitterUser;
@@ -46,23 +52,31 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
 import com.booxtown.R;
 import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.services.AccountService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import io.fabric.sdk.android.Fabric;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener,
         GoogleAuthResponse, FacebookResponse, TwitterResponse {
-
+    String session_id;
     private AutoScrollViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
@@ -202,16 +216,14 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onFbSignInSuccess() {
-        Toast.makeText(this, "Facebook sign in success", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onFbProfileReceived(FacebookUser facebookUser) {
-        Toast.makeText(this, "Facebook user data: name= " + facebookUser.name + " email= " + facebookUser.email, Toast.LENGTH_SHORT).show();
-        Log.d("Person name: ", facebookUser.name + "");
-        Log.d("Person gender: ", facebookUser.gender + "");
-        Log.d("Person email: ", facebookUser.email + "");
-        Log.d("Person image: ", facebookUser.facebookID + "");
+
+        SiginAsystask siginAsystask= new SiginAsystask(facebookUser.name,facebookUser.facebookID,facebookUser.email);
+        siginAsystask.execute();
     }
 
     @Override
@@ -251,21 +263,20 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onTwitterSignIn(@NonNull String userId, @NonNull String userName) {
-        Toast.makeText(this, " User id: " + userId + "\n user name" + userName, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onTwitterProfileReceived(TwitterUser user) {
-        Toast.makeText(this, "Twitter user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
+        Log.v("LOG_TAG", "EMAILLLLLLLLLLLLLLL:" + user.email);
+        SiginAsystask siginAsystask= new SiginAsystask(user.name,user.id+"",user.email);
+        siginAsystask.execute();
     }
 
     @Override
     public void onGoogleAuthSignIn(GoogleAuthUser user) {
-        Toast.makeText(this, "Google user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
-        Log.d("Person name: ", user.name + "");
-        Log.d("Person gender: ", user.id + "");
-        Log.d("Person email: ", user.email + "");
-        Log.d("Person image: ", user.photoUrl + "");
+        SiginAsystask siginAsystask= new SiginAsystask(user.name,user.id+"",user.email);
+        siginAsystask.execute();
     }
 
     @Override
@@ -338,5 +349,169 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
         return;
+    }
+
+    class SiginAsystask extends AsyncTask<String,Void,String> {
+        ProgressDialog dialog;
+        String sessionId="";
+
+        String email,firstName,password;
+        public SiginAsystask(String firstName, String password, String email){
+            this.firstName=firstName;
+            this.password=password;
+            this.email= email;
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                java.lang.Thread.sleep(3000);
+                session_id = FirebaseInstanceId.getInstance().getToken().toString();
+                sessionId=session_id;
+                UserController userController = new UserController(WelcomeActivity.this);
+                String session_id = userController.checkLoginValidate(email, password, "iphone", sessionId);
+                return session_id;
+            }catch (Exception ex){
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(String aBoolean) {
+            try {
+                if (aBoolean != null) {
+                    Intent intent = new Intent(WelcomeActivity.this, MainAllActivity.class);
+                    startActivity(intent);
+                    String session_id = aBoolean.toString();
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", session_id);
+                    editor.putString("username", firstName.toString());
+                    editor.putString("firstname", firstName);
+                    editor.commit();
+                } else {
+                    // sign up
+                    UserController userController = new UserController(WelcomeActivity.this);
+                    User user  = new User();
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    Date date = new Date();
+                    user.setBirthday(dateFormat.format(date));
+                    user.setEmail(email);
+                    user.setFirst_name(firstName);
+                    user.setLast_name("");
+                    user.setPhone("");
+                    user.setUsername(email);
+                    user.setPassword(password);
+                    user.setSession_id(session_id);
+                    if (!CheckNetwork.isOnline(WelcomeActivity.this)){
+                        Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
+                    }else{
+                        SignupAsyntask signupAsyntask = new SignupAsyntask(email,firstName);
+                        signupAsyntask.execute(user);
+                    }
+
+                }
+            }catch (Exception e){
+            }
+        }
+    }
+    class UserInfoAsystask extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                UserController userController = new UserController(WelcomeActivity.this);
+                String first_name = userController.getprofile(params[0]).get(0).getFirst_name();
+                return first_name;
+            }catch (Exception ex){
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                if (result != null) {
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("firstname", result);
+                    editor.commit();
+
+                } else {
+
+                }
+            }catch (Exception e){
+            }
+        }
+    }
+    public class SignupAsyntask extends AsyncTask<User,Void,Boolean>{
+
+        ProgressDialog dialog;
+        UserController userController;
+        String sessionId="";
+        String username="";
+        String firstName="";
+        public SignupAsyntask(String username,String firstName){
+            this.username= username;
+            this.firstName=firstName;
+        }
+        @Override
+        protected Boolean doInBackground(User... params) {
+
+            try {
+                Thread.sleep(3000);
+                session_id = FirebaseInstanceId.getInstance().getToken().toString();
+                sessionId=session_id;
+                params[0].setSession_id(sessionId);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            userController = new UserController(WelcomeActivity.this);
+            boolean success = userController.signUp(params[0]);
+            return success;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            try {
+                if (aBoolean == true) {
+                    Intent intent = new Intent(WelcomeActivity.this, MainAllActivity.class);
+                    startActivity(intent);
+                    //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", session_id);
+                    editor.putString("username", username.toString());
+                    editor.putString("firstname", firstName.toString());
+                    editor.commit();
+
+                } else if (aBoolean == false) {
+                    Toast.makeText(getApplicationContext(), Information.noti_username_taken, Toast.LENGTH_LONG).show();
+
+                }
+            }catch (Exception e){}
+        }
     }
 }

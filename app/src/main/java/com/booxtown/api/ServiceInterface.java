@@ -1,5 +1,6 @@
 package com.booxtown.api;
 
+import com.booxtown.model.Contact;
 import com.booxtown.model.NumberBookResult;
 import com.booxtown.model.WishboardResult;
 
@@ -52,6 +53,9 @@ public interface ServiceInterface {
     // end
     @POST("/booxtown/rest/user/signup")
     Call<Result> addUser(@Body User user);
+
+    @POST("/booxtown/rest/user/insertContact")
+    Call<Result> insertContact(@Body Object contact);
 
     @POST("/booxtown/rest/book/update")
     Call<Result> update(@Body Object book);

@@ -230,7 +230,7 @@ public class SwapActivity extends AppCompatActivity {
                 Notification notification = new Notification("Swap Request", transactionID ,"9");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", sellUserID);
-                obj.put("messages",firstName + " sent you a swap request");
+                obj.put("messages",firstName + " sent you a Swap request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);

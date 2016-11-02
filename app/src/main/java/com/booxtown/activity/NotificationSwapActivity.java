@@ -220,7 +220,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                                 Notification notificationSeller = new Notification("Swap Request", transaction.getId()+"","1" );
                                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                                 objSeller.put("user_id", transaction.getUser_seller_id());
-                                objSeller.put("messages", "You rejected a swap request");
+                                objSeller.put("messages", "You rejected a Swap request");
                                 listSeller.add(objSeller);
                                 NotificationController controllerSeller = new NotificationController();
                                 controllerSeller.sendNotification(listSeller);
@@ -230,7 +230,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                                 Notification notification = new Notification("Swap Request", transaction.getId()+"","3" );
                                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                                 obj.put("user_id", transaction.getUser_buyer_id());
-                                obj.put("messages",firstName + " rejected your swap request");
+                                obj.put("messages",firstName + " rejected your Swap request");
                                 list.add(obj);
                                 NotificationController controller = new NotificationController();
                                 controller.sendNotification(list);

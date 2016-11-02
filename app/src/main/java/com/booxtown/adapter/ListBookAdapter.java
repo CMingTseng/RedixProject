@@ -100,11 +100,12 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
             int index=image[0].indexOf("_+_");
             if(index>0 && image[0].length() >3 ) {
                 String img = image[0].substring(index+3, image[0].length());
-                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                String imageLink= ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "";
+                Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").placeholder(R.drawable.blank_image).
                         into(hoder.img_book);
             }
             else{
-                Glide.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + username + "&image=" +  image[0]  + "").diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.blank_image).
+                Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + username + "&image=" +  image[0]  + "").placeholder(R.drawable.blank_image).
                         into(hoder.img_book);
             }
         }else {
@@ -162,7 +163,7 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
 
                 String ss= ((AppCompatActivity) mContext).getSupportFragmentManager().findFragmentById(R.id.frame_main_all).getClass().getName().toString();
                 int fragmentList=ss.lastIndexOf(".");
-                if(ss.equals("ListingsFragment")) {
+                if(ss.equals("com.booxtown.fragment.ListingsFragment")) {
                     ListingsDetailActivity fragment = new ListingsDetailActivity();
                     Bundle bundle = new Bundle();
                     bundle.putString(String.valueOf(R.string.valueListings), "3");

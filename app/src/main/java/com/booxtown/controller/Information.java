@@ -22,7 +22,7 @@ public class Information {
     public final static String noti_quit_app = "Do you want quit application?";
     public final static String noti_input_email = "Please input email";
     public final static String noti_update_success = "Update Successful";
-    public final static String noti_no_data = "No Data Found !";
+    public final static String noti_no_data = "No Data Found!";
     public final static String noti_no_comment = "Please enter comment to be posted. ";
     public final static String noti_no_data_listing = "Please enter comment to be posted. ";
     public final static String noti_update_false = "Not update data, please try again";
@@ -42,14 +42,18 @@ public class Information {
     public final static String noti_update_nosetting = "Update setting no success";
     public final static String noti_update_fail = "Update Failed";
     public final static String noti_tran_done = "Transaction is done";
-    public final static String noti_invite_success = "Thank you ! An email has been sent to your friend";
+    public final static String noti_invite_success = "Thank you! An email has been sent to your friend";
     public final static String noti_invite_fail = "Invite friend fail";
     public final static String noti_enter_email = "Please enter valid a email address";
     public final static String noti_check_wishboard = "Please fill a comment field";
-    public final static String noti_over_leter = "The maximum comment size is 50 characters";
+    public final static String noti_over_leter = "Sorry ! maximum character limit is 50";
     public final static String noti_checkbox = "At least one action required";
     public final static String noti_not_check_free = "Do not check free";
     public final static String noti_not_check_sell = "You can't choose both Buy and Free action";
     public final static String noti_show_complete = "Please complete this transaction";
-
+    public final static String noti_show_comment_empty = "Hmm, Please do not leave it empty";
+    public final static String noti_show_choose_type_addbook_empty = "Please choose a type of listing (Swap/Sell/Free)";
+    public final static String noti_show_choose_type_addbook = "Sorry ! You cannot choose ' Free ' listing along with 'Swap' or 'Sell' listings.";
+    public final static String noti_show_not_sent_comment = "Comment not sent.";
+    public final static String noti_show_sent_comment = "Comment sent successfully.";
 }

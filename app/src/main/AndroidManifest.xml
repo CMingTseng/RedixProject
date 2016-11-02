@@ -50,7 +50,9 @@ package="com.booxtown">
         android:configChanges=
             "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
         android:theme="@android:style/Theme.Translucent.NoTitleBar"
-        android:label="@string/app_name" />
+        android:label="@string/app_name"
+        android:screenOrientation="portrait" />
+
     <activity
         android:name="com.booxtown.activity.WelcomeActivity"
         android:screenOrientation="portrait" />
@@ -74,27 +76,27 @@ package="com.booxtown">
     <activity android:name="com.booxtown.activity.TestActivity" />
     <activity android:name="com.booxtown.activity.UserProfileActivity" />
     <!-- activity for Explore -->
-    <activity android:name="com.booxtown.activity.NotificationSwapActivity" />
-    <activity android:name="com.booxtown.activity.NotificationAcceptActivity" />
-    <activity android:name="com.booxtown.activity.NotificationRejectActivity" />
-    <activity android:name="com.booxtown.activity.NotificationSellActivity" />
-    <activity android:name="com.booxtown.activity.Notification_Swap_Accept_NoLike" />
-    <activity android:name="com.booxtown.activity.Notification_Swap_Accept_Like" />
-    <activity android:name="com.booxtown.activity.NotificationSellAccept" />
-    <activity android:name="com.booxtown.activity.NotificationSellNoAccept" />
-    <activity android:name="com.booxtown.activity.NotificationSellReject" />
-    <activity android:name="com.booxtown.activity.NotificationSellNoReject" />
-    <activity android:name="com.booxtown.activity.NotificationDominicActivity" />
-    <activity android:name="com.booxtown.activity.NotificationDominicAccept" />
-    <activity android:name="com.booxtown.activity.NotificationDominicNoAccept" />
-    <activity android:name="com.booxtown.activity.NotificationDominicReject" />
-    <activity android:name="com.booxtown.activity.NotificationDominicNoReject" />
-    <activity android:name="com.booxtown.activity.EditListingActivity" />
-    <activity android:name="com.booxtown.activity.MenuActivity" />
-    <activity android:name="com.booxtown.activity.RespondActivity" />
-    <activity android:name="com.booxtown.activity.SwapActivity" />
-    <activity android:name="com.booxtown.activity.AddbookActivity" />
-    <activity android:name="com.booxtown.activity.HomeActivity"
+    <activity android:name="com.booxtown.activity.NotificationSwapActivity" android:screenOrientation="portrait" />
+    <activity android:name="com.booxtown.activity.NotificationAcceptActivity" android:screenOrientation="portrait" />
+    <activity android:name="com.booxtown.activity.NotificationRejectActivity"  android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationSellActivity" android:screenOrientation="portrait" />
+    <activity android:name="com.booxtown.activity.Notification_Swap_Accept_NoLike" android:screenOrientation="portrait" />
+    <activity android:name="com.booxtown.activity.Notification_Swap_Accept_Like" android:screenOrientation="portrait" />
+    <activity android:name="com.booxtown.activity.NotificationSellAccept"  android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationSellNoAccept" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationSellReject" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationSellNoReject" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationDominicActivity" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationDominicAccept" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationDominicNoAccept" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationDominicReject" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.NotificationDominicNoReject" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.EditListingActivity" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.MenuActivity" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.RespondActivity" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.SwapActivity" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.AddbookActivity" android:screenOrientation="portrait"/>
+    <activity android:name="com.booxtown.activity.HomeActivity" android:screenOrientation="portrait"
         android:launchMode="singleTop">
     </activity>
     <service android:name="com.booxtown.controller.FireBaseService">

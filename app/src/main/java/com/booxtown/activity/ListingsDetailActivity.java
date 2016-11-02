@@ -32,6 +32,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.booxtown.adapter.AdapterCommentBook;
 import com.booxtown.adapter.CustomPagerAdapter;
@@ -210,6 +211,9 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         }
                         comment.execute();
                     }
+                    else{
+                        Toast.makeText(getContext(),Information.noti_show_comment_empty,Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             });
@@ -255,7 +259,18 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         }
 
         txt_genre_listing_detail.setText(book.getGenre());
-        txt_tag.setText("Hash tag: " + book.getHash_tag());
+        String[] lstTag=book.getHash_tag().split(";");
+        String hashTag="";
+        if(lstTag.length>0) {
+            for (int i = 0; i < lstTag.length; i++) {
+                if (i < lstTag.length - 1) {
+                    hashTag = hashTag+ "#" + lstTag[i] + ",";
+                } else {
+                    hashTag = hashTag+ "#" + lstTag[i];
+                }
+            }
+        }
+        txt_tag.setText("Hash tag: " + hashTag);
         View view = (View) v.findViewById(R.id.layout_details);
         String[] image = book.getPhoto().split(";");
 
@@ -364,6 +379,19 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                     buy();
                 }
             });
+
+            imFree.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buy();
+                }
+            });
+            imFree2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    buy();
+                }
+            });
         }
     }
 
@@ -456,6 +484,10 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_buy_listing);
+
+        TextView textView_namebook_buy =(TextView)dialog.findViewById(R.id.textView_namebook_buy);
+        textView_namebook_buy.setText("\""+book.getTitle()+"\"");
+
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
@@ -475,6 +507,10 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 final Dialog dialog1 = new Dialog(getActivity());
                 dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog1.setContentView(R.layout.dialog_request_sent_listing);
+
+                TextView textView133=(TextView) dialog1.findViewById(R.id.textView133);
+                textView133.setText("Let's wait for "+book.getUsername()+"'s reply");
+
                 dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog1.show();
                 ImageView btn_close = (ImageView) dialog1.findViewById(R.id.close_sent_request_lising);
@@ -640,9 +676,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if (aBoolean == true) {
-                    //Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
-//                    int count= threads.getNum_comment()+1;
-
+                    Toast.makeText(context,Information.noti_show_sent_comment,Toast.LENGTH_SHORT).show();
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     String session_id = pref.getString("session_id", null);
 
@@ -651,10 +685,11 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
                     dialog.dismiss();
                 } else {
-                   // Toast.makeText(context, "no success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.noti_show_not_sent_comment,Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             } catch (Exception e) {
+                Toast.makeText(context,Information.noti_show_not_sent_comment,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         }
@@ -699,7 +734,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         Notification notification = new Notification("Book Commented", book.getId(), "11");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", listUser.get(i));
-                        obj.put("messages", username+ " commented on a book you following");
+                        obj.put("messages", username+ " commented on "+ book.getTitle());
                         list.add(obj);
                     }
                 }

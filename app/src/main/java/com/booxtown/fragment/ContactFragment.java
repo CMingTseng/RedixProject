@@ -1,5 +1,9 @@
 package com.booxtown.fragment;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.booxtown.R;
+import com.booxtown.activity.HomeActivity;
+import com.booxtown.activity.ListingsDetailActivity;
+import com.booxtown.controller.BookController;
+import com.booxtown.controller.Information;
+import com.booxtown.model.Book;
+import com.booxtown.model.Contact;
+
+import java.util.List;
 
 public class ContactFragment extends Fragment {
     EditText editText_message;
@@ -24,15 +36,59 @@ public class ContactFragment extends Fragment {
         btn_send_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(editText_message.getText().toString().trim()==""){
-
+                String sss=editText_message.getText().toString().trim();
+                if(editText_message.getText().toString().trim().equals("")){
+                    Toast.makeText(getContext(), "Please enter valid a message!", Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(getContext(), "Send message success", Toast.LENGTH_SHORT).show();
-                    editText_message.setText("");
+                    SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    String session_id = pref.getString("session_id", null);
+                    Contact contact= new Contact(session_id, editText_message.getText().toString().trim());
+                    insertContact insertContact= new insertContact(getContext(),contact);
+                    insertContact.execute();
+
                 }
             }
         });
         return view;
     }
+    class insertContact extends AsyncTask<Void, Void, Boolean> {
+        Contact contact;
+        Context ctx;
+        ProgressDialog dialog;
 
+        public insertContact(Context ctx, Contact contact) {
+            this.contact = contact;
+            this.ctx = ctx;
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            BookController bookController = new BookController();
+            return bookController.insertContact(contact);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(ctx);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean flag) {
+            try {
+                if (flag) {
+                    Toast.makeText(getContext(), "Send message success", Toast.LENGTH_SHORT).show();
+                    editText_message.setText("");
+                    dialog.dismiss();
+                }
+            } catch (Exception e) {
+                dialog.dismiss();
+            }
+            dialog.dismiss();
+
+        }
+    }
 }

@@ -37,6 +37,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
     EditText edt_name,edt_firtname,edt_phone,edt_mail,edt_password,edt_confirmpass,edt_lastname;
     CheckBox checkSignup;
     EditText edt_birthday;
+    String day="",moth="",year="";
     //String birthday;
     TextView signUp;
     String session_id;
@@ -103,7 +104,9 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 }*/
                 UserController userController = new UserController(SigUp_Activity.this);
                 User user  = new User();
-                user.setBirthday(edt_birthday.getText().toString());
+                String[] bod=edt_birthday.getText().toString().split("-");
+
+                user.setBirthday(bod[2]+"-"+bod[1]+"-"+bod[0]);
                 user.setEmail(edt_mail.getText().toString());
                 user.setFirst_name(edt_firtname.getText().toString());
                 user.setLast_name(edt_lastname.getText().toString());
@@ -214,7 +217,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", session_id);
-                    editor.putString("username", edt_name.getText().toString());
+                    editor.putString("username", edt_mail.getText().toString());
                     editor.putString("firstname", edt_firtname.getText().toString());
                     editor.commit();
                     dialog.dismiss();
