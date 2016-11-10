@@ -1,5 +1,10 @@
 package com.booxtown.controller;
 
+import com.booxtown.model.Genre;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by thuyetpham94 on 27/09/2016.
  */
@@ -19,6 +24,7 @@ public class Information {
     public final static String noti_check_term = "Please agree to Terms and Conditions to continue";
     public final static String noti_login_success = "Signup Success";
     public final static String noti_username_taken = "Username entered already exists. Please try another username";
+    public final static String noti_email_taken = "Email entered already exists. Please try another username";
     public final static String noti_quit_app = "Do you want quit application?";
     public final static String noti_input_email = "Please input email";
     public final static String noti_update_success = "Update Successful";
@@ -56,4 +62,11 @@ public class Information {
     public final static String noti_show_choose_type_addbook = "Sorry ! You cannot choose ' Free ' listing along with 'Swap' or 'Sell' listings.";
     public final static String noti_show_not_sent_comment = "Comment not sent.";
     public final static String noti_show_sent_comment = "Comment sent successfully.";
+
+    public static int minRager = 0;
+    public  static int maxRager= 1000;
+    public  static double maxSeekbar= 10;
+    public  static ArrayList<Genre> lstGenre=new ArrayList<>();
+
+
 }

@@ -57,11 +57,7 @@ import com.squareup.picasso.Picasso;
 
 import com.booxtown.R;
 import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.services.AccountService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -268,7 +264,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onTwitterProfileReceived(TwitterUser user) {
-        Log.v("LOG_TAG", "EMAILLLLLLLLLLLLLLL:" + user.email);
+
         SiginAsystask siginAsystask= new SiginAsystask(user.name,user.id+"",user.email);
         siginAsystask.execute();
     }
@@ -508,7 +504,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                     editor.commit();
 
                 } else if (aBoolean == false) {
-                    Toast.makeText(getApplicationContext(), Information.noti_username_taken, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), Information.noti_email_taken, Toast.LENGTH_LONG).show();
 
                 }
             }catch (Exception e){}

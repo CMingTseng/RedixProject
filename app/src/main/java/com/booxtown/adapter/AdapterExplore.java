@@ -60,7 +60,17 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
     private List<Book> originbook;
     private ItemFilter mFilter = new ItemFilter();
     int keyStart=0;
-    public AdapterExplore(Context c, List<Book> listExplore, int type,int key) {
+
+    public List<Book> getListExplore() {
+        return listExplore;
+    }
+
+    public void setListExplore(List<Book> listExplore) {
+        this.listExplore = listExplore;
+        notifyDataSetChanged();
+    }
+
+    public AdapterExplore(Context c, List<Book> listExplore, int type, int key) {
         mContext = c;
         this.listExplore = listExplore;
         this.originbook = listExplore;
@@ -152,8 +162,13 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             @Override
             public void onClick(View v) {
                 if(String.valueOf(array[1]).contains("1")) {
-                    UserID userID = new UserID(mContext, ex.getId(), ex.getUser_id(), 1, ex);
-                    userID.execute();
+                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", mContext.MODE_PRIVATE);
+                    String session_id = pref.getString("session_id", null);
+                    checkExits checkExits= new checkExits(mContext,session_id,ex,1);
+                    checkExits.execute();
+
+                    //UserID userID = new UserID(mContext, ex.getId(), ex.getUser_id(), 1, ex);
+                    //userID.execute();
                 }
 
             }
@@ -163,8 +178,12 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             public void onClick(View v) {
 
                 if(String.valueOf(array[2]).contains("1")) {
-                    UserID userID = new UserID(mContext, ex.getId(), ex.getUser_id(), 1, ex);
-                    userID.execute();
+                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", mContext.MODE_PRIVATE);
+                    String session_id = pref.getString("session_id", null);
+                    checkExits checkExits= new checkExits(mContext,session_id,ex,2);
+                    checkExits.execute();
+                    //UserID userID = new UserID(mContext, ex.getId(), ex.getUser_id(), 1, ex);
+                    //userID.execute();
                 }
 
             }
@@ -174,10 +193,12 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             @Override
             public void onClick(View v) {
                 if(String.valueOf(array[0]).contains("1")) {
-                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences pref = mContext.getSharedPreferences("MyPref", mContext.MODE_PRIVATE);
                     String session_id = pref.getString("session_id", null);
-                    listingAsync listingAsync = new listingAsync(mContext, ex);
-                    listingAsync.execute(session_id);
+                    checkExits checkExits= new checkExits(mContext,session_id,ex,3);
+                    checkExits.execute();
+
+
                 }
             }
         });
@@ -421,7 +442,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                 final String session_id = pref.getString("session_id", null);
 
                 if(!user_ID.equals(bookUserID)) {
-                    if(type==1) {
+                    if(type==1||type==2) {
                         final Dialog dialog = new Dialog(mContext);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_buy_listing);
@@ -446,9 +467,14 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                             @Override
                             public void onClick(View v) {
                                 dialog.dismiss();
+                                if(type==1) {
+                                    transactionInsert transactionInsert = new transactionInsert(context, session_id, user_ID, bookUserID, "", bookID, "buy");
+                                    transactionInsert.execute();
+                                }else if(type==2){
+                                    transactionInsert transactionInsert = new transactionInsert(context, session_id, user_ID, bookUserID, "", bookID, "free");
+                                    transactionInsert.execute();
 
-                                transactionInsert transactionInsert = new transactionInsert(context, session_id, user_ID, bookUserID, "", bookID, "buy");
-                                transactionInsert.execute();
+                                }
 
                                 final Dialog dialog1 = new Dialog(mContext);
                                 dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -492,7 +518,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                     }
                 }
                 else{
-                    Toast.makeText(context, "Can't buy book", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "You can't Buy/Swap  your book", Toast.LENGTH_LONG).show();
                 }
                 //}
             } catch (Exception e) {
@@ -557,6 +583,57 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                     }
                     dialog.dismiss();
                 }
+            }catch (Exception e){}
+        }
+    }
+
+    class checkExits extends AsyncTask<String,Void,Boolean>{
+
+        Context context;
+        ProgressDialog dialog;
+        String session_id;
+        int type;
+        Book book;
+        public checkExits(Context context,String session_id, Book book, int type){
+            this.context = context;
+            this.session_id = session_id;
+            this.book= book;
+            this.type=type;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            TransactionController transactionController = new TransactionController();
+            return transactionController.CheckExitsTransaction(book.getUser_id(),book.getId(),session_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(Boolean flag) {
+            try {
+                    if(flag){
+                        if (type==1) {
+                            UserID userID = new UserID(mContext, book.getId(), book.getUser_id(), 1, book);
+                            userID.execute();
+                        }
+                        else if (type==2) {
+                            UserID userID = new UserID(mContext, book.getId(), book.getUser_id(), 2, book);
+                            userID.execute();
+                        }
+                        else{
+                            listingAsync listingAsync = new listingAsync(mContext, book);
+                            listingAsync.execute(session_id);
+                        }
+
+                    }
+                else{
+                        Toast.makeText(mContext,"You have already requested this book", Toast.LENGTH_SHORT).show();
+                    }
+                    dialog.dismiss();
+
             }catch (Exception e){}
         }
     }

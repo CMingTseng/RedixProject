@@ -1,115 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.booxtown">
+    package="com.booxtown">
 
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-<!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
-    -->
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-<uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!--
+             The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+             Google Maps Android API v2, but you must specify either coarse or fine
+             location permissions for the 'MyLocation' functionality.
+        -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"></uses-feature>
 
-<supports-screens
-    android:anyDensity="true"
-    android:largeScreens="true"
-    android:normalScreens="true"
-    android:resizeable="true"
-    android:smallScreens="true"
-    android:xlargeScreens="true" />
 
-<application
-    android:allowBackup="true"
-    android:icon="@mipmap/icon_app"
-    android:label="@string/app_name"
-    android:supportsRtl="true"
-    android:largeHeap="true"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-    <meta-data android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/app_id"/>
-    <meta-data
-        android:name="io.fabric.ApiKey"
-        android:value="a6ea342c87f9c2b9826ad3e7ce1f7c0ac8b516a3" />
-    <activity android:name="com.booxtown.activity.Splash_Activity"
-        android:screenOrientation="portrait"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-    <activity
-        android:name="com.facebook.FacebookActivity"
-        android:configChanges=
-            "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar"
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/icon_app"
         android:label="@string/app_name"
-        android:screenOrientation="portrait" />
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a6ea342c87f9c2b9826ad3e7ce1f7c0ac8b516a3" />
 
-    <activity
-        android:name="com.booxtown.activity.WelcomeActivity"
-        android:screenOrientation="portrait" />
-    <activity
-        android:name="com.booxtown.activity.SigUp_Activity"
-        android:screenOrientation="portrait"></activity>
-    <activity
-        android:name="com.booxtown.activity.SignIn_Activity"
-        android:screenOrientation="portrait" />
-    <activity
-        android:name="com.booxtown.activity.ForgotPassword_Activity"
-        android:screenOrientation="portrait" />
-    <activity
-        android:name="com.booxtown.activity.MainAllActivity"
-        android:screenOrientation="portrait" />
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyBN4rdozjYTxjEm_coEEjVcypH7Xd1Xqbc" />
-    <activity android:name="com.booxtown.activity.Faq_content" />
-    <!-- activity for Explore -->
-    <activity android:name="com.booxtown.activity.TestActivity" />
-    <activity android:name="com.booxtown.activity.UserProfileActivity" />
-    <!-- activity for Explore -->
-    <activity android:name="com.booxtown.activity.NotificationSwapActivity" android:screenOrientation="portrait" />
-    <activity android:name="com.booxtown.activity.NotificationAcceptActivity" android:screenOrientation="portrait" />
-    <activity android:name="com.booxtown.activity.NotificationRejectActivity"  android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationSellActivity" android:screenOrientation="portrait" />
-    <activity android:name="com.booxtown.activity.Notification_Swap_Accept_NoLike" android:screenOrientation="portrait" />
-    <activity android:name="com.booxtown.activity.Notification_Swap_Accept_Like" android:screenOrientation="portrait" />
-    <activity android:name="com.booxtown.activity.NotificationSellAccept"  android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationSellNoAccept" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationSellReject" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationSellNoReject" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationDominicActivity" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationDominicAccept" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationDominicNoAccept" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationDominicReject" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.NotificationDominicNoReject" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.EditListingActivity" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.MenuActivity" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.RespondActivity" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.SwapActivity" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.AddbookActivity" android:screenOrientation="portrait"/>
-    <activity android:name="com.booxtown.activity.HomeActivity" android:screenOrientation="portrait"
-        android:launchMode="singleTop">
-    </activity>
-    <service android:name="com.booxtown.controller.FireBaseService">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-    </service>
-    <service android:name="com.booxtown.controller.MyFirebaseMessagingService">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-    </service>
-    <service android:name="com.booxtown.controller.DeleteTokenService">
-    </service>
-</application>
+        <activity
+            android:name="com.booxtown.activity.Splash_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name="com.booxtown.activity.WelcomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.SigUp_Activity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.booxtown.activity.SignIn_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.ForgotPassword_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.MainAllActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBN4rdozjYTxjEm_coEEjVcypH7Xd1Xqbc" />
+        <activity android:name="com.booxtown.activity.Faq_content" />
+        <!-- activity for Explore -->
+        <activity android:name="com.booxtown.activity.TestActivity" />
+        <activity android:name="com.booxtown.activity.UserProfileActivity" />
+        <!-- activity for Explore -->
+        <activity
+            android:name="com.booxtown.activity.NotificationSwapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationAcceptActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationRejectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationSellActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.Notification_Swap_Accept_NoLike"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.Notification_Swap_Accept_Like"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationSellAccept"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationSellNoAccept"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationSellReject"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationSellNoReject"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationDominicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationDominicAccept"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationDominicNoAccept"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationDominicReject"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.NotificationDominicNoReject"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.EditListingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.MenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.RespondActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.SwapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.AddbookActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.HomeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+
+        <service android:name="com.booxtown.controller.FireBaseService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.booxtown.controller.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.booxtown.controller.DeleteTokenService"></service>
+    </application>
 </manifest>

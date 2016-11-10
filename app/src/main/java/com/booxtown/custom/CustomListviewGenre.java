@@ -33,9 +33,23 @@ public class CustomListviewGenre extends RecyclerView.Adapter<CustomListviewGenr
     }
 
     @Override
-    public void onBindViewHolder(HolerGenre holder, final int position) {
+    public void onBindViewHolder(final HolerGenre holder, final int position) {
         holder.tv.setText(result.get(position).getValue());
         holder.checkBox.setChecked(result.get(position).ischeck());
+        holder.tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(result.get(position).ischeck()==true){
+                    holder.checkBox.setChecked(false);
+                    result.get(position).setIscheck(false);
+                }else{
+                    holder.checkBox.setChecked(true);
+                    result.get(position).setIscheck(true);
+                }
+
+            }
+        });
+
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -12,7 +12,10 @@
         android:id="@+id/img_menu_dashboard_middle"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        app:siBorderColor="@color/color_bg_listings_detail"
+        app:siBorderWidth="1dp"
+        />
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"

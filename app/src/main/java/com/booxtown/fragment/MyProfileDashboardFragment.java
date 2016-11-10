@@ -76,6 +76,7 @@ public class MyProfileDashboardFragment extends Fragment {
         if(user.getPhoto().length() > 3 ) {
             Picasso.with(getContext())
                     .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.getUsername() + "&image=" + user.getPhoto().substring(user.getUsername().length() + 3, user.getPhoto().length()))
+                    .placeholder(R.mipmap.user_empty)
                     .into(imv_menu_profile);
         }else {
             Picasso.with(getContext())
@@ -170,7 +171,7 @@ public class MyProfileDashboardFragment extends Fragment {
         transaction.commit();
     }
 
-    private void populatRecyclerView(int user_id,String session_id) {
+    private void populatRecyclerView(final int user_id, String session_id) {
         getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,15,0);
         getDashBoard.execute();
         if (dashBoards_new.size() == 0){
@@ -188,6 +189,7 @@ public class MyProfileDashboardFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("dashboard", dashBoard);
                             bundle.putSerializable("user", user);
+                            bundle.putString("user_id",user_id+"");
                             DashboardStatusFragment fragment= new DashboardStatusFragment();
                             fragment.setArguments(bundle);
                             callFragment(fragment);
@@ -195,6 +197,7 @@ public class MyProfileDashboardFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("dashboard", dashBoard);
                             bundle.putSerializable("user", user);
+                            bundle.putString("user_id",user_id+"");
                             DashboardDeleteFragment fragment= new DashboardDeleteFragment();
                             fragment.setArguments(bundle);
                             callFragment(fragment);
@@ -203,6 +206,7 @@ public class MyProfileDashboardFragment extends Fragment {
                             bundle.putSerializable("dashboard", dashBoard);
                             bundle.putSerializable("user", user);
                             bundle.putSerializable("trans",trans_Id);
+                            bundle.putString("user_id",user_id+"");
                             DashboardStopFragment fragment= new DashboardStopFragment();
                             fragment.setArguments(bundle);
                             callFragment(fragment);

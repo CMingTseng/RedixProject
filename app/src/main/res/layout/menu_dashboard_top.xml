@@ -5,8 +5,8 @@
     android:background="@color/dot_light_screen1">
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="44dp"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
         android:id="@+id/img_free_listings"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -21,7 +21,7 @@
         android:id="@+id/textView_namebook_seller"
         android:layout_below="@+id/img_free_listings"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="10dp" />
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -29,7 +29,8 @@
         android:text="smith"
         android:id="@+id/textView_nameauthor_seller"
         android:layout_below="@+id/textView_namebook_seller"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp" />
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -38,7 +39,7 @@
         android:id="@+id/textView_with"
         android:layout_below="@+id/textView_nameauthor_seller"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:textColor="@color/color_title_book"/>
 
     <com.booxtown.custom.CustomTextView

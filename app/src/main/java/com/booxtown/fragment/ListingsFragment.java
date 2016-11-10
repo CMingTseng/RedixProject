@@ -47,6 +47,7 @@ import com.booxtown.adapter.ListBookAdapter;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
+import com.booxtown.controller.Information;
 import com.booxtown.controller.RangeSeekBar;
 import com.booxtown.custom.CustomListviewGenre;
 import com.booxtown.model.Book;
@@ -69,17 +70,16 @@ import com.booxtown.R;
 /**
  * Created by Administrator on 29/08/2016.
  */
-public class ListingsFragment extends Fragment
-{
-    ArrayList<Book> listEx= new ArrayList<>();
+public class ListingsFragment extends Fragment {
+    ArrayList<Book> listEx = new ArrayList<>();
     //GridView grid;
     Book book;
     private RangeSeekBar rangeSeekbar;
     private RangeSeekBar seekbar;
     private AdapterFilter adaper;
-    private  ArrayAdapter<String> dataAdapter;
+    private ArrayAdapter<String> dataAdapter;
     private Spinner spinner2;
-    TextView txt_my_listings,tvMin,tvMax,txt_filter_proximity;
+    TextView txt_my_listings, tvMin, tvMax, txt_filter_proximity;
     private List<Filter> filterList;
     ListBookAdapter adapter_listbook;
     GridLayoutManager gridLayoutManager;
@@ -87,38 +87,39 @@ public class ListingsFragment extends Fragment
     EditText editSearch;
     ArrayList<Genre> genre;
     public static int num_list;
-    List<Book> lisfilter_temp,listfilter,listExplore = new ArrayList<>();
+    List<Book> lisfilter_temp, listfilter, listExplore = new ArrayList<>();
 
-    int minRangerSeekbar=0;
-    int maxRangerSeekbar=0;
-    double maxSeekbar=0;
+    int minRangerSeekbar = 0;
+    int maxRangerSeekbar = 0;
+    double maxSeekbar = 0;
     public String proximity;
     public static TextView txt_add_book;
-    public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
-    private int previousTotal = 0,visibleThreshold = 5;
+    public static String[] prgmNameList1 = {"Nearest distance", "Price low to high", "Price high to low", "Recently added"};
+    private int previousTotal = 0, visibleThreshold = 5;
     boolean loading = true,
             isLoading = true;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.listings_fragment, container, false);
 
-        TextView title=(TextView) getActivity().findViewById(R.id.txt_title);
+        TextView title = (TextView) getActivity().findViewById(R.id.txt_title);
         title.setText("Listings");
-        ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
+        ImageView imageView_back = (ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(imageView_back);
         //grid=(GridView)view.findViewById(R.id.grid_view_listings);
         txt_my_listings = (TextView) view.findViewById(R.id.txt_my_listings);
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),MenuActivity.class);
+                Intent intent = new Intent(getActivity(), MenuActivity.class);
                 startActivity(intent);
             }
         });
         editSearch = (EditText) view.findViewById(R.id.editSearch);
-        gridLayoutManager = new GridLayoutManager(getContext(),2);
-        rView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        rView = (RecyclerView) view.findViewById(R.id.recycler_view);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(gridLayoutManager);
         editSearch.addTextChangedListener(new TextWatcher() {
@@ -143,12 +144,12 @@ public class ListingsFragment extends Fragment
             genrel.setValue(GetAllGenreAsync.list.get(i));
             genre.add(genrel);
         }
-        ImageView btn_filter_explore = (ImageView)view.findViewById(R.id.btn_filter_explore);
+        ImageView btn_filter_explore = (ImageView) view.findViewById(R.id.btn_filter_explore);
         Picasso.with(getContext()).load(R.drawable.btn_locate_filter).into(btn_filter_explore);
 
-        ImageView btn_search = (ImageView)view.findViewById(R.id.btn_search);
+        ImageView btn_search = (ImageView) view.findViewById(R.id.btn_search);
         Picasso.with(getContext()).load(R.drawable.btn_locate_search).into(btn_search);
-        SharedPreferences pref = getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
         btn_filter_explore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,15 +160,15 @@ public class ListingsFragment extends Fragment
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
-                ListView lv_dialog_filter = (ListView)dialog.findViewById(R.id.lv_dialog_filter);
+                ListView lv_dialog_filter = (ListView) dialog.findViewById(R.id.lv_dialog_filter);
                 filterList = new ArrayList<>();
-                for (int i =0;i<prgmNameList1.length;i++){
+                for (int i = 0; i < prgmNameList1.length; i++) {
                     Filter filter = new Filter();
                     filter.setTitle(prgmNameList1[i]);
                     filter.setCheck(false);
                     filterList.add(filter);
                 }
-                adaper = new AdapterFilter(getActivity(),filterList);
+                adaper = new AdapterFilter(getActivity(), filterList);
                 lv_dialog_filter.setAdapter(adaper);
 
                 /*rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
@@ -216,26 +217,30 @@ public class ListingsFragment extends Fragment
 
                 rangeSeekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar3);
                 rangeSeekbar.setNotifyWhileDragging(true);
-                rangeSeekbar.setSelectedMaxValue(100);
+                rangeSeekbar.setSelectedMinValue(Information.minRager);
+                rangeSeekbar.setSelectedMaxValue(Information.maxRager);
                 rangeSeekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
                     public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                        minRangerSeekbar= Integer.parseInt(minValue+"");
-                        maxRangerSeekbar= Integer.parseInt(maxValue+"");
+                        minRangerSeekbar = Integer.parseInt(minValue + "");
+                        maxRangerSeekbar = Integer.parseInt(maxValue + "");
+                        Information.minRager = minRangerSeekbar;
+                        Information.maxRager = maxRangerSeekbar;
                     }
                 });
 
                 seekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar8);
                 seekbar.setNotifyWhileDragging(true);
-                seekbar.setSelectedMaxValue(3);
+                seekbar.setSelectedMaxValue(Information.maxSeekbar);
                 seekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
                     public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                        maxSeekbar= Double.parseDouble((maxValue+"").replace(" KM",""));
+                        maxSeekbar = Double.parseDouble((maxValue + "").replace(" KM", ""));
+                        Information.maxSeekbar = maxSeekbar;
                     }
                 });
 
-                ImageView imv_dialog_filter_close = (ImageView)dialog.findViewById(R.id.imv_dialog_filter_close);
+                ImageView imv_dialog_filter_close = (ImageView) dialog.findViewById(R.id.imv_dialog_filter_close);
                 Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(imv_dialog_filter_close);
                 imv_dialog_filter_close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -244,7 +249,7 @@ public class ListingsFragment extends Fragment
                     }
                 });
 
-                Button btn_dialog_filter_submit = (Button)dialog.findViewById(R.id.btn_dialog_filter_submit);
+                Button btn_dialog_filter_submit = (Button) dialog.findViewById(R.id.btn_dialog_filter_submit);
                 btn_dialog_filter_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -254,6 +259,7 @@ public class ListingsFragment extends Fragment
                                 listvalueGenre.add(genre.get(k).getValue());
                             }
                         }
+                        Information.lstGenre = genre;
                         dialog.dismiss();
                         filter(listvalueGenre);
                     }
@@ -272,7 +278,11 @@ public class ListingsFragment extends Fragment
                         RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         rv_genre.setLayoutManager(linearLayoutManager);
-                        rv_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+                        if (Information.lstGenre.size() > 0) {
+                            rv_genre.setAdapter(new CustomListviewGenre(getContext(), Information.lstGenre));
+                        } else {
+                            rv_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+                        }
                         dialog.show();
 
                         Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
@@ -303,16 +313,15 @@ public class ListingsFragment extends Fragment
         });
 
 
-
         //------------------------------------------------------------
         //add book
-        txt_add_book = (TextView)view.findViewById(R.id.txt_add_book);
+        txt_add_book = (TextView) view.findViewById(R.id.txt_add_book);
         txt_add_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putString("activity","add");
-                bundle.putInt("num_list",num_list);
+                bundle.putString("activity", "add");
+                bundle.putInt("num_list", num_list);
                 ListingCollectionActivity listingCollectionActivity = new ListingCollectionActivity();
                 listingCollectionActivity.setArguments(bundle);
                 callFragment(listingCollectionActivity);
@@ -322,7 +331,7 @@ public class ListingsFragment extends Fragment
         //--------------------------------------------------------------
         //change color tab
 
-        TextView txt_my_listings = (TextView)view.findViewById(R.id.txt_my_listings);
+        TextView txt_my_listings = (TextView) view.findViewById(R.id.txt_my_listings);
         txt_my_listings.setTextColor(getResources().getColor(R.color.color_text));
         txt_my_listings.setBackgroundColor(getResources().getColor(R.color.dot_light_screen1));
         txt_add_book.setText("Add a book");
@@ -333,12 +342,11 @@ public class ListingsFragment extends Fragment
 
         /*populatRecyclerView(session_id);
         implementScrollListener(session_id);*/
-        listingAsync listingAsync = new listingAsync(session_id,getContext());
+        listingAsync listingAsync = new listingAsync(session_id, getContext());
         listingAsync.execute();
 
         return view;
     }
-
 
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
@@ -362,63 +370,66 @@ public class ListingsFragment extends Fragment
         int meterInDec = Integer.valueOf(newFormat.format(meter));
         return kmInDec;
     }
-    public void filter(ArrayList<String> listvalueGenre){
+
+    public void filter(ArrayList<String> listvalueGenre) {
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(),new GPSTracker(getActivity()).getLongitude());
-        Double distance = Double.valueOf(maxSeekbar);
+        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        Double distance = Double.valueOf(Information.maxSeekbar);
 
 
-        for (int i = 0; i < listExplore.size();i++){
+        for (int i = 0; i < listExplore.size(); i++) {
             String[] genrel = listExplore.get(i).getGenre().split(";");
-            for (int f = 0;f<listvalueGenre.size();f++){
-                if (listvalueGenre.get(f).equals("All")){
-                    LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(),listExplore.get(i).getLocation_longitude());
-                    if (CalculationByDistance(latLngSt,latLngEnd)<=distance){
-                        listfilter.add(listExplore.get(i));
-                    }
-                }
-            }
-
-                for (int j = 0;j<genrel.length;j++){
-                    for (int f = 0;f<listvalueGenre.size();f++){
+            if (listvalueGenre.size() > 0) {
+                for (int j = 0; j < genrel.length; j++) {
+                    for (int f = 0; f < listvalueGenre.size(); f++) {
                         if (genrel[j].contains(listvalueGenre.get(f))) {
-                            LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(),listExplore.get(i).getLocation_longitude());
-                            if (CalculationByDistance(latLngSt,latLngEnd)<=distance){
-                                listfilter.add(listExplore.get(i));
+                            LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                            if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                                if (!listfilter.contains(listExplore.get(i))) {
+                                    listfilter.add(listExplore.get(i));
+                                }
                             }
                         }
                     }
+                }
+
+            } else {
+
+                LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                    if (!listfilter.contains(listExplore.get(i))) {
+                        listfilter.add(listExplore.get(i));
+                    }
+                }
+
             }
         }
 
-        if (listfilter.size()!=0){
-            for (int i = 0;i<listfilter.size();i++){
-                if (listfilter.get(i).getPrice()>=Float.valueOf(minRangerSeekbar+"") &&
-                        listfilter.get(i).getPrice()<= Float.valueOf(minRangerSeekbar+"")){
+        if (listfilter.size() != 0) {
+            for (int i = 0; i < listfilter.size(); i++) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
                     lisfilter_temp.add(listfilter.get(i));
                 }
             }
         }
 
-        if (filterList.get(0).getCheck()== true){
+        if (filterList.get(0).getCheck() == true) {
             BookController bookController = new BookController(getActivity());
-            Collections.sort(lisfilter_temp,bookController.distance);
+            Collections.sort(lisfilter_temp, bookController.distance);
+        } else if (filterList.get(1).getCheck() == true) {
+            Collections.sort(lisfilter_temp, Book.priceasen);
+        } else if (filterList.get(2).getCheck() == true) {
+            Collections.sort(lisfilter_temp, Book.pricedcen);
+        } else {
+            Collections.sort(lisfilter_temp, Book.recently);
         }
-        else if (filterList.get(1).getCheck()== true){
-            Collections.sort(lisfilter_temp,Book.priceasen);
-        }
-        else if (filterList.get(2).getCheck()== true){
-            Collections.sort(lisfilter_temp,Book.pricedcen);
-        }
-        else{
-            Collections.sort(lisfilter_temp,Book.recently);
-        }
-        ListBookAdapter adapter = new ListBookAdapter(getActivity(),lisfilter_temp,2,0);
+        ListBookAdapter adapter = new ListBookAdapter(getActivity(), lisfilter_temp,1, 0);
         rView.setAdapter(adapter);
     }
 
-    public void callFragment(Fragment fragment ){
+    public void callFragment(Fragment fragment) {
         FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
@@ -427,12 +438,12 @@ public class ListingsFragment extends Fragment
         transaction.commit();
     }
 
-    class listingAsync extends AsyncTask<String,Void,List<Book>>{
+    class listingAsync extends AsyncTask<String, Void, List<Book>> {
 
         Context context;
         ProgressDialog dialog;
         String session_id;
-        int top,from;
+        int top, from;
 //        public listingAsync(Context context,String session_id,int from,int top){
 //            this.context = context;
 //            this.session_id = session_id;
@@ -464,12 +475,12 @@ public class ListingsFragment extends Fragment
         @Override
         protected void onPostExecute(List<Book> books) {
             try {
-                if (books.size() ==0) {
-                    Toast.makeText(getContext(),"You do not have any books added yet", Toast.LENGTH_SHORT).show();
+                if (books.size() == 0) {
+                    Toast.makeText(getContext(), "You do not have any books added yet", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     isLoading = false;
                 } else {
-                    adapter_listbook = new ListBookAdapter(getActivity(), books, 1,2);
+                    adapter_listbook = new ListBookAdapter(getActivity(), books, 1, 2);
                     rView.setAdapter(adapter_listbook);
                     //listExplore.addAll(books);
                     listExplore = books;
@@ -479,7 +490,8 @@ public class ListingsFragment extends Fragment
                     dialog.dismiss();
                     isLoading = true;
                 }
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
         }
     }
 }

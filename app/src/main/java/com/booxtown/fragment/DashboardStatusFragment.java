@@ -62,6 +62,7 @@ public class DashboardStatusFragment extends Fragment {
     String img_username,username;
     User user;
     int user_id;
+    String userID="";
     //end
 
     //dialog rating
@@ -80,6 +81,7 @@ public class DashboardStatusFragment extends Fragment {
         user_id = Integer.valueOf(pref.getString("user_id",null));
         dashBoard = (DashBoard)getArguments().getSerializable("dashboard");
         user = (User) getArguments().getSerializable("user");
+        userID= getArguments().getString("user_id");
         //menu
         btn_menu_dashboard_bottom_cancel.setVisibility(View.GONE);
         txt_menu_dashboard_cancel.setVisibility(View.GONE);
@@ -186,12 +188,23 @@ public class DashboardStatusFragment extends Fragment {
         }else if(dashBoard.getAction().equals("buy")){
             textView_namebook_buyer.setVisibility(View.GONE);
             textView_nameauthor_buyer.setVisibility(View.GONE);
-            Picasso.with(getContext()).load(R.drawable.explore_btn_buy_active).into(img_free_listings);
+            if(dashBoard.getUser_buyer_id()==Integer.parseInt(userID)) {
+                Picasso.with(getContext()).load(R.drawable.buy_in).into(img_free_listings);
+            }
+            if (dashBoard.getUser_seller_id()==Integer.parseInt(userID)){
+                Picasso.with(getContext()).load(R.drawable.buy_out).into(img_free_listings);
+            }
             textView_with.setVisibility(View.GONE);
         }else if(dashBoard.getAction().equals("free")){
             textView_namebook_buyer.setVisibility(View.GONE);
             textView_nameauthor_buyer.setVisibility(View.GONE);
-            Picasso.with(getContext()).load(R.drawable.explore_btn_free_active).into(img_free_listings);
+            if(dashBoard.getUser_buyer_id()==Integer.parseInt(userID)) {
+                Picasso.with(getContext()).load(R.drawable.free_int).into(img_free_listings);
+            }
+            if (dashBoard.getUser_seller_id()==Integer.parseInt(userID)){
+                Picasso.with(getContext()).load(R.drawable.free_out).into(img_free_listings);
+            }
+
             textView_with.setVisibility(View.GONE);
         }
         getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
@@ -302,12 +315,19 @@ public class DashboardStatusFragment extends Fragment {
         protected void onPostExecute(List<User> user) {
             try {
                 if (user.size() > 0){
-                    Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
-                            .error(R.drawable.user)
-                            .into(img_menu_dashboard_middle);
+                    if(user.get(0).getPhoto().length()>3) {
+                        Picasso.with(context)
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getUsername() + "&image=" + user.get(0).getPhoto().substring(user.get(0).getUsername().length() + 3, user.get(0).getPhoto().length()))
+                                .placeholder(R.mipmap.user_empty)
+                                .into(img_menu_dashboard_middle);
+                    }
+                    else{
+                        Picasso.with(getContext())
+                                .load(R.mipmap.user_empty)
+                                .into(img_menu_dashboard_middle);
+                    }
                     textView_username_dashboard_middle.setText(user.get(0).getUsername());
-                    img_username = ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length());
+                    //img_username = ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length());
                     username = user.get(0).getUsername();
 
                     ratingBar_user_dashboard_middle.setRating(user.get(0).getRating());
@@ -359,7 +379,7 @@ public class DashboardStatusFragment extends Fragment {
                     progressDialog.dismiss();
                 }
             }catch (Exception e){
-
+                String error= e.getMessage();
             }
             progressDialog.dismiss();
         }

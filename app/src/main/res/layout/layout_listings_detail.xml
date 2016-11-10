@@ -275,14 +275,16 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/row_type_book"
         android:weightSum="1"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:layout_marginBottom="5dp"
+        android:paddingBottom="45dp">
 
         <ImageView
-            android:layout_width="25dp"
+            android:layout_width="28dp"
             android:layout_height="40dp"
-            android:id="@+id/img_swap_listing"
-            android:src="@drawable/explore_btn_swap_active"
-            android:layout_weight="0.8"
+            android:id="@+id/img_buy_listing"
+            android:src="@drawable/explore_btn_buy_active"
+            android:layout_weight="0.80"
             android:layout_marginRight="10dp" />
 
         <ImageView
@@ -293,24 +295,28 @@
             android:layout_margin="10dp" />
 
         <ImageView
-            android:layout_width="24dp"
+            android:layout_width="25dp"
             android:layout_height="40dp"
-            android:id="@+id/img_buy_listing"
-            android:src="@drawable/explore_btn_buy_active"
+            android:id="@+id/img_swap_listing"
+            android:src="@drawable/explore_btn_swap_active"
             android:layout_weight="0.80"
+            android:layout_alignTop="@+id/row_type_book"
+            android:layout_alignRight="@+id/row_type_book2"
+            android:layout_alignEnd="@+id/row_type_book2"
             android:layout_marginLeft="10dp" />
+
     </TableRow>
 
     <include
         android:layout_width="wrap_content"
-        android:layout_marginBottom="50dp"
         android:layout_height="285dp"
+
         layout="@layout/layout_comments"
         android:layout_below="@+id/row_type_book"
         android:layout_centerHorizontal="true"
         android:id="@+id/layout_comment"
 
-        />
+        android:layout_marginTop="0dp" />
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -318,16 +324,18 @@
         android:id="@+id/row_type_book2"
         android:weightSum="1"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:paddingBottom="15dp">
+
 
         <ImageView
-            android:layout_width="25dp"
+            android:layout_width="28dp"
             android:layout_height="40dp"
-            android:id="@+id/img_swap_listing2"
-            android:src="@drawable/explore_btn_swap_active"
-            android:layout_weight="0.8"
+            android:id="@+id/img_buy_listing2"
+            android:src="@drawable/explore_btn_buy_active"
+            android:layout_weight="0.80"
             android:layout_marginRight="10dp" />
-
         <ImageView
             android:layout_width="30dp"
             android:layout_height="22dp"
@@ -335,12 +343,13 @@
             android:src="@drawable/explore_btn_free_active"
             android:layout_margin="10dp" />
 
+
         <ImageView
-            android:layout_width="24dp"
+            android:layout_width="25dp"
             android:layout_height="40dp"
-            android:id="@+id/img_buy_listing2"
-            android:src="@drawable/explore_btn_buy_active"
-            android:layout_weight="0.80"
+            android:id="@+id/img_swap_listing2"
+            android:src="@drawable/explore_btn_swap_active"
+            android:layout_weight="0.8"
             android:layout_marginLeft="10dp" />
     </TableRow>
 

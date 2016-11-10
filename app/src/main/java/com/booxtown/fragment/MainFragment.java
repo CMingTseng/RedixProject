@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -105,9 +106,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     List<Book> listExplore;
     ArrayList<Genre> genre;
 
-    int minRangerSeekbar=0;
-    int maxRangerSeekbar=0;
-    double maxSeekbar=0;
+    int minRangerSeekbar = 0;
+    int maxRangerSeekbar = 0;
+    double maxSeekbar = 0;
 
     //end
     @Nullable
@@ -154,16 +155,23 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 List<Book> list_books = new ArrayList<Book>();
                 list_books.clear();
                 for (int i = 0; i < listExplore.size(); i++) {
                     if (listExplore.get(i).getTitle().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getAuthor().toLowerCase().contains(editSearch.getText().toString().toLowerCase())) {
+                            || listExplore.get(i).getAuthor().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getGenre().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getUsername().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getHash_tag().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getCondition().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            ) {
                         list_books.add(listExplore.get(i));
                     }
                 }
@@ -190,14 +198,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     }
 
 
-
     public List<Book> filter(List<String> filter) {
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
 
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
-        Double distance = Double.valueOf(maxSeekbar);
-        for (int i = 0; i < listExplore.size(); i++) {
+        Double distance = Double.valueOf(Information.maxSeekbar);
+        /*for (int i = 0; i < listExplore.size(); i++) {
             //String[] genrel = listExplore.get(i).getGenre().split(";");
             String[] genrel = listExplore.get(i).getGenre().split(";");
             for (int f = 0;f<filter.size();f++){
@@ -218,12 +225,39 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     }
                 }
             }
+        }*/
+        for (int i = 0; i < listExplore.size(); i++) {
+            String[] genrel = listExplore.get(i).getGenre().split(";");
+            if (filter.size() > 0) {
+                for (int j = 0; j < genrel.length; j++) {
+                    for (int f = 0; f < filter.size(); f++) {
+                        if (genrel[j].contains(filter.get(f))) {
+                            LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                            if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                                if (!listfilter.contains(listExplore.get(i))) {
+                                    listfilter.add(listExplore.get(i));
+                                }
+                            }
+                        }
+                    }
+                }
+
+            } else {
+
+                LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                    if (!listfilter.contains(listExplore.get(i))) {
+                        listfilter.add(listExplore.get(i));
+                    }
+                }
+
+            }
         }
 
         if (listfilter.size() != 0) {
             for (int i = 0; i < listfilter.size(); i++) {
-                if (listfilter.get(i).getPrice() >= Float.valueOf(minRangerSeekbar+"") &&
-                        listfilter.get(i).getPrice() <= Float.valueOf(maxRangerSeekbar+"")) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
                     lisfilter_temp.add(listfilter.get(i));
                 }
             }
@@ -238,6 +272,36 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             Collections.sort(lisfilter_temp, Book.pricedcen);
         } else {
             Collections.sort(lisfilter_temp, Book.recently);
+        }
+        return lisfilter_temp;
+    }
+
+    public List<Book> filterStart() {
+
+        lisfilter_temp = new ArrayList<>();
+        listfilter = new ArrayList<>();
+        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        Double distance = Double.valueOf(Information.maxSeekbar);
+        for (int i = 0; i < listExplore.size(); i++) {
+            String[] genrel = listExplore.get(i).getGenre().split(";");
+
+            LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+            if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                if (!listfilter.contains(listExplore.get(i))) {
+                    listfilter.add(listExplore.get(i));
+                }
+            }
+
+
+        }
+
+        if (listfilter.size() != 0) {
+            for (int i = 0; i < listfilter.size(); i++) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
+                    lisfilter_temp.add(listfilter.get(i));
+                }
+            }
         }
         return lisfilter_temp;
     }
@@ -300,12 +364,15 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
                 rangeSeekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar3);
                 rangeSeekbar.setNotifyWhileDragging(true);
-                rangeSeekbar.setSelectedMaxValue(100);
+                rangeSeekbar.setSelectedMinValue(Information.minRager);
+                rangeSeekbar.setSelectedMaxValue(Information.maxRager);
                 rangeSeekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
                     public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                        minRangerSeekbar= Integer.parseInt(minValue+"");
-                        maxRangerSeekbar= Integer.parseInt(maxValue+"");
+                        minRangerSeekbar = Integer.parseInt(minValue + "");
+                        maxRangerSeekbar = Integer.parseInt(maxValue + "");
+                        Information.minRager = minRangerSeekbar;
+                        Information.maxRager = maxRangerSeekbar;
                     }
                 });
                 /*rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
@@ -361,11 +428,12 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
                 seekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar8);
                 seekbar.setNotifyWhileDragging(true);
-                seekbar.setSelectedMaxValue(3);
+                seekbar.setSelectedMaxValue(Information.maxSeekbar);
                 seekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
                     public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                        maxSeekbar= Double.parseDouble((maxValue+"").replace(" KM",""));
+                        maxSeekbar = Double.parseDouble((maxValue + "").replace(" KM", ""));
+                        Information.maxSeekbar = maxSeekbar;
                     }
                 });
 
@@ -389,6 +457,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                                 listvalueGenre.add(genre.get(k).getValue());
                             }
                         }
+                        Information.lstGenre = genre;
                         dialog.dismiss();
                         addMarkerSearch(filter(listvalueGenre));
                     }
@@ -405,7 +474,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                         RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         rv_genre.setLayoutManager(linearLayoutManager);
-                        rv_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+                        if (Information.lstGenre.size() > 0) {
+                            rv_genre.setAdapter(new CustomListviewGenre(getContext(), Information.lstGenre));
+                        } else {
+                            rv_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+                        }
                         dialog.show();
 
                         Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
@@ -431,6 +504,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
         Book books = mMarkersHashMap.get(marker);
         FragmentManager manager = getActivity().getSupportFragmentManager();
         Bundle bundle = new Bundle();
@@ -455,7 +535,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
             return resizedBitmap;
         } catch (Exception e) {
-            String err= e.getMessage();
+            String err = e.getMessage();
         }
         return null;
     }
@@ -467,7 +547,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         // latitude and longitude
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
-        listingAsync listingAsync = new listingAsync(getContext(),session_id,0,100);
+        listingAsync listingAsync = new listingAsync(getContext(), session_id, 0, 100);
         listingAsync.execute();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -499,7 +579,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             img_swap_marker = (ImageView) myContentsView.findViewById(R.id.img_swap_marker);
             img_free_marker = (ImageView) myContentsView.findViewById(R.id.img_free_marker);
             img_buy_marker = (ImageView) myContentsView.findViewById(R.id.img_buy_marker);
-            img_map_main = (CircularImageView)myContentsView.findViewById(R.id.img_map_main);
+            img_map_main = (CircularImageView) myContentsView.findViewById(R.id.img_map_main);
         }
 
         @Override
@@ -524,11 +604,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             if (books.getUser_photo().length() > 3) {
                 int index = books.getUser_photo().indexOf("_+_");
                 Picasso.with(getContext())
-                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" +books.getUsername() + "&image=" +books.getUser_photo().substring(index + 3, books.getUser_photo().length()))
+                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + books.getUsername() + "&image=" + books.getUser_photo().substring(index + 3, books.getUser_photo().length()))
                         .placeholder(R.mipmap.user_empty).
                         into(img_map_main);
             } else {
-                Bitmap bm= BitmapFactory.decodeResource(getResources(),R.mipmap.user_empty);
+                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.user_empty);
                 img_map_main.setImageBitmap(bm);
             }
 
@@ -536,10 +616,10 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             txt_user_marker.setText(books.getUsername());
             ratingBar_marker.setRating(books.getRating());
             LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP );
+            stars.getDrawable(2).setColorFilter(Color.rgb(249, 242, 0), PorterDuff.Mode.SRC_ATOP);
             stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.dot_light_screen1), PorterDuff.Mode.SRC_ATOP);
             stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.dot_light_screen1), PorterDuff.Mode.SRC_ATOP); // for half filled stars
-            DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.dot_light_screen1));
+            DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)), getResources().getColor(R.color.dot_light_screen1));
 
             //stars.getColorFilter();
             char array[] = books.getAction().toCharArray();
@@ -550,9 +630,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
             String icon = IconMapController.iconExplorer(swap, free, buy);
             if (icon.equals("icon_swap")) {
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_dis_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_dis_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_not_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_dis_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_dis_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -568,9 +648,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
             if (icon.equals("icon_free")) {
 
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_dis_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_not_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_dis_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_dis_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_not_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_dis_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -585,9 +665,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
             if (icon.equals("icon_buy")) {
 
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_dis_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_dis_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_not_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_dis_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_dis_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_not_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -601,9 +681,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 //                Glide.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
             if (icon.equals("swapfree")) {
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_not_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_dis_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_not_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_not_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_dis_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -615,9 +695,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 //                Glide.with(getContext()).load(R.drawable.explore_btn_buy_dis_active).into(img_buy_marker);
             }
             if (icon.equals("swapbuy")) {
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_dis_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_not_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_not_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_dis_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_not_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -629,9 +709,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 //                Glide.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
             if (icon.equals("freebuy")) {
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_dis_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_not_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_not_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_dis_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_not_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_not_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -643,9 +723,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 //                Glide.with(getContext()).load(R.drawable.explore_btn_buy_not_active).into(img_buy_marker);
             }
             if (icon.equals("option")) {
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_swap_not_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_free_not_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(),R.drawable.explore_btn_buy_not_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_not_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_not_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_not_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -666,8 +746,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         Context context;
         ProgressDialog dialog;
         String session_id;
-        int top,from;
-        public listingAsync(Context context,String session_id,int from,int top) {
+        int top, from;
+
+        public listingAsync(Context context, String session_id, int from, int top) {
             this.context = context;
             this.session_id = session_id;
             this.top = top;
@@ -677,7 +758,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         @Override
         protected List<Book> doInBackground(String... strings) {
             BookController bookController = new BookController();
-            return bookController.book_gettop(session_id,from,top);
+            return bookController.book_gettop(session_id, from, top);
         }
 
         @Override
@@ -696,8 +777,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     dialog.dismiss();
                 } else {
                     listExplore = books;
+                    listExplore=filterStart();
                     // create marker
-                    addMarker(books);
+                    addMarker(listExplore);
                     dialog.dismiss();
                 }
             } catch (Exception e) {
@@ -721,8 +803,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     String buy = String.valueOf(array[2]);
                     String icon = IconMapController.icon(swap, free, buy);
                     if (icon != null) {
-                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,(int)getResources().getDimension(R.dimen.width_pin),
-                                (int)getResources().getDimension(R.dimen.height_pin))));
+                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, (int) getResources().getDimension(R.dimen.width_pin),
+                                (int) getResources().getDimension(R.dimen.height_pin))));
                     }
                     Marker m_marker = mMap.addMarker(marker);
                     mMarkersHashMap.put(m_marker, books.get(i));
@@ -749,8 +831,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     String buy = String.valueOf(array[2]);
                     String icon = IconMapController.icon(swap, free, buy);
                     if (icon != null) {
-                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon,(int)getResources().getDimension(R.dimen.width_pin),
-                                (int)getResources().getDimension(R.dimen.height_pin))));
+                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(icon, (int) getResources().getDimension(R.dimen.width_pin),
+                                (int) getResources().getDimension(R.dimen.height_pin))));
                     }
                     Marker m_marker = mMap.addMarker(marker);
                     mMarkersHashMap.put(m_marker, books.get(i));
@@ -760,9 +842,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         } catch (Exception e) {
         }
     }
-    public class GetAllGenreAsync1 extends AsyncTask<Void,Void,List<GenreValue>>{
+
+    public class GetAllGenreAsync1 extends AsyncTask<Void, Void, List<GenreValue>> {
         public Context context;
         ProgressDialog dialog;
+
         public GetAllGenreAsync1(Context context) {
             this.context = context;
         }
@@ -785,15 +869,15 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         protected void onPostExecute(List<GenreValue> genreValues) {
             try {
 
-                if(genreValues.size() >0){
+                if (genreValues.size() > 0) {
 //                list.add("All");
-                    for (int i=0;i<genreValues.size();i++){
+                    for (int i = 0; i < genreValues.size(); i++) {
                         Genre genrel = new Genre();
                         genrel.setValue(genreValues.get(i).getTitle());
                         genre.add(genrel);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             dialog.dismiss();

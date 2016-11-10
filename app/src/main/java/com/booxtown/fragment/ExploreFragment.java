@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.controller.GetAllGenreAsync;
+import com.booxtown.controller.Information;
 import com.booxtown.controller.RangeSeekBar;
 import com.booxtown.model.Genre;
 import com.booxtown.model.NumberBook;
@@ -69,38 +70,39 @@ import com.booxtown.model.Filter;
 /**
  * Created by Administrator on 26/08/2016.
  */
-public class ExploreFragment extends Fragment
-{
-    private int type_filter=0;
+public class ExploreFragment extends Fragment {
+    private int type_filter = 0;
 
-    private LinearLayout linear_all,linear_swap,linear_free,linear_cart;
+    private LinearLayout linear_all, linear_swap, linear_free, linear_cart;
     private AdapterFilter adaper;
     private List<Filter> filterList;
     private Spinner spinner2;
     private RangeSeekBar rangeSeekbar;
     private RangeSeekBar seekbar;
-    List<Book> listfilter,listExplore = new ArrayList<>(),lisfilter_temp;
-    String proximity,session_id;
+    List<Book> listfilter, listExplore = new ArrayList<>(), lisfilter_temp;
+    String proximity, session_id;
 
     ArrayList<Genre> genre;
-    private  ArrayAdapter<String> dataAdapter;
+    private ArrayAdapter<String> dataAdapter;
     EditText editSearch;
 
     RecyclerView rView;
     AdapterExplore adapter_exploer;
     GridLayoutManager gridLayoutManager;
-    private int previousTotal = 0,visibleThreshold = 5;
+    private int previousTotal = 0, visibleThreshold = 5;
     boolean loading = true,
             isLoading = true;
     int total, swap, sell, free;
-    public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,tvMin,tvMax,txt_filter_proximity;
-    List<Book> listbook= new ArrayList<>();
+    public TextView tab_all_count, tab_swap_count, tab_free_count, tab_cart_count, tvMin, tvMax, txt_filter_proximity;
+    List<Book> listbook = new ArrayList<>();
 
-    int minRangerSeekbar=0;
-    int maxRangerSeekbar=0;
-    double maxSeekbar=0;
+    int minRangerSeekbar = 0;
+    int maxRangerSeekbar = 0;
+    double maxSeekbar = 0;
+
+    int chooseTab=0;
     //GridView grid;
-    public static String [] prgmNameList1={"Nearest distance","Price low to high","Price high to low","Recently added"};
+    public static String[] prgmNameList1 = {"Nearest distance", "Price low to high", "Price high to low", "Recently added"};
 
     @Nullable
     @Override
@@ -108,29 +110,29 @@ public class ExploreFragment extends Fragment
         final View view = inflater.inflate(R.layout.explore_fragment, container, false);
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         session_id = pref.getString("session_id", null);
-        ImageView img_menu = (ImageView)getActivity().findViewById(R.id.img_menu);
+        ImageView img_menu = (ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getActivity()).load(R.drawable.btn_menu_locate).into(img_menu);
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),MenuActivity.class);
+                Intent intent = new Intent(getActivity(), MenuActivity.class);
                 startActivity(intent);
             }
         });
         //grid=(GridView)view.findViewById(R.id.gridView);
-        gridLayoutManager = new GridLayoutManager(getContext(),2);
-        rView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        rView = (RecyclerView) view.findViewById(R.id.recycler_view);
         rView.setLayoutManager(gridLayoutManager);
-        View view_search= (View)view.findViewById(R.id.explore_search);
-        new CustomSearch(view_search,getActivity());
+        View view_search = (View) view.findViewById(R.id.explore_search);
+        new CustomSearch(view_search, getActivity());
 
         TextView txtTitle = (TextView) getActivity().findViewById(R.id.txt_title);
         txtTitle.setText("Explore");
-        type_filter=0;
-        total=0;
-        swap=0;
-        free=0;
-        sell=0;
+        type_filter = 0;
+        total = 0;
+        swap = 0;
+        free = 0;
+        sell = 0;
 
 
         //grid.setOnScrollListener(new EndlessScrollListener());
@@ -145,17 +147,17 @@ public class ExploreFragment extends Fragment
         //end-------------------------------------
 
         //---------------------------------------------------------------
-        View view_tab=(View) view.findViewById(R.id.tab_explore);
-        final CustomTabbarExplore tab_custom=new CustomTabbarExplore(view_tab,getActivity());
+        View view_tab = (View) view.findViewById(R.id.tab_explore);
+        final CustomTabbarExplore tab_custom = new CustomTabbarExplore(view_tab, getActivity());
 
-        linear_all=(LinearLayout) view_tab.findViewById(R.id.linear_all);
-        linear_swap=(LinearLayout) view_tab.findViewById(R.id.linear_swap);
-        linear_free=(LinearLayout) view_tab.findViewById(R.id.linear_free);
-        linear_cart=(LinearLayout) view_tab.findViewById(R.id.linear_cart);
-        tab_all_count = (TextView) view_tab.findViewById(R.id.tab_all_count) ;
-        tab_cart_count = (TextView) view_tab.findViewById(R.id.tab_cart_count) ;
-        tab_free_count = (TextView) view_tab.findViewById(R.id.tab_free_count) ;
-        tab_swap_count = (TextView) view_tab.findViewById(R.id.tab_swap_count) ;
+        linear_all = (LinearLayout) view_tab.findViewById(R.id.linear_all);
+        linear_swap = (LinearLayout) view_tab.findViewById(R.id.linear_swap);
+        linear_free = (LinearLayout) view_tab.findViewById(R.id.linear_free);
+        linear_cart = (LinearLayout) view_tab.findViewById(R.id.linear_cart);
+        tab_all_count = (TextView) view_tab.findViewById(R.id.tab_all_count);
+        tab_cart_count = (TextView) view_tab.findViewById(R.id.tab_cart_count);
+        tab_free_count = (TextView) view_tab.findViewById(R.id.tab_free_count);
+        tab_swap_count = (TextView) view_tab.findViewById(R.id.tab_swap_count);
         editSearch = (EditText) view.findViewById(R.id.editSearch);
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -165,19 +167,43 @@ public class ExploreFragment extends Fragment
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter_exploer.getFilter().filter(s);
+                //adapter_exploer.getFilter().filter(s);
+                //int sizeList= adapter_exploer.getListExplore().size();
+                //ShowNumberbook(adapter_exploer.getListExplore());
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                List<Book> list_books = new ArrayList<Book>();
+                list_books.clear();
+                for (int i = 0; i < listExplore.size(); i++) {
+                    if (listExplore.get(i).getTitle().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getAuthor().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getGenre().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getUsername().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getHash_tag().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            || listExplore.get(i).getCondition().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
+                            ) {
+                        list_books.add(listExplore.get(i));
+                    }
+                }
+                if (list_books.size() > 0) {
+                    //listExplore=list_books;
+                    adapter_exploer.setListExplore(list_books);
+                    ShowNumberbook(list_books);
+                    AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(chooseTab), 2, 0);
+                    rView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
 
         linear_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(1),2,0);
+                chooseTab=1;
+                AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(1), 2, 0);
                 rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(1);
@@ -188,7 +214,8 @@ public class ExploreFragment extends Fragment
         linear_swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(2),2,0);
+                chooseTab=2;
+                AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(2), 2, 0);
                 rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(2);
@@ -199,8 +226,9 @@ public class ExploreFragment extends Fragment
         linear_free.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                chooseTab=3;
                 tab_custom.setDefault(3);
-                AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(3),2,0);
+                AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(3), 2, 0);
                 rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
@@ -210,52 +238,78 @@ public class ExploreFragment extends Fragment
         linear_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdapterExplore adapter = new AdapterExplore(getActivity(),filterExplore(4),2,0);
+                chooseTab=4;
+                AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(4), 2, 0);
                 rView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 tab_custom.setDefault(4);
 
             }
         });
-        GetNumberBook getNumberBook= new GetNumberBook(0);
+        GetNumberBook getNumberBook = new GetNumberBook(0);
         getNumberBook.execute();
         //populatRecyclerView(session_id);
         //implementScrollListener(session_id);
-        GetTopbook getTopbook= new GetTopbook("",0,0);
+        GetTopbook getTopbook = new GetTopbook("", 0, 0);
         getTopbook.execute();
         return view;
     }
 
+    public void ShowNumberbook(List<Book> lstBook) {
+        int free = 0;
+        int swap = 0;
+        int buy = 0;
 
-    public List<Book> filterExplore(int type){
-        List<Book> list= new ArrayList<>();
-        if(type==1){
-            list = listExplore;
-        }
-        else if(type==2){
-            for (int i=0; i<listExplore.size(); i++){
-                if(listExplore.get(i).getAction().substring(0,1).equals("1")){
-                    list.add(listExplore.get(i));
-                }
+        for (int i = 0; i < lstBook.size(); i++) {
+            if (lstBook.get(i).getAction().substring(0, 1).equals("1")) {
+                swap++;
+            }
+            if (lstBook.get(i).getAction().substring(2, 3).equals("1")) {
+                free++;
+            }
+            if (lstBook.get(i).getAction().substring(1, 2).equals("1")) {
+                buy++;
             }
         }
-        else if(type==3){
-            for (int i=0; i<listExplore.size(); i++){
-                if(listExplore.get(i).getAction().substring(2,3).equals("1")){
-                    list.add(listExplore.get(i));
+        tab_all_count.setText("(" + lstBook.size() + ")");
+        tab_swap_count.setText("(" + swap + ")");
+        tab_free_count.setText("(" + free + ")");
+        tab_cart_count.setText("(" + buy + ")");
+    }
+
+    public List<Book> filterExplore(int type) {
+        List<Book> list = new ArrayList<>();
+        try {
+            if (type == 1) {
+                list = adapter_exploer.getListExplore();
+            } else if (type == 2) {
+                for (int i = 0; i < adapter_exploer.getListExplore().size(); i++) {
+                    if (adapter_exploer.getListExplore().get(i).getAction().substring(0, 1).equals("1")) {
+                        list.add(adapter_exploer.getListExplore().get(i));
+                    }
+                }
+            } else if (type == 3) {
+                for (int i = 0; i < adapter_exploer.getListExplore().size(); i++) {
+                    if (adapter_exploer.getListExplore().get(i).getAction().substring(2, 3).equals("1")) {
+                        list.add(adapter_exploer.getListExplore().get(i));
+                    }
+                }
+            } else {
+                for (int i = 0; i < adapter_exploer.getListExplore().size(); i++) {
+                    if (adapter_exploer.getListExplore().get(i).getAction().substring(1, 2).equals("1")) {
+                        list.add(adapter_exploer.getListExplore().get(i));
+                    }
                 }
             }
+        }catch (Exception err){
+
+
         }
-        else{
-            for (int i=0; i<listExplore.size(); i++){
-                if(listExplore.get(i).getAction().substring(1,2).equals("1")){
-                    list.add(listExplore.get(i));
-                }
-            }
-        }
+
 
         return list;
     }
+
     public void callFragment(Fragment fragment) {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -263,11 +317,12 @@ public class ExploreFragment extends Fragment
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
     }
-    public void filterSort(View view){
-        ImageView btn_filter_explore = (ImageView)view.findViewById(R.id.btn_filter_explore);
+
+    public void filterSort(View view) {
+        ImageView btn_filter_explore = (ImageView) view.findViewById(R.id.btn_filter_explore);
         Picasso.with(getContext()).load(R.drawable.btn_locate_filter).into(btn_filter_explore);
 
-        ImageView btn_search = (ImageView)view.findViewById(R.id.btn_search);
+        ImageView btn_search = (ImageView) view.findViewById(R.id.btn_search);
         Picasso.with(getContext()).load(R.drawable.btn_locate_search).into(btn_search);
 
         btn_filter_explore.setOnClickListener(new View.OnClickListener() {
@@ -279,15 +334,15 @@ public class ExploreFragment extends Fragment
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
-                ListView lv_dialog_filter = (ListView)dialog.findViewById(R.id.lv_dialog_filter);
+                ListView lv_dialog_filter = (ListView) dialog.findViewById(R.id.lv_dialog_filter);
                 filterList = new ArrayList<>();
-                for (int i =0;i<prgmNameList1.length;i++){
+                for (int i = 0; i < prgmNameList1.length; i++) {
                     Filter filter = new Filter();
                     filter.setTitle(prgmNameList1[i]);
                     filter.setCheck(false);
                     filterList.add(filter);
                 }
-                adaper = new AdapterFilter(getActivity(),filterList);
+                adaper = new AdapterFilter(getActivity(), filterList);
                 lv_dialog_filter.setAdapter(adaper);
 
                 /*rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
@@ -322,26 +377,30 @@ public class ExploreFragment extends Fragment
 
                 rangeSeekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar3);
                 rangeSeekbar.setNotifyWhileDragging(true);
-                rangeSeekbar.setSelectedMaxValue(100);
+                rangeSeekbar.setSelectedMinValue(Information.minRager);
+                rangeSeekbar.setSelectedMaxValue(Information.maxRager);
                 rangeSeekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
                     public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                        minRangerSeekbar= Integer.parseInt(minValue+"");
-                        maxRangerSeekbar= Integer.parseInt(maxValue+"");
+                        minRangerSeekbar = Integer.parseInt(minValue + "");
+                        maxRangerSeekbar = Integer.parseInt(maxValue + "");
+                        Information.minRager = minRangerSeekbar;
+                        Information.maxRager = maxRangerSeekbar;
                     }
                 });
 
                 seekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar8);
                 seekbar.setNotifyWhileDragging(true);
-                seekbar.setSelectedMaxValue(3);
+                seekbar.setSelectedMaxValue(Information.maxSeekbar);
                 seekbar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
                     public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                        maxSeekbar= Double.parseDouble((maxValue+"").replace(" KM",""));
+                        maxSeekbar = Double.parseDouble((maxValue + "").replace(" KM", ""));
+                        Information.maxSeekbar = maxSeekbar;
                     }
                 });
 
-                ImageView imv_dialog_filter_close = (ImageView)dialog.findViewById(R.id.imv_dialog_filter_close);
+                ImageView imv_dialog_filter_close = (ImageView) dialog.findViewById(R.id.imv_dialog_filter_close);
                 Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(imv_dialog_filter_close);
                 imv_dialog_filter_close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -350,16 +409,20 @@ public class ExploreFragment extends Fragment
                     }
                 });
 
-                Button btn_dialog_filter_submit = (Button)dialog.findViewById(R.id.btn_dialog_filter_submit);
+                Button btn_dialog_filter_submit = (Button) dialog.findViewById(R.id.btn_dialog_filter_submit);
                 btn_dialog_filter_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+
                         ArrayList<String> listvalueGenre = new ArrayList<>();
+
                         for (int k = 0; k < genre.size(); k++) {
                             if (genre.get(k).ischeck() == true) {
                                 listvalueGenre.add(genre.get(k).getValue());
                             }
                         }
+                        Information.lstGenre = genre;
                         dialog.dismiss();
                         filter(listvalueGenre);
                     }
@@ -383,7 +446,11 @@ public class ExploreFragment extends Fragment
                         RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         rv_genre.setLayoutManager(linearLayoutManager);
-                        rv_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+                        if (Information.lstGenre.size() > 0) {
+                            rv_genre.setAdapter(new CustomListviewGenre(getContext(), Information.lstGenre));
+                        } else {
+                            rv_genre.setAdapter(new CustomListviewGenre(getContext(), genre));
+                        }
                         dialog.show();
 
                         Button button_spiner_genre = (Button) dialog.findViewById(R.id.button_spiner_genre);
@@ -408,57 +475,93 @@ public class ExploreFragment extends Fragment
         });
     }
 
-    public void filter(ArrayList<String> listvalueGenre){
+    public void filter(ArrayList<String> listvalueGenre) {
+
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(),new GPSTracker(getActivity()).getLongitude());
-        Double distance = Double.valueOf(maxSeekbar);
-        for (int i = 0; i < listExplore.size();i++){
+        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        Double distance = Double.valueOf(Information.maxSeekbar);
+        for (int i = 0; i < listExplore.size(); i++) {
             String[] genrel = listExplore.get(i).getGenre().split(";");
-            for (int f = 0;f<listvalueGenre.size();f++){
-                if (listvalueGenre.get(f).equals("All")){
-                    LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(),listExplore.get(i).getLocation_longitude());
-                    if (CalculationByDistance(latLngSt,latLngEnd)<=distance){
-                        listfilter.add(listExplore.get(i));
-                    }
-                }
-            }
-            for (int j = 0;j<genrel.length;j++){
-                for (int f = 0;f<listvalueGenre.size();f++) {
-                    if (genrel[j].contains(listvalueGenre.get(f))) {
-                        LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
-                        if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
-                            listfilter.add(listExplore.get(i));
+            if (listvalueGenre.size() > 0) {
+                for (int j = 0; j < genrel.length; j++) {
+                    for (int f = 0; f < listvalueGenre.size(); f++) {
+                        if (genrel[j].contains(listvalueGenre.get(f))) {
+                            LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                            if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                                if(!listfilter.contains(listExplore.get(i))) {
+                                    listfilter.add(listExplore.get(i));
+                                }
+                            }
                         }
                     }
                 }
+
+            } else {
+                LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                    if(!listfilter.contains(listExplore.get(i))) {
+                        listfilter.add(listExplore.get(i));
+                    }
+                }
+
             }
         }
 
-        if (listfilter.size()!=0){
-            for (int i = 0;i<listfilter.size();i++){
-                if (listfilter.get(i).getPrice()>=Float.valueOf(minRangerSeekbar+"") &&
-                        listfilter.get(i).getPrice()<= Float.valueOf(maxRangerSeekbar+"")){
+        if (listfilter.size() != 0) {
+            for (int i = 0; i < listfilter.size(); i++) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
                     lisfilter_temp.add(listfilter.get(i));
                 }
             }
         }
 
-        if (filterList.get(0).getCheck()== true){
+        if (filterList.get(0).getCheck() == true) {
             BookController bookController = new BookController(getActivity());
-            Collections.sort(lisfilter_temp,bookController.distance);
+            Collections.sort(lisfilter_temp, bookController.distance);
+        } else if (filterList.get(1).getCheck() == true) {
+            Collections.sort(lisfilter_temp, Book.priceasen);
+        } else if (filterList.get(2).getCheck() == true) {
+            Collections.sort(lisfilter_temp, Book.pricedcen);
+        } else {
+            Collections.sort(lisfilter_temp, Book.recently);
         }
-        else if (filterList.get(1).getCheck()== true){
-            Collections.sort(lisfilter_temp,Book.priceasen);
-        }
-        else if (filterList.get(2).getCheck()== true){
-            Collections.sort(lisfilter_temp,Book.pricedcen);
-        }
-        else{
-            Collections.sort(lisfilter_temp,Book.recently);
-        }
-        AdapterExplore adapter = new AdapterExplore(getActivity(),lisfilter_temp,2,0);
+        ShowNumberbook(lisfilter_temp);
+        adapter_exploer.setListExplore(lisfilter_temp);
+        AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(chooseTab), 2, 0);
         rView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    public List<Book> filterStart() {
+
+        lisfilter_temp = new ArrayList<>();
+        listfilter = new ArrayList<>();
+        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        Double distance = Double.valueOf(Information.maxSeekbar);
+        for (int i = 0; i < listExplore.size(); i++) {
+            String[] genrel = listExplore.get(i).getGenre().split(";");
+
+                LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+                if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                    if (!listfilter.contains(listExplore.get(i))) {
+                        listfilter.add(listExplore.get(i));
+                    }
+                }
+
+
+        }
+
+        if (listfilter.size() != 0) {
+            for (int i = 0; i < listfilter.size(); i++) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
+                    lisfilter_temp.add(listfilter.get(i));
+                }
+            }
+        }
+        return lisfilter_temp;
     }
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
@@ -484,12 +587,12 @@ public class ExploreFragment extends Fragment
     }
 
     private void populatRecyclerView(String session_id) {
-        GetTopbook getbook = new GetTopbook(session_id,0,20);
+        GetTopbook getbook = new GetTopbook(session_id, 0, 20);
         getbook.execute();
-        if(listExplore.size() == 0){
-            adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2,0);
+        if (listExplore.size() == 0) {
+            adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2, 0);
             rView.setAdapter(adapter_exploer);
-        }else {
+        } else {
             adapter_exploer.notifyDataSetChanged();
         }
 
@@ -505,16 +608,16 @@ public class ExploreFragment extends Fragment
                 int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
                 if (loading) {
 
-                        if (totalItemCount > previousTotal) {
-                            loading = false;
-                            previousTotal = totalItemCount;
-                        }
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
                 }
                 if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold) && isLoading) {
                     // End has been reached
-                    Book dashBoard_lv = listExplore.get(listExplore.size()-1);
-                    GetTopbook getbook = new GetTopbook(session_id,Integer.parseInt(dashBoard_lv.getId()),20);
+                    Book dashBoard_lv = listExplore.get(listExplore.size() - 1);
+                    GetTopbook getbook = new GetTopbook(session_id, Integer.parseInt(dashBoard_lv.getId()), 20);
                     getbook.execute();
                     // Do something
                     loading = true;
@@ -524,11 +627,12 @@ public class ExploreFragment extends Fragment
     }
 
 
-    public class GetTopbook extends AsyncTask<Void,Void,List<Book>>{
+    public class GetTopbook extends AsyncTask<Void, Void, List<Book>> {
         String session_id;
         long from;
         long top;
-        public GetTopbook(String session_id,long from,long top){
+
+        public GetTopbook(String session_id, long from, long top) {
             this.session_id = session_id;
             this.from = from;
             this.top = top;
@@ -538,7 +642,7 @@ public class ExploreFragment extends Fragment
         protected List<Book> doInBackground(Void... params) {
             BookController bookController = new BookController();
             //listbook  =  bookController.book_gettop(session_id,from,top);
-            listbook  =  bookController.getallbook();
+            listbook = bookController.getallbook();
             return listbook;
         }
 
@@ -550,24 +654,31 @@ public class ExploreFragment extends Fragment
         @Override
         protected void onPostExecute(List<Book> list) {
             try {
-                if(list.size() >0) {
+                if (list.size() > 0) {
+                    //tab_all_count.setText("(" + list.size() + ")");
+
                     listExplore.addAll(list);
-                    adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2,0);
+
+
+                    ShowNumberbook(filterStart());
+                    adapter_exploer = new AdapterExplore(getActivity(), filterStart(), 2, 0);
                     rView.setAdapter(adapter_exploer);
+                    adapter_exploer.setListExplore(filterStart());
                     isLoading = true;
-                }else{
+                } else {
                     isLoading = false;
                 }
-            }catch (Exception e){
-
+            } catch (Exception e) {
+                String errr= e.getMessage();
             }
         }
     }
 
-    public class GetNumberBook extends AsyncTask<Void,Void,List<NumberBook>>{
+    public class GetNumberBook extends AsyncTask<Void, Void, List<NumberBook>> {
         int user_id;
-        public GetNumberBook(int user_id){
-            this.user_id=user_id;
+
+        public GetNumberBook(int user_id) {
+            this.user_id = user_id;
         }
 
         @Override
@@ -585,22 +696,22 @@ public class ExploreFragment extends Fragment
         @Override
         protected void onPostExecute(List<NumberBook> list) {
             try {
-                if(list.size() >0) {
-                    tab_all_count.setText("(" + list.get(0).getTotal() + ")");
-                    tab_swap_count.setText("(" + list.get(0).getSwap()+ ")");
-                    tab_free_count.setText("(" + list.get(0).getFree() + ")");
-                    tab_cart_count.setText("(" + list.get(0).getSell() + ")");
+                if (list.size() > 0) {
+                    // tab_all_count.setText("(" + list.get(0).getTotal() + ")");
+                    //tab_swap_count.setText("(" + list.get(0).getSwap() + ")");
+                    //tab_free_count.setText("(" + list.get(0).getFree() + ")");
+                    //.setText("(" + list.get(0).getSell() + ")");
 
-                    total=Integer.parseInt(list.get(0).getTotal());
-                    sell=Integer.parseInt(list.get(0).getSell());
-                    swap=Integer.parseInt(list.get(0).getSwap());
-                    free=Integer.parseInt(list.get(0).getFree());
+                    total = Integer.parseInt(list.get(0).getTotal());
+                    sell = Integer.parseInt(list.get(0).getSell());
+                    swap = Integer.parseInt(list.get(0).getSwap());
+                    free = Integer.parseInt(list.get(0).getFree());
 
 
-                }else{
+                } else {
 
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }

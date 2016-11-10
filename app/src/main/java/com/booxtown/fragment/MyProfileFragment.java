@@ -448,7 +448,7 @@ public class MyProfileFragment extends Fragment {
                     editor.commit();
                     Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getUsername()+"&image="+userResult.get(0).getPhoto().substring(userResult.get(0).getUsername().length()+3,userResult.get(0).getPhoto().length()))
-                            .into(imv_menu_profile);
+                            .placeholder(R.mipmap.user_empty).into(imv_menu_profile);
                     dialog.dismiss();
                     ratingBar_userprofile.setRating(userResult.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();

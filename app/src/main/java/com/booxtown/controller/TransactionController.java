@@ -1,6 +1,7 @@
 package com.booxtown.controller;
 
 import android.os.StrictMode;
+import android.widget.Toast;
 
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.api.ServiceInterface;
@@ -42,10 +43,34 @@ public class TransactionController {
             if (str.getCode() == 200){
                 result= str.getSession_id();
             }
+
         } catch (Exception ex) {
             result = null;
         }
         return result;
+    }
+    public boolean CheckExitsTransaction(String user_seller_id, String book_seller_id,String session_id){
+        Hashtable obj= new Hashtable();
+        obj.put("session_id",session_id);
+        obj.put("user_seller_id",user_seller_id);
+        obj.put("book_seller_id",book_seller_id);
+
+        Call<Result> check = service.CheckExitsTransaction(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = check.execute().body();
+            if (str.getCode() == 200){
+               return true;
+            }
+
+        } catch (Exception ex) {
+            return  false;
+        }
+        return false;
     }
 
     public String transactionUpdateStatus( String session_id, String transaction_id, String status_id, String book_seller_id){

@@ -482,7 +482,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 List<Hashtable> list = new ArrayList<>();
                 Notification notification = new Notification("Wishboard",user_ID , "15");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                obj.put("user_id", user_ID+"");
+                obj.put("user_id", wishboard.getUser_id()+"");
                 obj.put("messages", firstName + " suggested to check out his/her listings, in response to your post on Wishboard.");
                 list.add(obj);
                 NotificationController controller = new NotificationController();

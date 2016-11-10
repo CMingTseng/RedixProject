@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -36,6 +37,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +112,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     int typeChooseImage=0;
     String sChooseImage="";
     LatLng latLng_new;
+    boolean flagTag= false;
     RadioButton radioButton_current, radioButton_another;
     TextView txt_menu_genre1;
     @Nullable
@@ -192,6 +195,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
         });
         edt_tag = (EditText) v.findViewById(R.id.editText10);
+        edt_tag.setVisibility(View.GONE);
         addtag = (ImageView) v.findViewById(R.id.imageView33);
         addtag.setOnClickListener(this);
         tag1 = (TextView) v.findViewById(R.id.tag1);
@@ -963,7 +967,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
             }
             if (sell.isChecked()) {
-                if (edt_editlisting_sell.getText().toString().isEmpty()) {
+                if (edt_editlisting_sell.getText().toString().isEmpty() || edt_editlisting_sell.getText().toString().equals("0")) {
                     Toast.makeText(getActivity(), "Please enter valid a price", Toast.LENGTH_LONG).show();
                     return false;
                 } else {
@@ -1089,7 +1093,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             public void onClick(View v) {
                 listTag.remove(position);
                 settag();
-                edt_tag.setVisibility(View.VISIBLE);
+                //edt_tag.setVisibility(View.VISIBLE);
                 addtag.setVisibility(View.VISIBLE);
                 snackbar.dismiss();
             }
@@ -1138,10 +1142,19 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     }
 
     public void addTag() {
-        if(!edt_tag.getText().toString().trim().equals("") && !edt_tag.getText().toString().trim().contains(";")) {
-            listTag.add(edt_tag.getText().toString());
-            edt_tag.setText("");
-            settag();
+        if(!flagTag){
+            edt_tag.setVisibility(View.VISIBLE);
+            flagTag=true;
+        }
+        else {
+            if (!edt_tag.getText().toString().trim().equals("") && !edt_tag.getText().toString().trim().contains(";")) {
+                listTag.add(edt_tag.getText().toString());
+                edt_tag.setText("");
+                settag();
+
+            }
+            edt_tag.setVisibility(View.GONE);
+            flagTag=false;
         }
     }
 
@@ -1245,6 +1258,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         }
         long time = System.currentTimeMillis();
         try {
+            int width = imagebook1.getWidth();
+            int height = imagebook1.getHeight();
             if (typeChooseImage == 1) {
             /*if (numclick+lisImmage.size() == 1) {
                 Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
@@ -1262,20 +1277,25 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 lisImmage.add(imageClick);
                 imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
             }*/
+
                 if (!sChooseImage.contains("1")) {
-                    Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
+
+                    Picasso.with(getActivity()).load(mImageUri).resize(width, height)
+                            .centerInside().into(imagebook1);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
                     lisImmage.add(imageClick);
                     imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
                     sChooseImage = sChooseImage + "1";
                 } else if (!sChooseImage.contains("2")) {
-                    Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
+                    Picasso.with(getActivity()).load(mImageUri).resize(width, height)
+                            .centerInside().into(imagebook2);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
                     lisImmage.add(imageClick);
                     imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
                     sChooseImage = sChooseImage + "2";
                 } else if (!sChooseImage.contains("3")) {
-                    Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
+                    Picasso.with(getActivity()).load(mImageUri).resize(width, height)
+                            .centerInside().into(imagebook3);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
                     lisImmage.add(imageClick);
                     imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
@@ -1283,7 +1303,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
             } else if (typeChooseImage == 2) {
                 if (numimageclick == 1) {
-                    Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
+                    Picasso.with(getActivity()).load(mImageUri).resize(width, height)
+                            .centerInside().into(imagebook1);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
                     lisImmage.add(imageClick);
                     imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
@@ -1293,7 +1314,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 } else if (numimageclick == 2) {
 //            imagebook2.setImageURI(mImageUri);
 //            lisImmage.remove(1);
-                    Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
+                    Picasso.with(getActivity()).load(mImageUri).resize(width, height)
+                            .centerInside().into(imagebook2);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
                     lisImmage.add(imageClick);
                     imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
@@ -1301,7 +1323,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                         sChooseImage = sChooseImage + "2";
                     }
                 } else if (numimageclick == 3) {
-                    Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
+                    Picasso.with(getActivity()).load(mImageUri).resize(width, height)
+                            .centerInside().into(imagebook3);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
                     lisImmage.add(imageClick);
                     imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
@@ -1318,7 +1341,19 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+    public Point getDisplaySize(Display display) {
+        Point size = new Point();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(size);
+        } else {
+            int width = display.getWidth();
+            int height = display.getHeight();
+            size = new Point(width, height);
+        }
+
+        return size;
+    }
     public String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {

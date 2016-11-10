@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/color_bg_listings_detail"
     android:paddingBottom="15dp">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,6 +15,7 @@
         android:layout_alignEnd="@+id/img_close_dialog_unsubcribe">
     <android.support.v7.widget.RecyclerView
         android:fillViewport="true"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rv_comment"

@@ -33,10 +33,10 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="12dp"
-            android:textSize="@dimen/text_size_search"
+            android:textSize="@dimen/text_wishboard_date"
             android:textColor="@color/dot_light_screen1"
             android:layout_marginRight="10dp"
-            android:paddingTop="4dp" />
+            android:layout_marginBottom="3dp" />
     </LinearLayout>
 
     <com.booxtown.custom.CustomTextView

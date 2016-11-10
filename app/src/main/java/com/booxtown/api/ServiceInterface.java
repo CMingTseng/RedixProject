@@ -170,6 +170,10 @@ public interface ServiceInterface {
     @POST("/booxtown/rest/transaction/transaction_insert")
     Call<Result> transactionInsert(@Body Object transaction);
 
+    @POST("/booxtown/transactionhistory/tranhis_checkTransactionExits")
+    Call<Result> CheckExitsTransaction(@Body Object transaction);
+
+
     @POST("/booxtown/rest/transaction/transaction_updateStatus")
     Call<Result> transactionUpdateStatus(@Body Object transaction);
 

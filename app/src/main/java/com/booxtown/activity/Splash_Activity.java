@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.booxtown.fragment.NotificationFragment;
 import com.crashlytics.android.Crashlytics;
+import com.digits.sdk.android.Digits;
 import com.squareup.picasso.Picasso;
 
 import io.fabric.sdk.android.Fabric;
@@ -24,12 +25,12 @@ public class Splash_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //initialize sdk
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(this.getResources().getString(R.string.twitter_api_key),
-                this.getResources().getString(R.string.twitter_secrate_key));
-
-
-        Fabric.with(Splash_Activity.this, new Twitter(authConfig));
-        Fabric.with(this, new Crashlytics());
+        if (!Fabric.isInitialized()) {
+            TwitterAuthConfig authConfig = new TwitterAuthConfig(this.getResources().getString(R.string.twitter_api_key),
+                    this.getResources().getString(R.string.twitter_secrate_key));
+            Fabric.with(Splash_Activity.this, new Twitter(authConfig),new Digits(), new Crashlytics());
+            //Fabric.with(this, new Crashlytics());
+        }
         setContentView(R.layout.activity_splash_);
         try {
             ImageView img_splash =(ImageView)findViewById(R.id.img_splash);

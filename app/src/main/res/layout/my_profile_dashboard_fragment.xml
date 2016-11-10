@@ -136,7 +136,7 @@
             <com.booxtown.custom.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ratting"
+                android:text="Rating"
                 android:id="@+id/textView93"
                 android:layout_marginTop="5dp"
                 android:gravity="center"

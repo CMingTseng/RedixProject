@@ -222,7 +222,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     editor.commit();
                     dialog.dismiss();
                 } else if (aBoolean == false) {
-                    Toast.makeText(getApplicationContext(), Information.noti_username_taken, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), Information.noti_email_taken, Toast.LENGTH_LONG).show();
                     dialog.dismiss();
                 }
             }catch (Exception e){}
