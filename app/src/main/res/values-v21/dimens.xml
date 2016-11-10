@@ -6,4 +6,5 @@
 
     <dimen name="width_pin">110dp</dimen>
     <dimen name="height_pin">125dp</dimen>
+    <dimen name="size_knob">32dp</dimen>
 </resources>

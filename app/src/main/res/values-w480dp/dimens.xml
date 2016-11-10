@@ -27,4 +27,5 @@
     <dimen name="text_size_filter">10sp</dimen>
     <dimen name="width_pin">60dp</dimen>
     <dimen name="height_pin">75dp</dimen>
+    <dimen name="size_knob">30dp</dimen>
 </resources>

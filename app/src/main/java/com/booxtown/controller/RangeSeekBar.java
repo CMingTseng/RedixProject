@@ -480,18 +480,21 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             paint.setColor(Color.parseColor("#c8c8c8"));
             // give text a bit more space here so it doesn't get cut off
             int offset = PixelUtil.dpToPx(getContext(), TEXT_LATERAL_PADDING_IN_DP);
-            String maxText="";
-            if(mSingleThumb) {
-                maxText = String.valueOf(getSelectedMaxValue()+" KM");
-                if(maxText.equals("1 KM") ||maxText.equals("10 KM")){
-                    maxText="";
+            String maxText = "";
+            if (mSingleThumb) {
+                maxText = String.valueOf(getSelectedMaxValue() + " KM");
+                if (maxText.equals("1 KM") || maxText.equals("10 KM")) {
+                    maxText = "";
                 }
-            }else{
+            } else {
                 maxText = String.valueOf(getSelectedMaxValue());
             }
             String minText = String.valueOf(getSelectedMinValue());
             float minTextWidth = paint.measureText(minText) + offset;
-            float maxTextWidth = paint.measureText(maxText) + offset;
+            float maxTextWidth = 0;
+
+            maxTextWidth = paint.measureText(maxText) + offset;
+
 
             if (!mSingleThumb) {
                 canvas.drawText(minText,
@@ -500,11 +503,17 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                         paint);
 
             }
-
-            canvas.drawText(maxText,
-                    normalizedToScreen(normalizedMaxValue) - maxTextWidth * 0.5f,
-                    mDistanceToTop + mTextSize,
-                    paint);
+            if (maxText.equals("1000")) {
+                canvas.drawText(maxText,
+                        normalizedToScreen(normalizedMaxValue) - maxTextWidth*0.8f,
+                        mDistanceToTop + mTextSize,
+                        paint);
+            }else{
+                canvas.drawText(maxText,
+                        normalizedToScreen(normalizedMaxValue) - maxTextWidth * 0.5f,
+                        mDistanceToTop + mTextSize,
+                        paint);
+            }
         }
 
     }

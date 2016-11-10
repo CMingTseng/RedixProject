@@ -58,7 +58,7 @@ public class AdapterFilter  extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder=new Holder();
+        final Holder holder=new Holder();
         final Filter filter = list.get(position);
         View rowView;
         rowView = inflater.inflate(R.layout.custom_listview_fitersort, null);
@@ -66,16 +66,21 @@ public class AdapterFilter  extends BaseAdapter {
          holder.ck = (CheckBox) rowView.findViewById(R.id.checkBox_listview_filter) ;
         holder.tv.setText(filter.getTitle());
         holder.ck.setChecked(filter.isCheck);
-        holder.ck.setChecked(position==selected_position);
+        //
         holder.ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    selected_position =  position;
+                    for(int i=0; i<list.size(); i++){
+                        list.get(i).setCheck(false);
+                    }
+                    list.get(position).setCheck(true);
+                    holder.ck.setChecked(true);
                 }
                 else{
-                    selected_position = -1;
+                    list.get(position).setCheck(false);
+                    holder.ck.setChecked(false);
                 }
                 notifyDataSetChanged();
             }

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BooxTown</string>
     <string name="app_id">1171588966268669</string>
-    <string name="twitter_api_key">ZLiRTn1UbKjImUeWL2KVVynZi</string>
-    <string name="twitter_secrate_key">NpzummsFJChUmQ6wQz4Bc9jHWceyhduONMfhwcSyPXwUN7gIr1</string>
+    <string name="twitter_api_key">oAoHC2exbABnLCIteHI7s5r2C</string>
+    <string name="twitter_secrate_key">PrJ9CY25TYziV1oJVy9wIAGyLguj1NUg7zaBrM5yxGsUUom7R9</string>
     <string name="title_activity_welcome">Home Screen</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
