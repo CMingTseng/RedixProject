@@ -255,7 +255,8 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                 listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, transaction.getBook(), trans_id, transaction.getBook_name(), transaction));
                 SharedPreferences pref = NotificationSwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String userName = pref.getString("username", null);
-                txt_user_hi.setText("Hi "+ userName+",");
+                String firstName = pref.getString("firstname", "");
+                txt_user_hi.setText("Hi "+ firstName+",");
 
                 title_book_notification_swap.setText(transaction.getBook_name());
                 textView_author_book.setText(transaction.getBook_author());
