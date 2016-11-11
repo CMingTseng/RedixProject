@@ -677,8 +677,6 @@ public class ExploreFragment extends Fragment {
                     //tab_all_count.setText("(" + list.size() + ")");
 
                     listExplore.addAll(list);
-
-
                     ShowNumberbook(filterStart());
                     adapter_exploer = new AdapterExplore(getActivity(), filterStart(), 2, 0);
                     rView.setAdapter(adapter_exploer);

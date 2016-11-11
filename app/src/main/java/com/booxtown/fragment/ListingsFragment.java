@@ -446,7 +446,36 @@ public class ListingsFragment extends Fragment {
         ListBookAdapter adapter = new ListBookAdapter(getActivity(), lisfilter_temp,1, 0);
         rView.setAdapter(adapter);
     }
+    public List<Book> filterStart() {
 
+        lisfilter_temp = new ArrayList<>();
+        listfilter = new ArrayList<>();
+        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        Double distance = Double.valueOf(Information.maxSeekbar);
+        for (int i = 0; i < listExplore.size(); i++) {
+            String[] genrel = listExplore.get(i).getGenre().split(";");
+
+            LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+            if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                if (!listfilter.contains(listExplore.get(i))) {
+                    listfilter.add(listExplore.get(i));
+                }
+            }
+
+
+        }
+
+        if (listfilter.size() != 0) {
+            for (int i = 0; i < listfilter.size(); i++) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
+                    lisfilter_temp.add(listfilter.get(i));
+                }
+            }
+        }
+        txt_my_listings.setText("My listings" + "(" + String.valueOf(lisfilter_temp.size()) + ")");
+        return lisfilter_temp;
+    }
     public void callFragment(Fragment fragment) {
         FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -498,13 +527,14 @@ public class ListingsFragment extends Fragment {
                     dialog.dismiss();
                     isLoading = false;
                 } else {
-                    adapter_listbook = new ListBookAdapter(getActivity(), books, 1, 2);
+                    listExplore = books;
+                    adapter_listbook = new ListBookAdapter(getActivity(), filterStart(), 1, 2);
                     rView.setAdapter(adapter_listbook);
                     //listExplore.addAll(books);
-                    listExplore = books;
+
                     adapter_listbook.notifyDataSetChanged();
                     num_list = books.size();
-                    txt_my_listings.setText("My listings" + "(" + String.valueOf(listExplore.size()) + ")");
+                    //txt_my_listings.setText("My listings" + "(" + String.valueOf(listExplore.size()) + ")");
                     dialog.dismiss();
                     isLoading = true;
                 }
