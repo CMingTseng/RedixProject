@@ -385,7 +385,14 @@ public class MainAllActivity extends AppCompatActivity{
 
     public static Bitmap getImageThumb(){
         Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.abc);
-        Bitmap thumb = Bitmap.createBitmap(45, 45, Bitmap.Config.ARGB_8888);
+        int size= (int) mResources.getDimension(R.dimen.size_knob);
+        if(size>=60){
+            size=44;
+        }
+        if(size==40){
+            size=38;
+        }
+        Bitmap thumb = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(thumb);
         canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
                 new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);

@@ -164,8 +164,22 @@ public class ListingsFragment extends Fragment {
                 filterList = new ArrayList<>();
                 for (int i = 0; i < prgmNameList1.length; i++) {
                     Filter filter = new Filter();
-                    filter.setTitle(prgmNameList1[i]);
-                    filter.setCheck(false);
+                    if(i==0){
+                        filter.setTitle(prgmNameList1[i]);
+                        filter.setCheck(Information.nearDistance);
+                    }else if(i==1){
+                        filter.setTitle(prgmNameList1[i]);
+                        filter.setCheck(Information.priceLowtoHigh);
+                    }
+                    else if(i==2){
+                        filter.setTitle(prgmNameList1[i]);
+                        filter.setCheck(Information.priceHightoLow);
+                    }
+                    else if(i==3){
+                        filter.setTitle(prgmNameList1[i]);
+                        filter.setCheck(Information.recently);
+                    }
+
                     filterList.add(filter);
                 }
                 adaper = new AdapterFilter(getActivity(), filterList);
@@ -418,17 +432,50 @@ public class ListingsFragment extends Fragment {
         if (filterList.get(0).getCheck() == true) {
             BookController bookController = new BookController(getActivity());
             Collections.sort(lisfilter_temp, bookController.distance);
+            Information.nearDistance=true;
         } else if (filterList.get(1).getCheck() == true) {
             Collections.sort(lisfilter_temp, Book.priceasen);
+            Information.priceLowtoHigh=true;
         } else if (filterList.get(2).getCheck() == true) {
             Collections.sort(lisfilter_temp, Book.pricedcen);
+            Information.priceHightoLow=true;
         } else {
             Collections.sort(lisfilter_temp, Book.recently);
+            Information.recently=true;
         }
         ListBookAdapter adapter = new ListBookAdapter(getActivity(), lisfilter_temp,1, 0);
         rView.setAdapter(adapter);
     }
+    public List<Book> filterStart() {
 
+        lisfilter_temp = new ArrayList<>();
+        listfilter = new ArrayList<>();
+        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        Double distance = Double.valueOf(Information.maxSeekbar);
+        for (int i = 0; i < listExplore.size(); i++) {
+            String[] genrel = listExplore.get(i).getGenre().split(";");
+
+            LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+            if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                if (!listfilter.contains(listExplore.get(i))) {
+                    listfilter.add(listExplore.get(i));
+                }
+            }
+
+
+        }
+
+        if (listfilter.size() != 0) {
+            for (int i = 0; i < listfilter.size(); i++) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
+                    lisfilter_temp.add(listfilter.get(i));
+                }
+            }
+        }
+        txt_my_listings.setText("My listings" + "(" + String.valueOf(lisfilter_temp.size()) + ")");
+        return lisfilter_temp;
+    }
     public void callFragment(Fragment fragment) {
         FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -480,13 +527,14 @@ public class ListingsFragment extends Fragment {
                     dialog.dismiss();
                     isLoading = false;
                 } else {
-                    adapter_listbook = new ListBookAdapter(getActivity(), books, 1, 2);
+                    listExplore = books;
+                    adapter_listbook = new ListBookAdapter(getActivity(), filterStart(), 1, 2);
                     rView.setAdapter(adapter_listbook);
                     //listExplore.addAll(books);
-                    listExplore = books;
+
                     adapter_listbook.notifyDataSetChanged();
                     num_list = books.size();
-                    txt_my_listings.setText("My listings" + "(" + String.valueOf(listExplore.size()) + ")");
+                    //txt_my_listings.setText("My listings" + "(" + String.valueOf(listExplore.size()) + ")");
                     dialog.dismiss();
                     isLoading = true;
                 }

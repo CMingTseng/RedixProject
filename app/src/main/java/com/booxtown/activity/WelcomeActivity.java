@@ -57,7 +57,13 @@ import com.squareup.picasso.Picasso;
 
 import com.booxtown.R;
 import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -154,6 +160,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             }
         } catch (Exception e) {
         }
+
     }
 
     private void addBottomDots(int currentPage) {
@@ -263,10 +270,28 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onTwitterProfileReceived(TwitterUser user) {
+    public void onTwitterProfileReceived(final TwitterUser user) {
+        final TwitterSession session = Twitter.getSessionManager().getActiveSession();
+        TwitterAuthToken authToken = session.getAuthToken();
+        String token = authToken.token;
+        String secret = authToken.secret;
+        TwitterAuthClient authClient = new TwitterAuthClient();
+        authClient.requestEmail(session, new Callback<String>() {
+            @Override
+            public void success(Result<String> result) {
+                // Do something with the result, which provides the email address
+                String emailTiwtter= result.data.toString();
+                SiginAsystask siginAsystask= new SiginAsystask(session.getUserName().toString(),session.getId()+"",emailTiwtter);
+                siginAsystask.execute();
+            }
 
-        SiginAsystask siginAsystask= new SiginAsystask(user.name,user.id+"",user.email);
-        siginAsystask.execute();
+            @Override
+            public void failure(TwitterException exception) {
+                String err= exception.getMessage();
+                // Do something on failure
+            }
+        });
+
     }
 
     @Override

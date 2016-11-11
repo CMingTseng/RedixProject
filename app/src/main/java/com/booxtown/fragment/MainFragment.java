@@ -266,12 +266,16 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         if (filterList.get(0).getCheck() == true) {
             BookController bookController = new BookController(getActivity());
             Collections.sort(lisfilter_temp, bookController.distance);
+            Information.nearDistance=true;
         } else if (filterList.get(1).getCheck() == true) {
             Collections.sort(lisfilter_temp, Book.priceasen);
+            Information.priceLowtoHigh=true;
         } else if (filterList.get(2).getCheck() == true) {
             Collections.sort(lisfilter_temp, Book.pricedcen);
+            Information.priceHightoLow=true;
         } else {
             Collections.sort(lisfilter_temp, Book.recently);
+            Information.recently=true;
         }
         return lisfilter_temp;
     }
@@ -355,8 +359,22 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 filterList = new ArrayList<>();
                 for (int i = 0; i < prgmNameList1.length; i++) {
                     Filter filter = new Filter();
-                    filter.setTitle(prgmNameList1[i]);
-                    filter.setCheck(false);
+                    if(i==0){
+                        filter.setTitle(prgmNameList1[i]);
+                        filter.setCheck(Information.nearDistance);
+                    }else if(i==1){
+                        filter.setTitle(prgmNameList1[i]);
+                        filter.setCheck(Information.priceLowtoHigh);
+                    }
+                    else if(i==2){
+                        filter.setTitle(prgmNameList1[i]);
+                        filter.setCheck(Information.priceHightoLow);
+                    }
+                    else if(i==3){
+                        filter.setTitle(prgmNameList1[i]);
+                        filter.setCheck(Information.recently);
+                    }
+
                     filterList.add(filter);
                 }
                 adaper = new AdapterFilter(getActivity(), filterList);
