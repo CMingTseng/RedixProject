@@ -1,9 +1,12 @@
 package com.booxtown.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -59,6 +62,7 @@ import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.UploadFileController;
+import com.booxtown.controller.Utility;
 import com.booxtown.model.Genre;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -89,7 +93,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     UploadFileController uploadFileController;
     Button btn_menu_editlist_delete, btn_menu_editlisting_update, btn_menu_listing_addbook;
     TableRow tbl_price_sell;
-    String username, session_id, condition, s, imgOne, imgTwo, imgThree, imageEncoded, imageOrigin, titl;
+    String username, session_id, condition, s, imgOne, imgTwo, imgThree, imageOrigin, titl;
     ArrayList<Genre> genre;
     double latitude, longitude;
     EditText edt_tilte, edt_author, edt_tag, edt_editlisting_sell;
@@ -97,7 +101,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     CheckBox swap, free, sell;
     float price;
     Uri mImageUri;
-    ArrayList<String> arrImage, listUserName, imagesEncodedList, listTag;
+    ArrayList<String> arrImage, listUserName, listTag;
     SeekBar seekbar;
     BookController bookController;
     boolean success;
@@ -105,6 +109,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     public int numclick = 0, numimageclick = 0;
 
     int PICK_IMAGE_MULTIPLE = 1, back;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private String userChoosenTask;
     TableRow tb_menu;
     SupportMapFragment mapFragment;
     String[] image;
@@ -592,7 +598,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             public void onClick(View v) {
                 numimageclick = 1;
                 typeChooseImage=2;
-                choseImage();
+                selectImage();
                 if (s.equals("edit")) {
                     if (arrImage.size() > 1) {
                         arrImage.remove(0);
@@ -606,7 +612,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             public void onClick(View v) {
                 numimageclick = 2;
                 typeChooseImage=2;
-                choseImage();
+                selectImage();
                 if (s.equals("edit")) {
                     if (arrImage.size() > 2) {
                         arrImage.remove(1);
@@ -620,7 +626,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             public void onClick(View v) {
                 numimageclick = 3;
                 typeChooseImage=2;
-                choseImage();
+                selectImage();
                 if (s.equals("edit")) {
                     if (arrImage.size() == 3) {
                         arrImage.remove(2);
@@ -1035,7 +1041,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     numclick = 0;
                 }
                 if (lisImmage.size() < 3) {
-                    choseImage();
+                    selectImage();
                 } else if (lisImmage.size() == 3) {
                     btn_sellectimage.setEnabled(false);
                 }
@@ -1195,13 +1201,57 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         }
     }
 
-    public void choseImage() {
+    //select image
+    private void selectImage() {
+        final CharSequence[] items = { "Take Photo", "Choose from Library",
+                "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result= Utility.checkPermission(getActivity());
+
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask ="Take Photo";
+                    if(result)
+                        cameraIntent();
+
+                } else if (items[item].equals("Choose from Library")) {
+                    userChoosenTask ="Choose from Library";
+                    if(result)
+                        galleryIntent();
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void galleryIntent()
+    {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
     }
+
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+//    public void choseImage() {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
+//    }
 
     ArrayList<ImageClick> lisImmage = new ArrayList<>();
 
@@ -1211,44 +1261,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         try {
             // When an Image is picked
-            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == getActivity().RESULT_OK
-                    && null != data) {
+            if (resultCode == Activity.RESULT_OK) {
                 // Get the Image from data
-
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                imagesEncodedList = new ArrayList<String>();
                 if (data.getData() != null) {
-
                     mImageUri = data.getData();
-
-                    // Get the cursor
-                    Cursor cursor = getActivity().getContentResolver().query(mImageUri,
-                            filePathColumn, null, null, null);
-                    // Move to first row
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    imageEncoded = cursor.getString(columnIndex);
-                    cursor.close();
-
-                } else {
-                    if (data.getClipData() != null) {
-                        ClipData mClipData = data.getClipData();
-                        ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-                        for (int i = 0; i < mClipData.getItemCount(); i++) {
-                            ClipData.Item item = mClipData.getItemAt(i);
-                            Uri uri = item.getUri();
-                            mArrayUri.add(uri);
-                            // Get the cursor
-                            Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
-                            // Move to first row
-                            cursor.moveToFirst();
-                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                            imageEncoded = cursor.getString(columnIndex);
-                            imagesEncodedList.add(imageEncoded);
-                            cursor.close();
-                        }
-                    }
                 }
             } else {
                 return;
