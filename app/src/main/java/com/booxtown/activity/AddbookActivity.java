@@ -2,9 +2,12 @@ package com.booxtown.activity;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -50,6 +53,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.controller.Utility;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -59,6 +63,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,8 +117,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     public String imgOne, imgTwo, imgThree;
 
     int PICK_IMAGE_MULTIPLE = 1;
-    String imageEncoded;
-    List<String> imagesEncodedList;
+    //String imageEncoded;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private ImageView ivImage;
+    private String userChoosenTask;
+    //List<String> imagesEncodedList;
     ArrayList<String> listTag;
     Book bookedit;
     TableRow tb_menu;
@@ -404,7 +412,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 public void onClick(View v) {
                     numimageclick = 1;
                     typeChooseImage=2;
-                    choseImage();
+                    selectImage();
 
                 }
             });
@@ -414,7 +422,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 public void onClick(View v) {
                     numimageclick = 2;
                     typeChooseImage=2;
-                    choseImage();
+                    selectImage();
 
                 }
             });
@@ -424,7 +432,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 public void onClick(View v) {
                     numimageclick = 3;
                     typeChooseImage=2;
-                    choseImage();
+                    selectImage();
 
                 }
             });
@@ -791,7 +799,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     numclick = 0;
                 }
                 if (lisImmage.size() < 3) {
-                    choseImage();
+                    selectImage();
                 } else if (lisImmage.size() == 3) {
                     btn_sellectimage.setEnabled(false);
                 }
@@ -892,63 +900,73 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
-    public void choseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_MULTIPLE);
+//    public void choseImage() {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_MULTIPLE);
+//    }
+
+
+    //select image
+    private void selectImage() {
+        final CharSequence[] items = { "Take Photo", "Choose from Library",
+                "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddbookActivity.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result= Utility.checkPermission(AddbookActivity.this);
+
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask ="Take Photo";
+                    if(result)
+                        cameraIntent();
+
+                } else if (items[item].equals("Choose from Library")) {
+                    userChoosenTask ="Choose from Library";
+                    if(result)
+                        galleryIntent();
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
+    private void galleryIntent()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+    }
+
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    public void addImages(ArrayList<Bitmap> bmap,List<String> listFileName){
+        uploadFileController.uploadFile(bmap,listFileName);
+    }
     ArrayList<ImageClick> lisImmage = new ArrayList<>();
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         try {
             // When an Image is picked
-            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
-                    && null != data) {
+            if (resultCode == Activity.RESULT_OK) {
                 // Get the Image from data
-
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                imagesEncodedList = new ArrayList<String>();
                 if (data.getData() != null) {
-
                     mImageUri = data.getData();
-//                    lisImmage.add(mImageUri);
-
-                    // Get the cursor
-                    Cursor cursor =getContentResolver().query(mImageUri,
-                            filePathColumn, null, null, null);
-                    // Move to first row
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    imageEncoded = cursor.getString(columnIndex);
-                    cursor.close();
-
-                } else {
-                    if (data.getClipData() != null) {
-                        ClipData mClipData = data.getClipData();
-                        ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-                        for (int i = 0; i < mClipData.getItemCount(); i++) {
-
-                            ClipData.Item item = mClipData.getItemAt(i);
-                            Uri uri = item.getUri();
-                            mArrayUri.add(uri);
-                            // Get the cursor
-                            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
-                            // Move to first row
-                            cursor.moveToFirst();
-                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                            imageEncoded = cursor.getString(columnIndex);
-                            imagesEncodedList.add(imageEncoded);
-                            cursor.close();
-                        }
-                        Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
-                    }
                 }
             } else {
                 return;
@@ -983,10 +1001,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
                     sChooseImage = sChooseImage + "3";
                 }
-
             }
             else {
-
                 if (numimageclick == 1) {
                     Picasso.with(AddbookActivity.this).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook1);
@@ -1021,8 +1037,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         }catch (Exception exx){
 
         }
-
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -1089,9 +1103,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                         finish();
                     }
                     else{
-
                         //sent message
-
                         SharedPreferences pref = AddbookActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
                         String firstName = pref.getString("firstname", "");

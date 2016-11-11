@@ -1,10 +1,13 @@
 package com.booxtown.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,6 +18,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
@@ -47,11 +51,16 @@ import com.booxtown.controller.BookController;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.UploadFileController;
 import com.booxtown.controller.UserController;
+import com.booxtown.controller.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -93,6 +102,10 @@ public class MyProfileFragment extends Fragment {
     TextView myDashboard;
     UploadFileController uploadFileController;
 
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private ImageView ivImage;
+    private String userChoosenTask;
+
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
@@ -115,7 +128,7 @@ public class MyProfileFragment extends Fragment {
         imv_menu_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                choseImage();
+                selectImage();
             }
         });
         ImageView imageView_back=(ImageView) getActivity().findViewById(R.id.img_menu);
@@ -472,6 +485,49 @@ public class MyProfileFragment extends Fragment {
         startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_MULTIPLE);
     }
 
+    private void selectImage() {
+        final CharSequence[] items = { "Take Photo", "Choose from Library",
+                "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result= Utility.checkPermission(getActivity());
+
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask ="Take Photo";
+                    if(result)
+                        cameraIntent();
+
+                } else if (items[item].equals("Choose from Library")) {
+                    userChoosenTask ="Choose from Library";
+                    if(result)
+                        galleryIntent();
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void galleryIntent()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+    }
+
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
     public void addImages(ArrayList<Bitmap> bmap,List<String> listFileName){
         uploadFileController.uploadFile(bmap,listFileName);
     }
@@ -480,19 +536,43 @@ public class MyProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+        }
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Uri uri = data.getData();
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        bitmap_profile = Bitmap.createScaledBitmap(thumbnail,250,270, true);
+        imv_menu_profile.setImageBitmap(bitmap_profile);
+        long time = System.currentTimeMillis();
+        img_photo = String.valueOf(time)+getFileName(uri);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+        Uri uri = data.getData();
+        Bitmap bm=null;
+        if (data != null) {
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                bitmap_profile = Bitmap.createScaledBitmap(bitmap,250,270, true);
-                imv_menu_profile.setImageBitmap(bitmap_profile);
-                long time = System.currentTimeMillis();
-                img_photo = String.valueOf(time)+getFileName(uri);
+                bm = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        bitmap_profile = Bitmap.createScaledBitmap(bm,250,270, true);
+        imv_menu_profile.setImageBitmap(bitmap_profile);
+        long time = System.currentTimeMillis();
+        img_photo = String.valueOf(time)+getFileName(uri);
     }
+
     public String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
