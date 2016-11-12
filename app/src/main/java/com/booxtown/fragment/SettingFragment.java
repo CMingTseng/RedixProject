@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.booxtown.activity.SignIn_Activity;
+import com.booxtown.controller.CheckSession;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -540,6 +542,17 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(context);
             return userController.changePassword(strings[0], strings[1], strings[2]);
         }
@@ -577,6 +590,17 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
         @Override
         protected List<Setting> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             SettingController settingController = new SettingController();
             return settingController.getSettingByUserId(strings[0]);
         }
@@ -673,6 +697,17 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             SettingController settingController = new SettingController();
             return settingController.updateSetting(session_id, id_setting, is_notification, is_best_time, is_current_location, time_start, time_to);
         }

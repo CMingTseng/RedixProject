@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.booxtown.adapter.AdapterSwap;
 import com.booxtown.controller.BookController;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.NotificationController;
 import com.booxtown.controller.TransactionController;
 import com.booxtown.controller.UserController;
@@ -140,6 +141,17 @@ public class SwapActivity extends AppCompatActivity {
         }
         @Override
         protected List<Book> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             listemp = new ArrayList<>();
             BookController bookController = new BookController();
             listemp = bookController.getAllBookById(context,strings[0]);
@@ -203,6 +215,17 @@ public class SwapActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... voids) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             String transactionID = "";
             TransactionController transactionController = new TransactionController();
             transactionID = transactionController.transactionInsert(buyUserID, sellUserID, buyBookID, sellBookID, action,session_id);
@@ -252,6 +275,17 @@ public class SwapActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(context);
             String user_id = userController.getUserID(strings[0]);
             return user_id;

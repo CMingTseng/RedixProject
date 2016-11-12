@@ -2,6 +2,7 @@ package com.booxtown.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,7 +25,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.api.ServiceGenerator;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.recyclerclick.RecyclerItemClickListener;
 import com.github.siyamed.shapeimageview.CircularImageView;
@@ -268,6 +271,17 @@ public class MyProfileDashboardFragment extends Fragment {
 
         @Override
         protected List<DashBoard> doInBackground(Void... voids) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             DashBoardController dashBoardController = new DashBoardController();
             return dashBoardController.getDashBoard(session_id,top,from);
         }

@@ -45,9 +45,11 @@ import android.widget.Toast;
 
 import com.booxtown.activity.MainAllActivity;
 import com.booxtown.activity.MenuActivity;
+import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.adapter.ListBookAdapter;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.BookController;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.UploadFileController;
 import com.booxtown.controller.UserController;
@@ -368,6 +370,17 @@ public class MyProfileFragment extends Fragment {
         ProgressDialog dialog;
         @Override
         protected List<User> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController  = new UserController(context);
             List<User> profile = userController.getprofile(strings[0]);
             return profile;
@@ -605,6 +618,17 @@ public class MyProfileFragment extends Fragment {
 
         @Override
         protected List<Book> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             listemp = new ArrayList<>();
             BookController bookController = new BookController();
             listemp = bookController.getAllBookById(context,strings[0]);
@@ -666,6 +690,17 @@ public class MyProfileFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(context);
             return userController.updateprofile(first_name,last_name,email,phone,birthday,photo,session_id);
         }

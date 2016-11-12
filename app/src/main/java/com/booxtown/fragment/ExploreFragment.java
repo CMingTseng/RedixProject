@@ -38,6 +38,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.booxtown.activity.MenuActivity;
+import com.booxtown.activity.SignIn_Activity;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.RangeSeekBar;
@@ -250,7 +252,7 @@ public class ExploreFragment extends Fragment {
         getNumberBook.execute();
         //populatRecyclerView(session_id);
         //implementScrollListener(session_id);
-        GetTopbook getTopbook = new GetTopbook("", 0, 0);
+        GetTopbook getTopbook = new GetTopbook(getContext(),"", 0, 0);
         getTopbook.execute();
         return view;
     }
@@ -606,7 +608,7 @@ public class ExploreFragment extends Fragment {
     }
 
     private void populatRecyclerView(String session_id) {
-        GetTopbook getbook = new GetTopbook(session_id, 0, 20);
+        GetTopbook getbook = new GetTopbook(getContext(),session_id, 0, 20);
         getbook.execute();
         if (listExplore.size() == 0) {
             adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2, 0);
@@ -636,7 +638,7 @@ public class ExploreFragment extends Fragment {
                         <= (firstVisibleItem + visibleThreshold) && isLoading) {
                     // End has been reached
                     Book dashBoard_lv = listExplore.get(listExplore.size() - 1);
-                    GetTopbook getbook = new GetTopbook(session_id, Integer.parseInt(dashBoard_lv.getId()), 20);
+                    GetTopbook getbook = new GetTopbook(getContext(),session_id, Integer.parseInt(dashBoard_lv.getId()), 20);
                     getbook.execute();
                     // Do something
                     loading = true;
@@ -650,15 +652,28 @@ public class ExploreFragment extends Fragment {
         String session_id;
         long from;
         long top;
+        Context context;
 
-        public GetTopbook(String session_id, long from, long top) {
+        public GetTopbook(Context context,String session_id, long from, long top) {
             this.session_id = session_id;
             this.from = from;
             this.top = top;
+            this.context = context;
         }
 
         @Override
         protected List<Book> doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             BookController bookController = new BookController();
             //listbook  =  bookController.book_gettop(session_id,from,top);
             listbook = bookController.getallbook();
@@ -700,6 +715,17 @@ public class ExploreFragment extends Fragment {
 
         @Override
         protected List<NumberBook> doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                getContext().startActivity(intent);
+                this.cancel(true);
+            }
             BookController bookController = new BookController();
 
             return bookController.getNumberBook(user_id);

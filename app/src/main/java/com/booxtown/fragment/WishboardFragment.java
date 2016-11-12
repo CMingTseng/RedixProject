@@ -27,7 +27,9 @@ import android.widget.Toast;
 
 import com.booxtown.activity.MainAllActivity;
 import com.booxtown.activity.MenuActivity;
+import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.adapter.AdapterListviewWishboard;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.WishboardController;
 import com.booxtown.model.Wishboard;
@@ -186,6 +188,17 @@ public class WishboardFragment extends Fragment {
 
         @Override
         protected List<Wishboard> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             WishboardController wishboardController = new WishboardController();
             return wishboardController.getWishboardByTop(top,from,session_id);
         }
@@ -225,6 +238,17 @@ public class WishboardFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             WishboardController wishboardController = new WishboardController();
             return wishboardController.insertWishboard(strings[0],strings[1],strings[2],strings[3]);
         }

@@ -31,8 +31,10 @@ import com.booxtown.activity.NotificationSellReject;
 import com.booxtown.activity.NotificationSwapActivity;
 import com.booxtown.activity.Notification_Swap_Accept_Like;
 import com.booxtown.activity.Notification_Swap_Accept_NoLike;
+import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.activity.UserProfileActivity;
 import com.booxtown.controller.BookController;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.NotificationController;
 import com.booxtown.controller.ThreadController;
@@ -133,6 +135,17 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected List<Topic> doInBackground(String... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                getContext().startActivity(intent);
+                this.cancel(true);
+            }
             topic = new ArrayList<>();
             TopicController topicController = new TopicController();
             topic = topicController.gettopicbyid(params[0]);
@@ -155,6 +168,17 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected List<Thread> doInBackground(String... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                getContext().startActivity(intent);
+                this.cancel(true);
+            }
             item = new ArrayList<>();
             ThreadController threadController = new ThreadController();
             item =  threadController.getthreadbyid(params[0]);
@@ -196,6 +220,17 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected List<Notification> doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                getContext().startActivity(intent);
+                this.cancel(true);
+            }
             NotificationController notificationController = new NotificationController();
 
             return notificationController.getALllNotificationTop(session_id,top,from);
@@ -371,6 +406,17 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                getContext().startActivity(intent);
+                this.cancel(true);
+            }
             NotificationController notificationController = new NotificationController();
             notificationController.changeStatusNotification(sessionid,notificationId);
             return null;
@@ -391,6 +437,17 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected List<Notification> doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                getContext().startActivity(intent);
+                this.cancel(true);
+            }
             NotificationController notificationController = new NotificationController();
 
             return notificationController.getALllNotificationTop(session_id,top,from);
@@ -417,6 +474,17 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected List<Book> doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                getContext().startActivity(intent);
+                this.cancel(true);
+            }
             BookController bookController = new BookController();
             return bookController.getBookByID(id);
         }
