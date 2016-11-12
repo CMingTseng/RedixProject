@@ -266,7 +266,8 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
                 SharedPreferences pref = NotificationSellNoReject.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor  = pref.edit();
                 String userName = pref.getString("username", null);
-                txt_user_hi.setText("Hi "+ userName+",");
+                String firstName = pref.getString("firstname", "");
+                txt_user_hi.setText("Hi "+ firstName+",");
 
 
                 if(keyOption.equals("8")) {
