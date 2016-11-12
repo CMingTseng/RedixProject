@@ -38,6 +38,7 @@ import com.booxtown.adapter.AdapterCommentBook;
 import com.booxtown.adapter.CustomPagerAdapter;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.BookController;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.CommentController;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.NotificationController;
@@ -570,6 +571,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             TransactionController transactionController = new TransactionController();
             return transactionController.CheckExitsTransaction(book.getUser_id(),book.getId(),session_id);
         }
@@ -617,9 +629,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected String doInBackground(String... strings) {
-            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            String session_id = pref.getString("session_id", null);
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(context);
             String user_id = userController.getUserID(session_id);
             return user_id;
@@ -737,6 +757,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected String doInBackground(Void... voids) {
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             String transactionID = "";
             TransactionController transactionController = new TransactionController();
             transactionID = transactionController.transactionInsert(buyUserID, sellUserID, buyBookID, sellBookID, action,session_id);
@@ -871,6 +902,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected List<CommentBook> doInBackground(Void... voids) {
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             BookController bookController = new BookController();
             return bookController.getTopCommnetBook(book_id,top,from);
         }
@@ -923,6 +965,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             CommentController comment = new CommentController();
             return comment.insertComment(strings[0], strings[1], "0", strings[2], "0");
         }
@@ -961,6 +1014,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected String doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(context);
             String user_id = userController.getUserID(strings[0]);
             return user_id;
@@ -1014,6 +1078,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected List<Book> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             BookController bookController = new BookController();
             return bookController.getAllBookById(context,strings[0]);
         }
@@ -1081,6 +1156,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
         @Override
         protected List<User> doInBackground(Void... voids) {
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(context);
             return userController.getByUserId(user_id);
         }

@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,6 +59,7 @@ import android.widget.Toast;
 
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.BookController;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
@@ -400,7 +402,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     if (checkCheckBox()) {
                         if (addbook(0)) {
                             addImages();
-                            uploaddata uploaddata = new uploaddata();
+                            uploaddata uploaddata = new uploaddata(getContext());
                             uploaddata.execute();
                             MainAllActivity mainAllActivity = (MainAllActivity) getActivity();
                             mainAllActivity.callFragment(new ListingsFragment());
@@ -1406,6 +1408,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
     public class uploaddata extends AsyncTask<Void, Void, String> {
 
+        public Context context;
+        public uploaddata(Context context){
+            this.context = context;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1414,6 +1421,17 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         @Override
         protected String doInBackground(Void... params) {
             try {
+                CheckSession checkSession = new CheckSession();
+                boolean check = checkSession.checkSession_id(session_id);
+                if(!check){
+                    SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id",null);
+                    editor.commit();
+                    Intent intent = new Intent(context, SignIn_Activity.class);
+                    context.startActivity(intent);
+                    this.cancel(true);
+                }
                 bookController = new BookController();
                 //success = bookController.addbook(book, session_id).equals("")? false: true;
                 return bookController.addbook(book, session_id);

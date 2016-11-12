@@ -42,9 +42,12 @@ import android.widget.Toast;
 import com.booxtown.activity.ListingCollectionActivity;
 import com.booxtown.activity.MainAllActivity;
 import com.booxtown.activity.MenuActivity;
+import com.booxtown.activity.SignIn_Activity;
+import com.booxtown.activity.WelcomeActivity;
 import com.booxtown.adapter.AdapterFilter;
 import com.booxtown.adapter.ListBookAdapter;
 import com.booxtown.controller.BookController;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
@@ -506,6 +509,17 @@ public class ListingsFragment extends Fragment {
 
         @Override
         protected List<Book> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            boolean check = checkSession.checkSession_id(session_id);
+            if(!check){
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             BookController bookController = new BookController();
             return bookController.getAllBookById(context,session_id);
         }

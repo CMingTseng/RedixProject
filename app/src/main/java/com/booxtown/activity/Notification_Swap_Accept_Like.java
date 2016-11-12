@@ -19,6 +19,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.booxtown.api.ServiceGenerator;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.TransactionController;
 import com.booxtown.controller.UserController;
@@ -159,6 +160,17 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
 
         @Override
         protected Transaction doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = Notification_Swap_Accept_Like.this.getSharedPreferences("MyPref",MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             TransactionController bookController = new TransactionController();
             return bookController.getTransactionId(trans_id);
         }
@@ -204,6 +216,17 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
 
         @Override
         protected List<User> doInBackground(Void... voids) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = Notification_Swap_Accept_Like.this.getSharedPreferences("MyPref",MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(context);
             return userController.getByUserId(user_id);
         }

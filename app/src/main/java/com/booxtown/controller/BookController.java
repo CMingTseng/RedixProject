@@ -103,9 +103,6 @@ public class BookController {
         return null;
     }
     public List<Book> getAllBookById(Context context,String session_id){
-        CheckSession checkSession = new CheckSession();
-        boolean check = checkSession.checkSession_id(session_id);
-        if(check==true) {
             Call<BookResult> profile = service.getAllBookByUser(session_id);
             try {
                 if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -120,11 +117,7 @@ public class BookController {
             } catch (Exception ex) {
             }
             return null;
-        }else{
-            Intent intent = new Intent(context, WelcomeActivity.class);
-            context.startActivity(intent);
-            return null;
-        }
+
     }
 
     public Boolean updatebook(Book book,String session_id){

@@ -1,6 +1,8 @@
 package com.booxtown.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.UserController;
 
@@ -60,6 +63,17 @@ Button mButtonBackForgot;
 
         @Override
         protected Boolean doInBackground(String... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = ForgotPassword_Activity.this.getSharedPreferences("MyPref",MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(ForgotPassword_Activity.this, SignIn_Activity.class);
+                startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(ForgotPassword_Activity.this);
             boolean success = userController.forgetPassword(params[0]);
 

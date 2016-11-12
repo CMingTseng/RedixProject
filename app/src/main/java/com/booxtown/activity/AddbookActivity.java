@@ -53,6 +53,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Utility;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -1080,8 +1081,19 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         @Override
         protected String doInBackground(Void... params) {
             try {
+                CheckSession checkSession = new CheckSession();
+                boolean check = checkSession.checkSession_id(session_id);
+                if(!check){
+                    SharedPreferences pref = AddbookActivity.this.getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id",null);
+                    editor.commit();
+                    Intent intent = new Intent(AddbookActivity.this, SignIn_Activity.class);
+                    startActivity(intent);
+                    this.cancel(true);
+                }
+
                 bookController = new BookController();
-                //success = bookController.addbook(book, session_id).equals("")?false:true;
                 return bookController.addbook(book, session_id);
             }catch (Exception exx){
                 return "";
