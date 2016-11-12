@@ -101,7 +101,6 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
                 String timeZone = pref.getString("timezone", null);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
-                String ss=notification.getCreate_date();
                 Date oldDate = dateFormat.parse(notification.getCreate_date());
                 Date cDate = new Date();
                 Long timeDiff = cDate.getTime() - oldDate.getTime();

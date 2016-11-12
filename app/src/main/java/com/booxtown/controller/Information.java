@@ -12,7 +12,7 @@ public class Information {
     public final static String checkNetwork = "\" Connection Error \" Unable to connect to Server. Please check your network settings and try again";
     public final static String noti_fill_username = "Please enter valid a Username";
     public final static String noti_fill_password = "Please enter a Password";
-    public final static String noti_wrong_login = "Username and Password entered doesn't match. Please try again";
+    public final static String noti_wrong_login = "Email or Password doesn't match. Please try again";
     public final static String noti_check_mail = "Please check email";
     public final static String noti_fill_firstname = "Please enter valid a Firstname";
     public final static String noti_fill_lastname = "Please enter valid a Lastname";

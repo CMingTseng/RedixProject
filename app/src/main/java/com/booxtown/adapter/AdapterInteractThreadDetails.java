@@ -2,6 +2,7 @@ package com.booxtown.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -21,7 +22,10 @@ import com.booxtown.api.ServiceGenerator;
 import com.booxtown.model.Comment;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.booxtown.R;
 
@@ -50,7 +54,20 @@ public class AdapterInteractThreadDetails extends RecyclerView.Adapter<AdapterIn
     public void onBindViewHolder(HoderThreadDetail hoder, int position) {
         final Comment Comments= listComments.get(position);
         try {
-            hoder.txt_datetime.setText(formatDatetime(Comments.getCreate_date().replaceAll("-",":").replace(" ",":")));
+            String da= Comments.getCreate_date().replaceAll("-",":").replace(" ",":");
+            SharedPreferences pref = mContext.getSharedPreferences("MyPref", mContext.MODE_PRIVATE);
+            String timeZone = pref.getString("timezone", null);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+            Date dt= dateFormat.parse(Comments.getCreate_date());
+            String intMonth = (String) android.text.format.DateFormat.format("MM", dt);
+            String year = (String) android.text.format.DateFormat.format("yyyy", dt);
+            String day = (String) android.text.format.DateFormat.format("dd", dt);
+            String hour= (String) android.text.format.DateFormat.format("hh", dt);
+            String min= (String) android.text.format.DateFormat.format("mm", dt);
+            String second= (String) android.text.format.DateFormat.format("ss", dt);
+            String date_post= year+":"+intMonth+":"+day+":"+hour+":"+min+":"+second;
+            hoder.txt_datetime.setText(formatDatetime(date_post));
         } catch (Exception e) {
             hoder.txt_datetime.setText(Comments.getCreate_date());
 

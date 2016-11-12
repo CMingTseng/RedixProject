@@ -2,6 +2,7 @@ package com.booxtown.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +15,10 @@ import android.widget.TextView;
 import com.booxtown.model.Wishboard;
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.booxtown.R;
 import com.booxtown.activity.RespondActivity;
@@ -62,9 +66,19 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
             holder.name.setText("by " + list.get(position).getAuthor());
         }
         try {
-            String[] dates = list.get(position).getCreate_date().substring(0, 10).split("-");
-            String resultDate = dates[2] + "-" + dates[1] + "-" + dates[0].substring(2, dates[0].length());
-            holder.date.setText(resultDate);
+
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+            String timeZone = pref.getString("timezone", null);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+            Date dt= dateFormat.parse(list.get(position).getCreate_date());
+            String intMonth = (String) android.text.format.DateFormat.format("MM", dt);
+            String year = (String) android.text.format.DateFormat.format("yyyy", dt);
+            String day = (String) android.text.format.DateFormat.format("dd", dt);
+            String date_post= day+"-"+intMonth+"-"+year;
+            //String[] dates = list.get(position).getCreate_date().substring(0, 10).split("-");
+            //String resultDate = dates[2] + "-" + dates[1] + "-" + dates[0].substring(2, dates[0].length());
+            holder.date.setText(date_post);
         } catch (Exception exx) {
             holder.date.setText(list.get(position).getCreate_date().substring(0, 10));
         }

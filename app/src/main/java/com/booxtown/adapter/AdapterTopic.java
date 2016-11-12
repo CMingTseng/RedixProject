@@ -1,6 +1,7 @@
 package com.booxtown.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.booxtown.R;
 
@@ -48,9 +52,18 @@ public class AdapterTopic extends RecyclerView.Adapter<AdapterTopic.HolderTopic>
             holder.txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_topic_interact));
         }
         try {
-            String[] dates = interact.getCreate_date().substring(0, 10).split("-");
-            String resultDate = dates[2] +"-"+dates[1] +"-"+dates[0].substring(2,dates[0].length());
-            holder.txt_dateUpdate_interact.setText("Last Updated on " + resultDate);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+            String timeZone = pref.getString("timezone", null);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+            Date dt= dateFormat.parse(interact.getCreate_date());
+            String intMonth = (String) android.text.format.DateFormat.format("MM", dt);
+            String year = (String) android.text.format.DateFormat.format("yyyy", dt);
+            String day = (String) android.text.format.DateFormat.format("dd", dt);
+            String date_post= day+"-"+intMonth+"-"+year;
+            //String[] dates = interact.getCreate_date().substring(0, 10).split("-");
+            //String resultDate = dates[2] +"-"+dates[1] +"-"+dates[0].substring(2,dates[0].length());
+            holder.txt_dateUpdate_interact.setText("Last Updated on " + date_post);
 
         }catch (Exception exx) {
             holder.txt_dateUpdate_interact.setText("Last Updated on ");

@@ -61,9 +61,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.TimeZone;
+
 import com.booxtown.R;
 
 import com.booxtown.controller.IconMapController;
@@ -253,8 +258,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
 
         try {
-            String date_post = book.getCreate_date().substring(8, 10) + "-" + book.getCreate_date().substring(5, 7) + "-" +
-                    book.getCreate_date().substring(2, 4);
+            SharedPreferences pref = getContext().getSharedPreferences("MyPref", getContext().MODE_PRIVATE);
+            String timeZone = pref.getString("timezone", null);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+            Date dt= dateFormat.parse(book.getCreate_date());
+            String intMonth = (String) android.text.format.DateFormat.format("MM", dt);
+            String year = (String) android.text.format.DateFormat.format("yyyy", dt);
+            String day = (String) android.text.format.DateFormat.format("dd", dt);
+            String date_post= day+"-"+intMonth+"-"+year;
+            //String date_post = book.getCreate_date().substring(8, 10) + "-" + book.getCreate_date().substring(5, 7) + "-" +
+             //       book.getCreate_date().substring(2, 4);
             txt_time_post_listings.setText("Posted on "+date_post);
         }catch (Exception ex){
             txt_time_post_listings.setText("Posted on ");
