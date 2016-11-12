@@ -28,6 +28,7 @@ public class FireBaseService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+
         super.onMessageReceived(remoteMessage);
         String ss= remoteMessage.getNotification().getBody();
         sendNotification(remoteMessage.getNotification().getBody());

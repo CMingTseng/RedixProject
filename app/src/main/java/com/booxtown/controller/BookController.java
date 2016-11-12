@@ -13,6 +13,7 @@ import com.booxtown.fragment.ExploreFragment;
 import com.booxtown.model.Contact;
 import com.booxtown.model.NumberBook;
 import com.booxtown.model.NumberBookResult;
+import com.booxtown.model.TimeZone;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Comparator;
@@ -39,6 +40,7 @@ public class BookController {
     }
 
     public BookController(Activity mActivity) {
+        service = ServiceGenerator.GetInstance();
         this.mActivity = mActivity;
     }
 
@@ -158,6 +160,8 @@ public class BookController {
         }
         return success;
     }
+
+
 
     public List<Book> getallbook(){
         Call<BookResult> getall = service.getAllBook();
@@ -296,6 +300,28 @@ public class BookController {
         } catch (Exception ex) {
         }
         return null;
+    }
+
+    //get timezone
+    public String GetTimezone(){
+        String result="";
+        Call<TimeZone> timeZone = service.GetTimeZone();
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            TimeZone str = timeZone.execute().body();
+            if(str.getTimezone().length()==6) {
+                result = str.getTimezone().substring(3,6);
+            }
+
+        } catch (Exception ex) {
+            String code= ex.getMessage();
+
+        }
+        return result;
     }
 
 }

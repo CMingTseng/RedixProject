@@ -327,11 +327,16 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
             try {
                 if (user.size() > 0){
                     txt_author_info3.setText(user.get(0).getFirst_name());
+                    if (user.get(0).getPhoto().length() > 3) {
                     Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
-                            .error(R.drawable.user)
+                            .error(R.mipmap.user_empty)
                             .into(imv_nitification_infor3_phone);
-
+                    }else {
+                        Picasso.with(context)
+                                .load(R.mipmap.user_empty)
+                                .into(imv_nitification_infor3_phone);
+                    }
                     RatingBar.setRating(user.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) RatingBar.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.rgb(255,2224,0), PorterDuff.Mode.SRC_ATOP);
