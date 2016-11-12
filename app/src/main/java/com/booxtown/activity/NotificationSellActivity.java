@@ -210,7 +210,8 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 SharedPreferences pref = NotificationSellActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String session_id = pref.getString("session_id", null);
                 String userName = pref.getString("username", null);
-                txt_user_hi.setText("Hi " + userName + ",");
+                String firstName = pref.getString("firstname", "");
+                txt_user_hi.setText("Hi " + firstName + ",");
                 if(keyOption.equals("4")) {
                     txt_price_book_buy.setText("AED " + transaction.getBook_price());
                 }else if(keyOption.equals("16")){
@@ -472,11 +473,16 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
             try {
                 if (user.size() > 0){
                     txt_author_info3.setText(user.get(0).getFirst_name()+"");
-
+                    if (user.get(0).getPhoto().length() > 3) {
                     Picasso.with(context)
                             .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
-                            .error(R.drawable.user)
+                            .error(R.mipmap.user_empty)
                             .into(imv_nitification_infor3_phone);
+                    }else {
+                        Picasso.with(context)
+                                .load(R.mipmap.user_empty)
+                                .into(imv_nitification_infor3_phone);
+                    }
 
                     ratingBar2.setRating(user.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar2.getProgressDrawable();

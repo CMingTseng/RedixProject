@@ -48,7 +48,14 @@ public class Transaction  implements Serializable {
     private String user_buy;
 
     @Expose
+    private String firstNameUserBuy;
+
+    @Expose
+    private String firstNameUserSell;
+
+    @Expose
     private String user_sell;
+
     @Expose
     private String book_price;
     @Expose
@@ -65,7 +72,7 @@ public class Transaction  implements Serializable {
     public Transaction() {
     }
 
-    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, String book_author, String user_buy, String user_sell, String book_price, String book_swap_id, String session_user_buy, String session_user_sell, List<Book> book) {
+    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, String book_author, String user_buy, String firstNameUserBuy, String firstNameUserSell, String user_sell, String book_price, String book_swap_id, String session_user_buy, String session_user_sell, List<Book> book) {
         this.id = id;
         this.user_buyer_id = user_buyer_id;
         this.user_seller_id = user_seller_id;
@@ -83,12 +90,30 @@ public class Transaction  implements Serializable {
         this.book_name = book_name;
         this.book_author = book_author;
         this.user_buy = user_buy;
+        this.firstNameUserBuy = firstNameUserBuy;
+        this.firstNameUserSell = firstNameUserSell;
         this.user_sell = user_sell;
         this.book_price = book_price;
         this.book_swap_id = book_swap_id;
         this.session_user_buy = session_user_buy;
         this.session_user_sell = session_user_sell;
         this.book = book;
+    }
+
+    public String getFirstNameUserBuy() {
+        return firstNameUserBuy;
+    }
+
+    public void setFirstNameUserBuy(String firstNameUserBuy) {
+        this.firstNameUserBuy = firstNameUserBuy;
+    }
+
+    public String getFirstNameUserSell() {
+        return firstNameUserSell;
+    }
+
+    public void setFirstNameUserSell(String firstNameUserSell) {
+        this.firstNameUserSell = firstNameUserSell;
     }
 
     public String getSession_user_buy() {

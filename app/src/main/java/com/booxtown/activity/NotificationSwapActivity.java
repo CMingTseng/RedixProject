@@ -299,11 +299,16 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
             try {
                 if (user.size() > 0){
                     txt_userbuy_notification_swap.setText(user.get(0).getFirst_name()+"");
-
-                    Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
-                            .error(R.drawable.user)
-                            .into(imv_menu_notification_infor1);
+                    if(user.get(0).getPhoto().length()>3) {
+                        Picasso.with(context)
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getUsername() + "&image=" + user.get(0).getPhoto().substring(user.get(0).getUsername().length() + 3, user.get(0).getPhoto().length()))
+                                .error(R.mipmap.user_empty)
+                                .into(imv_menu_notification_infor1);
+                    }else {
+                        Picasso.with(context)
+                                .load(R.mipmap.user_empty)
+                                .into(imv_menu_notification_infor1);
+                    }
 
                     myRatingBar.setRating(user.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) myRatingBar.getProgressDrawable();

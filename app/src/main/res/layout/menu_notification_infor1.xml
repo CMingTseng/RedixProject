@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="15dp"
     tools:context="com.booxtown.activity.TestActivity"
-    android:background="#ffffff"
-    >
+    android:background="#ffffff">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,6 +23,8 @@
             android:id="@+id/imv_menu_notification_infor1"
             android:src="@drawable/img_temp1"
             android:layout_marginTop="5dp"
+            app:siBorderColor="@color/dot_light_screen2"
+            app:siBorderWidth="1dp"
             android:layout_marginLeft="15dp"/>
 
         <com.booxtown.custom.CustomTextView
