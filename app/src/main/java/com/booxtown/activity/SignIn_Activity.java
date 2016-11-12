@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.controller.BookController;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
@@ -83,6 +84,8 @@ Button mButtonForgotPass;
                     Toast.makeText(getApplicationContext(), Information.checkNetwork,Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    GetTimeZone getTimeZone= new GetTimeZone();
+                    getTimeZone.execute();
                     SiginAsystask siginAsystask = new SiginAsystask();
                     siginAsystask.execute(edt_username.getText().toString(), edt_pass.getText().toString(), "iphonecuatung",session_id);
                 }
@@ -131,6 +134,8 @@ Button mButtonForgotPass;
                     UserInfoAsystask us= new UserInfoAsystask();
                     us.execute(session_id);
                     editor.commit();
+
+
                     dialog.dismiss();
                 } else {
                     Toast.makeText(getApplicationContext(), Information.noti_wrong_login, Toast.LENGTH_SHORT).show();
@@ -177,7 +182,42 @@ Button mButtonForgotPass;
             }
         }
     }
+    class GetTimeZone extends AsyncTask<String,Void,String>{
 
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                BookController userController = new BookController(SignIn_Activity.this);
+                String first_name = userController.GetTimezone();
+                return first_name;
+            }catch (Exception ex){
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                if (result != null) {
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("timezone", result);
+                    editor.commit();
+
+                } else {
+
+                }
+            }catch (Exception e){
+            }
+        }
+    }
     @Override
     public void onBackPressed() {
         try {

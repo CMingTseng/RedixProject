@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckNetwork;
 import com.booxtown.controller.DeleteTokenService;
 import com.booxtown.controller.Information;
@@ -220,6 +221,9 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("username", edt_mail.getText().toString());
                     editor.putString("firstname", edt_firtname.getText().toString());
                     editor.commit();
+
+                    GetTimeZone getTimeZone= new GetTimeZone();
+                    getTimeZone.execute();
                     dialog.dismiss();
                 } else if (aBoolean == false) {
                     Toast.makeText(getApplicationContext(), Information.noti_email_taken, Toast.LENGTH_LONG).show();
@@ -228,7 +232,42 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
             }catch (Exception e){}
         }
     }
+    class GetTimeZone extends AsyncTask<String,Void,String>{
 
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                BookController userController = new BookController(SigUp_Activity.this);
+                String first_name = userController.GetTimezone();
+                return first_name;
+            }catch (Exception ex){
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                if (result != null) {
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("timezone", result);
+                    editor.commit();
+
+                } else {
+
+                }
+            }catch (Exception e){
+            }
+        }
+    }
     // Dismis keybroad
     public static void hideSoftKeyboard(SigUp_Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);

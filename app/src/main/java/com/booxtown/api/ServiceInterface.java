@@ -2,6 +2,7 @@ package com.booxtown.api;
 
 import com.booxtown.model.Contact;
 import com.booxtown.model.NumberBookResult;
+import com.booxtown.model.TimeZone;
 import com.booxtown.model.WishboardResult;
 
 import okhttp3.MultipartBody;
@@ -165,6 +166,9 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/topic/get_topicbyid")
     Call<TopicResult> gettopicbyid(@Query("id") String id);
     // end Notification
+    @GET("/booxtown/user/getTimezone")
+    Call<TimeZone> GetTimeZone();
+
 
     // Transaction
     @POST("/booxtown/rest/transaction/transaction_insert")
