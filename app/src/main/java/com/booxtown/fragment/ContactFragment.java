@@ -2,6 +2,7 @@ package com.booxtown.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,9 @@ import android.widget.Toast;
 import com.booxtown.R;
 import com.booxtown.activity.HomeActivity;
 import com.booxtown.activity.ListingsDetailActivity;
+import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.controller.BookController;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.model.Book;
 import com.booxtown.model.Contact;
@@ -64,6 +67,17 @@ public class ContactFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = ctx.getSharedPreferences("MyPref",ctx.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(ctx, SignIn_Activity.class);
+                ctx.startActivity(intent);
+                this.cancel(true);
+            }
             BookController bookController = new BookController();
             return bookController.insertContact(contact);
         }

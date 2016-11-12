@@ -22,7 +22,9 @@ import android.widget.TextView;
 
 
 import com.booxtown.activity.MenuActivity;
+import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.adapter.AdapterTopic;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.recyclerclick.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
@@ -177,6 +179,17 @@ public class TopicFragment extends Fragment
 
         @Override
         protected List<Topic> doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             TopicController topicController = new TopicController();
             return topicController.getALllTopicTop(session_id,top,from);
         }
@@ -221,6 +234,17 @@ public class TopicFragment extends Fragment
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             TopicController topicController = new TopicController();
             return topicController.changeStatusTopic(session_id,thread_id);
         }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,7 +25,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.adapter.AdapterThread;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.ThreadController;
 import com.booxtown.controller.TopicController;
@@ -250,6 +253,17 @@ public class ThreadFragment extends Fragment
 
         @Override
         protected List<Thread> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             ThreadController threadController = new ThreadController();
             return threadController.threadGetTop(session_id, strings[0], top, from);
         }
@@ -298,6 +312,17 @@ public class ThreadFragment extends Fragment
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
 
             if(flag==0) {
                 ThreadController topicController = new ThreadController();
@@ -340,6 +365,17 @@ public class ThreadFragment extends Fragment
 
         @Override
         protected Boolean doInBackground(String... parrams) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             ThreadController threadController = new ThreadController();
             return threadController.insertThread(parrams[0],parrams[1],parrams[2],parrams[3]);
         }

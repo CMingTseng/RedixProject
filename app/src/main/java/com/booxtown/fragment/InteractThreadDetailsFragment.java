@@ -2,6 +2,7 @@ package com.booxtown.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,7 +26,9 @@ import java.util.List;
 
 import com.booxtown.R;
 import com.booxtown.activity.HomeActivity;
+import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.adapter.AdapterInteractThreadDetails;
+import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.CommentController;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.NotificationController;
@@ -233,6 +236,17 @@ public class InteractThreadDetailsFragment extends Fragment {
 
         @Override
         protected List<Comment> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             CommentController commentController = new CommentController();
             return commentController.getTopComment(thread_id, top, from);
         }
@@ -287,6 +301,17 @@ public class InteractThreadDetailsFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             ThreadController topicController = new ThreadController();
             return topicController.changeStatusUnreadThread(session_id, thread_id);
         }
@@ -325,6 +350,17 @@ public class InteractThreadDetailsFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             CommentController comment = new CommentController();
             return comment.insertComment(strings[0], strings[1], strings[2], "0", "0");
         }
@@ -365,6 +401,17 @@ public class InteractThreadDetailsFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
             UserController userController = new UserController(context);
             String user_id = userController.getUserID(strings[0]);
             return user_id;
