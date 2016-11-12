@@ -1,8 +1,12 @@
 package com.booxtown.controller;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
 
+import com.booxtown.activity.WelcomeActivity;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.api.ServiceInterface;
 import com.booxtown.fragment.ExploreFragment;
@@ -98,21 +102,29 @@ public class BookController {
         }
         return null;
     }
-    public List<Book> getAllBookById(String session_id){
-        Call<BookResult> profile = service.getAllBookByUser(session_id);
-        try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy =
-                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
+    public List<Book> getAllBookById(Context context,String session_id){
+        CheckSession checkSession = new CheckSession();
+        boolean check = checkSession.checkSession_id(session_id);
+        if(check==true) {
+            Call<BookResult> profile = service.getAllBookByUser(session_id);
+            try {
+                if (android.os.Build.VERSION.SDK_INT > 9) {
+                    StrictMode.ThreadPolicy policy =
+                            new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                }
+                BookResult str = profile.execute().body();
+                if (str.getCode() == 200) {
+                    return str.getBook();
+                }
+            } catch (Exception ex) {
             }
-            BookResult str = profile.execute().body();
-            if (str.getCode() == 200){
-                return str.getBook();
-            }
-        } catch (Exception ex) {
+            return null;
+        }else{
+            Intent intent = new Intent(context, WelcomeActivity.class);
+            context.startActivity(intent);
+            return null;
         }
-        return null;
     }
 
     public Boolean updatebook(Book book,String session_id){

@@ -84,27 +84,26 @@ public class AdapterProfileDashboard extends RecyclerView.Adapter<AdapterProfile
 
             Glide.with(context).load(R.drawable.myprofile_tick).into(holder.img_status);
         }else if(dashBoard.getIs_cancel() == 1|| dashBoard.getIs_reject() == 1){
-//            Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.myprofile_all_not);
-//            holder.img_status.setImageBitmap(btn1);
             holder.ratingBar_dashboard.setVisibility(View.VISIBLE);
             Glide.with(context).load(R.drawable.myprofile_all_not).into(holder.img_status);
         }else if(dashBoard.getIs_reject() == 0 && dashBoard.getIs_cancel()==0 && dashBoard.getIs_accept()==0){
-//            Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.myprofile_not);
-//            holder.img_status.setImageBitmap(btn1);
             holder.ratingBar_dashboard.setVisibility(View.INVISIBLE);
             Glide.with(context).load(R.drawable.myprofile_not).into(holder.img_status);
         }
 
         try {
+//            holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()
+//                    + dashBoard.getUser_quality_seller()) / (float)3);
             if(user_id == dashBoard.getUser_buyer_id())
-            {
-                holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp() + dashBoard.getUser_cour()
-                + dashBoard.getUser_quality()) / (float)3);
-            }
-            else
             {
                 holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()
                         + dashBoard.getUser_quality_seller()) / (float)3);
+
+            }
+            else
+            {
+                holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp() + dashBoard.getUser_cour()
+                        + dashBoard.getUser_quality()) / (float)3);
             }
         }catch (Exception e)
         {}

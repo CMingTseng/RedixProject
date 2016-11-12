@@ -142,7 +142,7 @@ public class SwapActivity extends AppCompatActivity {
         protected List<Book> doInBackground(String... strings) {
             listemp = new ArrayList<>();
             BookController bookController = new BookController();
-            listemp = bookController.getAllBookById(strings[0]);
+            listemp = bookController.getAllBookById(context,strings[0]);
             return listemp;
         }
 

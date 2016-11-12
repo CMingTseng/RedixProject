@@ -214,5 +214,6 @@ public interface ServiceInterface {
     @GET("/booxtown/book/getNumberOfBook")
     Call<NumberBookResult> getNumberBook(@Query("user_id") int user_id);
 
-
+    @POST("/booxtown/user/checkSessionTimeout")
+    Call<Result> checkSession(@Body Object session_id);
 }
