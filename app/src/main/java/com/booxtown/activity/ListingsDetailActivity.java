@@ -1015,7 +1015,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         @Override
         protected List<Book> doInBackground(String... strings) {
             BookController bookController = new BookController();
-            return bookController.getAllBookById(strings[0]);
+            return bookController.getAllBookById(context,strings[0]);
         }
 
         @Override

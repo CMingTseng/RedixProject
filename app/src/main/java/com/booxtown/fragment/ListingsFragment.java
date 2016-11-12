@@ -507,7 +507,7 @@ public class ListingsFragment extends Fragment {
         @Override
         protected List<Book> doInBackground(String... strings) {
             BookController bookController = new BookController();
-            return bookController.getAllBookById(session_id);
+            return bookController.getAllBookById(context,session_id);
         }
 
         @Override
