@@ -1,6 +1,7 @@
 package com.booxtown.custom;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,6 +103,10 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
                 int day = (int) TimeUnit.MILLISECONDS.toDays(timeDiff);
                 int hour = (int) (TimeUnit.MILLISECONDS.toHours(timeDiff) - TimeUnit.DAYS.toHours(day));
                 int mm = (int) (TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
+
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                String timeZone = pref.getString("session_id", null);
+
                 if(day>0){
                     ((RecyclerViewHolder) holder).tv_content.setText("About " + day + " Day ago");
                 }
