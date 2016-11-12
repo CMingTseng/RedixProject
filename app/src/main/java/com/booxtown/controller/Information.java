@@ -62,6 +62,7 @@ public class Information {
     public final static String noti_show_choose_type_addbook = "Sorry ! You cannot choose ' Free ' listing along with 'Swap' or 'Sell' listings.";
     public final static String noti_show_not_sent_comment = "Comment not sent.";
     public final static String noti_show_sent_comment = "Comment sent successfully.";
+    public final static String session_timeout = "please try to login again";
 
     public static int minRager = 0;
     public  static int maxRager= 1000;
