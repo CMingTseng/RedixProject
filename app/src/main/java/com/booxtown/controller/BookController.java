@@ -313,9 +313,9 @@ public class BookController {
                 StrictMode.setThreadPolicy(policy);
             }
             TimeZone str = timeZone.execute().body();
-            if(str.getTimezone().length()==6) {
-                result = str.getTimezone().substring(3,6);
-            }
+
+                result = str.getTimezone();
+
 
         } catch (Exception ex) {
             String code= ex.getMessage();

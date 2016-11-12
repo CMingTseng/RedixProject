@@ -17,6 +17,7 @@ import com.booxtown.model.Notification;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import com.booxtown.R;
@@ -96,7 +97,11 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
             }
             ((RecyclerViewHolder) holder).tv.setText(notification.getTitle_notifi());
             try {
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                String timeZone = pref.getString("timezone", null);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+                String ss=notification.getCreate_date();
                 Date oldDate = dateFormat.parse(notification.getCreate_date());
                 Date cDate = new Date();
                 Long timeDiff = cDate.getTime() - oldDate.getTime();
@@ -104,8 +109,7 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
                 int hour = (int) (TimeUnit.MILLISECONDS.toHours(timeDiff) - TimeUnit.DAYS.toHours(day));
                 int mm = (int) (TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
 
-                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
-                String timeZone = pref.getString("session_id", null);
+
 
                 if(day>0){
                     ((RecyclerViewHolder) holder).tv_content.setText("About " + day + " Day ago");
