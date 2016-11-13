@@ -959,19 +959,43 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     }
     ArrayList<ImageClick> lisImmage = new ArrayList<>();
 
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            // When an Image is picked
+            Bitmap thumbnail = null;
             if (resultCode == Activity.RESULT_OK) {
-                // Get the Image from data
-                if (data.getData() != null) {
-                    mImageUri = data.getData();
+                if (requestCode == SELECT_FILE){
+                    thumbnail = (Bitmap) data.getExtras().get("data");}
+                else if (requestCode == REQUEST_CAMERA){
+                    if (data != null) {
+                        try {
+                            thumbnail = MediaStore.Images.Media.getBitmap(AddbookActivity.this.getContentResolver(), data.getData());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            } else {
-                return;
+
             }
+            mImageUri = getImageUri(AddbookActivity.this,thumbnail);
+
+//            // When an Image is picked
+//            if (resultCode == Activity.RESULT_OK) {
+//                // Get the Image from data
+//                if (data.getData() != null) {
+//                    mImageUri = data.getData();
+//                }
+//            } else {
+//                return;
+//            }
         } catch (Exception e) {
             return;
         }
