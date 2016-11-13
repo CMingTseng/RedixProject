@@ -480,9 +480,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
         }
         @Override
         protected void onPreExecute() {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage(Information.noti_dialog);
-            progressDialog.show();
+
         }
 
         @Override
@@ -559,15 +557,15 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                         img_comment_rank3.setVisibility(View.VISIBLE);
                     }
 
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                 }else {
                     //Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                 }
             }catch (Exception e){
 
             }
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
         }
     }
 

@@ -68,9 +68,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         //--------------------------------------------------
-        View view_bottom = (View)findViewById(R.id.menu_bottom);
-        menu_bottom=new MenuBottomCustom(view_bottom,HomeActivity.this,0);
-        menu_bottom.setDefaut(0);
+        //View view_bottom = (View)findViewById(R.id.menu_bottom);
+        //menu_bottom=new MenuBottomCustom(view_bottom,HomeActivity.this,0);
+        //menu_bottom.setDefaut(0);
         //---------------------------------------------------------------
 
         String i = intent.getStringExtra("position");
@@ -157,7 +157,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onRestart() {
         super.onRestart();
-        menu_bottom.setDefaut(0);
+        //menu_bottom.setDefaut(0);
     }
 
     /*@Override

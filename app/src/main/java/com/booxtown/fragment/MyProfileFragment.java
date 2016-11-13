@@ -286,13 +286,19 @@ public class MyProfileFragment extends Fragment {
                         filename.add(username + "_+_" + img_photo);
                         if(img_photo != null) {
                             addImages(bitmaps, filename);
+
+                            String[] birthDay=txt_profile_birthday.getText().toString().split("/");
+                            String birthOfDay=birthDay[2]+"-"+birthDay[1]+"-"+birthDay[0]+" 00:00:00";
+
                             updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                    txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), username + "_+_" + img_photo, first_name, last_name);
+                                    txt_profile_phone.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
                             updateProfile.execute();
                         }
                         else {
+                            String[] birthDay=txt_profile_birthday.getText().toString().split("/");
+                            String birthOfDay=birthDay[2]+"-"+birthDay[1]+"-"+birthDay[0]+" 00:00:00";
                             updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                    txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), photoOrigin, first_name, last_name);
+                                    txt_profile_phone.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
                             updateProfile.execute();
                         }
                     }catch (Exception e){

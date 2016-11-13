@@ -777,13 +777,19 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         @Override
         protected List<Book> doInBackground(String... strings) {
-            CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
-            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
-                editor.commit();
+            try {
+                CheckSession checkSession = new CheckSession();
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+                if (!check) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", "");
+                    editor.commit();
+                    Intent intent = new Intent(context, SignIn_Activity.class);
+                    context.startActivity(intent);
+                    this.cancel(true);
+                }
+            }catch (Exception exx){
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
                 this.cancel(true);

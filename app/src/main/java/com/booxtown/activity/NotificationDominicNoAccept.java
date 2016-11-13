@@ -56,9 +56,9 @@ public class NotificationDominicNoAccept extends AppCompatActivity {
         });
         //bottom
         //--------------------------------------------------------------
-        View view_bottom = (View)findViewById(R.id.menu_bottom_noti_sell_accept2);
-        bottomListings=new MenuBottomCustom(view_bottom,this,0);
-        bottomListings.setDefaut(0);
+        //View view_bottom = (View)findViewById(R.id.menu_bottom_noti_sell_accept2);
+        //bottomListings=new MenuBottomCustom(view_bottom,this,0);
+        //bottomListings.setDefaut(0);
         //---------------------------------------------------------------
     }
 

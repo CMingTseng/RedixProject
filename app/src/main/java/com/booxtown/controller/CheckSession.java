@@ -24,6 +24,9 @@ public class CheckSession {
     }
     public boolean checkSession_id(String Session_id){
         Hashtable obj = new Hashtable();
+        if(Session_id==null){
+            Session_id="";
+        }
         obj.put("session_id",Session_id);
         Call<Result> status = service.checkSession(obj);
         try {

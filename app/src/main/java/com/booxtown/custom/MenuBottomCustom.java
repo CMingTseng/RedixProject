@@ -63,8 +63,12 @@ public class MenuBottomCustom{
             public void onClick(View v) {
 
                 if(type!=3){
-                    Intent itent = new Intent(context, ListingsFragment.class);
-                    context.startActivity(itent);
+                    try {
+                        Intent itent = new Intent(context, ListingsFragment.class);
+                        context.startActivity(itent);
+                    }catch (Exception err){
+
+                    }
                 }
                 setDefaut(3);
             }

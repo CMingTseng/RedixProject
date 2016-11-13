@@ -220,16 +220,20 @@ public class NotificationFragment extends Fragment {
 
         @Override
         protected List<Notification> doInBackground(Void... params) {
-            CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
-            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
-                editor.commit();
-                Intent intent = new Intent(getContext(), SignIn_Activity.class);
-                getContext().startActivity(intent);
-                this.cancel(true);
+            try {
+                CheckSession checkSession = new CheckSession();
+                SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+                if (!check) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", null);
+                    editor.commit();
+                    Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                    getContext().startActivity(intent);
+                    this.cancel(true);
+                }
+            }catch (Exception er){
+
             }
             NotificationController notificationController = new NotificationController();
 

@@ -63,7 +63,7 @@ public class AdapterInteractThreadDetails extends RecyclerView.Adapter<AdapterIn
             String intMonth = (String) android.text.format.DateFormat.format("MM", dt);
             String year = (String) android.text.format.DateFormat.format("yyyy", dt);
             String day = (String) android.text.format.DateFormat.format("dd", dt);
-            String hour= (String) android.text.format.DateFormat.format("hh", dt);
+            String hour= (String) android.text.format.DateFormat.format("kk", dt);
             String min= (String) android.text.format.DateFormat.format("mm", dt);
             String second= (String) android.text.format.DateFormat.format("ss", dt);
             String date_post= year+":"+intMonth+":"+day+":"+hour+":"+min+":"+second;
