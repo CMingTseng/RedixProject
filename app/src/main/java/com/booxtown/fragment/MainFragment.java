@@ -268,16 +268,16 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         if (filterList.get(0).getCheck() == true) {
             BookController bookController = new BookController(getActivity());
             Collections.sort(lisfilter_temp, bookController.distance);
-            Information.nearDistance=true;
+            Information.nearDistance = true;
         } else if (filterList.get(1).getCheck() == true) {
             Collections.sort(lisfilter_temp, Book.priceasen);
-            Information.priceLowtoHigh=true;
+            Information.priceLowtoHigh = true;
         } else if (filterList.get(2).getCheck() == true) {
             Collections.sort(lisfilter_temp, Book.pricedcen);
-            Information.priceHightoLow=true;
+            Information.priceHightoLow = true;
         } else {
             Collections.sort(lisfilter_temp, Book.recently);
-            Information.recently=true;
+            Information.recently = true;
         }
         return lisfilter_temp;
     }
@@ -361,18 +361,16 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 filterList = new ArrayList<>();
                 for (int i = 0; i < prgmNameList1.length; i++) {
                     Filter filter = new Filter();
-                    if(i==0){
+                    if (i == 0) {
                         filter.setTitle(prgmNameList1[i]);
                         filter.setCheck(Information.nearDistance);
-                    }else if(i==1){
+                    } else if (i == 1) {
                         filter.setTitle(prgmNameList1[i]);
                         filter.setCheck(Information.priceLowtoHigh);
-                    }
-                    else if(i==2){
+                    } else if (i == 2) {
                         filter.setTitle(prgmNameList1[i]);
                         filter.setCheck(Information.priceHightoLow);
-                    }
-                    else if(i==3){
+                    } else if (i == 3) {
                         filter.setTitle(prgmNameList1[i]);
                         filter.setCheck(Information.recently);
                     }
@@ -789,7 +787,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     context.startActivity(intent);
                     this.cancel(true);
                 }
-            }catch (Exception exx){
+            } catch (Exception exx) {
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
                 this.cancel(true);
@@ -814,7 +812,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     dialog.dismiss();
                 } else {
                     listExplore = books;
-                    listExplore=filterStart();
+                    listExplore = filterStart();
                     // create marker
                     addMarker(listExplore);
                     dialog.dismiss();
@@ -899,11 +897,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         @Override
         protected List<GenreValue> doInBackground(Void... voids) {
             CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
+            if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
+                editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);

@@ -56,5 +56,49 @@
             android:id="@+id/btn_search"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btn_filter_explore" />
-        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/notiTrial"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:background="@color/color_text"
+        android:visibility="visible"
+        >
+
+        <com.booxtown.custom.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Your free trial expires in 14 days"
+            android:id="@+id/txtNotifiTrial"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+
+            android:gravity="center_vertical|center_horizontal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/notiUpgrade"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/notiTrial"
+        android:layout_centerHorizontal="true"
+        android:background="@color/color_text"
+
+        >
+
+        <com.booxtown.custom.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/Upgrade"
+            android:id="@+id/txtNotifiUpgrade"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@color/dot_light_screen1" />
+    </RelativeLayout>
 </RelativeLayout>
