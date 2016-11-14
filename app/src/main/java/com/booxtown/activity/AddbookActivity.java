@@ -16,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -972,12 +973,41 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         try {
             Bitmap thumbnail = null;
             if (resultCode == Activity.RESULT_OK) {
-                if (requestCode == SELECT_FILE){
-                    thumbnail = (Bitmap) data.getExtras().get("data");}
-                else if (requestCode == REQUEST_CAMERA){
+                if (requestCode ==REQUEST_CAMERA ){
+                    thumbnail = (Bitmap) data.getExtras().get("data");
+                    int orientation=0;
+                    if(thumbnail.getHeight() < thumbnail.getWidth()){
+                        orientation = 90;
+                    } else {
+                        orientation = 0;
+                    }
+                    if (orientation != 0) {
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(orientation);
+                        thumbnail = Bitmap.createBitmap(thumbnail, 0, 0, thumbnail.getWidth(),
+                                thumbnail.getHeight(), matrix, true);
+                    } else
+                        thumbnail = Bitmap.createScaledBitmap(thumbnail, thumbnail.getWidth(),
+                                thumbnail.getHeight(), true);
+                }
+                else if (requestCode == SELECT_FILE){
                     if (data != null) {
                         try {
                             thumbnail = MediaStore.Images.Media.getBitmap(AddbookActivity.this.getContentResolver(), data.getData());
+                            int orientation=0;
+                            if(thumbnail.getHeight() < thumbnail.getWidth()){
+                                orientation = 90;
+                            } else {
+                                orientation = 0;
+                            }
+                            if (orientation != 0) {
+                                Matrix matrix = new Matrix();
+                                matrix.postRotate(orientation);
+                                thumbnail = Bitmap.createBitmap(thumbnail, 0, 0, thumbnail.getWidth(),
+                                        thumbnail.getHeight(), matrix, true);
+                            } else
+                                thumbnail = Bitmap.createScaledBitmap(thumbnail, thumbnail.getWidth(),
+                                        thumbnail.getHeight(), true);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

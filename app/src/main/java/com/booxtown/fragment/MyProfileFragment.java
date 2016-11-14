@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
@@ -568,7 +569,20 @@ public class MyProfileFragment extends Fragment {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
+        int orientation=0;
+        if(thumbnail.getHeight() < thumbnail.getWidth()){
+            orientation = 90;
+        } else {
+            orientation = 0;
+        }
+        if (orientation != 0) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(orientation);
+            thumbnail = Bitmap.createBitmap(thumbnail, 0, 0, thumbnail.getWidth(),
+                    thumbnail.getHeight(), matrix, true);
+        } else
+            thumbnail = Bitmap.createScaledBitmap(thumbnail, thumbnail.getWidth(),
+                    thumbnail.getHeight(), true);
         bitmap_profile = Bitmap.createScaledBitmap(thumbnail,250,270, true);
         imv_menu_profile.setImageBitmap(bitmap_profile);
         long time = System.currentTimeMillis();
@@ -582,6 +596,20 @@ public class MyProfileFragment extends Fragment {
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
+                int orientation=0;
+                if(bm.getHeight() < bm.getWidth()){
+                    orientation = 90;
+                } else {
+                    orientation = 0;
+                }
+                if (orientation != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(orientation);
+                    bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
+                            bm.getHeight(), matrix, true);
+                } else
+                    bm = Bitmap.createScaledBitmap(bm, bm.getWidth(),
+                            bm.getHeight(), true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
