@@ -37,6 +37,7 @@ public class BookController {
     Activity mActivity;
     public BookController(){
         service = ServiceGenerator.GetInstance();
+
     }
 
     public BookController(Activity mActivity) {

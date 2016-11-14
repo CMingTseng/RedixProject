@@ -6,6 +6,7 @@ import android.os.StrictMode;
 
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.api.ServiceInterface;
+import com.booxtown.model.DayUsed;
 import com.booxtown.model.UserResult;
 
 import java.util.Hashtable;
@@ -25,6 +26,10 @@ public class UserController {
     public UserController(Context ct){
         service = ServiceGenerator.GetInstance();
         this.ct= ct;
+    }
+    public UserController(){
+        service = ServiceGenerator.GetInstance();
+
     }
 
     public String checkLoginValidate(String username, String password, String device_type,String session_id){
@@ -217,5 +222,23 @@ public class UserController {
         } catch (Exception ex) {
         }
         return false;
+    }
+
+    public DayUsed GetDayUsed(String session_id){
+        Call<DayUsed> profile = service.GetDayUsed(session_id);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            DayUsed str = profile.execute().body();
+            if (str.getCode().equals("200")){
+                return str;
+            }
+        } catch (Exception ex) {
+            String exe = ex.getMessage();
+        }
+        return null;
     }
 }

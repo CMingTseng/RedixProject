@@ -70,6 +70,9 @@
             android:name="com.booxtown.activity.SignIn_Activity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.booxtown.activity.Upgrade"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.booxtown.activity.ForgotPassword_Activity"
             android:screenOrientation="portrait" />
         <activity

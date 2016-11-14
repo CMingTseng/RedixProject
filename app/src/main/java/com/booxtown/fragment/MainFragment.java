@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.activity.SignIn_Activity;
+import com.booxtown.activity.Upgrade;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckSession;
@@ -50,6 +51,8 @@ import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.RangeSeekBar;
+import com.booxtown.controller.UserController;
+import com.booxtown.model.DayUsed;
 import com.booxtown.model.Genre;
 import com.booxtown.model.GenreValue;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
@@ -111,12 +114,37 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     int minRangerSeekbar = 0;
     int maxRangerSeekbar = 0;
     double maxSeekbar = 0;
-
+    RelativeLayout notiTrial,notiUpgrade;
+    TextView txtNotifiTrial;
     //end
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
+
+         notiTrial= (RelativeLayout) view.findViewById(R.id.notiTrial);
+         notiUpgrade= (RelativeLayout) view.findViewById(R.id.notiUpgrade);
+        txtNotifiTrial=(TextView) view.findViewById(R.id.txtNotifiTrial);
+        notiTrial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getActivity(), Upgrade.class);
+                startActivity(intent);
+            }
+        });
+        notiUpgrade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getActivity(), Upgrade.class);
+                startActivity(intent);
+            }
+        });
+
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String sessionID = pref.getString("session_id", null);
+        GetDayUsed getDayUsed= new GetDayUsed(getContext(),sessionID);
+        getDayUsed.execute();
+        //------------------------------------------------------------------------------------
 
         ImageView img_menu = (ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(img_menu);
@@ -821,7 +849,67 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
         }
     }
+    class GetDayUsed extends AsyncTask<String, Void,DayUsed> {
 
+        Context context;
+
+        String session_id;
+
+
+        public GetDayUsed(Context context,String session_id) {
+            this.context = context;
+            this.session_id = session_id;
+
+        }
+
+        @Override
+        protected DayUsed doInBackground(String... strings) {
+            try {
+                CheckSession checkSession = new CheckSession();
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+                if (!check) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", "");
+                    editor.commit();
+                    Intent intent = new Intent(context, SignIn_Activity.class);
+                    context.startActivity(intent);
+                    this.cancel(true);
+                }
+            } catch (Exception exx) {
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
+            UserController userController = new UserController(context);
+            return userController.GetDayUsed(session_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(final DayUsed dayUsed) {
+            try {
+                if (dayUsed == null) {
+
+                } else {
+                    if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
+                        notiTrial.setVisibility(View.GONE);
+                        notiUpgrade.setVisibility(View.VISIBLE);
+                    }else if(Integer.parseInt(dayUsed.getDayUsed())<=14 && !dayUsed.getIs_active().equals("1")){
+                        txtNotifiTrial.setText("Your free trial expires in "+(14-Integer.parseInt(dayUsed.getDayUsed()))+" days");
+                        notiTrial.setVisibility(View.VISIBLE);
+                        notiUpgrade.setVisibility(View.GONE);
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
     public void addMarker(final List<Book> books) {
         try {
             mMap.clear();

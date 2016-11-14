@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.booxtown.adapter.AdapterSwap;
 import com.booxtown.controller.BookController;
@@ -240,9 +241,13 @@ public class SwapActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String transactionID) {
-            if (transactionID == "") {
+            if (transactionID == null) {
 
-            } else {
+            }
+            else if(transactionID.equals("isTrial")){
+                Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+            }
+            else {
 
                 SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();

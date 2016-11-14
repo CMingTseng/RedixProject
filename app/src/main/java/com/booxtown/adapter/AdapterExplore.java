@@ -365,9 +365,13 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
 
         @Override
         protected void onPostExecute(String transactionID) {
-            if (transactionID == "") {
+            if (transactionID == null) {
 
-            } else {
+            }
+            else if(transactionID.equals("isTrial")){
+                Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+            }
+            else {
                 if(action.equals("buy")) {
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();

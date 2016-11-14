@@ -31,7 +31,9 @@ import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.adapter.AdapterListviewWishboard;
 import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
+import com.booxtown.controller.UserController;
 import com.booxtown.controller.WishboardController;
+import com.booxtown.model.DayUsed;
 import com.booxtown.model.Wishboard;
 import com.squareup.picasso.Picasso;
 
@@ -51,6 +53,7 @@ public class WishboardFragment extends Fragment {
     private int previousTotal = 0,visibleThreshold = 5;
     boolean loading = true,
             isLoading = true;
+    ImageView img_component;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class WishboardFragment extends Fragment {
 
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         session_id = pref.getString("session_id", null);
-        ImageView img_component=(ImageView) getActivity().findViewById(R.id.img_menu_component);
+        img_component=(ImageView) getActivity().findViewById(R.id.img_menu_component);
         img_component.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,9 +125,12 @@ public class WishboardFragment extends Fragment {
                 });
             }
         });
-        populatRecyclerView(session_id);
-        implementScrollListener(session_id);
-        MainAllActivity.setTxtTitle("Wishboard");
+        //populatRecyclerView(session_id);
+        //implementScrollListener(session_id);
+        //MainAllActivity.setTxtTitle("Wishboard");
+
+        GetDayUsed getDayUsed= new GetDayUsed(getContext(),session_id);
+        getDayUsed.execute();
         return view;
     }
 
@@ -166,7 +172,69 @@ public class WishboardFragment extends Fragment {
             }
         });
     }
+    class GetDayUsed extends AsyncTask<String, Void,DayUsed> {
 
+        Context context;
+
+        String session_id;
+
+
+        public GetDayUsed(Context context,String session_id) {
+            this.context = context;
+            this.session_id = session_id;
+
+        }
+
+        @Override
+        protected DayUsed doInBackground(String... strings) {
+            try {
+                CheckSession checkSession = new CheckSession();
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+                if (!check) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", "");
+                    editor.commit();
+                    Intent intent = new Intent(context, SignIn_Activity.class);
+                    context.startActivity(intent);
+                    this.cancel(true);
+                }
+            } catch (Exception exx) {
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
+            UserController userController = new UserController(context);
+            return userController.GetDayUsed(session_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(DayUsed dayUsed) {
+            try {
+                if (dayUsed == null) {
+
+                } else {
+                    if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
+                        img_component.setVisibility(View.INVISIBLE);
+                        Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+
+                        populatRecyclerView(session_id);
+                        implementScrollListener(session_id);
+                        MainAllActivity.setTxtTitle("Wishboard");
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
 
     class getWishboard extends AsyncTask<String,Void,List<Wishboard>>{
         ProgressDialog progressDialog;

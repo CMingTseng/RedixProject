@@ -5,55 +5,54 @@
     android:layout_alignParentTop="true">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@color/background_listing"
-        android:id="@+id/relativeLayout">
+        android:layout_alignParentTop="true"
+        android:background="@color/background_listing">
 
         <com.booxtown.custom.CustomEdittext
+            android:id="@+id/editSearch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/editSearch"
-            android:background="#ffffff"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="false"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:hint="Search"
-            android:textColorHint="@color/color_text_hint"
-            android:paddingRight="35dp"
             android:layout_alignParentTop="false"
-            android:layout_toStartOf="@+id/btn_filter_explore"
-            android:layout_toLeftOf="@+id/btn_filter_explore"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textSize="@dimen/text_size_search"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="-12dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/btn_filter_explore"
+            android:layout_toStartOf="@+id/btn_filter_explore"
+            android:background="#ffffff"
+            android:hint="Search"
             android:imeOptions="actionDone"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="35dp"
+            android:paddingTop="5dp"
             android:singleLine="true"
-            />
+            android:textColorHint="@color/color_text_hint"
+            android:textSize="@dimen/text_size_search" />
 
         <ImageView
+            android:id="@+id/btn_filter_explore"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_filter_explore"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="false"
-            android:layout_alignTop="@+id/editSearch"
             android:layout_alignBottom="@+id/editSearch"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/editSearch"
             android:layout_marginRight="8dp"
             android:adjustViewBounds="true" />
 
         <ImageView
+            android:id="@+id/btn_search"
             android:layout_width="24dp"
             android:layout_height="18dp"
-            android:id="@+id/btn_search"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btn_filter_explore" />
 
@@ -62,43 +61,44 @@
     <RelativeLayout
         android:id="@+id/notiTrial"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/relativeLayout"
         android:layout_centerHorizontal="true"
         android:background="@color/color_text"
-        android:visibility="visible"
-        >
+        android:visibility="gone"
+        android:layout_marginBottom="5dp">
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/txtNotifiTrial"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Your free trial expires in 14 days"
-            android:id="@+id/txtNotifiTrial"
-            android:textColor="@color/dot_light_screen1"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-
-            android:gravity="center_vertical|center_horizontal" />
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Your free trial expires in 14 days"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_marginBottom="5dp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/notiUpgrade"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/notiTrial"
         android:layout_centerHorizontal="true"
         android:background="@color/color_text"
-
-        >
+        android:visibility="visible"
+        android:layout_marginBottom="5dp">
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/txtNotifiUpgrade"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/Upgrade"
-            android:id="@+id/txtNotifiUpgrade"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:gravity="center_vertical|center_horizontal"
-            android:textColor="@color/dot_light_screen1" />
+            android:text="@string/Upgrade"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_marginBottom="5dp" />
     </RelativeLayout>
 </RelativeLayout>

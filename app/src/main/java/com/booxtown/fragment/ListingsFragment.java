@@ -113,6 +113,10 @@ public class ListingsFragment extends Fragment {
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(imageView_back);
         //grid=(GridView)view.findViewById(R.id.grid_view_listings);
         txt_my_listings = (TextView) view.findViewById(R.id.txt_my_listings);
+        RelativeLayout notiTrial= (RelativeLayout) view.findViewById(R.id.notiTrial);
+        RelativeLayout notiUpgrade= (RelativeLayout) view.findViewById(R.id.notiUpgrade);
+        notiTrial.setVisibility(View.GONE);
+        notiUpgrade.setVisibility(View.GONE);
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

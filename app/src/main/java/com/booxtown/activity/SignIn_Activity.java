@@ -55,7 +55,7 @@ Button mButtonForgotPass;
         mButtonForgotPass.setOnClickListener(this);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         session_id = pref.getString("session_id", null);
-        if (session_id != null){
+        if (session_id != null|| !session_id.equals("")){
             Intent intent = new Intent(SignIn_Activity.this, MainAllActivity.class);
             startActivity(intent);
         }

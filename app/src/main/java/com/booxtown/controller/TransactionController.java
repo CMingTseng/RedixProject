@@ -8,9 +8,12 @@ import com.booxtown.api.ServiceInterface;
 
 import java.util.Hashtable;
 
+import com.booxtown.model.DayUsed;
 import com.booxtown.model.Result;
 import com.booxtown.model.Transaction;
 import com.booxtown.model.TransactionResult;
+import com.booxtown.model.User;
+
 import retrofit2.Call;
 
 /**
@@ -25,28 +28,35 @@ public class TransactionController {
     }
 
     public String transactionInsert(String buyUserID, String sellUserID, String buyBookID, String sellBookID,String action, String session_id){
-        Hashtable obj= new Hashtable();
-        obj.put("session_id",session_id);
-        obj.put("buyUserID",buyUserID);
-        obj.put("sellUserID",sellUserID);
-        obj.put("buyBookID",buyBookID);
-        obj.put("sellBookID",sellBookID);
-        obj.put("action",action);
-        Call<Result> transactionInsert = service.transactionInsert(obj);
-        try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy =
-                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-            }
-            Result str = transactionInsert.execute().body();
-            if (str.getCode() == 200){
-                result= str.getSession_id();
-            }
+        UserController userController= new UserController();
+        DayUsed used= userController.GetDayUsed(session_id);
+        if(Integer.parseInt(used.getDayUsed())<=14 || used.getIs_active().equals("1")||action.equals("free")){
+            Hashtable obj= new Hashtable();
+            obj.put("session_id",session_id);
+            obj.put("buyUserID",buyUserID);
+            obj.put("sellUserID",sellUserID);
+            obj.put("buyBookID",buyBookID);
+            obj.put("sellBookID",sellBookID);
+            obj.put("action",action);
+            Call<Result> transactionInsert = service.transactionInsert(obj);
+            try {
+                if (android.os.Build.VERSION.SDK_INT > 9) {
+                    StrictMode.ThreadPolicy policy =
+                            new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                }
+                Result str = transactionInsert.execute().body();
+                if (str.getCode() == 200){
+                    result= str.getSession_id();
+                }
 
-        } catch (Exception ex) {
-            result = null;
+            } catch (Exception ex) {
+                result = null;
+            }
+        }else{
+            result="isTrial";
         }
+
         return result;
     }
     public boolean CheckExitsTransaction(String user_seller_id, String book_seller_id,String session_id){
