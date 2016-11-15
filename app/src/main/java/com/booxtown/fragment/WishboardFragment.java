@@ -193,7 +193,7 @@ public class WishboardFragment extends Fragment {
                 boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
                 if (!check) {
                     SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("session_id", "");
+                    editor.putString("session_id", null);
                     editor.commit();
                     Intent intent = new Intent(context, SignIn_Activity.class);
                     context.startActivity(intent);

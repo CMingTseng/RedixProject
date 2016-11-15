@@ -32,6 +32,7 @@ import com.booxtown.controller.NotificationController;
 import com.booxtown.controller.ObjectCommon;
 import com.booxtown.controller.UserController;
 import com.booxtown.controller.WishboardController;
+import com.booxtown.model.Comment;
 import com.booxtown.model.Notification;
 import com.booxtown.model.Wishboard;
 import com.github.siyamed.shapeimageview.CircularImageView;
@@ -57,7 +58,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     boolean loading = true,
             isLoading = true;
     private int previousTotal = 0;
-    private int visibleThreshold = 5;
+    private int visibleThreshold = 4;
 
     ImageView img_menu_bottom_location,img_menu_bottom_comment,img_menu_bottom_camera,img_menu_bottom_bag,img_menu_bottom_user;
 
@@ -226,31 +227,31 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
             adapter.notifyDataSetChanged();
         }
     }
-
+    private int totalItemCount,lastVisibleItem;
     private void implementScrollListener(final String post_id) {
         rv_comment.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int visibleItemCount = rv_comment.getChildCount();
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                totalItemCount = linearLayoutManager.getItemCount();
+                lastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
 
-                if (loading) {
+                /*if (loading) {
                     if (totalItemCount > previousTotal) {
                         loading = false;
                         previousTotal = totalItemCount;
                     }
-                }
-                if (!loading && (totalItemCount - visibleItemCount)
-                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                }*/
+                if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     // End has been reached
-                    CommentBook commentBook= arr_commet.get(arr_commet.size()-1);
+                    CommentBook commentBook = arr_commet.get(arr_commet.size() - 1);
                     getComment getcomment = new getComment(RespondActivity.this,post_id,15,commentBook.getId());
                     getcomment.execute();
                     // Do something
                     loading = true;
                 }
+
             }
         });
     }

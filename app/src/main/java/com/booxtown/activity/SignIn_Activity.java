@@ -152,17 +152,7 @@ Button mButtonForgotPass;
         @Override
         protected String doInBackground(String... params) {
             try {
-                CheckSession checkSession = new CheckSession();
-                SharedPreferences pref = SignIn_Activity.this.getSharedPreferences("MyPref",MODE_PRIVATE);
-                boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-                if(!check){
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("session_id",null);
-                    editor.commit();
-                    Intent intent = new Intent(SignIn_Activity.this, SignIn_Activity.class);
-                    startActivity(intent);
-                    this.cancel(true);
-                }
+
                 UserController userController = new UserController(SignIn_Activity.this);
                 String first_name = userController.getprofile(params[0]).get(0).getFirst_name();
                 return first_name;
