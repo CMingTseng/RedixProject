@@ -47,10 +47,11 @@ public class InteractThreadDetailsFragment extends Fragment {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     List<Comment> arr_commet = new ArrayList<>();
+    List<String> arr_commetID = new ArrayList<>();
     boolean loading = true,
             isLoading = true;
     private int previousTotal = 0;
-    private int visibleThreshold = 5;
+    private int visibleThreshold = 4;
 
     Thread threads;
     Topic topic;
@@ -185,23 +186,22 @@ public class InteractThreadDetailsFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
-
+    private int totalItemCount,lastVisibleItem;
     private void implementScrollListener(final String thread_id) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int visibleItemCount = recyclerView.getChildCount();
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-                if (loading) {
-                    if (totalItemCount > previousTotal) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                    }
-                }
-                if (!loading && (totalItemCount - visibleItemCount)
-                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                 totalItemCount = linearLayoutManager.getItemCount();
+                lastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                //if (loading) {
+                 //   if (totalItemCount > previousTotal) {
+                  //      loading = false;
+                  //      previousTotal = totalItemCount;
+                  //  }
+               //}
+                if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     // End has been reached
                     Comment commentBook = arr_commet.get(arr_commet.size() - 1);
                     commentAsync getcomment = new commentAsync(getContext(), thread_id, 15, Integer.parseInt(commentBook.getId()));
@@ -255,6 +255,12 @@ public class InteractThreadDetailsFragment extends Fragment {
         protected void onPostExecute(List<Comment> comments) {
             try {
                 if (comments.size() > 0) {
+                    /*for(int i=0; i<comments.size(); i++){
+                        if(!arr_commetID.contains(comments.get(i).getId())){
+                            arr_commet.add(comments.get(i));
+                            arr_commetID.add(comments.get(i).getId());
+                        }
+                    }*/
                     arr_commet.addAll(comments);
                     adapter.notifyDataSetChanged();
                     if (!listUser.contains(threads.getUser_id())) {

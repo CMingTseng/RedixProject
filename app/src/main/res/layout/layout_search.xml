@@ -87,7 +87,7 @@
         android:layout_below="@+id/notiTrial"
         android:layout_centerHorizontal="true"
         android:background="@color/color_text"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_marginBottom="5dp">
 
         <com.booxtown.custom.CustomTextView
