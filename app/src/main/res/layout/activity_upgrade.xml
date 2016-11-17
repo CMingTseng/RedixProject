@@ -20,7 +20,7 @@
         android:layout_height="40dp"
         android:layout_below="@+id/btn_close_upgrade"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/relativeLayout14">
 
         <com.booxtown.custom.CustomTextView
@@ -40,7 +40,8 @@
         android:layout_height="20dp"
         android:layout_below="@+id/relativeLayout14"
         android:layout_centerHorizontal="true"
-        android:id="@+id/relativeLayout15">
+        android:id="@+id/relativeLayout15"
+        android:layout_marginTop="20dp">
 
         <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
@@ -51,7 +52,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="left|center_vertical|center_horizontal"
             android:textColor="@color/dot_light_screen1"
-            android:paddingLeft="15dp" />
+            android:paddingLeft="25dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -70,7 +71,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="@drawable/icon_book"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginBottom="2dp" />
 
         <com.booxtown.custom.CustomTextView
@@ -102,7 +103,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="@drawable/icon_book"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginBottom="2dp" />
 
         <com.booxtown.custom.CustomTextView
@@ -135,7 +136,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="5dp" />
 
         <com.booxtown.custom.CustomTextView
@@ -168,7 +169,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="5dp" />
 
         <com.booxtown.custom.CustomTextView
@@ -189,21 +190,21 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_below="@+id/relativeLayout19"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:id="@+id/relativeLayout20"
-        android:layout_marginRight="15dp">
+        android:layout_marginRight="15dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="15dp"
             android:id="@+id/imageView9"
-            android:layout_alignParentBottom="true"
+            android:background="@drawable/icon_book"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@drawable/icon_book"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="2dp" />
+            android:layout_marginLeft="25dp" />
 
         <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
@@ -225,7 +226,7 @@
         android:id="@+id/btn_upgrade"
         android:layout_below="@+id/relativeLayout20"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:gravity="center_vertical|center_horizontal"
         android:background="@drawable/bg_interact_bt_popup"
         android:textColor="@color/color_text"
