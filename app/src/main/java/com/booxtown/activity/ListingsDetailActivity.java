@@ -86,6 +86,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     private RecyclerView rv_comment;
     LinearLayoutManager linearLayoutManager;
     List<CommentBook> arr_commnet = new ArrayList<>();
+    List<CommentBook> arr_commnetOld = new ArrayList<>();
     AdapterCommentBook adapter;
     boolean loading = true,
             isLoading = true;
@@ -110,6 +111,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     String session_id;
     TableRow tbTypebook,tbTypebook2;
     EditText editText11;
+    List<String> arr_commetID = new ArrayList<>();
     //end
     @Nullable
     @Override
@@ -215,7 +217,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                             comment = new getComment(getContext(), book.getId(), 15, 0);
                         } else {
                             commentBook = arr_commnet.get(arr_commnet.size() - 1);
-                            comment = new getComment(getContext(), book.getId(), 15, commentBook.getId());
+                            comment = new getComment(getContext(), book.getId(), 1000,0);
                         }
                         comment.execute();
                     }
@@ -497,7 +499,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 super.onScrolled(recyclerView, dx, dy);
                 int visibleItemCount = rv_comment.getChildCount();
                 totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
                /* if (loading) {
                     if (totalItemCount > previousTotal) {
@@ -941,6 +943,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         protected void onPostExecute(List<CommentBook> commentBooks) {
             try {
                 if (commentBooks.size() > 0) {
+                    /*for(int i=0; i<commentBooks.size(); i++){
+                        if(!arr_commetID.contains(commentBooks.get(i).getId()+"")){
+                            arr_commnet.add(commentBooks.get(i));
+                            arr_commetID.add(commentBooks.get(i).getId()+"");
+                        }
+                    }*/
+                    arr_commnet.removeAll(arr_commnetOld);
+                    arr_commnetOld=commentBooks;
                     arr_commnet.addAll(commentBooks);
                     adapter.notifyDataSetChanged();
                     isLoading = true;
@@ -952,10 +962,10 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                             listUser.add(commentBooks.get(i).getUser_id() + "");
                         }
                     }
-
+                    loading = false;
                     progressDialog.dismiss();
                 } else {
-                    isLoading = false;
+                    loading = true;
                     progressDialog.dismiss();
                 }
             } catch (Exception e) {

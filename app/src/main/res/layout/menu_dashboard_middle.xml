@@ -27,20 +27,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ratingBar_user_dashboard_middle"
-        android:theme="@style/RatingBar"
-        android:numStars="5"
-        style="?android:attr/ratingBarStyleSmall"
-        android:scaleY="1.2"
-        android:scaleX="1.2"
-        android:layout_marginTop="7dp"
-        android:layout_below="@+id/textView_username_dashboard_middle"
-        android:layout_alignRight="@+id/img_menu_dashboard_middle"
-        android:layout_alignEnd="@+id/img_menu_dashboard_middle" />
-
     <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
@@ -51,13 +37,13 @@
         android:layout_toRightOf="@+id/ratingBar_user_dashboard_middle"
         android:layout_toEndOf="@+id/ratingBar_user_dashboard_middle"
         android:layout_marginBottom="-5dp"
-        android:layout_marginLeft="15dp" />
+        android:layout_marginLeft="10dp" />
 
     <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/img_rank2_satus"
-        android:visibility="gone"
+
         app:siBorderColor="@color/color_bg_listings_detail"
         app:siBorderWidth="1dp"
         android:layout_alignTop="@+id/img_rank1_satus"
@@ -88,5 +74,21 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:paddingBottom="10dp"/>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar_user_dashboard_middle"
+        android:theme="@style/RatingBar"
+        android:numStars="5"
+        style="?android:attr/ratingBarStyleSmall"
+        android:scaleY="1.2"
+        android:scaleX="1.2"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_below="@+id/textView_username_dashboard_middle"
+        android:layout_alignRight="@+id/img_menu_dashboard_middle"
+        android:layout_alignEnd="@+id/img_menu_dashboard_middle" />
 
 </RelativeLayout>

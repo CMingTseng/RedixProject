@@ -508,7 +508,20 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                         addMarkerSearch(filter(listvalueGenre));
                     }
                 });
-
+                final TextView tv_genralChoose=(TextView) dialog.findViewById(R.id.tv_genral);
+                if(Information.lstGenre.size()>0){
+                    String genreChoose="";
+                    for (int k = 0; k < Information.lstGenre.size(); k++) {
+                        if (Information.lstGenre.get(k).ischeck() == true) {
+                            if(k<Information.lstGenre.size()-1) {
+                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +",";
+                            }else{
+                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +"";
+                            }
+                        }
+                    }
+                    tv_genralChoose.setText(genreChoose);
+                }
                 RelativeLayout tv_genral = (RelativeLayout) dialog.findViewById(R.id.relaytive_genre);
                 tv_genral.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -531,6 +544,17 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                         button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                String genreChoose="";
+                                for (int k = 0; k < genre.size(); k++) {
+                                    if (genre.get(k).ischeck() == true) {
+                                        if(k==genre.size()-1) {
+                                            genreChoose = genreChoose +genre.get(k).getValue() +"";
+                                        }else{
+                                            genreChoose = genreChoose +genre.get(k).getValue() +",";
+                                        }
+                                    }
+                                }
+                                tv_genralChoose.setText(genreChoose);
                                 dialog.dismiss();
                             }
                         });

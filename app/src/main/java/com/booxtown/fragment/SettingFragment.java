@@ -216,22 +216,24 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                             if (!time1.equals("")) {
 
                                 String[] time1Tmp = time1.split(":");
-                                if (Integer.parseInt(time1Tmp[0]) < 12) {
+                                besttime1.setText(time1Tmp[0] + ":" + time1Tmp[1]);
+                                /*if (Integer.parseInt(time1Tmp[0]) < 12) {
                                     besttime1.setText(time1Tmp[0] + ":" + time1Tmp[1] + " AM");
                                 } else {
                                     besttime1.setText(time1Tmp[0] + ":" + time1Tmp[1] + " PM");
-                                }
+                                }*/
 
 
                             }
                             if (!time2.equals("")) {
 
                                 String[] time2Tmp = time2.split(":");
-                                if (Integer.parseInt(time2Tmp[0]) < 12) {
+                                besttime2.setText(time2Tmp[0] + ":" + time2Tmp[1]);
+                                /*if (Integer.parseInt(time2Tmp[0]) < 12) {
                                     besttime2.setText(time2Tmp[0] + ":" + time2Tmp[1] + " AM");
                                 } else {
                                     besttime2.setText(time2Tmp[0] + ":" + time2Tmp[1] + " PM");
-                                }
+                                }*/
 
                             }
                             besttime1.setOnClickListener(new View.OnClickListener() {
@@ -244,7 +246,8 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                                     mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                                         @Override
                                         public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                                            besttime1.setText(convertTime(i) + ":" + convertTime(i1) + " " + showTime(i, i1));
+                                            //besttime1.setText(convertTime(i) + ":" + convertTime(i1) + " " + showTime(i, i1));
+                                            besttime1.setText(convertTime(i) + ":" + convertTime(i1) + " ");
                                             time1 = convertTime(i) + ":" + convertTime(i1)+":00";
                                         }
                                     }, hour, minute, true);
@@ -263,7 +266,8 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                                         @Override
                                         public void onTimeSet(TimePicker timePicker, int i, int i1) {
                                             time2 = convertTime(i) + ":" + convertTime(i1)+":00";
-                                            besttime2.setText(convertTime(i) + ":" + convertTime(i1) + " " + showTime(i, i1));
+                                            //besttime2.setText(convertTime(i) + ":" + convertTime(i1) + " " + showTime(i, i1));
+                                            besttime2.setText(convertTime(i) + ":" + convertTime(i1));
                                         }
                                     }, hour, minute, true);
                                     mTimePicker.setTitle("");
@@ -302,11 +306,11 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b == true) {
                     getActivity().getSupportFragmentManager().beginTransaction().hide(mMapFragment).commit();
-                    is_current_location = 0;
+                    is_current_location = 1;
                     txtFindLocation.setVisibility(View.GONE);
                 } else {
                     getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
-                    is_current_location = 1;
+                    is_current_location = 0;
                 }
             }
         });
@@ -630,18 +634,20 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                         String[] time1Tmp = settings.get(0).getTime_start().split(":");
                         String time_start = "";
                         String time_end = "";
-                        if (Integer.parseInt(time1Tmp[0]) < 12) {
+                        time_start = time1Tmp[0] + ":" + time1Tmp[1];
+                        /*if (Integer.parseInt(time1Tmp[0]) < 12) {
                             time_start = time1Tmp[0] + ":" + time1Tmp[1] + " AM";
                         } else {
                             time_start = time1Tmp[0] + ":" + time1Tmp[1] + " PM";
-                        }
+                        }*/
 
                         String[] time2Tmp = settings.get(0).getTime_to().split(":");
-                        if (Integer.parseInt(time2Tmp[0]) < 12) {
+                        time_end = time2Tmp[0] + ":" + time2Tmp[1];
+                        /*if (Integer.parseInt(time2Tmp[0]) < 12) {
                             time_end = time2Tmp[0] + ":" + time2Tmp[1] + " AM";
                         } else {
                             time_end = time2Tmp[0] + ":" + time2Tmp[1] + " PM";
-                        }
+                        }*/
                         txt_setting_besttime.setText(time_start + " - " + time_end);
                         time1 = settings.get(0).getTime_start();
                         time2 = settings.get(0).getTime_to();

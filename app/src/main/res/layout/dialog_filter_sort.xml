@@ -176,7 +176,10 @@
                     android:text="Select genre"
                     android:textColor="@color/color_filter_price"
                     android:id="@+id/tv_genral"
-                    android:textSize="@dimen/slide_desc">
+                    android:textSize="@dimen/slide_desc"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true">
 
                 </com.booxtown.custom.CustomTextView>
                 <ImageView

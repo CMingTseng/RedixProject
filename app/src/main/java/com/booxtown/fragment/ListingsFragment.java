@@ -285,7 +285,20 @@ public class ListingsFragment extends Fragment {
                         filter(listvalueGenre);
                     }
                 });
-
+                final TextView tv_genralChoose=(TextView) dialog.findViewById(R.id.tv_genral);
+                if(Information.lstGenre.size()>0){
+                    String genreChoose="";
+                    for (int k = 0; k < Information.lstGenre.size(); k++) {
+                        if (Information.lstGenre.get(k).ischeck() == true) {
+                            if(k<Information.lstGenre.size()-1) {
+                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +",";
+                            }else{
+                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +"";
+                            }
+                        }
+                    }
+                    tv_genralChoose.setText(genreChoose);
+                }
                 RelativeLayout tv_genral = (RelativeLayout) dialog.findViewById(R.id.relaytive_genre);
                 tv_genral.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -295,6 +308,8 @@ public class ListingsFragment extends Fragment {
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_genre);
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
 
                         RecyclerView rv_genre = (RecyclerView) dialog.findViewById(R.id.listView_genre);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -310,6 +325,17 @@ public class ListingsFragment extends Fragment {
                         button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                String genreChoose="";
+                                for (int k = 0; k < genre.size(); k++) {
+                                    if (genre.get(k).ischeck() == true) {
+                                        if(k==genre.size()-1) {
+                                            genreChoose = genreChoose +genre.get(k).getValue() +"";
+                                        }else{
+                                            genreChoose = genreChoose +genre.get(k).getValue() +",";
+                                        }
+                                    }
+                                }
+                                tv_genralChoose.setText(genreChoose);
                                 dialog.dismiss();
                             }
                         });
@@ -450,7 +476,7 @@ public class ListingsFragment extends Fragment {
             Collections.sort(lisfilter_temp, Book.recently);
             Information.recently=true;
         }
-        ListBookAdapter adapter = new ListBookAdapter(getActivity(), lisfilter_temp,1, 0);
+        ListBookAdapter adapter = new ListBookAdapter(getActivity(), lisfilter_temp,1,0, 0);
         rView.setAdapter(adapter);
     }
     public List<Book> filterStart() {
@@ -546,7 +572,7 @@ public class ListingsFragment extends Fragment {
                     isLoading = false;
                 } else {
                     listExplore = books;
-                    adapter_listbook = new ListBookAdapter(getActivity(), filterStart(), 1, 2);
+                    adapter_listbook = new ListBookAdapter(getActivity(), filterStart(), 1,0, 2);
                     rView.setAdapter(adapter_listbook);
                     //listExplore.addAll(books);
 

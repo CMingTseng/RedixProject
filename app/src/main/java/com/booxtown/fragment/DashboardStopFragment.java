@@ -109,6 +109,7 @@ public class DashboardStopFragment extends Fragment {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("dashboard", dashBoard);
                         bundle.putSerializable("user", user);
+                        bundle.putString("user_id",userID);
                         DashboardDeleteFragment fragment= new DashboardDeleteFragment();
                         fragment.setArguments(bundle);
                         callFragment(fragment);
@@ -144,11 +145,32 @@ public class DashboardStopFragment extends Fragment {
         });
         title_menu.setText("Dashboard");
         img_menu_component.setVisibility(View.GONE);
-        getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
-        getUser.execute();
+
+
+        if(userID.equals(dashBoard.getUser_buyer_id())) {
+            getUser getUser = new getUser(getContext(), dashBoard.getUser_seller_id());
+            getUser.execute();
+        }
+        else{
+            getUser getUser = new getUser(getContext(), dashBoard.getUser_buyer_id());
+            getUser.execute();
+        }
+
         if(dashBoard.getAction().equals("swap")){
-            getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
-            getBookByID.execute();
+            if(userID.equals(dashBoard.getUser_buyer_id())) {
+                getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_seller_id()));
+                getBookByID.execute();
+            }else{
+                String[] listBookID=dashBoard.getBook_buyer_id().replace("_+_","_").split("_");
+                if(listBookID.length>0) {
+                    getBookByID getBookByID = new getBookByID(getContext(), String.valueOf(listBookID[listBookID.length-1]));
+                    getBookByID.execute();
+                }else {
+                    getBookByID getBookByID = new getBookByID(getContext(), String.valueOf(dashBoard.getBook_buyer_id()));
+                    getBookByID.execute();
+                }
+            }
+
             textView_namebook_buyer.setVisibility(View.VISIBLE);
             textView_nameauthor_buyer.setVisibility(View.VISIBLE);
         }else if(dashBoard.getAction().equals("buy")){
@@ -421,7 +443,7 @@ public class DashboardStopFragment extends Fragment {
     class transactionChangeStatus extends AsyncTask<Void, Void, String> {
 
         Context context;
-        ProgressDialog dialog;
+
         Book book;
         String session_id, trans_id, status_id;
         String book_id;
@@ -459,12 +481,43 @@ public class DashboardStopFragment extends Fragment {
         @Override
         protected void onPostExecute(String transactionID) {
 
-            try {
-                UserID us= new UserID(getContext(), trans);
-                us.execute(session_id);
+            /*try {
+                UserID us= new UserID(getActivity(), trans,session_id);
+                us.execute();
 
             }catch (Exception e){
 
+            }*/
+
+            try {
+                //if(!threads.getUser_id().equals(user_ID)) {
+                SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                String firstName = pref.getString("firstname", "");
+
+                List<Hashtable> list = new ArrayList<>();
+                if(session_id.equals(trans.getSession_user_buy()+"")) {
+                    Notification notification = new Notification("Cancel Transaction",trans.getId()+"", "12");
+                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                    obj.put("user_id", trans.getUser_seller_id());
+                    obj.put("messages",firstName+ " cancelled a transaction related to " + bookName);
+
+                    list.add(obj);
+                }else{
+                    Notification notification = new Notification("Cancel Transaction", trans.getId()+"", "12");
+                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                    obj.put("user_id", trans.getUser_buyer_id());
+                    obj.put("messages", "You cancelled a transaction related to " + bookName);
+
+                    list.add(obj);
+                }
+
+                NotificationController controller = new NotificationController();
+                controller.sendNotification(list);
+
+                //}
+            }catch (Exception e){
+                String ssss= e.getMessage();
+                // Toast.makeText(context,"no data",Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -472,27 +525,18 @@ public class DashboardStopFragment extends Fragment {
     class UserID extends AsyncTask<String,Void,String>{
         Context context;
         Transaction trans;
-
-        public UserID(Context context,Transaction trans ){
+        String session_ID;
+        public UserID(Context context,Transaction trans,String session_Id){
             this.context=context;
             this.trans= trans;
+            this.session_ID=session_Id;
         }
         @Override
         protected String doInBackground(String... strings) {
-            CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
-            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
-                editor.commit();
-                Intent intent = new Intent(context, SignIn_Activity.class);
-                context.startActivity(intent);
-                this.cancel(true);
-            }
-            UserController userController  = new UserController(context);
-            String user_id = userController.getUserID(strings[0]);
-            return user_id;
+                UserController userController = new UserController(context);
+                String user_id = userController.getUserID(session_ID);
+                return user_id;
+
         }
 
         @Override

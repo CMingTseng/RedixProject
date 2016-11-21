@@ -71,6 +71,10 @@ public class SwapActivity extends AppCompatActivity {
                 final Dialog dialog = new Dialog(SwapActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.custompopup_screen78);
+
+                TextView txtTitle=(TextView) dialog.findViewById(R.id.tv_author);
+                txtTitle.setText("Your request has been sent successfully. Let's wait for "+bookIntent.getUsername()+"'s reply");
+
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
                 ImageView btnclose = (ImageView) dialog.findViewById(R.id.close_popup);

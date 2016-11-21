@@ -485,7 +485,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                                 dialog1.setContentView(R.layout.dialog_request_sent_listing);
 
                                 TextView textView133=(TextView) dialog1.findViewById(R.id.textView133);
-                                textView133.setText("Let&apos;s wait for "+book.getUsername()+"&apos;s reply");
+                                textView133.setText("Let's wait for "+book.getUsername()+"'s reply");
 
                                 dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 dialog1.show();
@@ -582,7 +582,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                             }
                         });
                     }else {
-                        UserID userID= new UserID(mContext,book.getId(), book.getUser_id(), 2, book);
+                        UserID userID= new UserID(mContext,book.getId(), book.getUser_id(), 3, book);
                         userID.execute();
                     }
                     dialog.dismiss();

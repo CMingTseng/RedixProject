@@ -95,7 +95,7 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
                 ((RecyclerViewHolder) holder).tv.setTextColor(Color.BLACK);
 
             }
-            ((RecyclerViewHolder) holder).tv.setText(notification.getTitle_notifi());
+            ((RecyclerViewHolder) holder).tv.setText(notification.getContent());
             try {
                 SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 String timeZone = pref.getString("timezone", null);

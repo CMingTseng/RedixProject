@@ -43,6 +43,8 @@ import com.booxtown.model.User;
 import com.booxtown.twitterSignIn.TwitterHelper;
 import com.booxtown.twitterSignIn.TwitterResponse;
 import com.booxtown.twitterSignIn.TwitterUser;
+import com.crashlytics.android.Crashlytics;
+import com.digits.sdk.android.Digits;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -93,17 +95,27 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            if (!Fabric.isInitialized()) {
+                TwitterAuthConfig authConfig = new TwitterAuthConfig(this.getResources().getString(R.string.twitter_api_key),
+                        this.getResources().getString(R.string.twitter_secrate_key));
+                Fabric.with(WelcomeActivity .this, new Twitter(authConfig),new Digits(), new Crashlytics());
+                //Fabric.with(this, new Crashlytics());
+            }
+                mTwitterHelper = new TwitterHelper(R.string.twitter_api_key,
+                        R.string.twitter_secrate_key,
+                        this,
+                        WelcomeActivity.this);
 
-        mTwitterHelper = new TwitterHelper(R.string.twitter_api_key,
-                R.string.twitter_secrate_key,
-                this,
-                WelcomeActivity.this);
-        //Google api initialization
-        mGAuthHelper = new GoogleSignInHelper(this, null, this);
-        //fb api initialization
-        mFbHelper = new FacebookHelper(this,
-                "id,name,email,gender,birthday,picture,cover",
-                this);
+            //Google api initialization
+            mGAuthHelper = new GoogleSignInHelper(this, null, this);
+            //fb api initialization
+            mFbHelper = new FacebookHelper(this,
+                    "id,name,email,gender,birthday,picture,cover",
+                    this);
+        }catch (Exception err){
+
+        }
         setContentView(R.layout.activity_welcome);
         //twitter initialization
         //end

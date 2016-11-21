@@ -53,9 +53,10 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
 
     @Override
     public void onBindViewHolder(HolderWisboard holder, final int position) {
-        if (list.get(position).getTitle().length() == 0) {
+        if (list.get(position).getTitle().trim().length() == 0) {
             if (list.get(position).getAuthor().length() == 0) {
                 holder.title.setText(list.get(position).getComment());
+                holder.name.setText("");
             } else {
                 holder.title.setText(list.get(position).getComment());
                 holder.name.setText("by " + list.get(position).getAuthor());

@@ -33,6 +33,7 @@ import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.UserController;
 import com.booxtown.controller.WishboardController;
+import com.booxtown.model.Comment;
 import com.booxtown.model.DayUsed;
 import com.booxtown.model.Wishboard;
 import com.squareup.picasso.Picasso;
@@ -49,6 +50,7 @@ public class WishboardFragment extends Fragment {
     AdapterListviewWishboard adpater;
     EditText editText_title_wishboard,editText_author_wishboard,editText_comment_wishboard;
     List<Wishboard> array_Wishboard;
+    List<Wishboard> array_WishboardOld;
     String session_id;
     private int previousTotal = 0,visibleThreshold = 5;
     boolean loading = true,
@@ -144,24 +146,22 @@ public class WishboardFragment extends Fragment {
             adpater.notifyDataSetChanged();
         }
     }
-
+    private int totalItemCount,lastVisibleItem;
     private void implementScrollListener(final String session_id) {
         rv_wishboard.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = rv_wishboard.getChildCount();
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
 
-                if (loading) {
-                    if (totalItemCount > previousTotal) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                    }
-                }
-                if (!loading && (totalItemCount - visibleItemCount)
-                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
+                totalItemCount = linearLayoutManager.getItemCount();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                //if (loading) {
+                //   if (totalItemCount > previousTotal) {
+                //      loading = false;
+                //      previousTotal = totalItemCount;
+                //  }
+                //}
+                if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     // End has been reached
                     Wishboard dashBoard_lv = array_Wishboard.get(array_Wishboard.size()-1);
                     getWishboard getWishboard = new getWishboard(getContext(),15,Integer.valueOf(dashBoard_lv.getId()),session_id);
@@ -275,12 +275,14 @@ public class WishboardFragment extends Fragment {
         protected void onPostExecute(List<Wishboard> wishboards) {
             try {
                 if (wishboards.size() > 0){
+                    array_Wishboard.removeAll(array_WishboardOld);
+                    array_WishboardOld=wishboards;
                     array_Wishboard.addAll(wishboards);
                     adpater.notifyDataSetChanged();
-                    isLoading = true;
+                    loading = false;
                     progressDialog.dismiss();
                 }else {
-                    isLoading =false;
+                    loading =true;
                     progressDialog.dismiss();
                 }
             }catch (Exception e){

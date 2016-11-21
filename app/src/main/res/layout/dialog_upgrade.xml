@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/popup_screen78">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,41 +14,39 @@
         <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/RequestSend"
-            android:id="@+id/tv_title"
-            android:gravity="center"
-            android:layout_marginTop="35dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:text="You membership"
+            android:id="@+id/textView135"
             android:textColor="@color/dot_light_screen1"
-            android:textSize="@dimen/text_request_swap"/>
+            android:textSize="18sp"
+            android:layout_below="@+id/textView134"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp" />
 
         <com.booxtown.custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/titlepopp_screen78"
-            android:id="@+id/tv_author"
-            android:layout_below="@+id/tv_title"
+            android:layout_width="224dp"
+            android:layout_height="36dp"
+            android:text="Ok"
+            android:id="@+id/btn_confirm"
+            android:layout_marginTop="100dp"
+            android:layout_below="@+id/textView_namebook_buy"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:textSize="@dimen/slide_desc"
-            />
-
-        <com.booxtown.custom.CustomTextView
-            android:layout_width="@dimen/btn_w"
-            android:layout_height="@dimen/btn_h"
-            android:text="@string/backtohome"
-            android:id="@+id/backhome"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/tv_author"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/change_pass"
+            android:background="@drawable/bg_white_popup"
             android:gravity="center"
             android:textColor="@color/color_text"
-            android:textSize="@dimen/text_book_exploer"
-            android:layout_marginBottom="10dp" />
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp" />
+
+        <com.booxtown.custom.CustomTextView
+            android:text="has been upgraded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView35"
+            android:textColor="@color/dot_light_screen1"
+            android:textSize="18sp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_below="@+id/textView135" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -63,7 +59,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/close_popup"
-            android:src="@drawable/btn_close_filter"
+            android:background="@drawable/btn_wishbroad_close"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />

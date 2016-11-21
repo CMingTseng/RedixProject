@@ -53,9 +53,15 @@
 
     <string name="about_booxtown">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.\n\nRichard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.\n\nLorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.\n\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.\n\nSections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</string>
     <string name="title_activity_wsdfgh">Map</string>
+    <string name="title_upgraded">You membership \nhas been upgraded</string>
+
 
     <!-- In App Purchase -->
     <string name="base64EncodedPublicKey">MMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh7KF0fwvCU9l9MfIURHEFAAOCAQIPnPG7G2u4ikR5j8nNJWuj4UI5qhkiz0qtNh+pNKS8uF8JDAv813vVLMZCg7FJBeynPH6ohKMmwol2rcJ7HmNGRg1i30mjUISomuAhnaLSKtuiRuGhTU2pjW1Ll/TgDWeoJjtU3kClMpF3EQV0Z0trMdinHCOITPh2bFpWTfWxfcmF17miySunnTJao1FEsnafgw04DfbAJdZjF4wCfXT9rRcDhRPCe+8y5SNh1gya0UD52rFEiexSMcJHDB2Uy0qt9Cyj7Ucjr0Uo9mJURSVoDG0c+CtAN5EtJ2AcSCySr7eS5B7bATbNVqgL83KcP7hXPzh+wIDAQAB</string>
     <string name="myproduct_id">myproduct_id_live</string>
     <string name="testing">android.test.purchased</string>
+
+    <!--<string name="base64EncodedPublicKey">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiot669HCQmS3JITJcEX+eHmTMkNZYHH+Lvmc/tIa8NY6+O0VEn4F8H/UuhiPjzkZMjsnO9ONhUa55mkpV3KT+mozWvnP1ICIyXbJLrYBe/tz17VYGJ5SLGmKm7b4IbR7BljtK+0gm1j/yirs9IMMNsRLNpEt9cUyWM/RFriu8bearLNp0k72CmYe/8s1A/GBVK/wzE0hv+1v9nIoJLF5yLbIps6CJh1M6C6pP2/OgQxH9HFDwQxkz4HXXIcOvJ4T4SKbeTH7m0zzwsQBv6fmBwUatktUtogohVFsnj0llx0c6BoFRkynAcrt6x5aiT2uZlnYd4t281yDt0cBUNI3wQIDAQAB</string>-->
+    <!--<string name="myproduct_id">myproduct_id_live</string>-->
+    <!--<string name="testing">com.booxtown</string>-->
 </resources>

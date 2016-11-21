@@ -476,7 +476,20 @@ public class ExploreFragment extends Fragment {
                         android.R.layout.simple_spinner_item, GetAllGenreAsync.list);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner2.setAdapter(dataAdapter);
-
+                final TextView tv_genralChoose=(TextView) dialog.findViewById(R.id.tv_genral);
+                if(Information.lstGenre.size()>0){
+                    String genreChoose="";
+                    for (int k = 0; k < Information.lstGenre.size(); k++) {
+                        if (Information.lstGenre.get(k).ischeck() == true) {
+                            if(k<Information.lstGenre.size()-1) {
+                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +",";
+                            }else{
+                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +"";
+                            }
+                        }
+                    }
+                    tv_genralChoose.setText(genreChoose);
+                }
                 RelativeLayout tv_genral = (RelativeLayout) dialog.findViewById(R.id.relaytive_genre);
                 tv_genral.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -500,7 +513,19 @@ public class ExploreFragment extends Fragment {
                         button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                String genreChoose="";
+                                for (int k = 0; k < genre.size(); k++) {
+                                    if (genre.get(k).ischeck() == true) {
+                                        if(k==genre.size()-1) {
+                                            genreChoose = genreChoose +genre.get(k).getValue() +"";
+                                        }else{
+                                            genreChoose = genreChoose +genre.get(k).getValue() +",";
+                                        }
+                                    }
+                                }
+                                tv_genralChoose.setText(genreChoose);
                                 dialog.dismiss();
+
                             }
                         });
                         ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.img_close_dialoggenre);

@@ -1,13 +1,17 @@
 package com.booxtown.activity;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +22,7 @@ import com.booxtown.R;
 import com.booxtown.util.IabHelper;
 import com.booxtown.util.IabResult;
 import com.booxtown.util.Purchase;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +53,7 @@ public class Upgrade extends AppCompatActivity{
                 onBackPressed();
             }
         });
-        /*btn_upgrade.setOnClickListener(new View.OnClickListener() {
+        btn_upgrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //check upgrade
@@ -65,7 +70,7 @@ public class Upgrade extends AppCompatActivity{
                             "mypurchasetoken");
                 }
             }
-        });*/
+        });
     }
 
     @Override
@@ -96,7 +101,27 @@ public class Upgrade extends AppCompatActivity{
             if (result.isFailure()) {
                 if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
                     // Already item purchased
-                    alert("Already Purchased");
+                    //alert("Already Purchased");
+                    final Dialog dialog = new Dialog(Upgrade.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_upgrade);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                    TextView button_confirm = (TextView) dialog.findViewById(R.id.btn_confirm);
+                    button_confirm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.close_popup);
+                    Picasso.with(Upgrade.this).load(R.drawable.btn_close_filter).into(img_close_dialoggenre);
+                    img_close_dialoggenre.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
                     return;
                 }
                 // Handle error

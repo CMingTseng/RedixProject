@@ -29,6 +29,7 @@ import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
+import com.booxtown.model.Comment;
 import com.booxtown.recyclerclick.RecyclerItemClickListener;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
@@ -134,7 +135,7 @@ public class MyProfileDashboardFragment extends Fragment {
         Picasso.with(getContext()).load(R.drawable.btn_sign_in_back).into(img_menu);
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         final String session_id =  pref.getString("session_id", null);
-        final String user_name = pref.getString("username",null);
+        final String user_name = pref.getString("firstname",null);
         user_id = Integer.valueOf(pref.getString("user_id",null));
 
         txt_username.setText(user_name);
@@ -217,23 +218,32 @@ public class MyProfileDashboardFragment extends Fragment {
                     }
                 }));
     }
-
+    private int totalItemCount,lastVisibleItem;
     private void implementScrollListener(final String session_id) {
         lv_myprofile_dashboard.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = lv_myprofile_dashboard.getChildCount();
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                int visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = linearLayoutManager.getItemCount();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
-                if (loading) {
+                /*if (loading) {
                     if (totalItemCount > previousTotal) {
                         loading = false;
                         previousTotal = totalItemCount;
                     }
+                }*/
+
+                if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                    // End has been reached
+                    DashBoard dashBoard_lv = dashBoards_new.get(dashBoards_new.size()-1);
+                    getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,15,dashBoard_lv.getId());
+                    getDashBoard.execute();
+                    // Do something
+                    loading = true;
                 }
-                if (!loading && (totalItemCount - visibleItemCount)
+                /*if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold) && isLoading) {
                     // End has been reached
                     DashBoard dashBoard_lv = dashBoards_new.get(dashBoards_new.size()-1);
@@ -242,7 +252,7 @@ public class MyProfileDashboardFragment extends Fragment {
                     // Do something
 
                     loading = true;
-                }
+                }*/
             }
         });
     }
@@ -294,10 +304,10 @@ public class MyProfileDashboardFragment extends Fragment {
                     adapterProfileDashboard.notifyDataSetChanged();
                     trans_Id= dashBoards.get(0).getId()+"";
                     dialog.dismiss();
-                    isLoading = true;
+                    loading = false;
                 }else{
                     dialog.dismiss();
-                    isLoading =false;
+                    loading =true;
                 }
             }catch (Exception e){
             }

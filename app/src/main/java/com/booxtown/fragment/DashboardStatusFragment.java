@@ -184,8 +184,19 @@ public class DashboardStatusFragment extends Fragment {
 
         //end
         if(dashBoard.getAction().equals("swap")){
-            getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_swap_id()));
-            getBookByID.execute();
+            if(userID.equals(dashBoard.getUser_buyer_id())) {
+                getBookByID getBookByID = new getBookByID(getContext(), String.valueOf(dashBoard.getBook_seller_id()));
+                getBookByID.execute();
+            }else{
+                String[] listBookID=dashBoard.getBook_buyer_id().replace("_+_","_").split("_");
+                if(listBookID.length>0) {
+                    getBookByID getBookByID = new getBookByID(getContext(), String.valueOf(listBookID[listBookID.length-1]));
+                    getBookByID.execute();
+                }else{
+                    getBookByID getBookByID = new getBookByID(getContext(), String.valueOf(dashBoard.getBook_buyer_id()));
+                    getBookByID.execute();
+                }
+            }
             textView_namebook_buyer.setVisibility(View.VISIBLE);
             textView_nameauthor_buyer.setVisibility(View.VISIBLE);
         }else if(dashBoard.getAction().equals("buy")){
@@ -210,8 +221,15 @@ public class DashboardStatusFragment extends Fragment {
 
             textView_with.setVisibility(View.GONE);
         }
-        getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
-        getUser.execute();
+        if(userID.equals(dashBoard.getUser_buyer_id())) {
+            getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
+            getUser.execute();
+        }
+        else{
+            getUser getUser = new getUser(getContext(),dashBoard.getUser_buyer_id());
+            getUser.execute();
+        }
+
 
         textView_namebook_seller.setText(dashBoard.getBook_seller());
         textView_nameauthor_seller.setText(dashBoard.getAuthor());

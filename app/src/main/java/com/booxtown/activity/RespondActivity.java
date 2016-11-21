@@ -55,6 +55,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     private RecyclerView rv_comment;
     LinearLayoutManager linearLayoutManager;
     List<CommentBook> arr_commet = new ArrayList<>();
+    List<CommentBook> arr_commnetOld = new ArrayList<>();
     boolean loading = true,
             isLoading = true;
     private int previousTotal = 0;
@@ -150,7 +151,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                             comment = new getComment(RespondActivity.this, wishboard.getId(), 15,0);
                         }else {
                             commentBook = arr_commet.get(arr_commet.size() - 1);
-                            comment = new getComment(RespondActivity.this, wishboard.getId(), 15, commentBook.getId());
+                            comment = new getComment(RespondActivity.this, wishboard.getId(), 1000, 0);
                         }
                         comment.execute();
                     }
@@ -235,7 +236,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 super.onScrolled(recyclerView, dx, dy);
                 int visibleItemCount = rv_comment.getChildCount();
                 totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
                 /*if (loading) {
                     if (totalItemCount > previousTotal) {
@@ -330,6 +331,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         protected void onPostExecute(List<CommentBook> commentBooks) {
             try {
                 if (commentBooks.size() > 0) {
+                    arr_commet.removeAll(arr_commnetOld);
+                    arr_commnetOld=commentBooks;
                     arr_commet.addAll(commentBooks);
                     adapter.notifyDataSetChanged();
                     isLoading = true;
@@ -341,9 +344,10 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                             listUser.add(commentBooks.get(i).getUser_id() + "");
                         }
                     }
+                    loading = false;
                     progressDialog.dismiss();
                 } else {
-                    isLoading = false;
+                    loading = true;
                     progressDialog.dismiss();
                 }
             } catch (Exception e) {

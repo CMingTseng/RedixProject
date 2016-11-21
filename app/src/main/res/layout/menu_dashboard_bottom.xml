@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/dot_light_screen1">
-
-    <com.booxtown.custom.CustomTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status"
-        android:id="@+id/textView119"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/img_menu_dashboard_bottom_status"
-        android:layout_alignTop="@+id/img_menu_dashboard_bottom_status"
-        android:layout_marginTop="10dp"/>
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/img_menu_dashboard_bottom_status"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textView119"
-        android:layout_toEndOf="@+id/textView119"
-        android:src="@drawable/myprofile_tick"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp" />
 
     <com.booxtown.custom.CustomButton
         android:layout_width="237dp"
@@ -31,7 +11,7 @@
         android:textAllCaps="false"
         android:text="Rate  this transaction"
         android:id="@+id/btn_menu_dashboard_bottom_rate"
-        android:layout_below="@+id/textView119"
+        android:layout_below="@+id/row1"
         android:layout_centerHorizontal="true"
         android:background="@drawable/bg_btn_add_book_2"
         android:textColor="@color/dot_light_screen1"
@@ -64,4 +44,40 @@
         android:textColor="@color/color_text"
         android:textSize="@dimen/slide_desc"
         android:layout_marginBottom="10dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/row1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <com.booxtown.custom.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:id="@+id/textView119"
+
+            android:gravity="right"
+            android:layout_marginRight="11dp"
+            android:layout_marginEnd="11dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/img_menu_dashboard_bottom_status"
+            android:layout_toStartOf="@+id/img_menu_dashboard_bottom_status" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/img_menu_dashboard_bottom_status"
+            android:src="@drawable/myprofile_tick"
+
+            android:gravity="left"
+            android:layout_marginRight="140dp"
+            android:layout_marginEnd="140dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
 </RelativeLayout>

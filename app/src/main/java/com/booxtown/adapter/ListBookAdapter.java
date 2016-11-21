@@ -40,15 +40,16 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
     private List<Book> originbook;
     SharedPreferences pref;
     private ItemFilter mFilter = new ItemFilter();
-    int type;
+    int type,typeColor;
     String username;
     int back;
 
-    public ListBookAdapter(Context c, List<Book> list_book,int type,int back) {
+    public ListBookAdapter(Context c, List<Book> list_book,int type, int typeColor,int back) {
         mContext = c;
         this.listBook = list_book;
         this.originbook = list_book;
         this.type = type;
+        this.typeColor=typeColor;
         this.back = back;
         try {
             pref = mContext.getSharedPreferences("MyPref",mContext.MODE_PRIVATE);
@@ -144,7 +145,11 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
             Picasso.with(mContext).load(R.drawable.explore_btn_free_dis_active).into(hoder.img_free);
         }
         if(String.valueOf(array[1]).contains("1")){
-            Picasso.with(mContext).load(R.drawable.listing_btn_buy).into(hoder.img_buy);
+            if(typeColor==1) {
+                Picasso.with(mContext).load(R.drawable.explore_btn_buy_active).into(hoder.img_buy);
+            }else{
+                Picasso.with(mContext).load(R.drawable.listing_btn_buy).into(hoder.img_buy);
+            }
         }
         else {
             Picasso.with(mContext).load(R.drawable.explore_btn_buy_dis_active).into(hoder.img_buy);

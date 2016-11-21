@@ -128,6 +128,7 @@ public class InteractThreadDetailsFragment extends Fragment {
                     insertComment1.execute(session_id, edit_message.getText().toString(), threads.getId());
                     edit_message.setText("");
                     arr_commet.clear();
+
                     commentAsync getcomment = new commentAsync(getContext(), threads.getId(), 15, 0);
                     getcomment.execute();
                 }
@@ -194,7 +195,7 @@ public class InteractThreadDetailsFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 int visibleItemCount = recyclerView.getChildCount();
                  totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
                 //if (loading) {
                  //   if (totalItemCount > previousTotal) {
                   //      loading = false;
@@ -272,9 +273,9 @@ public class InteractThreadDetailsFragment extends Fragment {
                         }
                     }
                     dialog.dismiss();
-                    isLoading = true;
+                    loading = false;
                 } else {
-                    isLoading = false;
+                    isLoading = true;
                     dialog.dismiss();
                 }
             } catch (Exception e) {
