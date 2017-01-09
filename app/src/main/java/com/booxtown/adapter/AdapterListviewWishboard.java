@@ -122,6 +122,7 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
         TextView date;
         RelativeLayout bg_liner;
         ImageView imgv_listview_respond;
+        TextView txt_userName;
         public HolderWisboard(View itemView) {
             super(itemView);
             bg_liner = (RelativeLayout)itemView.findViewById(R.id.relativeLayout_wishboard);

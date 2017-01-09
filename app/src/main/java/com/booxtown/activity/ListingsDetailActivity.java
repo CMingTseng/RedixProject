@@ -1075,6 +1075,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 //if(!threads.getUser_id().equals(user_ID)) {
                 SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String username = pref.getString("username", null);
+                String firstname = pref.getString("firstname", null);
 
                 List<Hashtable> list = new ArrayList<>();
                 for (int i = 0; i < listUser.size(); i++) {
@@ -1083,7 +1084,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         Notification notification = new Notification("Book Commented", book.getId(), "11");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", listUser.get(i));
-                        obj.put("messages", username+ " commented on "+ book.getTitle());
+                        obj.put("messages", firstname+ " commented on "+ book.getTitle());
                         list.add(obj);
                     }
                 }
@@ -1206,7 +1207,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             try {
                 if (user.size() > 0){
                     //set rank
-                    txt_listed_by.setText(user.get(0).getUsername());
+                    txt_listed_by.setText(user.get(0).getFirst_name());
                     ratingBar_userprofile.setRating(user.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.rgb(255,224,0), PorterDuff.Mode.SRC_ATOP);
@@ -1249,7 +1250,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         int index = user.get(0).getPhoto().indexOf("_+_");
 
                         Picasso.with(getContext())
-                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" +user.get(0).getUsername() + "&image=" + user.get(0).getPhoto().substring(index + 3, user.get(0).getPhoto().length()))
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" +user.get(0).getPhoto().substring(0,index).trim() + "&image=" + user.get(0).getPhoto().substring(index + 3, user.get(0).getPhoto().length()))
                                 .placeholder(R.mipmap.user_empty).
                                 into(icon_user_listing_detail);
                     } else {

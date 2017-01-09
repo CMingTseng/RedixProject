@@ -92,6 +92,43 @@ public class DashboardStopFragment extends Fragment {
         btn_menu_dashboard_bottom_rate.setBackgroundResource(R.drawable.btn_xam);
         img_menu_dashboard_bottom_status.setImageResource(R.drawable.myprofile_not);
 
+        img_menu_dashboard_bottom_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_cancel_dashboard);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+                Button btn_cancel_dialog_dashboard = (Button)dialog.findViewById(R.id.btn_cancel_dialog_dashboard);
+                btn_cancel_dialog_dashboard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("dashboard", dashBoard);
+                        bundle.putSerializable("user", user);
+                        bundle.putString("user_id",userID);
+                        DashboardDeleteFragment fragment= new DashboardDeleteFragment();
+                        fragment.setArguments(bundle);
+                        callFragment(fragment);
+
+                        transactionChangeStatus updatestatus = new transactionChangeStatus(getContext(),session_id,
+                                String.valueOf(dashBoard.getId()),"2",String.valueOf(dashBoard.getBook_swap_id()));
+                        updatestatus.execute();
+                        dialog.dismiss();
+                    }
+                });
+
+                ImageView img_close_dialog_cancel_dashboard = (ImageView)dialog.findViewById(R.id.img_close_dialog_cancel_dashboard);
+                img_close_dialog_cancel_dashboard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
 
         btn_menu_dashboard_bottom_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,8 +313,9 @@ public class DashboardStopFragment extends Fragment {
             try {
                 if (user.size() > 0){
                     if(user.get(0).getPhoto().length()>3) {
+                        int index = user.get(0).getPhoto().indexOf("_+_");
                         Picasso.with(context)
-                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getUsername() + "&image=" + user.get(0).getPhoto().substring(user.get(0).getUsername().length() + 3, user.get(0).getPhoto().length()))
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" +user.get(0).getPhoto().substring(0,index).trim() + "&image=" + user.get(0).getPhoto().substring(index + 3, user.get(0).getPhoto().length()))
                                 .placeholder(R.mipmap.user_empty)
                                 .into(img_menu_dashboard_middle);
                     }

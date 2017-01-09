@@ -58,6 +58,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.adapter.AdapterExplore;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckSession;
@@ -567,27 +568,48 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
                 if (image.length != 0) {
                     if (arrImage.size() == 1) {
-                        Picasso.with(getActivity()).
-                                load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "").
-                                into(imagebook1);
+
+                        final String imageLink= ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "";
+                        try {
+                            GetWithHeight getWithHeight= new GetWithHeight(getContext(),imageLink,imagebook1);
+                            getWithHeight.execute();
+
+                        }catch (Exception exx){
+                            String err= exx.getMessage();
+                        }
+
                     } else if (arrImage.size() == 2) {
-                        Picasso.with(getActivity()).
-                                load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "").
-                                into(imagebook1);
-                        Picasso.with(getActivity()).
-                                load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(1) + "&image=" + arrImage.get(1) + "").
-                                into(imagebook2);
+                        final String imageLink= ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "";
+                        final String imageLink2= ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(1) + "&image=" + arrImage.get(1) + "";
+                        try {
+                            GetWithHeight getWithHeight= new GetWithHeight(getContext(),imageLink,imagebook1);
+                            getWithHeight.execute();
+
+                            GetWithHeight getWithHeight2= new GetWithHeight(getContext(),imageLink2,imagebook2);
+                            getWithHeight2.execute();
+
+                        }catch (Exception exx){
+                            String err= exx.getMessage();
+                        }
+
                     } else {
-                        //String tmp= ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + username + "&image=" + arrImage.get(0) + "";
-                        Picasso.with(getActivity()).
-                                load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "").
-                                into(imagebook1);
-                        Picasso.with(getActivity()).
-                                load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(1) + "&image=" + arrImage.get(1) + "").
-                                into(imagebook2);
-                        Picasso.with(getActivity()).
-                                load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(2) + "&image=" + arrImage.get(2) + "").
-                                into(imagebook3);
+                        final String imageLink= ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "";
+                        final String imageLink2= ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(1) + "&image=" + arrImage.get(1) + "";
+                        final String imageLink3= ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(2) + "&image=" + arrImage.get(2) + "";
+                        try {
+                            GetWithHeight getWithHeight= new GetWithHeight(getContext(),imageLink,imagebook1);
+                            getWithHeight.execute();
+
+                            GetWithHeight getWithHeight2= new GetWithHeight(getContext(),imageLink2,imagebook2);
+                            getWithHeight2.execute();
+
+                            GetWithHeight getWithHeight3= new GetWithHeight(getContext(),imageLink3,imagebook3);
+                            getWithHeight3.execute();
+
+                        }catch (Exception exx){
+                            String err= exx.getMessage();
+                        }
+
                     }
                 }
             }
@@ -875,8 +897,14 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 try {
                     long time = System.currentTimeMillis();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), lisImmage.get(i).getUri());
-                    Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, 270, true);
-                    bmap.add(photoBitMap);
+                    if(bitmap.getWidth()>250) {
+                        Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, 250 * (bitmap.getHeight() / bitmap.getWidth()), true);
+                        bmap.add(photoBitMap);
+                    }else {
+                        Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                        bmap.add(photoBitMap);
+                    }
+
                     listFileName.add(lisImmage.get(i).getKey());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -1583,6 +1611,51 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             } else {
                 //Toast.makeText(getActivity(), Information.noti_delete_fail, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+    class GetWithHeight extends AsyncTask<Bitmap,Void,Bitmap> {
+
+        Context context;
+        String imageUrl;
+        ImageView img_book;
+        public GetWithHeight(Context context, String imageUrl,ImageView img_book){
+            this.context = context;
+            this.imageUrl=imageUrl;
+            this.img_book=img_book;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Bitmap... Bitmap) {
+            Bitmap downloadedImage = null;
+            try {
+                downloadedImage = Picasso.with(context).load(imageUrl).get();
+                return downloadedImage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap downloadedImage) {
+            try {
+                int width = downloadedImage.getWidth();
+                int height = downloadedImage.getHeight();
+                if (width> height) {
+                    img_book.setRotation(90f);
+                    img_book.setImageBitmap(downloadedImage);
+                    /*Picasso.with(mContext).load(imageUrl).rotate(90f).placeholder(R.drawable.blank_image).
+                            into(img_book);*/
+                } else {
+                    img_book.setImageBitmap(downloadedImage);
+                    /*Picasso.with(mContext).load(imageUrl).placeholder(R.drawable.blank_image).
+                            into(img_book);*/
+                }
+            }catch (Exception e){}
         }
     }
 }

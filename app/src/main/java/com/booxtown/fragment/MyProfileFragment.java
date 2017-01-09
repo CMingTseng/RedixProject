@@ -413,7 +413,8 @@ public class MyProfileFragment extends Fragment {
                     String[] result=userResult.get(0).getBirthday().substring(0,10).split("-");
 
                     txt_profile_birthday.setText(result[2]+"/"+ result[1]+"/"+ result[0]);
-                    txt_profile_username.setText(userResult.get(0).getUsername().substring(0,1).toUpperCase()+userResult.get(0).getUsername().substring(1,userResult.get(0).getUsername().length()));
+                    //txt_profile_username.setText(userResult.get(0).getUsername().substring(0,1).toUpperCase()+userResult.get(0).getUsername().substring(1,userResult.get(0).getUsername().length()));
+                    txt_profile_username.setText(userResult.get(0).getFirst_name()+" "+userResult.get(0).getLast_name() );
                     username = userResult.get(0).getUsername();
                     user_id = userResult.get(0).getUser_id();
                     first_name = userResult.get(0).getFirst_name();
@@ -479,8 +480,9 @@ public class MyProfileFragment extends Fragment {
                     SharedPreferences.Editor editor = pref2.edit();
                     editor.putString("user_id", String.valueOf(user_id));
                     editor.commit();
+                    int index =userResult.get(0).getPhoto().indexOf("_+_");
                     Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getUsername()+"&image="+userResult.get(0).getPhoto().substring(userResult.get(0).getUsername().length()+3,userResult.get(0).getPhoto().length()))
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getPhoto().substring(0,index).trim()+"&image="+userResult.get(0).getPhoto().substring(index+3,userResult.get(0).getPhoto().length()))
                             .placeholder(R.mipmap.user_empty).into(imv_menu_profile);
                     dialog.dismiss();
                     ratingBar_userprofile.setRating(userResult.get(0).getRating());

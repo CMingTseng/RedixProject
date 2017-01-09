@@ -214,8 +214,9 @@ public class DashboardDeleteFragment extends Fragment {
             try {
                 if (user.size() > 0){
                     if(user.get(0).getPhoto().length()>3) {
+                        int index = user.get(0).getPhoto().indexOf("_+_");
                         Picasso.with(context)
-                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getUsername() + "&image=" + user.get(0).getPhoto().substring(user.get(0).getUsername().length() + 3, user.get(0).getPhoto().length()))
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getPhoto().substring(0,index).trim() + "&image=" + user.get(0).getPhoto().substring(index + 3, user.get(0).getPhoto().length()))
                                 .placeholder(R.mipmap.user_empty)
                                 .into(img_menu_dashboard_middle);
                     }

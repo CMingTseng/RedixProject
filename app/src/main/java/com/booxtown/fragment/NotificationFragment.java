@@ -281,18 +281,18 @@ public class NotificationFragment extends Fragment {
                                     intent.putExtra("keyOption", "4");
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("5")) {
-
-                                    Intent intent = new Intent(getActivity(), NotificationSellNoAccept.class);
+                                    Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     intent.putExtra("keyOption", "5");
                                     startActivity(intent);
+
                                 } else if (notification.getId_screen().equals("6")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellReject.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     intent.putExtra("keyOption", "6");
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("7")) {
-                                    Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
+                                    Intent intent = new Intent(getActivity(), NotificationSellNoAccept.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     intent.putExtra("keyOption", "7");
                                     startActivity(intent);
@@ -342,7 +342,7 @@ public class NotificationFragment extends Fragment {
                                     startActivity(intent);
                                 }
                                 else if (notification.getId_screen().equals("17")) {
-                                    Intent intent = new Intent(getActivity(), NotificationSellNoAccept.class);
+                                    Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     intent.putExtra("keyOption", "17");
                                     startActivity(intent);
@@ -352,10 +352,11 @@ public class NotificationFragment extends Fragment {
                                     intent.putExtra("keyOption", "18");
                                     startActivity(intent);
                                 } else if (notification.getId_screen().equals("19")) {
-                                    Intent intent = new Intent(getActivity(), NotificationSellAccept.class);
+                                    Intent intent = new Intent(getActivity(), NotificationSellNoAccept.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
                                     intent.putExtra("keyOption", "19");
                                     startActivity(intent);
+
 
                                 } else if (notification.getId_screen().equals("20")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellNoReject.class);

@@ -35,7 +35,7 @@ public class Upgrade extends AppCompatActivity{
     private static int REQUEST_CODE = 10001;
     private Button btnBuy;
     private SharedPreferences preferences;
-    private boolean isPurchase=false;
+    private boolean isPurchase;
     TextView btn_upgrade;
     ImageView btn_close;
 
@@ -53,11 +53,28 @@ public class Upgrade extends AppCompatActivity{
                 onBackPressed();
             }
         });
+
         btn_upgrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //check upgrade
-                //isPurchase = preferences.getBoolean("isPurchase", false);
+                isPurchase = preferences.getBoolean("isPurchase", false);
+                if (isPurchase) {
+                    Toast.makeText(getApplicationContext(),
+                            "You have already purchase", Toast.LENGTH_LONG)
+                            .show();
+                } else {
+                    if (mHelper != null)
+                        mHelper.flagEndAsync();
+                    mHelper.launchPurchaseFlow(Upgrade.this, myproduct_id,IabHelper.ITEM_TYPE_SUBS,
+                            REQUEST_CODE, mPurchaseFinishedListener,
+                            "mypurchasetoken");
+                    //mHelper.launchSubscriptionPurchaseFlow(Upgrade.this, myproduct_id,
+                    //        REQUEST_CODE, mPurchaseFinishedListener,
+                    //        "mypurchasetoken");
+                }
+
+                /*isPurchase = preferences.getBoolean("isPurchase", false);
                 if (isPurchase) {
                     Toast.makeText(getApplicationContext(),
                             "You have already purchase", Toast.LENGTH_LONG)
@@ -68,11 +85,24 @@ public class Upgrade extends AppCompatActivity{
                     mHelper.launchPurchaseFlow(Upgrade.this, myproduct_id,
                             REQUEST_CODE, mPurchaseFinishedListener,
                             "mypurchasetoken");
-                }
+                }*/
             }
         });
     }
-
+    public void check(){
+        isPurchase = preferences.getBoolean("isPurchase", false);
+        if (isPurchase) {
+            Toast.makeText(getApplicationContext(),
+                    "You have already purchase", Toast.LENGTH_LONG)
+                    .show();
+        } else {
+            if (mHelper != null)
+                mHelper.flagEndAsync();
+            mHelper.launchPurchaseFlow(Upgrade.this, myproduct_id,
+                    REQUEST_CODE, mPurchaseFinishedListener,
+                    "mypurchasetoken");
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -81,7 +111,7 @@ public class Upgrade extends AppCompatActivity{
 
     private void initInApp() {
         base64EncodedPublicKey = getString(R.string.base64EncodedPublicKey);
-        myproduct_id = getString(R.string.testing);
+        myproduct_id = getString(R.string.myproduct_id);
         mHelper = new IabHelper(this, base64EncodedPublicKey);
         mHelper.enableDebugLogging(false);
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
@@ -129,6 +159,7 @@ public class Upgrade extends AppCompatActivity{
                 return;
             } else if (purchase.getSku().equals(myproduct_id)) {
                 // item purchased
+                // update profile
                 alert("Successfully Purchased");
             }
         }
@@ -145,6 +176,7 @@ public class Upgrade extends AppCompatActivity{
                     JSONObject jo = new JSONObject(purchaseData);
                     String sku = jo.getString("productId");
                     alert("Successfully Purchased");
+                    // update pròile
 
                 } catch (JSONException e) {
                     alertError("Failed to parse purchase data.");

@@ -107,6 +107,7 @@ public class ExploreFragment extends Fragment {
     RelativeLayout notiTrial,notiUpgrade;
     TextView txtNotifiTrial;
     int chooseTab=0;
+    boolean trial=false;
     //GridView grid;
     public static String[] prgmNameList1 = {"Nearest distance", "Price low to high", "Price high to low", "Recently added"};
 
@@ -142,9 +143,7 @@ public class ExploreFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        GetDayUsed getDayUsed= new GetDayUsed(getContext(),session_id);
-        getDayUsed.execute();
-        //------------------------------------------------------------------------------------
+
 
 
         //grid=(GridView)view.findViewById(R.id.gridView);
@@ -278,8 +277,11 @@ public class ExploreFragment extends Fragment {
         getNumberBook.execute();
         //populatRecyclerView(session_id);
         //implementScrollListener(session_id);
-        GetTopbook getTopbook = new GetTopbook(getContext(),"", 0, 0);
-        getTopbook.execute();
+
+
+        GetDayUsed getDayUsed= new GetDayUsed(getContext(),session_id);
+        getDayUsed.execute();
+        //------------------------------------------------------------------------------------
         return view;
     }
 
@@ -607,13 +609,13 @@ public class ExploreFragment extends Fragment {
     }
 
     public List<Book> filterStart() {
-
-        lisfilter_temp = new ArrayList<>();
-        listfilter = new ArrayList<>();
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
-        Double distance = Double.valueOf(Information.maxSeekbar);
-        for (int i = 0; i < listExplore.size(); i++) {
-            String[] genrel = listExplore.get(i).getGenre().split(";");
+        try {
+            lisfilter_temp = new ArrayList<>();
+            listfilter = new ArrayList<>();
+            LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+            Double distance = Double.valueOf(Information.maxSeekbar);
+            for (int i = 0; i < listExplore.size(); i++) {
+                String[] genrel = listExplore.get(i).getGenre().split(";");
 
                 LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
                 if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
@@ -623,17 +625,21 @@ public class ExploreFragment extends Fragment {
                 }
 
 
-        }
+            }
 
-        if (listfilter.size() != 0) {
-            for (int i = 0; i < listfilter.size(); i++) {
-                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
-                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
-                    lisfilter_temp.add(listfilter.get(i));
+            if (listfilter.size() != 0) {
+                for (int i = 0; i < listfilter.size(); i++) {
+                    if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                            listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
+                        lisfilter_temp.add(listfilter.get(i));
+                    }
                 }
             }
+            return lisfilter_temp;
+        }catch (Exception ex){
+            String err= ex.getMessage();
+            return lisfilter_temp;
         }
-        return lisfilter_temp;
     }
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
@@ -748,6 +754,8 @@ public class ExploreFragment extends Fragment {
                     if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
                         notiTrial.setVisibility(View.GONE);
                         notiUpgrade.setVisibility(View.VISIBLE);
+                        trial=true;
+
                     }else if(Integer.parseInt(dayUsed.getDayUsed())<=14 && !dayUsed.getIs_active().equals("1")){
                         txtNotifiTrial.setText("Your free trial expires in "+(14-Integer.parseInt(dayUsed.getDayUsed()))+" days");
                         notiTrial.setVisibility(View.VISIBLE);
@@ -756,6 +764,9 @@ public class ExploreFragment extends Fragment {
                 }
             } catch (Exception e) {
             }
+
+            GetTopbook getTopbook = new GetTopbook(getContext(),"", 0, 0);
+            getTopbook.execute();
         }
     }
 
@@ -774,21 +785,25 @@ public class ExploreFragment extends Fragment {
 
         @Override
         protected List<Book> doInBackground(Void... params) {
-            CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
-            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
-                editor.commit();
-                Intent intent = new Intent(context, SignIn_Activity.class);
-                context.startActivity(intent);
-                this.cancel(true);
+            try {
+                CheckSession checkSession = new CheckSession();
+                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+                boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+                if (!check) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", null);
+                    editor.commit();
+                    Intent intent = new Intent(context, SignIn_Activity.class);
+                    context.startActivity(intent);
+                    this.cancel(true);
+                }
+                BookController bookController = new BookController();
+                //listbook  =  bookController.book_gettop(session_id,from,top);
+                listbook = bookController.getallbook();
+                return listbook;
+            }catch (Exception exx){
+                return null;
             }
-            BookController bookController = new BookController();
-            //listbook  =  bookController.book_gettop(session_id,from,top);
-            listbook = bookController.getallbook();
-            return listbook;
         }
 
         @Override
@@ -801,8 +816,18 @@ public class ExploreFragment extends Fragment {
             try {
                 if (list.size() > 0) {
                     //tab_all_count.setText("(" + list.size() + ")");
-
-                    listExplore.addAll(list);
+                    if(!trial) {
+                        listExplore.addAll(list);
+                    }
+                    else{
+                        ArrayList<Book> lisfilter_tempss = new ArrayList<>();
+                        for (int i=0; i<list.size();i++){
+                            if(list.get(i).getAction().substring(2, 3).equals("1")) {
+                                lisfilter_tempss.add(list.get(i));
+                            }
+                        }
+                        listExplore.addAll(lisfilter_tempss);
+                    }
                     ShowNumberbook(filterStart());
                     adapter_exploer = new AdapterExplore(getActivity(), filterStart(), 2, 0);
                     rView.setAdapter(adapter_exploer);

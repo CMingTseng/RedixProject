@@ -247,7 +247,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         protected void onPostExecute(List<User> user) {
             try {
                 if (user.size() > 0){
-                    txt_profile_username.setText(user.get(0).getUsername());
+                    txt_profile_username.setText(user.get(0).getFirst_name()+" "+user.get(0).getLast_name());
                     ratingBar_userprofile.setRating(user.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
@@ -278,9 +278,9 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                         Picasso.with(context).load(R.drawable.bibliophile).into(img_rank3);
                         img_rank3.setVisibility(View.VISIBLE);
                     }
-
+                    int index =user.get(0).getPhoto().indexOf("_+_");
                     Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getPhoto().substring(0,index).trim()+"&image="+user.get(0).getPhoto().substring(index+3,user.get(0).getPhoto().length()))
                             .error(R.drawable.blank_image)
                             .into(imv_menu_profile);
 

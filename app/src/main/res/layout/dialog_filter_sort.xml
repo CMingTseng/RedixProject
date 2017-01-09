@@ -215,7 +215,7 @@
             android:layout_height="wrap_content"
             android:text="Sort by"
             android:textSize="@dimen/slide_desc"
-            android:id="@+id/textView72"
+            android:id="@+id/title_sort"
             android:layout_below="@+id/layout_user"
             android:layout_alignLeft="@+id/layout_user"
             android:layout_alignStart="@+id/layout_user"
@@ -228,11 +228,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView72"
-            android:layout_alignRight="@+id/textView72"
-            android:layout_alignEnd="@+id/textView72"
-            android:layout_alignLeft="@+id/textView72"
-            android:layout_alignStart="@+id/textView72"
+            android:layout_below="@+id/title_sort"
+            android:layout_alignRight="@+id/title_sort"
+            android:layout_alignEnd="@+id/title_sort"
+            android:layout_alignLeft="@+id/title_sort"
+            android:layout_alignStart="@+id/title_sort"
             android:layout_marginTop="5dp">
             <ListView
                 android:layout_width="wrap_content"

@@ -116,6 +116,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     double maxSeekbar = 0;
     RelativeLayout notiTrial,notiUpgrade;
     TextView txtNotifiTrial;
+    boolean trial=false;
     //end
     @Nullable
     @Override
@@ -385,7 +386,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
+
+                TextView title_sort=(TextView) dialog.findViewById(R.id.title_sort);
+                title_sort.setVisibility(View.GONE);
+
                 ListView lv_dialog_filter = (ListView) dialog.findViewById(R.id.lv_dialog_filter);
+                lv_dialog_filter.setVisibility(View.GONE);
+
                 filterList = new ArrayList<>();
                 for (int i = 0; i < prgmNameList1.length; i++) {
                     Filter filter = new Filter();
@@ -617,8 +624,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         // latitude and longitude
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
-        listingAsync listingAsync = new listingAsync(getContext(), session_id, 0, 100);
-        listingAsync.execute();
+
+        GetDayUsed getDayUsed= new GetDayUsed(getContext(),session_id);
+        getDayUsed.execute();
+
+
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
@@ -674,7 +684,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             if (books.getUser_photo().length() > 3) {
                 int index = books.getUser_photo().indexOf("_+_");
                 Picasso.with(getContext())
-                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + books.getUsername() + "&image=" + books.getUser_photo().substring(index + 3, books.getUser_photo().length()))
+                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + books.getUser_photo().substring(0,index).trim() + "&image=" + books.getUser_photo().substring(index + 3, books.getUser_photo().length()))
                         .placeholder(R.mipmap.user_empty).
                         into(img_map_main);
             } else {
@@ -863,7 +873,19 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 if (books == null) {
                     dialog.dismiss();
                 } else {
-                    listExplore = books;
+                    if(!trial) {
+                        listExplore = books;
+                    }
+                    else{
+                        ArrayList<Book> lisfilter_tempss = new ArrayList<>();
+                        for (int i=0; i<books.size();i++){
+                            if(books.get(i).getAction().substring(2, 3).equals("1")) {
+                                lisfilter_tempss.add(books.get(i));
+                            }
+                        }
+                        listExplore = lisfilter_tempss;
+                    }
+
                     listExplore = filterStart();
                     // create marker
                     addMarker(listExplore);
@@ -932,6 +954,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
             } catch (Exception e) {
             }
+            listingAsync listingAsync = new listingAsync(getContext(), session_id, 0, 100);
+            listingAsync.execute();
         }
     }
     public void addMarker(final List<Book> books) {

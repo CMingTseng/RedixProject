@@ -57,11 +57,11 @@
 
 
     <!-- In App Purchase -->
-    <string name="base64EncodedPublicKey">MMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh7KF0fwvCU9l9MfIURHEFAAOCAQIPnPG7G2u4ikR5j8nNJWuj4UI5qhkiz0qtNh+pNKS8uF8JDAv813vVLMZCg7FJBeynPH6ohKMmwol2rcJ7HmNGRg1i30mjUISomuAhnaLSKtuiRuGhTU2pjW1Ll/TgDWeoJjtU3kClMpF3EQV0Z0trMdinHCOITPh2bFpWTfWxfcmF17miySunnTJao1FEsnafgw04DfbAJdZjF4wCfXT9rRcDhRPCe+8y5SNh1gya0UD52rFEiexSMcJHDB2Uy0qt9Cyj7Ucjr0Uo9mJURSVoDG0c+CtAN5EtJ2AcSCySr7eS5B7bATbNVqgL83KcP7hXPzh+wIDAQAB</string>
-    <string name="myproduct_id">myproduct_id_live</string>
-    <string name="testing">android.test.purchased</string>
+    <!--<string name="base64EncodedPublicKey">MMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh7KF0fwvCU9l9MfIURHEFAAOCAQIPnPG7G2u4ikR5j8nNJWuj4UI5qhkiz0qtNh+pNKS8uF8JDAv813vVLMZCg7FJBeynPH6ohKMmwol2rcJ7HmNGRg1i30mjUISomuAhnaLSKtuiRuGhTU2pjW1Ll/TgDWeoJjtU3kClMpF3EQV0Z0trMdinHCOITPh2bFpWTfWxfcmF17miySunnTJao1FEsnafgw04DfbAJdZjF4wCfXT9rRcDhRPCe+8y5SNh1gya0UD52rFEiexSMcJHDB2Uy0qt9Cyj7Ucjr0Uo9mJURSVoDG0c+CtAN5EtJ2AcSCySr7eS5B7bATbNVqgL83KcP7hXPzh+wIDAQAB</string>-->
+    <!--<string name="myproduct_id">aed_25_monthly</string>-->
+    <!--<string name="testing">android.test.purchased</string>-->
 
-    <!--<string name="base64EncodedPublicKey">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiot669HCQmS3JITJcEX+eHmTMkNZYHH+Lvmc/tIa8NY6+O0VEn4F8H/UuhiPjzkZMjsnO9ONhUa55mkpV3KT+mozWvnP1ICIyXbJLrYBe/tz17VYGJ5SLGmKm7b4IbR7BljtK+0gm1j/yirs9IMMNsRLNpEt9cUyWM/RFriu8bearLNp0k72CmYe/8s1A/GBVK/wzE0hv+1v9nIoJLF5yLbIps6CJh1M6C6pP2/OgQxH9HFDwQxkz4HXXIcOvJ4T4SKbeTH7m0zzwsQBv6fmBwUatktUtogohVFsnj0llx0c6BoFRkynAcrt6x5aiT2uZlnYd4t281yDt0cBUNI3wQIDAQAB</string>-->
-    <!--<string name="myproduct_id">myproduct_id_live</string>-->
-    <!--<string name="testing">com.booxtown</string>-->
+    <string name="base64EncodedPublicKey">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiot669HCQmS3JITJcEX+eHmTMkNZYHH+Lvmc/tIa8NY6+O0VEn4F8H/UuhiPjzkZMjsnO9ONhUa55mkpV3KT+mozWvnP1ICIyXbJLrYBe/tz17VYGJ5SLGmKm7b4IbR7BljtK+0gm1j/yirs9IMMNsRLNpEt9cUyWM/RFriu8bearLNp0k72CmYe/8s1A/GBVK/wzE0hv+1v9nIoJLF5yLbIps6CJh1M6C6pP2/OgQxH9HFDwQxkz4HXXIcOvJ4T4SKbeTH7m0zzwsQBv6fmBwUatktUtogohVFsnj0llx0c6BoFRkynAcrt6x5aiT2uZlnYd4t281yDt0cBUNI3wQIDAQAB</string>
+    <string name="myproduct_id">aed_25_monthly</string>
+    <string name="testing">android.test.purchased</string>
 </resources>

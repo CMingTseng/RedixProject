@@ -62,7 +62,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
     TextView description_notification_swap;
     TextView author_list_notification_swap;
     TextView txtTitle,textView_author_book;
-
+    boolean flag=true;
     Button btn_notification_not_like;
     RatingBar myRatingBar;
     @Override
@@ -206,6 +206,7 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
             if (transaction == null){
                 dialog.dismiss();
             }else {
+                final CustomListviewNotificationSwap customListviewNotificationSwap= new CustomListviewNotificationSwap(NotificationSwapActivity.this, transaction.getBook(), trans_id, transaction.getBook_name(), transaction);
                 btn_notification_not_like.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -221,35 +222,28 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                         btn_dialog_notification_swap.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                try {
+                                    if(flag) {
+                                        flag = customListviewNotificationSwap.isFlag();
+                                    }
+                                }catch (Exception ex){
 
-                                SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = pref.edit();
-                                String firstName = pref.getString("firstname", "");
-
-
-                                // send notifi user seller
-                                List<Hashtable> listSeller = new ArrayList<>();
-                                Notification notificationSeller = new Notification("Swap Request", transaction.getId()+"","1" );
-                                Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
-                                objSeller.put("user_id", transaction.getUser_seller_id());
-                                objSeller.put("messages", "You rejected a Swap request");
-                                listSeller.add(objSeller);
-                                NotificationController controllerSeller = new NotificationController();
-                                controllerSeller.sendNotification(listSeller);
-                                // end
-
-                                List<Hashtable> list = new ArrayList<>();
-                                Notification notification = new Notification("Swap Request", transaction.getId()+"","3" );
-                                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                                obj.put("user_id", transaction.getUser_buyer_id());
-                                obj.put("messages",firstName + " rejected your Swap request");
-                                list.add(obj);
-                                NotificationController controller = new NotificationController();
-                                controller.sendNotification(list);
-
-//                                Intent intent = new Intent(NotificationSwapActivity.this,Notification_Swap_Accept_Like.class);
- //                               startActivity(intent);
+                                }
+                                if(transaction.getIs_accept()==0&&transaction.getIs_reject()==0&&transaction.getIs_cancel()==0) {
+                                    if(flag) {
+                                        SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                                        String session_id = pref.getString("session_id", null);
+                                        transactionChangeStatus trans = new transactionChangeStatus(context, session_id, trans_id, "0", "", transaction);
+                                        trans.execute();
+                                        flag=false;
+                                    }else{
+                                        Toast.makeText(NotificationSwapActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }else {
+                                    Toast.makeText(NotificationSwapActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
+                                }
                                 dialog.dismiss();
+
                             }
                         });
 
@@ -264,7 +258,8 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                 });
 
                 ListView listView = (ListView)findViewById(R.id.lv_notification_swap);
-                listView.setAdapter(new CustomListviewNotificationSwap(NotificationSwapActivity.this, transaction.getBook(), trans_id, transaction.getBook_name(), transaction));
+
+                listView.setAdapter(customListviewNotificationSwap);
                 SharedPreferences pref = NotificationSwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String userName = pref.getString("username", null);
                 String firstName = pref.getString("firstname", "");
@@ -283,7 +278,70 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
             super.onPostExecute(transaction);
         }
     }
+    class transactionChangeStatus extends AsyncTask<Void, Void, String> {
 
+        Context context;
+        ProgressDialog dialog;
+
+        String session_id, trans_id, status_id;
+        String book_id;
+        Transaction transaction;
+
+        public transactionChangeStatus(Context context, String session_id, String trans_id, String status_id, String book_id,Transaction transaction) {
+            this.context = context;
+            this.session_id = session_id;
+            this.trans_id = trans_id;
+            this.status_id = status_id;
+            this.book_id = book_id;
+
+            this.transaction= transaction;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String transactionID = "";
+            TransactionController transactionController = new TransactionController();
+            transactionID = transactionController.transactionUpdateStatus(session_id, trans_id, status_id, book_id);
+            return transactionID;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String transactionID) {
+            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            String firstName = pref.getString("firstname", "");
+            // send notifi user seller
+            List<Hashtable> listSeller = new ArrayList<>();
+            Notification notificationSeller = new Notification("Swap Request", transaction.getId()+"","1" );
+            Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
+            objSeller.put("user_id", transaction.getUser_seller_id());
+            objSeller.put("messages", "You rejected a Swap request");
+            listSeller.add(objSeller);
+            NotificationController controllerSeller = new NotificationController();
+            controllerSeller.sendNotification(listSeller);
+            // end
+
+            List<Hashtable> list = new ArrayList<>();
+            Notification notification = new Notification("Swap Request", transaction.getId()+"","3" );
+            Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+            obj.put("user_id", transaction.getUser_buyer_id());
+            obj.put("messages",firstName + " rejected your Swap request");
+            list.add(obj);
+            NotificationController controller = new NotificationController();
+            controller.sendNotification(list);
+            // end
+            Intent intent = new Intent(NotificationSwapActivity.this, Notification_Swap_Accept_NoLike.class);
+            intent.putExtra("trans_id", transaction.getId());
+            startActivity(intent);
+
+            super.onPostExecute(transactionID);
+        }
+    }
     class getUser extends AsyncTask<Void,Void,List<User>>{
 
         Context context;
@@ -323,8 +381,9 @@ public class NotificationSwapActivity extends AppCompatActivity implements View.
                 if (user.size() > 0){
                     txt_userbuy_notification_swap.setText(user.get(0).getFirst_name()+"");
                     if(user.get(0).getPhoto().length()>3) {
+                        int index =user.get(0).getPhoto().indexOf("_+_");
                         Picasso.with(context)
-                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getUsername() + "&image=" + user.get(0).getPhoto().substring(user.get(0).getUsername().length() + 3, user.get(0).getPhoto().length()))
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getPhoto().substring(0,index).trim() + "&image=" + user.get(0).getPhoto().substring(index + 3, user.get(0).getPhoto().length()))
                                 .error(R.mipmap.user_empty)
                                 .into(imv_menu_notification_infor1);
                     }else {

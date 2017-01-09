@@ -304,8 +304,9 @@ public class NotificationRejectActivity extends AppCompatActivity implements Vie
                 if (user.size() > 0){
                     txt_author_info3.setText(user.get(0).getFirst_name()+"");
                     if (user.get(0).getPhoto().length() > 3) {
+                        int index =user.get(0).getPhoto().indexOf("_+_");
                     Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getPhoto().substring(0,index).trim()+"&image="+user.get(0).getPhoto().substring(index+3,user.get(0).getPhoto().length()))
                             .error(R.mipmap.user_empty)
                             .into(imv_nitification_infor3_phone);
                     }else {

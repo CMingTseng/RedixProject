@@ -2,6 +2,8 @@ package com.booxtown.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,8 +105,13 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
             if(index>0 && image[0].length() >3 ) {
                 String img = image[0].substring(index+3, image[0].length());
                 String imageLink= ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "";
-                Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").placeholder(R.drawable.blank_image).
-                        into(hoder.img_book);
+                try {
+                    GetWithHeight getWithHeight= new GetWithHeight(mContext,imageLink,hoder.img_book);
+                    getWithHeight.execute();
+
+                }catch (Exception exx){
+                    String err= exx.getMessage();
+                }
             }
             else{
                 Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + username + "&image=" +  image[0]  + "").placeholder(R.drawable.blank_image).
@@ -423,6 +431,51 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
 //            for(int i = 0, l = listBook.size(); i < l; i++)
 //                add(countryList.get(i));
 //            notifyDataSetInvalidated();
+        }
+    }
+    class GetWithHeight extends AsyncTask<Bitmap,Void,Bitmap> {
+
+        Context context;
+        String imageUrl;
+        ImageView img_book;
+        public GetWithHeight(Context context, String imageUrl,ImageView img_book){
+            this.context = context;
+            this.imageUrl=imageUrl;
+            this.img_book=img_book;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Bitmap... Bitmap) {
+            Bitmap downloadedImage = null;
+            try {
+                downloadedImage = Picasso.with(context).load(imageUrl).get();
+                return downloadedImage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap downloadedImage) {
+            try {
+                int width = downloadedImage.getWidth();
+                int height = downloadedImage.getHeight();
+                if (width> height) {
+                    img_book.setRotation(90f);
+                    img_book.setImageBitmap(downloadedImage);
+                    /*Picasso.with(mContext).load(imageUrl).rotate(90f).placeholder(R.drawable.blank_image).
+                            into(img_book);*/
+                } else {
+                    img_book.setImageBitmap(downloadedImage);
+                    /*Picasso.with(mContext).load(imageUrl).placeholder(R.drawable.blank_image).
+                            into(img_book);*/
+                }
+            }catch (Exception e){}
         }
     }
 }

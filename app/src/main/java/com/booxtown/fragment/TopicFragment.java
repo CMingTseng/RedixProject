@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.activity.SignIn_Activity;
+import com.booxtown.activity.Upgrade;
 import com.booxtown.adapter.AdapterTopic;
 import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
@@ -211,6 +212,8 @@ public class TopicFragment extends Fragment
                     if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
 
                         Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+                        Intent intent= new Intent(getActivity(), Upgrade.class);
+                        startActivity(intent);
                     }
                     else{
 

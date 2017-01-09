@@ -42,8 +42,8 @@ public class FireBaseService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.icon_buy);
-        Bitmap thumb=Bitmap.createBitmap(100,132, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.mipmap.icon_app);
+        Bitmap thumb=Bitmap.createBitmap(120,140, Bitmap.Config.ARGB_8888);
         Canvas canvas=new Canvas(thumb);
         canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
                 new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
@@ -51,7 +51,7 @@ public class FireBaseService extends FirebaseMessagingService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.icon_buy)
+                .setSmallIcon(R.mipmap.icon_app)
                 .setLargeIcon(((BitmapDrawable)drawable).getBitmap())
                 .setContentTitle("Booxtown Notification")
                 .setContentText(messageBody)

@@ -93,7 +93,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         try {
             wishboard = (Wishboard) getIntent().getSerializableExtra("wishboard");
             if(wishboard.getPhoto().length()>3) {
-                Picasso.with(RespondActivity.this).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + wishboard.getUsername() + "&image=" + wishboard.getPhoto().substring(wishboard.getUsername().length() + 3, wishboard.getPhoto().length()))
+                int index =wishboard.getPhoto().indexOf("_+_");
+                Picasso.with(RespondActivity.this).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + wishboard.getPhoto().substring(0,index).trim() + "&image=" + wishboard.getPhoto().substring(index + 3, wishboard.getPhoto().length()))
                         .error(R.mipmap.user_empty)
                         .into(photo_author_post);
             }else{
@@ -519,6 +520,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 SharedPreferences.Editor editor = pref.edit();
                 String firstName = pref.getString("firstname", "");
                 List<Hashtable> list = new ArrayList<>();
+
+
                 Notification notification = new Notification("Wishboard",user_ID , "15");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", wishboard.getUser_id()+"");

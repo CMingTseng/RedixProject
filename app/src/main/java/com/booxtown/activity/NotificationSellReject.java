@@ -144,7 +144,11 @@ public class NotificationSellReject extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        bottomListings.setDefaut(0);
+        try {
+            bottomListings.setDefaut(0);
+        }catch (Exception e){
+
+        }
     }
 
     class transAsync extends AsyncTask<String,Void,Transaction> {
@@ -256,20 +260,20 @@ public class NotificationSellReject extends AppCompatActivity {
                 txt_author_info3.setText(trans.getUser_buy()+"");
                 txt_title_book_buy_accept.setText(trans.getBook_name());
                 txt_author_book_buy_accept.setText(trans.getBook_author());
-                String []timeStart=settings.get(0).getTime_start().split(":");
+                String []timeStart=trans.getSeller_time_start().split(":");
                 String timeS="";
                 if(Integer.parseInt(timeStart[0])<=12){
-                    timeS=timeStart[0]+":"+ timeStart[1]+ " AM";
+                    timeS=timeStart[0]+":"+ timeStart[1]+ " ";
                 }else{
-                    timeS=timeStart[0]+":"+ timeStart[1]+ " PM";
+                    timeS=timeStart[0]+":"+ timeStart[1]+ " ";
                 }
 
-                String []timeTo=settings.get(0).getTime_to().split(":");
+                String []timeTo=trans.getSeller_time_to().split(":");
                 String timeT="";
                 if(Integer.parseInt(timeTo[0])<=12){
-                    timeT=timeTo[0]+":"+ timeTo[1]+ " AM";
+                    timeT=timeTo[0]+":"+ timeTo[1]+ " ";
                 }else{
-                    timeT=timeTo[0]+":"+ timeTo[1]+ " PM";
+                    timeT=timeTo[0]+":"+ timeTo[1]+ " ";
                 }
                 txt_notification_dominic_time.setText(timeS+"-"+timeT);
             }catch (Exception e){
@@ -317,8 +321,9 @@ public class NotificationSellReject extends AppCompatActivity {
                 if (user.size() > 0){
                     txt_author_info3.setText(user.get(0).getFirst_name());
                     if (user.get(0).getPhoto().length() > 3) {
+                        int index =user.get(0).getPhoto().indexOf("_+_");
                     Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getPhoto().substring(0,index).trim()+"&image="+user.get(0).getPhoto().substring(index+3,user.get(0).getPhoto().length()))
                             .error(R.mipmap.user_empty)
                             .into(imv_nitification_infor3_phone);
                     }else {

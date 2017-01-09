@@ -24,11 +24,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/menu_top_all"
+        android:id="@+id/frame_main_all"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/include17"
-        android:id="@+id/frame_main_all"
-        ></FrameLayout>
+        android:layout_below="@+id/menu_top_all"></FrameLayout>
 
 </RelativeLayout>

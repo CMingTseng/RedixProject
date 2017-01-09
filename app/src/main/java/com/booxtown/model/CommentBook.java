@@ -15,6 +15,8 @@ public class CommentBook {
     @Expose
     private String username;
     @Expose
+    private String first_name;
+    @Expose
     private int user_id;
     @Expose
     private int book_id;
@@ -31,11 +33,12 @@ public class CommentBook {
     @Expose
     private int listBook;
 
-    public CommentBook(int id, String content, String create_date, String username, int user_id, int book_id, int post_id, float rating, String photo, int contributor, int goldenBook, int listBook) {
+    public CommentBook(int id, String content, String create_date, String username, String first_name, int user_id, int book_id, int post_id, float rating, String photo, int contributor, int goldenBook, int listBook) {
         this.id = id;
         this.content = content;
         this.create_date = create_date;
         this.username = username;
+        this.first_name = first_name;
         this.user_id = user_id;
         this.book_id = book_id;
         this.post_id = post_id;
@@ -44,38 +47,6 @@ public class CommentBook {
         this.contributor = contributor;
         this.goldenBook = goldenBook;
         this.listBook = listBook;
-    }
-
-    public int getContributor() {
-        return contributor;
-    }
-
-    public void setContributor(int contributor) {
-        this.contributor = contributor;
-    }
-
-    public int getGoldenBook() {
-        return goldenBook;
-    }
-
-    public void setGoldenBook(int goldenBook) {
-        this.goldenBook = goldenBook;
-    }
-
-    public int getListBook() {
-        return listBook;
-    }
-
-    public void setListBook(int listBook) {
-        this.listBook = listBook;
-    }
-
-    public int getPost_id() {
-        return post_id;
-    }
-
-    public void setPost_id(int post_id) {
-        this.post_id = post_id;
     }
 
     public int getId() {
@@ -110,6 +81,14 @@ public class CommentBook {
         this.username = username;
     }
 
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
     public int getUser_id() {
         return user_id;
     }
@@ -126,6 +105,14 @@ public class CommentBook {
         this.book_id = book_id;
     }
 
+    public int getPost_id() {
+        return post_id;
+    }
+
+    public void setPost_id(int post_id) {
+        this.post_id = post_id;
+    }
+
     public float getRating() {
         return rating;
     }
@@ -140,5 +127,29 @@ public class CommentBook {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public int getContributor() {
+        return contributor;
+    }
+
+    public void setContributor(int contributor) {
+        this.contributor = contributor;
+    }
+
+    public int getGoldenBook() {
+        return goldenBook;
+    }
+
+    public void setGoldenBook(int goldenBook) {
+        this.goldenBook = goldenBook;
+    }
+
+    public int getListBook() {
+        return listBook;
+    }
+
+    public void setListBook(int listBook) {
+        this.listBook = listBook;
     }
 }

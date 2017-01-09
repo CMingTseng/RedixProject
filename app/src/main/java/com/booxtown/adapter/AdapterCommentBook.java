@@ -64,12 +64,13 @@ public class AdapterCommentBook extends RecyclerView.Adapter<AdapterCommentBook.
             }
         });
         if(Comments.getPhoto().length()>3) {
-            Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length())).error(R.mipmap.user_empty).into(hoder.img_icon);
+            int index = Comments.getPhoto().indexOf("_+_");
+            Picasso.with(mContext).load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getPhoto().substring(0,index).trim() + "&image=" + Comments.getPhoto().substring(index + 3, Comments.getPhoto().length())).error(R.mipmap.user_empty).into(hoder.img_icon);
         }else{
             Bitmap btm = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.user_empty);
             hoder.img_icon.setImageBitmap(btm);
         }
-        hoder.txt_userName.setText(Comments.getUsername());
+        hoder.txt_userName.setText(Comments.getFirst_name());
         hoder.txt_contents.setText(Comments.getContent());
         try {
             SharedPreferences pref = mContext.getSharedPreferences("MyPref", mContext.MODE_PRIVATE);

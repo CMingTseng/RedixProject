@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.booxtown.activity.MainAllActivity;
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.activity.SignIn_Activity;
+import com.booxtown.activity.Upgrade;
 import com.booxtown.adapter.AdapterListviewWishboard;
 import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.Information;
@@ -223,6 +224,8 @@ public class WishboardFragment extends Fragment {
                     if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
                         img_component.setVisibility(View.INVISIBLE);
                         Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+                        Intent intent= new Intent(getActivity(), Upgrade.class);
+                        startActivity(intent);
                     }
                     else{
 

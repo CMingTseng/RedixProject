@@ -59,7 +59,7 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
     CircularImageView imv_nitification_infor3_phone;
     android.widget.RatingBar RatingBar;
     ImageView img_comment_rank1,img_comment_rank2,img_comment_rank3;
-    String keyOption="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,18 +75,17 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
         //--------------------------------------------------------------
         // lấy được list sách swap đẻ đổ vào listview
         String trans_id= getIntent().getStringExtra("trans_id");
-        keyOption= getIntent().getStringExtra("keyOption");
-        transAsync transAsync= new transAsync(NotificationSellNoAccept.this,trans_id);
+        String keyOptions= getIntent().getStringExtra("keyOption");
+        transAsync transAsync= new transAsync(NotificationSellNoAccept.this,trans_id,keyOptions);
         transAsync.execute();
         //---------------------------------------------------------------
-
 
         txt_menu_notification_title2.setVisibility(View.GONE);
 
         TextView txt_menu_notification_infor3_title = (TextView)findViewById(R.id.txt_menu_notification_infor3_title);
-        if(keyOption.equals("5")) {
+        if(keyOptions.equals("7")) {
             txt_menu_notification_infor3_title.setText("accepted your request for buying");
-        }else  if(keyOption.equals("16")){
+        }else  if(keyOptions.equals("19")){
             txt_menu_notification_infor3_title.setText("accepted your request to get the book");
         }
         //menu
@@ -182,10 +181,12 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
         ProgressDialog dialog;
         List<Book> listemp;
         String trans_id;
-        public transAsync(Context context, String trans_id){
+        String keyOption;
+        public transAsync(Context context, String trans_id,String keyOption){
             this.context = context;
             this.trans_id=trans_id;
             listemp = new ArrayList<>();
+            this.keyOption= keyOption;
         }
 
         @Override
@@ -221,11 +222,23 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
             }else {
                 SharedPreferences pref = NotificationSellNoAccept.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String session_id = pref.getString("session_id", null);
-                getSetting gt= new getSetting(NotificationSellNoAccept.this, transaction);
-                gt.execute(transaction.getSession_user_sell());
 
-                getUser1 getUser1 = new getUser1(NotificationSellNoAccept.this,transaction.getUser_buyer_id());
-                getUser1.execute();
+
+                if(session_id.equals(transaction.getSession_user_buy())) {
+                    getSetting gt= new getSetting(NotificationSellNoAccept.this, transaction,keyOption);
+                    gt.execute(transaction.getSession_user_sell());
+                    getUser1 getUser1 = new getUser1(NotificationSellNoAccept.this,transaction.getUser_seller_id());
+                    getUser1.execute();
+
+                }else{
+                    getSetting gt= new getSetting(NotificationSellNoAccept.this, transaction,keyOption);
+                    gt.execute(transaction.getSession_user_buy());
+                    getUser1 getUser1 = new getUser1(NotificationSellNoAccept.this,transaction.getUser_buyer_id());
+                    getUser1.execute();
+
+                }
+
+
                 dialog.dismiss();
             }
             super.onPostExecute(transaction);
@@ -237,9 +250,11 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
         Context context;
         ProgressDialog progressDialog;
         Transaction trans;
-        public getSetting(Context context, Transaction trans){
+        String keyOption;
+        public getSetting(Context context, Transaction trans, String keyOption){
             this.trans= trans;
             this.context=context;
+            this.keyOption=keyOption;
         }
         @Override
         protected void onPreExecute() {
@@ -274,28 +289,28 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
                 String firstName = pref.getString("firstname", "");
                 txt_user_hi.setText("Hi "+ firstName+",");
 
-                if(keyOption.equals("5")) {
+                if(keyOption.equals("7")) {
                     txt_notification_sell_accept_money.setText("AED "+trans.getBook_price());
-                }else  if(keyOption.equals("16")){
+                }else  if(keyOption.equals("19")){
                     txt_notification_sell_accept_money.setVisibility(View.INVISIBLE);
                 }
-                txt_author_info3.setText(trans.getFirstNameUserSell()+"");
+                //txt_author_info3.setText(trans.getFirstNameUserSell()+"");
                 txt_title_book_buy_accept.setText(trans.getBook_name());
                 txt_author_book_buy_accept.setText(trans.getBook_author());
-                String []timeStart=settings.get(0).getTime_start().split(":");
+                String []timeStart=trans.getSeller_time_start().split(":");
                 String timeS="";
                 if(Integer.parseInt(timeStart[0])<=12){
-                    timeS=timeStart[0]+":"+ timeStart[1]+ " AM";
+                    timeS=timeStart[0]+":"+ timeStart[1]+ " ";
                 }else{
-                    timeS=timeStart[0]+":"+ timeStart[1]+ " PM";
+                    timeS=timeStart[0]+":"+ timeStart[1]+ " ";
                 }
 
-                String []timeTo=settings.get(0).getTime_to().split(":");
+                String []timeTo=trans.getSeller_time_to().split(":");
                 String timeT="";
                 if(Integer.parseInt(timeTo[0])<=12){
-                    timeT=timeTo[0]+":"+ timeTo[1]+ " AM";
+                    timeT=timeTo[0]+":"+ timeTo[1]+ " ";
                 }else{
-                    timeT=timeTo[0]+":"+ timeTo[1]+ " PM";
+                    timeT=timeTo[0]+":"+ timeTo[1]+ " ";
                 }
                 txt_notification_dominic_time.setText(timeS+"-"+timeT);
             }catch (Exception e){
@@ -343,8 +358,9 @@ public class NotificationSellNoAccept extends AppCompatActivity implements View.
                 if (user.size() > 0){
                     txt_author_info3.setText(user.get(0).getFirst_name());
                     if (user.get(0).getPhoto().length() > 3) {
+                        int index =user.get(0).getPhoto().indexOf("_+_");
                     Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getPhoto().substring(0,index).trim()+"&image="+user.get(0).getPhoto().substring(index+3,user.get(0).getPhoto().length()))
                             .error(R.mipmap.user_empty)
                             .into(imv_nitification_infor3_phone);
                     }else {

@@ -144,10 +144,16 @@ public class DashboardStatusFragment extends Fragment {
                     imageView_username_rating = (CircularImageView)dialog.findViewById(R.id.imageView_username_rating);
                     textView_username_rating = (TextView)dialog.findViewById(R.id.textView_username_rating);
                     //end
-                    Picasso.with(getContext())
-                            .load(img_username)
-                            .error(R.drawable.user)
-                            .into(imageView_username_rating);
+                        if(img_username==null){
+                            Picasso.with(getContext())
+                                    .load(R.mipmap.user_empty)
+                                    .into(imageView_username_rating);
+                        }
+                        else {
+                            Picasso.with(getContext())
+                                    .load(img_username)
+                                    .into(imageView_username_rating);
+                        }
                     textView_username_rating.setText(username);
                     Button btn_rate_dashboard_status = (Button)dialog.findViewById(R.id.btn_rate_dashboard_status);
                     btn_rate_dashboard_status.setOnClickListener(new View.OnClickListener() {
@@ -222,11 +228,11 @@ public class DashboardStatusFragment extends Fragment {
             textView_with.setVisibility(View.GONE);
         }
         if(userID.equals(dashBoard.getUser_buyer_id())) {
-            getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
+            getUser getUser = new getUser(getContext(),dashBoard.getUser_buyer_id());
             getUser.execute();
         }
         else{
-            getUser getUser = new getUser(getContext(),dashBoard.getUser_buyer_id());
+            getUser getUser = new getUser(getContext(),dashBoard.getUser_seller_id());
             getUser.execute();
         }
 
@@ -359,15 +365,19 @@ public class DashboardStatusFragment extends Fragment {
             try {
                 if (user.size() > 0){
                     if(user.get(0).getPhoto().length()>3) {
+                        int index = user.get(0).getPhoto().indexOf("_+_");
                         Picasso.with(context)
-                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getUsername() + "&image=" + user.get(0).getPhoto().substring(user.get(0).getUsername().length() + 3, user.get(0).getPhoto().length()))
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getPhoto().substring(0,index).trim() + "&image=" + user.get(0).getPhoto().substring(index + 3, user.get(0).getPhoto().length()))
                                 .placeholder(R.mipmap.user_empty)
                                 .into(img_menu_dashboard_middle);
+                        img_username =ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.get(0).getPhoto().substring(0,index).trim() + "&image=" + user.get(0).getPhoto().substring(index+ 3, user.get(0).getPhoto().length());
+
                     }
                     else{
                         Picasso.with(getContext())
                                 .load(R.mipmap.user_empty)
                                 .into(img_menu_dashboard_middle);
+
                     }
                     textView_username_dashboard_middle.setText(user.get(0).getUsername());
                     //img_username = ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length());

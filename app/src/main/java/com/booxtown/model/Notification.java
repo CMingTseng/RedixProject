@@ -13,7 +13,7 @@ public class Notification {
     @Expose
     private String content;
     @Expose
-    private String title_notification;
+    private String title_notifi;
     @Expose
     private String key_screen;
     @Expose
@@ -56,24 +56,24 @@ public class Notification {
     }
 
     public String getTitle_notifi() {
-        return title_notification;
+        return title_notifi;
     }
 
     public void setTitle_notifi(String title_notifi) {
-        this.title_notification = title_notifi;
+        this.title_notifi = title_notifi;
     }
 
     public Notification(String id, String content, String title_notifi, String key_screen, int is_read) {
         this.id = id;
         this.content = content;
-        this.title_notification = title_notifi;
+        this.title_notifi = title_notifi;
         this.key_screen = key_screen;
         this.is_read = is_read;
     }
 
     public Notification(String title_notifi, String key_screen,String id_screen) {
         this.id_screen=id_screen;
-        this.title_notification = title_notifi;
+        this.title_notifi = title_notifi;
         this.key_screen = key_screen;
     }
 

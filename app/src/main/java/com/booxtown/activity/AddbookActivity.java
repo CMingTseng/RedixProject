@@ -550,7 +550,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 try {
                     long time = System.currentTimeMillis();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), lisImmage.get(i).getUri());
-                    Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, 270, true);
+
+                    Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, 250*(bitmap.getHeight()/bitmap.getWidth()), true);
                     bmap.add(photoBitMap);
                     listFileName.add(lisImmage.get(i).getKey());
                 } catch (IOException e) {

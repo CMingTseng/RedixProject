@@ -1,125 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-   >
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1.5"
-        android:gravity="center_horizontal"
-        android:background="#ee7272"
-        android:orientation="horizontal"
-        android:layout_margin="1dp"
-        android:id="@+id/linear_all">
-        <com.booxtown.custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_vertical"
-            android:text="All"
-            android:textSize="@dimen/text_size_search"
-            android:id="@+id/tab_all"
-            />
-
-        <com.booxtown.custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColorHint="@color/color_text_hint"
-            android:textColor="@android:color/white"
-            android:id="@+id/tab_all_count"
-            android:textSize="@dimen/text_size_search"
-            />
-    </LinearLayout>
+    >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:background="#ee7272"
-        android:orientation="horizontal"
-        android:layout_margin="1dp"
-        android:id="@+id/linear_swap">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="center_vertical"
-            android:textColor="@android:color/white"
-            android:id="@+id/tab_swap"
-            />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linear_tab"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="15dp">
+
+        <LinearLayout
+            android:id="@+id/linear_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="1.5"
+            android:background="@color/color_text"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.booxtown.custom.CustomTextView
+                android:id="@+id/tab_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="All"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_search" />
+
+            <com.booxtown.custom.CustomTextView
+                android:id="@+id/tab_all_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/color_text_hint"
+                android:textSize="@dimen/text_size_search" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_swap"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/color_text"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/tab_swap"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/white" />
+
+            <com.booxtown.custom.CustomTextView
+                android:id="@+id/tab_swap_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/color_text_hint"
+                android:textSize="@dimen/text_size_search" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_free"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/color_text"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/tab_free"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/white" />
+
+            <com.booxtown.custom.CustomTextView
+                android:id="@+id/tab_free_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/color_text_hint"
+                android:textSize="@dimen/text_size_search" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/color_text"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/tab_cart"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/white" />
+
+            <com.booxtown.custom.CustomTextView
+                android:id="@+id/tab_cart_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/color_text_hint"
+                android:textSize="@dimen/text_size_search" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/notiTrial"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/linear_tab"
+        android:layout_centerHorizontal="true"
+        android:background="@color/color_text"
+        android:visibility="gone"
+        android:layout_marginBottom="5dp">
 
         <com.booxtown.custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/color_text_hint"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/tab_swap_count"
-            android:textSize="@dimen/text_size_search"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:background="#ee7272"
-        android:orientation="horizontal"
-        android:layout_margin="1dp"
-        android:id="@+id/linear_free">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/tab_free"
-            />
+            android:id="@+id/txtNotifiTrial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Your free trial expires in 14 days"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_marginBottom="5dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/notiUpgrade"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/notiTrial"
+        android:layout_centerHorizontal="true"
+        android:background="@color/color_text"
+        android:visibility="gone"
+        android:layout_marginBottom="5dp">
 
         <com.booxtown.custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_search"
-            android:textColorHint="@color/color_text_hint"
-            android:textColor="@android:color/white"
-            android:id="@+id/tab_free_count"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:background="#ee7272"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_margin="1dp"
-        android:id="@+id/linear_cart">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/tab_cart"
-            />
-
-        <com.booxtown.custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_search"
-            android:textColorHint="@color/color_text_hint"
-            android:textColor="@android:color/white"
-            android:id="@+id/tab_cart_count"
-            />
-    </LinearLayout>
-
-</LinearLayout>
+            android:id="@+id/txtNotifiUpgrade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/Upgrade"
+            android:textColor="@color/dot_light_screen1"
+            android:layout_marginBottom="5dp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -58,14 +58,14 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/notiTrial"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_below="@+id/relativeLayout"
         android:layout_centerHorizontal="true"
         android:background="@color/color_text"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginBottom="5dp">
 
         <com.booxtown.custom.CustomTextView
@@ -87,7 +87,7 @@
         android:layout_below="@+id/notiTrial"
         android:layout_centerHorizontal="true"
         android:background="@color/color_text"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginBottom="5dp">
 
         <com.booxtown.custom.CustomTextView
@@ -100,5 +100,5 @@
             android:text="@string/Upgrade"
             android:textColor="@color/dot_light_screen1"
             android:layout_marginBottom="5dp" />
-    </RelativeLayout>
+    </RelativeLayout>-->
 </RelativeLayout>

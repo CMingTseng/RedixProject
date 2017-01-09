@@ -3,6 +3,7 @@ package com.booxtown.custom;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,7 +17,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.booxtown.activity.NotificationRejectActivity;
+import com.booxtown.activity.NotificationSwapActivity;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.model.Notification;
 import com.bumptech.glide.Glide;
@@ -44,7 +48,16 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
     String trans_id;
     String bookNameMe;
     Transaction trans;
+    boolean flag;
     private static LayoutInflater inflater = null;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     public CustomListviewNotificationSwap(Context context, List<Book> list, String trans_id, String bookNameMe, Transaction trans) {
         // TODO Auto-generated constructor stub
@@ -53,6 +66,8 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
         this.trans_id = trans_id;
         this.bookNameMe = bookNameMe;
         this.trans = trans;
+        flag=true;
+
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -135,10 +150,23 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                     btn_notification_swapdialog_confirm.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                            String session_id = pref.getString("session_id", null);
-                            transactionChangeStatus trans = new transactionChangeStatus(context, session_id, trans_id, "1", book.getId(), book);
-                            trans.execute();
+                            if(trans.getIs_accept()==0&&trans.getIs_reject()==0&&trans.getIs_cancel()==0) {
+                                if (flag) {
+                                    SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                                    String session_id = pref.getString("session_id", null);
+                                    transactionChangeStatus trans = new transactionChangeStatus(context, session_id, trans_id, "1", book.getId(), book);
+                                    trans.execute();
+
+                                    flag=false;
+
+                                }
+                                else{
+                                    Toast.makeText(context, "The transaction is done!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else{
+                                Toast.makeText(context, "The transaction is done!", Toast.LENGTH_SHORT).show();
+                            }
                             dialog.dismiss();
                         }
                     });
@@ -150,6 +178,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
                             dialog.dismiss();
                         }
                     });
+                    setFlag(flag);
                 }
             });
         }
@@ -201,7 +230,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
             List<Hashtable> list = new ArrayList<>();
             Notification notification = new Notification("Swap Request", trans.getId()+"","2" );
             Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-            obj.put("user_id", book.getUser_id());
+            obj.put("user_id", trans.getUser_buyer_id());
             obj.put("messages",firstName.substring(0,1).toUpperCase()+ firstName.substring(1,firstName.length())+ " accepted your Swap request");
             list.add(obj);
             NotificationController controller = new NotificationController();
@@ -216,6 +245,11 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
             NotificationController controllerSeller = new NotificationController();
             controllerSeller.sendNotification(listSeller);
             // end
+
+            Intent intent = new Intent(context, NotificationRejectActivity.class);
+            intent.putExtra("trans_id", trans.getId() + "");
+            context.startActivity(intent);
+
             super.onPostExecute(transactionID);
         }
     }

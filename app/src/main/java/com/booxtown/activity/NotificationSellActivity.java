@@ -65,7 +65,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
     String firstNameBuyer="";
     String firstNameSeller="";
     RatingBar ratingBar2;
-    String keyOption="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +80,8 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
 
         // lấy được list sách swap đẻ đổ vào listview
         final String trans_id = getIntent().getStringExtra("trans_id");
-        keyOption= getIntent().getStringExtra("keyOption");
-        transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 0);
+        String keyOption= getIntent().getStringExtra("keyOption");
+        transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 0,keyOption);
         transAsync.execute();
 
         txt_notification_infor3_phone.setVisibility(View.GONE);
@@ -179,12 +179,13 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
         List<Book> listemp;
         String trans_id;
         int type;
-
-        public transAsync(Context context, String trans_id, int type) {
+        String keyOption;
+        public transAsync(Context context, String trans_id, int type,String keyOption) {
             this.context = context;
             this.trans_id = trans_id;
             this.type = type;
             listemp = new ArrayList<>();
+            this.keyOption= keyOption;
         }
 
         @Override
@@ -256,35 +257,66 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                     } else {
                         Toast.makeText(NotificationSellActivity.this, "You rejected this transaction", Toast.LENGTH_LONG).show();
                     }
-                } else if (type == 0) {
+
+                }
+                else if (type == 3) {
+                    if (flagChoose) {
+                        transactionChangeStatus transactionChangeStatus = new transactionChangeStatus(NotificationSellActivity.this, session_id, "1", transaction, 3);
+                        transactionChangeStatus.execute();
+                        flagChoose = false;
+                    } else {
+                        Toast.makeText(NotificationSellActivity.this, "You accepted this transaction", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else if (type == 4) {
+                    if (flagChoose) {
+                        transactionChangeStatus transactionChangeStatus = new transactionChangeStatus(NotificationSellActivity.this, session_id, "0", transaction, 4);
+                        transactionChangeStatus.execute();
+                        flagChoose = false;
+                    } else {
+                        Toast.makeText(NotificationSellActivity.this, "You rejected this transaction", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else if (type == 0) {
                     Button btn_menu_notification_dominic_accept = (Button) findViewById(R.id.btn_menu_notification_dominic_accept);
                     btn_menu_notification_dominic_accept.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             if(keyOption.equals("4")) {
-                                if (flag || (transaction.getIs_accept() == 0 && transaction.getIs_cancel() == 0 && transaction.getIs_reject() == 0)) {
-                                    Intent intent = new Intent(NotificationSellActivity.this, NotificationSellNoAccept.class);
-                                    intent.putExtra("trans_id", trans_id);
-                                    startActivity(intent);
-                                    flag = false;
+                                if ((transaction.getIs_accept() == 0 && transaction.getIs_cancel() == 0 && transaction.getIs_reject() == 0)) {
+                                    if(flag) {
+                                        Intent intent = new Intent(NotificationSellActivity.this, NotificationSellAccept.class);
+                                        intent.putExtra("trans_id", trans_id + "");
+                                        intent.putExtra("keyOption", "5");
+                                        startActivity(intent);
 
-                                    final String trans_id = getIntent().getStringExtra("trans_id");
-                                    transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 1);
-                                    transAsync.execute();
+                                        flag = false;
+
+                                        final String trans_id = getIntent().getStringExtra("trans_id");
+                                        transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 1, keyOption);
+                                        transAsync.execute();
+                                    }else{
+                                        Toast.makeText(NotificationSellActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(NotificationSellActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else if(keyOption.equals("16")) {
-                                if (flag || (transaction.getIs_accept() == 0 && transaction.getIs_cancel() == 0 && transaction.getIs_reject() == 0)) {
-                                    Intent intent = new Intent(NotificationSellActivity.this, NotificationSellNoAccept.class);
-                                    intent.putExtra("trans_id", trans_id);
-                                    startActivity(intent);
-                                    flag = false;
+                                if ((transaction.getIs_accept() == 0 && transaction.getIs_cancel() == 0 && transaction.getIs_reject() == 0)) {
+                                    if(flag) {
+                                        flag = false;
+                                        final String trans_id = getIntent().getStringExtra("trans_id");
+                                        transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 3, keyOption);
+                                        transAsync.execute();
 
-                                    final String trans_id = getIntent().getStringExtra("trans_id");
-                                    transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 3);
-                                    transAsync.execute();
+                                        Intent intent = new Intent(NotificationSellActivity.this, NotificationSellAccept.class);
+                                        intent.putExtra("trans_id", trans_id + "");
+                                        intent.putExtra("keyOption", "17");
+                                        startActivity(intent);
+                                    }else {
+                                        Toast.makeText(NotificationSellActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(NotificationSellActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
                                 }
@@ -298,21 +330,40 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                         @Override
                         public void onClick(View view) {
                             if (keyOption.equals("4")) {
-                                if (flag || (transaction.getIs_accept() == 0 && transaction.getIs_cancel() == 0 && transaction.getIs_reject() == 0)) {
-                                    final String trans_id = getIntent().getStringExtra("trans_id");
-                                    transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 2);
-                                    transAsync.execute();
-                                    flag = false;
+                                if ((transaction.getIs_accept() == 0 && transaction.getIs_cancel() == 0 && transaction.getIs_reject() == 0)) {
+                                    if(flag) {
+                                        final String trans_id = getIntent().getStringExtra("trans_id");
+                                        transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 2, keyOption);
+                                        transAsync.execute();
+                                        flag = false;
+
+                                        Intent intent = new Intent(NotificationSellActivity.this, NotificationSellNoAccept.class);
+                                        intent.putExtra("trans_id", trans_id + "");
+                                        intent.putExtra("keyOption", "7");
+                                        startActivity(intent);
+                                    }else{
+                                        Toast.makeText(NotificationSellActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(NotificationSellActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else if(keyOption.equals("16")) {
-                                if (flag || (transaction.getIs_accept() == 0 && transaction.getIs_cancel() == 0 && transaction.getIs_reject() == 0)) {
-                                    final String trans_id = getIntent().getStringExtra("trans_id");
-                                    transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 4);
-                                    transAsync.execute();
-                                    flag = false;
+                                if ((transaction.getIs_accept() == 0 && transaction.getIs_cancel() == 0 && transaction.getIs_reject() == 0)) {
+                                    if(flag) {
+                                        final String trans_id = getIntent().getStringExtra("trans_id");
+                                        transAsync transAsync = new transAsync(NotificationSellActivity.this, trans_id, 4, keyOption);
+                                        transAsync.execute();
+                                        flag = false;
+
+                                        Intent intent = new Intent(NotificationSellActivity.this, NotificationSellNoAccept.class);
+                                        intent.putExtra("trans_id", trans_id + "");
+                                        intent.putExtra("keyOption", "19");
+                                        startActivity(intent);
+
+                                    }else {
+                                        Toast.makeText(NotificationSellActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(NotificationSellActivity.this, "The transaction is done!", Toast.LENGTH_SHORT).show();
                                 }
@@ -392,7 +443,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notificationSeller = new Notification("Buy Request", trans.getId() + "", "5");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You accepted a Buy request from "+ firstNameBuyer );
+                objSeller.put("messages", "You accepted a Buy request from "+ firstNameSeller );
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);
@@ -437,7 +488,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notificationSeller = new Notification("Buy Request", trans.getId() + "", "17");
                 Hashtable objSeller = ObjectCommon.ObjectDymanic(notificationSeller);
                 objSeller.put("user_id", trans.getUser_seller_id());
-                objSeller.put("messages", "You accepted a Buy request from "+ firstNameBuyer );
+                objSeller.put("messages", "You accepted a Buy request from "+ firstNameSeller );
                 listSeller.add(objSeller);
                 NotificationController controllerSeller = new NotificationController();
                 controllerSeller.sendNotification(listSeller);
@@ -447,7 +498,7 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 Notification notification = new Notification("Buy Request", trans.getId() + "", "20");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", trans.getUser_buyer_id());
-                obj.put("messages", firstName+" accepted your Buy request");
+                obj.put("messages", firstName+" rejected your Buy request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -506,8 +557,9 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 if (user.size() > 0){
                     txt_author_info3.setText(user.get(0).getFirst_name()+"");
                     if (user.get(0).getPhoto().length() > 3) {
+                        int index =user.get(0).getPhoto().indexOf("_+_");
                     Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length()))
+                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getPhoto().substring(0,index).trim()+"&image="+user.get(0).getPhoto().substring(index+3,user.get(0).getPhoto().length()))
                             .error(R.mipmap.user_empty)
                             .into(imv_nitification_infor3_phone);
                     }else {
@@ -610,9 +662,9 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                     //dialog.dismiss();
                 }else {
                     if (type==0){
-                        firstNameBuyer = userResult.get(0).getFirst_name();
-                    }else if(type==1){
                         firstNameSeller = userResult.get(0).getFirst_name();
+                    }else if(type==1){
+                        firstNameBuyer = userResult.get(0).getFirst_name();
                     }
                 }
                 super.onPostExecute(userResult);

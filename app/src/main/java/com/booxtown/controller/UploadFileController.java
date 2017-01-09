@@ -53,18 +53,18 @@ public class UploadFileController {
             MultipartBody.Part body, body1, body2;
             Call<Result> req = null;
             if (fileName.size() == 1) {
-                body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
+                body = MultipartBody.Part.createFormData("images", fileName.get(0).trim(), reqFile.get(0));
                 req = service.postImage(body);
             }
             if (fileName.size() == 2) {
-                body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
-                body1 = MultipartBody.Part.createFormData("images", fileName.get(1), reqFile.get(1));
+                body = MultipartBody.Part.createFormData("images", fileName.get(0).trim(), reqFile.get(0));
+                body1 = MultipartBody.Part.createFormData("images", fileName.get(1).trim(), reqFile.get(1));
                 req = service.postImage1(body, body1);
             }
             if (fileName.size() == 3) {
-                body = MultipartBody.Part.createFormData("images", fileName.get(0), reqFile.get(0));
-                body1 = MultipartBody.Part.createFormData("images", fileName.get(1), reqFile.get(1));
-                body2 = MultipartBody.Part.createFormData("images", fileName.get(2), reqFile.get(2));
+                body = MultipartBody.Part.createFormData("images", fileName.get(0).trim(), reqFile.get(0));
+                body1 = MultipartBody.Part.createFormData("images", fileName.get(1).trim(), reqFile.get(1));
+                body2 = MultipartBody.Part.createFormData("images", fileName.get(2).trim(), reqFile.get(2));
                 req = service.postImage2(body, body1, body2);
             }
 

@@ -6,8 +6,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,6 +40,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -47,6 +52,8 @@ import com.booxtown.activity.SwapActivity;
 import com.booxtown.controller.NotificationController;
 import com.booxtown.controller.ObjectCommon;
 import com.booxtown.model.Book;
+import com.squareup.picasso.Target;
+
 
 /**
  * Created by Administrator on 26/08/2016.
@@ -91,17 +98,23 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
     }
 
     @Override
-    public void onBindViewHolder(ExploreHoder hoder, int position) {
+    public void onBindViewHolder(ExploreHoder hoders, int position) {
+         final ExploreHoder hoder= hoders;
         final Book ex= listExplore.get(position);
         username = pref.getString("username", null);
-        String[] image = ex.getPhoto().split(";");
+        final String[] image = ex.getPhoto().split(";");
         if (image.length!=0){
-            int index=image[0].indexOf("_+_");
+            final int index=image[0].indexOf("_+_");
             if(index>0 && image[0].length() >3 ) {
-                String img = image[0].substring(index+3, image[0].length());
-                String imageLink= ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "";
-                Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "").placeholder(R.drawable.blank_image).
-                        into(hoder.img_book);
+                final String img = image[0].substring(index+3, image[0].length());
+                final String imageLink= ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "";
+                try {
+                    GetWithHeight getWithHeight= new GetWithHeight(mContext,imageLink,hoder.img_book);
+                    getWithHeight.execute();
+
+                }catch (Exception exx){
+                    String err= exx.getMessage();
+                }
             }
             else{
                 Picasso.with(mContext). load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + ex.getUsername() + "&image=" +  image[0]  + "").placeholder(R.drawable.blank_image).
@@ -638,6 +651,52 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                     }
                     dialog.dismiss();
 
+            }catch (Exception e){}
+        }
+    }
+
+    class GetWithHeight extends AsyncTask<Bitmap,Void,Bitmap>{
+
+        Context context;
+       String imageUrl;
+        ImageView img_book;
+        public GetWithHeight(Context context, String imageUrl,ImageView img_book){
+            this.context = context;
+            this.imageUrl=imageUrl;
+            this.img_book=img_book;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Bitmap... Bitmap) {
+            Bitmap downloadedImage = null;
+            try {
+                downloadedImage = Picasso.with(context).load(imageUrl).get();
+                return downloadedImage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap downloadedImage) {
+            try {
+                int width = downloadedImage.getWidth();
+                int height = downloadedImage.getHeight();
+                if (width> height) {
+                    img_book.setRotation(90f);
+                    img_book.setImageBitmap(downloadedImage);
+                    /*Picasso.with(mContext).load(imageUrl).rotate(90f).placeholder(R.drawable.blank_image).
+                            into(img_book);*/
+                } else {
+                    img_book.setImageBitmap(downloadedImage);
+                    /*Picasso.with(mContext).load(imageUrl).placeholder(R.drawable.blank_image).
+                            into(img_book);*/
+                }
             }catch (Exception e){}
         }
     }

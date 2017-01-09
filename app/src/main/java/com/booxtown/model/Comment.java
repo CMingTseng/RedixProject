@@ -21,6 +21,8 @@ public class Comment {
     @Expose
     private String username;
     @Expose
+    private String first_name;
+    @Expose
     private float rating;
     @Expose
     private String photo;
@@ -31,66 +33,19 @@ public class Comment {
     @Expose
     private int listBook;
 
-    public Comment(String id, String content, String create_date, String thread_id, String user_id, String username, float rating, String photo, int contributor, int goldenBook, int listBook) {
+    public Comment(String id, String content, String create_date, String thread_id, String user_id, String username, String first_name, float rating, String photo, int contributor, int goldenBook, int listBook) {
         this.id = id;
         this.content = content;
         this.create_date = create_date;
         this.thread_id = thread_id;
         this.user_id = user_id;
         this.username = username;
+        this.first_name = first_name;
         this.rating = rating;
         this.photo = photo;
         this.contributor = contributor;
         this.goldenBook = goldenBook;
         this.listBook = listBook;
-    }
-
-    public int getContributor() {
-        return contributor;
-    }
-
-    public void setContributor(int contributor) {
-        this.contributor = contributor;
-    }
-
-    public int getGoldenBook() {
-        return goldenBook;
-    }
-
-    public void setGoldenBook(int goldenBook) {
-        this.goldenBook = goldenBook;
-    }
-
-    public int getListBook() {
-        return listBook;
-    }
-
-    public void setListBook(int listBook) {
-        this.listBook = listBook;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getId() {
@@ -131,6 +86,70 @@ public class Comment {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public int getContributor() {
+        return contributor;
+    }
+
+    public void setContributor(int contributor) {
+        this.contributor = contributor;
+    }
+
+    public int getGoldenBook() {
+        return goldenBook;
+    }
+
+    public void setGoldenBook(int goldenBook) {
+        this.goldenBook = goldenBook;
+    }
+
+    public int getListBook() {
+        return listBook;
+    }
+
+    public void setListBook(int listBook) {
+        this.listBook = listBook;
+    }
+
+    public static Comparator<Comment> getAseid() {
+        return aseid;
+    }
+
+    public static void setAseid(Comparator<Comment> aseid) {
+        Comment.aseid = aseid;
     }
 
     public static Comparator<Comment> aseid = new Comparator<Comment>() {

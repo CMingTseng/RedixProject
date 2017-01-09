@@ -83,8 +83,9 @@ public class AdapterInteractThreadDetails extends RecyclerView.Adapter<AdapterIn
         });
 
         if(Comments.getPhoto().length()>3) {
+            int index = Comments.getPhoto().indexOf("_+_");
             Picasso.with(mContext)
-                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getUsername() + "&image=" + Comments.getPhoto().substring(Comments.getUsername().length() + 3, Comments.getPhoto().length()))
+                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + Comments.getPhoto().substring(0,index).trim() + "&image=" + Comments.getPhoto().substring(index + 3, Comments.getPhoto().length()))
                     .error(R.mipmap.user_empty)
                     .into(hoder.img_icon);
         }
@@ -94,7 +95,7 @@ public class AdapterInteractThreadDetails extends RecyclerView.Adapter<AdapterIn
             hoder.img_icon.setImageBitmap(bitmap);
         }
 
-        hoder.txt_userName.setText(Comments.getUsername());
+        hoder.txt_userName.setText(Comments.getFirst_name());
         hoder.txt_contents.setText(Comments.getContent());
         hoder.myRatingBar.setRating(Comments.getRating());
         LayerDrawable stars = (LayerDrawable) hoder.myRatingBar.getProgressDrawable();

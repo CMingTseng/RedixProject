@@ -63,8 +63,11 @@ public class Transaction  implements Serializable {
     @Expose
     private String session_user_buy;
     @Expose
+    private String seller_time_start;
+    @Expose
     private String session_user_sell;
-
+    @Expose
+    private String seller_time_to;
 
     @Expose
     private List<Book> book = new ArrayList<Book>();
@@ -72,7 +75,7 @@ public class Transaction  implements Serializable {
     public Transaction() {
     }
 
-    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, String book_author, String user_buy, String firstNameUserBuy, String firstNameUserSell, String user_sell, String book_price, String book_swap_id, String session_user_buy, String session_user_sell, List<Book> book) {
+    public Transaction(int id, int user_buyer_id, int user_seller_id, String create_date, String book_buyer_id, int book_seller_id, String action, int is_accept, int is_reject, int notification_id, int is_cancel, int user_promp, int user_cour, int user_quality, String book_name, String book_author, String user_buy, String firstNameUserBuy, String firstNameUserSell, String user_sell, String book_price, String book_swap_id, String session_user_buy, String seller_time_start, String session_user_sell, String seller_time_to, List<Book> book) {
         this.id = id;
         this.user_buyer_id = user_buyer_id;
         this.user_seller_id = user_seller_id;
@@ -96,80 +99,10 @@ public class Transaction  implements Serializable {
         this.book_price = book_price;
         this.book_swap_id = book_swap_id;
         this.session_user_buy = session_user_buy;
+        this.seller_time_start = seller_time_start;
         this.session_user_sell = session_user_sell;
+        this.seller_time_to = seller_time_to;
         this.book = book;
-    }
-
-    public String getFirstNameUserBuy() {
-        return firstNameUserBuy;
-    }
-
-    public void setFirstNameUserBuy(String firstNameUserBuy) {
-        this.firstNameUserBuy = firstNameUserBuy;
-    }
-
-    public String getFirstNameUserSell() {
-        return firstNameUserSell;
-    }
-
-    public void setFirstNameUserSell(String firstNameUserSell) {
-        this.firstNameUserSell = firstNameUserSell;
-    }
-
-    public String getSession_user_buy() {
-        return session_user_buy;
-    }
-
-    public void setSession_user_buy(String session_user_buy) {
-        this.session_user_buy = session_user_buy;
-    }
-
-    public String getSession_user_sell() {
-        return session_user_sell;
-    }
-
-    public void setSession_user_sell(String session_user_sell) {
-        this.session_user_sell = session_user_sell;
-    }
-
-    public String getBook_swap_id() {
-        return book_swap_id;
-    }
-
-    public void setBook_swap_id(String book_swap_id) {
-        this.book_swap_id = book_swap_id;
-    }
-
-    public String getBook_price() {
-        return book_price;
-    }
-
-    public void setBook_price(String book_price) {
-        this.book_price = book_price;
-    }
-
-    public String getUser_sell() {
-        return user_sell;
-    }
-
-    public void setUser_sell(String user_sell) {
-        this.user_sell = user_sell;
-    }
-
-    public String getUser_buy() {
-        return user_buy;
-    }
-
-    public void setUser_buy(String user_buy) {
-        this.user_buy = user_buy;
-    }
-
-    public String getBook_author() {
-        return book_author;
-    }
-
-    public void setBook_author(String book_author) {
-        this.book_author = book_author;
     }
 
     public int getId() {
@@ -290,6 +223,94 @@ public class Transaction  implements Serializable {
 
     public void setBook_name(String book_name) {
         this.book_name = book_name;
+    }
+
+    public String getBook_author() {
+        return book_author;
+    }
+
+    public void setBook_author(String book_author) {
+        this.book_author = book_author;
+    }
+
+    public String getUser_buy() {
+        return user_buy;
+    }
+
+    public void setUser_buy(String user_buy) {
+        this.user_buy = user_buy;
+    }
+
+    public String getFirstNameUserBuy() {
+        return firstNameUserBuy;
+    }
+
+    public void setFirstNameUserBuy(String firstNameUserBuy) {
+        this.firstNameUserBuy = firstNameUserBuy;
+    }
+
+    public String getFirstNameUserSell() {
+        return firstNameUserSell;
+    }
+
+    public void setFirstNameUserSell(String firstNameUserSell) {
+        this.firstNameUserSell = firstNameUserSell;
+    }
+
+    public String getUser_sell() {
+        return user_sell;
+    }
+
+    public void setUser_sell(String user_sell) {
+        this.user_sell = user_sell;
+    }
+
+    public String getBook_price() {
+        return book_price;
+    }
+
+    public void setBook_price(String book_price) {
+        this.book_price = book_price;
+    }
+
+    public String getBook_swap_id() {
+        return book_swap_id;
+    }
+
+    public void setBook_swap_id(String book_swap_id) {
+        this.book_swap_id = book_swap_id;
+    }
+
+    public String getSession_user_buy() {
+        return session_user_buy;
+    }
+
+    public void setSession_user_buy(String session_user_buy) {
+        this.session_user_buy = session_user_buy;
+    }
+
+    public String getSeller_time_start() {
+        return seller_time_start;
+    }
+
+    public void setSeller_time_start(String seller_time_start) {
+        this.seller_time_start = seller_time_start;
+    }
+
+    public String getSession_user_sell() {
+        return session_user_sell;
+    }
+
+    public void setSession_user_sell(String session_user_sell) {
+        this.session_user_sell = session_user_sell;
+    }
+
+    public String getSeller_time_to() {
+        return seller_time_to;
+    }
+
+    public void setSeller_time_to(String seller_time_to) {
+        this.seller_time_to = seller_time_to;
     }
 
     public List<Book> getBook() {

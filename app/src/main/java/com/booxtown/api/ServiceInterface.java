@@ -196,6 +196,9 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/setting/getSettingByUserId")
     Call<SettingResult> getSettingByUserId(@Query("session_id") String session_id);
 
+    @GET("/booxtown/rest/setting/getSettingById'")
+    Call<SettingResult> getSettingById(@Query("user_id") String user_id);
+
     @GET("/booxtown/rest/book/getAllGenre")
     Call<GenreValueResult> getAllGenre();
 

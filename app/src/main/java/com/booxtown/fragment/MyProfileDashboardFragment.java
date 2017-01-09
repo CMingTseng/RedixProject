@@ -78,8 +78,9 @@ public class MyProfileDashboardFragment extends Fragment {
         });
         user = (User)getArguments().getSerializable("user");
         if(user.getPhoto().length() > 3 ) {
+            int index =user.getPhoto().indexOf("_+_");
             Picasso.with(getContext())
-                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.getUsername() + "&image=" + user.getPhoto().substring(user.getUsername().length() + 3, user.getPhoto().length()))
+                    .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + user.getPhoto().substring(0,index).trim() + "&image=" + user.getPhoto().substring(index + 3, user.getPhoto().length()))
                     .placeholder(R.mipmap.user_empty)
                     .into(imv_menu_profile);
         }else {
