@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -16,339 +15,353 @@
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:fillColor="@color/color_text"
-        app:pageColor="#ffffff"
-        app:radius="5dp"
-        app:strokeColor="@color/color_text"
-        android:padding="2dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/pager"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:padding="2dp"
+        app:fillColor="@color/color_text"
+        app:pageColor="#ffffff"
+        app:radius="5dp"
+        app:strokeColor="@color/color_text" />
 
     <com.booxtown.custom.CustomTextviewBold
+        android:id="@+id/txt_title_listings_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/txt_title_listings_detail"
         android:layout_below="@+id/indicator"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
+        android:text=""
         android:textColor="@color/color_text"
         android:textSize="20sp" />
 
     <com.booxtown.custom.CustomTextView
+        android:id="@+id/txt_author_listings_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/txt_author_listings_detail"
         android:layout_below="@+id/txt_title_listings_detail"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/text_wishboard_date"
-        android:textColor="@color/color_text_hint" />
+        android:text=""
+        android:textColor="@color/color_text_hint"
+        android:textSize="@dimen/text_wishboard_date" />
 
     <com.booxtown.custom.CustomTextView
+        android:id="@+id/txt_price_listings_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/txt_price_listings_detail"
         android:layout_below="@+id/txt_author_listings_detail"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:textSize="@dimen/slide_desc_welcome"
-        android:textColor="@color/color_title_book" />
+        android:text=""
+        android:textColor="@color/color_title_book"
+        android:textSize="@dimen/slide_desc_welcome" />
 
     <RelativeLayout
+        android:id="@+id/layout_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_price_listings_detail"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_price_listings_detail"
         android:layout_marginTop="5dp"
-        android:background="@color/color_bg_listings_detail"
-        android:id="@+id/layout_user">
+        android:background="@color/color_bg_listings_detail">
 
         <com.github.siyamed.shapeimageview.CircularImageView
             android:id="@+id/icon_user_listing_detail"
             android:layout_width="40dp"
             android:layout_height="40dp"
 
-            app:siBorderColor="@color/dot_light_screen2"
-            app:siBorderWidth="1dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            app:siBorderColor="@color/dot_light_screen2"
+            app:siBorderWidth="1dp" />
 
         <com.booxtown.custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Listed by"
             android:id="@+id/txt_view"
-            android:textColor="@color/color_text_hint"
-            android:textSize="@dimen/text_by_exploer"
-            android:layout_marginTop="3dp"
-            android:layout_alignTop="@+id/icon_user_listing_detail"
-            android:layout_alignLeft="@+id/txt_listed_by"
-            android:layout_alignStart="@+id/txt_listed_by" />
-
-        <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gandalf"
+            android:layout_alignLeft="@+id/txt_listed_by"
+            android:layout_alignStart="@+id/txt_listed_by"
+            android:layout_alignTop="@+id/icon_user_listing_detail"
+            android:layout_marginTop="3dp"
+            android:text="Listed by"
+            android:textColor="@color/color_text_hint"
+            android:textSize="@dimen/text_by_exploer" />
+
+        <com.booxtown.custom.CustomTextView
             android:id="@+id/txt_listed_by"
-            android:textSize="@dimen/text_book_exploer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/icon_user_listing_detail"
-            android:layout_toRightOf="@+id/icon_user_listing_detail"
+            android:layout_marginBottom="2dp"
             android:layout_toEndOf="@+id/icon_user_listing_detail"
-            android:layout_marginBottom="2dp" />
+            android:layout_toRightOf="@+id/icon_user_listing_detail"
+            android:text="Gandalf"
+            android:textSize="@dimen/text_book_exploer" />
 
         <RatingBar
             android:id="@+id/myRatingBar"
             style="?android:attr/ratingBarStyleSmall"
-            android:theme="@style/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/icon_user_listing_detail"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/txt_listed_by"
+            android:isIndicator="true"
             android:numStars="5"
             android:rating="2.5"
-            android:isIndicator="true"
-            android:layout_marginLeft="10dp"
-            android:layout_alignBottom="@+id/icon_user_listing_detail"
-            android:layout_toRightOf="@+id/txt_listed_by"
-            android:layout_marginBottom="3dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            />
+            android:theme="@style/RatingBar" />
 
         <ImageView
+            android:id="@+id/img_rank1_listings"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:id="@+id/img_rank1_listings"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/img_rank2_listings"
-            android:layout_toStartOf="@+id/img_rank2_listings"
-            />
+            android:layout_toStartOf="@+id/img_rank2_listings" />
 
         <ImageView
+            android:id="@+id/img_rank2_listings"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:id="@+id/img_rank2_listings"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/img_rank3_listings"
             android:layout_toStartOf="@+id/img_rank3_listings"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <ImageView
+            android:id="@+id/img_rank3_listings"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:id="@+id/img_rank3_listings"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/txt_time_post_listings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Posted on 29-08-2016"
-            android:id="@+id/txt_time_post_listings"
-            android:textColor="@color/color_text_hint"
-            android:textSize="@dimen/text_by_exploer"
             android:layout_alignBaseline="@+id/txt_view"
             android:layout_alignBottom="@+id/txt_view"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:text="Posted on 29-08-2016"
+            android:textColor="@color/color_text_hint"
+            android:textSize="@dimen/text_by_exploer" />
     </RelativeLayout>
 
     <com.booxtown.custom.CustomTextView
+        android:id="@+id/txt_dialog_delete_editlisting1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Genre: "
-        android:id="@+id/txt_dialog_delete_editlisting1"
-        android:layout_below="@+id/layout_user"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/view"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Genre: "
         android:textSize="16sp" />
 
     <com.booxtown.custom.CustomTextView
+        android:id="@+id/txt_genre_listing_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Novel, Drama"
-        android:id="@+id/txt_genre_listing_detail"
-        android:textColor="@color/color_text"
+        android:layout_alignTop="@+id/txt_dialog_delete_editlisting1"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_alignTop="@+id/txt_dialog_delete_editlisting1"
-        android:layout_toRightOf="@+id/txt_dialog_delete_editlisting1"
         android:layout_toEndOf="@+id/txt_dialog_delete_editlisting1"
-        android:textSize="16sp"
+        android:layout_toRightOf="@+id/txt_dialog_delete_editlisting1"
         android:ellipsize="end"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:text="Novel, Drama"
+        android:textColor="@color/color_text"
+        android:textSize="16sp" />
 
     <com.booxtown.custom.CustomTextView
+        android:id="@+id/textView69"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Book Condition:"
-        android:id="@+id/textView69"
-        android:layout_below="@+id/txt_dialog_delete_editlisting1"
         android:layout_alignLeft="@+id/txt_dialog_delete_editlisting1"
         android:layout_alignStart="@+id/txt_dialog_delete_editlisting1"
+        android:layout_below="@+id/txt_dialog_delete_editlisting1"
         android:layout_marginTop="10dp"
+        android:text="Book Condition:"
         android:textSize="16sp" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/custom_progressbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:maxHeight="10dip"
-        android:minHeight="10dip"
-        android:max="100"
-        android:indeterminate="false"
         android:layout_alignBottom="@+id/textView69"
-        android:layout_toRightOf="@+id/textView69"
-        android:layout_toEndOf="@+id/textView69"
+        android:layout_marginBottom="3dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="3dp" />
+        android:layout_toEndOf="@+id/textView69"
+        android:layout_toRightOf="@+id/textView69"
+        android:indeterminate="false"
+        android:max="100"
+        android:maxHeight="10dip"
+        android:minHeight="10dip"
+        android:progressDrawable="@drawable/custom_progressbar" />
 
     <View
+        android:id="@+id/view3"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/color_text_hint"
 
-        android:layout_below="@+id/textView69"
         android:layout_alignLeft="@+id/textView69"
         android:layout_alignStart="@+id/textView69"
+        android:layout_below="@+id/textView69"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:id="@+id/view3"
-        android:layout_marginRight="10dp" />
+        android:background="@color/color_text_hint" />
 
     <com.booxtown.custom.CustomTextView
+        android:id="@+id/txt_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/txt_tag"
-        android:layout_below="@+id/view3"
         android:layout_alignLeft="@+id/view3"
         android:layout_alignStart="@+id/view3"
-        android:layout_marginTop="5dp"
+        android:layout_below="@+id/view3"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text=""
         android:textSize="16sp" />
 
     <View
+        android:id="@+id/view4"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/color_text_hint"
-
-        android:layout_below="@+id/txt_tag"
         android:layout_alignLeft="@+id/txt_tag"
         android:layout_alignStart="@+id/txt_tag"
+        android:layout_below="@+id/txt_tag"
         android:layout_marginRight="10dp"
-        android:id="@+id/view4" />
-
-    <fragment
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_below="@+id/view4"
-        android:layout_alignLeft="@+id/view4"
-        android:layout_alignStart="@+id/view4"
-        android:layout_marginTop="10dp"
-        android:layout_alignRight="@+id/view4"
-        android:layout_alignEnd="@+id/view4"
-        android:id="@+id/fragment_detail"
-        android:layout_marginBottom="5dp" />
+        android:background="@color/color_text_hint" />
 
     <TableRow
+        android:id="@+id/row_type_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_detail"
+        android:layout_below="@+id/layout_user"
         android:layout_centerHorizontal="true"
-        android:id="@+id/row_type_book"
-        android:weightSum="1"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="5dp"
-        android:paddingBottom="45dp">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:weightSum="1">
 
         <ImageView
+            android:id="@+id/img_buy_listing"
             android:layout_width="28dp"
             android:layout_height="40dp"
-            android:id="@+id/img_buy_listing"
-            android:src="@drawable/explore_btn_buy_active"
+            android:layout_marginRight="10dp"
             android:layout_weight="0.80"
-            android:layout_marginRight="10dp" />
+            android:src="@drawable/explore_btn_buy_active" />
 
         <ImageView
+            android:id="@+id/img_free_listings"
             android:layout_width="30dp"
             android:layout_height="22dp"
-            android:id="@+id/img_free_listings"
-            android:src="@drawable/explore_btn_free_active"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:src="@drawable/explore_btn_free_active" />
 
         <ImageView
+            android:id="@+id/img_swap_listing"
             android:layout_width="25dp"
             android:layout_height="40dp"
-            android:id="@+id/img_swap_listing"
-            android:src="@drawable/explore_btn_swap_active"
-            android:layout_weight="0.80"
-            android:layout_alignTop="@+id/row_type_book"
-            android:layout_alignRight="@+id/row_type_book2"
             android:layout_alignEnd="@+id/row_type_book2"
-            android:layout_marginLeft="10dp" />
+            android:layout_alignRight="@+id/row_type_book2"
+            android:layout_alignTop="@+id/row_type_book"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.80"
+            android:src="@drawable/explore_btn_swap_active" />
 
+    </TableRow>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+
+        android:layout_alignLeft="@+id/textView69"
+        android:layout_alignStart="@+id/textView69"
+        android:layout_below="@+id/row_type_book"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_text_hint" />
+
+
+    <TableRow
+        android:id="@+id/row_type_book2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/layout_comment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:paddingBottom="15dp"
+        android:weightSum="1">
+
+
+        <ImageView
+            android:id="@+id/img_buy_listing2"
+            android:layout_width="28dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.80"
+            android:src="@drawable/explore_btn_buy_active" />
+
+        <ImageView
+            android:id="@+id/img_free_listings2"
+            android:layout_width="30dp"
+            android:layout_height="22dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/explore_btn_free_active" />
+
+
+        <ImageView
+            android:id="@+id/img_swap_listing2"
+            android:layout_width="25dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.8"
+            android:src="@drawable/explore_btn_swap_active" />
     </TableRow>
 
     <include
-        android:layout_width="wrap_content"
-        android:layout_height="285dp"
-
-        layout="@layout/layout_comments"
-        android:layout_below="@+id/row_type_book"
-        android:layout_centerHorizontal="true"
         android:id="@+id/layout_comment"
-
-        android:layout_marginTop="0dp" />
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_comment"
-        android:id="@+id/row_type_book2"
-        android:weightSum="1"
-        android:layout_alignParentBottom="true"
+        layout="@layout/layout_comments"
+        android:layout_width="match_parent"
+        android:layout_height="285dp"
+        android:layout_below="@+id/fragment_detail"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:paddingBottom="15dp">
+        android:layout_marginTop="5dp"
+        />
 
 
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="40dp"
-            android:id="@+id/img_buy_listing2"
-            android:src="@drawable/explore_btn_buy_active"
-            android:layout_weight="0.80"
-            android:layout_marginRight="10dp" />
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="22dp"
-            android:id="@+id/img_free_listings2"
-            android:src="@drawable/explore_btn_free_active"
-            android:layout_margin="10dp" />
+    <fragment
+        android:id="@+id/fragment_detail"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignLeft="@+id/view4"
+        android:layout_alignStart="@+id/view4"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/view4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="40dp"
-            android:id="@+id/img_swap_listing2"
-            android:src="@drawable/explore_btn_swap_active"
-            android:layout_weight="0.8"
-            android:layout_marginLeft="10dp" />
-    </TableRow>
 
 </RelativeLayout>

@@ -591,19 +591,9 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             }
 
             String action = getAction();
-
-//        seekbar.setOnSeekbarChangeListener(new OnSeekbarChangeListener() {
-//            @Override
-//            public void valueChanged(Number minValue) {
-//                condition = String.valueOf(minValue);
-//            }
-//        });
             seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                //            int progress = 0;
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                progress = i;
-                    //Toast.makeText(getContext(),"p111:"+i,Toast.LENGTH_LONG).show();
                     condition = String.valueOf(i);
                 }
 
@@ -615,7 +605,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     condition = String.valueOf(seekBar.getProgress());
-                    //Toast.makeText(getContext(),"p"+progress,Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -840,7 +829,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             public void onClick(View v) {
                 listTag.remove(position);
                 settag();
-                //edt_tag.setVisibility(View.VISIBLE);
                 addtag.setVisibility(View.VISIBLE);
                 snackbar.dismiss();
             }
@@ -903,13 +891,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
-//    public void choseImage() {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_MULTIPLE);
-//    }
 
 
     //select image

@@ -96,6 +96,7 @@
                 android:background="@drawable/btn_wishbroad_popup"
                 android:gravity="center"
                 android:text="Add a book"
+
                 android:textColor="@color/dot_light_screen1" />
 
             <com.booxtown.custom.CustomTextView
@@ -112,7 +113,7 @@
 
             <include
                 android:id="@+id/gridview_comments_respond"
-                layout="@layout/layout_comments"
+                layout="@layout/layout_comment2"
                 android:fillViewport="true"
                 android:layout_width="match_parent"
                 android:layout_height="285dp"
@@ -120,7 +121,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/txt_checkout_respond"
-                android:layout_marginBottom="5dp" />
+                android:layout_marginBottom="5dp"
+                android:paddingTop="-50dp"
+                />
         </RelativeLayout>
     </ScrollView>
 

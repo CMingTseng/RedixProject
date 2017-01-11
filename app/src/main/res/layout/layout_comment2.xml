@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/color_bg_listings_detail"
     android:paddingBottom="15dp"
-    android:paddingTop="50dp"
+    android:paddingTop="10dp"
     >
     <LinearLayout
         android:layout_width="wrap_content"

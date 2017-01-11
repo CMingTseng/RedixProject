@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -83,6 +84,7 @@ public class MainAllActivity extends AppCompatActivity{
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("Listings");
                     setDefaut(3);
+                    //cameraIntent();
                 } else if (i == 4) {
                     initLayout();
                     callFragment(new WishboardFragment());
@@ -96,6 +98,17 @@ public class MainAllActivity extends AppCompatActivity{
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("My Profile");
                     setDefaut(5);
+                }else if(i==6){
+                    int num_list= getIntent().getIntExtra("num_list",0);
+                    Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("BitmapImage");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("activity", "add");
+                    bundle.putInt("num_list", num_list);
+                    bundle.putParcelable("BitmapImage",bitmap);
+                    ListingCollectionActivity listingCollectionActivity = new ListingCollectionActivity();
+                    listingCollectionActivity.setArguments(bundle);
+                    callFragment(listingCollectionActivity);
+
                 }
             } else {
                 setDefaut(1);
@@ -167,6 +180,7 @@ public class MainAllActivity extends AppCompatActivity{
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("Listings");
                     setDefaut(3);
+                    //cameraIntent();
                 }
             });
             btn_bag.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +231,13 @@ public class MainAllActivity extends AppCompatActivity{
         }
 
     }
-
+    private void cameraIntent()
+    {
+        //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //startActivityForResult(intent, 1);
+        Intent intent= new Intent(MainAllActivity.this, CameraActivity.class);
+        startActivity(intent);
+    }
     public TextView gettitle(){
         return txtTitle;
     }

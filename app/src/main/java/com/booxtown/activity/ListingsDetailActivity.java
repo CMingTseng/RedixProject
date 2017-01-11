@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -97,6 +98,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     private ImageView imSwap, imSwap2, imFree, imFree2, imBuy, imBuy2, imageView_back,btn_rank_one,btn_rank_two,btn_rank_three;
     TextView txt_listed_by, txt_tag, txt_title_listings_detail, txt_author_listings_detail, txt_price_listings_detail, txt_time_post_listings, txt_genre_listing_detail;
     CircularImageView icon_user_listing_detail;
+    LinearLayout layout_fragment;
     ProgressBar progressBar;
 
     RatingBar ratingBar_userprofile;
@@ -120,6 +122,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         init(v);
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.fragment_detail);
         mapFragment.getMapAsync(ListingsDetailActivity.this);
+
+
         SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         session_id = pref.getString("session_id", null);
 
@@ -139,6 +143,9 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             book = (Book) getArguments().getSerializable("item");
             RelativeLayout layout_comments = (RelativeLayout) v.findViewById(R.id.layout_comment);
 
+            //on click maps
+
+            //
 
             if (type.equals("4")) {
                 HomeActivity activity = (HomeActivity) getActivity();
@@ -857,6 +864,8 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         try {
+
+
             mMap = googleMap;
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -866,6 +875,15 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
             mMap.setTrafficEnabled(true);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(book.getLocation_latitude(), book.getLocation_longitude()), 9));
             addMarker(book);
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    Intent intent= new Intent(getActivity(),LocationListingDetailActivity.class);
+                    intent.putExtra("item",book);
+                    startActivity(intent);
+                }
+            });
+
         } catch (Exception e) {
         }
     }

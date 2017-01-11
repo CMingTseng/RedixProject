@@ -126,6 +126,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     boolean flagTag= false;
     RadioButton radioButton_current, radioButton_another;
     TextView txt_menu_genre1;
+    Bitmap bitmap;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -138,28 +139,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         radioButton_current = (RadioButton) v.findViewById(R.id.radioButton_current);
         radioButton_another = (RadioButton) v.findViewById(R.id.radioButton_another);
-
-        /*final RadioGroup radio = (RadioGroup) v.findViewById(R.id.groupradio);
-        radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                View radioButton = radio.findViewById(checkedId);
-                int index = radio.indexOfChild(radioButton);
-
-                // Add logic here
-
-                switch (index) {
-                    case 0: // first button
-                        Toast.makeText(getContext(), "Selected button number " + index, Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1: // secondbutton
-                        Toast.makeText(getContext(), "Selected button number " + index, Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        });*/
 
         //end
         tbl_price_sell = (TableRow) v.findViewById(R.id.row_price_sell);
@@ -228,6 +207,13 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         row = (TableRow) v.findViewById(R.id.row_edit_book);
         s = getArguments().getString("activity");
         back = getArguments().getInt("back");
+
+        try{
+            bitmap= getArguments().getParcelable("BitmapImage");
+        }catch (Exception err){
+
+        }
+
         listTag = new ArrayList<>();
         genre = new ArrayList<>();
         for (int i = 0; i < GetAllGenreAsync.list.size(); i++) {
@@ -617,6 +603,37 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         } else {
             btn_menu_listing_addbook.setVisibility(View.VISIBLE);
             row.setVisibility(View.GONE);
+
+
+            int orientation=0;
+            if(bitmap.getHeight() < bitmap.getWidth()){
+                orientation = 90;
+            } else {
+                orientation = 0;
+            }
+            if (orientation != 0) {
+                Matrix matrix = new Matrix();
+                matrix.postRotate(orientation);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                        bitmap.getHeight(), matrix, true);
+            } else
+                bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(),
+                        bitmap.getHeight(), true);
+            mImageUri = getImageUri(getContext(),bitmap);
+
+            long time = System.currentTimeMillis();
+            try {
+                int width = imagebook1.getWidth();
+                int height = imagebook1.getHeight();
+                Picasso.with(getActivity()).load(mImageUri).resize(width, height)
+                        .centerInside().into(imagebook1);
+                ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
+                lisImmage.add(imageClick);
+                imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
+                sChooseImage = sChooseImage + "1";
+            }catch (Exception errr){
+
+            }
         }
 
         imagebook1.setOnClickListener(new View.OnClickListener() {

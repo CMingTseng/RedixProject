@@ -18,6 +18,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.android.vending.BILLING" />
+
+
+    <uses-permission
+        android:name="android.permission.FLASHLIGHT"
+        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
+        android:protectionLevel="normal" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false"></uses-feature>
@@ -147,6 +153,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.booxtown.activity.AddbookActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.LocationListingDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.booxtown.activity.CameraActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.booxtown.activity.HomeActivity"
