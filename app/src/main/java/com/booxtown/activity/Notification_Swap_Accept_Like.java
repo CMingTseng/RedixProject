@@ -129,9 +129,11 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
                 startActivity(intent2);
                 break;
             case R.id.img_menu_bottom_camera:
-                Intent intent3 = new Intent(Notification_Swap_Accept_Like.this, MainAllActivity.class);
+                /*Intent intent3 = new Intent(Notification_Swap_Accept_Like.this, MainAllActivity.class);
                 intent3.putExtra("key", "3");
-                startActivity(intent3);
+                startActivity(intent3);*/
+                Intent intent= new Intent(Notification_Swap_Accept_Like.this, CameraActivity.class);
+                startActivity(intent);
                 break;
             case R.id.img_menu_bottom_bag:
                 Intent intent4 = new Intent(Notification_Swap_Accept_Like.this, MainAllActivity.class);

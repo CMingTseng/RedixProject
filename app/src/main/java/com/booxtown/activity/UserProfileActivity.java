@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.booxtown.controller.CheckSession;
+import com.booxtown.controller.GPSTracker;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -58,6 +59,8 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     RecyclerView rView;
     GridLayoutManager gridLayoutManager;
     //-----------------------------
+    float longitude=0;
+    float latitude=0;
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,txt_profile_username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,8 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             }
         });
         //--------------------------------------------------
-
+        longitude=(float) new GPSTracker(UserProfileActivity.this).getLongitude();
+        latitude=(float) new GPSTracker(UserProfileActivity.this).getLatitude();
 
         linear_all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +141,61 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         }catch (Exception ex){
 
         }
+        btn_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent1 = new Intent(UserProfileActivity.this,MainAllActivity.class);
+                intent1.putExtra("key","1");
+                startActivity(intent1);
+
+            }
+        });
+
+        btn_commnet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent2 = new Intent(UserProfileActivity.this,MainAllActivity.class);
+                intent2.putExtra("key","2");
+                startActivity(intent2);
+
+            }
+        });
+
+        btn_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent= new Intent(UserProfileActivity.this, CameraActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        btn_bag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent4 = new Intent(UserProfileActivity.this,MainAllActivity.class);
+                intent4.putExtra("key","4");
+                startActivity(intent4);
+
+            }
+        });
+
+        btn_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent5 = new Intent(UserProfileActivity.this,MainAllActivity.class);
+                intent5.putExtra("key","5");
+                startActivity(intent5);
+
+            }
+        });
+
+
     }
     public void init(){
         //rank
@@ -203,10 +262,37 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        /*switch (view.getId()){
             case R.id.img_menu_bottom_location:
                 MainAllActivity mainAllActivity = (MainAllActivity)getApplicationContext();
                 mainAllActivity.callFragment(new MainFragment());
+        }*/
+        switch (view.getId()) {
+            case R.id.img_menu_bottom_location:
+                Intent intent1 = new Intent(UserProfileActivity.this,MainAllActivity.class);
+                intent1.putExtra("key","1");
+                startActivity(intent1);
+                break;
+            case R.id.img_menu_bottom_comment:
+                Intent intent2 = new Intent(UserProfileActivity.this,MainAllActivity.class);
+                intent2.putExtra("key","2");
+                startActivity(intent2);
+                break;
+            case R.id.img_menu_bottom_camera:
+                Intent intent= new Intent(UserProfileActivity.this, CameraActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.img_menu_bottom_bag:
+                Intent intent4 = new Intent(UserProfileActivity.this,MainAllActivity.class);
+                intent4.putExtra("key","4");
+                startActivity(intent4);
+                break;
+            case R.id.img_menu_bottom_user:
+                Intent intent5 = new Intent(UserProfileActivity.this,MainAllActivity.class);
+                intent5.putExtra("key","5");
+                startActivity(intent5);
+                break;
+
         }
     }
 
@@ -328,7 +414,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 this.cancel(true);
             }
             BookController bookController = new BookController();
-            return  bookController.getTopBookByID(user_id,top,from);
+            return  bookController.getAllBookInApp(0,100000,1000,longitude,latitude,"","",pref.getString("session_id", null),user_id,10000,0);
         }
 
         @Override
@@ -346,6 +432,12 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                     tab_swap_count.setText("(" + filterExplore(2).size() + ")");
                     tab_free_count.setText("(" + filterExplore(3).size() + ")");
                     tab_cart_count.setText("(" + filterExplore(4).size() + ")");
+                }
+                else {
+                    tab_all_count.setText("(0)");
+                    tab_swap_count.setText("(0)");
+                    tab_free_count.setText("(0)");
+                    tab_cart_count.setText("(0)");
                 }
                 progressDialog.dismiss();
             }catch (Exception e){

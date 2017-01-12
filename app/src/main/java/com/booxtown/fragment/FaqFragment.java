@@ -1,9 +1,13 @@
 package com.booxtown.fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +16,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.booxtown.controller.AboutController;
+import com.booxtown.controller.FaqController;
 import com.booxtown.custom.Custom_Listview_faq;
+import com.booxtown.model.About;
+import com.booxtown.model.Faq;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,44 +47,88 @@ public class FaqFragment extends Fragment {
         RecyclerView.LayoutManager  layoutManager = new LinearLayoutManager(getContext());
         listView_faq.setLayoutManager(layoutManager);
         //set adapter
-        custom_faq = new Custom_Listview_faq(getContext(),prgmNameList);
-        listView_faq.setAdapter(custom_faq);
 
-        editSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        FAQAsync faqAsync= new FAQAsync(getActivity());
+        faqAsync.execute();
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                List<String> array_faq = new ArrayList<String>();
-                for(int k = 0;k<prgmNameList.size();k++){
-                    String faq = prgmNameList.get(k).toLowerCase();
-                    String search = editSearch.getText().toString().toLowerCase();
-                    if(faq.contains(search)){
-                        array_faq.add(prgmNameList.get(k));
-                    }
-                }
-                custom_faq = new Custom_Listview_faq(getContext(),array_faq);
-                listView_faq.setAdapter(custom_faq);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
         return view;
     }
     public void init(View view){
         listView_faq = (RecyclerView)view.findViewById(R.id.lv_content_faq);
         imageView_search_faq = (ImageView)view.findViewById(R.id.imageView_search_faq);
         editSearch = (EditText)view.findViewById(R.id.editSearch);
-        prgmNameList = new ArrayList<>();
-        prgmNameList.add("General");
-        prgmNameList.add("Swap");
-        prgmNameList.add("Buy");
-        prgmNameList.add("Donate");
+
+
+    }
+    class FAQAsync extends AsyncTask<Void, Void, ArrayList<Faq>> {
+        Context context;
+
+        public FAQAsync(Context context) {
+            this.context = context;
+
+        }
+
+        ProgressDialog dialog;
+
+        @Override
+        protected ArrayList<Faq> doInBackground(Void... pra) {
+            FaqController userController = new FaqController();
+            return  userController.getAllFAQ();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(getActivity());
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(final ArrayList<Faq> faq) {
+            try {
+                prgmNameList = new ArrayList<>();
+                if(faq.size()>0){
+                    for(int i=0; i<faq.size(); i++){
+                        if(!prgmNameList.contains(faq.get(i).getCategory_name())){
+                            prgmNameList.add(faq.get(i).getCategory_name());
+                        }
+                    }
+                }
+                custom_faq = new Custom_Listview_faq(getContext(),prgmNameList,faq);
+                listView_faq.setAdapter(custom_faq);
+                editSearch.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        List<String> array_faq = new ArrayList<String>();
+                        for(int k = 0;k<prgmNameList.size();k++){
+                            String faq = prgmNameList.get(k).toLowerCase();
+                            String search = editSearch.getText().toString().toLowerCase();
+                            if(faq.contains(search)){
+                                array_faq.add(prgmNameList.get(k));
+                            }
+                        }
+                        custom_faq = new Custom_Listview_faq(getContext(),array_faq,faq);
+                        listView_faq.setAdapter(custom_faq);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+            } catch (Exception e) {
+                String sss= e.getMessage();
+                //Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
+            }
+            dialog.dismiss();
+        }
     }
 }

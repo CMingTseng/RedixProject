@@ -186,16 +186,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 }
             });
 
-            if (type.equals("1")) {
-                View view_search = (View) getActivity().findViewById(R.id.custom_search);
+
+               /* View view_search = (View) getActivity().findViewById(R.id.custom_search);
                 view_search.setVisibility(View.GONE);
                 Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
                 rlv_comment.setVisibility(View.GONE);
                 editText11.setVisibility(View.GONE);
-                img_close_dialog_unsubcribe.setVisibility(View.GONE);
-                tbTypebook.setVisibility(View.GONE);
-                tbTypebook2.setVisibility(View.VISIBLE);
-            } else {
+                img_close_dialog_unsubcribe.setVisibility(View.GONE);*/
+
                 tbTypebook.setVisibility(View.VISIBLE);
                 tbTypebook2.setVisibility(View.GONE);
 
@@ -206,7 +204,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 params.topMargin = pixelsMargin;
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 layout_comments.setLayoutParams(params);
-            }
+
             getUser getUser = new getUser(getContext(),Integer.valueOf(book.getUser_id()));
             getUser.execute();
             setData(book, v, type);

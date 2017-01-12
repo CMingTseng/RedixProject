@@ -40,7 +40,7 @@ import com.booxtown.model.User;
 /**
  * Created by thuyetpham94 on 27/08/2016.
  */
-public class NotificationAcceptActivity extends AppCompatActivity {
+public class NotificationAcceptActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView txt_author_info2;
     TextView txt_user_hi;
@@ -333,6 +333,36 @@ public class NotificationAcceptActivity extends AppCompatActivity {
 
             }
             progressDialog.dismiss();
+        }
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_menu_bottom_location:
+                Intent intent1 = new Intent(NotificationAcceptActivity.this,MainAllActivity.class);
+                intent1.putExtra("key","1");
+                startActivity(intent1);
+                break;
+            case R.id.img_menu_bottom_comment:
+                Intent intent2 = new Intent(NotificationAcceptActivity.this,MainAllActivity.class);
+                intent2.putExtra("key","2");
+                startActivity(intent2);
+                break;
+            case R.id.img_menu_bottom_camera:
+                Intent intent= new Intent(NotificationAcceptActivity.this, CameraActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.img_menu_bottom_bag:
+                Intent intent4 = new Intent(NotificationAcceptActivity.this,MainAllActivity.class);
+                intent4.putExtra("key","4");
+                startActivity(intent4);
+                break;
+            case R.id.img_menu_bottom_user:
+                Intent intent5 = new Intent(NotificationAcceptActivity.this,MainAllActivity.class);
+                intent5.putExtra("key","5");
+                startActivity(intent5);
+                break;
+
         }
     }
 }

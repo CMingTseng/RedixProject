@@ -102,9 +102,11 @@ public class NotificationDominicActivity extends AppCompatActivity implements Vi
                 startActivity(intent2);
                 break;
             case R.id.img_menu_bottom_camera:
-                Intent intent3 = new Intent(NotificationDominicActivity.this,MainAllActivity.class);
+                /*Intent intent3 = new Intent(NotificationDominicActivity.this,MainAllActivity.class);
                 intent3.putExtra("key","3");
-                startActivity(intent3);
+                startActivity(intent3);*/
+                Intent intent= new Intent(NotificationDominicActivity.this, CameraActivity.class);
+                startActivity(intent);
                 break;
             case R.id.img_menu_bottom_bag:
                 Intent intent4 = new Intent(NotificationDominicActivity.this,MainAllActivity.class);

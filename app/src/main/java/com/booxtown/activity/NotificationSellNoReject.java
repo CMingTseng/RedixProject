@@ -175,9 +175,11 @@ public class NotificationSellNoReject extends AppCompatActivity implements View.
                 startActivity(intent2);
                 break;
             case R.id.img_menu_bottom_camera:
-                Intent intent3 = new Intent(NotificationSellNoReject.this,MainAllActivity.class);
+                /*Intent intent3 = new Intent(NotificationSellNoReject.this,MainAllActivity.class);
                 intent3.putExtra("key","3");
-                startActivity(intent3);
+                startActivity(intent3);*/
+                Intent intent= new Intent(NotificationSellNoReject.this, CameraActivity.class);
+                startActivity(intent);
                 break;
             case R.id.img_menu_bottom_bag:
                 Intent intent4 = new Intent(NotificationSellNoReject.this,MainAllActivity.class);

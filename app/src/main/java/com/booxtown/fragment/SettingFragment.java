@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.booxtown.activity.CameraActivity;
+import com.booxtown.activity.RespondActivity;
 import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.controller.CheckSession;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -402,18 +404,29 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     "No",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent intent1 = new Intent(getActivity(), MainAllActivity.class);
-                            intent1.putExtra("key", type);
-                            startActivity(intent1);
+                            if(type.equals("3")){
+                                Intent intent= new Intent(getActivity(), CameraActivity.class);
+                                startActivity(intent);
+                            }else {
+                                Intent intent1 = new Intent(getActivity(), MainAllActivity.class);
+                                intent1.putExtra("key", type);
+                                startActivity(intent1);
+                            }
                             dialog.cancel();
                         }
                     });
             AlertDialog alert11 = builder1.create();
             alert11.show();
         } else {
-            Intent intent1 = new Intent(getActivity(), MainAllActivity.class);
-            intent1.putExtra("key", type);
-            startActivity(intent1);
+            if(type.equals("3")){
+                Intent intent= new Intent(getActivity(), CameraActivity.class);
+                startActivity(intent);
+            }else {
+                Intent intent1 = new Intent(getActivity(), MainAllActivity.class);
+                intent1.putExtra("key", type);
+                startActivity(intent1);
+            }
+
         }
     }
 

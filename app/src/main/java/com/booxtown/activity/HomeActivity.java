@@ -136,9 +136,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent2);
                 break;
             case R.id.img_menu_bottom_camera:
-                Intent intent3 = new Intent(HomeActivity.this,MainAllActivity.class);
+                /*Intent intent3 = new Intent(HomeActivity.this,MainAllActivity.class);
                 intent3.putExtra("key","3");
-                startActivity(intent3);
+                startActivity(intent3);*/
+                Intent intent= new Intent(HomeActivity.this, CameraActivity.class);
+                startActivity(intent);
                 break;
             case R.id.img_menu_bottom_bag:
                 Intent intent4 = new Intent(HomeActivity.this,MainAllActivity.class);

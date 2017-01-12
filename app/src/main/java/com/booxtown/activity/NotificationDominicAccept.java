@@ -87,9 +87,8 @@ public class NotificationDominicAccept extends AppCompatActivity implements View
                 startActivity(intent2);
                 break;
             case R.id.img_menu_bottom_camera:
-                Intent intent3 = new Intent(NotificationDominicAccept.this,MainAllActivity.class);
-                intent3.putExtra("key","3");
-                startActivity(intent3);
+                Intent intent= new Intent(NotificationDominicAccept.this, CameraActivity.class);
+                startActivity(intent);
                 break;
             case R.id.img_menu_bottom_bag:
                 Intent intent4 = new Intent(NotificationDominicAccept.this,MainAllActivity.class);

@@ -639,8 +639,14 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     Toast.makeText(AddbookActivity.this, "Please enter valid a book price", Toast.LENGTH_LONG).show();
                     return false;
                 } else {
-                    price = Float.valueOf(edt_editlisting_sell.getText().toString());
-                    book.setPrice(price);
+                    if(Integer.parseInt(edt_editlisting_sell.getText().toString())<=1000) {
+                        price = Float.valueOf(edt_editlisting_sell.getText().toString());
+                        book.setPrice(price);
+                    }else{
+                        Toast.makeText(AddbookActivity.this, "Price should not exceed 1000", Toast.LENGTH_LONG).show();
+                        edt_editlisting_sell.requestFocus();
+                        return false;
+                    }
                 }
             }
 

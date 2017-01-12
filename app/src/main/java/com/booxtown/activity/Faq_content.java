@@ -13,6 +13,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.booxtown.model.Faq;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
     NewAdapter mNewAdapter;
     TextView title_menu;
     ExpandableListView expandableListView;
+    ArrayList<Faq> faq;
+    String faq_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +42,13 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
         init();
         //expland content
         expandableListView = getExpandableListView();
-        setGroupData();
-        setChildGroupData();
+
+        faq=(ArrayList<Faq>) getIntent().getSerializableExtra("faq");
+        faq_id=getIntent().getStringExtra("faq_id");
+
+
+        setGroupData(faq,faq_id);
+
         mNewAdapter = new NewAdapter(getAssets(),groupItem, childItem);
         mNewAdapter
                 .setInflater(
@@ -113,20 +121,28 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
         img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
         editSearch= (EditText)findViewById(R.id.editSearch);
     }
-    public void setGroupData() {
-        groupItem.add("TechNology");
-        groupItem.add("Mobile");
-        groupItem.add("Manufacturer");
-        groupItem.add("Extras");
+    public void setGroupData(ArrayList<Faq> faq, String faq_id) {
+
+        for(int i=0; i<faq.size(); i++){
+            if(faq.get(i).getCategory_name().equals(faq_id)){
+                groupItem.add(faq.get(i).getQuestion());
+                ArrayList<String> child = new ArrayList<String>();
+                child.add(faq.get(i).getAnswer());
+                childItem.add(child);
+            }
+        }
+
     }
 
     ArrayList<String> groupItem = new ArrayList<String>();
     ArrayList<Object> childItem = new ArrayList<Object>();
 
-    public void setChildGroupData() {
-        /**
-         * Add Data For TecthNology
-         */
+    public void setChildGroupData(ArrayList<Faq> faq, String faq_id) {
+
+        for(int i=0; i<faq.size(); i++){
+
+        }
+
         ArrayList<String> child = new ArrayList<String>();
         child.add("Thanks for the code. Please from now on share code in your question by editing it, " +
                 "since it is not readable in comment. Also, please share your main layout");

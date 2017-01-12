@@ -1,7 +1,9 @@
 package com.booxtown.api;
 
+import com.booxtown.model.AboutResult;
 import com.booxtown.model.Contact;
 import com.booxtown.model.DayUsed;
+import com.booxtown.model.FaqResult;
 import com.booxtown.model.NumberBookResult;
 import com.booxtown.model.TimeZone;
 import com.booxtown.model.WishboardResult;
@@ -232,5 +234,11 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/book/getAllBookInApp")
     Call<BookResult> getAllBookInApp(@Query("price_from") int price_from,@Query("price_to") int price_to,@Query("distance") int distance,@Query("longtitude") float longtitude,@Query("latitude") float latitude,
                                      @Query("genre") String genre,@Query("textSearch") String textSearch,@Query("session_id") String session_id,@Query("user_id") int user_id,@Query("top") int top,@Query("from") int from);
+
+    @GET("/booxtown/rest/user/getAllFAQ")
+    Call<FaqResult> getAllFAQ();
+
+    @GET("/booxtown/rest/user/getBooxTownInfor")
+    Call<AboutResult> getBooxTownInfor(@Query("status") int status);
 
 }

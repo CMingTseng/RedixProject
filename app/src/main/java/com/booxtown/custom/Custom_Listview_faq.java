@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.booxtown.model.Faq;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.booxtown.R;
@@ -23,9 +25,13 @@ public class Custom_Listview_faq extends RecyclerView.Adapter<Custom_Listview_fa
 
     List<String> faqcontent;
     Context context;
-    public Custom_Listview_faq(Context context,List<String> faqcontent){
+    ArrayList<Faq> faqs;
+    int faq_id;
+    public Custom_Listview_faq(Context context, List<String> faqcontent, ArrayList<Faq> faqs){
         this.faqcontent = faqcontent;
         this.context = context;
+        this.faqs = faqs;
+
     }
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,8 +41,18 @@ public class Custom_Listview_faq extends RecyclerView.Adapter<Custom_Listview_fa
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+        final int index= position;
         holder.tv.setText(faqcontent.get(position));
+        holder.img_listview_faq_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Faq_content.class);
+                intent.putExtra("faq",faqs);
+                intent.putExtra("faq_id",faqcontent.get(index));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -54,13 +70,7 @@ public class Custom_Listview_faq extends RecyclerView.Adapter<Custom_Listview_fa
             tv = (TextView) itemView.findViewById(R.id.txt_content_faq);
             img_listview_faq_next = (ImageView)itemView.findViewById(R.id.img_listview_faq_next);
             Picasso.with(context).load(R.drawable.btn_interact_next).into(img_listview_faq_next);
-            img_listview_faq_next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, Faq_content.class);
-                    context.startActivity(intent);
-                }
-            });
+
         }
     }
 }

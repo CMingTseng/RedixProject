@@ -65,6 +65,7 @@ import com.booxtown.controller.CheckSession;
 import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
+import com.booxtown.controller.InputFilterMinMax;
 import com.booxtown.controller.UploadFileController;
 import com.booxtown.controller.Utility;
 import com.booxtown.model.Genre;
@@ -520,7 +521,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
                 edt_editlisting_sell.setVisibility(View.VISIBLE);
                 if (bookedit.getPrice() != 0) {
-                    edt_editlisting_sell.setText(String.valueOf(bookedit.getPrice()));
+                    edt_editlisting_sell.setText(String.valueOf((int)bookedit.getPrice()+""));
                 } else {
                     edt_editlisting_sell.setText(String.valueOf(0));
                 }
@@ -1043,8 +1044,15 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     Toast.makeText(getActivity(), "Please enter valid a price", Toast.LENGTH_LONG).show();
                     return false;
                 } else {
-                    price = Float.valueOf(edt_editlisting_sell.getText().toString());
-                    book.setPrice(price);
+                    if(Integer.parseInt(edt_editlisting_sell.getText().toString())<=1000) {
+                        price = Float.valueOf(edt_editlisting_sell.getText().toString());
+                        book.setPrice(price);
+                    }else{
+                        Toast.makeText(getActivity(), "Price should not exceed 1000", Toast.LENGTH_LONG).show();
+                        edt_editlisting_sell.requestFocus();
+                        return false;
+                    }
+
                 }
             }
         }

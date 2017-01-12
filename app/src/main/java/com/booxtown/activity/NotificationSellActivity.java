@@ -154,9 +154,11 @@ public class NotificationSellActivity extends AppCompatActivity implements View.
                 startActivity(intent2);
                 break;
             case R.id.img_menu_bottom_camera:
-                Intent intent3 = new Intent(NotificationSellActivity.this, MainAllActivity.class);
+                /*Intent intent3 = new Intent(NotificationSellActivity.this, MainAllActivity.class);
                 intent3.putExtra("key", "3");
-                startActivity(intent3);
+                startActivity(intent3);*/
+                Intent intent= new Intent(NotificationSellActivity.this, CameraActivity.class);
+                startActivity(intent);
                 break;
             case R.id.img_menu_bottom_bag:
                 Intent intent4 = new Intent(NotificationSellActivity.this, MainAllActivity.class);

@@ -28,9 +28,10 @@
         android:layout_below="@+id/include55"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_margin="10dp"
         android:textColor="@color/color_text"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:paddingLeft="5dp" />
 
     <include
         android:layout_width="match_parent"
@@ -38,8 +39,6 @@
         layout="@layout/custom_tabbar"
         android:layout_below="@+id/textView71"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:id="@+id/tab_bar_profile" />
 
     <include
@@ -53,16 +52,16 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_userprofile"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_above="@+id/menu_bottom_profile"
         android:layout_below="@+id/tab_bar_profile"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="10dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_above="@+id/menu_bottom_profile"
+        android:layout_marginBottom="5dp">
 
     </android.support.v7.widget.RecyclerView>
 
