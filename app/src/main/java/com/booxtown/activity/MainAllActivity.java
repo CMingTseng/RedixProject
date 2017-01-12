@@ -89,12 +89,12 @@ public class MainAllActivity extends AppCompatActivity{
                     txtTitle.setText("Interact");
                     setDefaut(2);
                 } else if (i == 3) {
-                    initLayout();
+                    /*initLayout();
                     callFragment(new ListingsFragment());
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("Listings");
-                    setDefaut(3);
-                    //cameraIntent();
+                    setDefaut(3);*/
+                    cameraIntent();
                 } else if (i == 4) {
                     initLayout();
                     callFragment(new WishboardFragment());
