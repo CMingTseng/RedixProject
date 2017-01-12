@@ -234,6 +234,7 @@ public class MyProfileFragment extends Fragment {
         });
         Picasso.with(getContext()).load(R.drawable.btn_edit_profile).into(imageView_update_profile);
         //edit profile
+        txt_profile_email.setEnabled(false);
         txt_profile_email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
