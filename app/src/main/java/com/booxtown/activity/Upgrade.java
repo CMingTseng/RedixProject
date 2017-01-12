@@ -73,19 +73,6 @@ public class Upgrade extends AppCompatActivity{
                     //        REQUEST_CODE, mPurchaseFinishedListener,
                     //        "mypurchasetoken");
                 }
-
-                /*isPurchase = preferences.getBoolean("isPurchase", false);
-                if (isPurchase) {
-                    Toast.makeText(getApplicationContext(),
-                            "You have already purchase", Toast.LENGTH_LONG)
-                            .show();
-                } else {
-                    if (mHelper != null)
-                        mHelper.flagEndAsync();
-                    mHelper.launchPurchaseFlow(Upgrade.this, myproduct_id,
-                            REQUEST_CODE, mPurchaseFinishedListener,
-                            "mypurchasetoken");
-                }*/
             }
         });
     }
