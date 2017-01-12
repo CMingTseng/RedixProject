@@ -1030,7 +1030,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 if (books == null) {
                     dialog.dismiss();
                 } else {
-                    if(!trial) {
+                    listExplore = books;
+                    /*if(!trial) {
                         listExplore = books;
                     }
                     else{
@@ -1041,7 +1042,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                             }
                         }
                         listExplore = lisfilter_tempss;
-                    }
+                    }*/
 
                     listExplore = filterStart();
                     ShowNumberbook(listExplore);

@@ -826,7 +826,8 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
             try {
                 if (list.size() > 0) {
                     //tab_all_count.setText("(" + list.size() + ")");
-                    if(!trial) {
+                    listExplore.addAll(list);
+                    /*if(!trial) {
                         listExplore.addAll(list);
                     }
                     else{
@@ -837,7 +838,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                             }
                         }
                         listExplore.addAll(lisfilter_tempss);
-                    }
+                    }*/
                     ShowNumberbook(filterStart());
                     adapter_exploer = new AdapterExplore(getActivity(), filterStart(), 2, 0);
                     rView.setAdapter(adapter_exploer);
