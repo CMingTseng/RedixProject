@@ -39,6 +39,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.activity.CameraActivity;
 import com.booxtown.activity.ListingCollectionActivity;
 import com.booxtown.activity.MainAllActivity;
 import com.booxtown.activity.MenuActivity;
@@ -101,7 +102,8 @@ public class ListingsFragment extends Fragment {
     private int previousTotal = 0, visibleThreshold = 5;
     boolean loading = true,
             isLoading = true;
-
+    float longitude=0;
+    float latitude=0;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,6 +119,10 @@ public class ListingsFragment extends Fragment {
        // RelativeLayout notiUpgrade= (RelativeLayout) view.findViewById(R.id.notiUpgrade);
         //notiTrial.setVisibility(View.GONE);
         //notiUpgrade.setVisibility(View.GONE);
+
+        longitude=(float) new GPSTracker(getActivity()).getLongitude();
+        latitude=(float) new GPSTracker(getActivity()).getLatitude();
+
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -541,9 +547,10 @@ public class ListingsFragment extends Fragment {
         protected List<Book> doInBackground(String... strings) {
             CheckSession checkSession = new CheckSession();
             boolean check = checkSession.checkSession_id(session_id);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
             if(!check){
-                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
+
                 editor.putString("session_id",null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
@@ -551,7 +558,7 @@ public class ListingsFragment extends Fragment {
                 this.cancel(true);
             }
             BookController bookController = new BookController();
-            return bookController.getAllBookById(context,session_id);
+            return bookController.getAllBookInApp(0,1000,10,longitude,latitude,"","",pref.getString("session_id", ""),Integer.parseInt(pref.getString("user_id", "0")),10000,0);
         }
 
         @Override

@@ -78,6 +78,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -126,7 +127,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     boolean flagTag= false;
     RadioButton radioButton_current, radioButton_another;
     TextView txt_menu_genre1;
-    Bitmap bitmap;
+    Bitmap bitmaps;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -199,6 +200,9 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         tag1.setOnClickListener(this);
         tag2.setOnClickListener(this);
         tag3.setOnClickListener(this);
+        imagebook1 = (ImageView) v.findViewById(R.id.imageView29);
+        imagebook2 = (ImageView) v.findViewById(R.id.imageView30);
+        imagebook3 = (ImageView) v.findViewById(R.id.imageView31);
         btn_menu_listing_addbook = (Button) v.findViewById(R.id.btn_menu_listing_addbook);
         btn_menu_editlist_delete = (Button) v.findViewById(R.id.btn_menu_editlist_delete);
         btn_menu_editlisting_update = (Button) v.findViewById(R.id.btn_menu_editlisting_update);
@@ -209,9 +213,17 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         back = getArguments().getInt("back");
 
         try{
-            bitmap= getArguments().getParcelable("BitmapImage");
-        }catch (Exception err){
+            SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+            String ss=pref.getString("image","");
+            File imgFile = new File(pref.getString("image",""));
+            if(imgFile.exists()) {
+                bitmaps = BitmapFactory.decodeFile(pref.getString("image",""));
 
+            }
+
+
+        }catch (Exception err){
+            String sss= err.getMessage();
         }
 
         listTag = new ArrayList<>();
@@ -235,9 +247,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         //spinner
         ImageView imageView = (ImageView) v.findViewById(R.id.img_menu_genre);
         Picasso.with(getContext()).load(R.drawable.btn_down).into(imageView);
-        imagebook1 = (ImageView) v.findViewById(R.id.imageView29);
-        imagebook2 = (ImageView) v.findViewById(R.id.imageView30);
-        imagebook3 = (ImageView) v.findViewById(R.id.imageView31);
+
         seekbar = (SeekBar) v.findViewById(R.id.seekBar2);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
         Bitmap thumb = Bitmap.createBitmap(46,46, Bitmap.Config.ARGB_8888);
@@ -606,7 +616,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
 
             int orientation=0;
-            if(bitmap.getHeight() < bitmap.getWidth()){
+            if(bitmaps.getHeight() < bitmaps.getWidth()){
                 orientation = 90;
             } else {
                 orientation = 0;
@@ -614,25 +624,31 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             if (orientation != 0) {
                 Matrix matrix = new Matrix();
                 matrix.postRotate(orientation);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                        bitmap.getHeight(), matrix, true);
+                bitmaps = Bitmap.createBitmap(bitmaps, 0, 0, bitmaps.getWidth(),
+                        bitmaps.getHeight(), matrix, true);
             } else
-                bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(),
-                        bitmap.getHeight(), true);
-            mImageUri = getImageUri(getContext(),bitmap);
+                bitmaps = Bitmap.createScaledBitmap(bitmaps, bitmaps.getWidth(),
+                        bitmaps.getHeight(), true);
+            mImageUri = getImageUri(getContext(),bitmaps);
 
             long time = System.currentTimeMillis();
             try {
-                int width = imagebook1.getWidth();
-                int height = imagebook1.getHeight();
-                Picasso.with(getActivity()).load(mImageUri).resize(width, height)
-                        .centerInside().into(imagebook1);
+                int width = bitmaps.getWidth();
+                int height = bitmaps.getHeight();
+                float scales=(float) height/(float) width;
+                if(width>250){
+                    Picasso.with(getActivity()).load(mImageUri).resize(250, (int)(250.0*scales))
+                            .centerInside().into(imagebook1);
+                }else {
+                    Picasso.with(getActivity()).load(mImageUri).resize(width, height)
+                            .centerInside().into(imagebook1);
+                }
                 ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
                 lisImmage.add(imageClick);
                 imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
                 sChooseImage = sChooseImage + "1";
             }catch (Exception errr){
-
+                String ssss= errr.getMessage();
             }
         }
 
@@ -805,9 +821,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
 
     public void callFragment(Fragment fragment) {
-        FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+        FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -915,7 +930,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     long time = System.currentTimeMillis();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), lisImmage.get(i).getUri());
                     if(bitmap.getWidth()>250) {
-                        Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, 250 * (bitmap.getHeight() / bitmap.getWidth()), true);
+                        float scale= (float) bitmap.getHeight() / (float) bitmap.getWidth();
+                        Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, (int)(250.0 * scale), true);
                         bmap.add(photoBitMap);
                     }else {
                         Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
@@ -1001,11 +1017,12 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             } catch (Exception exx) {
                 String err = exx.getMessage();
             }
-            if (numclick != 0 || numimageclick != 0) {
+            if (numclick != 0 || numimageclick != 0 || !imgOne.equals("")) {
                 if (!s.equals("edit")) {
                     book.setPhoto(imagename+" ");
                 } else {
                     if (type == 0) {
+
                         String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
                         book.setPhoto(imageupdate+" ");
                         book.setId(bookedit.getId());
@@ -1546,9 +1563,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 if (back == 1) {
                     callFragment(new MyProfileFragment());
                 } else {
-                    Toast.makeText(getContext(),"Add Book Successful",Toast.LENGTH_LONG).show();
-                    callFragment(new ListingsFragment());
+                    //Toast.makeText(getActivity(),"Add Book Successful",Toast.LENGTH_SHORT).show();
+                    MainAllActivity main = (MainAllActivity) getActivity();
+//                    main.callFragment(new ListingsFragment());
                     MainAllActivity.setTxtTitle("Listings");
+
                 }
             }
             super.onPostExecute(result);
@@ -1582,9 +1601,12 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 dialog.dismiss();
                 //Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
                 if (back == 1) {
-                    callFragment(new MyProfileFragment());
+                    MainAllActivity main = (MainAllActivity) getActivity();
+                    main.callFragment(new MyProfileFragment());
+
                 } else {
-                    callFragment(new ListingsFragment());
+                    MainAllActivity main = (MainAllActivity) getActivity();
+                    main.callFragment(new ListingsFragment());
                     MainAllActivity.setTxtTitle("Listings");
                 }
             } else {

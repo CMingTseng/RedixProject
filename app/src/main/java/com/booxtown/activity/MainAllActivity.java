@@ -1,11 +1,17 @@
 package com.booxtown.activity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -13,10 +19,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.booxtown.adapter.AdapterExplore;
+import com.booxtown.controller.UserController;
 import com.booxtown.fragment.ExploreFragment;
 import com.booxtown.fragment.TopicFragment;
 import com.bumptech.glide.Glide;
@@ -100,14 +110,15 @@ public class MainAllActivity extends AppCompatActivity{
                     setDefaut(5);
                 }else if(i==6){
                     int num_list= getIntent().getIntExtra("num_list",0);
-                    Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("BitmapImage");
                     Bundle bundle = new Bundle();
                     bundle.putString("activity", "add");
                     bundle.putInt("num_list", num_list);
-                    bundle.putParcelable("BitmapImage",bitmap);
                     ListingCollectionActivity listingCollectionActivity = new ListingCollectionActivity();
                     listingCollectionActivity.setArguments(bundle);
                     callFragment(listingCollectionActivity);
+                    img_component.setVisibility(View.GONE);
+                    txtTitle.setText("Listings");
+                    setDefaut(3);
 
                 }
             } else {
@@ -176,11 +187,11 @@ public class MainAllActivity extends AppCompatActivity{
             btn_camera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callFragment(new ListingsFragment());
+                    /*callFragment(new ListingsFragment());
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("Listings");
-                    setDefaut(3);
-                    //cameraIntent();
+                    setDefaut(3);*/
+                    cameraIntent();
                 }
             });
             btn_bag.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +240,8 @@ public class MainAllActivity extends AppCompatActivity{
         }catch (Exception ex) {
 
         }
-
+        UserID userID= new UserID(MainAllActivity.this);
+        userID.execute();
     }
     private void cameraIntent()
     {
@@ -305,7 +317,6 @@ public class MainAllActivity extends AppCompatActivity{
     public void callFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        //Khi được goi, fragment truyền vào sẽ thay thế vào vị trí FrameLayout trong Activity chính
         transaction.replace(R.id.frame_main_all, fragment);
         transaction.commit();
     }
@@ -420,4 +431,45 @@ public class MainAllActivity extends AppCompatActivity{
 
         return thumb;
     }
+
+    class UserID extends AsyncTask<String, Void, String> {
+        Context context;
+
+        public UserID(Context context)
+        {
+            this.context = context;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            String session_id = pref.getString("session_id", null);
+            UserController userController = new UserController(context);
+            String user_id = userController.getUserID(session_id);
+            return user_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(final String user_ID) {
+            try {
+                if(!user_ID.equals("")||user_ID!=null) {
+                    SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("user_id", user_ID);
+                    editor.commit();
+                }
+                //}
+            } catch (Exception e) {
+                String ssss = e.getMessage();
+                // Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 }

@@ -52,6 +52,8 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
@@ -75,7 +77,7 @@ import com.booxtown.model.Filter;
 /**
  * Created by Administrator on 26/08/2016.
  */
-public class ExploreFragment extends Fragment {
+public class ExploreFragment extends Fragment implements OnMapReadyCallback {
     private int type_filter = 0;
 
     private LinearLayout linear_all, linear_swap, linear_free, linear_cart;
@@ -108,6 +110,8 @@ public class ExploreFragment extends Fragment {
     TextView txtNotifiTrial;
     int chooseTab=0;
     boolean trial=false;
+    float longitude=0;
+    float latitude=0;
     //GridView grid;
     public static String[] prgmNameList1 = {"Nearest distance", "Price low to high", "Price high to low", "Recently added"};
 
@@ -144,8 +148,8 @@ public class ExploreFragment extends Fragment {
             }
         });
 
-
-
+        longitude=(float) new GPSTracker(getActivity()).getLongitude();
+        latitude=(float) new GPSTracker(getActivity()).getLatitude();
         //grid=(GridView)view.findViewById(R.id.gridView);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -458,8 +462,6 @@ public class ExploreFragment extends Fragment {
                 btn_dialog_filter_submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-
                         ArrayList<String> listvalueGenre = new ArrayList<>();
 
                         for (int k = 0; k < genre.size(); k++) {
@@ -703,6 +705,13 @@ public class ExploreFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        GPSTracker gpsTracker = new GPSTracker(getContext());
+
+    }
+
     class GetDayUsed extends AsyncTask<String, Void,DayUsed> {
 
         Context context;
@@ -798,8 +807,9 @@ public class ExploreFragment extends Fragment {
                     this.cancel(true);
                 }
                 BookController bookController = new BookController();
-                //listbook  =  bookController.book_gettop(session_id,from,top);
-                listbook = bookController.getallbook();
+                //listbook= bookController.getallbook();
+
+                listbook = bookController.getAllBookInApp(0,1000,10,longitude,latitude,"","",pref.getString("session_id", null),0,10000,0);
                 return listbook;
             }catch (Exception exx){
                 return null;
@@ -876,10 +886,6 @@ public class ExploreFragment extends Fragment {
         protected void onPostExecute(List<NumberBook> list) {
             try {
                 if (list.size() > 0) {
-                    // tab_all_count.setText("(" + list.get(0).getTotal() + ")");
-                    //tab_swap_count.setText("(" + list.get(0).getSwap() + ")");
-                    //tab_free_count.setText("(" + list.get(0).getFree() + ")");
-                    //.setText("(" + list.get(0).getSell() + ")");
 
                     total = Integer.parseInt(list.get(0).getTotal());
                     sell = Integer.parseInt(list.get(0).getSell());
@@ -896,80 +902,5 @@ public class ExploreFragment extends Fragment {
         }
     }
 
-    /*public class Getallbook1 extends AsyncTask<Void,Void,List<Book>>{
-        String session_id;
-        long from;
-        long top;
-        public Getallbook1(String sessin_id,long from,long top){
-            this.session_id = sessin_id;
-            this.from = from;
-            this.top = top;
-        }
 
-        @Override
-        protected List<Book> doInBackground(Void... params) {
-            BookController bookController = new BookController();
-            listbook  =  bookController.book_gettop(session_id,from,top);
-            return listbook;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(List<Book> list) {
-            try {
-                listExplore.addAll(list);
-                Collections.sort(listExplore, Book.asid);
-                adapter.notifyDataSetChanged();
-                tab_all_count.setText("(" + filterExplore(1).size() + ")");
-                tab_swap_count.setText("(" + filterExplore(2).size() + ")");
-                tab_free_count.setText("(" + filterExplore(3).size() + ")");
-                tab_cart_count.setText("(" + filterExplore(4).size() + ")");
-            }catch (Exception e){
-
-            }
-        }
-    }*/
-
-    /*public class EndlessScrollListener implements AbsListView.OnScrollListener {
-
-        private int visibleThreshold = 5;
-        private int currentPage = 0;
-        private int previousTotal = 0;
-        private boolean loading = true;
-
-        public EndlessScrollListener() {
-        }
-        public EndlessScrollListener(int visibleThreshold) {
-            this.visibleThreshold = visibleThreshold;
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem,
-                             int visibleItemCount, int totalItemCount) {
-            if (loading) {
-                if (totalItemCount > previousTotal) {
-                    loading = false;
-                    previousTotal = totalItemCount;
-                    currentPage++;
-                }
-            }
-//            if (listExplore.size()>=15){
-            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                // I load the next page of gigs using a background task,
-                // but you can call any function here.
-                Getallbook1 getallbook1 = new Getallbook1(session_id,Long.parseLong(listExplore.get(listExplore.size()-1).getId()),100);
-                getallbook1.execute();
-                loading = true;
-            }
-
-        }
-
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-        }
-    }*/
 }

@@ -228,4 +228,9 @@ public interface ServiceInterface {
 
     @POST("/booxtown/user/checkSessionTimeout")
     Call<Result> checkSession(@Body Object session_id);
+
+    @GET("/booxtown/rest/book/getAllBookInApp")
+    Call<BookResult> getAllBookInApp(@Query("price_from") int price_from,@Query("price_to") int price_to,@Query("distance") int distance,@Query("longtitude") float longtitude,@Query("latitude") float latitude,
+                                     @Query("genre") String genre,@Query("textSearch") String textSearch,@Query("session_id") String session_id,@Query("user_id") int user_id,@Query("top") int top,@Query("from") int from);
+
 }

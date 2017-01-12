@@ -36,6 +36,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -44,6 +45,7 @@ import android.widget.TextView;
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.activity.Upgrade;
+import com.booxtown.adapter.AdapterExplore;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckSession;
@@ -52,6 +54,7 @@ import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.RangeSeekBar;
 import com.booxtown.controller.UserController;
+import com.booxtown.custom.CustomTabbarExplore;
 import com.booxtown.model.DayUsed;
 import com.booxtown.model.Genre;
 import com.booxtown.model.GenreValue;
@@ -99,6 +102,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
     //filter
     String proximity;
+    private LinearLayout linear_all, linear_swap, linear_free, linear_cart;
     private TextView tvMin, tvMax, txt_filter_proximity;
     private List<Filter> filterList;
     private AdapterFilter adaper;
@@ -110,13 +114,16 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     List<Book> listfilter;
     List<Book> listExplore;
     ArrayList<Genre> genre;
-
+    int chooseTab=1;
     int minRangerSeekbar = 0;
     int maxRangerSeekbar = 0;
     double maxSeekbar = 0;
     RelativeLayout notiTrial,notiUpgrade;
     TextView txtNotifiTrial;
     boolean trial=false;
+    float longitude=0;
+    float latitude=0;
+    public TextView tab_all_count, tab_swap_count, tab_free_count, tab_cart_count;
     //end
     @Nullable
     @Override
@@ -140,6 +147,19 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 startActivity(intent);
             }
         });
+        longitude=(float) new GPSTracker(getActivity()).getLongitude();
+        latitude=(float) new GPSTracker(getActivity()).getLatitude();
+
+        View view_tab = (View) view.findViewById(R.id.tab_explore);
+        final CustomTabbarExplore tab_custom = new CustomTabbarExplore(view_tab, getActivity());
+        linear_all = (LinearLayout) view_tab.findViewById(R.id.linear_all);
+        linear_swap = (LinearLayout) view_tab.findViewById(R.id.linear_swap);
+        linear_free = (LinearLayout) view_tab.findViewById(R.id.linear_free);
+        linear_cart = (LinearLayout) view_tab.findViewById(R.id.linear_cart);
+        tab_all_count = (TextView) view_tab.findViewById(R.id.tab_all_count);
+        tab_cart_count = (TextView) view_tab.findViewById(R.id.tab_cart_count);
+        tab_free_count = (TextView) view_tab.findViewById(R.id.tab_free_count);
+        tab_swap_count = (TextView) view_tab.findViewById(R.id.tab_swap_count);
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         String sessionID = pref.getString("session_id", null);
@@ -217,11 +237,112 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         filterSort(view);
 
+
+        linear_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseTab=1;
+                tab_custom.setDefault(1);
+                ArrayList<String> listvalueGenre = new ArrayList<>();
+
+                for (int k = 0; k < genre.size(); k++) {
+                    if (genre.get(k).ischeck() == true) {
+                        listvalueGenre.add(genre.get(k).getValue());
+                    }
+                }
+                addMarker(filter(listvalueGenre));
+
+            }
+        });
+
+        linear_swap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseTab=2;
+                tab_custom.setDefault(2);
+                ArrayList<String> listvalueGenre = new ArrayList<>();
+
+                for (int k = 0; k < genre.size(); k++) {
+                    if (genre.get(k).ischeck() == true) {
+                        listvalueGenre.add(genre.get(k).getValue());
+                    }
+                }
+                addMarker(filter(listvalueGenre));
+
+            }
+        });
+
+        linear_free.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseTab=3;
+                tab_custom.setDefault(3);
+                ArrayList<String> listvalueGenre = new ArrayList<>();
+
+                for (int k = 0; k < genre.size(); k++) {
+                    if (genre.get(k).ischeck() == true) {
+                        listvalueGenre.add(genre.get(k).getValue());
+                    }
+                }
+                addMarker(filter(listvalueGenre));
+
+
+            }
+        });
+
+        linear_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseTab=4;
+                tab_custom.setDefault(4);
+                ArrayList<String> listvalueGenre = new ArrayList<>();
+
+                for (int k = 0; k < genre.size(); k++) {
+                    if (genre.get(k).ischeck() == true) {
+                        listvalueGenre.add(genre.get(k).getValue());
+                    }
+                }
+                addMarker(filter(listvalueGenre));
+
+            }
+        });
+
         //end
         return view;
     }
 
+    public List<Book> filterExplore(int type) {
+        List<Book> list = new ArrayList<>();
+        try {
+            if (type == 1) {
+                list = listExplore;
+            } else if (type == 2) {
+                for (int i = 0; i < listExplore.size(); i++) {
+                    if (listExplore.get(i).getAction().substring(0, 1).equals("1")) {
+                        list.add(listExplore.get(i));
+                    }
+                }
+            } else if (type == 3) {
+                for (int i = 0; i < listExplore.size(); i++) {
+                    if (listExplore.get(i).getAction().substring(2, 3).equals("1")) {
+                        list.add(listExplore.get(i));
+                    }
+                }
+            } else {
+                for (int i = 0; i < listExplore.size(); i++) {
+                    if (listExplore.get(i).getAction().substring(1, 2).equals("1")) {
+                        list.add(listExplore.get(i));
+                    }
+                }
+            }
+        }catch (Exception err){
 
+
+        }
+
+
+        return list;
+    }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString("message", "This is my message to be reloaded");
@@ -235,28 +356,54 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
         Double distance = Double.valueOf(Information.maxSeekbar);
-        /*for (int i = 0; i < listExplore.size(); i++) {
-            //String[] genrel = listExplore.get(i).getGenre().split(";");
-            String[] genrel = listExplore.get(i).getGenre().split(";");
-            for (int f = 0;f<filter.size();f++){
-                if (filter.get(f).equals("All")){
-                    LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(),listExplore.get(i).getLocation_longitude());
-                    if (CalculationByDistance(latLngSt,latLngEnd)<=distance){
-                        listfilter.add(listExplore.get(i));
-                    }
-                }
-            }
-            for (int j = 0;j<genrel.length;j++){
-                for (int f = 0;f<filter.size();f++) {
-                    if (genrel[j].contains(filter.get(f))) {
-                        LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
-                        if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
-                            listfilter.add(listExplore.get(i));
+
+        for (int i = 0; i < filterExplore(chooseTab).size(); i++) {
+            String[] genrel = filterExplore(chooseTab).get(i).getGenre().split(";");
+            if (filter.size() > 0) {
+                for (int j = 0; j < genrel.length; j++) {
+                    for (int f = 0; f < filter.size(); f++) {
+                        if (genrel[j].contains(filter.get(f))) {
+                            LatLng latLngEnd = new LatLng(filterExplore(chooseTab).get(i).getLocation_latitude(), filterExplore(chooseTab).get(i).getLocation_longitude());
+                            if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                                if (!listfilter.contains(filterExplore(chooseTab).get(i))) {
+                                    listfilter.add(filterExplore(chooseTab).get(i));
+                                }
+                            }
                         }
                     }
                 }
+
+            } else {
+
+                LatLng latLngEnd = new LatLng(filterExplore(chooseTab).get(i).getLocation_latitude(), filterExplore(chooseTab).get(i).getLocation_longitude());
+                if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
+                    if (!listfilter.contains(filterExplore(chooseTab).get(i))) {
+                        listfilter.add(filterExplore(chooseTab).get(i));
+                    }
+                }
+
             }
-        }*/
+        }
+
+        if (listfilter.size() != 0) {
+            for (int i = 0; i < listfilter.size(); i++) {
+                if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
+                        listfilter.get(i).getPrice() <= Float.valueOf(Information.maxRager + "")) {
+                    lisfilter_temp.add(listfilter.get(i));
+                }
+            }
+        }
+        ReShowNumber(filter);
+        return lisfilter_temp;
+    }
+
+    public void ReShowNumber(List<String> filter) {
+        ArrayList<Book> lisfilter_temp = new ArrayList<>();
+        ArrayList<Book> listfilter = new ArrayList<>();
+
+        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        Double distance = Double.valueOf(Information.maxSeekbar);
+
         for (int i = 0; i < listExplore.size(); i++) {
             String[] genrel = listExplore.get(i).getGenre().split(";");
             if (filter.size() > 0) {
@@ -277,7 +424,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
                 LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
                 if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
-                    if (!listfilter.contains(listExplore.get(i))) {
+                    if (!listfilter.contains(listExplore)) {
                         listfilter.add(listExplore.get(i));
                     }
                 }
@@ -293,22 +440,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
             }
         }
+        ShowNumberbook(lisfilter_temp);
 
-        if (filterList.get(0).getCheck() == true) {
-            BookController bookController = new BookController(getActivity());
-            Collections.sort(lisfilter_temp, bookController.distance);
-            Information.nearDistance = true;
-        } else if (filterList.get(1).getCheck() == true) {
-            Collections.sort(lisfilter_temp, Book.priceasen);
-            Information.priceLowtoHigh = true;
-        } else if (filterList.get(2).getCheck() == true) {
-            Collections.sort(lisfilter_temp, Book.pricedcen);
-            Information.priceHightoLow = true;
-        } else {
-            Collections.sort(lisfilter_temp, Book.recently);
-            Information.recently = true;
-        }
-        return lisfilter_temp;
     }
 
     public List<Book> filterStart() {
@@ -340,6 +473,29 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         }
         return lisfilter_temp;
     }
+    public void ShowNumberbook(List<Book> lstBook) {
+        int free = 0;
+        int swap = 0;
+        int buy = 0;
+
+        for (int i = 0; i < lstBook.size(); i++) {
+            if (lstBook.get(i).getAction().substring(0, 1).equals("1")) {
+                swap++;
+            }
+            if (lstBook.get(i).getAction().substring(2, 3).equals("1")) {
+                free++;
+            }
+            if (lstBook.get(i).getAction().substring(1, 2).equals("1")) {
+                buy++;
+            }
+        }
+        tab_all_count.setText("(" + lstBook.size() + ")");
+        tab_swap_count.setText("(" + swap + ")");
+        tab_free_count.setText("(" + free + ")");
+        tab_cart_count.setText("(" + buy + ")");
+    }
+
+
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
@@ -678,22 +834,23 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     title = books.getTitle().substring(0, 1).toUpperCase() + books.getTitle().substring(1, books.getTitle().length());
                     txt_title_marker.setText(title);
                 }
+                if (books.getUser_photo().length() > 3) {
+                    int index = books.getUser_photo().indexOf("_+_");
+                    Picasso.with(getContext())
+                            .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + books.getUser_photo().substring(0,index).trim() + "&image=" + books.getUser_photo().substring(index + 3, books.getUser_photo().length()))
+                            .placeholder(R.mipmap.user_empty).
+                            into(img_map_main);
+                } else {
+                    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.user_empty);
+                    img_map_main.setImageBitmap(bm);
+                }
+
+                txt_author_marker.setText("by " + books.getAuthor());
+                txt_user_marker.setText(books.getUsername());
             } catch (Exception e) {
             }
 
-            if (books.getUser_photo().length() > 3) {
-                int index = books.getUser_photo().indexOf("_+_");
-                Picasso.with(getContext())
-                        .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + books.getUser_photo().substring(0,index).trim() + "&image=" + books.getUser_photo().substring(index + 3, books.getUser_photo().length()))
-                        .placeholder(R.mipmap.user_empty).
-                        into(img_map_main);
-            } else {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.user_empty);
-                img_map_main.setImageBitmap(bm);
-            }
 
-            txt_author_marker.setText("by " + books.getAuthor());
-            txt_user_marker.setText(books.getUsername());
             ratingBar_marker.setRating(books.getRating());
             LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
             stars.getDrawable(2).setColorFilter(Color.rgb(249, 242, 0), PorterDuff.Mode.SRC_ATOP);
@@ -837,9 +994,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         @Override
         protected List<Book> doInBackground(String... strings) {
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
             try {
                 CheckSession checkSession = new CheckSession();
-                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
                 boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
                 if (!check) {
                     SharedPreferences.Editor editor = pref.edit();
@@ -855,7 +1012,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 this.cancel(true);
             }
             BookController bookController = new BookController();
-            return bookController.book_gettop(session_id, from, top);
+            return bookController.getAllBookInApp(0,1000,10,longitude,latitude,"","",pref.getString("session_id", null),0,10000,0);
         }
 
         @Override
@@ -887,6 +1044,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                     }
 
                     listExplore = filterStart();
+                    ShowNumberbook(listExplore);
                     // create marker
                     addMarker(listExplore);
                     dialog.dismiss();
@@ -895,6 +1053,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
         }
     }
+
     class GetDayUsed extends AsyncTask<String, Void,DayUsed> {
 
         Context context;

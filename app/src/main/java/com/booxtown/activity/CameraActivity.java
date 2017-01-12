@@ -37,6 +37,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -53,6 +54,7 @@ import com.booxtown.R;
 import com.booxtown.adapter.ListBookAdapter;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckSession;
+import com.booxtown.controller.GPSTracker;
 import com.booxtown.fragment.ListingsFragment;
 import com.booxtown.model.Book;
 import com.squareup.picasso.Picasso;
@@ -74,6 +76,9 @@ public class CameraActivity extends Activity implements Callback,
     private int rotation;
     Bitmap loadedImage = null;
     int num_list = 0;
+    private boolean flag=false;
+    float longitude=0;
+    float latitude=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +112,9 @@ public class CameraActivity extends Activity implements Callback,
                 PackageManager.FEATURE_CAMERA_FLASH)) {
             btn_flash_camera.setVisibility(View.GONE);
         }
+
+        longitude=(float) new GPSTracker(CameraActivity.this).getLongitude();
+        latitude=(float) new GPSTracker(CameraActivity.this).getLatitude();
     }
 
     @Override
@@ -123,7 +131,7 @@ public class CameraActivity extends Activity implements Callback,
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        releaseCamera();
     }
 
     @Override
@@ -136,7 +144,9 @@ public class CameraActivity extends Activity implements Callback,
                 flipCamera();
                 break;
             case R.id.btn_capture_camera:
-                takeImage();
+                if(!flag) {
+                    takeImage();
+                }
                 break;
             case R.id.txt_cancel_camera:
                 cancelAndRetake();
@@ -179,10 +189,75 @@ public class CameraActivity extends Activity implements Callback,
             public void onPictureTaken(byte[] data, Camera camera) {
                 try {
                     // convert byte array into bitmap
+                    Bitmap rotatedBitmap = null;
                     loadedImage = BitmapFactory.decodeByteArray(data, 0,
                             data.length);
                     releaseCamera();
                     changeDisplay(true);
+
+                    Matrix rotateMatrix = new Matrix();
+                    rotateMatrix.postRotate(rotation);
+                    rotatedBitmap = Bitmap.createBitmap(loadedImage, 0, 0,
+                            loadedImage.getWidth(), loadedImage.getHeight(),
+                            rotateMatrix, false);
+                    String state = Environment.getExternalStorageState();
+                    File folder = null;
+                    if (state.contains(Environment.MEDIA_MOUNTED)) {
+                        folder = new File(Environment
+                                .getExternalStorageDirectory() + "/Booxtown");
+                    } else {
+                        folder = new File(Environment
+                                .getExternalStorageDirectory() + "/Booxtown");
+                    }
+
+                    boolean success = true;
+                    if (!folder.exists()) {
+                        success = folder.mkdirs();
+                    }
+                    java.util.Date date = new java.util.Date();
+                    String url="";
+                    if (success) {
+
+                        imageFile = new File(folder.getAbsolutePath()
+                                + File.separator
+                                + new Timestamp(date.getTime()).toString().trim().replaceAll("-","").replaceAll(":","").replaceAll(" ","").replaceAll(".","")
+                                + "Image.jpg");
+
+                        url=folder.getAbsolutePath()
+                                + File.separator
+                                + new Timestamp(date.getTime()).toString().trim().replaceAll("-","").replaceAll(":","").replaceAll(" ","").replaceAll(".","")
+                                + "Image.jpg";
+                        imageFile.createNewFile();
+                    } else {
+                        Toast.makeText(getBaseContext(), "Image Not saved",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+                    // save image into gallery
+                    rotatedBitmap.compress(CompressFormat.JPEG, 100, ostream);
+
+                    FileOutputStream fout = new FileOutputStream(imageFile);
+                    fout.write(ostream.toByteArray());
+                    fout.close();
+                    ContentValues values = new ContentValues();
+
+                    values.put(Images.Media.DATE_TAKEN,
+                            System.currentTimeMillis());
+                    values.put(Images.Media.MIME_TYPE, "image/jpeg");
+                    values.put(MediaStore.MediaColumns.DATA,
+                            imageFile.getAbsolutePath());
+
+                    CameraActivity.this.getContentResolver().insert(
+                            Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("image", url);
+
+                    editor.commit();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -194,13 +269,14 @@ public class CameraActivity extends Activity implements Callback,
 
     public void changeDisplay(boolean flag) {
         if (flag) {
+            this.flag=true;
             btn_flash_camera.setVisibility(View.GONE);
             btn_flip_camera.setVisibility(View.GONE);
             btn_capture_camera.setVisibility(View.GONE);
             txt_cancel_camera.setText("Retake");
             txt_use_photo_camera.setVisibility(View.VISIBLE);
         } else {
-
+            this.flag=false;
             btn_flash_camera.setVisibility(View.VISIBLE);
             btn_flip_camera.setVisibility(View.VISIBLE);
             btn_capture_camera.setVisibility(View.VISIBLE);
@@ -229,9 +305,17 @@ public class CameraActivity extends Activity implements Callback,
 
                     }
                 });
+
+                Camera.Parameters p = camera.getParameters();
+                p.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+
+                camera.setParameters(p);
                 camera.setPreviewDisplay(surfaceHolder);
                 camera.startPreview();
+                camera.autoFocus(null);
                 result = true;
+
+
             } catch (IOException e) {
                 e.printStackTrace();
                 result = false;
@@ -240,7 +324,28 @@ public class CameraActivity extends Activity implements Callback,
         }
         return result;
     }
+    @Override
+    public void onPause() {
+        releaseCamera();;
+        super.onPause();
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        releaseCamera();;
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            if(!flag) {
+                camera.autoFocus(null);
+            }
+        }
+
+        return true;
+    }
     private void setUpCamera(Camera c) {
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(cameraId, info);
@@ -282,6 +387,7 @@ public class CameraActivity extends Activity implements Callback,
             if (focusModes
                     .contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
                 params.setFlashMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             }
         }
 
@@ -306,7 +412,7 @@ public class CameraActivity extends Activity implements Callback,
                 camera.setErrorCallback(null);
                 camera.stopPreview();
                 camera.release();
-                camera = null;
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -386,9 +492,9 @@ public class CameraActivity extends Activity implements Callback,
         protected List<Book> doInBackground(String... strings) {
             CheckSession checkSession = new CheckSession();
             boolean check = checkSession.checkSession_id(session_id);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
             if (!check) {
-                SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
                 editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
@@ -396,7 +502,7 @@ public class CameraActivity extends Activity implements Callback,
                 this.cancel(true);
             }
             BookController bookController = new BookController();
-            return bookController.getAllBookById(context, session_id);
+            return bookController.getAllBookInApp(0,1000,10,longitude,latitude,"","",pref.getString("session_id", ""),Integer.parseInt(pref.getString("user_id", "0")),10000,0);
         }
 
         @Override
@@ -409,9 +515,10 @@ public class CameraActivity extends Activity implements Callback,
             try {
                 num_list = books.size();
                 Intent intent = new Intent(CameraActivity.this,MainAllActivity.class);
-                intent.putExtra("key","5");
-                intent.putExtra("BitmapImage",bt);
+                intent.putExtra("key","6");
+                intent.putExtra("num_list",num_list);
                 startActivity(intent);
+                finish();
             } catch (Exception e) {
             }
         }

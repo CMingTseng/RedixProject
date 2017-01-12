@@ -166,6 +166,7 @@ public class BookController {
 
     public List<Book> getallbook(){
         Call<BookResult> getall = service.getAllBook();
+
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =
@@ -271,6 +272,23 @@ public class BookController {
 
     public List<Book> getTopBookByID(int user_id,int to,int from){
         Call<BookResult> profile = service.getTopBookById(user_id,to,from);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            BookResult str = profile.execute().body();
+            if (str.getCode() == 200){
+                return str.getBook();
+            }
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
+    public List<Book> getAllBookInApp(int price_from,int price_to,int distance,float longtitude,float latitude,String genre, String textSearch, String session_id,int user_id, int top, int from){
+        Call<BookResult> profile = service.getAllBookInApp( price_from, price_to, distance, longtitude, latitude, genre,  textSearch,  session_id, user_id,  top,  from);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =
