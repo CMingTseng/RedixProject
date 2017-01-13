@@ -845,6 +845,10 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                     adapter_exploer.setListExplore(filterStart());
                     isLoading = true;
                 } else {
+                    tab_all_count.setText("(0)");
+                    tab_swap_count.setText("(0)");
+                    tab_free_count.setText("(0)");
+                    tab_cart_count.setText("(0)");
                     isLoading = false;
                 }
             } catch (Exception e) {

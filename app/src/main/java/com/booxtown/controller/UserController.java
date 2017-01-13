@@ -181,6 +181,26 @@ public class UserController {
         return false;
     }
 
+    public boolean activateUser(String session_id){
+        Hashtable obj = new Hashtable();
+        obj.put("session_id",session_id);
+
+        Call<Result> profile = service.activateUser(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = profile.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
     public List<User> getByUserId(int user_id){
         Call<UserResult> profile = service.getProfileByUserId(user_id);
         try {

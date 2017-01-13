@@ -695,6 +695,12 @@ public class MyProfileFragment extends Fragment {
                     tab_cart_count.setText(" ("+filterBook(4).size()+")");
                     dialog.dismiss();
                 }
+                else{
+                    tab_all_count.setText("(0)");
+                    tab_swap_count.setText("(0)");
+                    tab_free_count.setText("(0)");
+                    tab_cart_count.setText("(0)");
+                }
             }catch (Exception e){
                 Toast.makeText(context, Information.noti_no_data, Toast.LENGTH_LONG).show();
                 dialog.dismiss();

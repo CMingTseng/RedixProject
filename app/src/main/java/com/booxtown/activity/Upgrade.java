@@ -1,11 +1,14 @@
 package com.booxtown.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.booxtown.R;
+import com.booxtown.controller.CheckSession;
+import com.booxtown.controller.Information;
+import com.booxtown.controller.UserController;
 import com.booxtown.util.IabHelper;
 import com.booxtown.util.IabResult;
 import com.booxtown.util.Purchase;
@@ -162,8 +168,11 @@ public class Upgrade extends AppCompatActivity{
                 try {
                     JSONObject jo = new JSONObject(purchaseData);
                     String sku = jo.getString("productId");
-                    alert("Successfully Purchased");
+
                     // update pròile
+                    ActivateUserAsync activateUserAsync= new ActivateUserAsync(Upgrade.this);
+                    activateUserAsync.execute();
+
 
                 } catch (JSONException e) {
                     alertError("Failed to parse purchase data.");
@@ -200,5 +209,50 @@ public class Upgrade extends AppCompatActivity{
 
     public void showToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    class ActivateUserAsync extends AsyncTask<String, Void, Boolean> {
+        ProgressDialog dialog;
+        Context context;
+
+        public ActivateUserAsync(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
+            UserController userController = new UserController(context);
+            return userController.activateUser(pref.getString("session_id", ""));
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            try {
+                alert("Successfully Purchased");
+            } catch (Exception e) {
+
+            }
+            dialog.dismiss();
+        }
     }
 }

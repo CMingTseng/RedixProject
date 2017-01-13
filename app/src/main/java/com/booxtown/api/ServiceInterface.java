@@ -241,4 +241,7 @@ public interface ServiceInterface {
     @GET("/booxtown/rest/user/getBooxTownInfor")
     Call<AboutResult> getBooxTownInfor(@Query("status") int status);
 
+    @POST("/booxtown/rest/user/activateUser")
+    Call<Result> activateUser(@Body Object session_id);
+
 }
