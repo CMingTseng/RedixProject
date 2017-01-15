@@ -88,6 +88,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
     TextView txtFindLocation;
     TextView textView18;
     LatLng latLng_new;
+    LatLng latLng_old;
     //end
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -304,6 +305,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         //end
         mMapFragment = ((SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.fragment));
         mMapFragment.getMapAsync(this);
+
         switch_seting_location.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -312,34 +314,6 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     is_current_location = 1;
                     txtFindLocation.setVisibility(View.GONE);
                 } else {
-                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            Location location = new Location("you");
-                            location.setLatitude(latLng.latitude);
-                            location.setLongitude(latLng.longitude);
-                            latLng_new= latLng;
-                            try {
-                                mMap.clear();
-                                // create marker
-                                MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
-                                // Changing marker icon
-                                marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(getContext(), "location_default",(int)getResources().getDimension(R.dimen.width_pin),
-                                        (int)getResources().getDimension(R.dimen.height_pin)))));
-                                // adding marker
-                                mMap.addMarker(marker);
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 9));
-                                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                                mMap.getUiSettings().setZoomControlsEnabled(true);
-                                mMap.getUiSettings().setCompassEnabled(true);
-                                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-                                mMap.getUiSettings().setAllGesturesEnabled(true);
-                                mMap.setTrafficEnabled(true);
-                            } catch (Exception e) {
-                            }
-
-                        }
-                    });
                     getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
                     is_current_location = 0;
                 }
@@ -521,12 +495,42 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     addMaker(location);
                 }
             }
+
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    Location location = new Location("you");
+                    location.setLatitude(latLng.latitude);
+                    location.setLongitude(latLng.longitude);
+                    latLng_new= latLng;
+                    try {
+                        mMap.clear();
+                        // create marker
+                        MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
+                        // Changing marker icon
+                        marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(getContext(), "location_default",(int)getResources().getDimension(R.dimen.width_pin),
+                                (int)getResources().getDimension(R.dimen.height_pin)))));
+                        // adding marker
+                        mMap.addMarker(marker);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 9));
+                        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        mMap.getUiSettings().setZoomControlsEnabled(true);
+                        mMap.getUiSettings().setCompassEnabled(true);
+                        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                        mMap.getUiSettings().setAllGesturesEnabled(true);
+                        mMap.setTrafficEnabled(true);
+                    } catch (Exception e) {
+                    }
+
+                }
+            });
         } catch (Exception e) {
         }
     }
 
     public void addMaker(Location location) {
         try {
+            mMap.clear();
             latLng_new= new LatLng(location.getLatitude(),location.getLongitude());
             // create marker
             MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
@@ -710,6 +714,13 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     if (is_current_location == 0) {
                         txtFindLocation.setVisibility(View.VISIBLE);
                     }
+                    latLng_old= new LatLng(settings.get(0).getLatitude(),settings.get(0).getLongitude());
+                    Location location = new Location("you");
+                    location.setLatitude(latLng_old.latitude);
+                    location.setLongitude(latLng_old.longitude);
+
+                    addMaker(location);
+
                     is_best_time = settings.get(0).getIs_best_time();
                     setting_old = new Setting(is_notification, is_best_time, is_current_location, time1, time2);
                 } else {
