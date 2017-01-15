@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.booxtown.model.Faq;
@@ -44,7 +45,7 @@ public class Custom_Listview_faq extends RecyclerView.Adapter<Custom_Listview_fa
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         final int index= position;
         holder.tv.setText(faqcontent.get(position));
-        holder.img_listview_faq_next.setOnClickListener(new View.OnClickListener() {
+        holder.layout_faq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, Faq_content.class);
@@ -65,12 +66,13 @@ public class Custom_Listview_faq extends RecyclerView.Adapter<Custom_Listview_fa
 
         public TextView tv;
         ImageView img_listview_faq_next;
+        RelativeLayout layout_faq;
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             tv = (TextView) itemView.findViewById(R.id.txt_content_faq);
             img_listview_faq_next = (ImageView)itemView.findViewById(R.id.img_listview_faq_next);
             Picasso.with(context).load(R.drawable.btn_interact_next).into(img_listview_faq_next);
-
+            layout_faq=(RelativeLayout) itemView.findViewById(R.id.layout_faq);
         }
     }
 }

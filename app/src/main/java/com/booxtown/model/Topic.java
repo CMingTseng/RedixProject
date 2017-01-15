@@ -11,6 +11,7 @@ public class Topic implements Serializable {
             public String title;
             public String description;
             public String create_date;
+            public String update_date;
             public int is_expire;
             public String user_id;
             public int num_thread;
@@ -23,7 +24,13 @@ public class Topic implements Serializable {
         this.num_thread = num_thread;
     }
 
+    public String getUpdate_date() {
+        return update_date;
+    }
 
+    public void setUpdate_date(String update_date) {
+        this.update_date = update_date;
+    }
 
     public Topic() {
     }

@@ -67,6 +67,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -315,8 +316,11 @@ public class MyProfileFragment extends Fragment {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
-    public static class DatePickerDialogClass extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
+    //------------------------------------------------------
+
+
+    public static class DatePickerDialogClass extends DialogFragment implements DatePickerDialog.OnDateSetListener{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState){
             final Calendar calendar = Calendar.getInstance();
@@ -324,12 +328,18 @@ public class MyProfileFragment extends Fragment {
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),this,year,month,day);
+            datepickerdialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
             return datepickerdialog;
+
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day){
             TextView textview = (TextView) getActivity().findViewById(R.id.txt_profile_birthday);
-            textview.setText(day + "/" + (month+1) + "/" + year);
+            if(month<10) {
+                textview.setText(day + "/" + "0"+(month + 1) + "/" + year);
+            }else{
+                textview.setText(day + "/" + (month + 1) + "/" + year);
+            }
         }
     }
 
@@ -482,14 +492,22 @@ public class MyProfileFragment extends Fragment {
                     editor.putString("user_id", String.valueOf(user_id));
                     editor.commit();
                     int index =userResult.get(0).getPhoto().indexOf("_+_");
-                    Picasso.with(context)
-                            .load(ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+userResult.get(0).getPhoto().substring(0,index).trim()+"&image="+userResult.get(0).getPhoto().substring(index+3,userResult.get(0).getPhoto().length()))
-                            .placeholder(R.mipmap.user_empty).into(imv_menu_profile);
+                    if(index>3) {
+                        Picasso.with(context)
+                                .load(ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + userResult.get(0).getPhoto().substring(0, index).trim() + "&image=" + userResult.get(0).getPhoto().substring(index + 3, userResult.get(0).getPhoto().length()))
+                                .placeholder(R.mipmap.user_empty).into(imv_menu_profile);
+                    }else {
+                        Picasso.with(context)
+                                .load(R.mipmap.user_empty)
+                                .into(imv_menu_profile);
+                    }
                     dialog.dismiss();
+
                     ratingBar_userprofile.setRating(userResult.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_userprofile.getProgressDrawable();
-                    stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
+
                     stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP);
+                    stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
                     //stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
                     DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
                 }

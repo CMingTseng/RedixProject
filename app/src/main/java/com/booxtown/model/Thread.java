@@ -22,10 +22,19 @@ public class Thread implements Serializable {
     @Expose
     private String user_id;
     @Expose
+    private String full_name;
+    @Expose
     private int is_read;
     @Expose
     private String username;
 
+    public String getFull_name() {
+        return full_name;
+    }
+
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
 
     public int getNum_comment() {
         return num_comment;

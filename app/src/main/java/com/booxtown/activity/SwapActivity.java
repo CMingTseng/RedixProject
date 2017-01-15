@@ -325,6 +325,11 @@ public class SwapActivity extends AppCompatActivity {
                 }
                 transactionInsert transactionInsert = new transactionInsert(SwapActivity.this, session_id, user_ID, bookIntent.getUser_id(), buyBookID, bookIntent.getId(), "swap");
                 transactionInsert.execute();
+
+                Intent intent= new Intent(SwapActivity.this, MainAllActivity.class);
+                startActivity(intent);
+                finish();
+
                 //}
             } catch (Exception e) {
                 String ssss = e.getMessage();

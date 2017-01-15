@@ -12,12 +12,11 @@
         android:weightSum="1">
         <ImageView
             android:id="@+id/btn_back_sigin"
-            android:layout_width="14dp"
-            android:layout_height="26dp"
+            android:layout_width="32dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:layout_marginLeft="15dp"
-             />
+            android:layout_height="36dp" />
         <ImageView
             android:layout_width="178dp"
             android:layout_height="45dp"

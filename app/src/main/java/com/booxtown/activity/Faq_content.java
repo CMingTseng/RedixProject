@@ -31,7 +31,7 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
 
     EditText editSearch;
     NewAdapter mNewAdapter;
-    TextView title_menu;
+    TextView title_menu,txt_title_faq;
     ExpandableListView expandableListView;
     ArrayList<Faq> faq;
     String faq_id;
@@ -45,7 +45,7 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
 
         faq=(ArrayList<Faq>) getIntent().getSerializableExtra("faq");
         faq_id=getIntent().getStringExtra("faq_id");
-
+        txt_title_faq=(TextView) findViewById(R.id.txt_title_faq);
 
         setGroupData(faq,faq_id);
 
@@ -125,6 +125,7 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
 
         for(int i=0; i<faq.size(); i++){
             if(faq.get(i).getCategory_name().equals(faq_id)){
+                txt_title_faq.setText(faq.get(i).getCategory_name());
                 groupItem.add(faq.get(i).getQuestion());
                 ArrayList<String> child = new ArrayList<String>();
                 child.add(faq.get(i).getAnswer());

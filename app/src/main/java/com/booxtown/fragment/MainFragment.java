@@ -353,7 +353,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     public List<Book> filter(List<String> filter) {
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
-
+        //LatLng latLngSt = new LatLng(25.2446,55.3154);
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
         Double distance = Double.valueOf(Information.maxSeekbar);
 
@@ -400,7 +400,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     public void ReShowNumber(List<String> filter) {
         ArrayList<Book> lisfilter_temp = new ArrayList<>();
         ArrayList<Book> listfilter = new ArrayList<>();
-
+        //LatLng latLngSt = new LatLng(25.2446,55.3154);
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
         Double distance = Double.valueOf(Information.maxSeekbar);
 
@@ -449,11 +449,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
         LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        //LatLng latLngSt = new LatLng(25.2446,55.3154);
         Double distance = Double.valueOf(Information.maxSeekbar);
         for (int i = 0; i < listExplore.size(); i++) {
             String[] genrel = listExplore.get(i).getGenre().split(";");
 
             LatLng latLngEnd = new LatLng(listExplore.get(i).getLocation_latitude(), listExplore.get(i).getLocation_longitude());
+            double dss=CalculationByDistance(latLngSt, latLngEnd);
             if (CalculationByDistance(latLngSt, latLngEnd) <= distance) {
                 if (!listfilter.contains(listExplore.get(i))) {
                     listfilter.add(listExplore.get(i));
@@ -514,12 +516,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         double km = valueResult / 1;
         DecimalFormat newFormat = new DecimalFormat("####");
         Double kmInDec = Double.valueOf(newFormat.format(km));
+        //Double kmInDec = Double.valueOf(newFormat+"");
         double meter = valueResult % 1000;
         int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
-                + " Meter   " + meterInDec);
 
-        return kmInDec;
+        return valueResult;
     }
 
     @Override
@@ -1013,6 +1014,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
             BookController bookController = new BookController();
             return bookController.getAllBookInApp(0,1000,10,longitude,latitude,"","",pref.getString("session_id", null),0,10000,0);
+            //return bookController.getAllBookInApp(0,1000,10,Float.parseFloat("55.3154"),Float.parseFloat("25.2446"),"","",pref.getString("session_id", null),0,10000,0);
         }
 
         @Override

@@ -56,13 +56,12 @@ public class AdapterTopic extends RecyclerView.Adapter<AdapterTopic.HolderTopic>
             String timeZone = pref.getString("timezone", null);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
-            Date dt= dateFormat.parse(interact.getCreate_date());
+            Date dt= dateFormat.parse(interact.getUpdate_date());
             String intMonth = (String) android.text.format.DateFormat.format("MM", dt);
             String year = (String) android.text.format.DateFormat.format("yyyy", dt);
             String day = (String) android.text.format.DateFormat.format("dd", dt);
             String date_post= day+"-"+intMonth+"-"+year;
-            //String[] dates = interact.getCreate_date().substring(0, 10).split("-");
-            //String resultDate = dates[2] +"-"+dates[1] +"-"+dates[0].substring(2,dates[0].length());
+
             holder.txt_dateUpdate_interact.setText("Last Updated on " + date_post);
 
         }catch (Exception exx) {

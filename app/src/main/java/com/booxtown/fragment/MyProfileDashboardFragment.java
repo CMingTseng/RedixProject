@@ -229,13 +229,6 @@ public class MyProfileDashboardFragment extends Fragment {
                 totalItemCount = linearLayoutManager.getItemCount();
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
-                /*if (loading) {
-                    if (totalItemCount > previousTotal) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                    }
-                }*/
-
                 if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     // End has been reached
                     DashBoard dashBoard_lv = dashBoards_new.get(dashBoards_new.size()-1);
@@ -244,16 +237,7 @@ public class MyProfileDashboardFragment extends Fragment {
                     // Do something
                     loading = true;
                 }
-                /*if (!loading && (totalItemCount - visibleItemCount)
-                        <= (firstVisibleItem + visibleThreshold) && isLoading) {
-                    // End has been reached
-                    DashBoard dashBoard_lv = dashBoards_new.get(dashBoards_new.size()-1);
-                    getDashBoard getDashBoard = new getDashBoard(getContext(),session_id,15,dashBoard_lv.getId());
-                    getDashBoard.execute();
-                    // Do something
 
-                    loading = true;
-                }*/
             }
         });
     }

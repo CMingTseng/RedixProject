@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,9 +18,10 @@ import com.booxtown.controller.Information;
 import com.booxtown.controller.UserController;
 
 import com.booxtown.R;
+import com.squareup.picasso.Picasso;
 
 public class ForgotPassword_Activity extends AppCompatActivity implements View.OnClickListener{
-Button mButtonBackForgot;
+    ImageView mButtonBackForgot;
     TextView mButtonSubmit;
     //SignIn_Activity signIn_activity;
     EditText edt_email;
@@ -28,7 +30,9 @@ Button mButtonBackForgot;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         edt_email = (EditText) findViewById(R.id.email_forgot);
-        mButtonBackForgot = (Button) findViewById(R.id.btn_back_forgot);
+        mButtonBackForgot = (ImageView) findViewById(R.id.btn_back_forgot);
+
+        Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(mButtonBackForgot);
         //signIn_activity = (SignIn_Activity)getApplicationContext();
         mButtonSubmit = (TextView)  findViewById(R.id.submit_forgot);
         mButtonSubmit.setOnClickListener(this);

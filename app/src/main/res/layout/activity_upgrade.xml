@@ -175,7 +175,7 @@
         <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Even if you can’t your book right now add it to the wishboard"
+            android:text="Even if you can’t find your book right now add it to the wishboard"
             android:id="@+id/textView32"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/imageView7"

@@ -421,7 +421,7 @@ public class ListingsFragment extends Fragment {
         Double kmInDec = Double.valueOf(newFormat.format(km));
         double meter = valueResult % 1000;
         int meterInDec = Integer.valueOf(newFormat.format(meter));
-        return kmInDec;
+        return valueResult;
     }
 
     public void filter(ArrayList<String> listvalueGenre) {

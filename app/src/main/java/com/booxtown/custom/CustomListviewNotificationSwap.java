@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.activity.NotificationAcceptActivity;
 import com.booxtown.activity.NotificationRejectActivity;
 import com.booxtown.activity.NotificationSwapActivity;
 import com.booxtown.api.ServiceGenerator;
@@ -246,7 +247,7 @@ public class CustomListviewNotificationSwap extends BaseAdapter {
             controllerSeller.sendNotification(listSeller);
             // end
 
-            Intent intent = new Intent(context, NotificationRejectActivity.class);
+            Intent intent = new Intent(context, NotificationAcceptActivity.class);
             intent.putExtra("trans_id", trans.getId() + "");
             context.startActivity(intent);
 

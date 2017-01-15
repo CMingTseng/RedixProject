@@ -114,6 +114,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     TableRow tbTypebook,tbTypebook2;
     EditText editText11;
     List<String> arr_commetID = new ArrayList<>();
+
     //end
     @Nullable
     @Override
@@ -186,10 +187,13 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 }
             });
 
-
-               /* View view_search = (View) getActivity().findViewById(R.id.custom_search);
-                view_search.setVisibility(View.GONE);
-                Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
+                if(type.equals("1")) {
+                    View view_search = (View) getActivity().findViewById(R.id.custom_search);
+                    view_search.setVisibility(View.GONE);
+                    View tab_control = (View) getActivity().findViewById(R.id.tab_explore);
+                    tab_control.setVisibility(View.GONE);
+                }
+                /*Picasso.with(getContext()).load(R.drawable.btn_close_filter).into(img_close_dialog_unsubcribe);
                 rlv_comment.setVisibility(View.GONE);
                 editText11.setVisibility(View.GONE);
                 img_close_dialog_unsubcribe.setVisibility(View.GONE);*/
@@ -617,13 +621,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         protected void onPostExecute(Boolean flag) {
             try {
                 if(flag){
-                    if (type==1) {
-                        UserID2 userID = new UserID2(getContext(), book.getId() + "", book.getUser_id() + "", 1, book);
+                    //if (type==1) {
+                        UserID2 userID = new UserID2(getContext(), book.getId() + "", book.getUser_id() + "", type, book);
                         userID.execute();
-                    }else{
+                    /*}else{
+
                         listingAsync listingAsync = new listingAsync(getContext());
                         listingAsync.execute(session_id);
-                    }
+                    }*/
 
                 }
                 else{
@@ -715,7 +720,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                                 dialog1.setContentView(R.layout.dialog_request_sent_listing);
 
                                 TextView textView133=(TextView) dialog1.findViewById(R.id.textView133);
-                                textView133.setText("Let&apos;s wait for "+book.getUsername()+"&apos;s reply");
+                                textView133.setText("Let's wait for "+book.getUsername()+"'s reply");
 
                                 dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 dialog1.show();
@@ -742,12 +747,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
                     }
                     else{
-                        final char array[]=book.getAction().toCharArray();
+                        listingAsync listingAsync = new listingAsync(getContext());
+                        listingAsync.execute(session_id);
+                        /*final char array[]=book.getAction().toCharArray();
                         if(String.valueOf(array[0]).contains("1")&& type!=0) {
                             Intent intent = new Intent(context, SwapActivity.class);
                             intent.putExtra("Book", book);
                             context.startActivity(intent);
-                        }
+                        }*/
 
                     }
                 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,6 +27,8 @@
         android:id="@+id/imv_menu_notification_infor2"
         android:layout_below="@+id/textView41"
         android:layout_centerHorizontal="true"
+        app:siBorderColor="@color/dot_light_screen2"
+        app:siBorderWidth="1dp"
         android:src="@drawable/img_temp1" />
 
     <com.booxtown.custom.CustomTextView

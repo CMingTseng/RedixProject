@@ -53,7 +53,7 @@ public class AdapterThread extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof RecyclerViewHolder) {
             final Thread thread= listThread.get(position);
             ((RecyclerViewHolder) holder).txt_title_interact.setText(listThread.get(position).getTitle());
-            ((RecyclerViewHolder) holder).txt_dateUpdate_interact.setText("Added by "+ listThread.get(position).getUsername());
+            ((RecyclerViewHolder) holder).txt_dateUpdate_interact.setText("Added by "+ listThread.get(position).getFull_name());
             ((RecyclerViewHolder) holder).txt_count_interact.setText("("+listThread.get(position).getNum_comment()+")");
             if(listThread.get(position).getIs_read()==0){
                 ((RecyclerViewHolder) holder).txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_text));

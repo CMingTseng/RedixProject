@@ -46,7 +46,7 @@
             android:layout_marginTop="30dp"
             android:layout_below="@+id/tv_author"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/change_pass"
+            android:background="@drawable/bg_white_popup"
             android:gravity="center"
             android:textColor="@color/color_text"
             android:textSize="@dimen/text_book_exploer"

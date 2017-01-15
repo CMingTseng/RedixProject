@@ -663,7 +663,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
         Double kmInDec = Double.valueOf(newFormat.format(km));
         double meter = valueResult % 1000;
         int meterInDec = Integer.valueOf(newFormat.format(meter));
-        return kmInDec;
+        return valueResult;
     }
 
     private void populatRecyclerView(String session_id) {

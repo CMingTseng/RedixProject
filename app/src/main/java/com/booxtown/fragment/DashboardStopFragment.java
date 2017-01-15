@@ -97,7 +97,7 @@ public class DashboardStopFragment extends Fragment {
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_cancel_dashboard);
+                dialog.setContentView(R.layout.dialog_change_transaction);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 

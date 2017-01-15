@@ -14,18 +14,6 @@
         <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buy"
-            android:id="@+id/textView134"
-            android:gravity="center"
-            android:layout_marginTop="45dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/dot_light_screen1"
-            android:textSize="@dimen/text_22sp" />
-
-        <com.booxtown.custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Are you sure you want to buy this book"
             android:id="@+id/textView135"
             android:textColor="@color/dot_light_screen1"
@@ -57,6 +45,18 @@
             android:textColor="@color/color_text"
             android:textSize="20sp"
             android:layout_marginBottom="60dp" />
+
+        <com.booxtown.custom.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buy"
+            android:id="@+id/textView134"
+            android:gravity="center"
+            android:layout_marginTop="47dp"
+            android:textColor="@color/dot_light_screen1"
+            android:textSize="@dimen/text_22sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
     <RelativeLayout
