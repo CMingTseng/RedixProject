@@ -21,6 +21,10 @@ public class Setting {
     @Expose
     private int user_id;
 
+    private double longitude;
+
+    private double latitude;
+
     public Setting(int id, int is_notification, int is_best_time, int is_current_location, String time_start, String time_to, int user_id) {
         this.id = id;
         this.is_notification = is_notification;
@@ -37,6 +41,34 @@ public class Setting {
         this.is_current_location = is_current_location;
         this.time_start = time_start;
         this.time_to = time_to;
+    }
+
+    public Setting(int id, int is_notification, int is_best_time, int is_current_location, String time_start, String time_to, int user_id, double longitude, double latitude) {
+        this.id = id;
+        this.is_notification = is_notification;
+        this.is_best_time = is_best_time;
+        this.is_current_location = is_current_location;
+        this.time_start = time_start;
+        this.time_to = time_to;
+        this.user_id = user_id;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     public int getId() {

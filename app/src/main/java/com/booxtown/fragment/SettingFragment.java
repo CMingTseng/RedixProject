@@ -87,6 +87,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
     String session_id;
     TextView txtFindLocation;
     TextView textView18;
+    LatLng latLng_new;
     //end
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -311,6 +312,34 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     is_current_location = 1;
                     txtFindLocation.setVisibility(View.GONE);
                 } else {
+                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            Location location = new Location("you");
+                            location.setLatitude(latLng.latitude);
+                            location.setLongitude(latLng.longitude);
+                            latLng_new= latLng;
+                            try {
+                                mMap.clear();
+                                // create marker
+                                MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
+                                // Changing marker icon
+                                marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(getContext(), "location_default",(int)getResources().getDimension(R.dimen.width_pin),
+                                        (int)getResources().getDimension(R.dimen.height_pin)))));
+                                // adding marker
+                                mMap.addMarker(marker);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 9));
+                                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                                mMap.getUiSettings().setZoomControlsEnabled(true);
+                                mMap.getUiSettings().setCompassEnabled(true);
+                                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                                mMap.getUiSettings().setAllGesturesEnabled(true);
+                                mMap.setTrafficEnabled(true);
+                            } catch (Exception e) {
+                            }
+
+                        }
+                    });
                     getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
                     is_current_location = 0;
                 }
@@ -334,8 +363,9 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                                 "Yes",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+
                                         updateSetting update = new updateSetting(getContext(), session_id, id_setting, is_notification, is_best_time, is_current_location,
-                                                time1, time2);
+                                                time1, time2,latLng_new.longitude,latLng_new.latitude);
                                         update.execute();
                                         getSetting setting = new getSetting(getContext());
                                         setting.execute(session_id);
@@ -392,9 +422,11 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                     "Yes",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            updateSetting update = new updateSetting(getContext(), session_id, id_setting, is_notification, is_best_time, is_current_location,
-                                    time1, time2);
-                            update.execute();
+
+                                updateSetting update = new updateSetting(getContext(), session_id, id_setting, is_notification, is_best_time, is_current_location,
+                                        time1, time2,latLng_new.longitude,latLng_new.latitude);
+                                update.execute();
+
                             getSetting setting = new getSetting(getContext());
                             setting.execute(session_id);
                             dialog.cancel();
@@ -495,6 +527,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
 
     public void addMaker(Location location) {
         try {
+            latLng_new= new LatLng(location.getLatitude(),location.getLongitude());
             // create marker
             MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
             // Changing marker icon
@@ -695,8 +728,8 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         String session_id;
         int id_setting, is_notification, is_best_time, is_current_location;
         String time_start, time_to;
-
-        public updateSetting(Context context, String session_id, int id_setting, int is_notification, int is_best_time, int is_current_location, String time_start, String time_to) {
+        double longitude,latitude;
+        public updateSetting(Context context, String session_id, int id_setting, int is_notification, int is_best_time, int is_current_location, String time_start, String time_to, double longitude, double latitude) {
             this.context = context;
             this.session_id = session_id;
             this.id_setting = id_setting;
@@ -705,6 +738,8 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
             this.is_current_location = is_current_location;
             this.time_start = time_start;
             this.time_to = time_to;
+            this.longitude= longitude;
+            this.latitude= latitude;
         }
 
         @Override
@@ -728,7 +763,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                 this.cancel(true);
             }
             SettingController settingController = new SettingController();
-            return settingController.updateSetting(session_id, id_setting, is_notification, is_best_time, is_current_location, time_start, time_to);
+            return settingController.updateSetting(session_id, id_setting, is_notification, is_best_time, is_current_location, time_start, time_to,longitude,latitude);
         }
 
         @Override

@@ -40,7 +40,7 @@ public class SettingController {
     }
 
     public boolean updateSetting(String session_id,int id,int is_notification,int is_best_time,int is_current_location,
-                                 String time_start,String time_to){
+                                 String time_start,String time_to,double longitude, double latitude){
         Hashtable obj = new Hashtable();
         obj.put("session_id",session_id);
         obj.put("id",id);
@@ -49,6 +49,8 @@ public class SettingController {
         obj.put("is_current_location",is_current_location);
         obj.put("time_start",time_start);
         obj.put("time_to",time_to);
+        obj.put("longitude",longitude);
+        obj.put("latitude",latitude);
         Call<Result> getSetting1 = service.updateSetting(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
