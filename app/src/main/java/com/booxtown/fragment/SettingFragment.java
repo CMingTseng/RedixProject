@@ -316,6 +316,7 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                 } else {
                     getActivity().getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
                     is_current_location = 0;
+                    txtFindLocation.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -329,7 +330,9 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                             || setting_old.getIs_best_time() != setting_new.getIs_best_time()
                             || setting_old.getIs_current_location() != setting_new.getIs_current_location()
                             || !setting_old.getTime_start().equals(setting_new.getTime_start())
-                            || !setting_old.getTime_to().equals(setting_new.getTime_to())) {
+                            || !setting_old.getTime_to().equals(setting_new.getTime_to())
+                            || !latLng_old.equals(latLng_new)
+                            ) {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
                         builder1.setMessage("Do you want to save setting ?");
                         builder1.setCancelable(true);
@@ -388,7 +391,9 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
                 || old.getIs_best_time() != new_setting.getIs_best_time()
                 || old.getIs_current_location() != new_setting.getIs_current_location()
                 || !old.getTime_start().equals(new_setting.getTime_start())
-                || !old.getTime_to().equals(new_setting.getTime_to())) {
+                || !old.getTime_to().equals(new_setting.getTime_to())
+                || !latLng_old.equals(latLng_new)
+                ) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
             builder1.setMessage("Do you want to save setting ?");
             builder1.setCancelable(true);
@@ -781,6 +786,14 @@ public class SettingFragment extends android.support.v4.app.Fragment implements 
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if (aBoolean == true) {
+
+                    SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putInt("is_current_location", is_current_location);
+                    editor.putString("Latitude", latitude+"");
+                    editor.putString("Longitude", longitude+"");
+                    editor.commit();
+
                     Toast.makeText(context, Information.noti_update_setting, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, Information.noti_update_nosetting, Toast.LENGTH_SHORT).show();

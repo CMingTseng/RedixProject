@@ -88,8 +88,17 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             }
         });
         //--------------------------------------------------
-        longitude=(float) new GPSTracker(UserProfileActivity.this).getLongitude();
-        latitude=(float) new GPSTracker(UserProfileActivity.this).getLatitude();
+        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String sessionID = pref.getString("session_id", null);
+
+        int is_current_location= pref.getInt("is_current_location",1);
+        if(is_current_location==1) {
+            longitude = (float) new GPSTracker(UserProfileActivity.this).getLongitude();
+            latitude = (float) new GPSTracker(UserProfileActivity.this).getLatitude();
+        }else {
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(UserProfileActivity.this).getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(UserProfileActivity.this).getLatitude()+""));
+        }
 
         linear_all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -414,7 +423,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 this.cancel(true);
             }
             BookController bookController = new BookController();
-            return  bookController.getAllBookInApp(0,100000,1000,longitude,latitude,"","",pref.getString("session_id", null),user_id,10000,0);
+            return  bookController.getAllBookInApp(0,100000,10000,longitude,latitude,"","",pref.getString("session_id", null),user_id,10000,0);
         }
 
         @Override

@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dot_light_screen1"
-    tools:context="com.booxtown.fragment.AboutFragment">
+    android:background="@color/dot_light_screen2"
+    >
 
+    <include
+        android:id="@+id/menu_tops"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_top" />
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/menu_tops">
 
         <com.booxtown.custom.CustomTextView
-            android:id="@+id/abouts"
+            android:id="@+id/term_condition"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -19,8 +24,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:padding="15dp"
-            android:text="@string/about_booxtown"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/color_topic_interact" />
     </ScrollView>
-</FrameLayout>
+</RelativeLayout>

@@ -148,8 +148,16 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        longitude=(float) new GPSTracker(getActivity()).getLongitude();
-        latitude=(float) new GPSTracker(getActivity()).getLatitude();
+
+        int is_current_location= pref.getInt("is_current_location",1);
+        if(is_current_location==1) {
+            longitude = (float) new GPSTracker(getActivity()).getLongitude();
+            latitude = (float) new GPSTracker(getActivity()).getLatitude();
+        }else {
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(getActivity()).getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(getActivity()).getLatitude()+""));
+        }
+
         //grid=(GridView)view.findViewById(R.id.gridView);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -551,7 +559,8 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
 
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
         for (int i = 0; i < listExplore.size(); i++) {
             String[] genrel = listExplore.get(i).getGenre().split(";");
@@ -614,7 +623,8 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
         try {
             lisfilter_temp = new ArrayList<>();
             listfilter = new ArrayList<>();
-            LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+            //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+            LatLng latLngSt = new LatLng(latitude, longitude);
             Double distance = Double.valueOf(Information.maxSeekbar);
             for (int i = 0; i < listExplore.size(); i++) {
                 String[] genrel = listExplore.get(i).getGenre().split(";");

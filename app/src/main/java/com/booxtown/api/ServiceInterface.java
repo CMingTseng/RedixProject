@@ -244,4 +244,7 @@ public interface ServiceInterface {
     @POST("/booxtown/rest/user/activateUser")
     Call<Result> activateUser(@Body Object session_id);
 
+    @POST("/booxtown/transactionhistory/TransacHistory_SetDone")
+    Call<Result> SetDone(@Body Object session_id);
+
 }

@@ -162,6 +162,9 @@
             android:name="com.booxtown.activity.CameraActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".fragment.TermAndConditionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.booxtown.activity.HomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>

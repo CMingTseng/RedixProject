@@ -1,8 +1,10 @@
 package com.booxtown.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,9 @@ import android.widget.Toast;
 
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckSession;
+import com.booxtown.controller.SettingController;
+import com.booxtown.model.Setting;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +29,8 @@ import com.booxtown.controller.CheckNetwork;
 import com.booxtown.controller.DeleteTokenService;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.UserController;
+
+import java.util.List;
 
 public class SignIn_Activity extends AppCompatActivity implements View.OnClickListener{
 Button mButtonForgotPass;
@@ -53,6 +60,12 @@ Button mButtonForgotPass;
         mimgBack.setOnClickListener(this);
         mButtonBackSignIn.setOnClickListener(this);
         mButtonForgotPass.setOnClickListener(this);
+
+        //get settings
+        getSetting getSetting=new getSetting(SignIn_Activity.this);
+        getSetting.execute();
+        //end
+
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         session_id = pref.getString("session_id", null);
         if (session_id != null){
@@ -227,5 +240,52 @@ Button mButtonForgotPass;
             startActivity(iten);
             finish();
         }catch (Exception e){}
+    }
+
+    class getSetting extends AsyncTask<String, Void, List<Setting>> {
+
+        Context context;
+        ProgressDialog progressDialog;
+
+        public getSetting(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected List<Setting> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                this.cancel(true);
+            }
+            SettingController settingController = new SettingController();
+            return settingController.getSettingByUserId(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<Setting> settings) {
+            try {
+                if (settings.size() > 0) {
+                    SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putInt("is_current_location", settings.get(0).getIs_current_location());
+                    editor.putString("Latitude", settings.get(0).getLatitude()+"");
+                    editor.putString("Longitude", settings.get(0).getLongitude()+"");
+                    editor.commit();
+                } else {
+                    Toast.makeText(context, Information.noti_no_data, Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+            }
+
+        }
     }
 }

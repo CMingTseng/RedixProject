@@ -22,8 +22,10 @@ import android.widget.Toast;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckNetwork;
 import com.booxtown.controller.DeleteTokenService;
+import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.UserController;
+import com.booxtown.fragment.TermAndConditionsActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +42,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
     EditText edt_birthday;
     String day="",moth="",year="";
     //String birthday;
-    TextView signUp;
+    TextView signUp,term_conditions;
     String session_id;
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -64,6 +66,8 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         mButtonBackSigup = (ImageView) findViewById(R.id.btn_back_sigup);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(mButtonBackSigup);
         signUp = (TextView) findViewById(R.id.signup);
+        term_conditions=(TextView) findViewById(R.id.term_conditions);
+        term_conditions.setOnClickListener(this);
         signUp.setOnClickListener(this);
         mButtonBackSigup.setOnClickListener(this);
         edt_firtname = (EditText) findViewById(R.id.firstname);
@@ -151,6 +155,11 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 DialogFragment dialogfragment = new DatePickerDialogClass();
                 dialogfragment.show(getFragmentManager(), "Date Time");
                 break;
+            case R.id.term_conditions:
+                Intent intent1= new Intent(SigUp_Activity.this, TermAndConditionsActivity.class);
+                startActivity(intent1);
+                break;
+
             default:
                 break;
         }
@@ -214,13 +223,24 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                 if (aBoolean == true) {
                     Intent intent = new Intent(SigUp_Activity.this, MainAllActivity.class);
                     startActivity(intent);
+
+                    GPSTracker gpsTracker = new GPSTracker(SigUp_Activity.this);
                     //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", session_id);
                     editor.putString("username", edt_mail.getText().toString());
                     editor.putString("firstname", edt_firtname.getText().toString());
+
+                    editor.putInt("is_current_location", 1);
+                    editor.putString("Latitude", gpsTracker.getLatitude()+"");
+                    editor.putString("Longitude", gpsTracker.getLongitude()+"");
+
                     editor.commit();
+
+
+
+
 
                     GetTimeZone getTimeZone= new GetTimeZone();
                     getTimeZone.execute();

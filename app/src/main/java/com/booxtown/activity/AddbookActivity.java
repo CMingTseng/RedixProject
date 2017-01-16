@@ -543,9 +543,16 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             }
             return  false;
         }
+        else if(listFileName==null|| listFileName.size()==0){
+            if(type==0) {
+                Toast.makeText(AddbookActivity.this, "You need to provide at least 1 image for this book", Toast.LENGTH_SHORT).show();
+            }
+            return  false;
+        }
         else {
 
             GPSTracker gps = new GPSTracker(AddbookActivity.this);
+
             for (int i = 0; i < lisImmage.size(); i++) {
                 try {
                     long time = System.currentTimeMillis();

@@ -105,17 +105,8 @@ public class DashboardStopFragment extends Fragment {
                 btn_cancel_dialog_dashboard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("dashboard", dashBoard);
-                        bundle.putSerializable("user", user);
-                        bundle.putString("user_id",userID);
-                        DashboardDeleteFragment fragment= new DashboardDeleteFragment();
-                        fragment.setArguments(bundle);
-                        callFragment(fragment);
-
-                        transactionChangeStatus updatestatus = new transactionChangeStatus(getContext(),session_id,
-                                String.valueOf(dashBoard.getId()),"2",String.valueOf(dashBoard.getBook_swap_id()));
-                        updatestatus.execute();
+                        transSetDoneAsyncs transSetDoneAsyncs= new transSetDoneAsyncs(getActivity(),dashBoard.getId()+"");
+                        transSetDoneAsyncs.execute();
                         dialog.dismiss();
                     }
                 });
@@ -478,6 +469,60 @@ public class DashboardStopFragment extends Fragment {
             super.onPostExecute(transaction);
         }
     }
+
+    class transSetDoneAsyncs extends AsyncTask<String, Void, Boolean> {
+
+        Context context;
+        ProgressDialog dialog;
+        String trans_id;
+
+        public transSetDoneAsyncs(Context context, String trans_id) {
+            this.context = context;
+            this.trans_id = trans_id;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
+            TransactionController bookController = new TransactionController();
+            return bookController.SetDone(pref.getString("session_id", ""),trans_id);
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean flag) {
+            if (flag) {
+                SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                int user_id = Integer.valueOf(pref.getString("user_id",null));
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("dashboard", dashBoard);
+                bundle.putSerializable("user", user);
+                bundle.putString("user_id",user_id+"");
+                DashboardStatusFragment fragment= new DashboardStatusFragment();
+                fragment.setArguments(bundle);
+                callFragment(fragment);
+            } else {
+
+            }
+            super.onPostExecute(flag);
+        }
+    }
+
     class transactionChangeStatus extends AsyncTask<Void, Void, String> {
 
         Context context;

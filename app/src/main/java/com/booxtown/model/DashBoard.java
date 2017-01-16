@@ -37,6 +37,16 @@ public class DashBoard implements Serializable{
 
     private float user_promp_seller;
 
+    private int is_done;
+
+    public int getIs_done() {
+        return is_done;
+    }
+
+    public void setIs_done(int is_done) {
+        this.is_done = is_done;
+    }
+
     public float getUser_cour_seller() {
         return user_cour_seller;
     }

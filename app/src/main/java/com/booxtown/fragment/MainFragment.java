@@ -147,8 +147,18 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 startActivity(intent);
             }
         });
-        longitude=(float) new GPSTracker(getActivity()).getLongitude();
-        latitude=(float) new GPSTracker(getActivity()).getLatitude();
+
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String sessionID = pref.getString("session_id", null);
+
+        int is_current_location= pref.getInt("is_current_location",1);
+        if(is_current_location==1) {
+            longitude = (float) new GPSTracker(getActivity()).getLongitude();
+            latitude = (float) new GPSTracker(getActivity()).getLatitude();
+        }else {
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(getActivity()).getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(getActivity()).getLatitude()+""));
+        }
 
         View view_tab = (View) view.findViewById(R.id.tab_explore);
         final CustomTabbarExplore tab_custom = new CustomTabbarExplore(view_tab, getActivity());
@@ -161,8 +171,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         tab_free_count = (TextView) view_tab.findViewById(R.id.tab_free_count);
         tab_swap_count = (TextView) view_tab.findViewById(R.id.tab_swap_count);
 
-        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        String sessionID = pref.getString("session_id", null);
+
         GetDayUsed getDayUsed= new GetDayUsed(getContext(),sessionID);
         getDayUsed.execute();
         //------------------------------------------------------------------------------------
@@ -354,7 +363,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
         //LatLng latLngSt = new LatLng(25.2446,55.3154);
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
 
         for (int i = 0; i < filterExplore(chooseTab).size(); i++) {
@@ -401,7 +411,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         ArrayList<Book> lisfilter_temp = new ArrayList<>();
         ArrayList<Book> listfilter = new ArrayList<>();
         //LatLng latLngSt = new LatLng(25.2446,55.3154);
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
 
         for (int i = 0; i < listExplore.size(); i++) {
@@ -448,8 +459,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
         //LatLng latLngSt = new LatLng(25.2446,55.3154);
+        LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
         for (int i = 0; i < listExplore.size(); i++) {
             String[] genrel = listExplore.get(i).getGenre().split(";");
@@ -1013,6 +1025,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 this.cancel(true);
             }
             BookController bookController = new BookController();
+
             return bookController.getAllBookInApp(0,1000,10,longitude,latitude,"","",pref.getString("session_id", null),0,10000,0);
             //return bookController.getAllBookInApp(0,1000,10,Float.parseFloat("55.3154"),Float.parseFloat("25.2446"),"","",pref.getString("session_id", null),0,10000,0);
         }

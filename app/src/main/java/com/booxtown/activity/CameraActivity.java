@@ -113,8 +113,16 @@ public class CameraActivity extends Activity implements Callback,
             btn_flash_camera.setVisibility(View.GONE);
         }
 
-        longitude=(float) new GPSTracker(CameraActivity.this).getLongitude();
-        latitude=(float) new GPSTracker(CameraActivity.this).getLatitude();
+        SharedPreferences pref =getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String sessionID = pref.getString("session_id", null);
+        int is_current_location= pref.getInt("is_current_location",1);
+        if(is_current_location==1) {
+            longitude = (float) new GPSTracker(CameraActivity.this).getLongitude();
+            latitude = (float) new GPSTracker(CameraActivity.this).getLatitude();
+        }else {
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(CameraActivity.this).getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(CameraActivity.this).getLatitude()+""));
+        }
     }
 
     @Override

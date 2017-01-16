@@ -73,5 +73,6 @@ public class Information {
     public  static boolean priceHightoLow=false;
     public  static boolean recently=false;
 
+    // setting
 
 }

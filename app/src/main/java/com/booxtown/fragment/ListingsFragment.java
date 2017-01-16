@@ -120,8 +120,15 @@ public class ListingsFragment extends Fragment {
         //notiTrial.setVisibility(View.GONE);
         //notiUpgrade.setVisibility(View.GONE);
 
-        longitude=(float) new GPSTracker(getActivity()).getLongitude();
-        latitude=(float) new GPSTracker(getActivity()).getLatitude();
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        int is_current_location= pref.getInt("is_current_location",1);
+        if(is_current_location==1) {
+            longitude = (float) new GPSTracker(getActivity()).getLongitude();
+            latitude = (float) new GPSTracker(getActivity()).getLatitude();
+        }else {
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(getActivity()).getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(getActivity()).getLatitude()+""));
+        }
 
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +169,7 @@ public class ListingsFragment extends Fragment {
 
         ImageView btn_search = (ImageView) view.findViewById(R.id.btn_search);
         Picasso.with(getContext()).load(R.drawable.btn_locate_search).into(btn_search);
-        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
         String session_id = pref.getString("session_id", null);
         btn_filter_explore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -427,7 +434,8 @@ public class ListingsFragment extends Fragment {
     public void filter(ArrayList<String> listvalueGenre) {
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
 
 
@@ -489,7 +497,8 @@ public class ListingsFragment extends Fragment {
 
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
-        LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
+        LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
         for (int i = 0; i < listExplore.size(); i++) {
             String[] genrel = listExplore.get(i).getGenre().split(";");

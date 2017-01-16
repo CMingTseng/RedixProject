@@ -77,19 +77,17 @@ public class AdapterProfileDashboard extends RecyclerView.Adapter<AdapterProfile
         }
 
         //xử lý status
-        if (dashBoard.getIs_accept() == 1){
-//            Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.myprofile_tick);
-//            holder.img_status.setImageBitmap(btn1);
+        if (dashBoard.getIs_done() == 1){
             holder.ratingBar_dashboard.setVisibility(View.VISIBLE);
-
             Glide.with(context).load(R.drawable.myprofile_tick).into(holder.img_status);
         }else if(dashBoard.getIs_cancel() == 1|| dashBoard.getIs_reject() == 1){
             holder.ratingBar_dashboard.setVisibility(View.VISIBLE);
             Glide.with(context).load(R.drawable.myprofile_all_not).into(holder.img_status);
-        }else if(dashBoard.getIs_reject() == 0 && dashBoard.getIs_cancel()==0 && dashBoard.getIs_accept()==0){
+        }else if(dashBoard.getIs_done() == 0){
             holder.ratingBar_dashboard.setVisibility(View.INVISIBLE);
             Glide.with(context).load(R.drawable.myprofile_not).into(holder.img_status);
         }
+
 
         try {
 //            holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()

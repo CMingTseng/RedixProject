@@ -51,6 +51,7 @@ import com.booxtown.adapter.ListBookAdapter;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckSession;
+import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.UploadFileController;
 import com.booxtown.controller.UserController;
@@ -110,6 +111,8 @@ public class MyProfileFragment extends Fragment {
     private ImageView ivImage;
     private String userChoosenTask;
 
+    float longitude=0;
+    float latitude=0;
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
@@ -127,6 +130,16 @@ public class MyProfileFragment extends Fragment {
         final View view = inflater.inflate(R.layout.my_profile_fragment, container, false);
         uploadFileController = new UploadFileController();
 
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        int is_current_location= pref.getInt("is_current_location",1);
+        if(is_current_location==1) {
+            longitude = (float) new GPSTracker(getActivity()).getLongitude();
+            latitude = (float) new GPSTracker(getActivity()).getLatitude();
+        }else {
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(getActivity()).getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(getActivity()).getLatitude()+""));
+        }
+
         img_menu_personal_dashboard = (ImageView)view.findViewById(R.id.img_menu_personal_dashboard);
         imv_menu_profile = (CircularImageView)view.findViewById(R.id.imv_menu_profile);
         imv_menu_profile.setOnClickListener(new View.OnClickListener() {
@@ -139,10 +152,10 @@ public class MyProfileFragment extends Fragment {
         Glide.with(getActivity()).load(R.drawable.btn_menu_locate).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView_back);
         TextView txt_title = (TextView) getActivity().findViewById(R.id.txt_title);
         txt_title.setText("My Profile");
-        SharedPreferences pref = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
         final String session_id =  pref.getString("session_id", null);
-        Profile profile = new Profile(getContext());
-        profile.execute(session_id);
+        Profile profile = new Profile(getContext(),session_id);
+        profile.execute();
         gridLayoutManager = new GridLayoutManager(getContext(),2);
         rView = (RecyclerView)view.findViewById(R.id.recycler_view);
         rView.setHasFixedSize(true);
@@ -161,10 +174,7 @@ public class MyProfileFragment extends Fragment {
         myDashboard=(TextView) view.findViewById(R.id.textView87);
         //end
 
-        //list book
-        listingAsync listingAsync = new listingAsync(getContext());
-        listingAsync.execute(session_id);
-        //end
+
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -382,12 +392,15 @@ public class MyProfileFragment extends Fragment {
 
     class Profile extends AsyncTask<String,Void,List<User>>{
         Context context;
-        public Profile(Context context){
+        String session_id;
+        public Profile(Context context,String session_id){
             this.context=context;
+            this.session_id=session_id;
         }
         ProgressDialog dialog;
         @Override
         protected List<User> doInBackground(String... strings) {
+
             CheckSession checkSession = new CheckSession();
             SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
@@ -400,7 +413,7 @@ public class MyProfileFragment extends Fragment {
                 this.cancel(true);
             }
             UserController userController  = new UserController(context);
-            List<User> profile = userController.getprofile(strings[0]);
+            List<User> profile = userController.getprofile(session_id);
             return profile;
         }
 
@@ -510,6 +523,11 @@ public class MyProfileFragment extends Fragment {
                     stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
                     //stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.bg_rating), PorterDuff.Mode.SRC_ATOP); // for half filled stars
                     DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)),getResources().getColor(R.color.bg_rating));
+
+                    //list book
+                    listingAsync listingAsync = new listingAsync(getContext(),user_id);
+                    listingAsync.execute(session_id);
+                    //end
                 }
                 super.onPostExecute(userResult);
             }catch (Exception e){
@@ -667,8 +685,10 @@ public class MyProfileFragment extends Fragment {
         Context context;
         ProgressDialog dialog;
         List<Book> listemp;
-        public listingAsync(Context context){
+        int user_id;
+        public listingAsync(Context context, int user_id){
             this.context = context;
+            this.user_id= user_id;
         }
 
         @Override
@@ -686,7 +706,8 @@ public class MyProfileFragment extends Fragment {
             }
             listemp = new ArrayList<>();
             BookController bookController = new BookController();
-            listemp = bookController.getAllBookById(context,strings[0]);
+            //listemp = bookController.getAllBookById(context,strings[0]);
+            listemp =  bookController.getAllBookInApp(0,100000,10000,longitude,latitude,"","",pref.getString("session_id", null),user_id,10000,0);
             return listemp;
         }
 
