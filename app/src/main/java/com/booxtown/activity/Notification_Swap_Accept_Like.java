@@ -83,7 +83,7 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
         key = getIntent().getStringExtra("key");
 
         if(key.equals("2")){
-            txt_menu_notification_infor3_title.setText("has cancelled the transaction related to this book");
+            txt_menu_notification_infor3_title.setText("has cancelled the transaction \nrelated to this book");
         }
         transAsync transAsync= new transAsync(Notification_Swap_Accept_Like.this, trans);
         transAsync.execute();
@@ -194,7 +194,7 @@ public class Notification_Swap_Accept_Like extends AppCompatActivity implements 
                 txt_title_book.setText(transaction.getBook_name());
                 txt_author_book.setText(transaction.getBook_author());
 
-                getUser1 getUser1 = new getUser1(Notification_Swap_Accept_Like.this,transaction.getUser_seller_id());
+                getUser1 getUser1 = new getUser1(Notification_Swap_Accept_Like.this,transaction.getUser_buyer_id());
                 getUser1.execute();
             }
             super.onPostExecute(transaction);

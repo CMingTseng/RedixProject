@@ -167,7 +167,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         callFragment(new ListingsFragment());
                     }else if (type.equals("5")) {
                         Intent intent=new Intent(getContext(),UserProfileActivity.class);
-                        intent.putExtra("user",Integer.parseInt(book.getUser_id()));
+                        intent.putExtra("user",Integer.parseInt(book.getUser_id())+"");
                         startActivity(intent);
                         getActivity().finish();
                     }

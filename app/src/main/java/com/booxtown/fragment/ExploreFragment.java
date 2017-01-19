@@ -402,36 +402,6 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                 adaper = new AdapterFilter(getActivity(), filterList);
                 lv_dialog_filter.setAdapter(adaper);
 
-                /*rangeSeekbar = (CrystalRangeSeekbar) dialog.findViewById(R.id.rangeSeekbar3);
-
-                Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-                Bitmap thumb=Bitmap.createBitmap(38,38, Bitmap.Config.ARGB_8888);
-                Canvas canvas=new Canvas(thumb);
-                canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
-                        new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
-                Drawable drawable = new BitmapDrawable(getResources(),thumb);
-                rangeSeekbar.setLeftThumbDrawable(drawable);
-                rangeSeekbar.setRightThumbDrawable(drawable);
-
-*//*
-
-                tvMin = (TextView) dialog.findViewById(R.id.txt_filter_rangemin);
-                tvMax = (TextView) dialog.findViewById(R.id.txt_filter_rangemax);
-*//*
-
-                rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-                    @Override
-                    public void valueChanged(Number minValue, Number maxValue) {
-                        *//*tvMin.setText(String.valueOf(minValue));
-                        if(String.valueOf(maxValue).equals("1")){
-                            tvMax.setText("1000");
-                        }else{
-                            tvMax.setText(String.valueOf(maxValue));
-                        }*//*
-
-                    }
-                });*/
-
                 rangeSeekbar = (RangeSeekBar) dialog.findViewById(R.id.rangeSeekbar3);
                 rangeSeekbar.setNotifyWhileDragging(true);
                 rangeSeekbar.setSelectedMinValue(Information.minRager);
@@ -471,15 +441,21 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onClick(View view) {
                         ArrayList<String> listvalueGenre = new ArrayList<>();
-
+                        String genreFilter="";
                         for (int k = 0; k < genre.size(); k++) {
                             if (genre.get(k).ischeck() == true) {
                                 listvalueGenre.add(genre.get(k).getValue());
+                                genreFilter=genreFilter+genre.get(k).getValue()+";";
                             }
+                        }
+                        if(genreFilter.length()>0){
+                            genreFilter= genreFilter.substring(0,genreFilter.length()-1);
                         }
                         Information.lstGenre = genre;
                         dialog.dismiss();
-                        filter(listvalueGenre);
+                        GetTopbook getTopbook = new GetTopbook(getContext(),"", 0, 0,genreFilter);
+                        getTopbook.execute();
+                        //filter(listvalueGenre);
                     }
                 });
                 spinner2 = (Spinner) dialog.findViewById(R.id.spinner_dialog_filter);
@@ -493,14 +469,15 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                     String genreChoose="";
                     for (int k = 0; k < Information.lstGenre.size(); k++) {
                         if (Information.lstGenre.get(k).ischeck() == true) {
-                            if(k<Information.lstGenre.size()-1) {
-                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +",";
-                            }else{
-                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +"";
-                            }
+                                genreChoose = genreChoose +Information.lstGenre.get(k).getValue() +";";
+
                         }
                     }
-                    tv_genralChoose.setText(genreChoose);
+                    if(genreChoose.length()>0) {
+                        tv_genralChoose.setText(genreChoose.substring(0,genreChoose.length()-1));
+                    }else{
+                        tv_genralChoose.setText("Select genre");
+                    }
                 }
                 RelativeLayout tv_genral = (RelativeLayout) dialog.findViewById(R.id.relaytive_genre);
                 tv_genral.setOnClickListener(new View.OnClickListener() {
@@ -528,14 +505,15 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                                 String genreChoose="";
                                 for (int k = 0; k < genre.size(); k++) {
                                     if (genre.get(k).ischeck() == true) {
-                                        if(k==genre.size()-1) {
-                                            genreChoose = genreChoose +genre.get(k).getValue() +"";
-                                        }else{
-                                            genreChoose = genreChoose +genre.get(k).getValue() +",";
-                                        }
+                                            genreChoose = genreChoose +genre.get(k).getValue() +";";
+
                                     }
                                 }
-                                tv_genralChoose.setText(genreChoose);
+                                if(genreChoose.length()>0) {
+                                    tv_genralChoose.setText(genreChoose.substring(0,genreChoose.length()-1));
+                                }else{
+                                    tv_genralChoose.setText("Select genre");
+                                }
                                 dialog.dismiss();
 
                             }
@@ -635,10 +613,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                         listfilter.add(listExplore.get(i));
                     }
                 }
-
-
             }
-
             if (listfilter.size() != 0) {
                 for (int i = 0; i < listfilter.size(); i++) {
                     if (listfilter.get(i).getPrice() >= Float.valueOf(Information.minRager + "") &&
@@ -646,6 +621,24 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                         lisfilter_temp.add(listfilter.get(i));
                     }
                 }
+            }
+            try {
+                if (filterList.get(0).getCheck() == true) {
+                    BookController bookController = new BookController(getActivity());
+                    Collections.sort(lisfilter_temp, bookController.distance);
+                    Information.nearDistance = true;
+                } else if (filterList.get(1).getCheck() == true) {
+                    Collections.sort(lisfilter_temp, Book.priceasen);
+                    Information.priceLowtoHigh = true;
+                } else if (filterList.get(2).getCheck() == true) {
+                    Collections.sort(lisfilter_temp, Book.pricedcen);
+                    Information.priceHightoLow = true;
+                } else {
+                    Collections.sort(lisfilter_temp, Book.recently);
+                    Information.recently = true;
+                }
+            }catch (Exception err){
+
             }
             return lisfilter_temp;
         }catch (Exception ex){
@@ -677,7 +670,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void populatRecyclerView(String session_id) {
-        GetTopbook getbook = new GetTopbook(getContext(),session_id, 0, 20);
+        GetTopbook getbook = new GetTopbook(getContext(),session_id, 0, 20,"");
         getbook.execute();
         if (listExplore.size() == 0) {
             adapter_exploer = new AdapterExplore(getActivity(), listExplore, 2, 0);
@@ -707,7 +700,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                         <= (firstVisibleItem + visibleThreshold) && isLoading) {
                     // End has been reached
                     Book dashBoard_lv = listExplore.get(listExplore.size() - 1);
-                    GetTopbook getbook = new GetTopbook(getContext(),session_id, Integer.parseInt(dashBoard_lv.getId()), 20);
+                    GetTopbook getbook = new GetTopbook(getContext(),session_id, Integer.parseInt(dashBoard_lv.getId()), 20,"");
                     getbook.execute();
                     // Do something
                     loading = true;
@@ -783,8 +776,23 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                 }
             } catch (Exception e) {
             }
+            String genreChoose = "";
+            try {
+                if(Information.lstGenre.size()>0) {
+                    for (int k = 0; k < Information.lstGenre.size(); k++) {
+                        if (Information.lstGenre.get(k).ischeck() == true) {
+                            genreChoose = genreChoose + Information.lstGenre.get(k).getValue() + ";";
 
-            GetTopbook getTopbook = new GetTopbook(getContext(),"", 0, 0);
+                        }
+                    }
+                    if(genreChoose.length()>0){
+                        genreChoose=genreChoose.substring(0,genreChoose.length()-1);
+                    }
+                }
+            }catch (Exception err){
+
+            }
+            GetTopbook getTopbook = new GetTopbook(getContext(),"", 0, 0,genreChoose);
             getTopbook.execute();
         }
     }
@@ -794,12 +802,14 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
         long from;
         long top;
         Context context;
+        String genre;
 
-        public GetTopbook(Context context,String session_id, long from, long top) {
+        public GetTopbook(Context context,String session_id, long from, long top,String genre) {
             this.session_id = session_id;
             this.from = from;
             this.top = top;
             this.context = context;
+            this.genre= genre;
         }
 
         @Override
@@ -819,7 +829,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                 BookController bookController = new BookController();
                 //listbook= bookController.getallbook();
 
-                listbook = bookController.getAllBookInApp(0,1000,10,longitude,latitude,"","",pref.getString("session_id", null),0,10000,0);
+                listbook = bookController.getAllBookInApp(0,1000,10,longitude,latitude,genre,"",pref.getString("session_id", null),0,10000,0);
                 return listbook;
             }catch (Exception exx){
                 return null;
@@ -835,9 +845,8 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
         protected void onPostExecute(List<Book> list) {
             try {
                 if (list.size() > 0) {
-                    //tab_all_count.setText("(" + list.size() + ")");
-                    listExplore.addAll(list);
-                    /*if(!trial) {
+                    listExplore.clear();
+                    if(!trial) {
                         listExplore.addAll(list);
                     }
                     else{
@@ -847,8 +856,10 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                                 lisfilter_tempss.add(list.get(i));
                             }
                         }
+                        //listExplore = lisfilter_tempss;
                         listExplore.addAll(lisfilter_tempss);
-                    }*/
+                    }
+                    //listExplore.addAll(list);
                     ShowNumberbook(filterStart());
                     adapter_exploer = new AdapterExplore(getActivity(), filterStart(), 2, 0);
                     rView.setAdapter(adapter_exploer);

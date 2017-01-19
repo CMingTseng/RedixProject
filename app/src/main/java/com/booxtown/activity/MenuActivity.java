@@ -15,6 +15,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.booxtown.controller.Information;
+import com.booxtown.model.Genre;
 import com.squareup.picasso.Picasso;
 
 import com.booxtown.controller.DeleteTokenService;
@@ -22,6 +24,8 @@ import com.booxtown.controller.UserController;
 import com.booxtown.R;
 import com.booxtown.recyclerclick.RecyclerItemClickListener;
 import com.booxtown.custom.CustomAdapter;
+
+import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity {
     public static int [] prgmImages={R.drawable.menu_home,R.drawable.menu_notifi,R.drawable.menu_faq,R.drawable.menu_invite,R.drawable.menu_rate,R.drawable.menu_boox,R.drawable.menu_message,R.drawable.menu_setting,R.drawable.menu_logout,R.drawable.menu_unsub};
@@ -103,6 +107,10 @@ public class MenuActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor  = pref.edit();
                             editor.remove("session_id").commit();
                             Splash_Activity.value = false;
+                            Information.lstGenre= new ArrayList<Genre>();
+                            Information.maxRager=1000;
+                            Information.minRager=0;
+                            Information.maxSeekbar=10;
                             finish();
                             LogoutAsynTask logoutAsynTask = new LogoutAsynTask();
                             logoutAsynTask.execute(session_id);

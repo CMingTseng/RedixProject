@@ -142,7 +142,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         });
         Bundle bundle=getIntent().getExtras();
         try {
-            int user_id = bundle.getInt("user");
+            int user_id = Integer.parseInt(bundle.getString("user"));
             getUser getUser = new getUser(UserProfileActivity.this,user_id);
             getUser.execute();
             getTopBook getTopBook = new getTopBook(UserProfileActivity.this,user_id,100,0);

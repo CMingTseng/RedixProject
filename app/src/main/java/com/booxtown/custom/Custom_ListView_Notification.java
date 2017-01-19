@@ -38,7 +38,8 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
     private int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
     RecyclerView lvRecyclerView;
-    public Custom_ListView_Notification(Context context,List<Notification> list,RecyclerView lvRecyclerView) {
+
+    public Custom_ListView_Notification(Context context, List<Notification> list, RecyclerView lvRecyclerView) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.list = list;
@@ -88,10 +89,10 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RecyclerViewHolder) {
             Notification notification = list.get(position);
-            if (notification.getIs_read() == 0 ){
+            if (notification.getIs_read() == 0) {
                 ((RecyclerViewHolder) holder).tv.setTextColor(Color.RED);
 
-            }else {
+            } else {
                 ((RecyclerViewHolder) holder).tv.setTextColor(Color.BLACK);
 
             }
@@ -109,25 +110,25 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
                 int mm = (int) (TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
 
 
-
-                if(day>0){
-                    ((RecyclerViewHolder) holder).tv_content.setText("About " + day + " Day ago");
-                }
-                else {
+                if (day > 0) {
+                    if (day > 1)
+                        ((RecyclerViewHolder) holder).tv_content.setText("About " + day + " days ago");
+                    else
+                        ((RecyclerViewHolder) holder).tv_content.setText("About " + day + " day ago");
+                } else {
                     if (hour < 1) {
                         ((RecyclerViewHolder) holder).tv_content.setText("About " + mm + " min ago");
                     } else {
-
-                            ((RecyclerViewHolder) holder).tv_content.setText("About " + hour + " hour ago");
+                        ((RecyclerViewHolder) holder).tv_content.setText("About " + hour + " hour ago");
 
                     }
                 }
-            }catch (Exception exx){
+            } catch (Exception exx) {
 
             }
 
 
-        }else if(holder instanceof LoadingViewHolder){
+        } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
         }
@@ -136,6 +137,7 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
     public void setLoaded() {
         isLoading = false;
     }
+
     public class LoadingViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
@@ -150,7 +152,7 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
         return list.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder{
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv;
         TextView tv_content;
@@ -158,11 +160,11 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             tv = (TextView) itemView.findViewById(R.id.txt_title_notification);
-            tv_content = (TextView)itemView.findViewById(R.id.txt_content_notification);
+            tv_content = (TextView) itemView.findViewById(R.id.txt_content_notification);
         }
     }
 
-    public List<Notification> getlist(){
+    public List<Notification> getlist() {
         return list;
     }
 

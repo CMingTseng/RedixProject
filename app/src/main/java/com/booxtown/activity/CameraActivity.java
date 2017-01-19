@@ -79,7 +79,7 @@ public class CameraActivity extends Activity implements Callback,
     private boolean flag=false;
     float longitude=0;
     float latitude=0;
-
+    int keyChoose=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +122,11 @@ public class CameraActivity extends Activity implements Callback,
         }else {
             longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(CameraActivity.this).getLongitude()+""));
             latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(CameraActivity.this).getLatitude()+""));
+        }
+        try{
+            keyChoose=getIntent().getIntExtra("keyChoose",0);
+        }catch (Exception err){
+
         }
     }
 
@@ -521,13 +526,20 @@ public class CameraActivity extends Activity implements Callback,
         @Override
         protected void onPostExecute(List<Book> books) {
             try {
-                num_list = books.size();
-                Intent intent = new Intent(CameraActivity.this,MainAllActivity.class);
-                intent.putExtra("key","6");
-                intent.putExtra("num_list",num_list);
-                startActivity(intent);
-                finish();
+                if(keyChoose==0) {
+                    num_list = books.size();
+                    Intent intent = new Intent(CameraActivity.this, MainAllActivity.class);
+                    intent.putExtra("key", "6");
+                    intent.putExtra("num_list", num_list);
+                    startActivity(intent);
+
+                }else {
+                    Intent returnIntent = new Intent();
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
             } catch (Exception e) {
+                String sss= e.getMessage();
             }
         }
     }

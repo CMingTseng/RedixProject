@@ -23,6 +23,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:hint="Enter email ID"
+        android:textColorHint="@color/color_hint_interact"
         android:imeOptions="actionDone"
         android:singleLine="true"
         />

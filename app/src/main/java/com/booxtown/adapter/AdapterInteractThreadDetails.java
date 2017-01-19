@@ -77,7 +77,7 @@ public class AdapterInteractThreadDetails extends RecyclerView.Adapter<AdapterIn
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext,UserProfileActivity.class);
-                intent.putExtra("user",Integer.parseInt(Comments.getUser_id()));
+                intent.putExtra("user",Integer.parseInt(Comments.getUser_id())+"");
                 mContext.startActivity(intent);
             }
         });

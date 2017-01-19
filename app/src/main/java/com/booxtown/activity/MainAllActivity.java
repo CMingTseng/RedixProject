@@ -122,8 +122,15 @@ public class MainAllActivity extends AppCompatActivity{
 
                 }
             } else {
-                setDefaut(1);
-                callFragment(new MainFragment());
+                try {
+                    Book book = (Book) getIntent().getSerializableExtra("item");
+                    if (book==null) {
+                        setDefaut(1);
+                        callFragment(new MainFragment());
+                    }
+                }catch (Exception err){
+
+                }
             }
             Picasso.with(getApplicationContext()).load(R.drawable.btn_explore).into(img_component);
             img_component.setOnClickListener(new View.OnClickListener() {

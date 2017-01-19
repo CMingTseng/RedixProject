@@ -527,11 +527,14 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 Notification notification = new Notification("Wishboard",user_ID , "15");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", wishboard.getUser_id()+"");
-                obj.put("messages", firstName + " suggested to check out his/her listings, in response to your post on Wishboard.");
+                //obj.put("messages", firstName + " suggested to check out his/her listings, in response to your post on Wishboard.");
+                obj.put("messages", firstName + " responded to your wish");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
 
+                onBackPressed();
+                finish();
             } catch (Exception e) {
                 String ssss = e.getMessage();
 

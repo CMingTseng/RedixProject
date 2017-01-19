@@ -90,7 +90,7 @@ import com.booxtown.model.Genre;
 import com.booxtown.model.ImageClick;
 import com.booxtown.model.Notification;
 
-public class AddbookActivity extends AppCompatActivity implements OnMapReadyCallback,View.OnClickListener {
+public class AddbookActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     private GoogleMap mMap;
     ImageView btn_sellectimage, imagebook1, imagebook2, imagebook3, addtag;
     UploadFileController uploadFileController;
@@ -106,14 +106,14 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     float price;
     String condition;
     Uri mImageUri;
-    ArrayList<String> arrImage,listUserName;
+    ArrayList<String> arrImage, listUserName;
     SeekBar seekbar;
     //UserController userController;
     BookController bookController;
     boolean success;
     Book book;
     String titl;
-    TextView tag1,tag2,tag3;
+    TextView tag1, tag2, tag3;
     public int numclick = 0;
     public int numimageclick = 0;
     public String imgOne, imgTwo, imgThree;
@@ -130,29 +130,31 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     ImageView imageView_back;
     SupportMapFragment mapFragment;
     String imageOrigin;
-    int type=0;
-    int user_id=0;
-    String userName="";
+    int type = 0;
+    int user_id = 0;
+    String userName = "";
     LatLng latLng_new;
 
-    int typeChooseImage=0;
-    String sChooseImage="";
-    boolean flagTag= false;
-    RadioButton radioButton_current,radioButton_another;
+    int typeChooseImage = 0;
+    String sChooseImage = "";
+    boolean flagTag = false;
+    RadioButton radioButton_current, radioButton_another;
+    ImageView img_menu_bottom_location, img_menu_bottom_comment, img_menu_bottom_camera, img_menu_bottom_bag, img_menu_bottom_user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book_with_swap);
-        radioButton_current = (RadioButton)findViewById(R.id.radioButton_current);
-        radioButton_another = (RadioButton)findViewById(R.id.radioButton_another);
+        radioButton_current = (RadioButton) findViewById(R.id.radioButton_current);
+        radioButton_another = (RadioButton) findViewById(R.id.radioButton_another);
 
         try {
             bookedit = (Book) getIntent().getSerializableExtra("book");
-            try{
-                user_id=Integer.parseInt(getIntent().getStringExtra("user_id_respone"));
-                userName=getIntent().getStringExtra("user_name_respone");
+            try {
+                user_id = Integer.parseInt(getIntent().getStringExtra("user_id_respone"));
+                userName = getIntent().getStringExtra("user_name_respone");
 
-            }catch (Exception exx){
+            } catch (Exception exx) {
 
             }
             //map view
@@ -160,7 +162,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     .findFragmentById(R.id.fragment_map_editlisting);
             mapFragment.getMapAsync(this);
             //end
-            tbl_price_sell= (TableRow)findViewById(R.id.row_price_sell) ;
+            tbl_price_sell = (TableRow) findViewById(R.id.row_price_sell);
             edt_editlisting_sell = (EditText) findViewById(R.id.edt_editlisting_sell);
             swap = (CheckBox) findViewById(R.id.checkBox);
             sell = (CheckBox) findViewById(R.id.ck_sell_editlisting);
@@ -170,14 +172,14 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             Spannable wordtoSpan1 = new SpannableString("Author *");
             wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED), 7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             edt_author.setHint(wordtoSpan1);
-            edt_author.setFilters(new InputFilter[] {
+            edt_author.setFilters(new InputFilter[]{
                     new InputFilter() {
                         public CharSequence filter(CharSequence src, int start,
                                                    int end, Spanned dst, int dstart, int dend) {
-                            if(src.equals("")){ // for backspace
+                            if (src.equals("")) { // for backspace
                                 return src;
                             }
-                            if(src.toString().matches("[\\x00-\\x7F]+")){
+                            if (src.toString().matches("[\\x00-\\x7F]+")) {
                                 return src;
                             }
                             return "";
@@ -185,9 +187,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     }
             });
 
-            try{
-                type= Integer.parseInt(getIntent().getStringExtra("type"));
-            }catch (Exception ex){
+            try {
+                type = Integer.parseInt(getIntent().getStringExtra("type"));
+
+            } catch (Exception ex) {
 
             }
 
@@ -195,14 +198,14 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             Spannable wordtoSpan = new SpannableString("Book Title *");
             wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), 11, 12, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             edt_tilte.setHint(wordtoSpan);
-            edt_tilte.setFilters(new InputFilter[] {
+            edt_tilte.setFilters(new InputFilter[]{
                     new InputFilter() {
                         public CharSequence filter(CharSequence src, int start,
                                                    int end, Spanned dst, int dstart, int dend) {
-                            if(src.equals("")){ // for backspace
+                            if (src.equals("")) { // for backspace
                                 return src;
                             }
-                            if(src.toString().matches("[\\x00-\\x7F]+")){
+                            if (src.toString().matches("[\\x00-\\x7F]+")) {
                                 return src;
                             }
                             return "";
@@ -254,27 +257,27 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             imagebook2 = (ImageView) findViewById(R.id.imageView30);
             imagebook3 = (ImageView) findViewById(R.id.imageView31);
             seekbar = (SeekBar) findViewById(R.id.seekBar2);
-            Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-            Bitmap thumb=Bitmap.createBitmap(46,46, Bitmap.Config.ARGB_8888);
-            Canvas canvas=new Canvas(thumb);
-            canvas.drawBitmap(bitmap,new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
-                    new Rect(0,0,thumb.getWidth(),thumb.getHeight()),null);
-            Drawable drawable = new BitmapDrawable(getResources(),thumb);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
+            Bitmap thumb = Bitmap.createBitmap(46, 46, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(thumb);
+            canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()),
+                    new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
+            Drawable drawable = new BitmapDrawable(getResources(), thumb);
             seekbar.setThumb(drawable);
-            TextView title=(TextView) findViewById(R.id.txt_title);
+            TextView title = (TextView) findViewById(R.id.txt_title);
             title.setText("Add a book");
 
-            ImageView imgBack=(ImageView) findViewById(R.id.img_menu);
+            ImageView imgBack = (ImageView) findViewById(R.id.img_menu);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_sign_in_back).into(imgBack);
             imgBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(type == 0){
-                        Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
-                        intent.putExtra("Book",bookedit);
+                    if (type == 0) {
+                        Intent intent = new Intent(AddbookActivity.this, SwapActivity.class);
+                        intent.putExtra("Book", bookedit);
                         startActivity(intent);
                         finish();
-                    }else {
+                    } else {
                         onBackPressed();
                     }
                 }
@@ -299,16 +302,16 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String genreResult="";
-                            int flag=0;
+                            String genreResult = "";
+                            int flag = 0;
                             for (int i = 0; i < genre.size(); i++) {
                                 if (genre.get(i).ischeck() == true) {
                                     flag++;
-                                    genreResult= genreResult+genre.get(i).getValue()+",";
+                                    genreResult = genreResult + genre.get(i).getValue() + ",";
                                 }
                             }
-                            if(flag>0) {
-                                txt_view.setText(genreResult.substring(0,genreResult.length()-1));
+                            if (flag > 0) {
+                                txt_view.setText(genreResult.substring(0, genreResult.length() - 1));
                             }
                             dialog.dismiss();
                         }
@@ -346,16 +349,16 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     button_spiner_genre.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String genreResult="";
-                            int flag=0;
+                            String genreResult = "";
+                            int flag = 0;
                             for (int i = 0; i < genre.size(); i++) {
                                 if (genre.get(i).ischeck() == true) {
                                     flag++;
-                                    genreResult= genreResult+genre.get(i).getValue()+",";
+                                    genreResult = genreResult + genre.get(i).getValue() + ",";
                                 }
                             }
-                            if(flag>0) {
-                                txt_view.setText(genreResult.substring(0,genreResult.length()-1));
+                            if (flag > 0) {
+                                txt_view.setText(genreResult.substring(0, genreResult.length() - 1));
                             }
                             dialog.dismiss();
                         }
@@ -375,7 +378,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             sell.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b==true) {
+                    if (b == true) {
                         tbl_price_sell.setVisibility(View.VISIBLE);
                     } else {
                         tbl_price_sell.setVisibility(View.GONE);
@@ -395,7 +398,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                                 uploaddata.execute();
                             }
                         }
-                    }catch (Exception e){}
+                    } catch (Exception e) {
+                    }
                 }
             });
             tb_menu = (TableRow) findViewById(R.id.tableRow5);
@@ -413,7 +417,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 @Override
                 public void onClick(View v) {
                     numimageclick = 1;
-                    typeChooseImage=2;
+                    typeChooseImage = 2;
                     selectImage();
 
                 }
@@ -423,7 +427,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 @Override
                 public void onClick(View v) {
                     numimageclick = 2;
-                    typeChooseImage=2;
+                    typeChooseImage = 2;
                     selectImage();
 
                 }
@@ -433,7 +437,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 @Override
                 public void onClick(View v) {
                     numimageclick = 3;
-                    typeChooseImage=2;
+                    typeChooseImage = 2;
                     selectImage();
 
                 }
@@ -522,34 +526,42 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             } catch (Exception e) {
             }
 
+            //--------------------------------------------------------------
+            img_menu_bottom_location.setOnClickListener(this);
+            img_menu_bottom_comment.setOnClickListener(this);
+            img_menu_bottom_camera.setOnClickListener(this);
+            img_menu_bottom_bag.setOnClickListener(this);
+            img_menu_bottom_user.setOnClickListener(this);
+            //---------------------------------------------------------------
 
             addbook(1);
-        }catch (Exception e){
+            numimageclick = 1;
+            typeChooseImage = 2;
+            cameraIntent();
+
+        } catch (Exception e) {
         }
     }
 
     public boolean addbook(int type) {
 
-        if(edt_tilte.getText().toString().equals("")){
-            if(type==0) {
+        if (edt_tilte.getText().toString().equals("")) {
+            if (type == 0) {
                 Toast.makeText(AddbookActivity.this, "Please enter valid a book title", Toast.LENGTH_SHORT).show();
 
                 return false;
             }
-        }
-        else if(edt_author.getText().toString().equals("")){
-            if(type==0) {
+        } else if (edt_author.getText().toString().equals("")) {
+            if (type == 0) {
                 Toast.makeText(AddbookActivity.this, "Please enter valid a book author", Toast.LENGTH_SHORT).show();
             }
-            return  false;
-        }
-        else if(listFileName==null|| listFileName.size()==0){
-            if(type==0) {
+            return false;
+        } else if ((listFileName == null || listFileName.size() == 0) && lisImmage.size() <= 0) {
+            if (type == 0) {
                 Toast.makeText(AddbookActivity.this, "You need to provide at least 1 image for this book", Toast.LENGTH_SHORT).show();
             }
-            return  false;
-        }
-        else {
+            return false;
+        } else {
 
             GPSTracker gps = new GPSTracker(AddbookActivity.this);
 
@@ -557,9 +569,18 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 try {
                     long time = System.currentTimeMillis();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), lisImmage.get(i).getUri());
+                    int width = bitmap.getWidth();
+                    int height = bitmap.getHeight();
+                    float scales = (float) height / (float) width;
+                    if (width > 250) {
 
-                    Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, 250*(bitmap.getHeight()/bitmap.getWidth()), true);
-                    bmap.add(photoBitMap);
+                        Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, 250, (int) (250.0 * scales), true);
+                        bmap.add(photoBitMap);
+                    } else {
+                        Bitmap photoBitMap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+                        bmap.add(photoBitMap);
+                    }
+
                     listFileName.add(lisImmage.get(i).getKey());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -627,7 +648,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             }
 
 
-
             book = new Book();
             book.setAction(action);
             book.setAuthor(auth);
@@ -636,9 +656,9 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             book.setGenre(genrel);
             book.setHash_tag(tag);
             book.setLocation_latitude((float) latLng_new.latitude);
-            book.setLocation_longitude((float)latLng_new.longitude);
+            book.setLocation_longitude((float) latLng_new.longitude);
             if (numclick != 0 || numimageclick != 0) {
-                book.setPhoto(imagename+" ");
+                book.setPhoto(imagename + " ");
 
             }
             if (sell.isChecked()) {
@@ -646,10 +666,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     Toast.makeText(AddbookActivity.this, "Please enter valid a book price", Toast.LENGTH_LONG).show();
                     return false;
                 } else {
-                    if(Integer.parseInt(edt_editlisting_sell.getText().toString())<=1000) {
+                    if (Integer.parseInt(edt_editlisting_sell.getText().toString()) <= 1000) {
                         price = Float.valueOf(edt_editlisting_sell.getText().toString());
                         book.setPrice(price);
-                    }else{
+                    } else {
                         Toast.makeText(AddbookActivity.this, "Price should not exceed 1000", Toast.LENGTH_LONG).show();
                         edt_editlisting_sell.requestFocus();
                         return false;
@@ -667,7 +687,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         final String sell1 = sell.isChecked() == true ? "1" : "0";
         final String free1 = free.isChecked() == true ? "1" : "0";
         if (free1.equals("1")) {
-            if (sell1.equals("1")||swap1.equals("1")) {
+            if (sell1.equals("1") || swap1.equals("1")) {
                 Toast.makeText(AddbookActivity.this, Information.noti_show_choose_type_addbook, Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -677,7 +697,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 return false;
             }
         }
-        if(swap1.equals("0")&&free1.equals("0")&&sell1.equals("0")){
+        if (swap1.equals("0") && free1.equals("0") && sell1.equals("0")) {
             Toast.makeText(AddbookActivity.this, Information.noti_show_choose_type_addbook_empty, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -703,14 +723,15 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         } catch (Exception e) {
         }
     }
+
     public void addMaker(Location location, String img) {
         try {
             mMap.clear();
             // create marker
             MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
             // Changing marker icon
-            marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this, img, (int)getResources().getDimension(R.dimen.width_pin),
-                    (int)getResources().getDimension(R.dimen.height_pin)))));
+            marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this, img, (int) getResources().getDimension(R.dimen.width_pin),
+                    (int) getResources().getDimension(R.dimen.height_pin)))));
             // adding marker
             mMap.addMarker(marker);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 10));
@@ -743,14 +764,14 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 ContextCompat.checkSelfPermission(AddbookActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        LocationManager service = (LocationManager)getSystemService(LOCATION_SERVICE);
+        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
         // getting GPS status
         isGPSEnabled = service
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
         isNetworkEnabled = service
                 .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if(isGPSEnabled){
+        if (isGPSEnabled) {
             location = service
                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (location != null) {
@@ -759,7 +780,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     longitude = location.getLongitude();
                 }
                 addMarkerChoice(new LatLng(latitude, longitude));
-            }else{
+            } else {
                 addMarkerChoice(new LatLng(0, 0));
             }
         }
@@ -772,17 +793,18 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     longitude = location.getLongitude();
                 }
                 addMarkerChoice(new LatLng(latitude, longitude));
-            }else{
+            } else {
                 addMarkerChoice(new LatLng(0, 0));
             }
         }
     }
-    public void addMaker(Location location){
+
+    public void addMaker(Location location) {
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("Hello Maps");
         // Changing marker icon
-        marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this,"icon_buy",(int)getResources().getDimension(R.dimen.width_pin),
-                (int)getResources().getDimension(R.dimen.height_pin)))));
+        marker.icon((BitmapDescriptorFactory.fromBitmap(ResizeImage.resizeMapIcons(AddbookActivity.this, "icon_buy", (int) getResources().getDimension(R.dimen.width_pin),
+                (int) getResources().getDimension(R.dimen.height_pin)))));
         // adding marker
         mMap.addMarker(marker);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 9));
@@ -797,9 +819,38 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.img_menu_bottom_location:
+                Intent intent1 = new Intent(AddbookActivity.this, MainAllActivity.class);
+                intent1.putExtra("key", "1");
+                startActivity(intent1);
+                break;
+            case R.id.img_menu_bottom_comment:
+                Intent intent2 = new Intent(AddbookActivity.this, MainAllActivity.class);
+                intent2.putExtra("key", "2");
+                startActivity(intent2);
+                break;
+            case R.id.img_menu_bottom_camera:
+                /*Intent intent3 = new Intent(RespondActivity.this, MainAllActivity.class);
+                intent3.putExtra("key", "3");
+                startActivity(intent3);*/
+                Intent intent = new Intent(AddbookActivity.this, CameraActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.img_menu_bottom_bag:
+                Intent intent4 = new Intent(AddbookActivity.this, MainAllActivity.class);
+                intent4.putExtra("key", "4");
+                startActivity(intent4);
+                break;
+            case R.id.img_menu_bottom_user:
+                Intent intent5 = new Intent(AddbookActivity.this, MainAllActivity.class);
+                intent5.putExtra("key", "5");
+                startActivity(intent5);
+                break;
+
             case R.id.imageView32:
                 numclick = numclick + 1;
-                typeChooseImage=1;
+                typeChooseImage = 1;
                 if (numclick > 3) {
                     numclick = 0;
                 }
@@ -813,30 +864,30 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 if (listTag.size() < 3) {
                     addTag();
                 }
-                if(listTag.size() == 3){
+                if (listTag.size() == 3) {
                     addtag.setVisibility(View.GONE);
                 }
                 break;
             case R.id.tag1:
-                if(!tag1.getText().toString().trim().equals("")) {
+                if (!tag1.getText().toString().trim().equals("")) {
                     showSnack(tag1.getText().toString(), 0);
                 }
                 break;
             case R.id.tag2:
-                if(!tag2.getText().toString().trim().equals("")) {
+                if (!tag2.getText().toString().trim().equals("")) {
                     showSnack(tag2.getText().toString(), 1);
                 }
                 break;
             case R.id.tag3:
-                if(!tag3.getText().toString().trim().equals("")) {
+                if (!tag3.getText().toString().trim().equals("")) {
                     showSnack(tag3.getText().toString(), 2);
                 }
                 break;
         }
     }
 
-    public void showSnack(String tag, final int position){
-        final Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),"Do you want remove "+tag+"",Snackbar.LENGTH_INDEFINITE);
+    public void showSnack(String tag, final int position) {
+        final Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Do you want remove " + tag + "", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -849,33 +900,31 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     public void addTag() {
-        if(!flagTag){
+        if (!flagTag) {
             edt_tag.setVisibility(View.VISIBLE);
-            flagTag=true;
-        }
-        else {
+            flagTag = true;
+        } else {
             if (!edt_tag.getText().toString().trim().equals("") && !edt_tag.getText().toString().trim().contains(";")) {
                 listTag.add(edt_tag.getText().toString().trim());
                 edt_tag.setText("");
                 settag();
             }
             edt_tag.setVisibility(View.GONE);
-            flagTag=false;
+            flagTag = false;
         }
 
     }
 
 
-    public void settag(){
-        if (listTag.size()==0){
+    public void settag() {
+        if (listTag.size() == 0) {
             tag1.setVisibility(View.GONE);
             tag2.setVisibility(View.GONE);
             tag3.setVisibility(View.GONE);
             tag1.setText("");
             tag2.setText("");
             tag3.setText("");
-        }
-        else if (listTag.size()==1){
+        } else if (listTag.size() == 1) {
             tag1.setVisibility(View.VISIBLE);
             tag2.setVisibility(View.GONE);
             tag3.setVisibility(View.GONE);
@@ -883,7 +932,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             tag1.setText(listTag.get(0));
             tag2.setText("");
             tag3.setText("");
-        }else if(listTag.size()==2){
+        } else if (listTag.size() == 2) {
             tag1.setVisibility(View.VISIBLE);
             tag2.setVisibility(View.VISIBLE);
             tag3.setVisibility(View.GONE);
@@ -892,7 +941,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             tag1.setText(listTag.get(0));
             tag2.setText(listTag.get(1));
             tag3.setText("");
-        }else {
+        } else {
 
             tag1.setVisibility(View.VISIBLE);
             tag2.setVisibility(View.VISIBLE);
@@ -905,27 +954,26 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
 
-
     //select image
     private void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
-                "Cancel" };
+        final CharSequence[] items = {"Take Photo", "Choose from Library",
+                "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AddbookActivity.this);
         builder.setTitle("Add Photo!");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                boolean result= Utility.checkPermission(AddbookActivity.this);
+                boolean result = Utility.checkPermission(AddbookActivity.this);
 
                 if (items[item].equals("Take Photo")) {
-                    userChoosenTask ="Take Photo";
-                    if(result)
+                    userChoosenTask = "Take Photo";
+                    if (result)
                         cameraIntent();
 
                 } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask ="Choose from Library";
-                    if(result)
+                    userChoosenTask = "Choose from Library";
+                    if (result)
                         galleryIntent();
 
                 } else if (items[item].equals("Cancel")) {
@@ -936,23 +984,24 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         builder.show();
     }
 
-    private void galleryIntent()
-    {
+    private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
-    private void cameraIntent()
-    {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    private void cameraIntent() {
+        //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent(AddbookActivity.this, CameraActivity.class);
+        intent.putExtra("keyChoose", 1);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
-    public void addImages(ArrayList<Bitmap> bmap,List<String> listFileName){
-        uploadFileController.uploadFile(bmap,listFileName);
+    public void addImages(ArrayList<Bitmap> bmap, List<String> listFileName) {
+        uploadFileController.uploadFile(bmap, listFileName);
     }
+
     ArrayList<ImageClick> lisImmage = new ArrayList<>();
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -965,13 +1014,23 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap thumbnail = null;
         try {
-            Bitmap thumbnail = null;
+
             if (resultCode == Activity.RESULT_OK) {
-                if (requestCode ==REQUEST_CAMERA ){
-                    thumbnail = (Bitmap) data.getExtras().get("data");
-                    int orientation=0;
-                    if(thumbnail.getHeight() < thumbnail.getWidth()){
+                if (requestCode == REQUEST_CAMERA) {
+
+                    //thumbnail = (Bitmap) data.getExtras().get("data");
+                    SharedPreferences pref = getSharedPreferences("MyPref", MODE_PRIVATE);
+                    String ss = pref.getString("image", "");
+                    File imgFile = new File(pref.getString("image", ""));
+                    if (imgFile.exists()) {
+                        thumbnail = BitmapFactory.decodeFile(pref.getString("image", ""));
+
+                    }
+
+                    int orientation = 0;
+                    if (thumbnail.getHeight() < thumbnail.getWidth()) {
                         orientation = 90;
                     } else {
                         orientation = 0;
@@ -984,13 +1043,12 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     } else
                         thumbnail = Bitmap.createScaledBitmap(thumbnail, thumbnail.getWidth(),
                                 thumbnail.getHeight(), true);
-                }
-                else if (requestCode == SELECT_FILE){
+                } else if (requestCode == SELECT_FILE) {
                     if (data != null) {
                         try {
                             thumbnail = MediaStore.Images.Media.getBitmap(AddbookActivity.this.getContentResolver(), data.getData());
-                            int orientation=0;
-                            if(thumbnail.getHeight() < thumbnail.getWidth()){
+                            int orientation = 0;
+                            if (thumbnail.getHeight() < thumbnail.getWidth()) {
                                 orientation = 90;
                             } else {
                                 orientation = 0;
@@ -1010,7 +1068,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 }
 
             }
-            mImageUri = getImageUri(AddbookActivity.this,thumbnail);
+            mImageUri = getImageUri(AddbookActivity.this, thumbnail);
 
 //            // When an Image is picked
 //            if (resultCode == Activity.RESULT_OK) {
@@ -1028,7 +1086,16 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         try {
             int width = imagebook1.getWidth();
             int height = imagebook1.getHeight();
-            if(typeChooseImage==1) {
+            if (width == 0) {
+                width = thumbnail.getWidth();
+                height = thumbnail.getHeight();
+                float scales = (float) height / (float) width;
+                if (width > 250) {
+                    width = 250;
+                    height = (int) (250.0 * scales);
+                }
+            }
+            if (typeChooseImage == 1) {
                 if (!sChooseImage.contains("1")) {
                     Picasso.with(AddbookActivity.this).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook1);
@@ -1051,8 +1118,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
                     sChooseImage = sChooseImage + "3";
                 }
-            }
-            else {
+            } else {
                 if (numimageclick == 1) {
                     Picasso.with(AddbookActivity.this).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook1);
@@ -1084,7 +1150,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     }
                 }
             }
-        }catch (Exception exx){
+        } catch (Exception exx) {
 
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -1116,11 +1182,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     ArrayList<String> listFileName = new ArrayList<>();
     ArrayList<Bitmap> bmap = new ArrayList<>();
 
-    public void addImages(){
-        uploadFileController.uploadFile(bmap,listFileName);
+    public void addImages() {
+        uploadFileController.uploadFile(bmap, listFileName);
     }
 
-    public class uploaddata extends AsyncTask<Void,Void,String>{
+    public class uploaddata extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -1132,10 +1198,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             try {
                 CheckSession checkSession = new CheckSession();
                 boolean check = checkSession.checkSession_id(session_id);
-                if(!check){
+                if (!check) {
                     SharedPreferences pref = AddbookActivity.this.getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("session_id",null);
+                    editor.putString("session_id", null);
                     editor.commit();
                     Intent intent = new Intent(AddbookActivity.this, SignIn_Activity.class);
                     startActivity(intent);
@@ -1144,7 +1210,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
                 bookController = new BookController();
                 return bookController.addbook(book, session_id);
-            }catch (Exception exx){
+            } catch (Exception exx) {
                 return "";
             }
         }
@@ -1152,28 +1218,27 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         @Override
         protected void onPostExecute(String result) {
             try {
-                if(!result.equals("")){
-                    if(type == 0){
-                        Intent intent = new Intent(AddbookActivity.this,SwapActivity.class);
-                        if(bookedit == null){
-                            intent.putExtra("Book",bookedit);
-                        }else{
-                            intent.putExtra("Book",book);
+                if (!result.equals("")) {
+                    if (type == 0) {
+                        Intent intent = new Intent(AddbookActivity.this, SwapActivity.class);
+                        if (bookedit == null) {
+                            intent.putExtra("Book", bookedit);
+                        } else {
+                            intent.putExtra("Book", book);
                         }
                         startActivity(intent);
                         finish();
-                    }
-                    else{
+                    } else {
                         //sent message
                         SharedPreferences pref = AddbookActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
                         String firstName = pref.getString("firstname", "");
 
                         List<Hashtable> list = new ArrayList<>();
-                        Notification notification = new Notification("Wishboard",result , "14");
+                        Notification notification = new Notification("Wishboard", result, "14");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                        obj.put("user_id", user_id+"");
-                        obj.put("messages", firstName + " has added a book "+book.getTitle()+" in response to your post on Wishboard");
+                        obj.put("user_id", user_id + "");
+                        obj.put("messages", firstName + " has added a book " + book.getTitle() + " in response to your post on Wishboard");
                         list.add(obj);
                         NotificationController controller = new NotificationController();
                         controller.sendNotification(list);
@@ -1182,7 +1247,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     }
 
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }

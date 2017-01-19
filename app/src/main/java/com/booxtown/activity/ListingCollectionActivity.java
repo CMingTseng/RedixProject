@@ -841,7 +841,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     Toast.makeText(getContext(), "Please enter valid a book author", Toast.LENGTH_SHORT).show();
                 }
                 return false;
-            } else if (listFileName == null || listFileName.size() == 0) {
+            } else if ((listFileName == null || listFileName.size() == 0) && lisImmage.size()<=0) {
                 if (type == 0) {
                     Toast.makeText(getContext(), "You need to provide at least 1 image for this book", Toast.LENGTH_SHORT).show();
                 }
@@ -1240,8 +1240,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
     private void cameraIntent()
     {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+        //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //startActivityForResult(intent, REQUEST_CAMERA);
+        Intent intent= new Intent(getActivity(), CameraActivity.class);
+        intent.putExtra("keyChoose",1);
+        startActivityForResult(intent,REQUEST_CAMERA);
     }
 
 //    public void choseImage() {
@@ -1269,7 +1272,14 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             Bitmap thumbnail = null;
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode ==REQUEST_CAMERA ){
-                    thumbnail = (Bitmap) data.getExtras().get("data");
+                    //thumbnail = (Bitmap) data.getExtras().get("data");
+                    SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().    MODE_PRIVATE);
+                    String ss=pref.getString("image","");
+                    File imgFile = new File(pref.getString("image",""));
+                    if(imgFile.exists()) {
+                        thumbnail = BitmapFactory.decodeFile(pref.getString("image",""));
+
+                    }
                     int orientation=0;
                     if(thumbnail.getHeight() < thumbnail.getWidth()){
                         orientation = 90;

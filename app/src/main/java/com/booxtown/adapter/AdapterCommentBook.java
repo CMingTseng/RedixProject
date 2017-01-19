@@ -59,7 +59,7 @@ public class AdapterCommentBook extends RecyclerView.Adapter<AdapterCommentBook.
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext,UserProfileActivity.class);
-                intent.putExtra("user",Comments.getUser_id());
+                intent.putExtra("user",Comments.getUser_id()+"");
                 mContext.startActivity(intent);
             }
         });
