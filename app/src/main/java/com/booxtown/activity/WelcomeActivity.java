@@ -90,6 +90,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private FacebookHelper mFbHelper;
     private GoogleSignInHelper mGAuthHelper;
     private TwitterHelper mTwitterHelper;
+    ProgressDialog dialogTotal;
 //    private PrefManager prefManager;
 
     @Override
@@ -117,6 +118,11 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         }
         setContentView(R.layout.activity_welcome);
+
+        dialogTotal = new ProgressDialog(WelcomeActivity.this);
+        dialogTotal.setMessage(Information.noti_dialog);
+        dialogTotal.setIndeterminate(true);
+
         //twitter initialization
         //end
         ImageView signin_fb = (ImageView) findViewById(R.id.signin_fb);
@@ -237,7 +243,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onFbProfileReceived(FacebookUser facebookUser) {
-
         SiginAsystask siginAsystask= new SiginAsystask(facebookUser.name,facebookUser.facebookID,facebookUser.email);
         siginAsystask.execute();
     }
@@ -296,6 +301,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 String emailTiwtter= result.data.toString();
                 SiginAsystask siginAsystask= new SiginAsystask(session.getUserName().toString(),session.getId()+"",emailTiwtter);
                 siginAsystask.execute();
+
             }
 
             @Override
@@ -412,23 +418,25 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            dialog = new ProgressDialog(WelcomeActivity.this);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.setIndeterminate(true);
+            dialog.show();
         }
 
         @Override
         protected void onPostExecute(String aBoolean) {
             try {
-                if (aBoolean != null) {
+                if (aBoolean.equals("200")) {
                     Intent intent = new Intent(WelcomeActivity.this, MainAllActivity.class);
                     startActivity(intent);
-                    String session_id = aBoolean.toString();
+
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("session_id", session_id);
                     editor.putString("username", firstName.toString());
                     editor.putString("firstname", firstName);
                     editor.commit();
-                } else {
+                } else if(aBoolean.equals("701")){
                     // sign up
                     UserController userController = new UserController(WelcomeActivity.this);
                     User user  = new User();
@@ -445,13 +453,20 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                     if (!CheckNetwork.isOnline(WelcomeActivity.this)){
                         Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
                     }else{
-                        SignupAsyntask signupAsyntask = new SignupAsyntask(email,firstName);
+                        SignupAsyntask signupAsyntask = new SignupAsyntask(email,email,password);
                         signupAsyntask.execute(user);
                     }
-
+                }else {
+                    Intent intents= new Intent(WelcomeActivity.this, VerificationActivity.class);
+                    intents.putExtra("username",email);
+                    intents.putExtra("pass",password);
+                    intents.putExtra("session_id",session_id);
+                    startActivity(intents);
+                    Toast.makeText(getApplicationContext(),"You need to activate your account first to proceed",Toast.LENGTH_LONG).show();
                 }
             }catch (Exception e){
             }
+            dialog.dismiss();
         }
     }
     class UserInfoAsystask extends AsyncTask<String,Void,String>{
@@ -497,9 +512,11 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         String sessionId="";
         String username="";
         String firstName="";
-        public SignupAsyntask(String username,String firstName){
+        String pass;
+        public SignupAsyntask(String username,String firstName,String pass){
             this.username= username;
             this.firstName=firstName;
+            this.pass=pass;
         }
         @Override
         protected Boolean doInBackground(User... params) {
@@ -531,8 +548,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if (aBoolean == true) {
-                    Intent intent = new Intent(WelcomeActivity.this, MainAllActivity.class);
-                    startActivity(intent);
+                    SendActiveAsync sendActiveAsync= new SendActiveAsync(WelcomeActivity.this,username,username,pass,session_id);
+                    sendActiveAsync.execute();
+
                     //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
@@ -546,6 +564,55 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
                 }
             }catch (Exception e){}
+        }
+    }
+
+    class SendActiveAsync extends AsyncTask<String,Void,Boolean> {
+        String email;
+        Context ct;
+        String userName,pass,session_id;
+        ProgressDialog dialog;
+        public SendActiveAsync(Context ct,String email,String userName,String pass,String session_id){
+            this.email=email;
+            this.ct=ct;
+            this.userName=userName;
+            this.pass=pass;
+            this.session_id=session_id;
+        }
+        @Override
+        protected Boolean doInBackground(String... params) {
+            try {
+                UserController userController = new UserController(ct);
+                return  userController.EmailToActive(email);
+            }catch (Exception ex){
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(WelcomeActivity.this);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            try {
+                if (result) {
+                    Intent intents= new Intent(WelcomeActivity.this, VerificationActivity.class);
+                    intents.putExtra("username",userName);
+                    intents.putExtra("pass",pass);
+                    intents.putExtra("session_id",session_id);
+                    startActivity(intents);
+                    dialog.dismiss();
+                } else {
+
+                }
+            }catch (Exception e){
+            }
+            dialog.dismiss();
         }
     }
 }
