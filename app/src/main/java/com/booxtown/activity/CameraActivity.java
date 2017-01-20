@@ -509,6 +509,7 @@ public class CameraActivity extends Activity implements Callback,
             SharedPreferences.Editor editor = pref.edit();
             if (!check) {
                 editor.putString("session_id", null);
+                editor.putString("active", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);

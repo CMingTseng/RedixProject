@@ -165,8 +165,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         String session_id = pref.getString("session_id", null);
+        String active = pref.getString("active", null);
         try {
-            if (session_id != null) {
+            if (session_id != null && active!=null) {
                 Intent intent = new Intent(WelcomeActivity.this, MainAllActivity.class);
                 startActivity(intent);
             }

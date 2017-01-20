@@ -257,6 +257,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
         Drawable drawable = new BitmapDrawable(getResources(), thumb);
         seekbar.setThumb(drawable);
+        seekbar.setProgress(50);
         listUserName = new ArrayList<>();
         final TextView txt_view = (TextView) v.findViewById(R.id.txt_menu_genre1);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -1273,7 +1274,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode ==REQUEST_CAMERA ){
                     //thumbnail = (Bitmap) data.getExtras().get("data");
-                    SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().    MODE_PRIVATE);
+                    SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                     String ss=pref.getString("image","");
                     File imgFile = new File(pref.getString("image",""));
                     if(imgFile.exists()) {

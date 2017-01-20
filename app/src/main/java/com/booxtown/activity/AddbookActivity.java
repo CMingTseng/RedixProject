@@ -148,6 +148,12 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         radioButton_current = (RadioButton) findViewById(R.id.radioButton_current);
         radioButton_another = (RadioButton) findViewById(R.id.radioButton_another);
 
+        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
+        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
+        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
+        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
+        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+
         try {
             bookedit = (Book) getIntent().getSerializableExtra("book");
             try {
@@ -1202,6 +1208,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     SharedPreferences pref = AddbookActivity.this.getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", null);
+                    editor.putString("active", null);
                     editor.commit();
                     Intent intent = new Intent(AddbookActivity.this, SignIn_Activity.class);
                     startActivity(intent);

@@ -105,6 +105,7 @@ public class MenuActivity extends AppCompatActivity {
                             startActivity(intent);
                             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                             SharedPreferences.Editor editor  = pref.edit();
+                            editor.remove("active").commit();
                             editor.remove("session_id").commit();
                             Splash_Activity.value = false;
                             Information.lstGenre= new ArrayList<Genre>();

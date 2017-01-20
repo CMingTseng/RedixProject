@@ -51,16 +51,20 @@ public class UserController {
                     SharedPreferences pref = ct.getSharedPreferences("MyPref", ct.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("firstname", result.getDescription());
+                    editor.putString("session_id", result.getSession_id());
+                    editor.putString("active","active");
                     editor.commit();
-                    return result.getSession_id();
+                    return result.getCode()+"";
+                }else if(result.getCode() == 703){
+                    return result.getCode()+"";
                 }
             } catch (Exception ex) {
                 String ss = ex.toString();
             }
-            return null;
+            return "701";
         }catch (Exception exx){
 
-            return null;
+            return "701";
         }
     }
 
@@ -260,5 +264,26 @@ public class UserController {
             String exe = ex.getMessage();
         }
         return null;
+    }
+
+    public boolean EmailToActive(String email){
+        Hashtable obj = new Hashtable();
+        obj.put("email",email);
+
+        Call<Result> active = service.EmailToActive(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = active.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+
+        } catch (Exception ex) {
+        }
+        return false;
     }
 }

@@ -61,14 +61,16 @@ Button mButtonForgotPass;
         mButtonBackSignIn.setOnClickListener(this);
         mButtonForgotPass.setOnClickListener(this);
 
-        //get settings
-        getSetting getSetting=new getSetting(SignIn_Activity.this);
-        getSetting.execute();
-        //end
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         session_id = pref.getString("session_id", null);
-        if (session_id != null){
+        String active= pref.getString("active", null);
+        //get settings
+        getSetting getSetting=new getSetting(SignIn_Activity.this);
+        getSetting.execute(session_id);
+        //end
+
+
+        if (session_id != null && active!=null ){
             Intent intent = new Intent(SignIn_Activity.this, MainAllActivity.class);
             startActivity(intent);
         }
@@ -135,23 +137,31 @@ Button mButtonForgotPass;
         }
 
         @Override
-        protected void onPostExecute(String aBoolean) {
+        protected void onPostExecute(String code) {
             try {
-                if (aBoolean != null) {
+                if (code.equals("200")) {
                     Intent intent = new Intent(SignIn_Activity.this, MainAllActivity.class);
                     startActivity(intent);
-                    String session_id = aBoolean.toString();
+
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("session_id", session_id);
                     editor.putString("username", edt_username.getText().toString());
+
                     UserInfoAsystask us= new UserInfoAsystask();
                     us.execute(session_id);
                     editor.commit();
-
+                    dialog.dismiss();
+                }
+                else if(code.equals("703")){
+                    Intent intents= new Intent(SignIn_Activity.this, VerificationActivity.class);
+                    intents.putExtra("username",edt_username.getText().toString());
+                    intents.putExtra("pass",edt_pass.getText().toString());
+                    intents.putExtra("session_id",session_id);
+                    startActivity(intents);
 
                     dialog.dismiss();
-                } else {
+                }
+                else {
                     Toast.makeText(getApplicationContext(), Information.noti_wrong_login, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }

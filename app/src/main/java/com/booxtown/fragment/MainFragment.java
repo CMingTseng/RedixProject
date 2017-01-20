@@ -957,6 +957,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 if (!check) {
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", null);
+                    editor.putString("active", null);
                     editor.commit();
                     Intent intent = new Intent(getActivity(), SignIn_Activity.class);
                     getActivity().startActivity(intent);
@@ -1033,6 +1034,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 if (!check) {
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", null);
+                    editor.putString("active", null);
                     editor.commit();
                     Intent intent = new Intent(context, SignIn_Activity.class);
                     context.startActivity(intent);
@@ -1172,6 +1174,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putString("session_id", null);
+                editor.putString("active", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);

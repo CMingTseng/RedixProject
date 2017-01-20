@@ -247,4 +247,8 @@ public interface ServiceInterface {
     @POST("/booxtown/transactionhistory/TransacHistory_SetDone")
     Call<Result> SetDone(@Body Object session_id);
 
+    @POST("/booxtown/rest/user/sendEmailToActive")
+    Call<Result> EmailToActive(@Body Object email);
+
+
 }

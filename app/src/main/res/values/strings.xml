@@ -28,7 +28,9 @@
     <string name="SignIn">Sign in</string>
     <string name="forgotpassword">Forgot Password?</string>
     <string name="youforgotpassword">Forgot Your Password ?</string>
+    <string name="verification">Welcome to Booxtown!</string>
     <string name="labelemail">Enter your email to find password</string>
+    <string name="des_verification">Please activate your account by clicking on the link sent to your email then click on Proceed</string>
     <string name="Confirm">Submit</string>
     <string name="Back">Back</string>
     <string name="title_activity_main">MainActivity</string>

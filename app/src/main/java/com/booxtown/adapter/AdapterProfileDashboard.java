@@ -48,51 +48,34 @@ public class AdapterProfileDashboard extends RecyclerView.Adapter<AdapterProfile
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         DashBoard dashBoard = dashBoards.get(position);
         holder.tv.setText(dashBoard.getBook_seller());
-        //xử lý offer
+
         if(dashBoard.getAction().equals("swap")){
-//            Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.myprofile_swap);
-//            holder.img_offer.setImageBitmap(btn1);
-
-            Glide.with(context).load(R.drawable.myprofile_swap).into(holder.img_offer);
+         Glide.with(context).load(R.drawable.myprofile_swap).into(holder.img_offer);
         }else if (dashBoard.getAction().equals("buy") && dashBoard.getUser_seller_id() == user_id){
-//            Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.myprofile_buy_back);
-//            holder.img_offer.setImageBitmap(btn1);
-
             Glide.with(context).load(R.drawable.myprofile_buy_back).into(holder.img_offer);
         }else if (dashBoard.getAction().equals("buy") && dashBoard.getUser_buyer_id() == user_id){
-//            Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.myprofile_buy_come);
-//            holder.img_offer.setImageBitmap(btn1);
-
             Glide.with(context).load(R.drawable.myprofile_buy_come).into(holder.img_offer);
         }else if (dashBoard.getAction().equals("free") && dashBoard.getUser_seller_id() == user_id){
-//            Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.myprofile_free_back);
-//            holder.img_offer.setImageBitmap(btn1);
-
             Glide.with(context).load(R.drawable.myprofile_free_back).into(holder.img_offer);
         }else if (dashBoard.getAction().equals("free") && dashBoard.getUser_buyer_id() == user_id){
-//            Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.myprofile_free_come);
-//            holder.img_offer.setImageBitmap(btn1);
-
             Glide.with(context).load(R.drawable.myprofile_free_come).into(holder.img_offer);
         }
 
-        //xử lý status
+        //status
         if (dashBoard.getIs_done() == 1){
             holder.ratingBar_dashboard.setVisibility(View.VISIBLE);
             Glide.with(context).load(R.drawable.myprofile_tick).into(holder.img_status);
         }else if(dashBoard.getIs_cancel() == 1|| dashBoard.getIs_reject() == 1){
             holder.ratingBar_dashboard.setVisibility(View.VISIBLE);
             Glide.with(context).load(R.drawable.myprofile_all_not).into(holder.img_status);
-        }else if(dashBoard.getIs_done() == 0){
+        }else if(dashBoard.getIs_accept() == 1){
             holder.ratingBar_dashboard.setVisibility(View.INVISIBLE);
             Glide.with(context).load(R.drawable.myprofile_not).into(holder.img_status);
         }
 
 
         try {
-//            holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()
-//                    + dashBoard.getUser_quality_seller()) / (float)3);
-            if(user_id == dashBoard.getUser_buyer_id())
+          if(user_id == dashBoard.getUser_buyer_id())
             {
                 holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()
                         + dashBoard.getUser_quality_seller()) / (float)3);

@@ -140,7 +140,7 @@ public class MyProfileDashboardFragment extends Fragment {
         final String user_name = pref.getString("firstname", null);
         user_id = Integer.valueOf(pref.getString("user_id", null));
 
-        txt_username.setText(user_name);
+        txt_username.setText(user.getFirst_name()+" "+ user.getLast_name());
 
         img_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +199,7 @@ public class MyProfileDashboardFragment extends Fragment {
                             DashboardStatusFragment fragment = new DashboardStatusFragment();
                             fragment.setArguments(bundle);
                             callFragment(fragment);
-                        } else if (dashBoard.getIs_cancel() == 1) {
+                        } else if (dashBoard.getIs_cancel() == 1 || dashBoard.getIs_reject()==1) {
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("dashboard", dashBoard);
                             bundle.putSerializable("user", user);
@@ -207,7 +207,7 @@ public class MyProfileDashboardFragment extends Fragment {
                             DashboardDeleteFragment fragment = new DashboardDeleteFragment();
                             fragment.setArguments(bundle);
                             callFragment(fragment);
-                        } else if (dashBoard.getIs_done() == 0) {
+                        } else if (dashBoard.getIs_accept()==1) {
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("dashboard", dashBoard);
                             bundle.putSerializable("user", user);
@@ -276,6 +276,7 @@ public class MyProfileDashboardFragment extends Fragment {
             if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putString("session_id", null);
+                editor.putString("active", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);

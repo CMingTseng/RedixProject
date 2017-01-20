@@ -183,6 +183,7 @@ public class TopicFragment extends Fragment
                 if (!check) {
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("session_id", null);
+                    editor.putString("active", null);
                     editor.commit();
                     Intent intent = new Intent(context, SignIn_Activity.class);
                     context.startActivity(intent);

@@ -35,7 +35,7 @@ public class Splash_Activity extends AppCompatActivity {
         try {
             ImageView img_splash =(ImageView)findViewById(R.id.img_splash);
             //Glide.with(getApplicationContext()).load(R.drawable.splash).into(img_splash);
-            Picasso.with(Splash_Activity.this).load(R.drawable.splash_one).fit().into(img_splash);
+            Picasso.with(Splash_Activity.this).load(R.drawable.flash_final).fit().into(img_splash);
             if (value == false) {
                 new Handler().postDelayed(new Runnable() {
                     @Override

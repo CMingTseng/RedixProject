@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -96,17 +97,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.signup:
-                /*ProgressDialog dialog = new ProgressDialog(SigUp_Activity.this);
-                try {
-                    dialog.setMessage(Information.noti_dialog);
-                    dialog.show();
-                    java.lang.Thread.sleep(3000);
-                    session_id = FirebaseInstanceId.getInstance().getToken().toString();
-                    dialog.dismiss();
-                }catch (Exception e) {
-                    dialog.dismiss();
-                    Toast.makeText(SigUp_Activity.this, "Could not connect to server. Please try again", Toast.LENGTH_SHORT).show();
-                }*/
+
                 UserController userController = new UserController(SigUp_Activity.this);
                 User user  = new User();
                 String[] bod=edt_birthday.getText().toString().split("-");
@@ -146,11 +137,12 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
 
+
+
                 break;
             case R.id.btn_back_sigup:
-                Intent intent = new Intent(SigUp_Activity.this,WelcomeActivity.class);
-                startActivity(intent);
-
+                onBackPressed();
+                break;
             case R.id.birthday:
                 DialogFragment dialogfragment = new DatePickerDialogClass();
                 dialogfragment.show(getFragmentManager(), "Date Time");
@@ -174,12 +166,17 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),this,year,month,day);
+            datepickerdialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
             return datepickerdialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day){
             EditText textview = (EditText) getActivity().findViewById(R.id.birthday);
-            textview.setText(day + "-" + (month+1) + "-" + year);
+            if(month<10) {
+                textview.setText(day + "/" + "0"+(month + 1) + "/" + year);
+            }else{
+                textview.setText(day + "/" + (month + 1) + "/" + year);
+            }
         }
     }
 
@@ -221,8 +218,9 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         protected void onPostExecute(Boolean aBoolean) {
             try {
                 if (aBoolean == true) {
-                    Intent intent = new Intent(SigUp_Activity.this, MainAllActivity.class);
-                    startActivity(intent);
+
+                    SendActiveAsync sendActiveAsync= new SendActiveAsync(SigUp_Activity.this,edt_mail.getText().toString(),edt_mail.getText().toString(),edt_password.getText().toString(),session_id);
+                    sendActiveAsync.execute();
 
                     GPSTracker gpsTracker = new GPSTracker(SigUp_Activity.this);
                     //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
@@ -237,10 +235,6 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     editor.putString("Longitude", gpsTracker.getLongitude()+"");
 
                     editor.commit();
-
-
-
-
 
                     GetTimeZone getTimeZone= new GetTimeZone();
                     getTimeZone.execute();
@@ -292,6 +286,55 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
     public static void hideSoftKeyboard(SigUp_Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    class SendActiveAsync extends AsyncTask<String,Void,Boolean> {
+        String email;
+        Context ct;
+        String userName,pass,session_id;
+        ProgressDialog dialog;
+        public SendActiveAsync(Context ct,String email,String userName,String pass,String session_id){
+            this.email=email;
+            this.ct=ct;
+            this.userName=userName;
+            this.pass=pass;
+            this.session_id=session_id;
+        }
+        @Override
+        protected Boolean doInBackground(String... params) {
+            try {
+                UserController userController = new UserController(ct);
+                return  userController.EmailToActive(email);
+            }catch (Exception ex){
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(SigUp_Activity.this);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            try {
+                if (result) {
+                    Intent intents= new Intent(SigUp_Activity.this, VerificationActivity.class);
+                    intents.putExtra("username",userName);
+                    intents.putExtra("pass",pass);
+                    intents.putExtra("session_id",session_id);
+                    startActivity(intents);
+                    dialog.dismiss();
+                } else {
+
+                }
+            }catch (Exception e){
+            }
+            dialog.dismiss();
+        }
     }
 
 }

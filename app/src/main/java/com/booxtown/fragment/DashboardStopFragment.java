@@ -189,14 +189,18 @@ public class DashboardStopFragment extends Fragment {
                 getBookByID getBookByID = new getBookByID(getContext(),String.valueOf(dashBoard.getBook_seller_id()));
                 getBookByID.execute();
             }else{
-                String[] listBookID=dashBoard.getBook_buyer_id().replace("_+_","_").split("_");
+
+                getBookByID getBookByID = new getBookByID(getContext(), dashBoard.getBook_swap_id()+"");
+                getBookByID.execute();
+
+                /*String[] listBookID=dashBoard.getBook_buyer_id().replace("_+_","_").split("_");
                 if(listBookID.length>0) {
                     getBookByID getBookByID = new getBookByID(getContext(), String.valueOf(listBookID[listBookID.length-1]));
                     getBookByID.execute();
                 }else {
                     getBookByID getBookByID = new getBookByID(getContext(), String.valueOf(dashBoard.getBook_buyer_id()));
                     getBookByID.execute();
-                }
+                }*/
             }
 
             textView_namebook_buyer.setVisibility(View.VISIBLE);
