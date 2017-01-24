@@ -473,20 +473,32 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
             //settag();
             if (listtag.length == 1) {
-                tag1.setText(listtag[0]);
-                tag1.setVisibility(View.VISIBLE);
+                if(listtag[0].trim().length()>0) {
+                    tag1.setText(listtag[0]);
+                    tag1.setVisibility(View.VISIBLE);
+                }
             } else if (listtag.length == 2) {
                 tag1.setText(listtag[0] + "");
                 tag2.setText(listtag[1]);
-                tag1.setVisibility(View.VISIBLE);
-                tag2.setVisibility(View.VISIBLE);
+                if(listtag[0].trim().length()>0) {
+                    tag1.setVisibility(View.VISIBLE);
+                }
+                if(listtag[1].trim().length()>0) {
+                    tag2.setVisibility(View.VISIBLE);
+                }
             } else if (listtag.length == 2) {
                 tag1.setText(listtag[0] + "");
                 tag2.setText(listtag[1] + "");
                 tag3.setText(listtag[2] + "");
-                tag1.setVisibility(View.VISIBLE);
-                tag2.setVisibility(View.VISIBLE);
-                tag3.setVisibility(View.VISIBLE);
+                if(listtag[0].trim().length()>0) {
+                    tag1.setVisibility(View.VISIBLE);
+                }
+                if(listtag[1].trim().length()>0) {
+                    tag2.setVisibility(View.VISIBLE);
+                }
+                if(listtag[2].trim().length()>0) {
+                    tag3.setVisibility(View.VISIBLE);
+                }
 
                 addtag.setVisibility(View.GONE);
                 edt_tag.setVisibility(View.GONE);

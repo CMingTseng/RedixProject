@@ -67,7 +67,7 @@ public class DashboardStatusFragment extends Fragment {
     int user_id;
     String userID = "";
     //end
-
+    boolean isDone=false;
     //dialog rating
     RatingBar rating_promp, rating_cour, rating_quality;
     //end
@@ -116,7 +116,18 @@ public class DashboardStatusFragment extends Fragment {
         btn_menu_dashboard_bottom_rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (dashBoard.getUser_promp() != 0 || dashBoard.getUser_cour() != 0 || dashBoard.getUser_quality() != 0) {
+
+                if(user_id==dashBoard.getUser_seller_id()){
+                    if ((dashBoard.getUser_promp() + dashBoard.getUser_cour() + dashBoard.getUser_quality()) > 0) {
+                        isDone=true;
+                    }
+                }else {
+                    if ((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller() + dashBoard.getUser_quality_seller()) > 0) {
+                        isDone=true;
+                    }
+                }
+
+                if (isDone) {
                     Toast.makeText(getContext(), Information.noti_tran_done, Toast.LENGTH_SHORT).show();
                 } else {
                     final Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
@@ -180,7 +191,7 @@ public class DashboardStatusFragment extends Fragment {
                                 Toast.makeText(getActivity(), Information.noti_show_complete, Toast.LENGTH_LONG).show();
                                 return;
                             }
-
+                            dialog.dismiss();
                         }
                     });
 
@@ -236,7 +247,7 @@ public class DashboardStatusFragment extends Fragment {
 
             textView_with.setVisibility(View.GONE);
         }
-        if (userID.equals(dashBoard.getUser_buyer_id())) {
+        if (userID.equals(dashBoard.getUser_buyer_id()+"")) {
             getUser getUser = new getUser(getContext(), dashBoard.getUser_seller_id());
             getUser.execute();
         } else {
@@ -494,6 +505,7 @@ public class DashboardStatusFragment extends Fragment {
                 Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
                 if(user_promp+user_cour+user_quality>0){
                     btn_menu_dashboard_bottom_rate.setText("Rated");
+                    isDone=true;
                 }
             } else {
                 progressDialog.dismiss();

@@ -120,7 +120,11 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
                 } else if(code.equals("703")) {
                     Toast.makeText(getApplicationContext(), "You need to activate your account first to proceed", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Email or Password doesn't match. Please try again", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
+                dialog.dismiss();
             }catch (Exception e){
             }
         }
@@ -199,7 +203,8 @@ public class VerificationActivity extends AppCompatActivity implements View.OnCl
                     Toast.makeText(ct,"Resend activation email successfully!",Toast.LENGTH_LONG).show();
                     dialog.dismiss();
                 } else {
-
+                    Toast.makeText(ct,"Email doesn't exist!",Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
                 }
             }catch (Exception e){
             }

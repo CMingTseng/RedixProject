@@ -175,7 +175,7 @@ public class DashboardStopFragment extends Fragment {
         img_menu_component.setVisibility(View.GONE);
 
 
-        if(userID.equals(dashBoard.getUser_buyer_id())) {
+        if(userID.equals(dashBoard.getUser_buyer_id()+"")) {
             getUser getUser = new getUser(getContext(), dashBoard.getUser_seller_id());
             getUser.execute();
         }

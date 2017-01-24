@@ -71,9 +71,11 @@ public class UploadFileController {
             req.enqueue(new Callback<Result>() {
                 @Override
                 public void onResponse(Call<Result> call, Response<Result> response) {
-                    int s = response.body().getCode();
-                    if (s == 200) {
-                        success = true;
+                    if(response.body()!=null) {
+                        int s = response.body().getCode();
+                        if (s == 200) {
+                            success = true;
+                        }
                     }
                 }
 

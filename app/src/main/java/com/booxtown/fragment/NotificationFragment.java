@@ -31,6 +31,7 @@ import com.booxtown.activity.NotificationSellReject;
 import com.booxtown.activity.NotificationSwapActivity;
 import com.booxtown.activity.Notification_Swap_Accept_Like;
 import com.booxtown.activity.Notification_Swap_Accept_NoLike;
+import com.booxtown.activity.RespondActivity;
 import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.activity.UserProfileActivity;
 import com.booxtown.controller.BookController;
@@ -39,6 +40,7 @@ import com.booxtown.controller.Information;
 import com.booxtown.controller.NotificationController;
 import com.booxtown.controller.ThreadController;
 import com.booxtown.controller.TopicController;
+import com.booxtown.controller.WishboardController;
 import com.booxtown.custom.Custom_ListView_Notification;
 import com.booxtown.custom.MenuBottomCustom;
 import com.booxtown.listener.OnLoadMoreListener;
@@ -47,6 +49,7 @@ import com.booxtown.model.InteractThread;
 import com.booxtown.model.Notification;
 import com.booxtown.model.Thread;
 import com.booxtown.model.Topic;
+import com.booxtown.model.Wishboard;
 import com.booxtown.recyclerclick.RecyclerItemClickListener;
 
 import java.util.ArrayList;
@@ -336,6 +339,10 @@ public class NotificationFragment extends Fragment {
                                     intent.putExtra("user",notification.getKey_screen() + "");
                                     startActivity(intent);
                                 }
+                                else if (notification.getId_screen().equals("13")) {
+                                    getWishboard getWishboard= new getWishboard(getActivity(),notification.getKey_screen() + "");
+                                    getWishboard.execute();
+                                }
                                 else if (notification.getId_screen().equals("16")) {
                                     Intent intent = new Intent(getActivity(), NotificationSellActivity.class);
                                     intent.putExtra("trans_id", notification.getKey_screen() + "");
@@ -523,6 +530,58 @@ public class NotificationFragment extends Fragment {
             }
             dialog.dismiss();
 
+        }
+    }
+
+    class getWishboard extends AsyncTask<String,Void,List<Wishboard>>{
+        ProgressDialog progressDialog;
+        Context context;
+        String post_id;
+        public getWishboard(Context context,String post_id){
+            this.context = context;
+            this.post_id = post_id;
+
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(Information.noti_dialog);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<Wishboard> doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
+            WishboardController wishboardController = new WishboardController();
+            return wishboardController.getWishboardByID(post_id);
+        }
+
+        @Override
+        protected void onPostExecute(List<Wishboard> wishboards) {
+            try {
+                if (wishboards.size() > 0){
+                    Intent intent = new Intent(getActivity(), RespondActivity.class);
+                    intent.putExtra("wishboard", wishboards.get(0));
+                    startActivity(intent);
+                    progressDialog.dismiss();
+                }else {
+
+                    progressDialog.dismiss();
+                }
+            }catch (Exception e){
+
+            }
+            progressDialog.dismiss();
         }
     }
 

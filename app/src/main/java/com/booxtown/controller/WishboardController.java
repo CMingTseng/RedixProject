@@ -42,6 +42,25 @@ public class WishboardController {
         }
         return null;
     }
+
+    public List<Wishboard> getWishboardByID(String post_id){
+        Call<WishboardResult> callService = service.getWishboardByID(post_id);
+        try{
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            WishboardResult result = callService.execute().body();
+            if (result.getCode()==200){
+                return result.getList();
+            }
+        }
+        catch (Exception ex){
+        }
+        return null;
+    }
+
     public boolean insertWishboard(String title,String author,String comment,String session_id){
         Hashtable obj = new Hashtable();
         obj.put("session_id",session_id);
