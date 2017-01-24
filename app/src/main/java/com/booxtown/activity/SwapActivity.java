@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.booxtown.adapter.AdapterSwap;
 import com.booxtown.controller.BookController;
 import com.booxtown.controller.CheckSession;
+import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.NotificationController;
 import com.booxtown.controller.TransactionController;
 import com.booxtown.controller.UserController;
@@ -42,10 +43,12 @@ public class SwapActivity extends AppCompatActivity {
     ListView listView;
     AdapterSwap adapter;
     Book bookIntent;
-
+    float longitude = 0;
+    float latitude = 0;
     View view_menu_top;
-    TextView txtTitle,btn_Swap,btn_add_book;
-    ImageView img_component,imageView_back;
+    TextView txtTitle, btn_Swap, btn_add_book;
+    ImageView img_component, imageView_back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +75,8 @@ public class SwapActivity extends AppCompatActivity {
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.custompopup_screen78);
 
-                TextView txtTitle=(TextView) dialog.findViewById(R.id.tv_author);
-                txtTitle.setText("Your request has been sent successfully. Let's wait for "+bookIntent.getUsername()+"'s reply");
+                TextView txtTitle = (TextView) dialog.findViewById(R.id.tv_author);
+                txtTitle.setText("Your request has been sent successfully. Let's wait for " + bookIntent.getUsername() + "'s reply");
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -86,7 +89,7 @@ public class SwapActivity extends AppCompatActivity {
                     }
                 });
                 ArrayList<BookSwap> filterList = getFilteredList(adapter.getList());
-                if(filterList.size()>0) {
+                if (filterList.size() > 0) {
                     btnbacktohome.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -98,21 +101,30 @@ public class SwapActivity extends AppCompatActivity {
             }
         });
 
+
         btn_add_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SwapActivity.this, AddbookActivity.class);
-                intent.putExtra("book",bookIntent);
+                intent.putExtra("book", bookIntent);
                 startActivity(intent);
                 finish();
             }
         });
 
+        int is_current_location = pref.getInt("is_current_location", 1);
+        if (is_current_location == 1) {
+            longitude = (float) new GPSTracker(SwapActivity.this).getLongitude();
+            latitude = (float) new GPSTracker(SwapActivity.this).getLatitude();
+        } else {
+            longitude = Float.parseFloat(pref.getString("Longitude", (float) new GPSTracker(SwapActivity.this).getLongitude() + ""));
+            latitude = Float.parseFloat(pref.getString("Latitude", (float) new GPSTracker(SwapActivity.this).getLatitude() + ""));
+        }
         listingAsync listingAsync = new listingAsync(SwapActivity.this);
         listingAsync.execute(session_id);
     }
 
-    public void init(){
+    public void init() {
         btn_add_book = (TextView) findViewById(R.id.btn_add_book);
         btn_Swap = (TextView) findViewById(R.id.btn_swap);
         imageView_back = (ImageView) findViewById(R.id.img_menu);
@@ -123,11 +135,11 @@ public class SwapActivity extends AppCompatActivity {
 
     public ArrayList<BookSwap> getFilteredList(List<BookSwap> bookList) {
         ArrayList<BookSwap> filterList = new ArrayList<>();
-        if(bookList.get(0).ischeck()){
+        if (bookList.get(0).ischeck()) {
             for (BookSwap bw : bookList) {
-                    filterList.add(bw);
+                filterList.add(bw);
             }
-        }else {
+        } else {
             for (BookSwap bw : bookList) {
                 if (bw.ischeck()) {
                     filterList.add(bw);
@@ -141,17 +153,19 @@ public class SwapActivity extends AppCompatActivity {
         Context context;
         ProgressDialog dialog;
         List<Book> listemp;
+
         public listingAsync(Context context) {
             this.context = context;
         }
+
         @Override
         protected List<Book> doInBackground(String... strings) {
             CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
+            if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
+                editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
@@ -159,7 +173,8 @@ public class SwapActivity extends AppCompatActivity {
             }
             listemp = new ArrayList<>();
             BookController bookController = new BookController();
-            listemp = bookController.getAllBookById(context,strings[0]);
+            //listemp = bookController.getAllBookById(context,strings[0]);
+            listemp = bookController.getAllBookInApp(0, 1000, 10, longitude, latitude, "", "", pref.getString("session_id", ""), Integer.parseInt(pref.getString("user_id", "0")), 10000, 0);
             return listemp;
         }
 
@@ -174,16 +189,45 @@ public class SwapActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Book> books) {
-            if (books == null) {
-                dialog.dismiss();
+            if (books == null || books.size() == 0) {
+                final Dialog dialogs = new Dialog(SwapActivity.this);
+                dialogs.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialogs.setContentView(R.layout.dialog_addbook_swap);
+
+                dialogs.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogs.show();
+
+                TextView btn_addbook_dialog = (TextView) dialogs.findViewById(R.id.btn_addbook_dialog);
+                btn_addbook_dialog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SwapActivity.this, AddbookActivity.class);
+                        intent.putExtra("book", bookIntent);
+                        startActivity(intent);
+                        dialogs.dismiss();
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+
+                ImageView close_dialog = (ImageView) dialogs.findViewById(R.id.close_dialog);
+                close_dialog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogs.dismiss();
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+
             } else {
                 listSwap = new ArrayList<>();
-                BookSwap bookSwap = new BookSwap();
+                /*BookSwap bookSwap = new BookSwap();
                 bookSwap.setIscheck(false);
                 bookSwap.setValue("Any");
                 bookSwap.setBook_id("0");
                 bookSwap.setUser_name("0");
-                listSwap.add(bookSwap);
+                listSwap.add(bookSwap);*/
                 for (int i = 0; i < books.size(); i++) {
                     BookSwap book = new BookSwap();
                     book.setIscheck(false);
@@ -197,6 +241,7 @@ public class SwapActivity extends AppCompatActivity {
                 listView.setAdapter(adapter);
                 dialog.dismiss();
             }
+
             super.onPostExecute(books);
         }
     }
@@ -221,11 +266,11 @@ public class SwapActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... voids) {
             CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
+            if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
+                editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
@@ -233,7 +278,7 @@ public class SwapActivity extends AppCompatActivity {
             }
             String transactionID = "";
             TransactionController transactionController = new TransactionController();
-            transactionID = transactionController.transactionInsert(buyUserID, sellUserID, buyBookID, sellBookID, action,session_id);
+            transactionID = transactionController.transactionInsert(buyUserID, sellUserID, buyBookID, sellBookID, action, session_id);
             return transactionID;
         }
 
@@ -247,11 +292,9 @@ public class SwapActivity extends AppCompatActivity {
         protected void onPostExecute(String transactionID) {
             if (transactionID == null) {
 
-            }
-            else if(transactionID.equals("isTrial")){
-                Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else if (transactionID.equals("isTrial")) {
+                Toast.makeText(context, "Upgrade your membership", Toast.LENGTH_SHORT).show();
+            } else {
 
                 SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
@@ -259,10 +302,10 @@ public class SwapActivity extends AppCompatActivity {
 
                 List<Hashtable> list = new ArrayList<>();
                 ArrayList<BookSwap> filterList = getFilteredList(adapter.getList());
-                Notification notification = new Notification("Swap Request", transactionID ,"9");
+                Notification notification = new Notification("Swap Request", transactionID, "9");
                 Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                 obj.put("user_id", sellUserID);
-                obj.put("messages",firstName + " sent you a Swap request");
+                obj.put("messages", firstName + " sent you a Swap request");
                 list.add(obj);
                 NotificationController controller = new NotificationController();
                 controller.sendNotification(list);
@@ -285,11 +328,11 @@ public class SwapActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
+            if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
+                editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
@@ -326,14 +369,14 @@ public class SwapActivity extends AppCompatActivity {
                 transactionInsert transactionInsert = new transactionInsert(SwapActivity.this, session_id, user_ID, bookIntent.getUser_id(), buyBookID, bookIntent.getId(), "swap");
                 transactionInsert.execute();
 
-                Intent intent= new Intent(SwapActivity.this, MainAllActivity.class);
+                Intent intent = new Intent(SwapActivity.this, MainAllActivity.class);
                 startActivity(intent);
                 finish();
 
                 //}
             } catch (Exception e) {
                 String ssss = e.getMessage();
-               // Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
+                // Toast.makeText(context, "no data", Toast.LENGTH_LONG).show();
             }
             dialog.dismiss();
         }

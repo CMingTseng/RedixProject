@@ -17,8 +17,7 @@
         layout="@layout/menu_myprofile"
         android:layout_below="@+id/menu_top_profile"
         android:layout_centerHorizontal="true"
-        android:id="@+id/include55"
-        android:layout_marginTop="1dp" />
+        android:id="@+id/include55" />
 
     <TextView
         android:layout_width="wrap_content"

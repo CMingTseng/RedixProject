@@ -77,14 +77,24 @@ public class AdapterProfileDashboard extends RecyclerView.Adapter<AdapterProfile
         try {
           if(user_id == dashBoard.getUser_buyer_id())
             {
-                holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()
-                        + dashBoard.getUser_quality_seller()) / (float)3);
+                if((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()
+                        + dashBoard.getUser_quality_seller())>0) {
+                    holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp_seller() + dashBoard.getUser_cour_seller()
+                            + dashBoard.getUser_quality_seller()) / (float) 3);
+                }else {
+                    holder.ratingBar_dashboard.setVisibility(View.INVISIBLE);
+                }
 
             }
             else
             {
-                holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp() + dashBoard.getUser_cour()
-                        + dashBoard.getUser_quality()) / (float)3);
+                if((dashBoard.getUser_promp() + dashBoard.getUser_cour()
+                        + dashBoard.getUser_quality())>0) {
+                    holder.ratingBar_dashboard.setRating((dashBoard.getUser_promp() + dashBoard.getUser_cour()
+                            + dashBoard.getUser_quality()) / (float) 3);
+                }else {
+                    holder.ratingBar_dashboard.setVisibility(View.INVISIBLE);
+                }
             }
         }catch (Exception e)
         {}

@@ -54,7 +54,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     AdapterExplore adapter;
     //-----------------------------
     private ImageView btn_location,btn_user,btn_commnet,btn_camera,btn_bag;
-    ImageView img_rank1,img_rank2,img_rank3;
+    ImageView img_rank1,img_rank2,img_rank3,icon_change_profile;
     CustomTabbarExplore tab_custom;
     RecyclerView rView;
     GridLayoutManager gridLayoutManager;
@@ -212,6 +212,8 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         img_rank2 = (ImageView)findViewById(R.id.img_rank2);
         img_rank3 = (ImageView)findViewById(R.id.img_rank3);
         //end
+        icon_change_profile=(ImageView)findViewById(R.id.icon_change_profile);
+        icon_change_profile.setVisibility(View.GONE);
         //bottom menu
         btn_location = (ImageView) findViewById(R.id.img_menu_bottom_location);
         btn_commnet = (ImageView) findViewById(R.id.img_menu_bottom_comment);

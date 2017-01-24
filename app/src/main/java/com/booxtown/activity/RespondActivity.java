@@ -217,6 +217,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         img_menu_bottom_camera = (ImageView) findViewById(R.id.img_menu_bottom_camera);
         img_menu_bottom_bag = (ImageView) findViewById(R.id.img_menu_bottom_bag);
         img_menu_bottom_user = (ImageView) findViewById(R.id.img_menu_bottom_user);
+        setDefaut(4);
     }
 
     private void populatRecyclerView(String post_id) {
@@ -541,5 +542,52 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
             }
 
         }
+    }
+
+    public void setDefaut(int i){
+        //set icon tab
+        if(i==0) {
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(img_menu_bottom_comment);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(img_menu_bottom_location);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(img_menu_bottom_camera);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(img_menu_bottom_bag);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(img_menu_bottom_user);
+        }
+        else if(i==1) {
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(img_menu_bottom_comment);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_active).into(img_menu_bottom_location);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(img_menu_bottom_camera);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(img_menu_bottom_bag);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(img_menu_bottom_user);
+        }
+        else if(i==2) {
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_active).into(img_menu_bottom_comment);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(img_menu_bottom_location);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(img_menu_bottom_camera);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(img_menu_bottom_bag);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(img_menu_bottom_user);
+        }
+        else if(i==3) {
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(img_menu_bottom_comment);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(img_menu_bottom_location);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_active).into(img_menu_bottom_camera);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(img_menu_bottom_bag);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(img_menu_bottom_user);
+        }
+        else if(i==4) {
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(img_menu_bottom_comment);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(img_menu_bottom_location);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(img_menu_bottom_camera);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_active).into(img_menu_bottom_bag);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(img_menu_bottom_user);
+        }
+        else {
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(img_menu_bottom_comment);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(img_menu_bottom_location);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(img_menu_bottom_camera);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(img_menu_bottom_bag);
+            Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_active).into(img_menu_bottom_user);
+        }
+
     }
 }

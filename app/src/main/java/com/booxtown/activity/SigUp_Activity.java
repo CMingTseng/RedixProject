@@ -100,7 +100,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
                 UserController userController = new UserController(SigUp_Activity.this);
                 User user  = new User();
-                String[] bod=edt_birthday.getText().toString().split("-");
+                String[] bod=edt_birthday.getText().toString().split("/");
 
                 user.setBirthday(bod[2]+"-"+bod[1]+"-"+bod[0]);
                 user.setEmail(edt_mail.getText().toString());

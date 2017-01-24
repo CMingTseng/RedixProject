@@ -114,7 +114,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     TableRow tbTypebook,tbTypebook2;
     EditText editText11;
     List<String> arr_commetID = new ArrayList<>();
-
+    RelativeLayout layout_user;
     //end
     @Nullable
     @Override
@@ -150,10 +150,10 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
             if (type.equals("4")) {
                 HomeActivity activity = (HomeActivity) getActivity();
-                activity.getTxtTitle().setText("Book Detail");
+                activity.getTxtTitle().setText("Listing");
             } else {
                 MainAllActivity activity = (MainAllActivity) getActivity();
-                activity.gettitle().setText("Book Detail");
+                activity.gettitle().setText("Listing");
             }
             imageView_back.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -242,7 +242,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         }
         populatRecyclerView(book.getId());
         implementScrollListener(book.getId());
-        MainAllActivity.setTxtTitle("Book Detail");
+        MainAllActivity.setTxtTitle("Listing");
         return v;
     }
 
@@ -428,7 +428,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 public void onClick(View v) {
                     SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                     String session_id = pref.getString("session_id", null);
-                    checkExits checkExits= new checkExits(getContext(),session_id,book,1 );
+                    checkExits checkExits= new checkExits(getContext(),session_id,book,3 );
                     checkExits.execute();
                 }
             });
@@ -437,7 +437,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 public void onClick(View v) {
                     SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
                     String session_id = pref.getString("session_id", null);
-                    checkExits checkExits= new checkExits(getContext(),session_id,book,1 );
+                    checkExits checkExits= new checkExits(getContext(),session_id,book,3 );
                     checkExits.execute();
                 }
             });
@@ -460,7 +460,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 return false;
             }
         });
-
+        layout_user=(RelativeLayout) view.findViewById(R.id.layout_user);
         icon_user_listing_detail = (CircularImageView) view.findViewById(R.id.icon_user_listing_detail);
         ratingBar_userprofile = (RatingBar) view.findViewById(R.id.myRatingBar);
 
@@ -686,10 +686,17 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 final String session_id = pref.getString("session_id", null);
 
                 if(!user_ID.equals(bookUserID)) {
-                    if(type==1) {
+                    if(type==1||type==3) {
                         final Dialog dialog = new Dialog(context);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_buy_listing);
+
+                        TextView text_title=(TextView) dialog.findViewById(R.id.textView135);
+                        if(type==3){
+                            text_title.setText("Are you sure you want to get this book");
+                        }else {
+                            text_title.setText("Are you sure you want to buy this book");
+                        }
 
                         TextView textView_namebook_buy =(TextView)dialog.findViewById(R.id.textView_namebook_buy);
                         textView_namebook_buy.setText("\""+book.getTitle()+"\"");
@@ -1226,7 +1233,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
         }
 
         @Override
-        protected void onPostExecute(List<User> user) {
+        protected void onPostExecute(final List<User> user) {
             try {
                 if (user.size() > 0){
                     //set rank
@@ -1281,9 +1288,14 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                                 .load(R.mipmap.user_empty)
                                 .into(icon_user_listing_detail);
                     }
-
-
-
+                    layout_user.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(context,UserProfileActivity.class);
+                            intent.putExtra("user",user.get(0).getUser_id()+"");
+                            context.startActivity(intent);
+                        }
+                    });
                     progressDialog.dismiss();
                 }else {
                     //Toast.makeText(context,Information.noti_no_data,Toast.LENGTH_SHORT).show();

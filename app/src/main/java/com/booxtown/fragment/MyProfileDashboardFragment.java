@@ -50,7 +50,7 @@ public class MyProfileDashboardFragment extends Fragment {
     int user_id;
     List<DashBoard> dashBoards_new = new ArrayList<>();
     AdapterProfileDashboard adapterProfileDashboard;
-    ImageView img_menu_component, img_menu, img_rank1, img_rank2, img_rank3;
+    ImageView img_menu_component, img_menu, img_rank1, img_rank2, img_rank3,icon_change_profile;
     TextView title_menu;
     //private static RelativeLayout bottomLayout;
     boolean loading = true,
@@ -155,6 +155,8 @@ public class MyProfileDashboardFragment extends Fragment {
     }
 
     public void init(View view) {
+        icon_change_profile=(ImageView)view.findViewById(R.id.icon_change_profile);
+        icon_change_profile.setVisibility(View.GONE);
         linearLayoutManager = new LinearLayoutManager(getContext());
         imv_menu_profile = (CircularImageView) view.findViewById(R.id.imv_menu_profile);
         ratingBar_userprofile = (RatingBar) view.findViewById(R.id.ratingBar_userprofile);

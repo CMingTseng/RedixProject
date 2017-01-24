@@ -567,8 +567,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
                 if (image.length != 0) {
                     if (arrImage.size() == 1) {
-
                         final String imageLink = ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "";
+                        sChooseImage ="1";
                         try {
                             GetWithHeight getWithHeight = new GetWithHeight(getContext(), imageLink, imagebook1);
                             getWithHeight.execute();
@@ -580,6 +580,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     } else if (arrImage.size() == 2) {
                         final String imageLink = ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "";
                         final String imageLink2 = ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(1) + "&image=" + arrImage.get(1) + "";
+                        sChooseImage = "12";
                         try {
                             GetWithHeight getWithHeight = new GetWithHeight(getContext(), imageLink, imagebook1);
                             getWithHeight.execute();
@@ -595,6 +596,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                         final String imageLink = ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(0) + "&image=" + arrImage.get(0) + "";
                         final String imageLink2 = ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(1) + "&image=" + arrImage.get(1) + "";
                         final String imageLink3 = ServiceGenerator.API_BASE_URL + "booxtown/rest/getImage?username=" + listUserName.get(2) + "&image=" + arrImage.get(2) + "";
+                        sChooseImage ="123";
                         try {
                             GetWithHeight getWithHeight = new GetWithHeight(getContext(), imageLink, imagebook1);
                             getWithHeight.execute();
@@ -867,6 +869,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     }
 
                     listFileName.add(lisImmage.get(i).getKey());
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -926,9 +929,13 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             if (listFileName.size() != 0) {
                 for (int i = 0; i < listFileName.size(); i++) {
                     if (i != listFileName.size() - 1) {
-                        imagename = imagename + listFileName.get(i) + ";";
+                        if (listFileName.get(i).length() > 0) {
+                            imagename = imagename + listFileName.get(i) + ";";
+                        }
                     } else {
-                        imagename = imagename + listFileName.get(i);
+                        if (listFileName.get(i).length() > 0) {
+                            imagename = imagename + listFileName.get(i);
+                        }
                     }
                 }
             }
@@ -947,12 +954,40 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             }
             if (numclick != 0 || numimageclick != 0 || !imgOne.equals("")) {
                 if (!s.equals("edit")) {
+                    String imageupdate = "";
+                    if (imgThree.trim().length() > 0) {
+                        if (imgTwo.trim().length() > 0) {
+                            imageupdate = imgOne.length() > 0 ? imgOne + ";" : "" + imgTwo + ";" + imgThree;
+                        } else {
+                            imageupdate = imgOne.length() > 0 ? imgOne + ";" : "" + imgThree;
+                        }
+                    } else {
+                        if (imgTwo.trim().length() > 0) {
+                            imageupdate = imgOne.length() > 0 ? imgOne + ";" : "" + imgTwo;
+                        } else {
+                            imageupdate = imgOne.length() > 0 ? imgOne + "" : "";
+                        }
+                    }
                     book.setPhoto(imagename + " ");
+                    //book.setPhoto(imageupdate + " ");
                 } else {
                     if (type == 0) {
-
-                        String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
-                        book.setPhoto(imageupdate + " ");
+                        String imageupdate = "";
+                        if (imgThree.trim().length() > 0) {
+                            if (imgTwo.trim().length() > 0) {
+                                imageupdate = (imgOne.length() > 0 ? imgOne + ";" : "") + imgTwo + ";" + imgThree;
+                            } else {
+                                imageupdate = (imgOne.length() > 0 ? imgOne + ";" : "") + imgThree;
+                            }
+                        } else {
+                            if (imgTwo.trim().length() > 0) {
+                                imageupdate = (imgOne.length() > 0 ? imgOne + ";" : "") + imgTwo;
+                            } else {
+                                imageupdate = imgOne.length() > 0 ? imgOne + "" : "";
+                            }
+                        }
+                        //String imageupdate = imgOne + ";" + imgTwo + ";" + imgThree;
+                        book.setPhoto(imageupdate.trim() + " ");
                         book.setId(bookedit.getId());
                     }
                 }
@@ -1206,7 +1241,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
     //select image
     private void selectImage() {
-        final CharSequence[] items = {"Take Photo", "Choose from Library",
+        final CharSequence[] items = {"Take Photo", "Choose from Library", "Remove",
                 "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -1228,6 +1263,8 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
+                } else if (items[item].equals("Remove")) {
+                    Remove();
                 }
             }
         });
@@ -1249,13 +1286,55 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
-//    public void choseImage() {
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
-//    }
+    private void Remove() {
+        if (typeChooseImage == 1) {
+            if (!sChooseImage.contains("1")) {
+                imagebook1.setImageBitmap(null);
+                imagebook1.destroyDrawingCache();
+                if (lisImmage.size() > 0)
+                    lisImmage.remove(0);
+                imgOne = "";
+                sChooseImage = sChooseImage.replaceAll("1","");
+            } else if (!sChooseImage.contains("2")) {
+                imagebook2.setImageBitmap(null);
+                imagebook2.destroyDrawingCache();
+                if (lisImmage.size() > 1)
+                    lisImmage.remove(1);
+                imgTwo = "";
+                sChooseImage = sChooseImage.replaceAll("2","");
+            } else if (!sChooseImage.contains("3")) {
+                imagebook3.setImageBitmap(null);
+                imagebook3.destroyDrawingCache();
+                if (lisImmage.size() > 2)
+                    lisImmage.remove(2);
+                imgThree = "";
+                sChooseImage = sChooseImage.replaceAll("3","");
+            }
+        }else if(typeChooseImage == 2){
+            if (numimageclick == 1) {
+                imagebook1.setImageBitmap(null);
+                imagebook1.destroyDrawingCache();
+                if (lisImmage.size() > 0)
+                    lisImmage.remove(0);
+                imgOne = "";
+                sChooseImage = sChooseImage.replaceAll("1","");
+            } else if (numimageclick == 2) {
+                imagebook2.setImageBitmap(null);
+                imagebook2.destroyDrawingCache();
+                if (lisImmage.size() > 1)
+                    lisImmage.remove(1);
+                imgTwo = "";
+                sChooseImage = sChooseImage.replaceAll("2","");
+            } else if (numimageclick == 3) {
+                imagebook3.setImageBitmap(null);
+                imagebook3.destroyDrawingCache();
+                if (lisImmage.size() > 2)
+                    lisImmage.remove(2);
+                imgThree = "";
+                sChooseImage = sChooseImage.replaceAll("3","");
+            }
+        }
+    }
 
     ArrayList<ImageClick> lisImmage = new ArrayList<>();
 
@@ -1340,63 +1419,69 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             int width = imagebook1.getWidth();
             int height = imagebook1.getHeight();
             if (typeChooseImage == 1) {
-            /*if (numclick+lisImmage.size() == 1) {
-                Picasso.with(getActivity()).load(mImageUri).into(imagebook1);
-                ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                lisImmage.add(imageClick);
-                imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-            } else if (numclick+ lisImmage.size() == 2) {
-                Picasso.with(getActivity()).load(mImageUri).into(imagebook2);
-                ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                lisImmage.add(imageClick);
-                imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-            } else if (numclick+ lisImmage.size() == 3) {
-                Picasso.with(getActivity()).load(mImageUri).into(imagebook3);
-                ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                lisImmage.add(imageClick);
-                imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-            }*/
-
                 if (!sChooseImage.contains("1")) {
-
                     Picasso.with(getActivity()).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook1);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
+                    if (lisImmage.size() >= 1) {
+                        lisImmage.set(0, imageClick);
+                    } else {
+                        lisImmage.add(imageClick);
+                    }
                     imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-                    sChooseImage = sChooseImage + "1";
+                    if (!sChooseImage.contains("1")) {
+                        sChooseImage = sChooseImage + "1";
+                    }
                 } else if (!sChooseImage.contains("2")) {
                     Picasso.with(getActivity()).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook2);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
+                    if (lisImmage.size() >= 2) {
+                        lisImmage.set(1, imageClick);
+                    } else {
+                        lisImmage.add(imageClick);
+                    }
                     imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-                    sChooseImage = sChooseImage + "2";
+                    if (!sChooseImage.contains("2")) {
+                        sChooseImage = sChooseImage + "2";
+                    }
                 } else if (!sChooseImage.contains("3")) {
                     Picasso.with(getActivity()).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook3);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
+                    if (lisImmage.size() >= 3) {
+                        lisImmage.set(2, imageClick);
+                    } else {
+                        lisImmage.add(imageClick);
+                    }
                     imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
-                    sChooseImage = sChooseImage + "3";
+                    if (!sChooseImage.contains("3")) {
+                        sChooseImage = sChooseImage + "3";
+                    }
                 }
             } else if (typeChooseImage == 2) {
                 if (numimageclick == 1) {
                     Picasso.with(getActivity()).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook1);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
+                    if (lisImmage.size() >= 1) {
+                        lisImmage.set(0, imageClick);
+                    } else {
+                        lisImmage.add(imageClick);
+                    }
                     imgOne = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
                     if (!sChooseImage.contains("1")) {
                         sChooseImage = sChooseImage + "1";
                     }
                 } else if (numimageclick == 2) {
-//            imagebook2.setImageURI(mImageUri);
-//            lisImmage.remove(1);
                     Picasso.with(getActivity()).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook2);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
+                    if (lisImmage.size() >= 2) {
+                        lisImmage.set(1, imageClick);
+                    } else {
+                        lisImmage.add(imageClick);
+                    }
                     imgTwo = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
                     if (!sChooseImage.contains("2")) {
                         sChooseImage = sChooseImage + "2";
@@ -1405,7 +1490,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                     Picasso.with(getActivity()).load(mImageUri).resize(width, height)
                             .centerInside().into(imagebook3);
                     ImageClick imageClick = new ImageClick(mImageUri, username + "_+_" + String.valueOf(time) + getFileName(mImageUri));
-                    lisImmage.add(imageClick);
+                    if (lisImmage.size() >= 3) {
+                        lisImmage.set(2, imageClick);
+                    } else {
+                        lisImmage.add(imageClick);
+                    }
                     imgThree = username + "_+_" + String.valueOf(time) + getFileName(mImageUri);
 
                     if (!sChooseImage.contains("3")) {

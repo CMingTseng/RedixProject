@@ -390,7 +390,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                     SharedPreferences.Editor editor = pref.edit();
                     String firstName = pref.getString("firstname", "");
                     List<Hashtable> list = new ArrayList<>();
-                    Notification notification = new Notification("Buy Request", transactionID, "4");
+                    Notification notification = new Notification("Buying Request", transactionID, "4");
                     Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                     obj.put("user_id", sellUserID);
                     if (firstName.length() > 1) {
@@ -404,11 +404,11 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                     SharedPreferences.Editor editor = pref.edit();
                     String firstName = pref.getString("firstname", "");
                     List<Hashtable> list = new ArrayList<>();
-                    Notification notification = new Notification("Buy Request", transactionID, "16");
+                    Notification notification = new Notification("Buying Request", transactionID, "16");
                     Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                     obj.put("user_id", sellUserID);
                     if (firstName.length() > 1) {
-                        obj.put("messages", firstName.substring(0, 1).toUpperCase() + firstName.substring(1, firstName.length()) + " wants to buy your book ");
+                        obj.put("messages", firstName.substring(0, 1).toUpperCase() + firstName.substring(1, firstName.length()) + " wants to get your book ");
                     }
                     list.add(obj);
                     NotificationController controller = new NotificationController();
@@ -464,6 +464,12 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.setContentView(R.layout.dialog_buy_listing);
 
+                        TextView text_title=(TextView) dialog.findViewById(R.id.textView135);
+                        if(type==2){
+                            text_title.setText("Are you sure you want to get this book");
+                        }else {
+                            text_title.setText("Are you sure you want to buy this book");
+                        }
                         TextView textView_namebook_buy =(TextView)dialog.findViewById(R.id.textView_namebook_buy);
                         textView_namebook_buy.setText("\""+book.getTitle()+"\"");
 

@@ -545,7 +545,7 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Choose from Library",
+        final CharSequence[] items = { "Take Photo", "Choose from Library","Remove",
                 "Cancel" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -568,6 +568,10 @@ public class MyProfileFragment extends Fragment {
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
+                else if (items[item].equals("Remove")) {
+                   Remove();
+                }
+
             }
         });
         builder.show();
@@ -585,6 +589,15 @@ public class MyProfileFragment extends Fragment {
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    private void Remove(){
+        imv_menu_profile.setImageBitmap(null);
+        imv_menu_profile.destroyDrawingCache();
+        img_photo="";
+        Picasso.with(getActivity())
+                .load(R.mipmap.user_empty)
+                .into(imv_menu_profile);
     }
 
     public void addImages(ArrayList<Bitmap> bmap,List<String> listFileName){
@@ -791,6 +804,7 @@ public class MyProfileFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean == true) {
                 dialog.dismiss();
+                Picasso.with(getContext()).load(R.drawable.btn_edit_profile).into(imageView_update_profile);
                 Toast.makeText(getActivity(),Information.noti_update_success, Toast.LENGTH_LONG).show();
             } else {
                 dialog.dismiss();
