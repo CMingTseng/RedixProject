@@ -36,7 +36,7 @@
                 android:textSize="20sp" />
 
             <include
-                android:id="@+id/include48"
+                android:id="@+id/layout_profile"
                 layout="@layout/custom_respond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:id="@+id/txt_title_book_respond"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/include48"
+                android:layout_below="@+id/layout_profile"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:background="@color/color_title_book"
@@ -81,10 +81,12 @@
                 android:layout_centerHorizontal="true"
                 android:background="@color/color_title_book"
                 android:gravity="center"
-                android:padding="5dp"
                 android:textSize="@dimen/text_size_search"
                 android:text="&quot;I am looking for this book please help me find it!&quot;"
-                android:textColor="@color/dot_light_screen1" />
+                android:textColor="@color/dot_light_screen1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp" />
 
             <com.booxtown.custom.CustomTextView
                 android:id="@+id/txt_add_book_respond"

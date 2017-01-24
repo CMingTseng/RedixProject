@@ -51,7 +51,8 @@
         android:layout_alignBottom="@+id/ratingBar_respon"
         android:layout_toRightOf="@+id/ratingBar_respon"
         android:layout_toEndOf="@+id/ratingBar_respon"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp" />
 
     <ImageView
         android:layout_width="30dp"
@@ -62,7 +63,7 @@
         android:layout_toEndOf="@+id/img_rank1_respon"
         android:layout_marginLeft="5dp"
         android:visibility="gone"
-        />
+        android:layout_marginTop="3dp" />
 
     <ImageView
         android:layout_width="30dp"
@@ -72,6 +73,6 @@
         android:layout_toRightOf="@+id/img_rank2_respon"
         android:layout_toEndOf="@+id/img_rank2_respon"
         android:layout_marginLeft="5dp"
-        />
+        android:layout_marginTop="3dp" />
 
 </RelativeLayout>

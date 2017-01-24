@@ -719,8 +719,13 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                             public void onClick(View v) {
                                 dialog.dismiss();
 
-                                transactionInsert transactionInsert = new transactionInsert(context, session_id, user_ID, bookUserID, "", bookID, "buy");
-                                transactionInsert.execute();
+                                if(type==1) {
+                                    transactionInsert transactionInsert = new transactionInsert(context, session_id, user_ID, bookUserID, "", bookID, "buy");
+                                    transactionInsert.execute();
+                                }else if(type==3){
+                                    transactionInsert transactionInsert = new transactionInsert(context, session_id, user_ID, bookUserID, "", bookID, "free");
+                                    transactionInsert.execute();
+                                }
 
                                 final Dialog dialog1 = new Dialog(context);
                                 dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);

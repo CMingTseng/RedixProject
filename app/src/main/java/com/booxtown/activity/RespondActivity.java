@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
             isLoading = true;
     private int previousTotal = 0;
     private int visibleThreshold = 4;
-
+    RelativeLayout layout_profile;
     ImageView img_menu_bottom_location,img_menu_bottom_comment,img_menu_bottom_camera,img_menu_bottom_bag,img_menu_bottom_user;
 
     List<String> listUser = new ArrayList<>();
@@ -105,8 +106,16 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 String a = wishboard.getUsername().substring(0,1).toUpperCase() + wishboard.getUsername().substring(1,wishboard.getUsername().length());
                 txt_author_post.setText(a);
             }
-            txt_title_book_respond.setText("Book: "+ wishboard.getTitle());
-            txt_author_book_post.setText("Author: "+ wishboard.getAuthor());
+            if(wishboard.getTitle().trim().length()>0) {
+                txt_title_book_respond.setText("Book: " + wishboard.getTitle());
+            }else {
+                txt_title_book_respond.setVisibility(View.GONE);
+            }
+            if(wishboard.getAuthor().trim().length()>0) {
+                txt_author_book_post.setText("Author: " + wishboard.getAuthor());
+            }else {
+                txt_author_book_post.setVisibility(View.GONE);
+            }
             txt_content_post.setText(wishboard.getComment());
             getUser getUser = new getUser(RespondActivity.this,wishboard.getUser_id());
             getUser.execute();
@@ -167,6 +176,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void init(){
+
+        layout_profile=(RelativeLayout) findViewById(R.id.layout_profile);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         rv_comment = (RecyclerView) findViewById(R.id.rv_comment);
         rv_comment.setLayoutManager(linearLayoutManager);
@@ -434,9 +445,19 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         @Override
-        protected void onPostExecute(List<User> user) {
+        protected void onPostExecute(final List<User> user) {
             try {
                 if (user.size() > 0){
+
+                    layout_profile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(context,UserProfileActivity.class);
+                            intent.putExtra("user",user.get(0).getUser_id()+"");
+                            context.startActivity(intent);
+                        }
+                    });
+
                     ratingBar_respon.setRating(user.get(0).getRating());
                     LayerDrawable stars = (LayerDrawable) ratingBar_respon.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.rgb(249,242,0), PorterDuff.Mode.SRC_ATOP);
