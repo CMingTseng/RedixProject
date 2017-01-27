@@ -12,9 +12,8 @@
         android:layout_height="match_parent"
         android:text="@string/action_settings"
         android:textColor="@color/color_text_hint"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:layout_marginTop="3dp"
-
         android:layout_alignParentBottom="true"
         android:paddingBottom="3dp" />
 

@@ -103,7 +103,8 @@ public class MyProfileFragment extends Fragment {
     ImageView img_rank1, img_rank2, img_rank3;
     String img_photo;
     String photoOrigin = "";
-    boolean flag = false;
+    boolean flagEdit = false;
+    boolean dataChange = false;
     TextView myDashboard;
     UploadFileController uploadFileController;
 
@@ -247,7 +248,7 @@ public class MyProfileFragment extends Fragment {
         Picasso.with(getContext()).load(R.drawable.btn_edit_profile).into(imageView_update_profile);
         //edit profile
         txt_profile_email.setEnabled(false);
-        txt_profile_email.addTextChangedListener(new TextWatcher() {
+        /*txt_profile_email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -261,8 +262,11 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
             }
-        });
-
+        });*/
+        if (!flagEdit) {
+            txt_profile_phone.setEnabled(false);
+            txt_profile_birthday.setEnabled(false);
+        }
         txt_profile_phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -271,7 +275,10 @@ public class MyProfileFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
+                if (flagEdit) {
+                    dataChange = true;
+                    Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
+                }
             }
 
             @Override
@@ -281,41 +288,56 @@ public class MyProfileFragment extends Fragment {
         txt_profile_birthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
-                DialogFragment dialogfragment = new DatePickerDialogClass();
-                dialogfragment.show(getActivity().getFragmentManager(), "Date Time");
+                if (flagEdit) {
+                    dataChange = true;
+                    Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
+                    DialogFragment dialogfragment = new DatePickerDialogClass();
+                    dialogfragment.show(getActivity().getFragmentManager(), "Date Time");
+                }
             }
         });
         //end
         imageView_update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkEmail(txt_profile_email.getText().toString()) == false) {
-                    Toast.makeText(getContext(), Information.noti_validate_email, Toast.LENGTH_LONG).show();
+                if (!flagEdit) {
+                    Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
+                    txt_profile_phone.setEnabled(true);
+                    txt_profile_birthday.setEnabled(true);
+                    flagEdit = true;
                 } else {
+
+                    txt_profile_phone.setEnabled(false);
+                    txt_profile_birthday.setEnabled(false);
+                    flagEdit = false;
+                    Picasso.with(getContext()).load(R.drawable.btn_edit_profile).into(imageView_update_profile);
                     try {
-                        ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
-                        bitmaps.add(bitmap_profile);
-                        List<String> filename = new ArrayList<String>();
-                        filename.add(username + "_+_" + img_photo);
-                        if (img_photo != null) {
-                            addImages(bitmaps, filename);
+                        if (dataChange) {
+                            ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                            bitmaps.add(bitmap_profile);
+                            List<String> filename = new ArrayList<String>();
+                            filename.add(username + "_+_" + img_photo);
+                            if (img_photo != null) {
+                                addImages(bitmaps, filename);
 
-                            String[] birthDay = txt_profile_birthday.getText().toString().split("/");
-                            String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+                                String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                                String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
 
-                            updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                    txt_profile_phone.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
-                            updateProfile.execute();
-                        } else {
-                            String[] birthDay = txt_profile_birthday.getText().toString().split("/");
-                            String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
-                            updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                    txt_profile_phone.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
-                            updateProfile.execute();
+                                updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                                        txt_profile_phone.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+                                updateProfile.execute();
+                            } else {
+                                String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                                String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+                                updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                                        txt_profile_phone.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
+                                updateProfile.execute();
+                            }
                         }
                     } catch (Exception e) {
                     }
+
+
                 }
             }
         });
@@ -615,10 +637,13 @@ public class MyProfileFragment extends Fragment {
             if (requestCode == SELECT_FILE) {
                 onSelectFromGalleryResult(data);
                 Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
-            }
-            else if (requestCode == REQUEST_CAMERA) {
+                flagEdit = true;
+                dataChange=true;
+            } else if (requestCode == REQUEST_CAMERA) {
                 onCaptureImageResult(data);
                 Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
+                flagEdit = true;
+                dataChange=true;
             }
         }
     }
@@ -735,10 +760,10 @@ public class MyProfileFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(context);
+            /*dialog = new ProgressDialog(context);
             dialog.setMessage(Information.noti_dialog);
             dialog.setIndeterminate(true);
-            dialog.show();
+            dialog.show();*/
             super.onPreExecute();
         }
 
@@ -754,7 +779,7 @@ public class MyProfileFragment extends Fragment {
                     tab_swap_count.setText(" (" + filterBook(2).size() + ")");
                     tab_free_count.setText(" (" + filterBook(3).size() + ")");
                     tab_cart_count.setText(" (" + filterBook(4).size() + ")");
-                    dialog.dismiss();
+                    //dialog.dismiss();
                 } else {
                     tab_all_count.setText("(0)");
                     tab_swap_count.setText("(0)");
@@ -763,9 +788,9 @@ public class MyProfileFragment extends Fragment {
                 }
             } catch (Exception e) {
                 Toast.makeText(context, Information.noti_no_data, Toast.LENGTH_LONG).show();
-                dialog.dismiss();
+                //dialog.dismiss();
             }
-            dialog.dismiss();
+            //dialog.dismiss();
         }
     }
 
@@ -814,8 +839,8 @@ public class MyProfileFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean == true) {
                 dialog.dismiss();
-                Picasso.with(getContext()).load(R.drawable.btn_edit_profile).into(imageView_update_profile);
                 Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
+                dataChange=false;
             } else {
                 dialog.dismiss();
                 Toast.makeText(getActivity(), Information.noti_update_fail, Toast.LENGTH_LONG).show();

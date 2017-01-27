@@ -692,10 +692,13 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         dialog.setContentView(R.layout.dialog_buy_listing);
 
                         TextView text_title=(TextView) dialog.findViewById(R.id.textView135);
+                        TextView text_type=(TextView) dialog.findViewById(R.id.textView134);
                         if(type==3){
                             text_title.setText("Are you sure you want to get this book");
+                            text_type.setText("Get");
                         }else {
                             text_title.setText("Are you sure you want to buy this book");
+                            text_type.setText("Buy");
                         }
 
                         TextView textView_namebook_buy =(TextView)dialog.findViewById(R.id.textView_namebook_buy);

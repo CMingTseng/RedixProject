@@ -3,6 +3,7 @@ package com.booxtown.adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import com.booxtown.activity.ListingCollectionActivity;
 import com.booxtown.activity.ListingsDetailActivity;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.model.Book;
+import com.squareup.picasso.Target;
 
 /**
  * Created by Administrator on 29/08/2016.
@@ -97,6 +99,7 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
 
     @Override
     public void onBindViewHolder(LisBookHolder hoder, int position) {
+        final LisBookHolder hoders=hoder;
         final Book ex= listBook.get(position);
         username = pref.getString("username", null);
         String[] image = ex.getPhoto().split(";");
@@ -106,8 +109,7 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
                 String img = image[0].substring(index+3, image[0].length());
                 String imageLink= ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "";
                 try {
-                    GetWithHeight getWithHeight= new GetWithHeight(mContext,imageLink,hoder.img_book);
-                    getWithHeight.execute();
+                    Picasso.with(mContext). load(imageLink).placeholder(R.drawable.blank_image).into(hoder.img_book);
 
                 }catch (Exception exx){
                     String err= exx.getMessage();

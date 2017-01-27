@@ -950,28 +950,33 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         @Override
         protected List<Book> doInBackground(String... strings) {
-            SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
             try {
-                CheckSession checkSession = new CheckSession();
-                boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-                if (!check) {
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("session_id", null);
-                    editor.putString("active", null);
-                    editor.commit();
-                    Intent intent = new Intent(getActivity(), SignIn_Activity.class);
+                SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                try {
+                    CheckSession checkSession = new CheckSession();
+                    boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+                    if (!check) {
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("session_id", null);
+                        editor.putString("active", null);
+                        editor.commit();
+                        Intent intent = new Intent(getActivity(), SignIn_Activity.class);
+                        getActivity().startActivity(intent);
+                        this.cancel(true);
+                    }
+                } catch (Exception exx) {
+                    Intent intent = new Intent(context, SignIn_Activity.class);
                     getActivity().startActivity(intent);
                     this.cancel(true);
                 }
-            } catch (Exception exx) {
-                Intent intent = new Intent(context, SignIn_Activity.class);
-                getActivity().startActivity(intent);
-                this.cancel(true);
-            }
-            BookController bookController = new BookController();
+                BookController bookController = new BookController();
 
-            return bookController.getAllBookInApp(0, 1000, 10, longitude, latitude, genre, "", pref.getString("session_id", null), 0, 10000, 0);
-            //return bookController.getAllBookInApp(0,1000,10,Float.parseFloat("55.3154"),Float.parseFloat("25.2446"),"","",pref.getString("session_id", null),0,10000,0);
+                return bookController.getAllBookInApp(0, 1000, 10, longitude, latitude, genre, "", pref.getString("session_id", null), 0, 10000, 0);
+                //return bookController.getAllBookInApp(0,1000,10,Float.parseFloat("55.3154"),Float.parseFloat("25.2446"),"","",pref.getString("session_id", null),0,10000,0);
+            }
+            catch (Exception e){
+                return null;
+            }
         }
 
         @Override

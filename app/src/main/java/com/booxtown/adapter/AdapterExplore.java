@@ -109,8 +109,12 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
                 final String img = image[0].substring(index+3, image[0].length());
                 final String imageLink= ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username=" + image[0].substring(0,index) + "&image=" +  img  + "";
                 try {
-                    GetWithHeight getWithHeight= new GetWithHeight(mContext,imageLink,hoder.img_book);
-                    getWithHeight.execute();
+
+                    Picasso.with(mContext). load(imageLink).placeholder(R.drawable.blank_image).
+                            into(hoder.img_book);
+
+                    //GetWithHeight getWithHeight= new GetWithHeight(mContext,imageLink,hoder.img_book);
+                    //getWithHeight.execute();
 
                 }catch (Exception exx){
                     String err= exx.getMessage();

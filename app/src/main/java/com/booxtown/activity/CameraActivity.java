@@ -233,13 +233,11 @@ public class CameraActivity extends Activity implements Callback,
 
                         imageFile = new File(folder.getAbsolutePath()
                                 + File.separator
-                                + new Timestamp(date.getTime()).toString().trim().replaceAll("-","").replaceAll(":","").replaceAll(" ","").replaceAll(".","")
-                                + "Image.jpg");
+                                + "Image.jpeg");
 
                         url=folder.getAbsolutePath()
                                 + File.separator
-                                + new Timestamp(date.getTime()).toString().trim().replaceAll("-","").replaceAll(":","").replaceAll(" ","").replaceAll(".","")
-                                + "Image.jpg";
+                                + "Image.jpeg";
                         imageFile.createNewFile();
                     } else {
                         Toast.makeText(getBaseContext(), "Image Not saved",
@@ -250,21 +248,11 @@ public class CameraActivity extends Activity implements Callback,
                     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 
                     // save image into gallery
-                    rotatedBitmap.compress(CompressFormat.JPEG, 100, ostream);
+                    rotatedBitmap.compress(CompressFormat.JPEG, 50, ostream);
 
                     FileOutputStream fout = new FileOutputStream(imageFile);
                     fout.write(ostream.toByteArray());
                     fout.close();
-                    ContentValues values = new ContentValues();
-
-                    values.put(Images.Media.DATE_TAKEN,
-                            System.currentTimeMillis());
-                    values.put(Images.Media.MIME_TYPE, "image/jpeg");
-                    values.put(MediaStore.MediaColumns.DATA,
-                            imageFile.getAbsolutePath());
-
-                    CameraActivity.this.getContentResolver().insert(
-                            Images.Media.EXTERNAL_CONTENT_URI, values);
 
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
