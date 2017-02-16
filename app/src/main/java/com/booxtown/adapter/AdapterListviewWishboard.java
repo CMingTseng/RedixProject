@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,7 +54,7 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
 
     @Override
     public void onBindViewHolder(HolderWisboard holder, final int position) {
-        if (list.get(position).getTitle().trim().length() == 0) {
+        /*if (list.get(position).getTitle().trim().length() == 0) {
             if (list.get(position).getAuthor().length() == 0) {
                 holder.title.setText(list.get(position).getComment());
                 holder.name.setText("");
@@ -65,7 +66,9 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
             String title = list.get(position).getTitle().substring(0,1).toUpperCase()+ list.get(position).getTitle().substring(1,list.get(position).getTitle().length());
             holder.title.setText(title);
             holder.name.setText("by " + list.get(position).getAuthor());
-        }
+        }*/
+
+        holder.title.setText(list.get(position).getComment());
         try {
 
             SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
@@ -86,22 +89,22 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
 
 //        Bitmap btn1 = BitmapFactory.decodeResource(context.getResources(),R.drawable.btn_wishbroad_message);
 //        holder.imgv_listview_respond.setImageBitmap(btn1);
-        Picasso.with(context).load(R.drawable.btn_wishbroad_message).into(holder.imgv_listview_respond);
-
-        holder.imgv_listview_respond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, RespondActivity.class);
-                intent.putExtra("wishboard", list.get(position));
-                context.startActivity(intent);
-            }
-        });
 
         if (position % 2 == 0) {
             holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.bg_user_empty));
         } else {
             holder.bg_liner.setBackgroundColor(ContextCompat.getColor(context, R.color.dot_light_screen1));
         }
+
+        holder.layout_wishboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RespondActivity.class);
+                intent.putExtra("wishboard", list.get(position));
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -121,15 +124,15 @@ public class AdapterListviewWishboard extends RecyclerView.Adapter<AdapterListvi
         TextView name;
         TextView date;
         RelativeLayout bg_liner;
-        ImageView imgv_listview_respond;
         TextView txt_userName;
+        LinearLayout layout_wishboard;
         public HolderWisboard(View itemView) {
             super(itemView);
             bg_liner = (RelativeLayout)itemView.findViewById(R.id.relativeLayout_wishboard);
             title=(TextView) itemView.findViewById(R.id.txt_title_lisview_wishboard);
-            name = (TextView)itemView.findViewById(R.id.txt_name_custom_listview_wishboard);
+            //name = (TextView)itemView.findViewById(R.id.txt_name_custom_listview_wishboard);
             date = (TextView)itemView.findViewById(R.id.txt_date_customlistview_wishboard);
-            imgv_listview_respond = (ImageView)itemView.findViewById(R.id.imgv_listview_respond);
+            layout_wishboard=(LinearLayout) itemView.findViewById(R.id.layout_wishboard);
         }
     }
 }

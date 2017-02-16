@@ -45,6 +45,8 @@ import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.RangeSeekBar;
 import com.booxtown.controller.UserController;
+import com.booxtown.custom.CustomEdittext;
+import com.booxtown.custom.DrawableClickListener;
 import com.booxtown.model.DayUsed;
 import com.booxtown.model.Genre;
 import com.booxtown.model.NumberBook;
@@ -91,7 +93,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
 
     ArrayList<Genre> genre;
     private ArrayAdapter<String> dataAdapter;
-    EditText editSearch;
+    CustomEdittext editSearch;
 
     RecyclerView rView;
     AdapterExplore adapter_exploer;
@@ -112,6 +114,8 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
     boolean trial=false;
     float longitude=0;
     float latitude=0;
+
+    boolean flagClosSearch=false;
     //GridView grid;
     public static String[] prgmNameList1 = {"Nearest distance", "Price low to high", "Price high to low", "Recently added"};
 
@@ -197,7 +201,9 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
         tab_cart_count = (TextView) view_tab.findViewById(R.id.tab_cart_count);
         tab_free_count = (TextView) view_tab.findViewById(R.id.tab_free_count);
         tab_swap_count = (TextView) view_tab.findViewById(R.id.tab_swap_count);
-        editSearch = (EditText) view.findViewById(R.id.editSearch);
+        editSearch = (CustomEdittext) view.findViewById(R.id.editSearch);
+
+        editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -214,6 +220,20 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(editSearch.getText().toString().trim().length()>0) {
+                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.closes, 0);
+                    flagClosSearch=true;
+                }else {
+                    if(chooseTab==0){
+                        chooseTab=1;
+                    }
+                    AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(chooseTab), 2, 0);
+                    rView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    tab_custom.setDefault(1);
+                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    flagClosSearch=false;
+                }
                 List<Book> list_books = new ArrayList<Book>();
                 list_books.clear();
                 for (int i = 0; i < listExplore.size(); i++) {
@@ -234,10 +254,40 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                     AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(chooseTab), 2, 0);
                     rView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+                }else {
+                    adapter_exploer.setListExplore(new ArrayList<Book>());
+                    ShowNumberbook(new ArrayList<Book>());
+                    AdapterExplore adapter = new AdapterExplore(getActivity(), filterExplore(chooseTab), 2, 0);
+                    rView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
+        editSearch.setDrawableClickListener(new DrawableClickListener() {
+            public void onClick(DrawablePosition target) {
+                switch (target) {
+                    case LEFT:
+                        //Do something here
+                        break;
+                    case RIGHT:
+                        if(flagClosSearch) {
+                            editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                            editSearch.setText("");
+                            flagClosSearch = false;
+                        }
+                        break;
+                    case TOP:
+                        //Do something here
+                        break;
+                    case BOTTOM:
+                        //Do something here
+                        break;
+                    default:
+                        break;
+                }
+            }
 
+        });
         linear_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

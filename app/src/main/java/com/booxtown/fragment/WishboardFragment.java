@@ -100,13 +100,8 @@ public class WishboardFragment extends Fragment {
                         dialog.dismiss();
                     }
                 });
-                editText_title_wishboard = (EditText)dialog.findViewById(R.id.editText_title_wishboard);
-                editText_author_wishboard = (EditText)dialog.findViewById(R.id.editText_author_wishboard);
                 editText_comment_wishboard = (EditText)dialog.findViewById(R.id.editText_comment_wishboard);
 
-                Spannable wordtoSpan = new SpannableString("Comments (50 Character)");
-                wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_text_hint)), 10, 22, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                editText_comment_wishboard.setHint(wordtoSpan);
                 TextView btn_submit_dialog_post_book_wishbroad = (TextView)dialog.findViewById(R.id.btn_submit_dialog_post_book_wishbroad);
                 btn_submit_dialog_post_book_wishbroad.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -118,7 +113,7 @@ public class WishboardFragment extends Fragment {
                         }
                         else {
                             insertWishboard insertWishboard = new insertWishboard(getContext());
-                            insertWishboard.execute(editText_title_wishboard.getText().toString(), editText_author_wishboard.getText().toString(), editText_comment_wishboard.getText().toString(), session_id);
+                            insertWishboard.execute("", "", editText_comment_wishboard.getText().toString(), session_id);
                             array_Wishboard.clear();
                             getWishboard getWishboard = new getWishboard(getContext(),15,0,session_id);
                             getWishboard.execute();

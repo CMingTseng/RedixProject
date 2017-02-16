@@ -1226,7 +1226,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         protected void onPostExecute(String result) {
             try {
                 if (!result.equals("")) {
-                    if (type == 0) {
+                    Toast.makeText(AddbookActivity.this,Information.add_book_success,Toast.LENGTH_SHORT).show();
+
+                    // Tạm thời rào lại vì liên quan đến approved
+                    /*if (type == 0) {
                         Intent intent = new Intent(AddbookActivity.this, SwapActivity.class);
                         if (bookedit == null) {
                             intent.putExtra("Book", bookedit);
@@ -1251,7 +1254,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                         controller.sendNotification(list);
 
                         onBackPressed();
-                    }
+                    }*/
 
                 }
             } catch (Exception e) {

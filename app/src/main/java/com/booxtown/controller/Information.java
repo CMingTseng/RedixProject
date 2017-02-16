@@ -64,6 +64,8 @@ public class Information {
     public final static String noti_show_sent_comment = "Comment sent successfully.";
     public final static String session_timeout = "please try to login again";
 
+    public final static String add_book_success = "Your book listing will be active in 24 hours";
+
     public static int minRager = 0;
     public  static int maxRager= 1000;
     public  static double maxSeekbar= 10;

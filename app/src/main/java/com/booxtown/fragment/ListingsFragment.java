@@ -45,6 +45,7 @@ import com.booxtown.activity.MainAllActivity;
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.activity.WelcomeActivity;
+import com.booxtown.adapter.AdapterExplore;
 import com.booxtown.adapter.AdapterFilter;
 import com.booxtown.adapter.ListBookAdapter;
 import com.booxtown.controller.BookController;
@@ -53,7 +54,9 @@ import com.booxtown.controller.GPSTracker;
 import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.RangeSeekBar;
+import com.booxtown.custom.CustomEdittext;
 import com.booxtown.custom.CustomListviewGenre;
+import com.booxtown.custom.DrawableClickListener;
 import com.booxtown.model.Book;
 import com.booxtown.model.Filter;
 import com.booxtown.model.Genre;
@@ -88,7 +91,7 @@ public class ListingsFragment extends Fragment {
     ListBookAdapter adapter_listbook;
     GridLayoutManager gridLayoutManager;
     RecyclerView rView;
-    EditText editSearch;
+    CustomEdittext editSearch;
     ArrayList<Genre> genre;
     public static int num_list;
     List<Book> lisfilter_temp, listfilter, listExplore = new ArrayList<>();
@@ -104,6 +107,7 @@ public class ListingsFragment extends Fragment {
             isLoading = true;
     float longitude=0;
     float latitude=0;
+    boolean flagClosSearch=false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,11 +141,13 @@ public class ListingsFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        editSearch = (EditText) view.findViewById(R.id.editSearch);
+        editSearch = (CustomEdittext) view.findViewById(R.id.editSearch);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rView = (RecyclerView) view.findViewById(R.id.recycler_view);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(gridLayoutManager);
+
+        editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -150,13 +156,46 @@ public class ListingsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 adapter_listbook.getFilter().filter(s);
+                if(editSearch.getText().toString().trim().length()>0) {
+                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.closes, 0);
+                    flagClosSearch=true;
+                }else {
+                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    flagClosSearch=false;
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
             }
+        });
+        editSearch.setDrawableClickListener(new DrawableClickListener() {
+            public void onClick(DrawablePosition target) {
+                switch (target) {
+                    case LEFT:
+                        //Do something here
+                        break;
+                    case RIGHT:
+                        if(flagClosSearch) {
+                            editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                            editSearch.setText("");
+                            flagClosSearch = false;
+                        }
+                        break;
+                    case TOP:
+                        //Do something here
+                        break;
+                    case BOTTOM:
+                        //Do something here
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         });
         genre = new ArrayList<>();
         for (int i = 0; i < GetAllGenreAsync.list.size(); i++) {

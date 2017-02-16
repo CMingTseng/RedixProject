@@ -54,7 +54,9 @@ import com.booxtown.controller.GetAllGenreAsync;
 import com.booxtown.controller.Information;
 import com.booxtown.controller.RangeSeekBar;
 import com.booxtown.controller.UserController;
+import com.booxtown.custom.CustomEdittext;
 import com.booxtown.custom.CustomTabbarExplore;
+import com.booxtown.custom.DrawableClickListener;
 import com.booxtown.model.DayUsed;
 import com.booxtown.model.Genre;
 import com.booxtown.model.GenreValue;
@@ -97,7 +99,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     private LatLng latLngBounds;
     MarkerOptions marker;
     private HashMap<Marker, Book> mMarkersHashMap = new HashMap<>();
-    EditText editSearch;
+    CustomEdittext editSearch;
     ImageView btn_search;
 
     //filter
@@ -123,6 +125,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     boolean trial = false;
     float longitude = 0;
     float latitude = 0;
+    boolean flagClosSearch=false;
     public TextView tab_all_count, tab_swap_count, tab_free_count, tab_cart_count;
 
     //end
@@ -204,14 +207,14 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         listExplore = new ArrayList<>();
 
         View view_search = view.findViewById(R.id.custom_search);
-        editSearch = (EditText) view_search.findViewById(R.id.editSearch);
+        editSearch = (CustomEdittext) view_search.findViewById(R.id.editSearch);
         btn_search = (ImageView) view_search.findViewById(R.id.btn_search);
         ImageView img_menu_component = (ImageView) getActivity().findViewById(R.id.img_menu_component);
         img_menu_component.setVisibility(View.VISIBLE);
 
         TextView txtTitle = (TextView) getActivity().findViewById(R.id.txt_title);
         txtTitle.setText("Locate");
-
+        editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -219,10 +222,18 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(editSearch.getText().toString().trim().length()>0) {
+                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.closes, 0);
+                    flagClosSearch=true;
+                }else {
+                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    flagClosSearch=false;
+                }
                 List<Book> list_books = new ArrayList<Book>();
                 list_books.clear();
                 for (int i = 0; i < listExplore.size(); i++) {
@@ -238,8 +249,36 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
                 if (list_books.size() > 0) {
                     addMarkerSearch(list_books);
+                }else{
+                    addMarkerSearch(new ArrayList<Book>());
                 }
             }
+        });
+
+        editSearch.setDrawableClickListener(new DrawableClickListener() {
+            public void onClick(DrawablePosition target) {
+                switch (target) {
+                    case LEFT:
+                        //Do something here
+                        break;
+                    case RIGHT:
+                        if(flagClosSearch) {
+                            editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                            editSearch.setText("");
+                            flagClosSearch = false;
+                        }
+                        break;
+                    case TOP:
+                        //Do something here
+                        break;
+                    case BOTTOM:
+                        //Do something here
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
@@ -576,6 +615,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 dialog.show();
 
 
+                TextView textView126=(TextView) dialog.findViewById(R.id.textView126);
+                textView126.setText("Filter");
+
                 TextView title_sort = (TextView) dialog.findViewById(R.id.title_sort);
                 title_sort.setVisibility(View.GONE);
 
@@ -846,14 +888,16 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             } catch (Exception e) {
             }
 
-
-            ratingBar_marker.setRating(books.getRating());
-            LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.rgb(249, 242, 0), PorterDuff.Mode.SRC_ATOP);
-            stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.dot_light_screen1), PorterDuff.Mode.SRC_ATOP);
-            stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.dot_light_screen1), PorterDuff.Mode.SRC_ATOP); // for half filled stars
-            DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)), getResources().getColor(R.color.dot_light_screen1));
-
+            if(books.getRating()<0.1){
+                ratingBar_marker.setVisibility(View.INVISIBLE);
+            }else {
+                ratingBar_marker.setRating(books.getRating());
+                LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
+                stars.getDrawable(2).setColorFilter(Color.rgb(249, 242, 0), PorterDuff.Mode.SRC_ATOP);
+                stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.dot_light_screen1), PorterDuff.Mode.SRC_ATOP);
+                stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.dot_light_screen1), PorterDuff.Mode.SRC_ATOP); // for half filled stars
+                DrawableCompat.setTint(DrawableCompat.wrap(stars.getDrawable(1)), getResources().getColor(R.color.dot_light_screen1));
+            }
             //stars.getColorFilter();
             char array[] = books.getAction().toCharArray();
             String swap = String.valueOf(array[0]);
@@ -864,8 +908,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             String icon = IconMapController.iconExplorer(swap, free, buy);
             if (icon.equals("icon_swap")) {
                 Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_not_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_dis_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_dis_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.free_inactive);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.buy_inactive);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -873,9 +917,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
             if (icon.equals("icon_free")) {
 
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_dis_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.swap_inactive);
                 Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_not_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_dis_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.buy_inactive);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -884,8 +928,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
             if (icon.equals("icon_buy")) {
 
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_dis_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_dis_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.swap_inactive);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.free_inactive);
                 Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_not_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
@@ -895,7 +939,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             if (icon.equals("swapfree")) {
                 Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_not_active);
                 Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_not_active);
-                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_dis_active);
+                Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.buy_inactive);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
                 img_buy_marker.setImageBitmap(bMap2);
@@ -903,7 +947,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             }
             if (icon.equals("swapbuy")) {
                 Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_not_active);
-                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_dis_active);
+                Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.free_inactive);
                 Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_not_active);
                 img_swap_marker.setImageBitmap(bMap);
                 img_free_marker.setImageBitmap(bMap1);
@@ -911,7 +955,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
             }
             if (icon.equals("freebuy")) {
-                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_swap_dis_active);
+                Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.swap_inactive);
                 Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_free_not_active);
                 Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.explore_btn_buy_not_active);
                 img_swap_marker.setImageBitmap(bMap);
@@ -1129,6 +1173,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
     public void addMarkerSearch(final List<Book> books) {
         try {
+            ShowNumberbook(books);
             mMap.clear();
             if (books.size() > 0) {
                 LatLng latLng = new LatLng(books.get(0).getLocation_latitude(), books.get(0).getLocation_longitude());

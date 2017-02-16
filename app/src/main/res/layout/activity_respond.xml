@@ -110,7 +110,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/btn_wishbroad_popup"
                 android:gravity="center"
-                android:text="Check out my listing"
+                android:text="Check out my listings"
                 android:textColor="@color/dot_light_screen1" />
 
             <include

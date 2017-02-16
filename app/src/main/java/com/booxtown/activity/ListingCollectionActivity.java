@@ -1611,10 +1611,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 if (back == 1) {
                     callFragment(new MyProfileFragment());
                 } else {
-                    //Toast.makeText(getActivity(),"Add Book Successful",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),Information.add_book_success,Toast.LENGTH_SHORT).show();
                     MainAllActivity main = (MainAllActivity) getActivity();
 //                    main.callFragment(new ListingsFragment());
                     MainAllActivity.setTxtTitle("Listings");
+
 
                 }
             }
