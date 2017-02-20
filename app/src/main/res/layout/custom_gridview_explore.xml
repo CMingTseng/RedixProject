@@ -63,6 +63,7 @@
             android:layout_below="@+id/txt_title_book_listings"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:textColor="@color/color_text_smal"
             android:textSize="@dimen/text_by_exploer"/>
 
         <com.booxtown.custom.CustomTextView

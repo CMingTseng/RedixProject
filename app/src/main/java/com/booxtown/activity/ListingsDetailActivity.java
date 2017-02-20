@@ -115,6 +115,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     EditText editText11;
     List<String> arr_commetID = new ArrayList<>();
     RelativeLayout layout_user;
+    CommentBook commentBook;
     //end
     @Nullable
     @Override
@@ -220,12 +221,11 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                         insertComment insertComment1 = new insertComment(getContext());
                         insertComment1.execute(session_id, editText11.getText().toString(), book.getId());
                         editText11.setText("");
+                        arr_commnet.clear();
                         getComment comment;
-                        CommentBook commentBook;
                         if (arr_commnet.size() == 0) {
                             comment = new getComment(getContext(), book.getId(), 15, 0);
                         } else {
-                            commentBook = arr_commnet.get(arr_commnet.size() - 1);
                             comment = new getComment(getContext(), book.getId(), 1000,0);
                         }
                         comment.execute();
@@ -519,7 +519,7 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
                 if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     // End has been reached
-                    CommentBook commentBook = arr_commnet.get(arr_commnet.size() - 1);
+                    //CommentBook commentBook = arr_commnet.get(arr_commnet.size() - 1);
                     getComment getcomment = new getComment(getContext(),book_id,15,commentBook.getId());
                     getcomment.execute();
                     // Do something
@@ -987,19 +987,20 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                             arr_commetID.add(commentBooks.get(i).getId()+"");
                         }
                     }*/
-                    arr_commnet.removeAll(arr_commnetOld);
-                    arr_commnetOld=commentBooks;
+                    //arr_commnet.removeAll(arr_commnetOld);
+                    //arr_commnetOld=commentBooks;
+                    commentBook=commentBooks.get(commentBooks.size()-1);
                     arr_commnet.addAll(commentBooks);
                     adapter.notifyDataSetChanged();
                     isLoading = true;
                     if (!listUser.contains(book.getUser_id())) {
                         listUser.add(book.getUser_id());
                     }
-                    for (int i = 0; i < commentBooks.size(); i++) {
+                    /*for (int i = 0; i < commentBooks.size(); i++) {
                         if (!listUser.contains(commentBooks.get(i).getUser_id() + "")) {
                             listUser.add(commentBooks.get(i).getUser_id() + "");
                         }
-                    }
+                    }*/
                     loading = false;
                     progressDialog.dismiss();
                 } else {
@@ -1044,8 +1045,12 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
                 context.startActivity(intent);
                 this.cancel(true);
             }
-            CommentController comment = new CommentController();
-            return comment.insertComment(strings[0], strings[1], "0", strings[2], "0");
+            try {
+                CommentController comment = new CommentController();
+                return comment.insertComment(strings[0], strings[1], "0", strings[2], "0").getCode() == 200 ? true : false;
+            }catch (Exception err){
+                return false;
+            }
         }
 
         @Override

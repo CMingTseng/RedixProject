@@ -3,64 +3,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.booxtown.fragment.FaqFragment"
     android:background="@color/dot_light_screen1"
-    >
+    tools:context="com.booxtown.fragment.FaqFragment">
 
-    <com.booxtown.custom.CustomEdittext
+
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/editSearch"
-        android:background="@color/color_hint_interact"
-        android:hint="Search"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:paddingRight="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_below="@+id/include2"
         android:layout_marginTop="10dp"
-        android:textSize="@dimen/search"
-        android:textColorHint="@color/color_text_hint"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        android:paddingLeft="15dp" />
+        android:background="@color/color_hint_interact"
+        >
+
+        <com.booxtown.custom.CustomEdittext
+            android:id="@+id/editSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/include2"
+            android:layout_marginLeft="15dp"
+            android:background="@color/color_hint_interact"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawableRight="@mipmap/closes"
+            android:hint="Search"
+            android:imeOptions="actionDone"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColorHint="@color/color_text_hint"
+            android:textSize="@dimen/search"
+            android:layout_marginBottom="5dp" />
+
+
+        <ImageView
+            android:id="@+id/imageView_search_faq"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignEnd="@+id/editSearch"
+            android:layout_alignRight="@+id/editSearch"
+            android:layout_alignTop="@+id/editSearch"
+            android:layout_gravity="top|center_vertical|right"
+            android:layout_weight="1"
+            android:padding="10dp" />
+    </TableRow>
 
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/editSearch"
-        android:layout_above="@+id/menu_bottom_faq"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginRight="10dp">
-    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lv_content_faq"
+        android:layout_above="@+id/menu_bottom_faq"
         android:layout_below="@+id/editSearch"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/menu_bottom_faq" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="70dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lv_content_faq"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/menu_bottom_faq"
+            android:layout_below="@+id/editSearch"
+            android:layout_centerHorizontal="true" />
 
     </LinearLayout>
-
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="40dp"
-        android:id="@+id/imageView_search_faq"
-        android:layout_alignTop="@+id/editSearch"
-        android:layout_alignRight="@+id/editSearch"
-        android:layout_alignEnd="@+id/editSearch"
-        android:layout_gravity="top|center_vertical|right"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:padding="10dp" />
-
-
 
 
 </FrameLayout>

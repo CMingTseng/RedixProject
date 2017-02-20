@@ -175,9 +175,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             free = (CheckBox) findViewById(R.id.checkBox3);
 
             edt_author = (EditText) findViewById(R.id.editText9);
-            Spannable wordtoSpan1 = new SpannableString("Author *");
-            wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED), 7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            edt_author.setHint(wordtoSpan1);
             edt_author.setFilters(new InputFilter[]{
                     new InputFilter() {
                         public CharSequence filter(CharSequence src, int start,
@@ -557,11 +554,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
                 return false;
             }
-        } else if (edt_author.getText().toString().equals("")) {
-            if (type == 0) {
-                Toast.makeText(AddbookActivity.this, "Please enter valid a book author", Toast.LENGTH_SHORT).show();
-            }
-            return false;
         } else if ((listFileName == null || listFileName.size() == 0) && lisImmage.size() <= 0) {
             if (type == 0) {
                 Toast.makeText(AddbookActivity.this, "You need to provide at least 1 image for this book", Toast.LENGTH_SHORT).show();

@@ -56,7 +56,7 @@ public class CommentController {
         return null;
     }
 
-    public Boolean insertComment(String session_id,String content,String thread_id, String book_id, String post_id){
+    public Result insertComment(String session_id,String content,String thread_id, String book_id, String post_id){
         Hashtable obj = new Hashtable();
         obj.put("session_id",session_id);
         obj.put("content",content);
@@ -72,10 +72,10 @@ public class CommentController {
             }
             Result str = insertComment.execute().body();
             if (str.getCode()==200){
-                return true;
+                return str;
             }
         } catch (Exception ex) {
         }
-        return false;
+        return null;
     }
 }

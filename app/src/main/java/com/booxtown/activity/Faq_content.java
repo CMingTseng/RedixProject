@@ -13,6 +13,8 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.booxtown.custom.CustomEdittext;
+import com.booxtown.custom.DrawableClickListener;
 import com.booxtown.model.Faq;
 import com.squareup.picasso.Picasso;
 
@@ -29,12 +31,13 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
     ImageView img_menu_bottom_bag,img_menu;
     ImageView img_menu_bottom_user,img_menu_component,imageView_search_faqcontent;
 
-    EditText editSearch;
+    CustomEdittext editSearch;
     NewAdapter mNewAdapter;
     TextView title_menu,txt_title_faq;
     ExpandableListView expandableListView;
     ArrayList<Faq> faq;
     String faq_id;
+    boolean flagClosSearch=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +97,40 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if(editSearch.getText().toString().trim().length()>0) {
+                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.closes, 0);
+                    flagClosSearch=true;
+                }else {
+                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    flagClosSearch=false;
+                }
             }
+        });
+
+        editSearch.setDrawableClickListener(new DrawableClickListener() {
+            public void onClick(DrawablePosition target) {
+                switch (target) {
+                    case LEFT:
+                        //Do something here
+                        break;
+                    case RIGHT:
+                        if(flagClosSearch) {
+                            editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                            editSearch.setText("");
+                            flagClosSearch = false;
+                        }
+                        break;
+                    case TOP:
+                        //Do something here
+                        break;
+                    case BOTTOM:
+                        //Do something here
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         });
 
         //bottom
@@ -119,7 +154,8 @@ public class Faq_content extends ExpandableListActivity implements View.OnClickL
         img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
         img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
         img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
-        editSearch= (EditText)findViewById(R.id.editSearch);
+        editSearch= (CustomEdittext)findViewById(R.id.editSearch);
+        editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
     }
     public void setGroupData(ArrayList<Faq> faq, String faq_id) {
 

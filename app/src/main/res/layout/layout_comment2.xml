@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_bg_listings_detail"
-    android:paddingBottom="15dp"
     android:paddingTop="10dp"
     >
     <LinearLayout
@@ -18,10 +17,10 @@
     <android.support.v7.widget.RecyclerView
         android:fillViewport="true"
 
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rv_comment"
-         />
+        android:layout_marginRight="10dp" />
     </LinearLayout>
     <View
         android:layout_width="fill_parent"

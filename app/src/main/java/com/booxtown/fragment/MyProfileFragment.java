@@ -41,9 +41,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.activity.CameraActivity;
 import com.booxtown.activity.MainAllActivity;
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.activity.SignIn_Activity;
@@ -56,6 +58,7 @@ import com.booxtown.controller.Information;
 import com.booxtown.controller.UploadFileController;
 import com.booxtown.controller.UserController;
 import com.booxtown.controller.Utility;
+import com.booxtown.model.Setting;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.siyamed.shapeimageview.CircularImageView;
@@ -112,8 +115,18 @@ public class MyProfileFragment extends Fragment {
     private ImageView ivImage;
     private String userChoosenTask;
 
+    private String phoneNumberOld = "";
+    private String dateTimeOld = "";
+    String birthday = "";
+    String session_id = "";
     float longitude = 0;
     float latitude = 0;
+
+    //-----------------------------
+    private TableRow tb_bottom;
+
+    //-----------------------------
+
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
@@ -142,6 +155,18 @@ public class MyProfileFragment extends Fragment {
             latitude = Float.parseFloat(pref.getString("Latitude", (float) new GPSTracker(getActivity()).getLatitude() + ""));
         }
 
+        //-----------------------------------------------------------------------------------------------------
+        tb_bottom = (TableRow) getActivity().findViewById(R.id.tb_bottom);
+        tb_bottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+                    saveSetting();
+                }
+            }
+        });
+        //--------------------------------------------------------------------------------------------------------
+
         img_menu_personal_dashboard = (ImageView) view.findViewById(R.id.img_menu_personal_dashboard);
         imv_menu_profile = (CircularImageView) view.findViewById(R.id.imv_menu_profile);
         imv_menu_profile.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +180,7 @@ public class MyProfileFragment extends Fragment {
         TextView txt_title = (TextView) getActivity().findViewById(R.id.txt_title);
         txt_title.setText("My Profile");
 
-        final String session_id = pref.getString("session_id", null);
+        session_id = pref.getString("session_id", null);
         Profile profile = new Profile(getContext(), session_id);
         profile.execute();
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -180,8 +205,12 @@ public class MyProfileFragment extends Fragment {
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MenuActivity.class);
-                startActivity(intent);
+                if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+                    saveSetting();
+                } else {
+                    Intent intent = new Intent(getActivity(), MenuActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -278,17 +307,80 @@ public class MyProfileFragment extends Fragment {
                 if (flagEdit) {
                     dataChange = true;
                     Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
+
+                    if(!txt_profile_phone.getText().toString().equals(phoneNumberOld)){
+                        String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                        String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+                        ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                        bitmaps.add(bitmap_profile);
+                        List<String> filename = new ArrayList<String>();
+                        filename.add(username + "_+_" + img_photo);
+                        if (img_photo != null) {
+                            Information.FragmentPhoto = username + "_+_" + img_photo;
+                        }else {
+                            Information.FragmentPhoto = photoOrigin;
+                        }
+
+                        Information.FragmentChoose = 1;
+                        Information.FragmentEmail = txt_profile_email.getText().toString();
+                        Information.FragmentPhone = txt_profile_phone.getText().toString();
+                        Information.FragmentDateTime = txt_profile_birthday.getText().toString();
+                        Information.FragmentBirthday = birthOfDay;
+                        Information.FragmentFirst = first_name;
+                        Information.FragmentLast = last_name;
+                    }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                /*if(!txt_profile_phone.getText().toString().equals(phoneNumberOld)){
+                    String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                    String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+                    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                    bitmaps.add(bitmap_profile);
+                    List<String> filename = new ArrayList<String>();
+                    filename.add(username + "_+_" + img_photo);
+                    if (img_photo != null) {
+                        Information.FragmentPhoto = username + "_+_" + img_photo;
+                    }else {
+                        Information.FragmentPhoto = photoOrigin;
+                    }
+
+                    Information.FragmentChoose = 1;
+                    Information.FragmentEmail = txt_profile_email.getText().toString();
+                    Information.FragmentPhone = txt_profile_phone.getText().toString();
+                    Information.FragmentDateTime = txt_profile_birthday.getText().toString();
+                    Information.FragmentBirthday = birthOfDay;
+                    Information.FragmentFirst = first_name;
+                    Information.FragmentLast = last_name;
+                }*/
             }
         });
         txt_profile_birthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (flagEdit) {
+                    String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                    String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+                    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                    bitmaps.add(bitmap_profile);
+                    List<String> filename = new ArrayList<String>();
+                    filename.add(username + "_+_" + img_photo);
+                    if (img_photo != null) {
+                        Information.FragmentPhoto = username + "_+_" + img_photo;
+                    }else {
+                        Information.FragmentPhoto = photoOrigin;
+                    }
+
+                    Information.FragmentChoose = 1;
+                    Information.FragmentEmail = txt_profile_email.getText().toString();
+                    Information.FragmentPhone = txt_profile_phone.getText().toString();
+                    Information.FragmentDateTime = txt_profile_birthday.getText().toString();
+                    Information.FragmentBirthday = birthOfDay;
+                    Information.FragmentFirst = first_name;
+                    Information.FragmentLast = last_name;
+                    //---------------------------------------------
                     dataChange = true;
                     Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
                     DialogFragment dialogfragment = new DatePickerDialogClass();
@@ -318,19 +410,18 @@ public class MyProfileFragment extends Fragment {
                             List<String> filename = new ArrayList<String>();
                             filename.add(username + "_+_" + img_photo);
                             if (img_photo != null) {
-                                addImages(bitmaps, filename);
+                                //addImages(bitmaps, filename);
 
                                 String[] birthDay = txt_profile_birthday.getText().toString().split("/");
                                 String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
-
                                 updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                        txt_profile_phone.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+                                        txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
                                 updateProfile.execute();
                             } else {
                                 String[] birthDay = txt_profile_birthday.getText().toString().split("/");
                                 String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
                                 updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                        txt_profile_phone.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
+                                        txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
                                 updateProfile.execute();
                             }
                         }
@@ -347,6 +438,46 @@ public class MyProfileFragment extends Fragment {
 
     public boolean checkEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
+    }
+
+    public void saveSetting() {
+        if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+            android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(getContext());
+            builder1.setMessage("Do you want to save the changes made");
+            builder1.setCancelable(true);
+            builder1.setPositiveButton(
+                    "Yes",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                            String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+                            ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+                            bitmaps.add(bitmap_profile);
+                            List<String> filename = new ArrayList<String>();
+                            filename.add(username + "_+_" + img_photo);
+                            if (img_photo != null) {
+                                updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                                        txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+                                updateProfile.execute();
+                            }else {
+                                updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                                        txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
+                                updateProfile.execute();
+                            }
+                            dialog.cancel();
+                        }
+                    });
+            builder1.setNegativeButton(
+                    "No",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            android.support.v7.app.AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }
     }
 
 
@@ -462,6 +593,10 @@ public class MyProfileFragment extends Fragment {
                     String[] result = userResult.get(0).getBirthday().substring(0, 10).split("-");
 
                     txt_profile_birthday.setText(result[2] + "/" + result[1] + "/" + result[0]);
+
+                    phoneNumberOld = userResult.get(0).getPhone();
+                    dateTimeOld = result[2] + "/" + result[1] + "/" + result[0];
+
                     //txt_profile_username.setText(userResult.get(0).getUsername().substring(0,1).toUpperCase()+userResult.get(0).getUsername().substring(1,userResult.get(0).getUsername().length()));
                     txt_profile_username.setText(userResult.get(0).getFirst_name() + " " + userResult.get(0).getLast_name());
                     username = userResult.get(0).getUsername();
@@ -472,22 +607,31 @@ public class MyProfileFragment extends Fragment {
                     img_menu_personal_dashboard.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("user", userResult.get(0));
-                            profile.setArguments(bundle);
-                            callFragment(profile);
+
+                            if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+                                saveSetting();
+                            } else {
+                                MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("user", userResult.get(0));
+                                profile.setArguments(bundle);
+                                callFragment(profile);
+                            }
 
                         }
                     });
                     myDashboard.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("user", userResult.get(0));
-                            profile.setArguments(bundle);
-                            callFragment(profile);
+                            if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+                                saveSetting();
+                            } else {
+                                MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("user", userResult.get(0));
+                                profile.setArguments(bundle);
+                                callFragment(profile);
+                            }
                         }
                     });
                     //set rank
@@ -638,12 +782,12 @@ public class MyProfileFragment extends Fragment {
                 onSelectFromGalleryResult(data);
                 Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
                 flagEdit = true;
-                dataChange=true;
+                dataChange = true;
             } else if (requestCode == REQUEST_CAMERA) {
                 onCaptureImageResult(data);
                 Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
                 flagEdit = true;
-                dataChange=true;
+                dataChange = true;
             }
         }
     }
@@ -667,10 +811,22 @@ public class MyProfileFragment extends Fragment {
         } else
             thumbnail = Bitmap.createScaledBitmap(thumbnail, thumbnail.getWidth(),
                     thumbnail.getHeight(), true);
+
         bitmap_profile = Bitmap.createScaledBitmap(thumbnail, 250, 270, true);
         imv_menu_profile.setImageBitmap(bitmap_profile);
         long time = System.currentTimeMillis();
         img_photo = String.valueOf(time) + getFileName(uri);
+
+        ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+        bitmaps.add(bitmap_profile);
+        List<String> filename = new ArrayList<String>();
+        filename.add(username + "_+_" + img_photo);
+        addImages(bitmaps, filename);
+        String[] birthDay = dateTimeOld.split("/");
+        String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+        updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                phoneNumberOld, dateTimeOld, birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+        updateProfile.execute();
     }
 
     @SuppressWarnings("deprecation")
@@ -702,6 +858,17 @@ public class MyProfileFragment extends Fragment {
         imv_menu_profile.setImageBitmap(bitmap_profile);
         long time = System.currentTimeMillis();
         img_photo = String.valueOf(time) + getFileName(uri);
+
+        ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+        bitmaps.add(bitmap_profile);
+        List<String> filename = new ArrayList<String>();
+        filename.add(username + "_+_" + img_photo);
+        addImages(bitmaps, filename);
+        String[] birthDay = dateTimeOld.split("/");
+        String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+        updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                phoneNumberOld, dateTimeOld, birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+        updateProfile.execute();
     }
 
     public String getFileName(Uri uri) {
@@ -797,9 +964,9 @@ public class MyProfileFragment extends Fragment {
     class updateProfile extends AsyncTask<Void, Void, Boolean> {
         ProgressDialog dialog;
         Context context;
-        String email, phone, birthday, photo, session_id, first_name, last_name;
+        String email, phone, birthday, photo, session_id, first_name, last_name, date_time;
 
-        public updateProfile(Context context, String session_id, String email, String phone, String birthday, String photo, String first_name, String last_name) {
+        public updateProfile(Context context, String session_id, String email, String phone, String date_time, String birthday, String photo, String first_name, String last_name) {
             this.context = context;
             this.session_id = session_id;
             this.email = email;
@@ -808,6 +975,7 @@ public class MyProfileFragment extends Fragment {
             this.photo = photo;
             this.first_name = first_name;
             this.last_name = last_name;
+            this.date_time = date_time;
         }
 
         @Override
@@ -838,9 +1006,13 @@ public class MyProfileFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean == true) {
+                Information.FragmentChoose=0;
                 dialog.dismiss();
                 Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
-                dataChange=false;
+                Picasso.with(getContext()).load(R.drawable.btn_edit_profile).into(imageView_update_profile);
+                phoneNumberOld = phone;
+                dateTimeOld = date_time;
+                dataChange = false;
             } else {
                 dialog.dismiss();
                 Toast.makeText(getActivity(), Information.noti_update_fail, Toast.LENGTH_LONG).show();

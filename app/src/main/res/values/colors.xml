@@ -62,4 +62,8 @@
     <color name="color_filter_price">#5D5D5D</color>
     <color name="text_color_with">#4be4bc</color>
     <color name="color_star_profile">#F9F200</color>
+
+    <color name="color_text_smal">#8c8c8c</color>
+    <color name="color_text_big">#646464</color>
+
 </resources>

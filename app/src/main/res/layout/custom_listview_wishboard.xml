@@ -30,6 +30,7 @@
                 android:id="@+id/txt_title_lisview_wishboard"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:textColor="@color/color_text_big"
                 android:maxLines="2"
                 android:layout_marginLeft="5dp" />
 
@@ -60,6 +61,7 @@
                 android:layout_alignParentStart="false"
                 android:layout_alignParentTop="true"
                 android:gravity="center"
+                android:textColor="@color/color_text_big"
                 android:textSize="@dimen/text_wishboard_date"/>
 
             <com.booxtown.custom.CustomTextView

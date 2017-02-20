@@ -86,7 +86,7 @@ public class UploadFileController {
                 }
             });
         }catch (Exception exx){
-
+            String sss=exx.getMessage();
         }
         return success;
     }

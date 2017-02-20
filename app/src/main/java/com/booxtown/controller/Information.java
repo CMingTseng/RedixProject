@@ -29,6 +29,7 @@ public class Information {
     public final static String noti_input_email = "Please input email";
     public final static String noti_update_success = "Update Successful";
     public final static String noti_no_data = "No Data Found!";
+    public final static String noti_send_checkoutmylist = "You successfully responded to the wish";
     public final static String noti_no_comment = "Please enter comment to be posted. ";
     public final static String noti_no_data_listing = "Please enter comment to be posted. ";
     public final static String noti_update_false = "Not update data, please try again";
@@ -74,6 +75,16 @@ public class Information {
     public  static boolean priceLowtoHigh=false;
     public  static boolean priceHightoLow=false;
     public  static boolean recently=false;
+
+    public static int FragmentChoose = 0;
+
+    public static String FragmentEmail = "";
+    public static String FragmentPhone = "";
+    public static String FragmentDateTime = "";
+    public static String FragmentBirthday = "";
+    public static String FragmentPhoto = "";
+    public static String FragmentFirst = "";
+    public static String FragmentLast = "";
 
     // setting
 

@@ -52,6 +52,7 @@ public class WishboardFragment extends Fragment {
     EditText editText_title_wishboard,editText_author_wishboard,editText_comment_wishboard;
     List<Wishboard> array_Wishboard;
     List<Wishboard> array_WishboardOld;
+    Wishboard wishboard;
     String session_id;
     private int previousTotal = 0,visibleThreshold = 5;
     boolean loading = true,
@@ -108,8 +109,6 @@ public class WishboardFragment extends Fragment {
                     public void onClick(View view) {
                         if(editText_comment_wishboard.getText().toString().equals("")){
                             Toast.makeText(getContext(), Information.noti_show_comment_empty,Toast.LENGTH_SHORT).show();
-                        }else if(editText_comment_wishboard.getText().toString().length() >50){
-                            Toast.makeText(getContext(),Information.noti_over_leter,Toast.LENGTH_SHORT).show();
                         }
                         else {
                             insertWishboard insertWishboard = new insertWishboard(getContext());
@@ -159,8 +158,8 @@ public class WishboardFragment extends Fragment {
                 //}
                 if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     // End has been reached
-                    Wishboard dashBoard_lv = array_Wishboard.get(array_Wishboard.size()-1);
-                    getWishboard getWishboard = new getWishboard(getContext(),15,Integer.valueOf(dashBoard_lv.getId()),session_id);
+
+                    getWishboard getWishboard = new getWishboard(getContext(),15,Integer.valueOf(wishboard.getId()),session_id);
                     getWishboard.execute();
                     // Do something
                     loading = true;
@@ -274,8 +273,9 @@ public class WishboardFragment extends Fragment {
         protected void onPostExecute(List<Wishboard> wishboards) {
             try {
                 if (wishboards.size() > 0){
-                    array_Wishboard.removeAll(array_WishboardOld);
-                    array_WishboardOld=wishboards;
+                    //array_Wishboard.removeAll(array_WishboardOld);
+                    //array_WishboardOld=wishboards;
+                    wishboard=wishboards.get(wishboards.size()-1);
                     array_Wishboard.addAll(wishboards);
                     adpater.notifyDataSetChanged();
                     loading = false;

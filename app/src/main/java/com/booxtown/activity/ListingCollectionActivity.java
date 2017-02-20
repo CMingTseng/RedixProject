@@ -151,9 +151,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         free = (CheckBox) v.findViewById(R.id.checkBox3);
 
         edt_author = (EditText) v.findViewById(R.id.editText9);
-        Spannable wordtoSpan1 = new SpannableString("Author *");
-        wordtoSpan1.setSpan(new ForegroundColorSpan(Color.RED), 7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        edt_author.setHint(wordtoSpan1);
         edt_author.setFilters(new InputFilter[]{
                 new InputFilter() {
                     public CharSequence filter(CharSequence src, int start,
@@ -850,11 +847,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             if (edt_tilte.getText().toString().equals("") || edt_tilte.getText().toString() == null) {
                 if (type == 0) {
                     Toast.makeText(getContext(), "Please enter valid a book title", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            } else if (edt_author.getText().toString().equals("") || edt_author.getText().toString() == null) {
-                if (type == 0) {
-                    Toast.makeText(getContext(), "Please enter valid a book author", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             } else if ((listFileName == null || listFileName.size() == 0) && lisImmage.size() <= 0) {
@@ -1611,7 +1603,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 if (back == 1) {
                     callFragment(new MyProfileFragment());
                 } else {
-                    Toast.makeText(getActivity(),Information.add_book_success,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,Information.add_book_success,Toast.LENGTH_SHORT).show();
                     MainAllActivity main = (MainAllActivity) getActivity();
 //                    main.callFragment(new ListingsFragment());
                     MainAllActivity.setTxtTitle("Listings");

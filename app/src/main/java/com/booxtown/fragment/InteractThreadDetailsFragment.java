@@ -37,6 +37,7 @@ import com.booxtown.controller.ThreadController;
 import com.booxtown.controller.UserController;
 import com.booxtown.model.Comment;
 import com.booxtown.model.Notification;
+import com.booxtown.model.Result;
 import com.booxtown.model.Thread;
 import com.booxtown.model.Topic;
 
@@ -61,6 +62,7 @@ public class InteractThreadDetailsFragment extends Fragment {
     List<String> listUser = new ArrayList<>();
     EditText edit_message;
     boolean flag = true;
+    Comment commentBook;
 
     @Nullable
     @Override
@@ -131,9 +133,8 @@ public class InteractThreadDetailsFragment extends Fragment {
 
                     commentAsync getcomment = new commentAsync(getContext(), threads.getId(), 15, 0);
                     getcomment.execute();
-                }
-                else{
-                    Toast.makeText(getContext(),Information.noti_show_comment_empty,Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), Information.noti_show_comment_empty, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -187,24 +188,25 @@ public class InteractThreadDetailsFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
-    private int totalItemCount,lastVisibleItem;
+
+    private int totalItemCount, lastVisibleItem;
+
     private void implementScrollListener(final String thread_id) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int visibleItemCount = recyclerView.getChildCount();
-                 totalItemCount = linearLayoutManager.getItemCount();
+                totalItemCount = linearLayoutManager.getItemCount();
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
                 //if (loading) {
-                 //   if (totalItemCount > previousTotal) {
-                  //      loading = false;
-                  //      previousTotal = totalItemCount;
-                  //  }
-               //}
+                //   if (totalItemCount > previousTotal) {
+                //      loading = false;
+                //      previousTotal = totalItemCount;
+                //  }
+                //}
                 if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     // End has been reached
-                    Comment commentBook = arr_commet.get(arr_commet.size() - 1);
                     commentAsync getcomment = new commentAsync(getContext(), thread_id, 15, Integer.parseInt(commentBook.getId()));
                     getcomment.execute();
                     // Do something
@@ -238,11 +240,11 @@ public class InteractThreadDetailsFragment extends Fragment {
         @Override
         protected List<Comment> doInBackground(String... strings) {
             CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
+            if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
+                editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
@@ -262,16 +264,17 @@ public class InteractThreadDetailsFragment extends Fragment {
                             arr_commetID.add(comments.get(i).getId());
                         }
                     }*/
+                    commentBook = comments.get(comments.size() - 1);
                     arr_commet.addAll(comments);
                     adapter.notifyDataSetChanged();
                     if (!listUser.contains(threads.getUser_id())) {
                         listUser.add(threads.getUser_id());
                     }
-                    for (int i = 0; i < comments.size(); i++) {
+                    /*for (int i = 0; i < comments.size(); i++) {
                         if (!listUser.contains(comments.get(i).getUser_id())) {
                             listUser.add(comments.get(i).getUser_id());
                         }
-                    }
+                    }*/
                     dialog.dismiss();
                     loading = false;
                 } else {
@@ -309,11 +312,11 @@ public class InteractThreadDetailsFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
+            if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
+                editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
@@ -339,7 +342,7 @@ public class InteractThreadDetailsFragment extends Fragment {
         }
     }
 
-    class insertComment extends AsyncTask<String, Void, Boolean> {
+    class insertComment extends AsyncTask<String, Void, Result> {
 
         Context context;
         ProgressDialog dialog;
@@ -356,27 +359,30 @@ public class InteractThreadDetailsFragment extends Fragment {
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected Result doInBackground(String... strings) {
             CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
+            if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
+                editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
                 this.cancel(true);
             }
+
             CommentController comment = new CommentController();
             return comment.insertComment(strings[0], strings[1], strings[2], "0", "0");
+
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
+        protected void onPostExecute(Result result) {
             try {
-                if (aBoolean == true) {
-                    Toast.makeText(context,Information.noti_show_sent_comment,Toast.LENGTH_SHORT).show();
+                if (result.getCode() == 200) {
+                    txt_count_thread.setText("(" + result.getSession_id() + ")");
+                    Toast.makeText(context, Information.noti_show_sent_comment, Toast.LENGTH_SHORT).show();
 //                    int count= threads.getNum_comment()+1;
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     String session_id = pref.getString("session_id", null);
@@ -387,11 +393,11 @@ public class InteractThreadDetailsFragment extends Fragment {
 
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(context,Information.noti_show_not_sent_comment,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, Information.noti_show_not_sent_comment, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             } catch (Exception e) {
-                Toast.makeText(context,Information.noti_show_not_sent_comment,Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, Information.noti_show_not_sent_comment, Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         }
@@ -409,11 +415,11 @@ public class InteractThreadDetailsFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
             boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
+            if (!check) {
                 SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
+                editor.putString("session_id", null);
                 editor.commit();
                 Intent intent = new Intent(context, SignIn_Activity.class);
                 context.startActivity(intent);
@@ -447,7 +453,7 @@ public class InteractThreadDetailsFragment extends Fragment {
                         Notification notification = new Notification("Thread Commented", topic.getId() + "::" + threads.getId(), "10");
                         Hashtable obj = ObjectCommon.ObjectDymanic(notification);
                         obj.put("user_id", listUser.get(i));
-                        obj.put("messages", firstName + " commmented on "+ threads.getTitle());
+                        obj.put("messages", firstName + " commmented on " + threads.getTitle());
 
                         list.add(obj);
                     }

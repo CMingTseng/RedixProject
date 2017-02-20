@@ -43,6 +43,7 @@
             android:layout_alignStart="@+id/txt_title_thread_detail"
             android:layout_below="@+id/txt_title_thread_detail"
             android:inputType="textMultiLine"
+            android:textColor="@color/color_text_big"
             android:paddingRight="10dp"
             android:textSize="@dimen/text_book_exploer"
             android:text=""
@@ -56,9 +57,9 @@
             android:layout_alignStart="@+id/txt_contern_thread_details"
             android:layout_below="@+id/txt_contern_thread_details"
             android:layout_marginTop="5dp"
-            android:textSize="@dimen/search"
+            android:textSize="14sp"
             android:text=""
-            android:textColor="#cacaca" />
+            android:textColor="@color/color_text_smal" />
 
         <com.booxtown.custom.CustomTextView
             android:id="@+id/textView67"

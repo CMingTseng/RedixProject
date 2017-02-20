@@ -321,7 +321,7 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <RadioButton
+        <com.booxtown.custom.CustomRadioButton
             android:id="@+id/radioButton_current"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

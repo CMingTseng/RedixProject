@@ -1,7 +1,9 @@
 package com.booxtown.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -22,10 +24,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.booxtown.adapter.AdapterExplore;
+import com.booxtown.controller.CheckSession;
+import com.booxtown.controller.Information;
 import com.booxtown.controller.UserController;
 import com.booxtown.fragment.ExploreFragment;
 import com.booxtown.fragment.TopicFragment;
@@ -42,10 +47,13 @@ import com.booxtown.fragment.MyProfileFragment;
 import com.booxtown.fragment.WishboardFragment;
 import com.booxtown.model.Book;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 03/09/2016.
  */
-public class MainAllActivity extends AppCompatActivity{
+public class MainAllActivity extends AppCompatActivity {
     public static Resources mResources;
     View view_top;
     public static TextView txtTitle;
@@ -53,14 +61,16 @@ public class MainAllActivity extends AppCompatActivity{
     boolean flag;
 
     //-----------------------------
-    private ImageView btn_location;
-    private ImageView btn_commnet;
-    private ImageView btn_camera;
-    private ImageView btn_bag;
-    private ImageView btn_user;
+    static ImageView btn_location;
+    static ImageView btn_commnet;
+    static ImageView btn_camera;
+    static ImageView btn_bag;
+    static ImageView btn_user;
     //-----------------------------
+    static TableRow tb_bottom;
     static ImageView img_menu;
     public static MainAllActivity INSTANCE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,8 +118,8 @@ public class MainAllActivity extends AppCompatActivity{
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("My Profile");
                     setDefaut(5);
-                }else if(i==6){
-                    int num_list= getIntent().getIntExtra("num_list",0);
+                } else if (i == 6) {
+                    int num_list = getIntent().getIntExtra("num_list", 0);
                     Bundle bundle = new Bundle();
                     bundle.putString("activity", "add");
                     bundle.putInt("num_list", num_list);
@@ -124,11 +134,11 @@ public class MainAllActivity extends AppCompatActivity{
             } else {
                 try {
                     Book book = (Book) getIntent().getSerializableExtra("item");
-                    if (book==null) {
+                    if (book == null) {
                         setDefaut(1);
                         callFragment(new MainFragment());
                     }
-                }catch (Exception err){
+                } catch (Exception err) {
 
                 }
             }
@@ -155,6 +165,7 @@ public class MainAllActivity extends AppCompatActivity{
             img_menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     Intent intent = new Intent(MainAllActivity.this, MenuActivity.class);
                     startActivity(intent);
 
@@ -168,26 +179,38 @@ public class MainAllActivity extends AppCompatActivity{
                 @Override
                 public void onClick(View v) {
                     //btn_location.setImageResource(R.drawable.icon_menu_bottom_location);
-                    Glide.with(MainAllActivity.this).load(R.drawable.btn_locate_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(btn_location);
-                    initLayout();
-                    callFragment(new MainFragment());
-                    img_component = (ImageView) view_top.findViewById(R.id.img_menu_component);
-                    img_component.setVisibility(View.VISIBLE);
-                    Picasso.with(getApplicationContext()).load(R.drawable.btn_explore).into(img_component);
-                    //Glide.with(MainAllActivity.this).load(R.drawable.btn_explore).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_component);
+                    int fragmentChoose = Information.FragmentChoose;
+                    if (fragmentChoose == 1) {
+                        SaveSetting(1);
 
-                    txtTitle.setText("Locate");
-                    setDefaut(1);
+                    } else {
+                        Glide.with(MainAllActivity.this).load(R.drawable.btn_locate_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(btn_location);
+                        initLayout();
+                        callFragment(new MainFragment());
+                        img_component = (ImageView) view_top.findViewById(R.id.img_menu_component);
+                        img_component.setVisibility(View.VISIBLE);
+                        Picasso.with(getApplicationContext()).load(R.drawable.btn_explore).into(img_component);
+                        //Glide.with(MainAllActivity.this).load(R.drawable.btn_explore).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_component);
+
+                        txtTitle.setText("Locate");
+                        setDefaut(1);
+                    }
                 }
             });
 
             btn_commnet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callFragment(new TopicFragment());
-                    img_component.setVisibility(View.GONE);
-                    txtTitle.setText("Interact");
-                    setDefaut(2);
+                    int fragmentChoose = Information.FragmentChoose;
+                    if (fragmentChoose == 1) {
+                        SaveSetting(2);
+
+                    } else {
+                        callFragment(new TopicFragment());
+                        img_component.setVisibility(View.GONE);
+                        txtTitle.setText("Interact");
+                        setDefaut(2);
+                    }
                 }
             });
 
@@ -198,35 +221,60 @@ public class MainAllActivity extends AppCompatActivity{
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("Listings");
                     setDefaut(3);*/
-                    cameraIntent();
+                    int fragmentChoose = Information.FragmentChoose;
+                    if (fragmentChoose == 1) {
+                        SaveSetting(3);
+
+                    } else {
+                        cameraIntent();
+                    }
                 }
             });
             btn_bag.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callFragment(new WishboardFragment());
-                    img_component.setVisibility(View.VISIBLE);
-                    Picasso.with(getApplicationContext()).load(R.drawable.btn_add_wishbroad).into(img_component);
-                    txtTitle.setText("Wishboard");
-                    setDefaut(4);
+                    int fragmentChoose = Information.FragmentChoose;
+                    if (fragmentChoose == 1) {
+                        SaveSetting(4);
+
+                    } else {
+                        callFragment(new WishboardFragment());
+                        img_component.setVisibility(View.VISIBLE);
+                        Picasso.with(getApplicationContext()).load(R.drawable.btn_add_wishbroad).into(img_component);
+                        txtTitle.setText("Wishboard");
+                        setDefaut(4);
+                    }
 
                 }
             });
             btn_user.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    callFragment(new MyProfileFragment());
-                    img_component.setVisibility(View.GONE);
-                    txtTitle.setText("My Profile");
-                    setDefaut(5);
+                    int fragmentChoose = Information.FragmentChoose;
+                    if (fragmentChoose == 1) {
+                        SaveSetting(5);
+
+                    } else {
+                        callFragment(new MyProfileFragment());
+                        img_component.setVisibility(View.GONE);
+                        txtTitle.setText("My Profile");
+                        setDefaut(5);
+                    }
+                }
+            });
+
+            tb_bottom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String sss = "";
                 }
             });
 
             try {
                 initLayout();
                 Book book = (Book) getIntent().getSerializableExtra("item");
-                String key= getIntent().getStringExtra("keyDetail");
-                if(key.equals("1")) {
+                String key = getIntent().getStringExtra("keyDetail");
+                if (key.equals("1")) {
                     ListingsDetailActivity fragment = new ListingsDetailActivity();
                     Bundle bundle = new Bundle();
                     bundle.putString(String.valueOf(R.string.valueListings), "5");
@@ -235,7 +283,7 @@ public class MainAllActivity extends AppCompatActivity{
                     callFragment(fragment);
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("Listings");
-                   // setDefaut(3);
+                    // setDefaut(3);
                 }
 
             } catch (Exception exs) {
@@ -244,47 +292,48 @@ public class MainAllActivity extends AppCompatActivity{
 
 
             //-------------------------------------------------------
-        }catch (Exception ex) {
+        } catch (Exception ex) {
 
         }
-        UserID userID= new UserID(MainAllActivity.this);
+        UserID userID = new UserID(MainAllActivity.this);
         userID.execute();
     }
-    private void cameraIntent()
-    {
+
+    private void cameraIntent() {
         //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //startActivityForResult(intent, 1);
-        Intent intent= new Intent(MainAllActivity.this, CameraActivity.class);
+        Intent intent = new Intent(MainAllActivity.this, CameraActivity.class);
         startActivity(intent);
     }
-    public TextView gettitle(){
+
+    public TextView gettitle() {
         return txtTitle;
     }
 
-    public void initLayout(){
+    public void initLayout() {
+        tb_bottom = (TableRow) findViewById(R.id.tb_bottom);
         view_top = (View) findViewById(R.id.menu_top_all);
         txtTitle = (TextView) view_top.findViewById(R.id.txt_title);
         img_component = (ImageView) view_top.findViewById(R.id.img_menu_component);
         view_top = (View) findViewById(R.id.menu_top_all);
         txtTitle = (TextView) view_top.findViewById(R.id.txt_title);
         //txtTitle.setText("Locate");
-        flag=true;
+        flag = true;
         img_component = (ImageView) view_top.findViewById(R.id.img_menu_component);
         Picasso.with(getApplicationContext()).load(R.drawable.btn_explore).into(img_component);
         img_component.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flag) {
+                if (flag) {
                     callFragment(new ExploreFragment());
                     txtTitle.setText("Explore");
                     Picasso.with(getApplicationContext()).load(R.drawable.btn_location).into(img_component);
-                    flag=false;
-                }
-                else {
+                    flag = false;
+                } else {
                     callFragment(new MainFragment());
                     txtTitle.setText("Locate");
                     Picasso.with(getApplicationContext()).load(R.drawable.btn_explore).into(img_component);
-                    flag=true;
+                    flag = true;
                 }
             }
         });
@@ -295,8 +344,66 @@ public class MainAllActivity extends AppCompatActivity{
         btn_user = (ImageView) findViewById(R.id.img_menu_bottom_user);
     }
 
-    public static MainAllActivity getSaleInstance()
-    {
+    public void SaveSetting(final int type){
+        android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(MainAllActivity.this);
+        builder1.setMessage("Do you want to save the changes made");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences pref = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
+                        String session_id = pref.getString("session_id", "");
+                        updateProfile updateProfile = new updateProfile(MainAllActivity.this, session_id, Information.FragmentEmail,
+                                Information.FragmentPhone, Information.FragmentDateTime, Information.FragmentBirthday, Information.FragmentPhoto, Information.FragmentFirst, Information.FragmentLast,type);
+                        updateProfile.execute();
+
+                    }
+                });
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Information.FragmentChoose = 0;
+                        if(type==1){
+                            Glide.with(MainAllActivity.this).load(R.drawable.btn_locate_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(btn_location);
+                            initLayout();
+                            callFragment(new MainFragment());
+                            img_component = (ImageView) view_top.findViewById(R.id.img_menu_component);
+                            img_component.setVisibility(View.VISIBLE);
+                            Picasso.with(getApplicationContext()).load(R.drawable.btn_explore).into(img_component);
+                            //Glide.with(MainAllActivity.this).load(R.drawable.btn_explore).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_component);
+
+                            txtTitle.setText("Locate");
+                            setDefaut(1);
+                        }else if(type==2){
+                            callFragment(new TopicFragment());
+                            img_component.setVisibility(View.GONE);
+                            txtTitle.setText("Interact");
+                            setDefaut(2);
+                        }else if(type==3){
+                            cameraIntent();
+                        }else if(type==4){
+                            callFragment(new WishboardFragment());
+                            img_component.setVisibility(View.VISIBLE);
+                            Picasso.with(getApplicationContext()).load(R.drawable.btn_add_wishbroad).into(img_component);
+                            txtTitle.setText("Wishboard");
+                            setDefaut(4);
+                        }else {
+                            callFragment(new MyProfileFragment());
+                            img_component.setVisibility(View.GONE);
+                            txtTitle.setText("My Profile");
+                            setDefaut(5);
+                        }
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    public static MainAllActivity getSaleInstance() {
         return INSTANCE;
 
     }
@@ -307,13 +414,13 @@ public class MainAllActivity extends AppCompatActivity{
 
     }
 
-    private void replaceFragment (Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         String backStateName = fragment.getClass().getName();
 
         FragmentManager manager = getSupportFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
-        if (!fragmentPopped){ //fragment not in back stack, create it.
+        if (!fragmentPopped) { //fragment not in back stack, create it.
             FragmentTransaction ft = manager.beginTransaction();
             ft.replace(R.id.frame_main_all, fragment);
             ft.addToBackStack(backStateName);
@@ -328,44 +435,39 @@ public class MainAllActivity extends AppCompatActivity{
         transaction.commit();
     }
 
-    public void setDefaut(int i){
+    public void setDefaut(int i) {
         //set icon tab
-        if(i==0) {
+        if (i == 0) {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(btn_commnet);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(btn_location);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-        }
-        else if(i==1) {
+        } else if (i == 1) {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(btn_commnet);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_active).into(btn_location);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-        }
-        else if(i==2) {
+        } else if (i == 2) {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_active).into(btn_commnet);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(btn_location);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-        }
-        else if(i==3) {
+        } else if (i == 3) {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(btn_commnet);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(btn_location);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_not_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-        }
-        else if(i==4) {
+        } else if (i == 4) {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(btn_commnet);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(btn_location);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_wishbroad_active).into(btn_bag);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_profile_not_active).into(btn_user);
-        }
-        else {
+        } else {
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_interact_not_active).into(btn_commnet);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_not_active).into(btn_location);
             Picasso.with(getApplicationContext()).load(R.drawable.btn_locate_listing_not_active).into(btn_camera);
@@ -412,6 +514,7 @@ public class MainAllActivity extends AppCompatActivity{
         txtTitle.setText(title);
     }
 
+
     public static ImageView getImg_menu() {
         return img_menu;
     }
@@ -422,14 +525,14 @@ public class MainAllActivity extends AppCompatActivity{
         Picasso.with(getSaleInstance()).load(R.drawable.btn_location).into(img_component);
     }
 
-    public static Bitmap getImageThumb(){
+    public static Bitmap getImageThumb() {
         Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.abc);
-        int size= (int) mResources.getDimension(R.dimen.size_knob);
-        if(size>=60){
-            size=44;
+        int size = (int) mResources.getDimension(R.dimen.size_knob);
+        if (size >= 60) {
+            size = 44;
         }
-        if(size==40){
-            size=38;
+        if (size == 40) {
+            size = 38;
         }
         Bitmap thumb = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(thumb);
@@ -442,8 +545,7 @@ public class MainAllActivity extends AppCompatActivity{
     class UserID extends AsyncTask<String, Void, String> {
         Context context;
 
-        public UserID(Context context)
-        {
+        public UserID(Context context) {
             this.context = context;
         }
 
@@ -465,7 +567,7 @@ public class MainAllActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(final String user_ID) {
             try {
-                if(!user_ID.equals("")||user_ID!=null) {
+                if (!user_ID.equals("") || user_ID != null) {
                     SharedPreferences pref = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("user_id", user_ID);
@@ -479,4 +581,90 @@ public class MainAllActivity extends AppCompatActivity{
         }
     }
 
+    class updateProfile extends AsyncTask<Void, Void, Boolean> {
+        ProgressDialog dialog;
+        Context context;
+        String email, phone, birthday, photo, session_id, first_name, last_name, date_time;
+        int type;
+        public updateProfile(Context context, String session_id, String email, String phone, String date_time, String birthday, String photo, String first_name, String last_name,int type) {
+            this.context = context;
+            this.session_id = session_id;
+            this.email = email;
+            this.phone = phone;
+            this.birthday = birthday;
+            this.photo = photo;
+            this.first_name = first_name;
+            this.last_name = last_name;
+            this.date_time = date_time;
+            this.type=type;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(MainAllActivity.this);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.setIndeterminate(true);
+            dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if (!check) {
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id", null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
+            UserController userController = new UserController(context);
+            return userController.updateprofile(first_name, last_name, email, phone, birthday, photo, session_id);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if (aBoolean == true) {
+                Information.FragmentChoose=0;
+                dialog.dismiss();
+                if(type==1){
+                    Glide.with(MainAllActivity.this).load(R.drawable.btn_locate_active).diskCacheStrategy(DiskCacheStrategy.ALL).into(btn_location);
+                    initLayout();
+                    callFragment(new MainFragment());
+                    img_component = (ImageView) view_top.findViewById(R.id.img_menu_component);
+                    img_component.setVisibility(View.VISIBLE);
+                    Picasso.with(getApplicationContext()).load(R.drawable.btn_explore).into(img_component);
+                    //Glide.with(MainAllActivity.this).load(R.drawable.btn_explore).diskCacheStrategy(DiskCacheStrategy.ALL).into(img_component);
+
+                    txtTitle.setText("Locate");
+                    setDefaut(1);
+                }else if(type==2){
+                    callFragment(new TopicFragment());
+                    img_component.setVisibility(View.GONE);
+                    txtTitle.setText("Interact");
+                    setDefaut(2);
+                }else if(type==3){
+                    cameraIntent();
+                }else if(type==4){
+                    callFragment(new WishboardFragment());
+                    img_component.setVisibility(View.VISIBLE);
+                    Picasso.with(getApplicationContext()).load(R.drawable.btn_add_wishbroad).into(img_component);
+                    txtTitle.setText("Wishboard");
+                    setDefaut(4);
+                }else {
+                    callFragment(new MyProfileFragment());
+                    img_component.setVisibility(View.GONE);
+                    txtTitle.setText("My Profile");
+                    setDefaut(5);
+                }
+                Toast.makeText(MainAllActivity.this, Information.noti_update_success, Toast.LENGTH_LONG).show();
+            } else {
+                dialog.dismiss();
+                Toast.makeText(MainAllActivity.this, Information.noti_update_fail, Toast.LENGTH_LONG).show();
+            }
+            dialog.dismiss();
+        }
+    }
 }

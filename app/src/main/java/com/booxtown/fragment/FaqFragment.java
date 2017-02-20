@@ -16,9 +16,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.booxtown.adapter.AdapterExplore;
 import com.booxtown.controller.AboutController;
 import com.booxtown.controller.FaqController;
+import com.booxtown.custom.CustomEdittext;
 import com.booxtown.custom.Custom_Listview_faq;
+import com.booxtown.custom.DrawableClickListener;
 import com.booxtown.model.About;
 import com.booxtown.model.Faq;
 import com.squareup.picasso.Picasso;
@@ -30,10 +33,11 @@ import com.booxtown.R;
 
 public class FaqFragment extends Fragment {
     public static List<String> prgmNameList;
-    TextView editSearch;
+    CustomEdittext editSearch;
     ImageView imageView_search_faq;
     RecyclerView listView_faq;
     Custom_Listview_faq custom_faq;
+    boolean flagClosSearch=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,9 +60,8 @@ public class FaqFragment extends Fragment {
     public void init(View view){
         listView_faq = (RecyclerView)view.findViewById(R.id.lv_content_faq);
         imageView_search_faq = (ImageView)view.findViewById(R.id.imageView_search_faq);
-        editSearch = (EditText)view.findViewById(R.id.editSearch);
-
-
+        editSearch = (CustomEdittext)view.findViewById(R.id.editSearch);
+        editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
     }
     class FAQAsync extends AsyncTask<Void, Void, ArrayList<Faq>> {
         Context context;
@@ -120,8 +123,40 @@ public class FaqFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-
+                        if(editSearch.getText().toString().trim().length()>0) {
+                            editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.closes, 0);
+                            flagClosSearch=true;
+                        }else {
+                            editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                            flagClosSearch=false;
+                        }
                     }
+                });
+
+                editSearch.setDrawableClickListener(new DrawableClickListener() {
+                    public void onClick(DrawablePosition target) {
+                        switch (target) {
+                            case LEFT:
+                                //Do something here
+                                break;
+                            case RIGHT:
+                                if(flagClosSearch) {
+                                    editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                    editSearch.setText("");
+                                    flagClosSearch = false;
+                                }
+                                break;
+                            case TOP:
+                                //Do something here
+                                break;
+                            case BOTTOM:
+                                //Do something here
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
                 });
 
             } catch (Exception e) {
