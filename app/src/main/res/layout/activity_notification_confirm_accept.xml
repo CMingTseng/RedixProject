@@ -46,7 +46,9 @@
         android:layout_alignParentStart="true"
         android:gravity="center"
         android:textSize="@dimen/text_book_exploer"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:textColor="@color/color_text_big"
+        />
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -56,7 +58,9 @@
         android:layout_below="@+id/txt_title_book_sell_noti_accept"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/text_wishboard_date"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/color_text_smal"
+        />
 
     <include
         android:layout_width="wrap_content"
@@ -82,6 +86,7 @@
         android:layout_alignParentStart="true"
         android:gravity="center"
         android:textSize="@dimen/text_book_exploer"
+        android:textColor="@color/color_text_big"
         android:layout_marginTop="5dp" />
 
     <com.booxtown.custom.CustomTextView
@@ -92,6 +97,7 @@
         android:layout_below="@+id/txt_title_book_buy_noti_accept"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/text_wishboard_date"
+        android:textColor="@color/color_text_smal"
         android:layout_marginBottom="10dp" />
 
     <include

@@ -32,6 +32,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"
         >
+
         <com.booxtown.custom.CustomEdittext
             android:id="@+id/username_login"
             android:layout_width="match_parent"
@@ -39,19 +40,20 @@
             android:hint="Email ID"
             android:layout_marginBottom="5dp"
             android:maxLines="1"
-            android:textColorHint="@color/color_text_hint"
+            android:textColorHint="@color/color_text_smal"
             android:backgroundTint="@color/color_hint_interact"
 
             android:imeOptions="actionDone"
             android:singleLine="true"
             />
+
         <com.booxtown.custom.CustomEdittext
             android:id="@+id/password_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
             android:maxLines="1"
-            android:textColorHint="@color/color_text_hint"
+            android:textColorHint="@color/color_text_smal"
             android:backgroundTint="@color/color_hint_interact"
             android:imeOptions="actionDone"
             android:singleLine="true"
@@ -82,7 +84,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:text="@string/forgotpassword"
-            android:textColor="@color/color_text_hint"
+            android:textColor="@color/color_text_big"
             android:textSize="18sp" />
     </LinearLayout>
 

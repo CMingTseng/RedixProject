@@ -46,6 +46,7 @@
         android:id="@+id/txt_title_book"
         android:layout_below="@+id/include33"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text_big"
         android:layout_marginTop="5dp" />
 
     <com.booxtown.custom.CustomTextView
@@ -55,6 +56,7 @@
         android:id="@+id/txt_author_book"
         android:layout_below="@+id/txt_title_book"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text_smal"
         android:layout_marginBottom="10dp" />
 
     <include

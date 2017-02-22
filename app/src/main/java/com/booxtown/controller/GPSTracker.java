@@ -20,6 +20,8 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.booxtown.activity.AddbookActivity;
+
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
@@ -65,7 +67,28 @@ public class GPSTracker extends Service implements LocationListener {
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
+                    if(!isGPSEnabled) {
+                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(mContext);
+                        builder.setTitle("Location Manager");
+                        builder.setMessage("Would you like to enable GPS?");
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Launch settings, allowing user to make a change
+                                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                mContext.startActivity(i);
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //No location service, no Activity
+
+                            }
+                        });
+                        builder.create().show();
+                    }
+
             } else {
                 this.canGetLocation = true;
                 // First get location from Network Provider

@@ -37,6 +37,7 @@
         android:text="Gandalf"
         android:id="@+id/txt_author_info2"
         android:layout_below="@+id/imv_menu_notification_infor2"
+        android:textColor="@color/color_text_big"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
 
@@ -104,6 +105,7 @@
         android:layout_height="wrap_content"
         android:text="Phone : "
         android:id="@+id/txt_menu_notification_infor2_phone"
+        android:textColor="@color/color_text_smal"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true" />
 

@@ -121,7 +121,7 @@ public class MyProfileFragment extends Fragment {
     String session_id = "";
     float longitude = 0;
     float latitude = 0;
-
+    GPSTracker gpsTracker;
     //-----------------------------
     private TableRow tb_bottom;
 
@@ -142,17 +142,18 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        gpsTracker= new GPSTracker(getContext());
         final View view = inflater.inflate(R.layout.my_profile_fragment, container, false);
         uploadFileController = new UploadFileController();
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         int is_current_location = pref.getInt("is_current_location", 1);
         if (is_current_location == 1) {
-            longitude = (float) new GPSTracker(getActivity()).getLongitude();
-            latitude = (float) new GPSTracker(getActivity()).getLatitude();
+            longitude = (float) gpsTracker.getLongitude();
+            latitude = (float) gpsTracker.getLatitude();
         } else {
-            longitude = Float.parseFloat(pref.getString("Longitude", (float) new GPSTracker(getActivity()).getLongitude() + ""));
-            latitude = Float.parseFloat(pref.getString("Latitude", (float) new GPSTracker(getActivity()).getLatitude() + ""));
+            longitude = Float.parseFloat(pref.getString("Longitude", (float) gpsTracker.getLongitude() + ""));
+            latitude = Float.parseFloat(pref.getString("Latitude", (float) gpsTracker.getLatitude() + ""));
         }
 
         //-----------------------------------------------------------------------------------------------------

@@ -48,12 +48,13 @@ public class SwapActivity extends AppCompatActivity {
     View view_menu_top;
     TextView txtTitle, btn_Swap, btn_add_book;
     ImageView img_component, imageView_back;
-
+    GPSTracker gpsTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swap_book);
         //------------------------------------------------------------
+        gpsTracker= new GPSTracker(SwapActivity.this);
         init();
         SharedPreferences pref = SwapActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         final String session_id = pref.getString("session_id", null);
@@ -114,11 +115,11 @@ public class SwapActivity extends AppCompatActivity {
 
         int is_current_location = pref.getInt("is_current_location", 1);
         if (is_current_location == 1) {
-            longitude = (float) new GPSTracker(SwapActivity.this).getLongitude();
-            latitude = (float) new GPSTracker(SwapActivity.this).getLatitude();
+            longitude = (float) gpsTracker.getLongitude();
+            latitude = (float) gpsTracker.getLatitude();
         } else {
-            longitude = Float.parseFloat(pref.getString("Longitude", (float) new GPSTracker(SwapActivity.this).getLongitude() + ""));
-            latitude = Float.parseFloat(pref.getString("Latitude", (float) new GPSTracker(SwapActivity.this).getLatitude() + ""));
+            longitude = Float.parseFloat(pref.getString("Longitude", (float) gpsTracker.getLongitude() + ""));
+            latitude = Float.parseFloat(pref.getString("Latitude", (float) gpsTracker.getLatitude() + ""));
         }
         listingAsync listingAsync = new listingAsync(SwapActivity.this);
         listingAsync.execute(session_id);

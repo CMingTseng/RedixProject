@@ -127,13 +127,13 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     float latitude = 0;
     boolean flagClosSearch=false;
     public TextView tab_all_count, tab_swap_count, tab_free_count, tab_cart_count;
-
+    GPSTracker gpsTracker;
     //end
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
-
+        gpsTracker= new GPSTracker(getContext());
         notiTrial = (RelativeLayout) view.findViewById(R.id.notiTrial);
         notiUpgrade = (RelativeLayout) view.findViewById(R.id.notiUpgrade);
         txtNotifiTrial = (TextView) view.findViewById(R.id.txtNotifiTrial);
@@ -157,11 +157,11 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
         int is_current_location = pref.getInt("is_current_location", 1);
         if (is_current_location == 1) {
-            longitude = (float) new GPSTracker(getActivity()).getLongitude();
-            latitude = (float) new GPSTracker(getActivity()).getLatitude();
+            longitude = (float) gpsTracker.getLongitude();
+            latitude = (float) gpsTracker.getLatitude();
         } else {
-            longitude = Float.parseFloat(pref.getString("Longitude", (float) new GPSTracker(getActivity()).getLongitude() + ""));
-            latitude = Float.parseFloat(pref.getString("Latitude", (float) new GPSTracker(getActivity()).getLatitude() + ""));
+            longitude = Float.parseFloat(pref.getString("Longitude", (float) gpsTracker.getLongitude() + ""));
+            latitude = Float.parseFloat(pref.getString("Latitude", (float) gpsTracker.getLatitude() + ""));
         }
 
         View view_tab = (View) view.findViewById(R.id.tab_explore);
@@ -829,7 +829,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.setTrafficEnabled(true);
-        GPSTracker gpsTracker = new GPSTracker(getContext());
+        //GPSTracker gpsTracker = new GPSTracker(getContext());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 12));
         mMap.setOnInfoWindowClickListener(this);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
@@ -1147,7 +1147,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         try {
             mMap.clear();
             if (books.size() > 0) {
-                GPSTracker gpsTracker = new GPSTracker(getContext());
+
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 12));
                 for (int i = 0; i < books.size(); i++) {
                     marker = new MarkerOptions().position(new LatLng(books.get(i).getLocation_latitude(), books.get(i).getLocation_longitude())).title("Booxtown");

@@ -21,7 +21,9 @@
         android:layout_alignParentEnd="true"
         android:ellipsize="end"
         android:maxLines="1"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textColor="@color/color_text_big"
+        />
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -33,7 +35,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="3dp" />
+        android:layout_marginTop="3dp"
+        android:textColor="@color/color_text_smal"
+        />
 </RelativeLayout>
     <TextView
         android:layout_width="match_parent"

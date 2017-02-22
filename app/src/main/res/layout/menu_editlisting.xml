@@ -15,7 +15,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dp"
         android:padding="5dp"
-        android:text="Photos " />
+        android:text="Photos "
+        android:textColor="@color/color_text_big"
+        />
 
     <com.booxtown.custom.CustomTextView
         android:id="@+id/textView104"
@@ -26,7 +28,7 @@
         android:layout_toEndOf="@+id/textView103"
         android:layout_toRightOf="@+id/textView103"
         android:text="(Max 3)"
-        android:textColor="@color/color_text_hint" />
+        android:textColor="@color/color_text_smal" />
 
     <ImageView
         android:id="@+id/imageView29"
@@ -108,7 +110,7 @@
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:hint="The last paiting"
-        android:textColorHint="@color/color_text_hint"
+        android:textColorHint="@color/color_text_smal"
         android:imeOptions="actionDone"
         android:singleLine="true"
         />
@@ -141,7 +143,7 @@
         android:ems="10"
         android:hint="Author"
         android:inputType="textPersonName"
-        android:textColorHint="@color/color_text_hint"
+        android:textColorHint="@color/color_text_smal"
         android:imeOptions="actionDone"
         android:singleLine="true"
         />
@@ -232,6 +234,7 @@
         android:background="@android:color/transparent"
         android:fontFamily="sans-serif-thin"
         android:text="Poor"
+        android:textColor="@color/color_text_smal"
         android:textColorHint="@color/color_text_hint"
         android:textSize="11sp" />
 
@@ -246,6 +249,7 @@
         android:background="@android:color/transparent"
         android:fontFamily="sans-serif-thin"
         android:text="Good"
+        android:textColor="@color/color_text_smal"
         android:textColorHint="@color/color_text_hint"
         android:textSize="11sp" />
 
@@ -307,6 +311,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
+        android:textColor="@color/color_text_big"
         android:text="Find your location on map" />
 
     <RadioGroup
@@ -333,7 +338,7 @@
             android:button="@drawable/radio_button"
             android:checked="true"
             android:text="  User current location"
-            android:textColor="@color/color_text_hint" />
+            android:textColor="@color/color_text_smal" />
 
         <com.booxtown.custom.CustomRadioButton
             android:id="@+id/radioButton_another"
@@ -344,7 +349,7 @@
             android:button="@drawable/radio_button"
             android:checked="false"
             android:text="  Choose another"
-            android:textColor="@color/color_text_hint" />
+            android:textColor="@color/color_text_smal" />
     </RadioGroup>
 
     <fragment
@@ -368,6 +373,7 @@
         android:layout_alignStart="@+id/fragment_map_editlisting"
         android:layout_below="@+id/fragment_map_editlisting"
         android:button="@drawable/img_checkbox"
+        android:textColor="@color/color_text_big"
         android:text="Swap" />
 
     <CheckBox
@@ -377,6 +383,7 @@
         android:layout_alignTop="@+id/checkBox"
         android:layout_centerHorizontal="true"
         android:button="@drawable/img_checkbox"
+        android:textColor="@color/color_text_big"
         android:text="Sell" />
 
     <CheckBox
@@ -387,6 +394,7 @@
         android:layout_alignRight="@+id/img_menu_genre"
         android:layout_alignTop="@+id/ck_sell_editlisting"
         android:button="@drawable/img_checkbox"
+        android:textColor="@color/color_text_big"
         android:checked="false"
         android:text="Free" />
 
@@ -422,7 +430,7 @@
             android:maxLength="4"
             android:gravity="center_vertical"
             android:backgroundTint="@color/dot_light_screen1"
-            android:textColorHint="@color/color_text_hint"
+            android:textColorHint="@color/color_text_smal"
             android:imeOptions="actionDone"
             android:singleLine="true"
              />

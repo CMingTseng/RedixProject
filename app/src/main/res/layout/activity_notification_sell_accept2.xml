@@ -48,6 +48,7 @@
         android:id="@+id/txt_title_book_buy_accept"
         android:layout_below="@+id/include38"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text_big"
         android:layout_marginTop="5dp" />
 
     <com.booxtown.custom.CustomTextView
@@ -56,7 +57,8 @@
         android:text="Ayn rand"
         android:id="@+id/txt_author_book_buy_accept"
         android:layout_below="@+id/txt_title_book_buy_accept"
-        android:textColor="@color/color_text_hint"
+        android:textColor="@color/color_text_smal"
+
         android:layout_centerHorizontal="true" />
 
     <com.booxtown.custom.CustomTextView
@@ -67,6 +69,7 @@
         android:id="@+id/txt_notification_sell_accept_money"
         android:layout_below="@+id/txt_author_book_buy_accept"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text_big"
         android:layout_marginBottom="10dp" />
 
     <include
@@ -104,6 +107,7 @@
             android:text="10:00 PM - 11:00 AM"
             android:id="@+id/txt_notification_dominic_time"
             android:layout_below="@+id/txt_notification_dominic_besttime"
+            android:textColor="@color/color_text_big"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </RelativeLayout>

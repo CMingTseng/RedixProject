@@ -1,5 +1,6 @@
 package com.booxtown.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -98,6 +99,13 @@ public class MainAllActivity extends AppCompatActivity {
                     img_component.setVisibility(View.GONE);
                     txtTitle.setText("Interact");
                     setDefaut(2);
+                }else if (i == 15) {
+                    initLayout();
+                    callFragment(new ListingsFragment());
+                    img_component.setVisibility(View.GONE);
+                    txtTitle.setText("Listings");
+                    setDefaut(3);
+
                 } else if (i == 3) {
                     /*initLayout();
                     callFragment(new ListingsFragment());
@@ -412,6 +420,15 @@ public class MainAllActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void replaceFragment(Fragment fragment) {

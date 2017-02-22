@@ -173,6 +173,9 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
         if(ex.getTitle().toString().length()>0) {
             hoder.txt_title_book.setText(ex.getTitle().toString().substring(0,1).toUpperCase()+ex.getTitle().toString().substring(1,ex.getTitle().toString().length()));
         }
+        if(ex.getAuthor().toString().trim().equals("")||ex.getAuthor().toString().length()==0){
+            hoder.txt_buy_book_listings.setVisibility(View.GONE);
+        }
         hoder.txt_author_book.setText(ex.getAuthor().toString());
 
         hoder.img_buy.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +265,7 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
     public class ExploreHoder extends RecyclerView.ViewHolder{
         TextView txt_title_book ;
         TextView txt_author_book ;
-        TextView txt_pricebook;
+        TextView txt_pricebook,txt_buy_book_listings;
 
         ImageView img_book ;
         ImageView img_swap;
@@ -274,11 +277,12 @@ public class AdapterExplore extends RecyclerView.Adapter<AdapterExplore.ExploreH
             txt_title_book = (TextView) itemView.findViewById(R.id.txt_title_book_listings);
             txt_author_book = (TextView) itemView.findViewById(R.id.txt_author_book_listings);
             txt_pricebook=(TextView) itemView.findViewById(R.id.txt_pricebook);
-
+            txt_buy_book_listings=(TextView) itemView.findViewById(R.id.txt_buy_book_listings);
             img_book = (ImageView)itemView.findViewById(R.id.img_book);
             img_swap = (ImageView)itemView.findViewById(R.id.img_explore_swap);
             img_free = (ImageView)itemView.findViewById(R.id.img_explore_free);
             img_buy = (ImageView)itemView.findViewById(R.id.img_explore_buy);
+
         }
     }
 

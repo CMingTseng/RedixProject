@@ -62,10 +62,13 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     float longitude=0;
     float latitude=0;
     public TextView tab_all_count,tab_swap_count,tab_free_count,tab_cart_count,txt_profile_username;
+    GPSTracker gpsTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        gpsTracker= new GPSTracker(UserProfileActivity.this);
         init();
         View view=(View) findViewById(R.id.menu_top_profile);
         TextView txtTitle=(TextView) view.findViewById(R.id.txt_title);
@@ -93,11 +96,11 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         int is_current_location= pref.getInt("is_current_location",1);
         if(is_current_location==1) {
-            longitude = (float) new GPSTracker(UserProfileActivity.this).getLongitude();
-            latitude = (float) new GPSTracker(UserProfileActivity.this).getLatitude();
+            longitude = (float) gpsTracker.getLongitude();
+            latitude = (float) gpsTracker.getLatitude();
         }else {
-            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(UserProfileActivity.this).getLongitude()+""));
-            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(UserProfileActivity.this).getLatitude()+""));
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) gpsTracker.getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) gpsTracker.getLatitude()+""));
         }
 
         linear_all.setOnClickListener(new View.OnClickListener() {

@@ -80,11 +80,13 @@ public class CameraActivity extends Activity implements Callback,
     float longitude=0;
     float latitude=0;
     int keyChoose=0;
+    GPSTracker gpsTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         // camera surface view created
+        gpsTracker=new GPSTracker(CameraActivity.this);
         cameraId = CameraInfo.CAMERA_FACING_BACK;
         btn_capture_camera = (ImageView) findViewById(R.id.btn_capture_camera);
         Picasso.with(CameraActivity.this).load(R.drawable.capture_camera2).into(btn_capture_camera);
@@ -117,11 +119,11 @@ public class CameraActivity extends Activity implements Callback,
         String sessionID = pref.getString("session_id", null);
         int is_current_location= pref.getInt("is_current_location",1);
         if(is_current_location==1) {
-            longitude = (float) new GPSTracker(CameraActivity.this).getLongitude();
-            latitude = (float) new GPSTracker(CameraActivity.this).getLatitude();
+            longitude = (float) gpsTracker.getLongitude();
+            latitude = (float) gpsTracker.getLatitude();
         }else {
-            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(CameraActivity.this).getLongitude()+""));
-            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(CameraActivity.this).getLatitude()+""));
+            longitude = Float.parseFloat(pref.getString("Longitude",(float)gpsTracker.getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) gpsTracker.getLatitude()+""));
         }
         try{
             keyChoose=getIntent().getIntExtra("keyChoose",0);

@@ -33,6 +33,7 @@
             android:textSize="@dimen/text_size_search"
             android:layout_centerHorizontal="true"
             android:layout_alignTop="@+id/imv_nitification_infor3_phone"
+            android:textColor="@color/color_text_big"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp" />
 
@@ -86,6 +87,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:gravity="center"
+            android:textColor="@color/color_text_smal"
             android:textSize="@dimen/text_size_search"/>
 
         <com.booxtown.custom.CustomTextView

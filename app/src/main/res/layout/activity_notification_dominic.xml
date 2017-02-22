@@ -40,6 +40,7 @@
         android:id="@+id/textView65"
         android:layout_below="@+id/include42"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text_big"
         android:layout_marginTop="10dp" />
 
     <com.booxtown.custom.CustomTextView
@@ -49,7 +50,8 @@
         android:id="@+id/textView66"
         android:layout_below="@+id/textView65"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/color_text_hint"
+        android:textColor="@color/color_text_smal"
+
         android:layout_marginBottom="10dp" />
 
     <include

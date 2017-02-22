@@ -43,7 +43,7 @@
         android:layout_below="@+id/txt_title_listings_detail"
         android:layout_centerHorizontal="true"
         android:text=""
-        android:textColor="@color/color_text_hint"
+        android:textColor="@color/color_text_smal"
         android:textSize="@dimen/text_wishboard_date" />
 
     <com.booxtown.custom.CustomTextView
@@ -88,7 +88,7 @@
             android:layout_alignTop="@+id/icon_user_listing_detail"
             android:layout_marginTop="3dp"
             android:text="Listed by"
-            android:textColor="@color/color_text_hint"
+            android:textColor="@color/color_text_smal"
             android:textSize="@dimen/text_by_exploer" />
 
         <com.booxtown.custom.CustomTextView
@@ -100,7 +100,9 @@
             android:layout_toEndOf="@+id/icon_user_listing_detail"
             android:layout_toRightOf="@+id/icon_user_listing_detail"
             android:text="Gandalf"
-            android:textSize="@dimen/text_book_exploer" />
+            android:textSize="@dimen/text_book_exploer"
+            android:textColor="@color/color_text_big"
+            />
 
         <RatingBar
             android:id="@+id/myRatingBar"
@@ -155,7 +157,7 @@
             android:layout_alignBottom="@+id/txt_view"
             android:layout_centerHorizontal="true"
             android:text="Posted on 29-08-2016"
-            android:textColor="@color/color_text_hint"
+            android:textColor="@color/color_text_smal"
             android:textSize="@dimen/text_by_exploer" />
     </RelativeLayout>
 
@@ -169,6 +171,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="Genre: "
+        android:textColor="@color/color_text_big"
         android:textSize="16sp" />
 
     <com.booxtown.custom.CustomTextView
@@ -194,6 +197,7 @@
         android:layout_alignStart="@+id/txt_dialog_delete_editlisting1"
         android:layout_below="@+id/txt_dialog_delete_editlisting1"
         android:layout_marginTop="10dp"
+        android:textColor="@color/color_text_big"
         android:text="Book Condition:"
         android:textSize="16sp" />
 
@@ -236,6 +240,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:text=""
+        android:textColor="@color/color_text_big"
         android:textSize="16sp" />
 
     <View

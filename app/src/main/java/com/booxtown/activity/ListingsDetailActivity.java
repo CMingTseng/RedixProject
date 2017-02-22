@@ -1,5 +1,6 @@
 package com.booxtown.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -884,8 +885,6 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         try {
-
-
             mMap = googleMap;
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.getUiSettings().setZoomControlsEnabled(true);

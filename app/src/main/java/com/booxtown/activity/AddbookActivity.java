@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
@@ -140,11 +141,12 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     boolean flagTag = false;
     RadioButton radioButton_current, radioButton_another;
     ImageView img_menu_bottom_location, img_menu_bottom_comment, img_menu_bottom_camera, img_menu_bottom_bag, img_menu_bottom_user;
-
+    GPSTracker gpsTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book_with_swap);
+        gpsTracker = new GPSTracker(AddbookActivity.this);
         radioButton_current = (RadioButton) findViewById(R.id.radioButton_current);
         radioButton_another = (RadioButton) findViewById(R.id.radioButton_another);
 
@@ -267,6 +269,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     new Rect(0, 0, thumb.getWidth(), thumb.getHeight()), null);
             Drawable drawable = new BitmapDrawable(getResources(), thumb);
             seekbar.setThumb(drawable);
+            seekbar.setProgress(50);
             TextView title = (TextView) findViewById(R.id.txt_title);
             title.setText("Add a book");
 
@@ -448,7 +451,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
 
             try {
                 if (latLng_new == null) {
-                    GPSTracker gpsTracker = new GPSTracker(AddbookActivity.this);
+
                     latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                 }
             } catch (Exception e) {
@@ -461,8 +464,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                     mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
-                            latLng_new = latLng;
-                            addMarkerChoice(latLng);
+                            /*latLng_new = latLng;
+                            addMarkerChoice(latLng);*/
+
+                            Intent intent= new Intent(AddbookActivity.this,ChooseLocationDetailActivity.class);
+                            startActivityForResult(intent,15);
 
                         }
                     });
@@ -474,7 +480,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 public void onClick(View view) {
                     try {
                         if (latLng_new == null) {
-                            GPSTracker gpsTracker = new GPSTracker(AddbookActivity.this);
                             latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                             addMarkerChoice(latLng_new);
                         }
@@ -561,7 +566,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             return false;
         } else {
 
-            GPSTracker gps = new GPSTracker(AddbookActivity.this);
+
 
             for (int i = 0; i < lisImmage.size(); i++) {
                 try {
@@ -781,6 +786,27 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             } else {
                 addMarkerChoice(new LatLng(0, 0));
             }
+        }
+        else {
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(AddbookActivity.this);
+            builder.setTitle("Location Manager");
+            builder.setMessage("Would you like to enable GPS?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Launch settings, allowing user to make a change
+                    Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(i);
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //No location service, no Activity
+
+                }
+            });
+            builder.create().show();
         }
         if (isNetworkEnabled) {
             location = service
@@ -1063,6 +1089,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                             e.printStackTrace();
                         }
                     }
+                }else if (requestCode == 15) {
+                    String lat=data.getStringExtra("lat");
+                    String longti=data.getStringExtra("longti");
+                    latLng_new = new LatLng(Double.parseDouble(lat),Double.parseDouble(longti));
+                    addMarkerChoice(latLng_new);
                 }
 
             }
@@ -1219,7 +1250,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             try {
                 if (!result.equals("")) {
                     Toast.makeText(AddbookActivity.this,Information.add_book_success,Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(AddbookActivity.this, MainAllActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("key","15");
+                    startActivity(intent);
+                    finish();
                     // Tạm thời rào lại vì liên quan đến approved
                     /*if (type == 0) {
                         Intent intent = new Intent(AddbookActivity.this, SwapActivity.class);

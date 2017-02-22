@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/dot_light_screen1"
+    >
 
     <include
         android:layout_width="wrap_content"
@@ -18,6 +20,7 @@
         android:layout_below="@+id/menu_top_add_book_with_swap"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/menu_bottom_add_book_swap"
+        android:background="@color/dot_light_screen1"
         android:layout_marginBottom="10dp">
 
         <include

@@ -11,7 +11,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=" Text"
         android:id="@+id/txt_content_faq"
-        android:textColor="#807B80"
+        android:textColor="@color/color_text_big"
         android:padding="10dp"/>
 
     <ImageView
@@ -32,8 +32,7 @@
         android:layout_below="@+id/img_listview_faq_next"
         android:layout_height="1dp"
         android:layout_marginBottom="1dp"
-        android:textColor="@color/color_hint_interact"
-        android:background="#acacac"
+        android:background="@color/color_line"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
 </RelativeLayout>

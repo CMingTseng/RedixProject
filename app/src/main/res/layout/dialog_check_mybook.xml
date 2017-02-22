@@ -14,7 +14,7 @@
         <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your swap list"
+            android:text="You don't have any books "
             android:id="@+id/textView16"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
@@ -25,7 +25,7 @@
         <com.booxtown.custom.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="is not yet ready"
+            android:text="added yet"
             android:id="@+id/textView160"
             android:gravity="center"
             android:textColor="@color/dot_light_screen1"
@@ -33,7 +33,6 @@
             android:layout_below="@+id/textView16" />
 
         <TextView
-            android:layout_width="181dp"
             android:layout_height="37dp"
             android:text="Add a book"
             android:id="@+id/tv_addbook_checklist"
@@ -44,7 +43,8 @@
             android:layout_below="@+id/textView160"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"/>
+            android:layout_marginBottom="40dp"
+            android:layout_width="154dp" />
     </RelativeLayout>
 
     <RelativeLayout

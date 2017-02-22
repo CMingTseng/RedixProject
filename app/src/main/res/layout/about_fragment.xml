@@ -21,6 +21,6 @@
             android:padding="15dp"
             android:text="@string/about_booxtown"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/color_topic_interact" />
+            android:textColor="@color/color_text_big" />
     </ScrollView>
 </FrameLayout>

@@ -129,12 +129,13 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
     RadioButton radioButton_current, radioButton_another;
     TextView txt_menu_genre1;
     Bitmap bitmaps;
-
+    GPSTracker gpsTracker;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_listing_collection, container, false);
 
+        gpsTracker = new GPSTracker(getContext());
         //map view
         mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.fragment_map_editlisting);
@@ -710,7 +711,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
 
         try {
             if (latLng_new != null && !s.equals("edit")) {
-                GPSTracker gpsTracker = new GPSTracker(getContext());
                 latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                 addMarkerChoice(latLng_new);
             }
@@ -724,8 +724,10 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        latLng_new = latLng;
-                        addMarkerChoice(latLng);
+                        /*latLng_new = latLng;
+                        addMarkerChoice(latLng);*/
+                        Intent intent= new Intent(getActivity(),ChooseLocationDetailActivity.class);
+                        startActivityForResult(intent,15);
 
                     }
                 });
@@ -736,7 +738,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             public void onClick(View view) {
                 try {
                     if (latLng_new != null) {
-                        GPSTracker gpsTracker = new GPSTracker(getContext());
                         latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                         addMarkerChoice(latLng_new);
                     }
@@ -858,7 +859,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                 }
             }
 
-            GPSTracker gps = new GPSTracker(getActivity());
             for (int i = 0; i < lisImmage.size(); i++) {
                 try {
                     long time = System.currentTimeMillis();
@@ -1042,7 +1042,6 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
             mMap = googleMap;
             s = getArguments().getString("activity");
             if (!s.equals("edit")) {
-                GPSTracker gpsTracker = new GPSTracker(getContext());
                 latLng_new = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                 addMarkerChoice(latLng_new);
             } else if (s.equals("edit")) {
@@ -1401,6 +1400,11 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
                             e.printStackTrace();
                         }
                     }
+                }else if (requestCode == 15) {
+                    String lat=data.getStringExtra("lat");
+                    String longti=data.getStringExtra("longti");
+                    latLng_new = new LatLng(Double.parseDouble(lat),Double.parseDouble(longti));
+                    addMarkerChoice(latLng_new);
                 }
 
             }
@@ -1640,7 +1644,7 @@ public class ListingCollectionActivity extends Fragment implements OnMapReadyCal
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean == true) {
                 dialog.dismiss();
-                //Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),Information.add_book_success,Toast.LENGTH_SHORT).show();
                 if (back == 1) {
                     MainAllActivity main = (MainAllActivity) getActivity();
                     main.callFragment(new MyProfileFragment());

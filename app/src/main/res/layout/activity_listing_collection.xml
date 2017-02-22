@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="com.booxtown.activity.ListingCollectionActivity">
 
 
@@ -46,10 +47,12 @@
         android:id="@+id/scrollView3"
         android:layout_below="@+id/tableRow5"
         android:paddingBottom="15dp"
+        android:background="@color/dot_light_screen1"
         >
         <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             layout="@layout/menu_editlisting"
             android:layout_marginBottom="10dp"/>
     </ScrollView>

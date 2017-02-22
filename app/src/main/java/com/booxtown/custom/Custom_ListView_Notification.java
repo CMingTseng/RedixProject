@@ -90,10 +90,10 @@ public class Custom_ListView_Notification extends RecyclerView.Adapter<RecyclerV
         if (holder instanceof RecyclerViewHolder) {
             Notification notification = list.get(position);
             if (notification.getIs_read() == 0) {
-                ((RecyclerViewHolder) holder).tv.setTextColor(Color.RED);
+                ((RecyclerViewHolder) holder).tv.setTextColor(context.getResources().getColor(R.color.color_text));
 
             } else {
-                ((RecyclerViewHolder) holder).tv.setTextColor(Color.BLACK);
+                ((RecyclerViewHolder) holder).tv.setTextColor(context.getResources().getColor(R.color.color_text_big));
 
             }
             ((RecyclerViewHolder) holder).tv.setText(notification.getContent());

@@ -167,6 +167,9 @@
         <activity
             android:name=".activity.VerificationActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChooseLocationDetailActivity"
+            android:screenOrientation="portrait" />
 
 
         <activity

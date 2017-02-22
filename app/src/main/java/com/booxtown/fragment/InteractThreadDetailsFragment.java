@@ -114,7 +114,7 @@ public class InteractThreadDetailsFragment extends Fragment {
         txt_author_thread = (TextView) view.findViewById(R.id.txt_author_interact_thread_detail);
         txt_title_thread.setText(threads.getTitle().substring(0, 1).toUpperCase() + threads.getTitle().substring(1, threads.getTitle().length()) + "");
         txt_content_thread.setText(threads.getDescription());
-        txt_author_thread.setText("Added by " + threads.getUsername());
+        txt_author_thread.setText("Added by " + threads.getFull_name());
         txt_count_thread.setText("(" + threads.getNum_comment() + ")");
         //-----------------------------------------------------------
 

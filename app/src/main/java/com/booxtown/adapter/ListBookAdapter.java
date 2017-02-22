@@ -242,7 +242,9 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.LisBoo
         if(ex.getTitle().toString().length()>0) {
             hoder.txt_title_book.setText(ex.getTitle().toString().substring(0,1).toUpperCase()+ex.getTitle().toString().substring(1,ex.getTitle().toString().length()));
         }
-
+        if(ex.getAuthor().toString().length()==0||ex.getAuthor().toString().isEmpty()||ex.getAuthor().toString().equals("")){
+            hoder.txt_author_book.setVisibility(View.GONE);
+        }
         hoder.txt_author_book.setText("by "+ex.getAuthor().toString());
 
     }

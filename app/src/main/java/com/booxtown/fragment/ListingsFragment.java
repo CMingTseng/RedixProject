@@ -108,30 +108,27 @@ public class ListingsFragment extends Fragment {
     float longitude=0;
     float latitude=0;
     boolean flagClosSearch=false;
+    GPSTracker gpsTracker;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.listings_fragment, container, false);
 
+        gpsTracker = new GPSTracker(getContext());
         TextView title = (TextView) getActivity().findViewById(R.id.txt_title);
         title.setText("Listings");
         ImageView imageView_back = (ImageView) getActivity().findViewById(R.id.img_menu);
         Picasso.with(getContext()).load(R.drawable.btn_menu_locate).into(imageView_back);
-        //grid=(GridView)view.findViewById(R.id.grid_view_listings);
         txt_my_listings = (TextView) view.findViewById(R.id.txt_my_listings);
-        //RelativeLayout notiTrial= (RelativeLayout) view.findViewById(R.id.notiTrial);
-       // RelativeLayout notiUpgrade= (RelativeLayout) view.findViewById(R.id.notiUpgrade);
-        //notiTrial.setVisibility(View.GONE);
-        //notiUpgrade.setVisibility(View.GONE);
 
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         int is_current_location= pref.getInt("is_current_location",1);
         if(is_current_location==1) {
-            longitude = (float) new GPSTracker(getActivity()).getLongitude();
-            latitude = (float) new GPSTracker(getActivity()).getLatitude();
+            longitude = (float) gpsTracker.getLongitude();
+            latitude = (float) gpsTracker.getLatitude();
         }else {
-            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(getActivity()).getLongitude()+""));
-            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(getActivity()).getLatitude()+""));
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) gpsTracker.getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) gpsTracker.getLatitude()+""));
         }
 
         imageView_back.setOnClickListener(new View.OnClickListener() {

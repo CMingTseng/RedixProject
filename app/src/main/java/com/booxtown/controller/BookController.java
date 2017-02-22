@@ -35,6 +35,7 @@ public class BookController {
     private ServiceInterface service;
     Boolean success;
     Activity mActivity;
+    GPSTracker gpsTracker;
     public BookController(){
         service = ServiceGenerator.GetInstance();
 

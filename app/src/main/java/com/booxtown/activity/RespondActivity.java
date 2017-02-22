@@ -567,8 +567,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                     NotificationController controller = new NotificationController();
                     controller.sendNotification(list);
                     Toast.makeText(context, Information.noti_send_checkoutmylist, Toast.LENGTH_SHORT).show();
-                    onBackPressed();
-                    finish();
+                    //onBackPressed();
+                    //finish();
                 } else if (type == 2) {
                     List<Hashtable> list = new ArrayList<>();
                     int index = 0;

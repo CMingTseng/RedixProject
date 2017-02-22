@@ -37,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.booxtown.activity.CameraActivity;
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.activity.SignIn_Activity;
 import com.booxtown.activity.Upgrade;
@@ -114,7 +115,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
     boolean trial=false;
     float longitude=0;
     float latitude=0;
-
+    GPSTracker gpsTracker;
     boolean flagClosSearch=false;
     //GridView grid;
     public static String[] prgmNameList1 = {"Nearest distance", "Price low to high", "Price high to low", "Recently added"};
@@ -134,6 +135,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                 startActivity(intent);
             }
         });
+        gpsTracker=new GPSTracker(getActivity());
         notiTrial= (RelativeLayout) view.findViewById(R.id.notiTrial);
         notiUpgrade= (RelativeLayout) view.findViewById(R.id.notiUpgrade);
         txtNotifiTrial=(TextView) view.findViewById(R.id.txtNotifiTrial);
@@ -155,11 +157,11 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
 
         int is_current_location= pref.getInt("is_current_location",1);
         if(is_current_location==1) {
-            longitude = (float) new GPSTracker(getActivity()).getLongitude();
-            latitude = (float) new GPSTracker(getActivity()).getLatitude();
+            longitude = (float) gpsTracker.getLongitude();
+            latitude = (float) gpsTracker.getLatitude();
         }else {
-            longitude = Float.parseFloat(pref.getString("Longitude",(float) new GPSTracker(getActivity()).getLongitude()+""));
-            latitude = Float.parseFloat(pref.getString("Latitude",(float) new GPSTracker(getActivity()).getLatitude()+""));
+            longitude = Float.parseFloat(pref.getString("Longitude",(float) gpsTracker.getLongitude()+""));
+            latitude = Float.parseFloat(pref.getString("Latitude",(float) gpsTracker.getLatitude()+""));
         }
 
         //grid=(GridView)view.findViewById(R.id.gridView);
@@ -761,7 +763,8 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GPSTracker gpsTracker = new GPSTracker(getContext());
+        //GPSTracker gpsTracker = new GPSTracker(getContext());
+
 
     }
 
@@ -939,16 +942,20 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         protected List<NumberBook> doInBackground(Void... params) {
-            CheckSession checkSession = new CheckSession();
-            SharedPreferences pref = getContext().getSharedPreferences("MyPref",getContext().MODE_PRIVATE);
-            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
-            if(!check){
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putString("session_id",null);
-                editor.commit();
-                Intent intent = new Intent(getContext(), SignIn_Activity.class);
-                getContext().startActivity(intent);
-                this.cancel(true);
+            try {
+                CheckSession checkSession = new CheckSession();
+                SharedPreferences pref = getActivity().getSharedPreferences("MyPref", getActivity().MODE_PRIVATE);
+                boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+                if (!check) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("session_id", null);
+                    editor.commit();
+                    Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                    getContext().startActivity(intent);
+                    this.cancel(true);
+                }
+            }catch (Exception err){
+
             }
             BookController bookController = new BookController();
 

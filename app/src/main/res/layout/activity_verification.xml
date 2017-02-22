@@ -51,7 +51,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/des_verification"
             android:textColor="@android:color/holo_red_light"
-            android:textColorHint="@color/color_text_hint"
+            android:textColorHint="@color/color_text_smal"
             android:textSize="15sp" />
 
         <com.booxtown.custom.CustomTextView
@@ -75,5 +75,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/txt_resend"
         android:gravity="center"
+        android:textColor="@color/color_text_big"
         android:layout_marginTop="10dp" />
 </LinearLayout>

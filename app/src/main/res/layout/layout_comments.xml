@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_bg_listings_detail"
+    android:background="@color/dot_light_screen1"
     android:paddingBottom="15dp"
     android:paddingTop="50dp"
     >
@@ -46,7 +46,7 @@
         android:text="Comments"
         android:typeface="sans"
         android:fontFamily="sans-serif-light"
-
+        android:textColor="@color/color_text_big"
         android:textSize="20sp"
         android:id="@+id/textView141"
         android:layout_alignParentTop="true"
