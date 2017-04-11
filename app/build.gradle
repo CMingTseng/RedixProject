@@ -33,8 +33,8 @@ android {
         applicationId "com.booxtown"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 12
-        versionName "1.11"
+        versionCode 14
+        versionName "1.13"
         multiDexEnabled true
     }
     buildTypes {
@@ -75,6 +75,7 @@ dependencies {
     }
     compile 'com.google.android.gms:play-services-plus:9.4.0'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile project(':easypermissions')
 }
 
 apply plugin: 'com.google.gms.google-services'

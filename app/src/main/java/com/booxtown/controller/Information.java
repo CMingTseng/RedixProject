@@ -13,10 +13,11 @@ public class Information {
     public final static String noti_fill_username = "Please enter valid a Username";
     public final static String noti_fill_password = "Please enter a Password";
     public final static String noti_wrong_login = "Email or Password doesn't match. Please try again";
+    public final static String noti_suppend = "Your account has been suspended";
     public final static String noti_check_mail = "Please check email";
     public final static String noti_fill_firstname = "Please enter valid a Firstname";
     public final static String noti_fill_lastname = "Please enter valid a Lastname";
-    public final static String noti_fill_phone = "Please enter valid a Phone number";
+    public final static String noti_fill_phone = "Please enter a valid phone number";
     public final static String noti_fill_birthday = "Please enter Birthday";
     public final static String noti_validate_email = "You have entered an invalid email address. Please try again.";
     public final static String noti_validate_password = "Please fill password field";

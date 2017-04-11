@@ -125,15 +125,16 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     boolean trial = false;
     float longitude = 0;
     float latitude = 0;
-    boolean flagClosSearch=false;
+    boolean flagClosSearch = false;
     public TextView tab_all_count, tab_swap_count, tab_free_count, tab_cart_count;
     GPSTracker gpsTracker;
+
     //end
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
-        gpsTracker= new GPSTracker(getContext());
+        gpsTracker = new GPSTracker(getContext());
         notiTrial = (RelativeLayout) view.findViewById(R.id.notiTrial);
         notiUpgrade = (RelativeLayout) view.findViewById(R.id.notiUpgrade);
         txtNotifiTrial = (TextView) view.findViewById(R.id.txtNotifiTrial);
@@ -227,12 +228,12 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(editSearch.getText().toString().trim().length()>0) {
+                if (editSearch.getText().toString().trim().length() > 0) {
                     editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.closes, 0);
-                    flagClosSearch=true;
-                }else {
+                    flagClosSearch = true;
+                } else {
                     editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    flagClosSearch=false;
+                    flagClosSearch = false;
                 }
                 List<Book> list_books = new ArrayList<Book>();
                 list_books.clear();
@@ -249,7 +250,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
                 if (list_books.size() > 0) {
                     addMarkerSearch(list_books);
-                }else{
+                } else {
                     addMarkerSearch(new ArrayList<Book>());
                 }
             }
@@ -262,7 +263,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                         //Do something here
                         break;
                     case RIGHT:
-                        if(flagClosSearch) {
+                        if (flagClosSearch) {
                             editSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                             editSearch.setText("");
                             flagClosSearch = false;
@@ -541,7 +542,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 Collections.sort(lisfilter_temp, Book.recently);
                 Information.recently = true;
             }
-        }catch (Exception err){
+        } catch (Exception err) {
 
         }
         return lisfilter_temp;
@@ -615,7 +616,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 dialog.show();
 
 
-                TextView textView126=(TextView) dialog.findViewById(R.id.textView126);
+                TextView textView126 = (TextView) dialog.findViewById(R.id.textView126);
                 textView126.setText("Filter");
 
                 TextView title_sort = (TextView) dialog.findViewById(R.id.title_sort);
@@ -750,9 +751,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                                         genreChoose = genreChoose + genre.get(k).getValue() + ";";
                                     }
                                 }
-                                if(genreChoose.length()>0){
-                                    tv_genralChoose.setText(genreChoose.substring(0,genreChoose.length()-1));
-                                }else{
+                                if (genreChoose.length() > 0) {
+                                    tv_genralChoose.setText(genreChoose.substring(0, genreChoose.length() - 1));
+                                } else {
                                     tv_genralChoose.setText("Select genre");
                                 }
 
@@ -888,9 +889,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
             } catch (Exception e) {
             }
 
-            if(books.getRating()<0.1){
+            if (books.getRating() < 0.1) {
                 ratingBar_marker.setVisibility(View.INVISIBLE);
-            }else {
+            } else {
                 ratingBar_marker.setRating(books.getRating());
                 LayerDrawable stars = (LayerDrawable) ratingBar_marker.getProgressDrawable();
                 stars.getDrawable(2).setColorFilter(Color.rgb(249, 242, 0), PorterDuff.Mode.SRC_ATOP);
@@ -1017,8 +1018,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
                 return bookController.getAllBookInApp(0, 1000, 10, longitude, latitude, genre, "", pref.getString("session_id", null), 0, 10000, 0);
                 //return bookController.getAllBookInApp(0,1000,10,Float.parseFloat("55.3154"),Float.parseFloat("25.2446"),"","",pref.getString("session_id", null),0,10000,0);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 return null;
             }
         }
@@ -1033,16 +1033,19 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         protected void onPostExecute(final List<Book> books) {
             try {
                 if (books == null) {
+                    tab_all_count.setText("(0)");
+                    tab_swap_count.setText("(0)");
+                    tab_free_count.setText("(0)");
+                    tab_cart_count.setText("(0)");
 
                 } else {
                     listExplore = books;
-                    if(!trial) {
+                    if (!trial) {
                         listExplore = books;
-                    }
-                    else{
+                    } else {
                         ArrayList<Book> lisfilter_tempss = new ArrayList<>();
-                        for (int i=0; i<books.size();i++){
-                            if(books.get(i).getAction().substring(2, 3).equals("1")) {
+                        for (int i = 0; i < books.size(); i++) {
+                            if (books.get(i).getAction().substring(2, 3).equals("1")) {
                                 lisfilter_tempss.add(books.get(i));
                             }
                         }
@@ -1056,7 +1059,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
                 }
             } catch (Exception e) {
-                String sss=e.getMessage();
+                String sss = e.getMessage();
             }
         }
     }
@@ -1124,18 +1127,18 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
 
             String genreChoose = "";
             try {
-                if(Information.lstGenre.size()>0) {
+                if (Information.lstGenre.size() > 0) {
                     for (int k = 0; k < Information.lstGenre.size(); k++) {
                         if (Information.lstGenre.get(k).ischeck() == true) {
                             genreChoose = genreChoose + Information.lstGenre.get(k).getValue() + ";";
 
                         }
                     }
-                    if(genreChoose.length()>0){
-                        genreChoose=genreChoose.substring(0,genreChoose.length()-1);
+                    if (genreChoose.length() > 0) {
+                        genreChoose = genreChoose.substring(0, genreChoose.length() - 1);
                     }
                 }
-            }catch (Exception err){
+            } catch (Exception err) {
 
             }
             listingAsync listingAsync = new listingAsync(getContext(), session_id, 0, 100, genreChoose);

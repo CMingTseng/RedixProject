@@ -400,7 +400,7 @@ public class DashboardStatusFragment extends Fragment {
                                 .into(img_menu_dashboard_middle);
 
                     }
-                    textView_username_dashboard_middle.setText(user.get(0).getUsername());
+                    textView_username_dashboard_middle.setText(user.get(0).getFirst_name());
                     //img_username = ServiceGenerator.API_BASE_URL+"booxtown/rest/getImage?username="+user.get(0).getUsername()+"&image="+user.get(0).getPhoto().substring(user.get(0).getUsername().length()+3,user.get(0).getPhoto().length());
                     username = user.get(0).getUsername();
 

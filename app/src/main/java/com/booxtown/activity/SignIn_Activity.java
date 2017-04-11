@@ -138,6 +138,7 @@ Button mButtonForgotPass;
 
         @Override
         protected void onPostExecute(String code) {
+            dialog.dismiss();
             try {
                 if (code.equals("200")) {
                     Intent intent = new Intent(SignIn_Activity.this, MainAllActivity.class);
@@ -150,7 +151,7 @@ Button mButtonForgotPass;
                     UserInfoAsystask us= new UserInfoAsystask();
                     us.execute(session_id);
                     editor.commit();
-                    dialog.dismiss();
+
                 }
                 else if(code.equals("703")){
                     Intent intents= new Intent(SignIn_Activity.this, VerificationActivity.class);
@@ -159,11 +160,11 @@ Button mButtonForgotPass;
                     intents.putExtra("session_id",session_id);
                     startActivity(intents);
 
-                    dialog.dismiss();
+                }else if(code.equals("702")){
+                    Toast.makeText(getApplicationContext(), Information.noti_suppend, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), Information.noti_wrong_login, Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
                 }
             }catch (Exception e){
             }

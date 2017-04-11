@@ -249,6 +249,9 @@ public class ListingsDetailActivity extends Fragment implements OnMapReadyCallba
 
     public void setData(final Book book, View v, String type) {
         txt_title_listings_detail.setText(book.getTitle());
+        if(book.getTitle().equals("")||book.getTitle().toString().trim().length()==0){
+            txt_author_listings_detail.setVisibility(View.GONE);
+        }
         txt_author_listings_detail.setText("by " + book.getAuthor());
 
         try {

@@ -55,7 +55,7 @@ public class UserController {
                     editor.putString("active","active");
                     editor.commit();
                     return result.getCode()+"";
-                }else if(result.getCode() == 703){
+                }else{
                     return result.getCode()+"";
                 }
             } catch (Exception ex) {

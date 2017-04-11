@@ -91,7 +91,9 @@ import com.booxtown.model.Genre;
 import com.booxtown.model.ImageClick;
 import com.booxtown.model.Notification;
 
-public class AddbookActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+import test.jinesh.easypermissionslib.EasyPermission;
+
+public class AddbookActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener,EasyPermission.OnPermissionResult {
     private GoogleMap mMap;
     ImageView btn_sellectimage, imagebook1, imagebook2, imagebook3, addtag;
     UploadFileController uploadFileController;
@@ -142,6 +144,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
     RadioButton radioButton_current, radioButton_another;
     ImageView img_menu_bottom_location, img_menu_bottom_comment, img_menu_bottom_camera, img_menu_bottom_bag, img_menu_bottom_user;
     GPSTracker gpsTracker;
+    EasyPermission easyPermission;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,11 +154,11 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         radioButton_current = (RadioButton) findViewById(R.id.radioButton_current);
         radioButton_another = (RadioButton) findViewById(R.id.radioButton_another);
 
-        img_menu_bottom_location = (ImageView)findViewById(R.id.img_menu_bottom_location);
-        img_menu_bottom_comment = (ImageView)findViewById(R.id.img_menu_bottom_comment);
-        img_menu_bottom_camera = (ImageView)findViewById(R.id.img_menu_bottom_camera);
-        img_menu_bottom_bag = (ImageView)findViewById(R.id.img_menu_bottom_bag);
-        img_menu_bottom_user = (ImageView)findViewById(R.id.img_menu_bottom_user);
+        img_menu_bottom_location = (ImageView) findViewById(R.id.img_menu_bottom_location);
+        img_menu_bottom_comment = (ImageView) findViewById(R.id.img_menu_bottom_comment);
+        img_menu_bottom_camera = (ImageView) findViewById(R.id.img_menu_bottom_camera);
+        img_menu_bottom_bag = (ImageView) findViewById(R.id.img_menu_bottom_bag);
+        img_menu_bottom_user = (ImageView) findViewById(R.id.img_menu_bottom_user);
 
         try {
             bookedit = (Book) getIntent().getSerializableExtra("book");
@@ -467,8 +471,8 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                             /*latLng_new = latLng;
                             addMarkerChoice(latLng);*/
 
-                            Intent intent= new Intent(AddbookActivity.this,ChooseLocationDetailActivity.class);
-                            startActivityForResult(intent,15);
+                            Intent intent = new Intent(AddbookActivity.this, ChooseLocationDetailActivity.class);
+                            startActivityForResult(intent, 15);
 
                         }
                     });
@@ -565,7 +569,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             }
             return false;
         } else {
-
 
 
             for (int i = 0; i < lisImmage.size(); i++) {
@@ -786,8 +789,7 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             } else {
                 addMarkerChoice(new LatLng(0, 0));
             }
-        }
-        else {
+        } else {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(AddbookActivity.this);
             builder.setTitle("Location Manager");
             builder.setMessage("Would you like to enable GPS?");
@@ -858,8 +860,16 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                 /*Intent intent3 = new Intent(RespondActivity.this, MainAllActivity.class);
                 intent3.putExtra("key", "3");
                 startActivity(intent3);*/
-                Intent intent = new Intent(AddbookActivity.this, CameraActivity.class);
-                startActivity(intent);
+                if (Build.VERSION.SDK_INT >= 23 &&
+                        ContextCompat.checkSelfPermission(AddbookActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(AddbookActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(AddbookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    easyPermission = new EasyPermission();
+                    easyPermission.requestPermission(this, Manifest.permission.CAMERA);
+                } else {
+                    Intent intent = new Intent(AddbookActivity.this, CameraActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.img_menu_bottom_bag:
                 Intent intent4 = new Intent(AddbookActivity.this, MainAllActivity.class);
@@ -905,6 +915,40 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
             case R.id.tag3:
                 if (!tag3.getText().toString().trim().equals("")) {
                     showSnack(tag3.getText().toString(), 2);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        easyPermission.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onPermissionResult(String permission, boolean isGranted) {
+        switch (permission) {
+            case Manifest.permission.CAMERA:
+                if (isGranted) {
+                    easyPermission.requestPermission(AddbookActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                } else {
+                    easyPermission.requestPermission(AddbookActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }
+                break;
+            case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                if (isGranted) {
+                    easyPermission.requestPermission(AddbookActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
+                } else {
+                    easyPermission.requestPermission(AddbookActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
+                }
+                break;
+            case Manifest.permission.READ_EXTERNAL_STORAGE:
+                if (isGranted) {
+                    Intent intent = new Intent(AddbookActivity.this, CameraActivity.class);
+                    startActivity(intent);
+                } else {
+
                 }
                 break;
         }
@@ -1089,10 +1133,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
                             e.printStackTrace();
                         }
                     }
-                }else if (requestCode == 15) {
-                    String lat=data.getStringExtra("lat");
-                    String longti=data.getStringExtra("longti");
-                    latLng_new = new LatLng(Double.parseDouble(lat),Double.parseDouble(longti));
+                } else if (requestCode == 15) {
+                    String lat = data.getStringExtra("lat");
+                    String longti = data.getStringExtra("longti");
+                    latLng_new = new LatLng(Double.parseDouble(lat), Double.parseDouble(longti));
                     addMarkerChoice(latLng_new);
                 }
 
@@ -1249,10 +1293,10 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         protected void onPostExecute(String result) {
             try {
                 if (!result.equals("")) {
-                    Toast.makeText(AddbookActivity.this,Information.add_book_success,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddbookActivity.this, Information.add_book_success, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(AddbookActivity.this, MainAllActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("key","15");
+                    intent.putExtra("key", "15");
                     startActivity(intent);
                     finish();
                     // Tạm thời rào lại vì liên quan đến approved
@@ -1290,42 +1334,6 @@ public class AddbookActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            trimCache(this);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-    }
-
-    public static void trimCache(Context context) {
-        try {
-            File dir = context.getCacheDir();
-            if (dir != null && dir.isDirectory()) {
-                deleteDir(dir);
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
-
-    public static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-
-        // The directory is now empty so delete it
-        return dir.delete();
-    }*/
 }
 
 

@@ -1,6 +1,9 @@
 package com.booxtown.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +36,8 @@ public class Splash_Activity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_splash_);
         try {
+
+
             ImageView img_splash =(ImageView)findViewById(R.id.img_splash);
             //Glide.with(getApplicationContext()).load(R.drawable.splash).into(img_splash);
             Picasso.with(Splash_Activity.this).load(R.drawable.flash_final).fit().into(img_splash);

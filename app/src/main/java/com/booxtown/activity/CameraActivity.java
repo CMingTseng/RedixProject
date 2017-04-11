@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -59,12 +60,14 @@ import com.booxtown.fragment.ListingsFragment;
 import com.booxtown.model.Book;
 import com.squareup.picasso.Picasso;
 
+import test.jinesh.easypermissionslib.EasyPermission;
+
 /**
  * Created by Administrator on 11/01/2017.
  */
 
 public class CameraActivity extends Activity implements Callback,
-        OnClickListener {
+        OnClickListener,EasyPermission.OnPermissionResult {
     private SurfaceView surfaceView_camera;
     private SurfaceHolder surfaceHolder;
     private Camera camera;
@@ -81,10 +84,16 @@ public class CameraActivity extends Activity implements Callback,
     float latitude=0;
     int keyChoose=0;
     GPSTracker gpsTracker;
+    EasyPermission easyPermission;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+
+        easyPermission = new EasyPermission();
+        easyPermission.requestPermission(this, Manifest.permission.CAMERA);
+
         // camera surface view created
         gpsTracker=new GPSTracker(CameraActivity.this);
         cameraId = CameraInfo.CAMERA_FACING_BACK;
@@ -129,6 +138,46 @@ public class CameraActivity extends Activity implements Callback,
             keyChoose=getIntent().getIntExtra("keyChoose",0);
         }catch (Exception err){
 
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        easyPermission.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onPermissionResult(String permission, boolean isGranted) {
+        switch (permission) {
+            case Manifest.permission.ACCESS_FINE_LOCATION:
+                if (isGranted) {
+                    easyPermission.requestPermission(CameraActivity.this,Manifest.permission.CAMERA);
+                } else {
+                    easyPermission.requestPermission(CameraActivity.this,Manifest.permission.CAMERA);
+                }
+                break;
+            case Manifest.permission.CAMERA:
+                if (isGranted) {
+                    easyPermission.requestPermission(CameraActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                } else {
+                    easyPermission.requestPermission(CameraActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }
+                break;
+            case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                if (isGranted) {
+                    easyPermission.requestPermission(CameraActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
+                } else {
+                    easyPermission.requestPermission(CameraActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
+                }
+                break;
+            case Manifest.permission.READ_EXTERNAL_STORAGE:
+                if (isGranted) {
+
+                } else {
+                    finish();
+                }
+                break;
         }
     }
 
@@ -530,6 +579,11 @@ public class CameraActivity extends Activity implements Callback,
                     finish();
                 }
             } catch (Exception e) {
+
+                Intent intent = new Intent(CameraActivity.this, MainAllActivity.class);
+                intent.putExtra("key", "6");
+                intent.putExtra("num_list", 0);
+                startActivity(intent);
                 String sss= e.getMessage();
             }
         }

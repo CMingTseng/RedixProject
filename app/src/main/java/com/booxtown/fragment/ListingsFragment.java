@@ -617,10 +617,11 @@ public class ListingsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Book> books) {
+            dialog.dismiss();
             try {
                 if (books.size() == 0) {
                     Toast.makeText(getContext(), "You do not have any books added yet", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+
                     isLoading = false;
                 } else {
                     listExplore = books;
@@ -630,11 +631,10 @@ public class ListingsFragment extends Fragment {
 
                     adapter_listbook.notifyDataSetChanged();
                     num_list = books.size();
-                    //txt_my_listings.setText("My listings" + "(" + String.valueOf(listExplore.size()) + ")");
-                    dialog.dismiss();
                     isLoading = true;
                 }
             } catch (Exception e) {
+                num_list=0;
             }
         }
     }

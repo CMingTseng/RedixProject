@@ -8,220 +8,217 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
-        >
+        android:layout_marginTop="30dp">
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notification"
-            android:id="@+id/textView11"
-            android:padding="10dp"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:textSize="@dimen/slide_desc"
-            android:textColor="@color/color_text_smal" />
+            android:layout_alignParentTop="true"
+            android:padding="10dp"
+            android:text="Notification"
+            android:textColor="@color/color_text_big"
+            android:textSize="18sp" />
 
         <Switch
+            android:id="@+id/switch_setting_noti"
             android:layout_width="59dp"
             android:layout_height="wrap_content"
-            android:id="@+id/switch_setting_noti"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/textView11"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/textView11"
             android:button="@drawable/custom_switch"
             android:textOff=""
             android:textOn=""
-            android:track="@color/bg_transfer"
-            android:thumb="@color/bg_transfer" />
+            android:thumb="@color/bg_transfer"
+            android:track="@color/bg_transfer" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:id="@+id/textView12"
-            android:background="@color/color_text_hint"
+            android:layout_alignEnd="@+id/switch_setting_noti"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView11"
             android:layout_alignRight="@+id/switch_setting_noti"
-            android:layout_alignEnd="@+id/switch_setting_noti"
-            android:textSize="@dimen/slide_desc"
+            android:layout_below="@+id/textView11"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@color/color_text_hint"
-            android:autoText="false" />
+            android:autoText="false"
+            android:background="@color/color_text_hint"
+            android:textColor="@color/color_text_big"
+            android:textSize="@dimen/slide_desc" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User current location as main location"
-            android:id="@+id/textView13"
-            android:singleLine="true"
-            android:padding="10dp"
-            android:layout_below="@+id/textView12"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:textSize="@dimen/slide_desc"
-            android:textColor="@color/color_text_smal"
-            android:layout_marginTop="5dp" />
+            android:layout_below="@+id/textView12"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:text="User current location as main location"
+            android:textColor="@color/color_text_big"
+            android:textSize="18sp" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/find_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find Your Location on Map"
-            android:id="@+id/find_location"
-            android:singleLine="true"
-            android:padding="10dp"
-            android:textSize="@dimen/slide_desc"
-            android:layout_below="@+id/textView13"
             android:layout_alignParentLeft="true"
-            android:textColor="@color/color_text_smal"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView13"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:text="Find Your Location on Map"
+            android:textColor="@color/color_text_big"
+            android:textSize="18sp" />
 
         <Switch
+            android:id="@+id/switch_seting_location"
             android:layout_width="59dp"
             android:layout_height="wrap_content"
-            android:id="@+id/switch_seting_location"
-            android:layout_below="@+id/textView12"
-            android:layout_alignRight="@+id/switch_setting_noti"
-            android:layout_alignEnd="@+id/switch_setting_noti"
-            android:button="@drawable/custom_switch"
-            android:background="@color/bg_transfer"
-            android:track="@color/bg_transfer"
-            android:backgroundTint="@color/bg_transfer"
-            android:thumb="@color/bg_transfer"
             android:layout_above="@+id/find_location"
+            android:layout_alignEnd="@+id/switch_setting_noti"
+            android:layout_alignRight="@+id/switch_setting_noti"
+            android:layout_below="@+id/textView12"
+            android:background="@color/bg_transfer"
+            android:backgroundTint="@color/bg_transfer"
+            android:button="@drawable/custom_switch"
             android:textOff=""
             android:textOn=""
-            />
+            android:thumb="@color/bg_transfer"
+            android:track="@color/bg_transfer" />
 
         <fragment
+            android:id="@+id/fragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:id="@+id/fragment"
+            android:layout_alignEnd="@+id/textView12"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
-            android:layout_below="@+id/find_location"
             android:layout_alignRight="@+id/textView12"
-            android:textColor="@color/color_text_smal"
-            android:layout_alignEnd="@+id/textView12" />
+            android:layout_below="@+id/find_location"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/color_text_smal" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/textView14"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:id="@+id/textView14"
-            android:background="@color/color_text_hint"
-            android:layout_below="@+id/fragment"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:textSize="@dimen/slide_desc"
-            android:paddingRight="10dp"
+            android:layout_below="@+id/fragment"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_text_hint"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="@dimen/slide_desc" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Best time to be connected"
-            android:id="@+id/textView15"
-            android:padding="10dp"
-            android:layout_below="@+id/textView14"
-            android:textSize="@dimen/slide_desc"
             android:layout_alignParentLeft="true"
-            android:textColor="@color/color_text_smal"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView14"
+            android:padding="10dp"
+            android:text="Best time to be connected"
+            android:textColor="@color/color_text_big"
+            android:textSize="18sp" />
 
         <Switch
+            android:id="@+id/switch_setting_besttime"
             android:layout_width="59dp"
             android:layout_height="wrap_content"
-            android:id="@+id/switch_setting_besttime"
-            android:layout_alignParentRight="true"
+            android:layout_above="@+id/txt_setting_besttime"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/textView14"
-            android:button="@drawable/custom_switch"
             android:background="@color/bg_transfer"
-            android:track="@color/bg_transfer"
             android:backgroundTint="@color/bg_transfer"
-            android:thumb="@color/bg_transfer"
+            android:button="@drawable/custom_switch"
             android:textOff=""
             android:textOn=""
-            android:layout_above="@+id/txt_setting_besttime" />
+            android:thumb="@color/bg_transfer"
+            android:track="@color/bg_transfer" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/txt_setting_besttime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time"
-            android:id="@+id/txt_setting_besttime"
-            android:layout_below="@+id/textView15"
-            android:layout_alignLeft="@+id/textView15"
-            android:layout_alignStart="@+id/textView15"
-            android:layout_alignRight="@+id/fragment"
             android:layout_alignEnd="@+id/fragment"
-            android:textColor="@color/color_text_big"
+            android:layout_alignLeft="@+id/textView15"
+            android:layout_alignRight="@+id/fragment"
+            android:layout_alignStart="@+id/textView15"
+            android:layout_below="@+id/textView15"
+            android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textSize="@dimen/slide_desc"
-            android:paddingBottom="10dp" />
+            android:text="Time"
+            android:textColor="@color/color_text_smal"
+            android:textSize="@dimen/text_size_18" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:id="@+id/textView17"
-            android:layout_below="@+id/txt_setting_besttime"
-            android:layout_alignLeft="@+id/txt_setting_besttime"
-            android:layout_alignStart="@+id/txt_setting_besttime"
-            android:layout_alignRight="@+id/txt_setting_besttime"
             android:layout_alignEnd="@+id/txt_setting_besttime"
-            android:textColor="@color/color_text_hint"
-            android:textSize="@dimen/slide_desc"
-            android:background="@color/color_text_hint"
+            android:layout_alignLeft="@+id/txt_setting_besttime"
+            android:layout_alignRight="@+id/txt_setting_besttime"
+            android:layout_alignStart="@+id/txt_setting_besttime"
+            android:layout_below="@+id/txt_setting_besttime"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:background="@color/color_text_hint"
+            android:textColor="@color/color_text_hint"
+            android:textSize="@dimen/slide_desc" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit password"
-            android:id="@+id/textView18"
-            android:layout_below="@+id/textView17"
             android:layout_alignLeft="@+id/textView17"
             android:layout_alignStart="@+id/textView17"
+            android:layout_below="@+id/textView17"
             android:layout_marginTop="10dp"
-            android:textColor="@color/color_text_smal"
-            android:textSize="@dimen/slide_desc"
-            android:paddingBottom="10dp"
             android:layout_toLeftOf="@+id/imv_setting_editpass"
-            android:layout_toStartOf="@+id/imv_setting_editpass" />
+            android:layout_toStartOf="@+id/imv_setting_editpass"
+            android:paddingBottom="10dp"
+            android:text="Edit password"
+            android:textColor="@color/color_text_big"
+            android:textSize="18sp" />
 
         <ImageView
+            android:id="@+id/imv_setting_editpass"
             android:layout_width="12dp"
             android:layout_height="24dp"
-            android:id="@+id/imv_setting_editpass"
-            android:layout_alignTop="@+id/textView17"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/btn_interact_next"
-            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/textView17"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_interact_next"
             android:padding="0dp" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/textView19"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:id="@+id/textView19"
-            android:layout_below="@+id/textView18"
-            android:layout_alignRight="@+id/imv_setting_editpass"
             android:layout_alignEnd="@+id/imv_setting_editpass"
             android:layout_alignLeft="@+id/textView18"
-            android:textColor="@color/color_text_hint"
+            android:layout_alignRight="@+id/imv_setting_editpass"
             android:layout_alignStart="@+id/textView18"
-            android:background="@color/color_text_hint" />
+            android:layout_below="@+id/textView18"
+            android:background="@color/color_text_hint"
+            android:textColor="@color/color_text_hint" />
     </RelativeLayout>
 
 </FrameLayout>

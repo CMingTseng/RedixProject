@@ -1,5 +1,6 @@
 package com.booxtown.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +9,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -77,9 +83,10 @@ import java.util.Arrays;
 import java.util.Date;
 
 import io.fabric.sdk.android.Fabric;
+import test.jinesh.easypermissionslib.EasyPermission;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener,
-        GoogleAuthResponse, FacebookResponse, TwitterResponse {
+        GoogleAuthResponse, FacebookResponse, TwitterResponse,EasyPermission.OnPermissionResult {
     String session_id;
     private AutoScrollViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -91,7 +98,15 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private GoogleSignInHelper mGAuthHelper;
     private TwitterHelper mTwitterHelper;
     ProgressDialog dialogTotal;
+
+    static final Integer LOCATION = 0x1;
+    static final Integer WRITE_EXST = 0x2;
+    static final Integer READ_EXST = 0x3;
+    static final Integer CAMERA = 0x4;
+
 //    private PrefManager prefManager;
+
+    EasyPermission easyPermission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +133,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         }
         setContentView(R.layout.activity_welcome);
+
+
+        //askForPermission(Manifest.permission.ACCESS_FINE_LOCATION,LOCATION);
+       /* askForPermission(Manifest.permission.CAMERA,CAMERA);
+        askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE,READ_EXST);
+        askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE_EXST);*/
 
         dialogTotal = new ProgressDialog(WelcomeActivity.this);
         dialogTotal.setMessage(Information.noti_dialog);
@@ -180,6 +201,93 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         } catch (Exception e) {
         }
 
+
+        easyPermission = new EasyPermission();
+        easyPermission.requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        easyPermission.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        /*if(ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED){
+            switch (requestCode) {
+                //Location
+                case 1:
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                    break;
+                //Write external Storage
+                case 2:
+                    break;
+                //Read External Storage
+                case 3:
+                    Intent imageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(imageIntent, 11);
+                    break;
+                //Camera
+                case 4:
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(takePictureIntent, 12);
+                    }
+                    break;
+
+            }
+
+            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+        }*/
+
+
+    }
+
+    @Override
+    public void onPermissionResult(String permission, boolean isGranted) {
+        switch (permission) {
+            case Manifest.permission.ACCESS_FINE_LOCATION:
+                if (isGranted) {
+                    easyPermission.requestPermission(WelcomeActivity.this,Manifest.permission.CAMERA);
+                } else {
+                    easyPermission.requestPermission(WelcomeActivity.this,Manifest.permission.CAMERA);
+                }
+                break;
+            case Manifest.permission.CAMERA:
+                if (isGranted) {
+                    easyPermission.requestPermission(WelcomeActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                } else {
+                    easyPermission.requestPermission(WelcomeActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }
+                break;
+            case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                if (isGranted) {
+                    easyPermission.requestPermission(WelcomeActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
+                } else {
+                    easyPermission.requestPermission(WelcomeActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
+                }
+                break;
+            case Manifest.permission.READ_EXTERNAL_STORAGE:
+                if (isGranted) {
+
+                } else {
+
+                }
+                break;
+        }
+    }
+
+    private void askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(WelcomeActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(WelcomeActivity.this, permission)) {
+                ActivityCompat.requestPermissions(WelcomeActivity.this, new String[]{permission}, requestCode);
+            } else {
+
+                ActivityCompat.requestPermissions(WelcomeActivity.this, new String[]{permission}, requestCode);
+            }
+        } else {
+            //Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void addBottomDots(int currentPage) {
@@ -615,4 +723,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             dialog.dismiss();
         }
     }
+
+
+
+
 }

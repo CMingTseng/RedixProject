@@ -1,6 +1,7 @@
 package com.booxtown.fragment;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -855,8 +856,9 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
         String session_id;
         long from;
         long top;
-        Context context;
         String genre;
+        public Context context;
+        ProgressDialog dialog;
 
         public GetTopbook(Context context,String session_id, long from, long top,String genre) {
             this.session_id = session_id;
@@ -894,10 +896,15 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Please wait...");
+            dialog.setIndeterminate(true);
+            dialog.show();
         }
 
         @Override
         protected void onPostExecute(List<Book> list) {
+            dialog.dismiss();
             try {
                 if (list.size() > 0) {
                     listExplore.clear();
@@ -928,6 +935,12 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                     isLoading = false;
                 }
             } catch (Exception e) {
+                tab_all_count.setText("(0)");
+                tab_swap_count.setText("(0)");
+                tab_free_count.setText("(0)");
+                tab_cart_count.setText("(0)");
+                isLoading = false;
+
                 String errr= e.getMessage();
             }
         }

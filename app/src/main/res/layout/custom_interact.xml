@@ -50,25 +50,33 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TableLayout
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout"
         android:layout_toLeftOf="@+id/imageView_next_interac"
         android:layout_toStartOf="@+id/imageView_next_interac"
         android:id="@+id/tableLayout">
-
         <com.booxtown.custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Last Updated on 18-06-16"
-            android:id="@+id/txt_time_update_interact"
+            android:text="Last Updated on "
             android:layout_marginLeft="12dp"
             android:textColor="@color/color_text_smal"
             android:layout_marginBottom="10dp"
             android:maxLines="1"
             android:ellipsize="end"/>
-    </TableLayout>
+        <com.booxtown.custom.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18-06-16"
+            android:id="@+id/txt_time_update_interact"
+            android:textColor="@color/color_text_smal"
+            android:layout_marginBottom="10dp"
+            android:textSize="13sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+    </TableRow>
 
     <ImageView
         android:layout_width="11dp"

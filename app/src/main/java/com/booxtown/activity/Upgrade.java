@@ -123,8 +123,6 @@ public class Upgrade extends AppCompatActivity{
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
             if (result.isFailure()) {
                 if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
-                    // Already item purchased
-                    //alert("Already Purchased");
                     final Dialog dialog = new Dialog(Upgrade.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_upgrade);

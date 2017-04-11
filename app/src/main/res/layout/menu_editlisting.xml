@@ -418,7 +418,7 @@
             android:gravity="center_vertical"
             android:textSize="@dimen/slide_desc"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/color_text_hint"
+            android:textColor="@color/color_text_smal"
             />
 
         <com.booxtown.custom.CustomEdittext

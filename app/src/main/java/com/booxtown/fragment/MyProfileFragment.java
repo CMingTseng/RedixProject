@@ -1,5 +1,6 @@
 package com.booxtown.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,9 +21,12 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -49,6 +54,7 @@ import com.booxtown.activity.CameraActivity;
 import com.booxtown.activity.MainAllActivity;
 import com.booxtown.activity.MenuActivity;
 import com.booxtown.activity.SignIn_Activity;
+import com.booxtown.activity.WelcomeActivity;
 import com.booxtown.adapter.ListBookAdapter;
 import com.booxtown.api.ServiceGenerator;
 import com.booxtown.controller.BookController;
@@ -80,6 +86,8 @@ import com.booxtown.R;
 import com.booxtown.custom.CustomTabbarExplore;
 import com.booxtown.model.Book;
 import com.booxtown.model.User;
+
+import test.jinesh.easypermissionslib.EasyPermission;
 
 public class MyProfileFragment extends Fragment {
     private LinearLayout linear_all;
@@ -126,6 +134,7 @@ public class MyProfileFragment extends Fragment {
     private TableRow tb_bottom;
 
     //-----------------------------
+    EasyPermission easyPermission;
 
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -142,10 +151,10 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        gpsTracker= new GPSTracker(getContext());
+        gpsTracker = new GPSTracker(getContext());
         final View view = inflater.inflate(R.layout.my_profile_fragment, container, false);
         uploadFileController = new UploadFileController();
-
+        easyPermission = new EasyPermission();
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         int is_current_location = pref.getInt("is_current_location", 1);
         if (is_current_location == 1) {
@@ -173,7 +182,12 @@ public class MyProfileFragment extends Fragment {
         imv_menu_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectImage();
+
+                if (Build.VERSION.SDK_INT >= 23 && !checkCameraPermission()) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, 1502);
+                } else {
+                    selectImage();
+                }
             }
         });
         ImageView imageView_back = (ImageView) getActivity().findViewById(R.id.img_menu);
@@ -309,7 +323,7 @@ public class MyProfileFragment extends Fragment {
                     dataChange = true;
                     Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
 
-                    if(!txt_profile_phone.getText().toString().equals(phoneNumberOld)){
+                    if (!txt_profile_phone.getText().toString().equals(phoneNumberOld)) {
                         String[] birthDay = txt_profile_birthday.getText().toString().split("/");
                         String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
                         ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
@@ -318,7 +332,7 @@ public class MyProfileFragment extends Fragment {
                         filename.add(username + "_+_" + img_photo);
                         if (img_photo != null) {
                             Information.FragmentPhoto = username + "_+_" + img_photo;
-                        }else {
+                        } else {
                             Information.FragmentPhoto = photoOrigin;
                         }
 
@@ -370,7 +384,7 @@ public class MyProfileFragment extends Fragment {
                     filename.add(username + "_+_" + img_photo);
                     if (img_photo != null) {
                         Information.FragmentPhoto = username + "_+_" + img_photo;
-                    }else {
+                    } else {
                         Information.FragmentPhoto = photoOrigin;
                     }
 
@@ -437,6 +451,26 @@ public class MyProfileFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(ActivityCompat.checkSelfPermission(getActivity(), permissions[0]) == PackageManager.PERMISSION_GRANTED) {
+
+            switch (requestCode) {
+                case 1502:
+                    selectImage();
+                    break;
+            }
+        }
+    }
+    private boolean checkCameraPermission()
+    {
+        String permission = Manifest.permission.CAMERA;
+        int res = getContext().checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
+    }
+
     public boolean checkEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
@@ -461,7 +495,7 @@ public class MyProfileFragment extends Fragment {
                                 updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
                                         txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
                                 updateProfile.execute();
-                            }else {
+                            } else {
                                 updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
                                         txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
                                 updateProfile.execute();
@@ -1007,7 +1041,7 @@ public class MyProfileFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             if (aBoolean == true) {
-                Information.FragmentChoose=0;
+                Information.FragmentChoose = 0;
                 dialog.dismiss();
                 Toast.makeText(getActivity(), Information.noti_update_success, Toast.LENGTH_LONG).show();
                 Picasso.with(getContext()).load(R.drawable.btn_edit_profile).into(imageView_update_profile);

@@ -105,8 +105,8 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 Bitmap btm2 = BitmapFactory.decodeResource(getResources(), R.mipmap.user_empty);
                 photo_author_post.setImageBitmap(btm2);
             }
-            if (wishboard.getUsername().length() > 0) {
-                String a = wishboard.getUsername().substring(0, 1).toUpperCase() + wishboard.getUsername().substring(1, wishboard.getUsername().length());
+            if (wishboard.getFirst_name().length() > 0) {
+                String a = wishboard.getFirst_name().substring(0, 1).toUpperCase() + wishboard.getFirst_name().substring(1, wishboard.getFirst_name().length());
                 txt_author_post.setText(a);
             }
             if (wishboard.getTitle().trim().length() > 0) {
@@ -131,7 +131,7 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 Intent intent = new Intent(RespondActivity.this, AddbookActivity.class);
                 intent.putExtra("type", "1");
                 intent.putExtra("user_id_respone", wishboard.getUser_id());
-                intent.putExtra("user_name_respone", wishboard.getUsername());
+                intent.putExtra("user_name_respone", wishboard.getFirst_name());
                 startActivity(intent);
             }
         });

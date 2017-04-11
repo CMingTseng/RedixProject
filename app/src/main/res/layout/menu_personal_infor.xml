@@ -65,7 +65,7 @@
         android:layout_alignWithParentIfMissing="false"
         android:gravity="center_vertical"
         android:layout_marginLeft="7dp"
-        android:textColor="@color/color_text_time_update_interact"
+        android:textColor="@color/color_text_big"
         android:layout_marginTop="10dp"
         android:inputType="textEmailAddress"
         android:background="@android:color/transparent"

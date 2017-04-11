@@ -62,10 +62,10 @@ public class AdapterTopic extends RecyclerView.Adapter<AdapterTopic.HolderTopic>
             String day = (String) android.text.format.DateFormat.format("dd", dt);
             String date_post= day+"-"+intMonth+"-"+year;
 
-            holder.txt_dateUpdate_interact.setText("Last Updated on " + date_post);
+            holder.txt_dateUpdate_interact.setText(date_post);
 
         }catch (Exception exx) {
-            holder.txt_dateUpdate_interact.setText("Last Updated on ");
+
 
         }
     }

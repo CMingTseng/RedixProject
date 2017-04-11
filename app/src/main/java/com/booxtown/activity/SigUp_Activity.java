@@ -100,16 +100,7 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
 
                 UserController userController = new UserController(SigUp_Activity.this);
                 User user  = new User();
-                String[] bod=edt_birthday.getText().toString().split("/");
 
-                user.setBirthday(bod[2]+"-"+bod[1]+"-"+bod[0]);
-                user.setEmail(edt_mail.getText().toString());
-                user.setFirst_name(edt_firtname.getText().toString());
-                user.setLast_name(edt_lastname.getText().toString());
-                user.setPhone(edt_phone.getText().toString());
-                user.setUsername(edt_name.getText().toString());
-                user.setPassword(edt_password.getText().toString());
-                user.setSession_id(session_id);
                 if (edt_name.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(),Information.noti_fill_username,Toast.LENGTH_LONG).show();
                 }else if(edt_lastname.getText().toString().equals("")){
@@ -132,6 +123,17 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     if (!CheckNetwork.isOnline(SigUp_Activity.this)){
                         Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
                     }else{
+                        String[] bod=edt_birthday.getText().toString().split("/");
+
+                        user.setBirthday(bod[2]+"-"+bod[1]+"-"+bod[0]);
+                        user.setEmail(edt_mail.getText().toString());
+                        user.setFirst_name(edt_firtname.getText().toString());
+                        user.setLast_name(edt_lastname.getText().toString());
+                        user.setPhone(edt_phone.getText().toString());
+                        user.setUsername(edt_name.getText().toString());
+                        user.setPassword(edt_password.getText().toString());
+                        user.setSession_id(session_id);
+                        //send value to server
                         SignupAsyntask signupAsyntask = new SignupAsyntask();
                         signupAsyntask.execute(user);
                     }
@@ -173,9 +175,9 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         public void onDateSet(DatePicker view, int year, int month, int day){
             EditText textview = (EditText) getActivity().findViewById(R.id.birthday);
             if(month<10) {
-                textview.setText(day + "/" + "0"+(month + 1) + "/" + year);
+                textview.setText((day>=10?day:("0"+day)) + "/" + "0"+(month + 1) + "/" + year);
             }else{
-                textview.setText(day + "/" + (month + 1) + "/" + year);
+                textview.setText((day>=10?day:("0"+day)) + "/" + (month + 1) + "/" + year);
             }
         }
     }
