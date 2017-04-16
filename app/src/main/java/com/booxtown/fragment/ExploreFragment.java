@@ -818,7 +818,28 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                 if (dayUsed == null) {
 
                 } else {
-                    if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
+
+                    if(dayUsed.getIs_active().equals("1")){
+                        notiTrial.setVisibility(View.GONE);
+                        if(dayUsed.getDayExpirep()>0){
+                            notiUpgrade.setVisibility(View.GONE);
+                            trial=true;
+                        }else {
+                            notiUpgrade.setVisibility(View.VISIBLE);
+                        }
+                    }else {
+                        if (Integer.parseInt(dayUsed.getDayUsed()) > 14) {
+                            notiTrial.setVisibility(View.GONE);
+                            notiUpgrade.setVisibility(View.VISIBLE);
+                            trial=true;
+                        } else if (Integer.parseInt(dayUsed.getDayUsed()) <= 14) {
+                            txtNotifiTrial.setText("Your free trial expires in " + (14 - Integer.parseInt(dayUsed.getDayUsed())) + " days");
+                            notiTrial.setVisibility(View.VISIBLE);
+                            notiUpgrade.setVisibility(View.GONE);
+                        }
+                    }
+
+                    /*if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
                         notiTrial.setVisibility(View.GONE);
                         notiUpgrade.setVisibility(View.VISIBLE);
                         trial=true;
@@ -827,7 +848,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                         txtNotifiTrial.setText("Your free trial expires in "+(14-Integer.parseInt(dayUsed.getDayUsed()))+" days");
                         notiTrial.setVisibility(View.VISIBLE);
                         notiUpgrade.setVisibility(View.GONE);
-                    }
+                    }*/
                 }
             } catch (Exception e) {
             }

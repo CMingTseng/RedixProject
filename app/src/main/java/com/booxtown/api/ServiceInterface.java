@@ -247,11 +247,16 @@ public interface ServiceInterface {
     @POST("/booxtown/rest/user/activateUser")
     Call<Result> activateUser(@Body Object session_id);
 
+    @POST("/booxtown/rest/user/buyInapp")
+    Call<Result> buyInapp(@Body Object session_id);
+
     @POST("/booxtown/transactionhistory/TransacHistory_SetDone")
     Call<Result> SetDone(@Body Object session_id);
 
     @POST("/booxtown/rest/user/sendEmailToActive")
     Call<Result> EmailToActive(@Body Object email);
 
+    @POST("/booxtown/rest/user/deactivateUser")
+    Call<Result> deactivateUser(@Body Object session_id);
 
 }

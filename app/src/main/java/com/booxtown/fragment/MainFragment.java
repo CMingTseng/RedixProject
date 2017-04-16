@@ -1113,13 +1113,22 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 if (dayUsed == null) {
 
                 } else {
-                    if (Integer.parseInt(dayUsed.getDayUsed()) > 14 && !dayUsed.getIs_active().equals("1")) {
+                    if(dayUsed.getIs_active().equals("1")){
                         notiTrial.setVisibility(View.GONE);
-                        notiUpgrade.setVisibility(View.VISIBLE);
-                    } else if (Integer.parseInt(dayUsed.getDayUsed()) <= 14 && !dayUsed.getIs_active().equals("1")) {
-                        txtNotifiTrial.setText("Your free trial expires in " + (14 - Integer.parseInt(dayUsed.getDayUsed())) + " days");
-                        notiTrial.setVisibility(View.VISIBLE);
-                        notiUpgrade.setVisibility(View.GONE);
+                        if(dayUsed.getDayExpirep()>0){
+                            notiUpgrade.setVisibility(View.GONE);
+                        }else {
+                            notiUpgrade.setVisibility(View.VISIBLE);
+                        }
+                    }else {
+                        if (Integer.parseInt(dayUsed.getDayUsed()) > 14) {
+                            notiTrial.setVisibility(View.GONE);
+                            notiUpgrade.setVisibility(View.VISIBLE);
+                        } else if (Integer.parseInt(dayUsed.getDayUsed()) <= 14) {
+                            txtNotifiTrial.setText("Your free trial expires in " + (14 - Integer.parseInt(dayUsed.getDayUsed())) + " days");
+                            notiTrial.setVisibility(View.VISIBLE);
+                            notiUpgrade.setVisibility(View.GONE);
+                        }
                     }
                 }
             } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.booxtown.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -137,6 +138,9 @@ public class MenuActivity extends AppCompatActivity {
                             btn_unsubcribe.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+
+                                    DeactiveAsynTask deactiveAsynTask= new DeactiveAsynTask();
+                                    deactiveAsynTask.execute(session_id);
                                     dialog.dismiss();
                                 }
                             });
@@ -162,7 +166,7 @@ public class MenuActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             //dialog = new ProgressDialog(MenuActivity.this);
-           // dialog.setMessage("Please waiting...");
+            // dialog.setMessage("Please waiting...");
             //dialog.show();
             super.onPreExecute();
         }
@@ -174,6 +178,34 @@ public class MenuActivity extends AppCompatActivity {
                // dialog.hide();
             }
             //dialog.dismiss();
+        }
+    }
+
+    class DeactiveAsynTask extends AsyncTask<String,Void,Boolean>{
+
+        ProgressDialog dialog;
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            UserController userController = new UserController(MenuActivity.this);
+            boolean success = userController.deactivateUser(params[0]);
+
+            return success;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(MenuActivity.this);
+            dialog.setMessage("Please waiting...");
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            dialog.dismiss();
         }
     }
 }

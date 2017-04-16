@@ -168,7 +168,7 @@ public class Upgrade extends AppCompatActivity{
                     String sku = jo.getString("productId");
 
                     // update pròile
-                    ActivateUserAsync activateUserAsync= new ActivateUserAsync(Upgrade.this);
+                    BuyInAppAsync activateUserAsync= new BuyInAppAsync(Upgrade.this);
                     activateUserAsync.execute();
 
 
@@ -253,4 +253,71 @@ public class Upgrade extends AppCompatActivity{
             dialog.dismiss();
         }
     }
+
+    class BuyInAppAsync extends AsyncTask<String, Void, Boolean> {
+        ProgressDialog dialog;
+        Context context;
+
+        public BuyInAppAsync(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage(Information.noti_dialog);
+            dialog.setIndeterminate(true);
+            dialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            CheckSession checkSession = new CheckSession();
+            SharedPreferences pref = context.getSharedPreferences("MyPref",context.MODE_PRIVATE);
+            boolean check = checkSession.checkSession_id(pref.getString("session_id", null));
+            if(!check){
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("session_id",null);
+                editor.commit();
+                Intent intent = new Intent(context, SignIn_Activity.class);
+                context.startActivity(intent);
+                this.cancel(true);
+            }
+            UserController userController = new UserController(context);
+            return userController.buyInapp(pref.getString("session_id", ""));
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            try {
+                final Dialog dialog = new Dialog(Upgrade.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_upgrade);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+                TextView button_confirm = (TextView) dialog.findViewById(R.id.btn_confirm);
+                button_confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.close_popup);
+                Picasso.with(Upgrade.this).load(R.drawable.btn_close_filter).into(img_close_dialoggenre);
+                img_close_dialoggenre.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+            } catch (Exception e) {
+
+            }
+            dialog.dismiss();
+        }
+    }
+
 }

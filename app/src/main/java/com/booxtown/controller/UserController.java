@@ -205,6 +205,26 @@ public class UserController {
         return false;
     }
 
+    public boolean buyInapp(String session_id){
+        Hashtable obj = new Hashtable();
+        obj.put("session_id",session_id);
+
+        Call<Result> profile = service.buyInapp(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = profile.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
     public List<User> getByUserId(int user_id){
         Call<UserResult> profile = service.getProfileByUserId(user_id);
         try {
@@ -271,6 +291,27 @@ public class UserController {
         obj.put("email",email);
 
         Call<Result> active = service.EmailToActive(obj);
+        try {
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy =
+                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            Result str = active.execute().body();
+            if (str.getCode() == 200){
+                return true;
+            }
+
+        } catch (Exception ex) {
+        }
+        return false;
+    }
+
+    public boolean deactivateUser(String session_id){
+        Hashtable obj = new Hashtable();
+        obj.put("session_id",session_id);
+
+        Call<Result> active = service.deactivateUser(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy =

@@ -216,7 +216,32 @@ public class WishboardFragment extends Fragment {
                 if (dayUsed == null) {
 
                 } else {
-                    if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
+
+                    if(dayUsed.getIs_active().equals("1")){
+                        if(dayUsed.getDayExpirep()>0){
+                            populatRecyclerView(session_id);
+                            implementScrollListener(session_id);
+                            MainAllActivity.setTxtTitle("Wishboard");
+                        }else {
+                            img_component.setVisibility(View.INVISIBLE);
+                            Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+                            Intent intent= new Intent(getActivity(), Upgrade.class);
+                            startActivity(intent);
+                        }
+                    }else {
+                        if (Integer.parseInt(dayUsed.getDayUsed()) > 14) {
+                            img_component.setVisibility(View.INVISIBLE);
+                            Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+                            Intent intent= new Intent(getActivity(), Upgrade.class);
+                            startActivity(intent);
+                        } else if (Integer.parseInt(dayUsed.getDayUsed()) <= 14) {
+                            populatRecyclerView(session_id);
+                            implementScrollListener(session_id);
+                            MainAllActivity.setTxtTitle("Wishboard");
+                        }
+                    }
+
+                   /* if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
                         img_component.setVisibility(View.INVISIBLE);
                         Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
                         Intent intent= new Intent(getActivity(), Upgrade.class);
@@ -227,7 +252,7 @@ public class WishboardFragment extends Fragment {
                         populatRecyclerView(session_id);
                         implementScrollListener(session_id);
                         MainAllActivity.setTxtTitle("Wishboard");
-                    }
+                    }*/
                 }
             } catch (Exception e) {
             }

@@ -30,7 +30,8 @@ public class TransactionController {
     public String transactionInsert(String buyUserID, String sellUserID, String buyBookID, String sellBookID,String action, String session_id){
         UserController userController= new UserController();
         DayUsed used= userController.GetDayUsed(session_id);
-        if(Integer.parseInt(used.getDayUsed())<=14 || used.getIs_active().equals("1")||action.equals("free")){
+
+        if((Integer.parseInt(used.getDayUsed())<=14) || (used.getIs_active().equals("1")&& used.getDayExpirep()>0)||action.equals("free")){
             Hashtable obj= new Hashtable();
             obj.put("session_id",session_id);
             obj.put("buyUserID",buyUserID);

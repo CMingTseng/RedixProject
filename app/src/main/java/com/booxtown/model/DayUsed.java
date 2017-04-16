@@ -7,11 +7,21 @@ public class DayUsed {
     String code;
     String DayUsed;
     String is_active;
+    int DayExpire;
 
-    public DayUsed(String code, String dayUsed, String is_active) {
+    public int getDayExpirep() {
+        return DayExpire;
+    }
+
+    public void setDayExpirep(int dayExpirep) {
+        DayExpire = dayExpirep;
+    }
+
+    public DayUsed(String code, String dayUsed, String is_active, int dayExpirep) {
         this.code = code;
         DayUsed = dayUsed;
         this.is_active = is_active;
+        DayExpire = dayExpirep;
     }
 
     public String getCode() {

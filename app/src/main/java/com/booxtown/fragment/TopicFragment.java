@@ -210,7 +210,28 @@ public class TopicFragment extends Fragment
                 if (dayUsed == null) {
 
                 } else {
-                    if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
+
+                    if(dayUsed.getIs_active().equals("1")){
+                        if(dayUsed.getDayExpirep()>0){
+                            populatRecyclerView(session_id);
+                            implementScrollListener(session_id);
+                        }else {
+                            Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+                            Intent intent= new Intent(getActivity(), Upgrade.class);
+                            startActivity(intent);
+                        }
+                    }else {
+                        if (Integer.parseInt(dayUsed.getDayUsed()) > 14) {
+                            Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
+                            Intent intent= new Intent(getActivity(), Upgrade.class);
+                            startActivity(intent);
+                        } else if (Integer.parseInt(dayUsed.getDayUsed()) <= 14) {
+                            populatRecyclerView(session_id);
+                            implementScrollListener(session_id);
+                        }
+                    }
+
+                    /*if(Integer.parseInt(dayUsed.getDayUsed())>14 && !dayUsed.getIs_active().equals("1")){
 
                         Toast.makeText(context,"Upgrade your membership",Toast.LENGTH_SHORT).show();
                         Intent intent= new Intent(getActivity(), Upgrade.class);
@@ -220,7 +241,7 @@ public class TopicFragment extends Fragment
 
                         populatRecyclerView(session_id);
                         implementScrollListener(session_id);
-                    }
+                    }*/
                 }
             } catch (Exception e) {
             }
