@@ -483,7 +483,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             String maxText = "";
             if (mSingleThumb) {
                 maxText = String.valueOf(getSelectedMaxValue() + " KM");
-                if (maxText.equals("1 KM") || maxText.equals("10 KM")) {
+                if (maxText.equals("1 KM") || maxText.equals("100 KM")) {
                     maxText = "";
                 }
             } else {

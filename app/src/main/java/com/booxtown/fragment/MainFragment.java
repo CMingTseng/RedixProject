@@ -404,7 +404,8 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     public List<Book> filter(List<String> filter) {
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
-        //LatLng latLngSt = new LatLng(25.2446,55.3154);
+
+        //LatLng latLngSt = new LatLng(25.108332, 55.163979);
         //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
         LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
@@ -452,7 +453,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
     public void ReShowNumber(List<String> filter) {
         ArrayList<Book> lisfilter_temp = new ArrayList<>();
         ArrayList<Book> listfilter = new ArrayList<>();
-        //LatLng latLngSt = new LatLng(25.2446,55.3154);
+        //LatLng latLngSt = new LatLng(25.108332, 55.163979);
         //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
         LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
@@ -502,7 +503,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
         //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
-        //LatLng latLngSt = new LatLng(25.2446,55.3154);
+        //LatLng latLngSt = new LatLng(25.108332, 55.163979);
         LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
         for (int i = 0; i < listExplore.size(); i++) {
@@ -1016,8 +1017,9 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
                 BookController bookController = new BookController();
 
-                return bookController.getAllBookInApp(0, 1000, 10, longitude, latitude, genre, "", pref.getString("session_id", null), 0, 10000, 0);
-                //return bookController.getAllBookInApp(0,1000,10,Float.parseFloat("55.3154"),Float.parseFloat("25.2446"),"","",pref.getString("session_id", null),0,10000,0);
+                return bookController.getAllBookInApp(0, 1000, 100, longitude, latitude, genre, "", pref.getString("session_id", null), 0, 10000, 0);
+                //LatLng latLngSt = new LatLng(25.108332, 55.163979);
+                //return bookController.getAllBookInApp(0,1000,100,Float.parseFloat("55.163979"),Float.parseFloat("25.108332"),"","",pref.getString("session_id", null),0,10000,0);
             } catch (Exception e) {
                 return null;
             }

@@ -907,7 +907,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                 BookController bookController = new BookController();
                 //listbook= bookController.getallbook();
 
-                listbook = bookController.getAllBookInApp(0,1000,10,longitude,latitude,genre,"",pref.getString("session_id", null),0,10000,0);
+                listbook = bookController.getAllBookInApp(0,1000,100,longitude,latitude,genre,"",pref.getString("session_id", null),0,10000,0);
                 return listbook;
             }catch (Exception exx){
                 return null;

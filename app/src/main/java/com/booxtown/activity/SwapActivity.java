@@ -175,7 +175,7 @@ public class SwapActivity extends AppCompatActivity {
             listemp = new ArrayList<>();
             BookController bookController = new BookController();
             //listemp = bookController.getAllBookById(context,strings[0]);
-            listemp = bookController.getAllBookInApp(0, 1000, 10, longitude, latitude, "", "", pref.getString("session_id", ""), Integer.parseInt(pref.getString("user_id", "0")), 10000, 0);
+            listemp = bookController.getAllBookInApp(0, 1000, 100, longitude, latitude, "", "", pref.getString("session_id", ""), Integer.parseInt(pref.getString("user_id", "0")), 10000, 0);
             return listemp;
         }
 

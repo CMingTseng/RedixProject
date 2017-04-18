@@ -30,7 +30,9 @@ import com.booxtown.fragment.TermAndConditionsActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import com.booxtown.R;
@@ -109,9 +111,9 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(getApplicationContext(),Information.noti_fill_firstname,Toast.LENGTH_LONG).show();
                 }else if(edt_phone.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(),Information.noti_fill_phone,Toast.LENGTH_LONG).show();
-                }else if(edt_birthday.getText().toString().equals("")){
+                }/*else if(edt_birthday.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(),Information.noti_fill_birthday,Toast.LENGTH_LONG).show();
-                }else if(checkEmail(edt_mail.getText().toString()) == false){
+                }*/else if(checkEmail(edt_mail.getText().toString()) == false){
                     Toast.makeText(getApplicationContext(),Information.noti_validate_email,Toast.LENGTH_LONG).show();
                 }else if(edt_password.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(),Information.noti_fill_password,Toast.LENGTH_LONG).show();
@@ -123,9 +125,13 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     if (!CheckNetwork.isOnline(SigUp_Activity.this)){
                         Toast.makeText(getApplicationContext(), Information.checkNetwork, Toast.LENGTH_LONG).show();
                     }else{
-                        String[] bod=edt_birthday.getText().toString().split("/");
+                        try {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            String[] bod = (edt_birthday.getText().toString().equals("")?dateFormat.format(new Date()):edt_birthday.getText().toString()).split("/");
+                            user.setBirthday(bod[2]+"-"+bod[1]+"-"+bod[0]);
+                        }catch (Exception err){
 
-                        user.setBirthday(bod[2]+"-"+bod[1]+"-"+bod[0]);
+                        }
                         user.setEmail(edt_mail.getText().toString());
                         user.setFirst_name(edt_firtname.getText().toString());
                         user.setLast_name(edt_lastname.getText().toString());

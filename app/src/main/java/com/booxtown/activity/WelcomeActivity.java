@@ -35,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.booxtown.BuildConfig;
 import com.booxtown.autoviewpager.AutoScrollViewPager;
 import com.booxtown.controller.CheckNetwork;
 import com.booxtown.controller.Information;
@@ -77,6 +78,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -129,6 +131,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             mFbHelper = new FacebookHelper(this,
                     "id,name,email,gender,birthday,picture,cover",
                     this);
+
+
+
         }catch (Exception err){
 
         }
@@ -205,6 +210,20 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         easyPermission = new EasyPermission();
         easyPermission.requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
+
+        /*try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    BuildConfig.APPLICATION_ID,
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String ss=Base64.encodeToString(md.digest(), Base64.DEFAULT);
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }*/
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

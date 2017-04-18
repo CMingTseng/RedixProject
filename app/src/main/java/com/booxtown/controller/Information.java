@@ -70,7 +70,7 @@ public class Information {
 
     public static int minRager = 0;
     public  static int maxRager= 1000;
-    public  static double maxSeekbar= 10;
+    public  static double maxSeekbar= 100;
     public  static ArrayList<Genre> lstGenre=new ArrayList<>();
     public  static boolean nearDistance=false;
     public  static boolean priceLowtoHigh=false;

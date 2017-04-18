@@ -112,7 +112,7 @@ public class MenuActivity extends AppCompatActivity {
                             Information.lstGenre= new ArrayList<Genre>();
                             Information.maxRager=1000;
                             Information.minRager=0;
-                            Information.maxSeekbar=10;
+                            Information.maxSeekbar=100;
                             finish();
                             LogoutAsynTask logoutAsynTask = new LogoutAsynTask();
                             logoutAsynTask.execute(session_id);

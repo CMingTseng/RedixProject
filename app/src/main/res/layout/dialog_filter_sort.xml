@@ -88,7 +88,7 @@
                 android:id="@+id/rangeSeekbar8"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                rsb:absoluteMaxValue="10"
+                rsb:absoluteMaxValue="100"
                 rsb:absoluteMinValue="1"
                 rsb:singleThumb="true"
                 android:layout_marginTop="10dp"
@@ -128,7 +128,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10 KM"
+                android:text="100 KM"
                 android:id="@+id/txt_filter_proximity"
                 android:layout_below="@+id/rangeSeekbar8"
                 android:textColor="@color/color_text_hint"

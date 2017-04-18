@@ -603,7 +603,7 @@ public class ListingsFragment extends Fragment {
                 this.cancel(true);
             }
             BookController bookController = new BookController();
-            return bookController.getAllBookInApp(0,1000,10,longitude,latitude,"","",pref.getString("session_id", ""),Integer.parseInt(pref.getString("user_id", "0")),10000,0);
+            return bookController.getAllBookInApp(0,1000,100,longitude,latitude,"","",pref.getString("session_id", ""),Integer.parseInt(pref.getString("user_id", "0")),10000,0);
         }
 
         @Override
