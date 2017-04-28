@@ -241,12 +241,7 @@ public class ExploreFragment extends Fragment implements OnMapReadyCallback {
                 list_books.clear();
                 for (int i = 0; i < listExplore.size(); i++) {
                     if (listExplore.get(i).getTitle().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getAuthor().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getGenre().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getUsername().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getHash_tag().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getCondition().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            ) {
+                            || listExplore.get(i).getAuthor().toLowerCase().contains(editSearch.getText().toString().toLowerCase())) {
                         list_books.add(listExplore.get(i));
                     }
                 }

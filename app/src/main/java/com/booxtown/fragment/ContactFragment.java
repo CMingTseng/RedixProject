@@ -94,7 +94,7 @@ public class ContactFragment extends Fragment {
         protected void onPostExecute(Boolean flag) {
             try {
                 if (flag) {
-                    Toast.makeText(getContext(), "Send message success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Message sent successfully", Toast.LENGTH_SHORT).show();
                     editText_message.setText("");
                     dialog.dismiss();
                 }

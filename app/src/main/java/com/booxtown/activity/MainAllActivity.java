@@ -364,7 +364,7 @@ public class MainAllActivity extends AppCompatActivity {
 
                         String session_id = pref.getString("session_id", "");
                         updateProfile updateProfile = new updateProfile(MainAllActivity.this, session_id, Information.FragmentEmail,
-                                Information.FragmentPhone, Information.FragmentDateTime, Information.FragmentBirthday, Information.FragmentPhoto, Information.FragmentFirst, Information.FragmentLast,type);
+                                Information.FragmentPhone, Information.FragmentDateTime, Information.FragmentBirthday, Information.FragmentPhoto, Information.FragmentFirst, Information.FragmentLast,type,Information.IsBirhtDay);
                         updateProfile.execute();
 
                     }
@@ -607,7 +607,8 @@ public class MainAllActivity extends AppCompatActivity {
         Context context;
         String email, phone, birthday, photo, session_id, first_name, last_name, date_time;
         int type;
-        public updateProfile(Context context, String session_id, String email, String phone, String date_time, String birthday, String photo, String first_name, String last_name,int type) {
+        int is_birthday;
+        public updateProfile(Context context, String session_id, String email, String phone, String date_time, String birthday, String photo, String first_name, String last_name,int type,int is_birthday) {
             this.context = context;
             this.session_id = session_id;
             this.email = email;
@@ -618,6 +619,7 @@ public class MainAllActivity extends AppCompatActivity {
             this.last_name = last_name;
             this.date_time = date_time;
             this.type=type;
+            this.is_birthday=is_birthday;
         }
 
         @Override
@@ -642,7 +644,7 @@ public class MainAllActivity extends AppCompatActivity {
                 this.cancel(true);
             }
             UserController userController = new UserController(context);
-            return userController.updateprofile(first_name, last_name, email, phone, birthday, photo, session_id);
+            return userController.updateprofile(first_name, last_name, email, phone, birthday, photo, session_id,is_birthday);
         }
 
         @Override

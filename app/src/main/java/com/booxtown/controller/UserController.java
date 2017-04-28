@@ -243,7 +243,7 @@ public class UserController {
         return null;
     }
 
-    public boolean updateprofile(String first_name,String last_name,String email,String phone,String birthday,String photo,String session_id){
+    public boolean updateprofile(String first_name,String last_name,String email,String phone,String birthday,String photo,String session_id, int is_birthday){
         Hashtable obj = new Hashtable();
         obj.put("first_name",first_name);
         obj.put("last_name",last_name);
@@ -252,6 +252,7 @@ public class UserController {
         obj.put("birthday",birthday);
         obj.put("photo",photo);
         obj.put("session_id",session_id);
+        obj.put("is_birthday",is_birthday);
         Call<Result> profile = service.updateprofile(obj);
         try {
             if (android.os.Build.VERSION.SDK_INT > 9) {

@@ -75,6 +75,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -170,7 +171,7 @@ public class MyProfileFragment extends Fragment {
         tb_bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+                if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || (!txt_profile_birthday.getText().toString().equals("") && !dateTimeOld.equals(txt_profile_birthday.getText().toString()))) {
                     saveSetting();
                 }
             }
@@ -220,7 +221,7 @@ public class MyProfileFragment extends Fragment {
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+                if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || (!txt_profile_birthday.getText().toString().equals("") && !dateTimeOld.equals(txt_profile_birthday.getText().toString()))) {
                     saveSetting();
                 } else {
                     Intent intent = new Intent(getActivity(), MenuActivity.class);
@@ -324,8 +325,13 @@ public class MyProfileFragment extends Fragment {
                     Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
 
                     if (!txt_profile_phone.getText().toString().equals(phoneNumberOld)) {
-                        String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                       /* String[] birthDay = txt_profile_birthday.getText().toString().split("-");
+                        String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";*/
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        String[] birthDay = (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()).split("-");
                         String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+
                         ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                         bitmaps.add(bitmap_profile);
                         List<String> filename = new ArrayList<String>();
@@ -339,7 +345,7 @@ public class MyProfileFragment extends Fragment {
                         Information.FragmentChoose = 1;
                         Information.FragmentEmail = txt_profile_email.getText().toString();
                         Information.FragmentPhone = txt_profile_phone.getText().toString();
-                        Information.FragmentDateTime = txt_profile_birthday.getText().toString();
+                        Information.FragmentDateTime = (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString());
                         Information.FragmentBirthday = birthOfDay;
                         Information.FragmentFirst = first_name;
                         Information.FragmentLast = last_name;
@@ -376,7 +382,8 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (flagEdit) {
-                    String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    String[] birthDay = (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()).split("-");
                     String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
                     ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                     bitmaps.add(bitmap_profile);
@@ -391,15 +398,17 @@ public class MyProfileFragment extends Fragment {
                     Information.FragmentChoose = 1;
                     Information.FragmentEmail = txt_profile_email.getText().toString();
                     Information.FragmentPhone = txt_profile_phone.getText().toString();
-                    Information.FragmentDateTime = txt_profile_birthday.getText().toString();
+                    Information.FragmentDateTime = (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString());
                     Information.FragmentBirthday = birthOfDay;
                     Information.FragmentFirst = first_name;
                     Information.FragmentLast = last_name;
+                    Information.IsBirhtDay=1;
                     //---------------------------------------------
                     dataChange = true;
                     Picasso.with(getContext()).load(R.drawable.ic_update_profile).into(imageView_update_profile);
                     DialogFragment dialogfragment = new DatePickerDialogClass();
                     dialogfragment.show(getActivity().getFragmentManager(), "Date Time");
+
                 }
             }
         });
@@ -427,16 +436,18 @@ public class MyProfileFragment extends Fragment {
                             if (img_photo != null) {
                                 //addImages(bitmaps, filename);
 
-                                String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                                String[] birthDay = (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()).split("-");
                                 String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
                                 updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                        txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+                                        txt_profile_phone.getText().toString(), (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()), birthOfDay, username + "_+_" + img_photo, first_name, last_name,Information.IsBirhtDay);
                                 updateProfile.execute();
                             } else {
-                                String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                                String[] birthDay = (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()).split("-");
                                 String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
                                 updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                        txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
+                                        txt_profile_phone.getText().toString(), (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()), birthOfDay, photoOrigin, first_name, last_name,Information.IsBirhtDay);
                                 updateProfile.execute();
                             }
                         }
@@ -455,7 +466,7 @@ public class MyProfileFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(ActivityCompat.checkSelfPermission(getActivity(), permissions[0]) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), permissions[0]) == PackageManager.PERMISSION_GRANTED) {
 
             switch (requestCode) {
                 case 1502:
@@ -464,8 +475,8 @@ public class MyProfileFragment extends Fragment {
             }
         }
     }
-    private boolean checkCameraPermission()
-    {
+
+    private boolean checkCameraPermission() {
         String permission = Manifest.permission.CAMERA;
         int res = getContext().checkCallingOrSelfPermission(permission);
         return (res == PackageManager.PERMISSION_GRANTED);
@@ -485,7 +496,8 @@ public class MyProfileFragment extends Fragment {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
 
-                            String[] birthDay = txt_profile_birthday.getText().toString().split("/");
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                            String[] birthDay = (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()).split("-");
                             String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
                             ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
                             bitmaps.add(bitmap_profile);
@@ -493,11 +505,11 @@ public class MyProfileFragment extends Fragment {
                             filename.add(username + "_+_" + img_photo);
                             if (img_photo != null) {
                                 updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                        txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+                                        txt_profile_phone.getText().toString(), (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()), birthOfDay, username + "_+_" + img_photo, first_name, last_name,Information.IsBirhtDay);
                                 updateProfile.execute();
                             } else {
                                 updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                                        txt_profile_phone.getText().toString(), txt_profile_birthday.getText().toString(), birthOfDay, photoOrigin, first_name, last_name);
+                                        txt_profile_phone.getText().toString(), (txt_profile_birthday.getText().toString().equals("") ? dateFormat.format(new Date()) : txt_profile_birthday.getText().toString()), birthOfDay, photoOrigin, first_name, last_name,Information.IsBirhtDay);
                                 updateProfile.execute();
                             }
                             dialog.cancel();
@@ -535,9 +547,9 @@ public class MyProfileFragment extends Fragment {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             TextView textview = (TextView) getActivity().findViewById(R.id.txt_profile_birthday);
             if (month < 10) {
-                textview.setText(day + "/" + "0" + (month + 1) + "/" + year);
+                textview.setText(day + "-" + "0" + (month + 1) + "-" + year);
             } else {
-                textview.setText(day + "/" + (month + 1) + "/" + year);
+                textview.setText(day + "-" + (month + 1) + "-" + year);
             }
         }
     }
@@ -626,11 +638,11 @@ public class MyProfileFragment extends Fragment {
                     txt_profile_email.setText(userResult.get(0).getEmail());
                     txt_profile_phone.setText(userResult.get(0).getPhone());
                     String[] result = userResult.get(0).getBirthday().substring(0, 10).split("-");
-
-                    txt_profile_birthday.setText(result[2] + "/" + result[1] + "/" + result[0]);
-
+                    if (userResult.get(0).getIs_birthday() == 1) {
+                        txt_profile_birthday.setText(result[2] + "-" + result[1] + "-" + result[0]);
+                    }
                     phoneNumberOld = userResult.get(0).getPhone();
-                    dateTimeOld = result[2] + "/" + result[1] + "/" + result[0];
+                    dateTimeOld = result[2] + "-" + result[1] + "-" + result[0];
 
                     //txt_profile_username.setText(userResult.get(0).getUsername().substring(0,1).toUpperCase()+userResult.get(0).getUsername().substring(1,userResult.get(0).getUsername().length()));
                     txt_profile_username.setText(userResult.get(0).getFirst_name() + " " + userResult.get(0).getLast_name());
@@ -643,7 +655,7 @@ public class MyProfileFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
 
-                            if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+                            if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || (!txt_profile_birthday.getText().toString().equals("") && !dateTimeOld.equals(txt_profile_birthday.getText().toString()))) {
                                 saveSetting();
                             } else {
                                 MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
@@ -658,7 +670,7 @@ public class MyProfileFragment extends Fragment {
                     myDashboard.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || !dateTimeOld.equals(txt_profile_birthday.getText().toString())) {
+                            if (!phoneNumberOld.equals(txt_profile_phone.getText().toString()) || (!txt_profile_birthday.getText().toString().equals("") && !dateTimeOld.equals(txt_profile_birthday.getText().toString()))) {
                                 saveSetting();
                             } else {
                                 MyProfileDashboardFragment profile = new MyProfileDashboardFragment();
@@ -802,6 +814,11 @@ public class MyProfileFragment extends Fragment {
         Picasso.with(getActivity())
                 .load(R.mipmap.user_empty)
                 .into(imv_menu_profile);
+        String[] birthDay = dateTimeOld.split("-");
+        String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
+        updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
+                phoneNumberOld, dateTimeOld, birthOfDay,"", first_name, last_name,Information.IsBirhtDay);
+        updateProfile.execute();
     }
 
     public void addImages(ArrayList<Bitmap> bmap, List<String> listFileName) {
@@ -857,10 +874,10 @@ public class MyProfileFragment extends Fragment {
         List<String> filename = new ArrayList<String>();
         filename.add(username + "_+_" + img_photo);
         addImages(bitmaps, filename);
-        String[] birthDay = dateTimeOld.split("/");
+        String[] birthDay = dateTimeOld.split("-");
         String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
         updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                phoneNumberOld, dateTimeOld, birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+                phoneNumberOld, dateTimeOld, birthOfDay, username + "_+_" + img_photo, first_name, last_name,Information.IsBirhtDay);
         updateProfile.execute();
     }
 
@@ -899,10 +916,10 @@ public class MyProfileFragment extends Fragment {
         List<String> filename = new ArrayList<String>();
         filename.add(username + "_+_" + img_photo);
         addImages(bitmaps, filename);
-        String[] birthDay = dateTimeOld.split("/");
+        String[] birthDay = dateTimeOld.split("-");
         String birthOfDay = birthDay[2] + "-" + birthDay[1] + "-" + birthDay[0] + " 00:00:00";
         updateProfile updateProfile = new updateProfile(getContext(), session_id, txt_profile_email.getText().toString(),
-                phoneNumberOld, dateTimeOld, birthOfDay, username + "_+_" + img_photo, first_name, last_name);
+                phoneNumberOld, dateTimeOld, birthOfDay, username + "_+_" + img_photo, first_name, last_name,Information.IsBirhtDay);
         updateProfile.execute();
     }
 
@@ -1000,8 +1017,8 @@ public class MyProfileFragment extends Fragment {
         ProgressDialog dialog;
         Context context;
         String email, phone, birthday, photo, session_id, first_name, last_name, date_time;
-
-        public updateProfile(Context context, String session_id, String email, String phone, String date_time, String birthday, String photo, String first_name, String last_name) {
+        int is_birthday;
+        public updateProfile(Context context, String session_id, String email, String phone, String date_time, String birthday, String photo, String first_name, String last_name, int is_birthday) {
             this.context = context;
             this.session_id = session_id;
             this.email = email;
@@ -1011,6 +1028,7 @@ public class MyProfileFragment extends Fragment {
             this.first_name = first_name;
             this.last_name = last_name;
             this.date_time = date_time;
+            this.is_birthday=is_birthday;
         }
 
         @Override
@@ -1035,7 +1053,7 @@ public class MyProfileFragment extends Fragment {
                 this.cancel(true);
             }
             UserController userController = new UserController(context);
-            return userController.updateprofile(first_name, last_name, email, phone, birthday, photo, session_id);
+            return userController.updateprofile(first_name, last_name, email, phone, birthday, photo, session_id,is_birthday);
         }
 
         @Override

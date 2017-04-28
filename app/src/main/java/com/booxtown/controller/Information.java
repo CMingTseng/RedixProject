@@ -86,7 +86,7 @@ public class Information {
     public static String FragmentPhoto = "";
     public static String FragmentFirst = "";
     public static String FragmentLast = "";
-
+    public static int IsBirhtDay = 0;
     // setting
 
 }

@@ -204,8 +204,8 @@ public class MenuActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-
             dialog.dismiss();
+
         }
     }
 }

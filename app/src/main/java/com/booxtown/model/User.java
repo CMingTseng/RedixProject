@@ -36,6 +36,9 @@ public class User implements Serializable{
     @Expose
     private int listBook;
 
+    @Expose
+    private int is_birthday;
+
     public User(String first_name, String last_name, String username, String email, String birthday, String phone, String password, String session_id, int user_id, String photo, float rating, int contributor, int goldenBook, int listBook) {
         this.first_name = first_name;
         this.last_name = last_name;
@@ -51,6 +54,14 @@ public class User implements Serializable{
         this.contributor = contributor;
         this.goldenBook = goldenBook;
         this.listBook = listBook;
+    }
+
+    public int getIs_birthday() {
+        return is_birthday;
+    }
+
+    public void setIs_birthday(int is_birthday) {
+        this.is_birthday = is_birthday;
     }
 
     public int getContributor() {

@@ -239,12 +239,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 list_books.clear();
                 for (int i = 0; i < listExplore.size(); i++) {
                     if (listExplore.get(i).getTitle().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getAuthor().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getGenre().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getUsername().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getHash_tag().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            || listExplore.get(i).getCondition().toLowerCase().contains(editSearch.getText().toString().toLowerCase())
-                            ) {
+                            || listExplore.get(i).getAuthor().toLowerCase().contains(editSearch.getText().toString().toLowerCase())) {
                         list_books.add(listExplore.get(i));
                     }
                 }
@@ -405,7 +400,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
         lisfilter_temp = new ArrayList<>();
         listfilter = new ArrayList<>();
 
-        //LatLng latLngSt = new LatLng(25.108332, 55.163979);
+        // latLngSt = new LatLng(25.108332, 55.163979);
         //LatLng latLngSt = new LatLng(new GPSTracker(getActivity()).getLatitude(), new GPSTracker(getActivity()).getLongitude());
         LatLng latLngSt = new LatLng(latitude, longitude);
         Double distance = Double.valueOf(Information.maxSeekbar);
@@ -886,7 +881,7 @@ public class MainFragment extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
 
                 txt_author_marker.setText("by " + books.getAuthor());
-                txt_user_marker.setText(books.getUsername());
+                txt_user_marker.setText(books.getFirst_name());
             } catch (Exception e) {
             }
 

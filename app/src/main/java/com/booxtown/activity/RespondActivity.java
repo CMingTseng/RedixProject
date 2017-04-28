@@ -128,11 +128,13 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
         btn_add_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RespondActivity.this, AddbookActivity.class);
-                intent.putExtra("type", "1");
-                intent.putExtra("user_id_respone", wishboard.getUser_id());
-                intent.putExtra("user_name_respone", wishboard.getFirst_name());
-                startActivity(intent);
+                SharedPreferences pref = RespondActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                String firstName = pref.getString("firstname", "");
+                String session_id = pref.getString("session_id", null);
+
+                UserID us = new UserID(RespondActivity.this, 3);
+                us.execute(session_id);
             }
         });
         //--------------------------------------------------------------
@@ -556,55 +558,65 @@ public class RespondActivity extends AppCompatActivity implements View.OnClickLi
                 SharedPreferences pref = RespondActivity.this.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
                 String firstName = pref.getString("firstname", "");
-                if (type == 1) {
-                    List<Hashtable> list = new ArrayList<>();
-                    Notification notification = new Notification("Wishboard", user_ID, "15");
-                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                    obj.put("user_id", wishboard.getUser_id() + "");
-                    //obj.put("messages", firstName + " suggested to check out his/her listings, in response to your post on Wishboard.");
-                    obj.put("messages", firstName + " responded to your wish");
-                    list.add(obj);
-                    NotificationController controller = new NotificationController();
-                    controller.sendNotification(list);
-                    Toast.makeText(context, Information.noti_send_checkoutmylist, Toast.LENGTH_SHORT).show();
-                    //onBackPressed();
-                    //finish();
-                } else if (type == 2) {
-                    List<Hashtable> list = new ArrayList<>();
-                    int index = 0;
-                    for (int i = 0; i < listUser.size(); i++) {
-                        String s = listUser.get(i);
-                        if (!listUser.get(i).equals(user_ID)) {
-                            if (!listUser.get(i).equals(wishboard.getUser_id() + "")) {
-                                Notification notification = new Notification("Responded Commented", wishboard.getId(), "13");
-                                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                                obj.put("user_id", listUser.get(i));
-                                obj.put("messages", firstName + " commented on " + wishboard.getFirst_name() + " Wishboard");
-                                list.add(obj);
-                            } else {
-                                index++;
-                                Notification notification = new Notification("Responded Commented", wishboard.getId(), "13");
-                                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                                obj.put("user_id", listUser.get(i));
-                                obj.put("messages", firstName + " commented on your Wishboard");
-                                list.add(obj);
+                if(user_ID.equals(wishboard.getUser_id())) {
+                    if (type == 1) {
+                        List<Hashtable> list = new ArrayList<>();
+                        Notification notification = new Notification("Wishboard", user_ID, "15");
+                        Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                        obj.put("user_id", wishboard.getUser_id() + "");
+                        //obj.put("messages", firstName + " suggested to check out his/her listings, in response to your post on Wishboard.");
+                        obj.put("messages", firstName + " responded to your wish");
+                        list.add(obj);
+                        NotificationController controller = new NotificationController();
+                        controller.sendNotification(list);
+                        Toast.makeText(context, Information.noti_send_checkoutmylist, Toast.LENGTH_SHORT).show();
+                        //onBackPressed();
+                        //finish();
+                    } else if (type == 2) {
+                        List<Hashtable> list = new ArrayList<>();
+                        int index = 0;
+                        for (int i = 0; i < listUser.size(); i++) {
+                            String s = listUser.get(i);
+                            if (!listUser.get(i).equals(user_ID)) {
+                                if (!listUser.get(i).equals(wishboard.getUser_id() + "")) {
+                                    Notification notification = new Notification("Responded Commented", wishboard.getId(), "13");
+                                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                                    obj.put("user_id", listUser.get(i));
+                                    obj.put("messages", firstName + " commented on " + wishboard.getFirst_name() + " Wishboard");
+                                    list.add(obj);
+                                } else {
+                                    index++;
+                                    Notification notification = new Notification("Responded Commented", wishboard.getId(), "13");
+                                    Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                                    obj.put("user_id", listUser.get(i));
+                                    obj.put("messages", firstName + " commented on your Wishboard");
+                                    list.add(obj);
+
+                                }
 
                             }
-
                         }
-                    }
-                    if (index == 0) {
-                        if (!user_ID.equals(wishboard.getUser_id() + "")) {
-                            Notification notification = new Notification("Responded Commented", wishboard.getId(), "13");
-                            Hashtable obj = ObjectCommon.ObjectDymanic(notification);
-                            obj.put("user_id", wishboard.getUser_id());
-                            obj.put("messages", firstName + " commented on your Wishboard");
-                            list.add(obj);
+                        if (index == 0) {
+                            if (!user_ID.equals(wishboard.getUser_id() + "")) {
+                                Notification notification = new Notification("Responded Commented", wishboard.getId(), "13");
+                                Hashtable obj = ObjectCommon.ObjectDymanic(notification);
+                                obj.put("user_id", wishboard.getUser_id());
+                                obj.put("messages", firstName + " commented on your Wishboard");
+                                list.add(obj);
+                            }
                         }
-                    }
 
-                    NotificationController controller = new NotificationController();
-                    controller.sendNotification(list);
+                        NotificationController controller = new NotificationController();
+                        controller.sendNotification(list);
+                    }else if(type==3){
+                        Intent intent = new Intent(RespondActivity.this, AddbookActivity.class);
+                        intent.putExtra("type", "1");
+                        intent.putExtra("user_id_respone", wishboard.getUser_id());
+                        intent.putExtra("user_name_respone", wishboard.getFirst_name());
+                        startActivity(intent);
+                    }
+                }else {
+                    Toast.makeText(context, "You can't respond to your wish", Toast.LENGTH_SHORT).show();
                 }
 
 

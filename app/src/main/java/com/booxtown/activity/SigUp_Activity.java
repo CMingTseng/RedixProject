@@ -127,8 +127,14 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
                     }else{
                         try {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                            String[] bod = (edt_birthday.getText().toString().equals("")?dateFormat.format(new Date()):edt_birthday.getText().toString()).split("/");
+                            String[] bod = (edt_birthday.getText().toString().equals("")?dateFormat.format(new Date()):edt_birthday.getText().toString()).split("-");
                             user.setBirthday(bod[2]+"-"+bod[1]+"-"+bod[0]);
+
+                            if(edt_birthday.getText().toString().equals("")){
+                                user.setIs_birthday(0);
+                            }else {
+                                user.setIs_birthday(1);
+                            }
                         }catch (Exception err){
 
                         }
@@ -181,9 +187,9 @@ public class SigUp_Activity extends AppCompatActivity implements View.OnClickLis
         public void onDateSet(DatePicker view, int year, int month, int day){
             EditText textview = (EditText) getActivity().findViewById(R.id.birthday);
             if(month<10) {
-                textview.setText((day>=10?day:("0"+day)) + "/" + "0"+(month + 1) + "/" + year);
+                textview.setText((day>=10?day:("0"+day)) + "-" + "0"+(month + 1) + "-" + year);
             }else{
-                textview.setText((day>=10?day:("0"+day)) + "/" + (month + 1) + "/" + year);
+                textview.setText((day>=10?day:("0"+day)) + "-" + (month + 1) + "-" + year);
             }
         }
     }

@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:text="If you want to buy best books order us"
         android:id="@+id/txt_content_thread_comments"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:inputType="textMultiLine"
         android:layout_below="@+id/txt_user_comment"
         android:layout_alignLeft="@+id/txt_user_comment"
@@ -65,7 +65,7 @@
         android:layout_below="@+id/txt_content_thread_comments"
         android:layout_alignLeft="@+id/txt_content_thread_comments"
         android:layout_alignStart="@+id/txt_content_thread_comments"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:textSize="@dimen/text_size_13"
         android:textColor="@color/color_text_smal"/>
     <View
