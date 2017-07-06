@@ -17,7 +17,7 @@ public class Information {
     public final static String noti_check_mail = "Please check email";
     public final static String noti_fill_firstname = "Please enter valid a Firstname";
     public final static String noti_fill_lastname = "Please enter valid a Lastname";
-    public final static String noti_fill_phone = "Please enter a valid phone number";
+    public final static String noti_fill_phone = "Please enter a valid Phone Number";
     public final static String noti_fill_birthday = "Please enter Birthday";
     public final static String noti_validate_email = "You have entered an invalid email address. Please try again.";
     public final static String noti_validate_password = "Please fill password field";

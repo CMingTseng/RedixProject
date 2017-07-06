@@ -230,6 +230,6 @@
         android:gravity="center_vertical|center_horizontal"
         android:background="@drawable/bg_interact_bt_popup"
         android:textColor="@color/color_text"
-        android:textSize="@dimen/setting" />
+        android:textSize="@dimen/text_size" />
 
 </RelativeLayout>

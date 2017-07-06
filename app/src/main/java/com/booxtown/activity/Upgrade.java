@@ -27,6 +27,7 @@ import com.booxtown.controller.Information;
 import com.booxtown.controller.UserController;
 import com.booxtown.util.IabHelper;
 import com.booxtown.util.IabResult;
+import com.booxtown.util.Inventory;
 import com.booxtown.util.Purchase;
 import com.squareup.picasso.Picasso;
 
@@ -44,6 +45,10 @@ public class Upgrade extends AppCompatActivity{
     private boolean isPurchase;
     TextView btn_upgrade;
     ImageView btn_close;
+    // Debug tag, for logging
+    static final String TAG = "Booxtown";
+    // Does the user have an active subscription to the infinite gas plan?
+    boolean mSubscribedToInfiniteGas = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,66 +65,112 @@ public class Upgrade extends AppCompatActivity{
             }
         });
 
+        base64EncodedPublicKey = getString(R.string.base64EncodedPublicKey);
+        myproduct_id = getString(R.string.myproduct_id);
+
+        mHelper = new IabHelper(this, base64EncodedPublicKey);
+        mHelper.enableDebugLogging(true);
+
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                Log.d(TAG, "Setup finished.");
+
+                if (!result.isSuccess()) {
+                    return;
+                }
+                if (mHelper == null) return;
+                mHelper.queryInventoryAsync(mGotInventoryListener);
+            }
+        });
+
         btn_upgrade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //check upgrade
-                isPurchase = preferences.getBoolean("isPurchase", false);
-                if (isPurchase) {
-                    Toast.makeText(getApplicationContext(),
-                            "You have already purchase", Toast.LENGTH_LONG)
-                            .show();
-                } else {
-                    if (mHelper != null)
-                        mHelper.flagEndAsync();
-                    mHelper.launchPurchaseFlow(Upgrade.this, myproduct_id,IabHelper.ITEM_TYPE_SUBS,
-                            REQUEST_CODE, mPurchaseFinishedListener,
-                            "mypurchasetoken");
-                    //mHelper.launchSubscriptionPurchaseFlow(Upgrade.this, myproduct_id,
-                    //        REQUEST_CODE, mPurchaseFinishedListener,
-                    //        "mypurchasetoken");
-                }
-            }
-        });
-    }
-    public void check(){
-        isPurchase = preferences.getBoolean("isPurchase", false);
-        if (isPurchase) {
-            Toast.makeText(getApplicationContext(),
-                    "You have already purchase", Toast.LENGTH_LONG)
-                    .show();
-        } else {
-            if (mHelper != null)
-                mHelper.flagEndAsync();
-            mHelper.launchPurchaseFlow(Upgrade.this, myproduct_id,
-                    REQUEST_CODE, mPurchaseFinishedListener,
-                    "mypurchasetoken");
-        }
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initInApp();
-    }
+                Log.d(TAG, "Buy gas button clicked.");
 
-    private void initInApp() {
-        base64EncodedPublicKey = getString(R.string.base64EncodedPublicKey);
-        myproduct_id = getString(R.string.myproduct_id);
-        mHelper = new IabHelper(this, base64EncodedPublicKey);
-        mHelper.enableDebugLogging(false);
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess()) {
-                    Log.d("TAG", "In-app Billing setup failed: " + result);
-                } else {
-                    Log.d("TAG", "In-app Billing is set up OK");
+                if (mSubscribedToInfiniteGas) {
+                    complain("No need! You're subscribed to infinite gas. Isn't that awesome?");
+                    return;
                 }
+                Log.d(TAG, "Launching purchase flow for gas.");
 
+                String payload = "";
+
+                mHelper.launchPurchaseFlow(Upgrade.this, myproduct_id, REQUEST_CODE,
+                        mPurchaseFinishedListener, payload);
             }
         });
     }
 
+    // Callback for when a purchase is finished
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            Log.d(TAG, "Purchase finished: " + result + ", purchase: " + purchase);
+
+            // if we were disposed of in the meantime, quit.
+            if (mHelper == null) return;
+
+            if (result.isFailure()) {
+                complain("Error purchasing: " + result);
+                return;
+            }
+            if (!verifyDeveloperPayload(purchase)) {
+                complain("Error purchasing. Authenticity verification failed.");
+                return;
+            }
+
+            Log.d(TAG, "Purchase successful.");
+
+            if (purchase.getSku().equals(myproduct_id)) {
+                // bought 1/4 tank of gas. So consume it.
+                Log.d(TAG, "Purchase is gas. Starting gas consumption.");
+                mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+            }
+        }
+    };
+    // Listener that's called when we finish querying the items and subscriptions we own
+    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+            Log.d(TAG, "Query inventory finished.");
+
+            // Have we been disposed of in the meantime? If so, quit.
+            if (mHelper == null) return;
+            if (result.isFailure()) {
+                complain("Failed to query inventory: " + result);
+                /*final Dialog dialog = new Dialog(Upgrade.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_upgrade);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+                TextView button_confirm = (TextView) dialog.findViewById(R.id.btn_confirm);
+                button_confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                ImageView img_close_dialoggenre = (ImageView) dialog.findViewById(R.id.close_popup);
+                Picasso.with(Upgrade.this).load(R.drawable.btn_close_filter).into(img_close_dialoggenre);
+                img_close_dialoggenre.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });*/
+                return;
+            }
+
+            Purchase gasPurchase = inventory.getPurchase(myproduct_id);
+            if (gasPurchase != null && verifyDeveloperPayload(gasPurchase)) {
+                Log.d(TAG, "We have gas. Consuming it.");
+                mHelper.consumeAsync(inventory.getPurchase(myproduct_id), mConsumeFinishedListener);
+                return;
+            }
+            Log.d(TAG, "Initial inventory query finished; enabling main UI.");
+        }
+    };
+
+   /* IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
             if (result.isFailure()) {
                 if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
@@ -154,9 +205,60 @@ public class Upgrade extends AppCompatActivity{
                 alert("Successfully Purchased");
             }
         }
+    };*/
+
+    /**
+     * Verifies the developer payload of a purchase.
+     */
+    boolean verifyDeveloperPayload(Purchase p) {
+        String payload = p.getDeveloperPayload();
+
+        return true;
+    }
+
+    // Called when consumption is complete
+    IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
+        public void onConsumeFinished(Purchase purchase, IabResult result) {
+            Log.d(TAG, "Consumption finished. Purchase: " + purchase + ", result: " + result);
+
+            // if we were disposed of in the meantime, quit.
+            if (mHelper == null) return;
+
+            if (result.isSuccess()) {
+
+            } else {
+                complain("Error while consuming: " + result);
+            }
+            Log.d(TAG, "End consumption flow.");
+        }
     };
 
 
+    // We're being destroyed. It's important to dispose of the helper here!
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // very important:
+        Log.d(TAG, "Destroying helper.");
+        if (mHelper != null) {
+            mHelper.dispose();
+            mHelper = null;
+        }
+    }
+
+    void complain(String message) {
+        Log.e(TAG, "**** TrivialDrive Error: " + message);
+        alert("Error: " + message);
+    }
+
+    void alert(String message) {
+        AlertDialog.Builder bld = new AlertDialog.Builder(this);
+        bld.setMessage(message);
+        bld.setNeutralButton("OK", null);
+        Log.d(TAG, "Showing alert dialog: " + message);
+        bld.create().show();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -164,15 +266,11 @@ public class Upgrade extends AppCompatActivity{
             String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
             if (resultCode == RESULT_OK) {
                 try {
-                    JSONObject jo = new JSONObject(purchaseData);
-                    String sku = jo.getString("productId");
-
-                    // update pròile
                     BuyInAppAsync activateUserAsync= new BuyInAppAsync(Upgrade.this);
                     activateUserAsync.execute();
 
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     alertError("Failed to parse purchase data.");
                     e.printStackTrace();
                 }
@@ -180,22 +278,6 @@ public class Upgrade extends AppCompatActivity{
         }
     }
 
-    void alert(String message) {
-        AlertDialog.Builder bld = new AlertDialog.Builder(this);
-        bld.setTitle("In App Purchase");
-        bld.setMessage(message);
-        bld.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Is Purchased
-                //SharedPreferences.Editor editor = preferences.edit();
-                //editor.putBoolean("isPurchase", true);
-                //editor.commit();
-            }
-        });
-        bld.setCancelable(false);
-        bld.create().show();
-    }
 
     void alertError(String message) {
         AlertDialog.Builder bld = new AlertDialog.Builder(this);

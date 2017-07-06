@@ -42,7 +42,7 @@
             android:maxLines="1"
             android:textColorHint="@color/color_text_smal"
             android:backgroundTint="@color/color_hint_interact"
-
+            android:textSize="@dimen/text_size_16"
             android:imeOptions="actionDone"
             android:singleLine="true"
             />
@@ -57,6 +57,7 @@
             android:backgroundTint="@color/color_hint_interact"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
             android:password="true" />
         <com.booxtown.custom.CustomTextView
             android:id="@+id/btn_sigin"
@@ -65,7 +66,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:text="Sign In"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_16"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:layout_marginBottom="20dp"
@@ -85,7 +86,7 @@
             android:background="@android:color/transparent"
             android:text="@string/forgotpassword"
             android:textColor="@color/color_text_big"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_size_16" />
     </LinearLayout>
 
 </LinearLayout>

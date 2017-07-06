@@ -35,6 +35,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:text="Wish"
+                    android:textSize="@dimen/text_size_16"
                     android:textColor="@color/color_text" />
 
                 <TextView
@@ -61,6 +62,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="Posted on"
+                    android:textSize="@dimen/text_size_16"
                     android:textColor="@color/color_text" />
 
                 <TextView

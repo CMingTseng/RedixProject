@@ -11,7 +11,7 @@
         android:id="@+id/txt_menu_notification_title2"
         android:layout_alignParentTop="true"
         android:padding="10dp"
-        android:textSize="@dimen/slide_desc"
+        android:textSize="@dimen/text_size_16"
         android:textColor="@color/color_bg_explore"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

@@ -7,7 +7,7 @@
     <com.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="21sp"
+        android:textSize="@dimen/text_size_18"
         android:text="Personal Info"
         android:id="@+id/textView74"
         android:layout_alignParentTop="true"
@@ -51,7 +51,7 @@
         android:layout_alignStart="@+id/textView77"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="@dimen/slide_desc"/>
+        android:textSize="@dimen/text_size_14"/>
 
     <com.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
@@ -64,14 +64,14 @@
         android:layout_alignEnd="@+id/textView77"
         android:layout_alignWithParentIfMissing="false"
         android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_14"
         android:layout_marginLeft="7dp"
         android:textColor="@color/color_text_big"
         android:layout_marginTop="10dp"
         android:inputType="textEmailAddress"
         android:background="@android:color/transparent"
         android:imeOptions="actionDone"
-        android:singleLine="true"
-        android:textSize="@dimen/slide_desc"/>
+        android:singleLine="true" />
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
         android:layout_alignStart="@+id/textView80"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="@dimen/slide_desc"/>
+        android:textSize="@dimen/text_size_14"/>
 
     <com.booxtown.custom.CustomEdittext
         android:layout_width="match_parent"
@@ -109,7 +109,7 @@
         android:inputType="phone"
         android:background="@android:color/transparent"
         android:layout_alignBottom="@+id/textView81"
-        android:textSize="@dimen/slide_desc"
+        android:textSize="@dimen/text_size_14"
         android:imeOptions="actionDone"
         android:singleLine="true"
         />
@@ -134,7 +134,7 @@
         android:layout_alignLeft="@+id/textView83"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="@dimen/slide_desc"/>
+        android:textSize="@dimen/text_size_14"/>
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="match_parent"
@@ -147,7 +147,7 @@
         android:layout_above="@+id/textView86"
         android:layout_below="@+id/textView83"
         android:layout_marginTop="10dp"
-        android:textSize="@dimen/slide_desc"
+        android:textSize="@dimen/text_size_14"
         />
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
     <com.booxtown.custom.CustomTextviewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="21sp"
+        android:textSize="@dimen/text_size_18"
         android:text="My Dashboard"
         android:id="@+id/textView87"
         android:layout_alignLeft="@+id/textView86"

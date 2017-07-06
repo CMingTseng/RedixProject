@@ -18,6 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
+            android:textSize="@dimen/text_size_14"
             android:padding="15dp"
             android:text="@string/about_booxtown"
             android:textAppearance="?android:attr/textAppearanceMedium"

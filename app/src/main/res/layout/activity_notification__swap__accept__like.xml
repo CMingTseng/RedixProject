@@ -47,6 +47,7 @@
         android:layout_below="@+id/include33"
         android:layout_centerHorizontal="true"
         android:textColor="@color/color_text_big"
+        android:textSize="@dimen/text_size_16"
         android:layout_marginTop="5dp" />
 
     <com.booxtown.custom.CustomTextView

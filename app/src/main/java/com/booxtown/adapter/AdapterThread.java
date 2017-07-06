@@ -52,8 +52,14 @@ public class AdapterThread extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RecyclerViewHolder) {
             final Thread thread= listThread.get(position);
-            ((RecyclerViewHolder) holder).txt_title_interact.setText(listThread.get(position).getTitle());
-            ((RecyclerViewHolder) holder).txt_dateUpdate_interact.setText("Added by "+ listThread.get(position).getFull_name());
+            try {
+                ((RecyclerViewHolder) holder).txt_title_interact.setText(listThread.get(position).getTitle().substring(0,1).toUpperCase()+listThread.get(position).getTitle().substring(1,listThread.get(position).getTitle().length()));
+            }
+            catch (Exception err){
+                ((RecyclerViewHolder) holder).txt_title_interact.setText(listThread.get(position).getTitle());
+            }
+            ((RecyclerViewHolder)holder).txtTitleTime.setVisibility(View.GONE);
+            ((RecyclerViewHolder) holder).txt_dateUpdate_interact.setText("Added by "+ listThread.get(position).getFull_name().substring(0,1).toUpperCase()+ listThread.get(position).getFull_name().substring(1, listThread.get(position).getFull_name().length()));
             ((RecyclerViewHolder) holder).txt_count_interact.setText("("+listThread.get(position).getNum_comment()+")");
             if(listThread.get(position).getIs_read()==0){
                 ((RecyclerViewHolder) holder).txt_count_interact.setTextColor(context.getResources().getColor(R.color.color_text));
@@ -86,7 +92,7 @@ public class AdapterThread extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public TextView txt_title_interact;
         public TextView txt_count_interact;
-        public TextView txt_dateUpdate_interact;
+        public TextView txt_dateUpdate_interact,txtTitleTime;
         ImageView imageView;
         RelativeLayout topic_interact;
         public RecyclerViewHolder(View itemView) {
@@ -95,6 +101,7 @@ public class AdapterThread extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             txt_title_interact = (TextView) itemView.findViewById(R.id.txt_title_interact);
             txt_count_interact = (TextView) itemView.findViewById(R.id.txt_count_interact);
             txt_dateUpdate_interact = (TextView) itemView.findViewById(R.id.txt_time_update_interact);
+            txtTitleTime=(TextView) itemView.findViewById(R.id.txtTitleTime);
             imageView = (ImageView)itemView.findViewById(R.id.imageView_next_interac);
             Picasso.with(context).load(R.drawable.btn_interact_next).into(imageView);
         }

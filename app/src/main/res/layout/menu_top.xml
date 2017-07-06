@@ -20,7 +20,7 @@
             android:text="Explore"
             android:gravity="center_vertical"
             android:id="@+id/txt_title"
-            android:textSize="@dimen/text_size_locate"
+            android:textSize="@dimen/text_size_19"
             android:textColor="@color/color_text"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"

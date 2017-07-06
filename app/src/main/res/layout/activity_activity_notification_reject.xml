@@ -42,7 +42,7 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/include25"
         android:textColor="@color/color_text_big"
-        android:textSize="@dimen/text_book_exploer"/>
+        android:textSize="@dimen/text_size_16"/>
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:textColor="@color/color_text_big"
-        android:textSize="@dimen/text_book_exploer"/>
+        android:textSize="@dimen/text_size_16"/>
 
     <com.booxtown.custom.CustomTextView
         android:layout_width="wrap_content"

@@ -81,8 +81,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 import test.jinesh.easypermissionslib.EasyPermission;
@@ -100,7 +102,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private GoogleSignInHelper mGAuthHelper;
     private TwitterHelper mTwitterHelper;
     ProgressDialog dialogTotal;
-
+    private static final int MY_PERMISSIONS_REQUEST_ACCOUNTS = 1;
     static final Integer LOCATION = 0x1;
     static final Integer WRITE_EXST = 0x2;
     static final Integer READ_EXST = 0x3;
@@ -207,10 +209,16 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-        easyPermission = new EasyPermission();
-        easyPermission.requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        /*easyPermission = new EasyPermission();
+        easyPermission.requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);*/
 
-
+        if (Build.VERSION.SDK_INT < 23) {
+            //Do not need to check the permission
+        } else {
+            if (checkAndRequestPermissions()) {
+                //If you have already permitted the permission
+            }
+        }
         /*try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     BuildConfig.APPLICATION_ID,
@@ -225,11 +233,62 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }*/
     }
+    /*Check permission*/
+    private boolean checkAndRequestPermissions() {
+        int permissionCAMERA = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        int storagePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int callPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+        int locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        int writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int groupStorePermission = ContextCompat.checkSelfPermission(this, Manifest.permission_group.STORAGE);
+
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionCAMERA != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (locationPermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (callPhonePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CALL_PHONE);
+        }
+        if (writePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (storagePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (groupStorePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission_group.STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this,
+                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MY_PERMISSIONS_REQUEST_ACCOUNTS);
+            return false;
+        }
+
+        return true;
+    }
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCOUNTS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    //Permission Granted Successfully. Write working code here.
+                } else {
+                    //You did not accept the request can not use the functionality.
+                }
+                break;
+        }
+    }
+
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         easyPermission.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        /*if(ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED){
+        *//*if(ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED){
             switch (requestCode) {
                 //Location
                 case 1:
@@ -257,10 +316,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
-        }*/
+        }*//*
 
 
-    }
+    }*/
 
     @Override
     public void onPermissionResult(String permission, boolean isGranted) {

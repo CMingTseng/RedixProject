@@ -38,6 +38,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Evil Queen:The last paintings"
         android:id="@+id/textView65"
+        android:textSize="@dimen/text_size_16"
         android:layout_below="@+id/include42"
         android:layout_centerHorizontal="true"
         android:textColor="@color/color_text_big"

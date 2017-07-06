@@ -21,24 +21,23 @@
         <com.booxtown.custom.CustomEdittext
             android:id="@+id/editSearch"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/include2"
-            android:layout_marginLeft="15dp"
-            android:background="@color/color_hint_interact"
+            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
+            android:background="@color/color_hint_interact"
             android:drawableRight="@mipmap/closes"
             android:hint="Search"
             android:imeOptions="actionDone"
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:textColorHint="@color/color_text_smal"
-            android:textSize="@dimen/search"
-            android:layout_marginBottom="5dp" />
+            android:textSize="@dimen/text_size_14" />
 
 
         <ImageView
@@ -61,7 +60,7 @@
         android:layout_below="@+id/editSearch"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="65dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView

@@ -39,7 +39,7 @@
         android:layout_marginTop="5dp"
         android:id="@+id/txt_user_comment"
         android:textColor="@color/color_text_big"
-        android:textSize="17sp"
+        android:textSize="@dimen/text_size_16"
         android:layout_alignTop="@+id/icon_user_listing_detail"
         android:layout_toRightOf="@+id/icon_user_listing_detail"
         android:layout_toEndOf="@+id/icon_user_listing_detail"
@@ -54,7 +54,7 @@
         android:inputType="textMultiLine"
         android:layout_below="@+id/txt_user_comment"
         android:layout_alignLeft="@+id/txt_user_comment"
-        android:textSize="15sp"
+        android:textSize="@dimen/text_size_14"
         android:layout_alignStart="@+id/txt_user_comment" />
 
     <com.booxtown.custom.CustomTextView
@@ -66,7 +66,7 @@
         android:layout_alignLeft="@+id/txt_content_thread_comments"
         android:layout_alignStart="@+id/txt_content_thread_comments"
         android:layout_marginTop="10dp"
-        android:textSize="@dimen/text_size_13"
+        android:textSize="@dimen/text_size_12"
         android:textColor="@color/color_text_smal"/>
     <View
         android:layout_width="fill_parent"

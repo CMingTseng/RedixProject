@@ -32,8 +32,13 @@
     <dimen name="btn_signin_maginright">25dp</dimen>
     <dimen name="text_size_locate">20sp</dimen>
     <dimen name="text_size_search">16sp</dimen>
+    <dimen name="text_size_19">19sp</dimen>
     <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_13">13sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_15">15sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
     <dimen name="text_wishboard_date">14sp</dimen>
     <dimen name="text_by_exploer">12sp</dimen>
     <dimen name="text_book_exploer">18sp</dimen>
@@ -43,4 +48,6 @@
     <dimen name="width_pin">110dp</dimen>
     <dimen name="height_pin">125dp</dimen>
     <dimen name="size_knob">32dp</dimen>
+
+    <dimen name="text_size">18dp</dimen>
 </resources>

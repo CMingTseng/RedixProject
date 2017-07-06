@@ -35,7 +35,7 @@
             android:layout_marginLeft="15dp"
             android:text="Topic Name goes here "
             android:textColor="@color/color_text"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_size_18" />
 
         <com.booxtown.custom.CustomTextView
             android:id="@+id/txt_count_thread"
@@ -43,11 +43,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_add_thread"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/txt_title_thread"
             android:layout_toRightOf="@+id/txt_title_thread"
             android:text="(20)"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_size_15" />
 
         <View
             android:id="@+id/view2"

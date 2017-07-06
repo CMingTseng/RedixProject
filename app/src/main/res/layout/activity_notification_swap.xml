@@ -90,6 +90,7 @@
                 android:id="@+id/author_list_notification_swap"
                 android:layout_below="@+id/description_notification_swap"
                 android:layout_centerHorizontal="true"
+                android:textSize="@dimen/text_size_16"
                 android:textColor="#f25d5d" />
 
             <com.booxtown.custom.CustomButton

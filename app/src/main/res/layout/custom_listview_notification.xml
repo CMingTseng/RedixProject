@@ -22,6 +22,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:singleLine="true"
+        android:textSize="@dimen/text_size_16"
         android:textColor="@color/color_text_big"
         />
 
@@ -36,6 +37,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="3dp"
+        android:textSize="@dimen/text_size_14"
         android:textColor="@color/color_text_smal"
         />
 </RelativeLayout>

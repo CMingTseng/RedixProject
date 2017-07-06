@@ -35,20 +35,20 @@
             android:layout_margin="10dp" />
 
         <com.booxtown.custom.CustomTextviewBold
+            android:id="@+id/textView73"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Listings"
-            android:id="@+id/textView73"
-            android:layout_below="@+id/include47"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/color_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/include47"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="5dp"
-            android:textSize="@dimen/text_22sp"
-            android:layout_marginBottom="10dp" />
+            android:text="Listings"
+            android:textColor="@color/color_text"
+            android:textSize="@dimen/text_size_18" />
 
         <include
             android:layout_width="wrap_content"

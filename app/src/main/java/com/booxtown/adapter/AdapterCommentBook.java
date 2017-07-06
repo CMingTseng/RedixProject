@@ -70,7 +70,12 @@ public class AdapterCommentBook extends RecyclerView.Adapter<AdapterCommentBook.
             Bitmap btm = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.user_empty);
             hoder.img_icon.setImageBitmap(btm);
         }
-        hoder.txt_userName.setText(Comments.getFirst_name());
+
+        try {
+            hoder.txt_userName.setText(Comments.getFirst_name().substring(0, 1).toUpperCase() + Comments.getFirst_name().substring(1, Comments.getFirst_name().length()));
+        } catch (Exception err){
+            hoder.txt_userName.setText(Comments.getFirst_name());
+        }
         hoder.txt_contents.setText(Comments.getContent());
         try {
             SharedPreferences pref = mContext.getSharedPreferences("MyPref", mContext.MODE_PRIVATE);

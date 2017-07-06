@@ -24,7 +24,7 @@
             <com.booxtown.custom.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/slide_desc"
+                android:textSize="@dimen/text_size_15"
                 android:text=""
                 android:layout_marginTop="10dp"
                 android:id="@+id/txt_title_lisview_wishboard"
@@ -62,7 +62,7 @@
                 android:layout_alignParentTop="true"
                 android:gravity="center"
                 android:textColor="@color/color_text_big"
-                android:textSize="@dimen/text_wishboard_date"/>
+                android:textSize="@dimen/text_size_13"/>
 
             <com.booxtown.custom.CustomTextView
                 android:layout_width="1dp"

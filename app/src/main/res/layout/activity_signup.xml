@@ -54,6 +54,7 @@
             android:paddingBottom="15dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
             />
 
         <com.booxtown.custom.CustomEdittext
@@ -68,6 +69,7 @@
             android:paddingBottom="15dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
             />
     </LinearLayout>
 
@@ -93,6 +95,7 @@
             android:paddingBottom="15dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
             />
 
         <com.booxtown.custom.CustomEdittext
@@ -107,6 +110,7 @@
             android:paddingBottom="15dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
             />
 
         <com.booxtown.custom.CustomEdittext
@@ -122,6 +126,7 @@
             android:paddingBottom="15dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
 
             >
 
@@ -139,6 +144,7 @@
             android:paddingBottom="15dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
             />
 
         <com.booxtown.custom.CustomEdittext
@@ -153,6 +159,7 @@
             android:paddingBottom="15dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
             />
 
         <com.booxtown.custom.CustomEdittext
@@ -167,6 +174,7 @@
             android:paddingBottom="15dp"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textSize="@dimen/text_size_16"
             />
 
         <com.booxtown.custom.CustomTextView
@@ -180,37 +188,36 @@
             android:gravity="center"
             android:text="Sign up"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="@dimen/text_size_18" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-
         android:layout_below="@+id/linearLayout5"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <com.booxtown.custom.CustomCheckBox
             android:id="@+id/checksignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I Agree"
-            android:textColor="@color/color_text_big"
             android:button="@drawable/img_checkbox"
-            android:textSize="20sp" />
+            android:text="I agree to"
+            android:textColor="@color/color_text_big"
+            android:textSize="@dimen/text_size_16" />
 
         <com.booxtown.custom.CustomTextView
+            android:id="@+id/term_conditions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:fontFamily="sans-serif-thin"
             android:text="Terms and conditions"
             android:textColor="@android:color/holo_red_light"
-            android:textSize="20sp"
-            android:id="@+id/term_conditions"
-            />
+            android:textSize="@dimen/text_size_16" />
     </LinearLayout>
 </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

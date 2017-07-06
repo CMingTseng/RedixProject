@@ -33,7 +33,7 @@
                 android:layout_margin="10dp"
                 android:text="Wish posted by "
                 android:textColor="@color/color_text"
-                android:textSize="20sp" />
+                android:textSize="@dimen/text_size_18" />
 
             <include
                 android:id="@+id/layout_profile"
@@ -98,7 +98,7 @@
                 android:background="@drawable/btn_wishbroad_popup"
                 android:gravity="center"
                 android:text="Add a book"
-
+                android:textSize="@dimen/text_size_18"
                 android:textColor="@color/dot_light_screen1" />
 
             <com.booxtown.custom.CustomTextView
@@ -111,6 +111,7 @@
                 android:background="@drawable/btn_wishbroad_popup"
                 android:gravity="center"
                 android:text="Check out my listings"
+                android:textSize="@dimen/text_size_18"
                 android:textColor="@color/dot_light_screen1" />
 
             <include

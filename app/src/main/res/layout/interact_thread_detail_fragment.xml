@@ -21,7 +21,7 @@
             android:layout_marginTop="10dp"
             android:text=""
             android:textColor="@color/color_text"
-            android:textSize="@dimen/size_24_sp" />
+            android:textSize="@dimen/text_size_18" />
 
         <com.booxtown.custom.CustomTextView
             android:id="@+id/txt_count_thread_detail"
@@ -31,7 +31,7 @@
             android:layout_toEndOf="@+id/txt_title_thread_detail"
             android:layout_toRightOf="@+id/txt_title_thread_detail"
             android:text=""
-            android:textSize="@dimen/text_book_exploer"
+            android:textSize="@dimen/text_size_16"
             android:gravity="center_vertical"
             android:layout_alignTop="@+id/txt_title_thread_detail" />
 
@@ -45,7 +45,7 @@
             android:inputType="textMultiLine"
             android:textColor="@color/color_text_big"
             android:paddingRight="10dp"
-            android:textSize="@dimen/text_book_exploer"
+            android:textSize="@dimen/text_size_16"
             android:text=""
             />
 
@@ -57,7 +57,7 @@
             android:layout_alignStart="@+id/txt_contern_thread_details"
             android:layout_below="@+id/txt_contern_thread_details"
             android:layout_marginTop="5dp"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_12"
             android:text=""
             android:textColor="@color/color_text_smal" />
 
@@ -70,7 +70,7 @@
             android:layout_below="@+id/txt_author_interact_thread_detail"
             android:layout_marginTop="8dp"
             android:text="Comments"
-            android:textSize="@dimen/text_book_exploer"
+            android:textSize="@dimen/text_size_16"
             />
 
         <View

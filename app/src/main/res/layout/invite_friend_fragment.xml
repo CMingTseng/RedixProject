@@ -9,58 +9,61 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/relative_invite">
+
     <com.booxtown.custom.CustomEdittext
+        android:id="@+id/editText_email_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText_email_friend"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="5dp"
-        android:padding="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:hint="Enter email ID"
-        android:textColorHint="@color/color_hint_interact"
         android:imeOptions="actionDone"
+        android:padding="10dp"
         android:singleLine="true"
-        />
+        android:textColorHint="@color/color_text_time_update_interact" />
 
     <ImageView
+        android:id="@+id/imv_search_invite"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:id="@+id/imv_search_invite"
-        android:src="@drawable/invented_add"
-        android:layout_gravity="right|top"
-        android:layout_alignRight="@+id/editText_email_friend"
         android:layout_alignEnd="@+id/editText_email_friend"
-        android:layout_marginTop="5dp" />
+        android:layout_alignRight="@+id/editText_email_friend"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/invented_add" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imv_search_invite"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:id="@+id/relativeLayout11">
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="50dp"
-        android:id="@+id/linearLayout4">
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lv_content_invite"
-        android:layout_marginBottom="10dp"
-        android:padding="10dp" />
-</LinearLayout>
-        </RelativeLayout>
+        android:layout_below="@+id/imv_search_invite"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lv_content_invite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:paddingBottom="10dp" />
+        </LinearLayout>
+    </RelativeLayout>
     <com.booxtown.custom.CustomButton
         android:layout_width="223dp"
         android:layout_height="36dp"

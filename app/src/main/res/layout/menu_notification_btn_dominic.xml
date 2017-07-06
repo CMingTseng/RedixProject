@@ -38,7 +38,7 @@
         <com.booxtown.custom.CustomButton
             android:layout_width="163dp"
             android:layout_height="36dp"
-            android:text="reject"
+            android:text="Reject"
             android:textAllCaps="false"
             android:id="@+id/btn_menu_notification_dominic_reject"
             android:background="@drawable/bg_notification_popup"

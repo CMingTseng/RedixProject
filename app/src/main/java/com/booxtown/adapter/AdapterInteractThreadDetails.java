@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.util.CircularArray;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,8 +95,11 @@ public class AdapterInteractThreadDetails extends RecyclerView.Adapter<AdapterIn
             Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.user_empty);
             hoder.img_icon.setImageBitmap(bitmap);
         }
-
-        hoder.txt_userName.setText(Comments.getFirst_name());
+        try {
+            hoder.txt_userName.setText(Comments.getFirst_name().substring(0, 1).toUpperCase() + Comments.getFirst_name().substring(1, Comments.getFirst_name().length()));
+        } catch (Exception err){
+            hoder.txt_userName.setText(Comments.getFirst_name());
+        }
         hoder.txt_contents.setText(Comments.getContent());
         hoder.myRatingBar.setRating(Comments.getRating());
         LayerDrawable stars = (LayerDrawable) hoder.myRatingBar.getProgressDrawable();
